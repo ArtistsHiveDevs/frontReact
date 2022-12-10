@@ -5,8 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:host": "vite --host",
+    "dev:host:remote": "vite --host --mode remote",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build-ah": "tsc && vite build --base=/artistsHive/ ",
+    "preview": "vite preview",
+    "deploy": "npm run build-ah && ts-node-esm ./deployment/ftp-upload.ts"
   },
   "dependencies": {
     "bootstrap": "^5.2.1",

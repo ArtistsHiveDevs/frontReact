@@ -1,4 +1,9 @@
-import {useQuery, QueryClient, useMutation, QueryClientProvider} from "react-query";
+import {
+  useQuery,
+  QueryClient,
+  useMutation,
+  QueryClientProvider,
+} from "react-query";
 
 // constants
 const defaultConfig = {
@@ -12,7 +17,7 @@ const defaultConfig = {
 // https://react-query.tanstack.com/reference/QueryClientProvider#_top
 const queryClient = new QueryClient();
 
-export {queryClient, QueryClientProvider as ReactQueryProvider};
+export { queryClient, QueryClientProvider as ReactQueryProvider };
 
 // https://react-query.tanstack.com/reference/QueryClient#queryclientgetquerydata
 export function ahgetQueryData(queryKey: any) {
@@ -41,7 +46,13 @@ export function ahUseQuery({
 }
 
 // https://react-query.tanstack.com/guides/mutations
-export function ahUseMutation({service, config = {}}: {service: any; config: {}}) {
+export function ahUseMutation({
+  service,
+  config = {},
+}: {
+  service: any;
+  config: {};
+}) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useMutation(service, {
     ...config,

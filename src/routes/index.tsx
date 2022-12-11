@@ -1,7 +1,7 @@
-import {lazy} from "react";
-import {Routes, Route} from "react-router-dom";
+import { lazy } from "react";
+import { Routes, Route } from "react-router-dom";
 
-import {PATHS} from "../constants";
+import { PATHS } from "../constants";
 
 // Lazy loading
 const HomePage = lazy(() => import("../components/Pages/HomePage"));

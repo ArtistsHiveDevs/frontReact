@@ -16,14 +16,40 @@ export const HvAppContext = createContext<IHvAppContext>({
   setLang: () => {},
 });
 
+function getAvailableLang(lang: string) {
+  let newLang = lang;
+  // Try country especific messages
+  let messages = appMessages[newLang.toLowerCase()];
+
+  if (!messages) {
+    // console.log("PIMER IF");
+    // Try standard language
+    newLang = newLang.split("-")[0];
+    if (newLang) {
+      messages = appMessages[newLang.toLowerCase()];
+    }
+    // console.log(newLang, messages);
+  }
+
+  if (!messages) {
+    // console.log("segundo IF");
+    // Default messages
+    newLang = "es";
+  }
+  messages = appMessages[newLang];
+  return newLang;
+}
+
 export const HvAppContextProvider = ({
   children,
   appMessages,
 }: IHvAppContextProvider) => {
   const [lang, setLang] = useState(defaultLang);
-  const messages = appMessages[lang] || {};
+  console.log("#####", lang, getAvailableLang(lang));
+  const messages = appMessages[getAvailableLang(lang)] || {};
 
   function onSetLang(nextLang: string) {
+    console.log(">>>>>>>>>>>>>>    ", nextLang);
     localStorage.currentLang = nextLang;
     setLang(nextLang);
   }
@@ -35,7 +61,8 @@ export const HvAppContextProvider = ({
       localStorage.currentLang = nextLang;
       setLang(nextLang);
     }
-  }, [lang]);
+    console.log("+++++++++++++++++++++", lang, getAvailableLang(lang));
+  }, [getAvailableLang(lang)]);
 
   return (
     <HvAppContext.Provider

@@ -14,7 +14,7 @@ import { HvAppContext, HvAppContextProvider } from "./common";
 const App = () => {
   let { lang, messages } = useContext(HvAppContext);
   const onError = (error: any) => console.log(`Error Messages: ${error}`);
-
+  console.log(lang, messages);
   return (
     <HelmetProvider>
       <HvAppContextProvider appMessages={appMessages}>

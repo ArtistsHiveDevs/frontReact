@@ -1,10 +1,14 @@
-import {useState, useEffect, createContext} from "react";
+import { useState, useEffect, createContext } from "react";
 
-import {appMessages} from "../../translations";
+import { appMessages } from "../../translations";
 
-import {IHvAppContext, IHvAppContextProvider} from "./models/hv-app-context.model";
+import {
+  IHvAppContext,
+  IHvAppContextProvider,
+} from "./models/hv-app-context.model";
 
-const defaultLang: string = localStorage?.currentLang || "es";
+const defaultLang: string =
+  localStorage?.currentLang || navigator.language || "en";
 
 export const HvAppContext = createContext<IHvAppContext>({
   lang: defaultLang,
@@ -12,7 +16,10 @@ export const HvAppContext = createContext<IHvAppContext>({
   setLang: () => {},
 });
 
-export const HvAppContextProvider = ({children, appMessages}: IHvAppContextProvider) => {
+export const HvAppContextProvider = ({
+  children,
+  appMessages,
+}: IHvAppContextProvider) => {
   const [lang, setLang] = useState(defaultLang);
   const messages = appMessages[lang] || {};
 

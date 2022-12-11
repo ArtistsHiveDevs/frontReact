@@ -1,4 +1,4 @@
-import DeMessages from "./de.json";
+import { DeMessages } from "./de";
 import EnMessages from "./en.json";
 import EsMessages from "./es.json";
 import FrMessages from "./fr.json";

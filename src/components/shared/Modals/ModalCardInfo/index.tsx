@@ -2,7 +2,7 @@ import "./index.scss";
 import { Button, Modal } from "react-bootstrap";
 
 const ModalCardInfo = (props: any) => {
-  const { information } = props;
+  const { title, body, buttons, links } = props;
   return (
     <Modal
       className="modal-container"
@@ -13,18 +13,34 @@ const ModalCardInfo = (props: any) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter" className="modal-title">
-          {information.name}
+          {title}
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>{information.description}</Modal.Body>
+      <Modal.Body className="text-modal-info">{body}</Modal.Body>
       <Modal.Footer className="card-buttons-container">
-        {/* <Button onClick={props.onHide}>Cerrar</Button> */}
-        <a className="card-link" href={void 0}>
-          Card Link
-        </a>
-        <a className="card-link" href={void 0}>
-          Another Link
-        </a>
+        {buttons?.map((button: any, idx: number) => {
+          return (
+            <Button
+              key={`button-modal-${idx}`}
+              onClick={() => props.onHide(`b${button.label}`)}
+            >
+              {button.label}
+            </Button>
+          );
+        })}
+
+        {links?.map((link: any, idx: number) => {
+          return (
+            <a
+              className="card-link"
+              key={`link-modal-${idx}`}
+              onClick={() => props.onHide(`l${link.label}`)}
+              href={link?.url || void 0}
+            >
+              {link.label}
+            </a>
+          );
+        })}
       </Modal.Footer>
     </Modal>
   );

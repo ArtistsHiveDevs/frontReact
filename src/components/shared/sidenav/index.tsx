@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Offcanvas, Navbar, Container } from "react-bootstrap";
+import { SUB_PATHS } from "~/constants";
 
 import { SearchComponent } from "~/components/shared/search";
 import "./index.scss";
@@ -25,19 +26,24 @@ const SideNav = () => {
       updated: new Date("2/20/16"),
     },
     {
+      name: "Mi perfil",
+      path: `profile/${SUB_PATHS.ELEMENT_DETAILS}`,
+      updated: new Date("2/20/16"),
+    },
+    {
       name: "Mi banda",
-      path: "artist/detail",
+      path: `artist/${SUB_PATHS.ELEMENT_DETAILS}`,
       updated: new Date("2/20/16"),
     },
     {
-      name: "Riders Técnicos",
-      path: "riders/detail",
-      updated: new Date("2/20/16"),
-    },
-    {
-      name: "Próximos eventos",
-      path: "shows/detail",
+      name: "Mis eventos",
+      path: `shows/${SUB_PATHS.ELEMENT_DETAILS}`,
       updated: new Date("1/18/16"),
+    },
+    {
+      name: "Mis Riders Técnicos",
+      path: `riders/${SUB_PATHS.ELEMENT_DETAILS}`,
+      updated: new Date("2/20/16"),
     },
   ];
 

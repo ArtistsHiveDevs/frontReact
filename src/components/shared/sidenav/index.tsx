@@ -19,30 +19,81 @@ const SideNav = () => {
     openSearchInputText(!openedSearchInputText);
   };
 
-  const general: Section[] = [
+  const general: SideMenuItem[] = [
     {
       name: "Home",
       path: "",
+      icon: "FaHome",
+      updated: new Date("2/20/16"),
+    },
+    {
+      name: "Agenda cultural",
+      path: `profile/${SUB_PATHS.ELEMENT_DETAILS}`,
+      icon: "FaBullhorn",
+      updated: new Date("2/20/16"),
+    },
+  ];
+  const miBanda: SideMenuItem[] = [
+    {
+      name: "Bandeja de entrada",
+      path: "",
+      icon: "FaRegEnvelope",
       updated: new Date("2/20/16"),
     },
     {
       name: "Mi perfil",
       path: `profile/${SUB_PATHS.ELEMENT_DETAILS}`,
+      icon: "FaUser",
       updated: new Date("2/20/16"),
     },
     {
       name: "Mi banda",
       path: `artist/${SUB_PATHS.ELEMENT_DETAILS}`,
+      icon: "FaUsers",
       updated: new Date("2/20/16"),
     },
     {
       name: "Mis eventos",
       path: `shows/${SUB_PATHS.ELEMENT_DETAILS}`,
+      icon: "FaRegCalendarAlt",
       updated: new Date("1/18/16"),
     },
     {
       name: "Mis Riders Técnicos",
       path: `riders/${SUB_PATHS.ELEMENT_DETAILS}`,
+      icon: "FaFileAlt",
+      updated: new Date("2/20/16"),
+    },
+  ];
+  const config: SideMenuItem[] = [
+    {
+      name: "Configuración",
+      path: "",
+      icon: "FaCogs",
+      updated: new Date("2/20/16"),
+    },
+    {
+      name: "Centro de ayuda",
+      path: "",
+      icon: "FaQuestionCircle",
+      updated: new Date("2/20/16"),
+    },
+    {
+      name: "Denuncias",
+      path: "",
+      icon: "FaRegFlag",
+      updated: new Date("2/20/16"),
+    },
+    {
+      name: "Enviar comentarios",
+      path: "",
+      icon: "MdFeedback",
+      updated: new Date("2/20/16"),
+    },
+    {
+      name: "Cerrar Sesión",
+      path: "",
+      icon: "HiOutlineLogout",
       updated: new Date("2/20/16"),
     },
   ];
@@ -58,7 +109,7 @@ const SideNav = () => {
     setShow(false);
   };
 
-  const liMenuElement = (section: string, note: Section, idx: number) => {
+  const liMenuElement = (section: string, note: SideMenuItem, idx: number) => {
     return (
       <a
         key={idx}
@@ -66,7 +117,7 @@ const SideNav = () => {
         href={void 0}
         onClick={() => navigateTo(note?.path)}
       >
-        <DynamicIcons iconName="AiFillFile" size={20} />
+        <DynamicIcons iconName={note.icon || "AiFillFile"} size={20} />
         <span className="menu-option-label">{note.name}</span>
       </a>
     );
@@ -158,23 +209,49 @@ const SideNav = () => {
               show={show}
               onHide={handleClose}
             >
-              <Offcanvas.Header closeButton>
-                <h1 className="menu-brand">Artist Hive</h1>
+              <Offcanvas.Header closeButton className="sidebar-header">
+                <img
+                  alt="Artists Hive Logo"
+                  className="img-logotipo"
+                  src="http://npcarlos.co/artistsHive_mocks/logo.png"
+                  width="100"
+                />
+                <h4 className="menu-title">Menú principal</h4>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                <h4 className="menu-title">Menú principal</h4>
                 <hr />
                 <section className="general-sec">
                   <>
                     <h5 className="sec-general-label">General</h5>
                     <div className="option-menu-list">
-                      {general.map((general: Section, idx) => {
+                      {general.map((general: SideMenuItem, idx) => {
                         return liMenuElement("general", general, idx);
                       })}
                     </div>
                   </>
                 </section>
                 <hr />
+                <section className="general-sec">
+                  <>
+                    <h5 className="sec-general-label">Mi Banda</h5>
+                    <div className="option-menu-list">
+                      {miBanda.map((section: SideMenuItem, idx) => {
+                        return liMenuElement("general", section, idx);
+                      })}
+                    </div>
+                  </>
+                </section>
+                <hr />
+                <section className="general-sec">
+                  <>
+                    <h5 className="sec-general-label">Configuración</h5>
+                    <div className="option-menu-list">
+                      {config.map((section: SideMenuItem, idx) => {
+                        return liMenuElement("general", section, idx);
+                      })}
+                    </div>
+                  </>
+                </section>
                 {/* <section>
                                     <h5 className='sec-general'>Herramientas</h5>
                                 </section> */}
@@ -189,8 +266,9 @@ const SideNav = () => {
 
 export default SideNav;
 
-export interface Section {
+export interface SideMenuItem {
   name: string;
   updated: Date;
   path?: string;
+  icon?: string;
 }

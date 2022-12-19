@@ -26,7 +26,7 @@ export const appMessages: { [key: string]: { [key: string]: string } } = {
   de: flatObject(DeMessages),
   en: flatObject(EnMessages),
   es: flatObject(EsMessages),
-  "es-CO": flatObject(EsCOMessages),
+  "es-co": flatObject(EsCOMessages),
   fr: flatObject(FrMessages),
   it: flatObject(ItMessages),
 };

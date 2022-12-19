@@ -1,4 +1,5 @@
 import { useState, useEffect, createContext } from "react";
+import { setFlagsFromString } from "v8";
 
 import { appMessages } from "../../translations";
 
@@ -11,9 +12,11 @@ const defaultLang: string =
   localStorage?.currentLang || navigator.language || "en";
 
 export const HvAppContext = createContext<IHvAppContext>({
-  lang: defaultLang,
-  messages: appMessages[defaultLang],
-  setLang: () => {},
+  lang: getAvailableLang(defaultLang),
+  messages: appMessages[getAvailableLang(defaultLang)],
+  setLang: (newLang: string) => {
+    localStorage.currentLang = getAvailableLang(newLang);
+  },
 });
 
 function getAvailableLang(lang: string) {
@@ -22,22 +25,19 @@ function getAvailableLang(lang: string) {
   let messages = appMessages[newLang.toLowerCase()];
 
   if (!messages) {
-    // console.log("PIMER IF");
     // Try standard language
     newLang = newLang.split("-")[0];
     if (newLang) {
       messages = appMessages[newLang.toLowerCase()];
     }
-    // console.log(newLang, messages);
   }
 
   if (!messages) {
-    // console.log("segundo IF");
     // Default messages
-    newLang = "es";
+    newLang = "en";
   }
-  messages = appMessages[newLang];
-  return newLang;
+
+  return newLang.toLowerCase();
 }
 
 export const HvAppContextProvider = ({
@@ -45,11 +45,10 @@ export const HvAppContextProvider = ({
   appMessages,
 }: IHvAppContextProvider) => {
   const [lang, setLang] = useState(defaultLang);
-  console.log("#####", lang, getAvailableLang(lang));
+
   const messages = appMessages[getAvailableLang(lang)] || {};
 
   function onSetLang(nextLang: string) {
-    console.log(">>>>>>>>>>>>>>    ", nextLang);
     localStorage.currentLang = nextLang;
     setLang(nextLang);
   }
@@ -61,7 +60,6 @@ export const HvAppContextProvider = ({
       localStorage.currentLang = nextLang;
       setLang(nextLang);
     }
-    console.log("+++++++++++++++++++++", lang, getAvailableLang(lang));
   }, [getAvailableLang(lang)]);
 
   return (

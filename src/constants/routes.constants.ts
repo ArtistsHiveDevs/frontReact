@@ -6,6 +6,7 @@ export enum PATHS {
   NOT_FOUND = "*",
   SHOWS = "/shows",
   RIDERS = "/riders",
+  SEARCH = "/search",
 }
 
 export enum SUB_PATHS {

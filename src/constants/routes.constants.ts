@@ -10,7 +10,7 @@ export enum PATHS {
 }
 
 export enum SUB_PATHS {
-  DETAIL = "detail",
+  ELEMENT_DETAILS = "details",
 }
 
 export enum URL_PARAMETER_NAMES {

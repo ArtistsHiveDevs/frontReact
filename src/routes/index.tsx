@@ -41,21 +41,27 @@ export const RoutesApp: React.FC = () => {
         <Route element={<ArtistsListPage />} path="" />
         <Route
           element={<ArtistDetailPage />}
-          path={SUB_PATHS.DETAIL + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
+          path={
+            SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`
+          }
         />
       </Route>
       <Route path={PATHS.RIDERS}>
         <Route element={<RiderListPage />} path="" />
         <Route
           element={<RiderDetailPage />}
-          path={SUB_PATHS.DETAIL + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
+          path={
+            SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`
+          }
         />
       </Route>
       <Route path={PATHS.SHOWS}>
         <Route element={<ShowListPage />} path="" />
         <Route
           element={<ShowDetailPage />}
-          path={SUB_PATHS.DETAIL + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
+          path={
+            SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`
+          }
         />
       </Route>
       <Route element={<HomePage />} path={PATHS.HOME} />

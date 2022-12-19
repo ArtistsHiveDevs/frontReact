@@ -19,7 +19,7 @@ const App = () => {
   return (
     <HelmetProvider>
       <HvAppContextProvider appMessages={appMessages}>
-        <Router>
+        <Router basename="/artistsHive/">
           <IntlProvider
             defaultLocale={navigator.language || "en"}
             locale={lang}

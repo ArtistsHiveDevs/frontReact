@@ -1,12 +1,11 @@
+import "./search.scss";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Collapse from "react-bootstrap/Collapse";
 
 import { ArtistModel, findCustomList } from "~/constants";
-import { mainSection } from "~/components/Pages/HomePage/home.utils";
-import "~/components/Pages/HomePage/index.scss";
-import "./search.scss";
 import DynamicIcons from "~/components/shared/DynamicIcons";
+import MainSection from "~/components/Pages/HomePage/MainSection";
 
 export default function SearchPage() {
   const [open, setOpen] = useState({
@@ -63,9 +62,12 @@ export default function SearchPage() {
           <Collapse in={open.placesOpen}>
             <div id="example-collapse-text-2">
               <article className="day-forecast">
-                {mainSection("", "", results.newPlacesList, {
-                  hidePhoto: true,
-                })}
+                <MainSection
+                  title={""}
+                  description={""}
+                  listView={results.newPlacesList}
+                  params={{ hidePhoto: true }}
+                />
               </article>
             </div>
           </Collapse>

@@ -1,0 +1,39 @@
+@import "~/variables.module.scss";
+
+.welcome-section {
+  margin-top: 20px;
+}
+
+.welcome-title {
+  color: $main-title-color;
+  text-align: center;
+  width: 100%;
+  font-family: Ms Madi, cursive;
+  font-weight: bold;
+  text-align: left;
+}
+
+p {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol;
+  font-size: 14px;
+}
+
+.home-section-title {
+  text-align: center;
+  margin: 20px 0px 10px 0px;
+}
+
+.main-section {
+  width: 100%;
+}
+
+.main-section-title {
+  padding-top: 20px;
+}
+
+.cards-container {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+}

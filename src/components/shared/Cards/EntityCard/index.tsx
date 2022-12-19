@@ -1,9 +1,10 @@
-import Card from "react-bootstrap/Card";
-
-import { AligmentVerifiedMark, ArtistModel } from "~/constants";
+import { Card } from "react-bootstrap";
+import { AligmentVerifiedMark } from "~/constants";
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
+import "./index.scss";
 
-const entityCard = (data: ArtistModel, idx: number, params?: any) => {
+const EntityCard = (props: any) => {
+  const { data, idx, params } = props;
   return (
     <Card key={idx} className="entity-card">
       <div className="header-card-container">
@@ -49,42 +50,4 @@ const entityCard = (data: ArtistModel, idx: number, params?: any) => {
   );
 };
 
-export const mainSection = (
-  title: string,
-  description: string,
-  listView: ArtistModel[],
-  params?: any
-) => {
-  return (
-    <section className="main-section">
-      <>
-        <h3 className="main-section-title">{title}</h3>
-        <p>{description}</p>
-        <div className="cards-container">
-          {listView?.map((element, idx) => {
-            return entityCard(element, idx, params);
-          })}
-        </div>
-      </>
-    </section>
-  );
-};
-
-export const welcomeSection = () => {
-  return (
-    <section className="welcome-section">
-      <>
-        <h1 className="welcome-title">Bienvenido a Artists Hive!</h1>
-        <p>
-          La comunidad más grande que conecta artistas independientes con los
-          sitios. Encuentra tu lugar favorito. Disfruta de las mejores
-          expresiones artísticas en tu lugar.
-        </p>
-        <p>
-          Planifica tus eventos, programa tus giras, crea la información
-          profesional de tu grupo artístico
-        </p>
-      </>
-    </section>
-  );
-};
+export default EntityCard;

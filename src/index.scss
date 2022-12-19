@@ -1,3 +1,6 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import "./variables.module.scss";
+
 :root {
   /* Colors */
   --app-tint: #ff9500;
@@ -69,4 +72,14 @@ select,
 textarea,
 select {
   font-family: var(--main-font);
+}
+
+.content {
+  display: flex;
+  margin: 1rem auto 32px;
+  padding: 0 16px;
+  max-width: 960px;
+  flex-direction: column;
+  align-items: center;
+  width: 95%;
 }

@@ -1,4 +1,5 @@
 {
-  "app.name": "Artists hive",
+  "app.name": "App ES",
+  "app.loading": "Cargando",
   "app.pages.EventsPage.title": "Events Page"
 }

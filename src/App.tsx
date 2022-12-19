@@ -6,12 +6,13 @@ import { HelmetProvider } from "react-helmet-async";
 
 // translations
 import { appMessages } from "./translations";
+
 // routes
 import { RoutesApp } from "./routes";
 import { HvAppContext, HvAppContextProvider } from "./common";
 
 const App = () => {
-  const { lang, messages } = useContext(HvAppContext);
+  let { lang, messages } = useContext(HvAppContext);
   const onError = (error: any) => console.log(`Error Messages: ${error}`);
 
   return (
@@ -19,7 +20,7 @@ const App = () => {
       <HvAppContextProvider appMessages={appMessages}>
         <Router>
           <IntlProvider
-            defaultLocale="es"
+            defaultLocale={navigator.language || "en"}
             locale={lang}
             messages={messages}
             onError={onError}

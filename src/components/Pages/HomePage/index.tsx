@@ -1,5 +1,15 @@
+import { useI18n } from "../../../common/utils";
+
+const BASE_TRANSLATIONS_APP_NAME = "app.name";
+
 const HomePage = () => {
-  return <h1>HomePage</h1>;
+  const { getMessage } = useI18n();
+
+  return (
+    <>
+      <h1>HomePage: {getMessage(`${BASE_TRANSLATIONS_APP_NAME}`)}</h1>
+    </>
+  );
 };
 
 export default HomePage;

@@ -7,7 +7,8 @@ import {
   IHvAppContextProvider,
 } from "./models/hv-app-context.model";
 
-const defaultLang: string = localStorage?.currentLang || "es";
+const defaultLang: string =
+  localStorage?.currentLang || navigator.language || "en";
 
 export const HvAppContext = createContext<IHvAppContext>({
   lang: defaultLang,

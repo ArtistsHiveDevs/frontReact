@@ -47,7 +47,7 @@ const mainSection = (
         <p>{description}</p>
         <div className="cards-container">
           {listView?.map((element, idx) => {
-            return entityCard(element, params);
+            return entityCard(element, idx, params);
           })}
         </div>
       </>
@@ -55,9 +55,9 @@ const mainSection = (
   );
 };
 
-const entityCard = (data: ArtistModel, params?: any) => {
+const entityCard = (data: ArtistModel, idx: number, params?: any) => {
   return (
-    <Card className="entity-card">
+    <Card className="entity-card" key={idx}>
       <div className="header-card-container">
         <p>
           {data?.profile_pic && (

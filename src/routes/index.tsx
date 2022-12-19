@@ -5,8 +5,8 @@ import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from "~/constants";
 
 // Lazy loading
 const HomePage = lazy(() => import("~/components/Pages/HomePage"));
-const EventPage = lazy(() => import("~/components/Pages/EventsPage"));
 const NotFoundPage = lazy(() => import("~/components/Pages/NotFoundPage"));
+const SearchPage = lazy(() => import("~/components/Pages/SearchPage"));
 
 // Load rider pages
 const RiderListPage = lazy(
@@ -59,9 +59,10 @@ export const RoutesApp: React.FC = () => {
         />
       </Route>
       <Route element={<HomePage />} path={PATHS.HOME} />
-      <Route element={<EventPage />} path={PATHS.EVENTS} />
-      <Route element={<NotFoundPage />} path={PATHS.NOT_FOUND} />
       <Route element={<Navigate to={PATHS.HOME} />} path={PATHS.MAIN} />
+      <Route element={<SearchPage />} path={PATHS.SEARCH} />
+
+      <Route element={<NotFoundPage />} path={PATHS.NOT_FOUND} />
     </Routes>
   );
 };

@@ -1,0 +1,40 @@
+.ah-search__section {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  align-self: flex-start;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  width: 100%;
+  margin-top: 1em;
+
+  &__link {
+    text-decoration: none;
+    color: currentColor;
+    &:hover {
+      color: #7a260a;
+    }
+  }
+
+  .profile-avatar {
+    margin-right: 1em;
+  }
+}
+.main-section-title {
+  color: #7a260a;
+  align-self: flex-start;
+}
+
+section {
+  width: 100%;
+  max-width: 100%;
+  article {
+    max-width: 100%;
+  }
+}
+
+.group-title-icon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}

@@ -12,7 +12,7 @@ import { RoutesApp } from "./routes";
 import { HvAppContext, HvAppContextProvider } from "./common";
 
 const App = () => {
-  let { lang, messages } = useContext(HvAppContext);
+  let { lang, messages, setLang } = useContext(HvAppContext);
   const onError = (error: any) => console.log(`Error Messages: ${error}`);
 
   return (

@@ -1,0 +1,12 @@
+@import "~/variables.module.scss";
+
+.verified-container {
+  width: 100%;
+
+  .only-verified {
+    color: $only-verified-color;
+  }
+  .full-verified {
+    color: $full-verified-color;
+  }
+}

@@ -1,5 +1,9 @@
 @import "~/variables.module.scss";
 
+.hidden {
+  display: none;
+}
+
 .toolbar-header {
   top: 0;
   left: 0;

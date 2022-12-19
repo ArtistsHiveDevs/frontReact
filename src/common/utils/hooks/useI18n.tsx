@@ -1,13 +1,13 @@
 import { useIntl, FormattedMessage } from "react-intl";
 
 export const useI18n = () => {
-  const { locale = "en", messages } = useIntl();
+  const { locale = "es", formatMessage } = useIntl();
 
   const getMessage = (messageId: string) => {
-    return messages[messageId];
+    return formatMessage({ id: messageId });
   };
 
-  const getFormattedMessage = (messageId: string, messageValues: any) => {
+  const getFormattedMessage = (messageId: any, messageValues: any) => {
     return <FormattedMessage id={messageId} values={messageValues} />;
   };
 

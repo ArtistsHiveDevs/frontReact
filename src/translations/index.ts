@@ -1,7 +1,5 @@
-import EnMessages from "./en.json";
+import EsMessages from "./es.json";
 
-export const appMessages = [
-  {
-    en: EnMessages,
-  },
-];
+export const appMessages: { [key: string]: { [key: string]: string } } = {
+  es: EsMessages,
+};

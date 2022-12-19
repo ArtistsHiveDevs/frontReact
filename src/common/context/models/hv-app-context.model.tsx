@@ -1,10 +1,10 @@
 export interface IHvAppContextProvider {
   children: any;
-  appMessages: any;
+  appMessages: { [key: string]: { [key: string]: string } };
 }
 
 export interface IHvAppContext {
   lang: string;
-  messages: any;
+  messages: { [key: string]: string };
   setLang: ([nextLang]: string) => void;
 }

@@ -3,10 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useArtistsSlice } from "~/common/slices";
 import { selectArtists } from "~/common/slices/artists/selectors";
+import { useI18n } from "~/common/utils";
 import { ArtistModel, ARTISTS, getCustomList, PLACES } from "~/constants";
 import MainSection from "../MainSection";
 import WelcomeSection from "../WelcomeSection";
 import "./index.scss";
+
+const TRANSLATION_BASE_HOME_PAGE = "app.pages.HomePage";
 
 // const artistList: ArtistModel[] = ARTISTS;
 const placesList: ArtistModel[] = PLACES;
@@ -16,6 +19,7 @@ const HomePage = () => {
   const artistList: ArtistModel[] = useSelector(selectArtists);
   const { actions } = useArtistsSlice();
   const dispatch = useDispatch();
+  const { translateText } = useI18n();
 
   useEffect(() => {
     if (artistList.length === 0) {
@@ -28,21 +32,23 @@ const HomePage = () => {
     <>
       <WelcomeSection />
       <div className="home-section-title">
-        <h1 className="welcome-title">Novedades</h1>
+        <h1 className="welcome-title">
+          {translateText(`${TRANSLATION_BASE_HOME_PAGE}.news`)}
+        </h1>
       </div>
 
       <MainSection
         description={"Estos son los artistas nuevos más solicitados"}
         listView={getCustomList(10, artistList)}
         params={{ useNewCard: true }}
-        title={"Artistas"}
+        title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)}
       />
 
       <MainSection
         description={"Próximos eventos cercanos a ti"}
         listView={getCustomList(10, artistList)}
         params={placeParams}
-        title={"Eventos"}
+        title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.events`)}
       />
 
       <MainSection
@@ -51,7 +57,7 @@ const HomePage = () => {
         }
         listView={getCustomList(10, artistList)}
         params={placeParams}
-        title={"Lugares"}
+        title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.places`)}
       />
     </>
   );

@@ -8,8 +8,13 @@ import {
   IHvAppContextProvider,
 } from "./models/hv-app-context.model";
 
+const DEFAULT_LANG_BY_ENV = import.meta.env.VITE_DEFAULT_LANGUAGE;
+
 const defaultLang: string =
-  localStorage?.currentLang || navigator.language || "en";
+  localStorage?.currentLang ||
+  navigator.language ||
+  DEFAULT_LANG_BY_ENV ||
+  "en";
 
 export const HvAppContext = createContext<IHvAppContext>({
   lang: getAvailableLang(defaultLang),
@@ -34,7 +39,7 @@ function getAvailableLang(lang: string) {
 
   if (!messages) {
     // Default messages
-    newLang = "en";
+    newLang = DEFAULT_LANG_BY_ENV;
   }
 
   return newLang.toLowerCase();

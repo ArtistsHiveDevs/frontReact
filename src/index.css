@@ -70,24 +70,3 @@ textarea,
 select {
   font-family: var(--main-font);
 }
-
-/* width */
-::-webkit-scrollbar {
-  height: 8px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  border-radius: 10px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: var(--silver);
-  border-radius: 10px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: var(--silver);
-}

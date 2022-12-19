@@ -1,7 +1,7 @@
 import { useState, useEffect, createContext } from "react";
 import { setFlagsFromString } from "v8";
 
-import { appMessages } from "../../translations";
+import { appMessages } from "~/translations";
 
 import {
   IHvAppContext,

@@ -1,4 +1,4 @@
-import { useI18n } from "../../../common/utils";
+import { useI18n } from "~/common/utils";
 
 const BASE_TRANSLATIONS = "app.pages.EventsPage";
 

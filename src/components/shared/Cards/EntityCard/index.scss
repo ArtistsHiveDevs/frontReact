@@ -6,27 +6,11 @@
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   margin-bottom: 1.2rem;
-  //   max-height: 600px;
-  //   height: 90%;
-  background: #fff6eb;
+  max-height: 600px;
+  height: 90%;
+  background: $main-background-color;
   border-radius: 20px;
   box-shadow: #b1b1b1;
-}
-
-.header-card-container {
-  display: flex;
-  margin: 10px 10px 0px 10px;
-  min-height: 100px;
-}
-
-.header-card-name {
-  display: grid;
-  margin-left: 10px;
-
-  .card-title-label {
-    font-weight: bolder;
-    font-size: 20px;
-  }
 }
 
 .container-img-card {

@@ -2,16 +2,19 @@
 
 .modal-container {
   .modal-content {
-    background: #fff6eb;
+    background: $main-background-color;
   }
 
-  .modal-title {
-    color: $main-title-color;
-    text-align: center;
-    width: 100%;
-    font-family: Ms Madi, cursive;
-    font-weight: bold;
-    font-size: 30px;
+  .card-link {
+    text-decoration: none;
+    color: $black;
+    padding: 10px;
+  }
+
+  .text-modal-info {
+    overflow: auto;
+    height: 150px;
+    margin: 10px;
   }
 
   .card-buttons-container {

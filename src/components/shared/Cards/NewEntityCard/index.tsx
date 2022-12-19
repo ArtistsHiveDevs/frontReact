@@ -10,6 +10,12 @@ const NewEntityCard = (props: any) => {
   const [modalDetailShow, setModalDetailShow] = React.useState(false);
   const showModalDetail = () => setModalDetailShow(true);
 
+  const captureCloseValue = (value: any) => {
+    setModalDetailShow(false);
+  };
+
+  const links = [{ label: "LINK" }, { label: "ANOTHER LINK" }];
+
   return (
     <>
       <Card key={idx} className="new-entity-card" onClick={showModalDetail}>
@@ -42,9 +48,11 @@ const NewEntityCard = (props: any) => {
         )}
       </Card>
       <ModalCardInfo
-        information={data}
+        title={data.name}
+        body={data.description}
+        links={links}
         show={modalDetailShow}
-        onHide={() => setModalDetailShow(false)}
+        onHide={(event: any) => captureCloseValue(event)}
       />
     </>
   );

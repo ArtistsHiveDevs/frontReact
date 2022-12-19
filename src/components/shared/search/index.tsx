@@ -3,8 +3,10 @@ import { Form, InputGroup } from "react-bootstrap";
 
 import "./search.scss";
 import { SearchItem } from "./search-item";
+import DynamicIcons from "~/components/shared/DynamicIcons";
 
-export const SearchComponent = () => {
+export const SearchComponent = (props: any) => {
+  const { openedStatus } = props;
   const [text, setText] = useState("");
   const [focused, setFocused] = useState(false);
 
@@ -39,26 +41,33 @@ export const SearchComponent = () => {
     setText(event.target.value || "");
   };
 
+  let stylesSearchField = ["hidden"];
+  if (openedStatus) {
+    stylesSearchField = ["ah-nav-search"];
+  }
+
   return (
-    <div ref={wrapperRef} className="ah-nav-search">
-      <InputGroup>
-        <Form.Control
-          aria-describedby="basic-addon2"
-          aria-label="Artistas, lugares..."
-          autoComplete="off"
-          className="ah-nav-search__input"
-          name="search"
-          placeholder="Artistas, lugares..."
-          value={text}
-          onChange={handleText}
-          onClick={() => handleOnBlur()}
-        />
-      </InputGroup>
-      {focused && (
-        <div className="ah-combobox-search">
-          <SearchItem q={text} />
-        </div>
-      )}
-    </div>
+    <>
+      <div ref={wrapperRef} className={stylesSearchField.join(" ")}>
+        <InputGroup>
+          <Form.Control
+            aria-describedby="basic-addon2"
+            aria-label="Artistas, lugares..."
+            autoComplete="off"
+            className="ah-nav-search__input"
+            name="search"
+            placeholder="Artistas, lugares..."
+            value={text}
+            onChange={handleText}
+            onClick={() => handleOnBlur()}
+          />
+        </InputGroup>
+        {focused && (
+          <div className="ah-combobox-search">
+            <SearchItem q={text} />
+          </div>
+        )}
+      </div>
+    </>
   );
 };

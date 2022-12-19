@@ -1,12 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
 
 import App from "./App";
-import "./App.scss";
-import "./index.css";
+import "sanitize.css/sanitize.css";
+import "./index.scss";
+import { configureAppStore } from "./store/configureStore";
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+const store = configureAppStore();
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
+
+root.render(
+  <Provider store={store}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>
 );

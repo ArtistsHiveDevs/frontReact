@@ -10,10 +10,6 @@ export interface ArtistTemplate {
   date?: Date;
 }
 
-export interface ArtistState extends ArtistTemplate {
-  [key: string]: any;
-}
-
 export class ArtistModel implements ArtistTemplate {
   artistType: string;
   id: string;
@@ -348,22 +344,26 @@ export function findCustomList(words: string) {
   const wordFormatted = words.toLowerCase();
 
   // ARTISTS
-  const newArtistsList: ArtistModel[] = ARTISTS.filter((data: ArtistState) => {
-    return Object.keys(findByModel).some((model: string) => {
-      if (data[model].toLowerCase().includes(wordFormatted)) {
-        return true;
-      }
-    });
-  });
+  const newArtistsList: ArtistModel[] = ARTISTS.filter(
+    (data: { [key: string]: any }) => {
+      return Object.keys(findByModel).some((model: string) => {
+        if (data[model].toLowerCase().includes(wordFormatted)) {
+          return true;
+        }
+      });
+    }
+  );
 
   // PLACES
-  const newPlacesList: ArtistModel[] = PLACES.filter((data: ArtistState) => {
-    return Object.keys(findByModel).some((model: string) => {
-      if (data[model].toLowerCase().includes(wordFormatted)) {
-        return true;
-      }
-    });
-  });
+  const newPlacesList: ArtistModel[] = PLACES.filter(
+    (data: { [key: string]: any }) => {
+      return Object.keys(findByModel).some((model: string) => {
+        if (data[model].toLowerCase().includes(wordFormatted)) {
+          return true;
+        }
+      });
+    }
+  );
 
   return { newArtistsList, newPlacesList };
 }

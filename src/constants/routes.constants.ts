@@ -7,6 +7,7 @@ export enum PATHS {
   SHOWS = "/shows",
   RIDERS = "/riders",
   SEARCH = "/search",
+  BASENAME = "/artistsHive",
 }
 
 export enum SUB_PATHS {

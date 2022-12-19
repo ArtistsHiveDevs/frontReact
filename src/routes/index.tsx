@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from "~/constants";
 
 // Lazy loading
-const HomePage = lazy(() => import("~/components/Pages/HomePage"));
+const HomePage = lazy(() => import("~/components/Pages/HomePage/MainHome"));
 const NotFoundPage = lazy(() => import("~/components/Pages/NotFoundPage"));
 const SearchPage = lazy(() => import("~/components/Pages/SearchPage"));
 

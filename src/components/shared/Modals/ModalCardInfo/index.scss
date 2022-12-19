@@ -1,0 +1,29 @@
+@import "~/variables.module.scss";
+
+.modal-container {
+  .modal-content {
+    background: #fff6eb;
+  }
+
+  .modal-title {
+    color: $main-title-color;
+    text-align: center;
+    width: 100%;
+    font-family: Ms Madi, cursive;
+    font-weight: bold;
+    font-size: 30px;
+  }
+
+  .card-buttons-container {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 0px 0px 25px 0px;
+
+    .card-link {
+      text-decoration: none;
+      color: $black;
+      padding: 10px;
+    }
+  }
+}

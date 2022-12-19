@@ -11,6 +11,7 @@ import { appMessages } from "./translations";
 import { RoutesApp } from "./routes";
 import { HvAppContext, HvAppContextProvider } from "./common";
 import SideNav from "./components/shared/sidenav";
+import { PATHS } from "./constants";
 
 const App = () => {
   let { lang, messages, setLang } = useContext(HvAppContext);
@@ -19,7 +20,7 @@ const App = () => {
   return (
     <HelmetProvider>
       <HvAppContextProvider appMessages={appMessages}>
-        <Router basename="/artistsHive/">
+        <Router basename={PATHS.BASENAME}>
           <IntlProvider
             defaultLocale={navigator.language || "en"}
             locale={lang}

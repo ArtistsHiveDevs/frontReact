@@ -39,9 +39,9 @@ export default function SearchPage() {
       <article>
         <h3>No hay publicaciones que coincidan con tu búsqueda.</h3>
         <ul>
-          <li>Revise la ortografia</li>
+          <li>Revisa la ortografía</li>
           <li>Utiliza palabras más genéricas o menos palabras</li>
-          <li>Navega por las categorías para encontrar un producto simila</li>
+          <li>Navega por las categorías para encontrar un producto similar</li>
         </ul>
       </article>
     );

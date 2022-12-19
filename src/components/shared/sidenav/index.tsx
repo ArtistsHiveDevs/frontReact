@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Offcanvas, Navbar, Container } from "react-bootstrap";
-import { SUB_PATHS } from "~/constants";
 
+import { SUB_PATHS } from "~/constants";
 import { SearchComponent } from "~/components/shared/search";
 import "./index.scss";
 
@@ -12,12 +12,6 @@ const SideNav = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleSearch = () => {
-    const q = (document.getElementsByName("search")[0] as HTMLInputElement)
-      .value;
-
-    navigate(`/search?q=${q}`, { replace: true, state: {} });
-  };
 
   const general: Section[] = [
     {
@@ -141,7 +135,7 @@ const SideNav = () => {
               width="100"
             />
           </div>
-          <SearchComponent handleSearch={handleSearch} />
+          <SearchComponent />
           <div>
             {logosRedes()}
             <a className="brand-text" href="#">

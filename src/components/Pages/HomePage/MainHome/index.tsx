@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useArtistsSlice } from "~/common/slices";
 import { selectArtists } from "~/common/slices/artists/selectors";
+import { useEventsSlice } from "~/common/slices/events";
+import { selectEvents } from "~/common/slices/events/selectors";
 import { useI18n } from "~/common/utils";
 import { ArtistModel, ARTISTS, getCustomList, PLACES } from "~/constants";
+import { EventModel } from "~/models/domain/event/event.model";
 import MainSection from "../MainSection";
 import WelcomeSection from "../WelcomeSection";
 import "./index.scss";
@@ -17,13 +20,21 @@ const placeParams = { hidePhoto: true };
 
 const HomePage = () => {
   const artistList: ArtistModel[] = useSelector(selectArtists);
-  const { actions } = useArtistsSlice();
+  const { actions: artistsActions } = useArtistsSlice();
+
+  const eventsList: EventModel[] = useSelector(selectEvents);
+  const { actions: eventActions } = useEventsSlice();
+
   const dispatch = useDispatch();
+
   const { translateText } = useI18n();
 
   useEffect(() => {
     if (artistList.length === 0) {
-      dispatch(actions.loadArtists());
+      dispatch(artistsActions.loadArtists());
+    }
+    if (eventsList.length === 0) {
+      dispatch(eventActions.loadEvents());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

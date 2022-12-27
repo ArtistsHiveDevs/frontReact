@@ -4,10 +4,12 @@ import { SagaInjectionModes } from "@nixjs23n6/redux-injectors";
 import { Reducer, AnyAction } from "@reduxjs/toolkit";
 
 import { ArtistState } from "~/common/slices/artists/types";
+import { EventState } from "~/common/slices/events/types";
 
 export interface RootState {
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
   ArtistsReducer?: ArtistState;
+  EventsReducer?: EventState;
 }
 
 type RequiredRootState = Required<RootState>;

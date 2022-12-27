@@ -35,9 +35,9 @@ export class ArtistModel implements ArtistTemplate {
 }
 
 export enum VerificationStatus {
-  VERIFIED_AND_APPROVED,
-  VERIFIED,
   NON_VERIFIED,
+  VERIFIED,
+  VERIFIED_AND_APPROVED,
 }
 
 export enum AligmentVerifiedMark {

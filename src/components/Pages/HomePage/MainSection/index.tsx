@@ -6,6 +6,7 @@ import "./index.scss";
 
 const MainSection = (props: any) => {
   const { title, description, listView, params } = props;
+
   return (
     <section className="main-section">
       <>

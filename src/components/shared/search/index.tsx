@@ -45,7 +45,6 @@ export const SearchComponent = (props: any) => {
   if (openedStatus) {
     stylesSearchField = ["ah-nav-search"];
   }
-
   return (
     <>
       <div ref={wrapperRef} className={stylesSearchField.join(" ")}>

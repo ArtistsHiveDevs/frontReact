@@ -57,8 +57,8 @@ const HomePage = () => {
 
       <MainSection
         description={"Próximos eventos cercanos a ti"}
-        listView={getCustomList(10, artistList)}
-        params={placeParams}
+        listView={getCustomList(10, eventsList)}
+        params={{ useNewCard: true }}
         title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.events`)}
       />
 

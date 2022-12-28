@@ -8,7 +8,7 @@
     "dev:host": "vite --host",
     "dev:host:remote": "vite --host --mode remote",
     "build": "tsc && vite build",
-    "build-ah": "tsc && vite build --base=/artistsHive/ ",
+    "build-ah": "tsc && vite build --base=/artistsHive/",
     "preview": "vite preview",
     "deploy": "npm run build-ah && ts-node-esm ./deployment/ftp-upload.ts"
   },
@@ -23,6 +23,7 @@
     "react-router-dom": "^6.4.1"
   },
   "devDependencies": {
+    "@types/node": "^18.8.1",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
@@ -35,6 +36,7 @@
     "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-react": "^7.31.8",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "ftp-deploy": "^2.4.3",
     "prettier": "2.7.1",
     "sass": "^1.55.0",
     "typescript": "^4.8.3",

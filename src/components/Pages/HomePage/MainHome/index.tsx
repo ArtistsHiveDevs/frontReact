@@ -5,18 +5,17 @@ import { useArtistsSlice } from "~/common/slices";
 import { selectArtists } from "~/common/slices/artists/selectors";
 import { useEventsSlice } from "~/common/slices/events";
 import { selectEvents } from "~/common/slices/events/selectors";
+import { usePlacesSlice } from "~/common/slices/places";
+import { selectPlaces } from "~/common/slices/places/selectors";
 import { useI18n } from "~/common/utils";
-import { ArtistModel, ARTISTS, getCustomList, PLACES } from "~/constants";
+import { ArtistModel, getCustomList } from "~/constants";
 import { EventModel } from "~/models/domain/event/event.model";
+import { PlaceModel } from "~/models/domain/place/place.model";
 import MainSection from "../MainSection";
 import WelcomeSection from "../WelcomeSection";
 import "./index.scss";
 
 const TRANSLATION_BASE_HOME_PAGE = "app.pages.HomePage";
-
-// const artistList: ArtistModel[] = ARTISTS;
-const placesList: ArtistModel[] = PLACES;
-const placeParams = { hidePhoto: true };
 
 const HomePage = () => {
   const artistList: ArtistModel[] = useSelector(selectArtists);
@@ -24,6 +23,9 @@ const HomePage = () => {
 
   const eventsList: EventModel[] = useSelector(selectEvents);
   const { actions: eventActions } = useEventsSlice();
+
+  const placesList: PlaceModel[] = useSelector(selectPlaces);
+  const { actions: placesActions } = usePlacesSlice();
 
   const dispatch = useDispatch();
 
@@ -35,6 +37,9 @@ const HomePage = () => {
     }
     if (eventsList.length === 0) {
       dispatch(eventActions.loadEvents());
+    }
+    if (placesList.length === 0) {
+      dispatch(placesActions.loadPlaces());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -66,8 +71,8 @@ const HomePage = () => {
         description={
           "Estos son los lugares más cercanos a tu ubicación que están buscando artistas"
         }
-        listView={getCustomList(10, artistList)}
-        params={placeParams}
+        listView={getCustomList(10, placesList)}
+        params={{ useNewCard: true }}
         title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.places`)}
       />
     </>

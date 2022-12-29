@@ -6,12 +6,13 @@ import { useParams } from "react-router-dom";
 import { useEventsSlice } from "~/common/slices/events";
 import { selectEvents } from "~/common/slices/events/selectors";
 import { useI18n } from "~/common/utils";
-import DynamicIcons from "~/components/shared/DynamicIcons";
+import { DynamicIcons } from "~/components/shared/DynamicIcons";
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
-import { ArtistModel, URL_PARAMETER_NAMES } from "~/constants";
-import { EventModel } from "~/models/domain/event/event.model";
 import IconFieldReadOnly from "~/components/shared/atoms/IconField";
 import ProfileThumbnailCard from "~/components/shared/molecules/ProfileThumbnailCard";
+import { URL_PARAMETER_NAMES } from "~/constants";
+import { ArtistModel } from "~/models/domain/artist/artist.model";
+import { EventModel } from "~/models/domain/event/event.model";
 
 const TRANSLATION_BASE_EVENT_DETAILS_PAGE: string =
   "app.pages.EventsPages.EventDetailsPage";

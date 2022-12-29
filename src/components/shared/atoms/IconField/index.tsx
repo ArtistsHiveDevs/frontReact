@@ -1,4 +1,4 @@
-import DynamicIcons from "~/components/shared/DynamicIcons";
+import { DynamicIcons } from "~/components/shared/DynamicIcons";
 import "./index.scss";
 
 const IconFieldReadOnly = (props: any) => {

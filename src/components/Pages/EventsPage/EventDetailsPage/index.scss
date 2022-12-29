@@ -1,0 +1,14 @@
+@import "~/variables.module.scss";
+
+.info-container {
+  width: 100%;
+}
+
+.attribute {
+  display: flex;
+}
+.attribute-icon {
+  color: $main-title-color;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}

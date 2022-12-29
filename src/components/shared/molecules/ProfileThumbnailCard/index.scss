@@ -1,0 +1,40 @@
+.profile-thumbnail-card {
+  border-radius: 10px;
+  border: 1px solid #f2f2f2;
+  margin-bottom: 1rem;
+  box-shadow: 3px 3px #c5c5c5;
+  background: #fff6eb;
+}
+.profile-header {
+  display: flex;
+  text-align: left;
+
+  .avatar {
+    object-fit: cover;
+    border-radius: 50%;
+    width: 8rem;
+    height: 8rem;
+    margin: 0.5rem;
+  }
+  .avatar-place {
+    object-fit: cover;
+    border-radius: 10%;
+    width: 8rem;
+    height: 8rem;
+    margin: 0.5rem;
+  }
+  .header-title {
+    margin: 1.2rem;
+    h2 {
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      color: #333;
+    }
+
+    .artist-name {
+      display: flex;
+    }
+  }
+}
+.profile-thumbnail-card-footer {
+  margin: 1rem;
+}

@@ -1,4 +1,5 @@
-import { VerificationStatus } from "~/constants";
+import { ArtistModel, VerificationStatus } from "~/constants";
+import { PlaceModel } from "../place/place.model";
 
 export interface EventTemplate {
   id: string;
@@ -7,8 +8,11 @@ export interface EventTemplate {
   subtitle: string;
   photo: string;
   main_artist_id: string;
+  main_artist: ArtistModel;
   guest_artist_id: string;
+  guest_artist: ArtistModel;
   place_id: string;
+  place?: PlaceModel;
   timetable__initial_date: string;
   timetable__end_date: string;
   timetable__openning_doors: string;
@@ -25,8 +29,11 @@ export class EventModel implements EventTemplate {
   subtitle: string;
   photo: string;
   main_artist_id: string;
+  main_artist: ArtistModel;
   guest_artist_id: string;
+  guest_artist: ArtistModel;
   place_id: string;
+  place?: PlaceModel;
   timetable__initial_date: string;
   timetable__end_date: string;
   timetable__openning_doors: string;
@@ -42,8 +49,11 @@ export class EventModel implements EventTemplate {
     this.subtitle = template.subtitle;
     this.photo = template.photo;
     this.main_artist_id = template.main_artist_id;
+    this.main_artist = template.main_artist;
     this.guest_artist_id = template.guest_artist_id;
+    this.guest_artist = template.guest_artist;
     this.place_id = template.place_id;
+    this.place = template.place;
     this.timetable__initial_date = template.timetable__initial_date;
     this.timetable__end_date = template.timetable__end_date;
     this.timetable__openning_doors = template.timetable__openning_doors;

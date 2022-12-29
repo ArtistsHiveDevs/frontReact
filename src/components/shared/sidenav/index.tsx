@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Offcanvas, Navbar, Container } from "react-bootstrap";
 
-import { SUB_PATHS } from "~/constants";
+import { PATHS, SUB_PATHS } from "~/constants";
 import { SearchComponent } from "~/components/shared/search";
 import "./index.scss";
 import DynamicIcons from "~/components/shared/DynamicIcons";
@@ -28,7 +28,7 @@ const SideNav = () => {
     },
     {
       name: "Agenda cultural",
-      path: `profile/${SUB_PATHS.ELEMENT_DETAILS}`,
+      path: `${PATHS.EVENTS}/${SUB_PATHS.AGENDA}`,
       icon: "FaBullhorn",
       updated: new Date("2/20/16"),
     },
@@ -42,25 +42,25 @@ const SideNav = () => {
     },
     {
       name: "Mi perfil",
-      path: `profile/${SUB_PATHS.ELEMENT_DETAILS}`,
+      path: `${PATHS.PROFILE}/${SUB_PATHS.ELEMENT_DETAILS}`,
       icon: "FaUser",
       updated: new Date("2/20/16"),
     },
     {
       name: "Mi banda",
-      path: `artist/${SUB_PATHS.ELEMENT_DETAILS}`,
+      path: `${PATHS.ARTISTS}/${SUB_PATHS.ELEMENT_DETAILS}`,
       icon: "FaUsers",
       updated: new Date("2/20/16"),
     },
     {
       name: "Mis eventos",
-      path: `shows/${SUB_PATHS.ELEMENT_DETAILS}`,
+      path: `${PATHS.EVENTS}/${SUB_PATHS.ELEMENT_DETAILS}`,
       icon: "FaRegCalendarAlt",
       updated: new Date("1/18/16"),
     },
     {
       name: "Mis Riders Técnicos",
-      path: `riders/${SUB_PATHS.ELEMENT_DETAILS}`,
+      path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}`,
       icon: "FaFileAlt",
       updated: new Date("2/20/16"),
     },

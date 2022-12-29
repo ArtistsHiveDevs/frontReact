@@ -1,10 +1,11 @@
 export enum PATHS {
   HOME = "/home",
-  ARTIST = "/artist",
+  ARTISTS = "/artists",
   MAIN = "/",
   EVENTS = "/events",
   NOT_FOUND = "*",
   SHOWS = "/shows",
+  PROFILE = "/profile",
   RIDERS = "/riders",
   SEARCH = "/search",
   BASENAME = "/artistsHive",
@@ -12,6 +13,7 @@ export enum PATHS {
 
 export enum SUB_PATHS {
   ELEMENT_DETAILS = "details",
+  AGENDA = "agenda",
 }
 
 export enum URL_PARAMETER_NAMES {

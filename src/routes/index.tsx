@@ -18,12 +18,12 @@ const RiderDetailPage = lazy(
 );
 
 // Load events/shows pages
-const ShowListPage = lazy(
-  () => import("~/components/Pages/ShowsPage/ShowsList")
+const EventsListPage = lazy(
+  () => import("~/components/Pages/EventsPage/EventsListPage")
 );
 
-const ShowDetailPage = lazy(
-  () => import("~/components/Pages/ShowsPage/ShowDetail")
+const EventDetailsPage = lazy(
+  () => import("~/components/Pages/EventsPage/EventDetailsPage")
 );
 
 // Load Artists pages
@@ -37,7 +37,7 @@ const ArtistDetailPage = lazy(
 export const RoutesApp: React.FC = () => {
   return (
     <Routes>
-      <Route path={PATHS.ARTIST}>
+      <Route path={PATHS.ARTISTS}>
         <Route element={<ArtistsListPage />} path="" />
         <Route
           element={<ArtistDetailPage />}
@@ -55,10 +55,10 @@ export const RoutesApp: React.FC = () => {
           }
         />
       </Route>
-      <Route path={PATHS.SHOWS}>
-        <Route element={<ShowListPage />} path="" />
+      <Route path={PATHS.EVENTS}>
+        <Route element={<EventsListPage />} path="" />
         <Route
-          element={<ShowDetailPage />}
+          element={<EventDetailsPage />}
           path={
             SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`
           }

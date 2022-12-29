@@ -5,11 +5,13 @@ import { Reducer, AnyAction } from "@reduxjs/toolkit";
 
 import { ArtistState } from "~/common/slices/artists/types";
 import { EventState } from "~/common/slices/events/types";
+import { PlaceState } from "~/common/slices/places/types";
 
 export interface RootState {
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
   ArtistsReducer?: ArtistState;
   EventsReducer?: EventState;
+  PlacesReducer?: PlaceState;
 }
 
 type RequiredRootState = Required<RootState>;

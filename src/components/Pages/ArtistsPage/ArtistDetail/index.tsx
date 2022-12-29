@@ -108,7 +108,7 @@ const ArtistDetailPage = () => {
   return (
     <>
       {!!artistInfo && (
-        <div className="aritst-container">
+        <div className="artist-container">
           {profileInfo(artistInfo)}
           {subPages()}
           {subPageContent(artistInfo, activeSectionIndex)}

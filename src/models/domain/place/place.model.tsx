@@ -1,4 +1,3 @@
-import { VerificationStatus } from "~/constants";
 import { EntityModel, EntityTemplate } from "~/models/base";
 
 export interface PlaceTemplate extends EntityTemplate {

@@ -1,4 +1,5 @@
-import { ArtistModel, findCustomList } from "~/constants";
+import { findCustomList } from "~/constants";
+import { ArtistModel } from "~/models/domain/artist/artist.model";
 
 export interface ISearchMock {
   id: string;

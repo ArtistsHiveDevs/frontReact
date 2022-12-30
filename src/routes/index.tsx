@@ -30,8 +30,8 @@ const EventDetailsPage = lazy(
 const ArtistsListPage = lazy(
   () => import("~/components/Pages/ArtistsPage/ArtistsList")
 );
-const ArtistDetailPage = lazy(
-  () => import("~/components/Pages/ArtistsPage/ArtistDetail")
+const ArtistDetailsPage = lazy(
+  () => import("~/components/Pages/ArtistsPage/ArtistDetails")
 );
 
 export const RoutesApp: React.FC = () => {
@@ -40,7 +40,7 @@ export const RoutesApp: React.FC = () => {
       <Route path={PATHS.ARTISTS}>
         <Route element={<ArtistsListPage />} path="" />
         <Route
-          element={<ArtistDetailPage />}
+          element={<ArtistDetailsPage />}
           path={
             SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`
           }

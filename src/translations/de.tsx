@@ -12,6 +12,7 @@ export const DeMessages = {
       },
       EventsPages: {
         EventDetailsPage: {
+          additionalInfo: "Zusatzinfo",
           artists: "Künstler",
           national_code: "PULEP",
           contact: "Kontakt & Media",

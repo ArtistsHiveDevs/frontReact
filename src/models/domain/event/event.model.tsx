@@ -1,4 +1,5 @@
-import { ArtistModel, VerificationStatus } from "~/constants";
+import { VerificationStatus } from "~/constants";
+import { ArtistModel } from "../artist/artist.model";
 import { PlaceModel } from "../place/place.model";
 
 export interface EventTemplate {

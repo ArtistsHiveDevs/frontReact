@@ -26,7 +26,7 @@ const slice = createSlice({
       state.events = [];
     },
     eventLoaded(state, action: PayloadAction<EventModel[]>) {
-      const events = action.payload;
+      const events = action.payload.map((template) => new EventModel(template));
 
       state.events = events;
       state.loading = false;

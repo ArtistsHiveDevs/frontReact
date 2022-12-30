@@ -1,33 +1,51 @@
 import "./index.scss";
 import { useParams } from "react-router-dom";
-import { ArtistModel, ARTISTS, URL_PARAMETER_NAMES } from "~/constants";
+import { URL_PARAMETER_NAMES } from "~/constants";
 import { ARTIST_DETAIL_SUB_PAGE_CONFIG } from "~/constants/config-artist-detail";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
 import DynamicIcons from "~/components/shared/DynamicIcons";
+import { ArtistModel } from "~/models/domain/artist/artist.model";
+import { useSelector, useDispatch } from "react-redux";
+import { selectArtists } from "~/common/slices/artists/selectors";
+import { useArtistsSlice } from "~/common/slices/artists";
+import { useI18n } from "~/common/utils";
+import IconFieldReadOnly from "~/components/shared/atoms/IconField";
 
 const ArtistDetailPage = () => {
-  const artistList = ARTISTS;
+  const { translateText } = useI18n();
+
+  const urlParameters = useParams();
+
+  const artistId = urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID];
+
+  const artistList: ArtistModel[] = useSelector(selectArtists);
+  const { actions: artistsActions } = useArtistsSlice();
+
   const subPage = [...ARTIST_DETAIL_SUB_PAGE_CONFIG];
   const [activeSectionIndex, setSection] = useState(0);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (artistList.length === 0) {
+      dispatch(artistsActions.loadArtists());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getData = (attribute: string, artist: ArtistModel) => {
     return artist[attribute as keyof ArtistModel] || "No disponible";
   };
 
-  const getArtistInfo = (id: number) => {
-    return artistList[id];
+  const getArtistInfo = (id: string) => {
+    return artistList.find((artist) => artist.id === id);
   };
 
   const changeSection = (activeSection: number) => {
     setSection(activeSection);
   };
 
-  const urlParameters = useParams();
-
-  const artistId = urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID];
-
-  const artistInfo = getArtistInfo(Number(artistId));
+  const artistInfo = getArtistInfo(artistId);
 
   const profileInfo = (artist: ArtistModel) => {
     return (
@@ -35,10 +53,10 @@ const ArtistDetailPage = () => {
         <img className="avatar" src={artist?.profile_pic} alt={artist?.name} />
         <div className="header-title d-grid align-items-bottom">
           <div className="artist-name">
-            <VerifiedArtist verifiedStatus={artist?.verified_status} />
-          </div>
-          <div className="artist-name">
-            <h2>{artist?.name}</h2>
+            <h2>
+              {artist?.name}
+              <VerifiedArtist verifiedStatus={artist?.verified_status} />
+            </h2>
           </div>
           <div className="artist-name">
             <p>{artist?.subtitle}</p>
@@ -78,23 +96,12 @@ const ArtistDetailPage = () => {
                 <h2 className="section-title">{subpage?.title}</h2>
                 {subpage?.attributes?.map((attribute, idx) => {
                   return (
-                    <div key={`sub-page-attr-${idx}`}>
-                      <p className="info-line">
-                        <span>
-                          <DynamicIcons
-                            iconName={attribute?.icon}
-                            size={20}
-                            color="#7a260a"
-                          />
-                        </span>
-                        <span>
-                          <>
-                            <strong>{attribute.name}: </strong>
-                            {getData(attribute.name, artist)}
-                          </>
-                        </span>
-                      </p>
-                    </div>
+                    <IconFieldReadOnly
+                      key={`sub-page-attr-${idx}`}
+                      icon={attribute?.icon}
+                      fieldName={attribute.name}
+                      fieldValue={getData(attribute.name, artist)}
+                    />
                   );
                 })}
               </>

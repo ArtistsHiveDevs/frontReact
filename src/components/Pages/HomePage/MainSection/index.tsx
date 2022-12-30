@@ -5,7 +5,7 @@ import ModalCardInfo from "~/components/shared/Modals/ModalCardInfo";
 import "./index.scss";
 
 const MainSection = (props: any) => {
-  const { title, description, listView, params } = props;
+  const { title, description, listView, params, callbacks } = props;
 
   return (
     <section className="main-section">
@@ -16,7 +16,12 @@ const MainSection = (props: any) => {
           {listView?.map((element: any, idx: any) => {
             return !!params?.useNewCard ? (
               <div key={`new-entity-cart-detail-${idx}`}>
-                <NewEntityCard data={element} idx={idx} params={params} />
+                <NewEntityCard
+                  data={element}
+                  idx={idx}
+                  params={params}
+                  callbacks={callbacks}
+                />
               </div>
             ) : (
               <div key={`entity-cart-detail-${idx}`}>

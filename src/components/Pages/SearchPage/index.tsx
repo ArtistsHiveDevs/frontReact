@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Collapse from "react-bootstrap/Collapse";
 
-import { ArtistModel, findCustomList } from "~/constants";
+import { findCustomList } from "~/constants";
 import DynamicIcons from "~/components/shared/DynamicIcons";
 import MainSection from "~/components/Pages/HomePage/MainSection";
+import { ArtistModel } from "~/models/domain/artist/artist.model";
 
 export default function SearchPage() {
   const [open, setOpen] = useState({

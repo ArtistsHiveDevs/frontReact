@@ -1,8 +1,8 @@
 import ListGroup from "react-bootstrap/ListGroup";
 import { Link } from "react-router-dom";
 
-import { ArtistModel } from "~/constants";
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
+import { ArtistModel } from "~/models/domain/artist/artist.model";
 
 type Prop = {
   search: ArtistModel;

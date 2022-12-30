@@ -67,4 +67,20 @@ export class PlaceModel implements PlaceTemplate {
     this.Responsable = this.template.Responsable;
     this.tiktok = this.template.tiktok;
   }
+
+  public get photo() {
+    return this.profile_pic;
+  }
+
+  public get name() {
+    return this.Nombre;
+  }
+
+  public get cardInfo() {
+    return { title: this.Nombre };
+  }
+
+  public get place() {
+    return this;
+  }
 }

@@ -25,7 +25,7 @@ const slice = createSlice({
       state.error = null;
       state.places = [];
     },
-    placeLoaded(state, action: PayloadAction<PlaceModel[]>) {
+    placesLoaded(state, action: PayloadAction<PlaceModel[]>) {
       const places = action.payload.map((template) => new PlaceModel(template));
 
       state.places = places;

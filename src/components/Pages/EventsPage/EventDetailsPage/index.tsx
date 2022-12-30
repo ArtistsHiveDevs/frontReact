@@ -8,10 +8,11 @@ import { selectEvents } from "~/common/slices/events/selectors";
 import { useI18n } from "~/common/utils";
 import DynamicIcons from "~/components/shared/DynamicIcons";
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
-import { ArtistModel, URL_PARAMETER_NAMES } from "~/constants";
+import { URL_PARAMETER_NAMES } from "~/constants";
 import { EventModel } from "~/models/domain/event/event.model";
 import IconFieldReadOnly from "~/components/shared/atoms/IconField";
 import ProfileThumbnailCard from "~/components/shared/molecules/ProfileThumbnailCard";
+import { ArtistModel } from "~/models/domain/artist/artist.model";
 
 const TRANSLATION_BASE_EVENT_DETAILS_PAGE: string =
   "app.pages.EventsPages.EventDetailsPage";
@@ -47,7 +48,6 @@ const EventDetailsPage = () => {
   useEffect(() => {
     if (!!eventsList.length) {
       setRequestesAreReady(true);
-      console.log(eventsList?.find((event) => `${event.id}` === `${eventId}`));
       setCurrentEvent(
         eventsList?.find((event) => `${event.id}` === `${eventId}`)
       );
@@ -212,11 +212,11 @@ const EventDetailsPage = () => {
 
           <img width="135%" src={currentEvent.photo} />
           <hr />
-          <h1>
+          <h2>
             {translateText(
               `${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.general_information`
             )}
-          </h1>
+          </h2>
           <div className="info-container">
             {generalInfoFields.map((field, index) => (
               <IconFieldReadOnly
@@ -227,11 +227,11 @@ const EventDetailsPage = () => {
               />
             ))}
           </div>
-          <h1>
+          <h2>
             {translateText(
               `${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.description`
             )}
-          </h1>
+          </h2>
           <div className="info-container">
             <p>
               Te invitamos a que nos acompañes a la versión número 15 del Gran
@@ -260,9 +260,9 @@ const EventDetailsPage = () => {
               diciembre a las 8:00 p.m. en nuestro Teatro Cafam.
             </p>
           </div>
-          <h1>
+          <h2>
             {translateText(`${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.artists`)}
-          </h1>
+          </h2>
 
           <div className="info-container">
             {artists.map((artist, index) => (
@@ -276,9 +276,9 @@ const EventDetailsPage = () => {
             ))}
           </div>
 
-          <h1>
+          <h2>
             {translateText(`${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.contact`)}
-          </h1>
+          </h2>
           <div className="info-container">
             {contactInfoFields.map((field, index) => (
               <IconFieldReadOnly
@@ -289,9 +289,9 @@ const EventDetailsPage = () => {
               />
             ))}
           </div>
-          <h1>
+          <h2>
             {translateText(`${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.place`)}
-          </h1>
+          </h2>
           <div>
             {currentEvent.place && (
               <ProfileThumbnailCard
@@ -304,18 +304,37 @@ const EventDetailsPage = () => {
               />
             )}
           </div>
-          <h1>
+          <h2>
+            {translateText(
+              `${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.additionalInfo`
+            )}
+          </h2>
+          <div>
+            <ul>
+              <li>
+                Recuerde tener listo su tiquete de entrada impreso o el código
+                QR en el celular al momento del ingreso para agilizar la
+                entrada.
+              </li>
+              <li>El evento inicia puntualmente.</li>
+              <li>
+                No se permite el ingreso de personas en estado de embriaguez ni
+                efectos alucinógenos.
+              </li>
+            </ul>
+          </div>
+          <h2>
             {translateText(`${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.discounts`)}
-          </h1>
+          </h2>
           <div></div>
         </>
       )}
       {requestsAreReady && !currentEvent && (
-        <h1>
+        <h2>
           {translateText(
             `${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.eventNotFound`
           )}
-        </h1>
+        </h2>
       )}
     </>
   );

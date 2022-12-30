@@ -7,8 +7,16 @@ import "./index.scss";
 import DynamicIcons from "~/components/shared/DynamicIcons";
 
 const NewEntityCard = (props: any) => {
-  const { data, idx, params } = props;
+  const { data, idx, params, callbacks } = props;
   const [modalDetailShow, setModalDetailShow] = React.useState(false);
+
+  function onClickCardHandler() {
+    if (callbacks?.onClickCard) {
+      callbacks.onClickCard(data);
+    } else {
+      showModalDetail();
+    }
+  }
   const showModalDetail = () => setModalDetailShow(true);
 
   const captureCloseValue = (value: any) => {
@@ -21,7 +29,11 @@ const NewEntityCard = (props: any) => {
 
   return (
     <>
-      <Card key={idx} className="new-entity-card" onClick={showModalDetail}>
+      <Card
+        key={idx}
+        className="new-entity-card"
+        onClick={() => onClickCardHandler()}
+      >
         {!params?.hidePhoto && (
           <>
             {data?.photo && (
@@ -47,18 +59,20 @@ const NewEntityCard = (props: any) => {
                   </Card.ImgOverlay>
                   {data.place && (
                     <div className="card-footer-place">
-                      <p>
-                        <span>
-                          <DynamicIcons
-                            iconName="FaRegCalendarAlt"
-                            size={20}
-                            color="#7a260a"
-                          />
-                        </span>
-                        <span>
-                          <>{data.timetable__initial_date}</>
-                        </span>
-                      </p>
+                      {data.timetable__initial_date && (
+                        <p>
+                          <span>
+                            <DynamicIcons
+                              iconName="FaRegCalendarAlt"
+                              size={20}
+                              color="#7a260a"
+                            />
+                          </span>
+                          <span>
+                            <>{data.timetable__initial_date}</>
+                          </span>
+                        </p>
+                      )}
                       <p>
                         <span>
                           <DynamicIcons

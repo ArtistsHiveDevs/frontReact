@@ -12,6 +12,7 @@ export const FrMessages = {
       },
       EventsPages: {
         EventDetailsPage: {
+          additionalInfo: "Informations supplémentaires",
           artists: "Artistes",
           national_code: "PULEP",
           contact: "Contact & Media",

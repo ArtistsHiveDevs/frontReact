@@ -1,8 +1,8 @@
 import { VerificationStatus } from "~/constants";
+import { EntityModel, EntityTemplate } from "~/models/base";
 
-export interface ArtistTemplate {
+export interface ArtistTemplate extends EntityTemplate {
   artistType: string;
-  id: string;
   name: string;
   subtitle: string;
   verified_status: VerificationStatus;
@@ -12,26 +12,16 @@ export interface ArtistTemplate {
   date?: Date;
 }
 
-export class ArtistModel implements ArtistTemplate {
-  artistType: string;
-  id: string;
-  name: string;
-  subtitle: string;
-  verified_status: VerificationStatus;
-  profile_pic: string | undefined;
-  photo: string | undefined;
-  description: string;
-  date?: Date;
-
-  constructor(private readonly template: ArtistTemplate) {
-    this.artistType = this.template.artistType;
-    this.id = this.template.id;
-    this.name = this.template.name;
-    this.subtitle = this.template.subtitle;
-    this.verified_status = this.template.verified_status;
-    this.profile_pic = this.template.profile_pic;
-    this.photo = this.template.photo;
-    this.description = this.template.description;
-    this.date = this.template.date;
-  }
+export class ArtistModel
+  extends EntityModel<ArtistTemplate>
+  implements ArtistTemplate
+{
+  declare artistType: string;
+  declare name: string;
+  declare subtitle: string;
+  declare verified_status: VerificationStatus;
+  declare profile_pic?: string;
+  declare photo?: string;
+  declare description: string;
+  declare date?: Date;
 }

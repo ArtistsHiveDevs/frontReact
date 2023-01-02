@@ -3,10 +3,17 @@ import VerifiedArtist from "../../VerifiedArtist";
 import DynamicIcons from "../../DynamicIcons";
 
 const ProfileThumbnailCard = (props: any) => {
-  const { profile_pic, name, subtitle, verified_status, footer, styles } =
-    props;
+  const { elementData, footer, styles, callbacks } = props;
+
+  const { profile_pic, name, subtitle, verified_status } = elementData || {};
+
+  function onClickCardHandler() {
+    if (callbacks?.onClickCard) {
+      callbacks.onClickCard(elementData);
+    }
+  }
   return (
-    <div className="profile-thumbnail-card">
+    <div className="profile-thumbnail-card" onClick={onClickCardHandler}>
       <div className="profile-header">
         <img
           className={styles ? styles.avatar : "avatar"}

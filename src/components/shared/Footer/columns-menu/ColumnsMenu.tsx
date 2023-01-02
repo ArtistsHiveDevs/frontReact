@@ -21,7 +21,7 @@ const FooterColumns = (props: any) => {
         {footerColumns?.map((footerColumn: FooterColumnTemplate, idx: any) => {
           return (
             <div key={footerColumn.columnTitle} className="footer-column">
-              <h2>{footerColumn.columnTitle}</h2>
+              <h2 className="column-title">{footerColumn.columnTitle}</h2>
               <ul>
                 {footerColumn.options?.map((option: FooterColumnOption) => {
                   return <li key={option.text}>{option.text}</li>;

@@ -1,3 +1,5 @@
+@import "~/variables.module.scss";
+
 .footer-columns {
   background-color: #faf2c3;
   margin-top: 2rem;
@@ -14,4 +16,10 @@
 
 .footer-column {
   margin: 1rem;
+  .column-title {
+    margin-top: 2rem;
+    // font-family: Ms Madi, cursive;
+    font-weight: bold;
+    color: $main-title-color;
+  }
 }

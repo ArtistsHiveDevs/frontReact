@@ -11,7 +11,7 @@ import VerifiedArtist from "~/components/shared/VerifiedArtist";
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from "~/constants";
 import { EventModel } from "~/models/domain/event/event.model";
 import IconFieldReadOnly from "~/components/shared/atoms/IconField";
-import ProfileThumbnailCard from "~/components/shared/molecules/ProfileThumbnailCard";
+import ProfileThumbnailCard from "~/components/shared/molecules/Profile/ProfileThumbnailCard";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
 
 const TRANSLATION_BASE_EVENT_DETAILS_PAGE: string =

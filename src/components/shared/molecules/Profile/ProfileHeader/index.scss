@@ -1,0 +1,25 @@
+@import "~/variables.module.scss";
+
+.profile-header {
+  display: flex;
+  text-align: left;
+
+  .avatar {
+    object-fit: cover;
+    border-radius: 50%;
+    width: 7.3rem;
+    height: 7.3rem;
+    margin: 0.5rem;
+  }
+  .header-title {
+    margin: 1.2rem;
+    h2 {
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      color: #333;
+    }
+
+    .profile-name {
+      display: flex;
+    }
+  }
+}

@@ -1,0 +1,45 @@
+@import "~/variables.module.scss";
+
+.full-content {
+  text-align: justify;
+}
+
+.subpages-tabs {
+  display: flex;
+  flex-direction: row;
+  //   overflow-x: auto;
+  margin: 25px 0px 25px 0px;
+  justify-content: center;
+}
+
+.subpage-tab {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-right: 2px solid $main-title-color;
+  height: 20px;
+  h5 {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+}
+
+.subpage-tab:last-child {
+  border-right: none;
+}
+
+.subpage-tab:first-child {
+  padding-left: 0.5rem;
+}
+
+.subpage-tab:hover {
+  cursor: pointer;
+}
+
+.active-tab-title {
+  text-decoration: solid underline $main-title-color 2px;
+  text-underline-offset: 6px;
+}
+
+.subpage {
+  align-items: inherit;
+}

@@ -1,6 +1,5 @@
 import "./index.scss";
-import VerifiedArtist from "../../VerifiedArtist";
-import DynamicIcons from "../../DynamicIcons";
+import VerifiedArtist from "~/components/shared/VerifiedArtist";
 
 const ProfileThumbnailCard = (props: any) => {
   const { elementData, footer, styles, callbacks } = props;

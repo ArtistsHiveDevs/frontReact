@@ -1,19 +1,24 @@
 import "./index.scss";
 import { useParams } from "react-router-dom";
 import { URL_PARAMETER_NAMES } from "~/constants";
-import {
-  ARTIST_DETAIL_SUB_PAGE_CONFIG,
-  DetailAttribute,
-} from "~/constants/config-artist-detail";
+import { ARTIST_DETAIL_SUB_PAGE_CONFIG } from "~/components/Pages/ArtistsPage/ArtistDetails/config-artist-detail";
 import { useEffect, useState } from "react";
-import VerifiedArtist from "~/components/shared/VerifiedArtist";
-import DynamicIcons from "~/components/shared/DynamicIcons";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
 import { useSelector, useDispatch } from "react-redux";
 import { selectArtists } from "~/common/slices/artists/selectors";
 import { useArtistsSlice } from "~/common/slices/artists";
 import { useI18n } from "~/common/utils";
-import IconFieldReadOnly from "~/components/shared/atoms/IconField";
+import ProfileHeader from "~/components/shared/molecules/Profile/ProfileHeader";
+import {
+  TabbedPanel,
+  TabbedPage,
+} from "~/components/shared/layout/TabbedPanel";
+import SectionsPanel from "~/components/shared/layout/SectionPanel";
+import {
+  AttributesIconFieldReadOnly,
+  IconDetailedAttribute,
+} from "~/components/shared/molecules/general/AttributesIconField";
+import { ProfileDetailAttributeConfiguration } from "~/models/domain/profile/profile-details.def";
 
 const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
   "app.pages.ArtistsPages.ArtistsDetailsPage";
@@ -31,7 +36,6 @@ const ArtistDetailPage = () => {
   const { actions: artistsActions } = useArtistsSlice();
 
   const subPagesInfo = [...ARTIST_DETAIL_SUB_PAGE_CONFIG];
-  const [activeSectionIndex, setSection] = useState(0);
 
   const [currentArtist, setCurrentArtist] = useState<ArtistModel>(undefined);
 
@@ -54,37 +58,35 @@ const ArtistDetailPage = () => {
   }, [artistId]);
 
   const getData = (attribute: string) => {
-    return currentArtist[attribute as keyof ArtistModel];
+    const data = currentArtist[attribute as keyof ArtistModel];
+    const response = Array.isArray(data) ? data.join(", ") : data;
+    return response;
   };
 
   const getArtistInfo = (id: string) => {
     return artistList.find((artist) => artist.id === id);
   };
 
-  const changeSection = (activeSection: number) => {
-    setSection(activeSection);
+  const getAttributeName = (
+    subpageName: string,
+    sectionName: string,
+    attribute: ProfileDetailAttributeConfiguration
+  ) => {
+    return attribute.emptyTitle
+      ? ""
+      : attribute.literal
+      ? attribute.name
+      : translateAttribute(subpageName, sectionName, attribute.name);
   };
 
-  const profileInfo = () => {
-    return (
-      <div className="profile-header">
-        <img
-          className="avatar"
-          src={currentArtist?.profile_pic}
-          alt={currentArtist?.name}
-        />
-        <div className="header-title d-grid align-items-bottom">
-          <div className="artist-name">
-            <h2>
-              {currentArtist?.name}
-              <VerifiedArtist verifiedStatus={currentArtist?.verified_status} />
-            </h2>
-          </div>
-          <div className="artist-name">
-            <p>{currentArtist?.subtitle}</p>
-          </div>
-        </div>
-      </div>
+  // Translation helpers
+  const translateAttribute = (
+    subpage: string,
+    section: string,
+    attribute: string
+  ) => {
+    return translateText(
+      `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.subpages.${subpage}.sections.${section}.attributes.${attribute}`
     );
   };
 
@@ -99,96 +101,51 @@ const ArtistDetailPage = () => {
       `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.subpages.${subpage}.sections.${section}.name`
     );
   };
-  const getAttributeName = (
-    subpageName: string,
-    sectionName: string,
-    attribute: DetailAttribute
-  ) => {
-    return attribute.emptyTitle
-      ? ""
-      : attribute.literal
-      ? attribute.name
-      : translateAttribute(subpageName, sectionName, attribute.name);
-  };
-  const translateAttribute = (
-    subpage: string,
-    section: string,
-    attribute: string
-  ) => {
-    return translateText(
-      `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.subpages.${subpage}.sections.${section}.attributes.${attribute}`
-    );
-  };
 
-  const subPages = () => {
-    return (
-      <div className="full-content">
-        <div className="subpages-tabs">
-          {subPagesInfo.map((subpage, idx) => {
-            return (
-              <div
-                className="subpage-tab"
-                key={`subpage-section-${idx}`}
-                onClick={() => changeSection(idx)}
-              >
-                <h5>{translateSubpage(subpage.name)}</h5>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  };
+  // Data config
+  const ARTIST_DETAILS_TABBED_PAGES: TabbedPage[] = subPagesInfo.map(
+    (subpage) => {
+      return {
+        name: translateSubpage(subpage.name),
+        tabContent: () => {
+          return subpage.sections.map((section, index) => {
+            // Icon Detailed Attributes
+            const sectionAttributes: IconDetailedAttribute[] =
+              section.attributes?.map((attribute) => {
+                return {
+                  name: attribute.name,
+                  title: getAttributeName(
+                    subpage.name,
+                    section.name,
+                    attribute
+                  ),
+                  icon: attribute?.icon,
+                  value: getData(attribute.name),
+                };
+              });
 
-  const subPageContent = (activeSection: number) => {
-    const subpage = subPagesInfo[activeSection];
-    return (
-      subpage && (
-        <div className="full-content">
-          {subpage?.sections.map((section, idx) => {
-            return (
-              <div key={`sub-page-content-${idx}`}>
-                <>
-                  <h2 className="section-title">
-                    {translateSection(subpage.name, section?.name)}
-                  </h2>
-                  {section?.attributes
-                    ?.filter(
-                      (attribute: DetailAttribute) =>
-                        true || !!getData(attribute.name)
-                    )
-                    .map((attribute: DetailAttribute, idx: number) => {
-                      return (
-                        <IconFieldReadOnly
-                          key={`sub-page-attr-${idx}`}
-                          icon={attribute?.icon}
-                          fieldName={getAttributeName(
-                            subpage.name,
-                            section.name,
-                            attribute
-                          )}
-                          fieldValue={getData(attribute.name)}
-                        />
-                      );
-                    })}
-                </>
-              </div>
+            const sectionContent = () => (
+              <AttributesIconFieldReadOnly attributes={sectionAttributes} />
             );
-          })}
-        </div>
-      )
-    );
-  };
+            return (
+              <SectionsPanel
+                key={`section-${section.name}-${index}`}
+                sectionName={translateSection(subpage.name, section?.name)}
+                sectionContent={sectionContent}
+              />
+            );
+          });
+        },
+      };
+    }
+  );
 
   return (
     <>
       {!!currentArtist && (
         <div className="artist-container">
-          {profileInfo()}
-          {subPages()}
-          <div className="content subpage">
-            {subPageContent(activeSectionIndex)}
-          </div>
+          <ProfileHeader element={currentArtist} />
+          <TabbedPanel tabs={ARTIST_DETAILS_TABBED_PAGES} />
         </div>
       )}
     </>

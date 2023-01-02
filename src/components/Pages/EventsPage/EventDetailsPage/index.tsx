@@ -2,13 +2,13 @@ import "./index.scss";
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEventsSlice } from "~/common/slices/events";
 import { selectEvents } from "~/common/slices/events/selectors";
 import { useI18n } from "~/common/utils";
 import DynamicIcons from "~/components/shared/DynamicIcons";
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
-import { URL_PARAMETER_NAMES } from "~/constants";
+import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from "~/constants";
 import { EventModel } from "~/models/domain/event/event.model";
 import IconFieldReadOnly from "~/components/shared/atoms/IconField";
 import ProfileThumbnailCard from "~/components/shared/molecules/ProfileThumbnailCard";
@@ -18,9 +18,11 @@ const TRANSLATION_BASE_EVENT_DETAILS_PAGE: string =
   "app.pages.EventsPages.EventDetailsPage";
 
 const EventDetailsPage = () => {
+  // Component URL Params
   const urlParameters = useParams();
   const eventId = urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID];
 
+  // States
   const [currentEvent, setCurrentEvent] = useState<EventModel>(undefined);
   const [generalInfoFields, setGeneralInfoFields] = useState([]);
   const [artists, setArtists] = useState<ArtistModel[]>([]);
@@ -31,10 +33,14 @@ const EventDetailsPage = () => {
   const eventsList: EventModel[] = useSelector(selectEvents);
   const { actions: eventActions } = useEventsSlice();
 
+  // Hooks
   const dispatch = useDispatch();
 
   const { translateText } = useI18n();
 
+  const navigate = useNavigate();
+
+  // Effects
   useEffect(() => {
     if (eventsList.length === 0) {
       dispatch(eventActions.loadEvents());
@@ -190,7 +196,8 @@ const EventDetailsPage = () => {
     }
   }, [currentEvent]);
 
-  function placeThumbnailFooter() {
+  // Helpers
+  function placeInfoThumbnailFooter() {
     return placeInfoFields.map((field, index) => (
       <IconFieldReadOnly
         key={`${field.fieldName}-${index}`}
@@ -200,6 +207,11 @@ const EventDetailsPage = () => {
       />
     ));
   }
+
+  function navigateTo(newEntity: PATHS, id: string = null) {
+    navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
+  }
+
   return (
     <>
       {currentEvent && (
@@ -268,10 +280,17 @@ const EventDetailsPage = () => {
             {artists.map((artist, index) => (
               <ProfileThumbnailCard
                 key={`${artist.id}-${index}`}
-                profile_pic={artist.profile_pic}
-                name={artist.name}
-                subtitle={artist.subtitle}
-                verified_status={artist.verified_status}
+                elementData={{
+                  id: artist.id,
+                  profile_pic: artist.profile_pic,
+                  name: artist.name,
+                  subtitle: artist.subtitle,
+                  verified_status: artist.verified_status,
+                }}
+                callbacks={{
+                  onClickCard: (elementData: any) =>
+                    navigateTo(PATHS.ARTISTS, elementData.id),
+                }}
               />
             ))}
           </div>
@@ -296,11 +315,18 @@ const EventDetailsPage = () => {
             {currentEvent.place && (
               <ProfileThumbnailCard
                 key={`${currentEvent.place?.id}`}
-                profile_pic={currentEvent.place?.profile_pic}
-                name={currentEvent.place?.Nombre}
-                verified_status={currentEvent.main_artist?.verified_status}
-                footer={() => placeThumbnailFooter()}
+                elementData={{
+                  id: currentEvent.place_id,
+                  profile_pic: currentEvent.place?.profile_pic,
+                  name: currentEvent.place?.Nombre,
+                  verified_status: currentEvent.main_artist?.verified_status,
+                }}
+                footer={() => placeInfoThumbnailFooter()}
                 styles={{ avatar: "avatar-place" }}
+                callbacks={{
+                  onClickCard: (elementData: any) =>
+                    navigateTo(PATHS.PLACES, elementData.id),
+                }}
               />
             )}
           </div>

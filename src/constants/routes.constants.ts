@@ -6,6 +6,7 @@ export enum PATHS {
   NOT_FOUND = "*",
   SHOWS = "/shows",
   PROFILE = "/profile",
+  PLACES = "/places",
   RIDERS = "/riders",
   SEARCH = "/search",
   BASENAME = "/artistsHive",

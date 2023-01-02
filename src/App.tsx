@@ -72,9 +72,7 @@ const App = () => {
 
               <Suspense fallback={<div>Loading...</div>}>
                 <div className="content">
-                  <div className="content">
-                    <RoutesApp />
-                  </div>
+                  <RoutesApp />
                 </div>
                 <FooterColumns footerColumns={footerColumns}></FooterColumns>
                 <FooterCopywrite></FooterCopywrite>

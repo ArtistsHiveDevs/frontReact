@@ -3,6 +3,101 @@ export const EsMessages = {
     name: "App ES",
     loading: "Cargando....",
     pages: {
+      ArtistsPages: {
+        ArtistsDetailsPage: {
+          subpages: {
+            general: {
+              name: "General",
+              sections: {
+                general: {
+                  name: "Info General",
+                  attributes: {
+                    description: "",
+                    since: "Desde",
+                    home_city: "Ciudad de residencia",
+                    categories: "Categorías",
+                    genres: "Géneros",
+                    spoken_languages: "Idiomas hablados",
+                    stage_languages: "Idiomas en vivo",
+                    arts_languages: "Idiomas en artes",
+                  },
+                },
+                contact: {
+                  name: "Contacto",
+                  attributes: {
+                    website: "Website",
+                    email: "e-mail",
+                    phone: "Teléfono",
+                    mobile_phone: "Celular",
+                    whatsapp: "WhatsApp",
+                  },
+                },
+                social_networks: {
+                  name: "Redes sociales",
+                },
+                record_label: {
+                  name: "Sello discográfico",
+                },
+                members: {
+                  name: "Miembros",
+                },
+              },
+            },
+            arts: {
+              name: "Artes",
+              sections: {
+                discography: {
+                  name: "Discografía",
+                  attributes: {
+                    albums: "Álbums",
+                    dvd_video: "DVD / Video",
+                  },
+                },
+                media_channels: {
+                  name: "Canales multimedia",
+                },
+                gallery: {
+                  name: "Galería",
+                  attributes: {
+                    photos: "Fotos",
+                    video: "Video",
+                  },
+                },
+                awards: {
+                  name: "Premios",
+                },
+              },
+            },
+            social: {
+              name: "Social",
+              sections: {
+                social_network_presence: {
+                  name: "Presencia en redes",
+                },
+                stats: {
+                  name: "Estadísticas",
+                  attributes: {
+                    general_rate: "Calificación general",
+                    followers: "Seguidores",
+                    event_followers: "Seguidores de eventos",
+                  },
+                },
+              },
+            },
+            shows: {
+              name: "Shows",
+              sections: {
+                next_shows: {
+                  name: "Próximos eventos",
+                },
+                past_shows: {
+                  name: "Eventos pasados",
+                },
+              },
+            },
+          },
+        },
+      },
       HomePage: {
         welcome: "Bienvenido",
         news: "Novedades",

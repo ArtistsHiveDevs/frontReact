@@ -1,176 +1,179 @@
-export const ARTIST_DETAIL_SUB_PAGE_CONFIG = [
+export interface ArtistDetailsSubpage {
+  name: string;
+  sections?: ArtistDetailsSubpageSection[];
+}
+export interface ArtistDetailsSubpageSection {
+  name: string;
+  attributes?: DetailAttribute[];
+}
+export interface DetailAttribute {
+  name: string;
+  icon?: string;
+  emptyTitle?: boolean;
+  literal?: boolean;
+}
+
+export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ArtistDetailsSubpage[] = [
   {
     name: "general",
-    title: "General",
     sections: [
       {
-        title: "General",
+        name: "general",
         attributes: [
           {
             name: "description",
-            icon: "BsInfoCircleFill",
+            emptyTitle: true,
           },
           {
-            name: "Desde",
+            name: "since",
             icon: "BsCalendar",
           },
           {
-            name: "Ciudad de residencia",
+            name: "home_city",
             icon: "AiFillHome",
           },
           {
-            name: "Categorías",
+            name: "categories",
             icon: "BsInfoCircleFill",
           },
           {
-            name: "Géneros",
+            name: "genres",
             icon: "BsInfoCircleFill",
           },
           {
-            name: "Idiomas hablados",
+            name: "spoken_languages",
             icon: "TbWorld",
           },
           {
-            name: "Idiomas del show",
+            name: "stage_languages",
             icon: "BsTranslate",
+          },
+          {
+            name: "arts_languages",
+            icon: "BsFillMegaphoneFill",
           },
         ],
       },
       {
-        title: "Contacto",
+        name: "contact",
         attributes: [
           {
-            name: "Website",
+            name: "website",
             icon: "TbWorld",
           },
           {
-            name: "Email",
+            name: "email",
             icon: "MdEmail",
           },
-
           {
-            name: "Teléfono",
+            name: "phone",
             icon: "BsFillTelephoneFill",
           },
           {
+            name: "mobile_phone",
+            icon: "FaMobileAlt",
+          },
+          {
+            name: "Whatsapp",
+            literal: true,
+            icon: "BsWhatsapp",
+          },
+        ],
+      },
+      {
+        name: "social_networks",
+        attributes: [
+          {
             name: "Facebook",
-            icon: "BsInfoCircleFill",
+            literal: true,
+            icon: "BsFacebook",
           },
           {
             name: "Twitter",
-            icon: "BsInfoCircleFill",
+            literal: true,
+            icon: "BsTwitter",
           },
           {
             name: "Instagram",
-            icon: "BsInfoCircleFill",
+            literal: true,
+            icon: "BsInstagram",
           },
           {
             name: "Spotify",
-            icon: "BsInfoCircleFill",
+            literal: true,
+            icon: "BsSpotify",
           },
           {
             name: "Youtube",
-            icon: "BsInfoCircleFill",
+            literal: true,
+            icon: "BsYoutube",
           },
           {
             name: "CD Baby",
+            literal: true,
             icon: "BsInfoCircleFill",
           },
         ],
       },
       {
-        title: "Sello discográfico",
-        attributes: [
-          {
-            name: "",
-            icon: "",
-          },
-        ],
+        name: "record_label",
       },
       {
-        title: "Miembros",
-        attributes: [
-          {
-            name: "",
-            icon: "MdOutlineSupervisorAccount",
-          },
-        ],
+        name: "members",
       },
-      // {
-      //   title: 'Alimentación',
-      //   attributes: [
-      //     {
-      //       name: '',
-      //       icon: 'fastfood',
-      //     },
-      //   ],
-      // },
-      // {
-      //   title: 'Tours',
-      //   attributes: [
-      //     {
-      //       name: '',
-      //       icon: 'flight',
-      //     },
-      //   ],
-      // },
     ],
   },
   {
     name: "arts",
-    title: "Artes",
     sections: [
       {
-        title: "Discografía",
+        name: "discography",
         attributes: [
           {
-            name: "Álbums",
+            name: "albums",
             icon: "BsInfoCircleFill",
           },
           {
-            name: "DVD / Video",
-            icon: "BsInfoCircleFill",
+            name: "dvd_video",
+            icon: "ImVideoCamera",
           },
         ],
       },
       {
-        title: "Media channels",
+        name: "media_channels",
         attributes: [
           {
-            name: "Youtube channel",
-            icon: "BsInfoCircleFill",
+            name: "Youtube",
+            literal: true,
+            icon: "BsYoutube",
           },
           {
             name: "Spotify",
-            icon: "BsInfoCircleFill",
+            literal: true,
+            icon: "BsSpotify",
           },
           {
             name: "Sound cloud",
-            icon: "BsInfoCircleFill",
+            literal: true,
+            icon: "GrSoundcloud",
           },
         ],
       },
       {
-        title: "Galería",
+        name: "gallery",
         attributes: [
           {
-            name: "Fotos",
+            name: "photos",
             icon: "MdInsertPhoto",
           },
           {
-            name: "Video",
-            icon: "MdInsertPhoto",
+            name: "video",
+            icon: "ImVideoCamera",
           },
         ],
       },
       {
-        title: "Live perfomances",
-        attributes: [
-          {
-            name: "Youtube channel",
-            icon: "BsInfoCircleFill",
-          },
-        ],
+        name: "awards",
       },
     ],
   },
@@ -217,17 +220,75 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG = [
   //   ],
   // },
   {
-    name: "requirements",
-    title: "Social",
+    name: "social",
     sections: [
       {
-        title: "Comentarios",
+        name: "social_network_presence",
         attributes: [
           {
-            name: "",
-            icon: "BsInfoCircleFill",
+            name: "Facebook",
+            literal: true,
+            icon: "BsFacebook",
+          },
+          {
+            name: "Instagram",
+            literal: true,
+            icon: "BsInstagram",
+          },
+          {
+            name: "Twitter",
+            literal: true,
+            icon: "BsTwitter",
+          },
+          {
+            name: "Spotify",
+            literal: true,
+            icon: "BsSpotify",
+          },
+          {
+            name: "Deezer",
+            literal: true,
+            icon: "FaDeezer",
+          },
+          {
+            name: "Apple Music",
+            literal: true,
+            icon: "SiApplemusic",
+          },
+          {
+            name: "Youtube",
+            literal: true,
+            icon: "BsYoutube",
           },
         ],
+      },
+      {
+        name: "stats",
+        attributes: [
+          {
+            name: "general_rate",
+            icon: "BsStarFill",
+          },
+          {
+            name: "followers",
+            icon: "FaUserFriends",
+          },
+          {
+            name: "event_followers",
+            icon: "FaUserFriends",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "shows",
+    sections: [
+      {
+        name: "next_shows",
+      },
+      {
+        name: "past_shows",
       },
     ],
   },

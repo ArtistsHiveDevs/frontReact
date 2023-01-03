@@ -13,6 +13,7 @@ import { EventModel } from "~/models/domain/event/event.model";
 import IconFieldReadOnly from "~/components/shared/atoms/IconField";
 import ProfileThumbnailCard from "~/components/shared/molecules/Profile/ProfileThumbnailCard";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
+import { Image } from "react-bootstrap";
 
 const TRANSLATION_BASE_EVENT_DETAILS_PAGE: string =
   "app.pages.EventsPages.EventDetailsPage";
@@ -216,13 +217,18 @@ const EventDetailsPage = () => {
     <>
       {currentEvent && (
         <>
-          <h1>
+          <h1 className="event-title">
             {currentEvent.name}{" "}
             <VerifiedArtist verifiedStatus={currentEvent?.verified_status} />
             <DynamicIcons iconName="FaHeart" size={25} color="#e30000" />
           </h1>
 
-          <img width="135%" src={currentEvent.photo} />
+          <Image
+            alt={currentEvent.name}
+            src={currentEvent.photo}
+            fluid={true}
+          />
+
           <hr />
           <h2>
             {translateText(

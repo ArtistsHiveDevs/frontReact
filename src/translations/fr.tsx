@@ -123,6 +123,111 @@ export const FrMessages = {
           promoter: "Promoteur",
         },
       },
+      PlacesPages: {
+        PlacesDetailsPage: {
+          subpages: {
+            general: {
+              name: "Generale",
+              sections: {
+                gallery: {
+                  name: "Galleria",
+                },
+                general: {
+                  name: "Info generale",
+                  attributes: {
+                    description: "",
+                    address: "Indirizzo",
+                    home_city: "Città ",
+                    categories: "Categorie",
+                    since: "Da",
+                    spoken_languages: "Lingue parlate",
+                    stage_languages: "Lingue en scena",
+                    arts_languages: "Lingue dell'arte",
+                  },
+                },
+                contact: {
+                  name: "Contatto",
+                  attributes: {
+                    website: "Website",
+                    email: "e-mail",
+                    phone: "Telefono",
+                    mobile_phone: "Cellulare",
+                    whatsapp: "WhatsApp",
+                  },
+                },
+                social_networks: {
+                  name: "Reti Sociali",
+                },
+              },
+            },
+
+            social: {
+              name: "Sociale",
+              sections: {
+                social_network_presence: {
+                  name: "Presenza sui social network",
+                },
+                stats: {
+                  name: "Statistiche",
+                  attributes: {
+                    general_rate: "Qualificazione generale",
+                    followers: "Followers",
+                    event_followers: "Eventi followers",
+                  },
+                },
+              },
+            },
+            shows: {
+              name: "Shows",
+              sections: {
+                next_shows: {
+                  name: "Prossimi spettacoli",
+                },
+                past_shows: {
+                  name: "Spettacoli passati",
+                },
+              },
+            },
+            backline: {
+              name: "Backline",
+              sections: {
+                sound_backline: {
+                  name: "sound backline",
+                },
+                light_backline: {
+                  name: "light backline",
+                },
+              },
+            },
+            menu: {
+              name: "Menu",
+              sections: {
+                main_course: { name: "Plato principal" },
+                second_course: { name: "Plato secundario" },
+              },
+            },
+          },
+        },
+      },
+    },
+    footer: {
+      copywrite: {
+        all_rights_reserved: "Tous droits réservés",
+      },
+      column_menu: {
+        what_we_do: {
+          name: "Quoi ont fait?",
+          options: {},
+        },
+        we: {
+          name: "Nous",
+          options: {},
+        },
+        help: {
+          name: "Aidé?",
+          options: {},
+        },
+      },
     },
   },
 };

@@ -34,6 +34,15 @@ const ArtistDetailsPage = lazy(
   () => import("~/components/Pages/ArtistsPage/ArtistDetails")
 );
 
+// Load Places pages
+const PlacesListPage = lazy(
+  () => import("~/components/Pages/PlacesPage/PlacesListPage")
+);
+
+const PlaceDetailsPage = lazy(
+  () => import("~/components/Pages/PlacesPage/PlaceDetailsPage")
+);
+
 export const RoutesApp: React.FC = () => {
   return (
     <Routes>
@@ -59,6 +68,15 @@ export const RoutesApp: React.FC = () => {
         <Route element={<EventsListPage />} path="" />
         <Route
           element={<EventDetailsPage />}
+          path={
+            SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`
+          }
+        />
+      </Route>
+      <Route path={PATHS.PLACES}>
+        <Route element={<PlacesListPage />} path="" />
+        <Route
+          element={<PlaceDetailsPage />}
           path={
             SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`
           }

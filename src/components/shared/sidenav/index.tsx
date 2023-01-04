@@ -45,18 +45,21 @@ const SideNav = () => {
       path: `${PATHS.PROFILE}/${SUB_PATHS.ELEMENT_DETAILS}`,
       icon: "FaUser",
       updated: new Date("2/20/16"),
+      randomId: true,
     },
     {
       name: "Mi banda",
       path: `${PATHS.ARTISTS}/${SUB_PATHS.ELEMENT_DETAILS}`,
       icon: "FaUsers",
       updated: new Date("2/20/16"),
+      randomId: true,
     },
     {
       name: "Mis eventos",
       path: `${PATHS.EVENTS}/${SUB_PATHS.ELEMENT_DETAILS}`,
       icon: "FaRegCalendarAlt",
       updated: new Date("1/18/16"),
+      randomId: true,
     },
     {
       name: "Mis Riders Técnicos",
@@ -68,7 +71,7 @@ const SideNav = () => {
   const config: SideMenuItem[] = [
     {
       name: "Configuración",
-      path: "",
+      path: `${PATHS.SETTINGS}`,
       icon: "FaCogs",
       updated: new Date("2/20/16"),
     },
@@ -98,8 +101,14 @@ const SideNav = () => {
     },
   ];
 
-  const navigateTo = (path: string | undefined) => {
-    const paramId = Math.floor(Math.random() * 18) + 1;
+  const navigateTo = (
+    path: string | undefined,
+    useRandomId: boolean = false
+  ) => {
+    let paramId = "";
+    if (useRandomId) {
+      paramId = `${Math.floor(Math.random() * 18) + 1}`;
+    }
 
     if (path) {
       navigate(`${path}/${paramId}`);
@@ -115,7 +124,7 @@ const SideNav = () => {
         key={idx}
         className="menu-option"
         href={void 0}
-        onClick={() => navigateTo(note?.path)}
+        onClick={() => navigateTo(note?.path, note.randomId)}
       >
         <DynamicIcons iconName={note.icon || "AiFillFile"} size={20} />
         <span className="menu-option-label">{note.name}</span>
@@ -189,7 +198,7 @@ const SideNav = () => {
             <img
               alt="Artists Hive Logo"
               className="img-logotipo"
-              src="http://npcarlos.co/artistsHive_mocks/logo.png"
+              src="https://npcarlos.co/artistsHive_mocks/logo.png"
               width="100"
             />
           </div>
@@ -213,7 +222,7 @@ const SideNav = () => {
                 <img
                   alt="Artists Hive Logo"
                   className="img-logotipo"
-                  src="http://npcarlos.co/artistsHive_mocks/logo.png"
+                  src="https://npcarlos.co/artistsHive_mocks/logo.png"
                   width="100"
                 />
                 <h4 className="menu-title">Menú principal</h4>
@@ -271,4 +280,5 @@ export interface SideMenuItem {
   updated: Date;
   path?: string;
   icon?: string;
+  randomId?: boolean;
 }

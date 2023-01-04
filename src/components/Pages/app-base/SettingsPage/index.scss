@@ -1,0 +1,30 @@
+@import "~/variables.module.scss";
+
+.logged-user-box {
+  width: 100%;
+  border: solid 1px #ccc;
+  padding: 1rem;
+}
+.role-names-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0px;
+  padding: 0px;
+}
+.user-role-name {
+  border: solid 1px #ccc;
+  margin: 0.5rem;
+  border-radius: 10px;
+  padding-left: 0.5rem;
+  padding-right: 0.3rem;
+
+  width: fit-content;
+  line-height: 2.5rem;
+  background: $secondary-background-light;
+}
+.user-role-delete-button {
+  color: $main-title-color;
+  font-weight: 600;
+  padding: 0.2rem;
+}

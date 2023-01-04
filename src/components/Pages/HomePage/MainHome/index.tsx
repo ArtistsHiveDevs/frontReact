@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { ReactElement, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useArtistsSlice } from "~/common/slices/artists";
@@ -15,6 +15,8 @@ import { PlaceModel } from "~/models/domain/place/place.model";
 import MainSection from "../MainSection";
 import WelcomeSection from "../WelcomeSection";
 import "./index.scss";
+
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 const TRANSLATION_BASE_HOME_PAGE = "app.pages.HomePage";
 
@@ -52,6 +54,24 @@ const HomePage = () => {
   }
   return (
     <>
+      <h1
+        onClick={() => {
+          console.log("CLICK");
+          document.getElementById("map").style.position = "static";
+          console.log(document.getElementById("map"));
+        }}
+      >
+        Antes Mapa
+      </h1>
+      <div style={{ width: "10rem", height: "10rem" }}>
+        <Wrapper
+          apiKey={"AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs"}
+          render={render}
+        >
+          <MyMapComponent center={{ lat: -34.397, lng: 150.644 }} zoom={12} />
+        </Wrapper>
+      </div>
+      <h1>después Mapa S</h1>
       <WelcomeSection />
       <div className="home-section-title">
         <h1 className="welcome-title">
@@ -86,4 +106,26 @@ const HomePage = () => {
   );
 };
 
+const render = (status: Status): ReactElement => {
+  if (status === Status.FAILURE) return <h1>ERROR</h1>;
+  return <h1>SPINNER</h1>;
+};
+function MyMapComponent({
+  center,
+  zoom,
+}: {
+  center: google.maps.LatLngLiteral;
+  zoom: number;
+}) {
+  const ref = useRef();
+
+  useEffect(() => {
+    new window.google.maps.Map(ref.current, {
+      center,
+      zoom,
+    });
+  });
+
+  return <div ref={ref} id="map" style={{ position: "absolute" }} />;
+}
 export default HomePage;

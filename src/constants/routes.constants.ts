@@ -10,6 +10,8 @@ export enum PATHS {
   RIDERS = "/riders",
   SEARCH = "/search",
   BASENAME = "/artistsHive",
+  REDIRECT_UNAUTHORIZED_AND_UNLOGGED_USER = "/home",
+  REDIRECT_UNAUTHORIZED_AND_LOGGED_USER = "/home",
 }
 
 export enum SUB_PATHS {

@@ -208,5 +208,38 @@ export const EnMessages = {
         },
       },
     },
+    sidenav: {
+      name: "Main menu",
+      sections: {
+        general: {
+          name: "General",
+          options: {
+            home: "Home",
+            cultural_agenda: "Cultural agenda",
+          },
+        },
+        myInfo: {
+          name: "My Info",
+          options: {
+            inbox: "Inbox",
+            my_profile: "My profile",
+            my_bands: "My bands",
+            my_events: "My events",
+            my_riders: "My riders",
+            my_places: "My places",
+          },
+        },
+        settings: {
+          name: "Settings",
+          options: {
+            settings: "Settings",
+            help_center: "Help Center",
+            report: "Report",
+            send_comments: "Send Comments",
+            logout: "Logout",
+          },
+        },
+      },
+    },
   },
 };

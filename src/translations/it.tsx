@@ -209,5 +209,38 @@ export const ItMessages = {
         },
       },
     },
+    sidenav: {
+      name: "Menu principale",
+      sections: {
+        general: {
+          name: "Generale",
+          options: {
+            home: "Home",
+            cultural_agenda: "Agenda culturale",
+          },
+        },
+        myInfo: {
+          name: "Mie Info",
+          options: {
+            inbox: "Posta in arrivo",
+            my_profile: "Mio profilo",
+            my_bands: "Miei band",
+            my_events: "Miei eventi",
+            my_riders: "Miei riders",
+            my_places: "Miei luoghi",
+          },
+        },
+        settings: {
+          name: "Impostazioni",
+          options: {
+            settings: "Impostazioni",
+            help_center: "Centro assistenza",
+            report: "Segnala",
+            send_comments: "Invia comenti",
+            logout: "Esci",
+          },
+        },
+      },
+    },
   },
 };

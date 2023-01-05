@@ -2,15 +2,20 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Offcanvas, Navbar, Container } from "react-bootstrap";
 
-import { PATHS, SUB_PATHS } from "~/constants";
 import { SearchComponent } from "~/components/shared/search";
 import "./index.scss";
 import DynamicIcons from "~/components/shared/DynamicIcons";
+import { SIDENAV_MENU_CONFIG } from "./sidenav.config";
+import { useI18n } from "~/common/utils";
+
+const TRANSLATION_BASE_SIDENAV = "app.sidenav";
 
 const SideNav = () => {
   const [show, setShow] = useState(false);
   const [openedSearchInputText, openSearchInputText] = useState(false);
   const navigate = useNavigate();
+
+  const { translateText } = useI18n();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -18,88 +23,6 @@ const SideNav = () => {
   const showHideSearchField = (event: any) => {
     openSearchInputText(!openedSearchInputText);
   };
-
-  const general: SideMenuItem[] = [
-    {
-      name: "Home",
-      path: "",
-      icon: "FaHome",
-      updated: new Date("2/20/16"),
-    },
-    {
-      name: "Agenda cultural",
-      path: `${PATHS.EVENTS}/${SUB_PATHS.AGENDA}`,
-      icon: "FaBullhorn",
-      updated: new Date("2/20/16"),
-    },
-  ];
-  const miBanda: SideMenuItem[] = [
-    {
-      name: "Bandeja de entrada",
-      path: "",
-      icon: "FaRegEnvelope",
-      updated: new Date("2/20/16"),
-    },
-    {
-      name: "Mi perfil",
-      path: `${PATHS.PROFILE}/${SUB_PATHS.ELEMENT_DETAILS}`,
-      icon: "FaUser",
-      updated: new Date("2/20/16"),
-      randomId: true,
-    },
-    {
-      name: "Mi banda",
-      path: `${PATHS.ARTISTS}/${SUB_PATHS.ELEMENT_DETAILS}`,
-      icon: "FaUsers",
-      updated: new Date("2/20/16"),
-      randomId: true,
-    },
-    {
-      name: "Mis eventos",
-      path: `${PATHS.EVENTS}/${SUB_PATHS.ELEMENT_DETAILS}`,
-      icon: "FaRegCalendarAlt",
-      updated: new Date("1/18/16"),
-      randomId: true,
-    },
-    {
-      name: "Mis Riders Técnicos",
-      path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}`,
-      icon: "FaFileAlt",
-      updated: new Date("2/20/16"),
-    },
-  ];
-  const config: SideMenuItem[] = [
-    {
-      name: "Configuración",
-      path: `${PATHS.SETTINGS}`,
-      icon: "FaCogs",
-      updated: new Date("2/20/16"),
-    },
-    {
-      name: "Centro de ayuda",
-      path: "",
-      icon: "FaQuestionCircle",
-      updated: new Date("2/20/16"),
-    },
-    {
-      name: "Denuncias",
-      path: "",
-      icon: "FaRegFlag",
-      updated: new Date("2/20/16"),
-    },
-    {
-      name: "Enviar comentarios",
-      path: "",
-      icon: "MdFeedback",
-      updated: new Date("2/20/16"),
-    },
-    {
-      name: "Cerrar Sesión",
-      path: "",
-      icon: "HiOutlineLogout",
-      updated: new Date("2/20/16"),
-    },
-  ];
 
   const navigateTo = (
     path: string | undefined,
@@ -127,7 +50,7 @@ const SideNav = () => {
         onClick={() => navigateTo(note?.path, note.randomId)}
       >
         <DynamicIcons iconName={note.icon || "AiFillFile"} size={20} />
-        <span className="menu-option-label">{note.name}</span>
+        <span className="menu-option-label">{translateText(note.name)}</span>
       </a>
     );
   };
@@ -225,45 +148,32 @@ const SideNav = () => {
                   src="https://npcarlos.co/artistsHive_mocks/logo.png"
                   width="100"
                 />
-                <h4 className="menu-title">Menú principal</h4>
+                <h4 className="menu-title">
+                  {translateText(`${TRANSLATION_BASE_SIDENAV}.name`)}
+                </h4>
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <hr />
-                <section className="general-sec">
-                  <>
-                    <h5 className="sec-general-label">General</h5>
-                    <div className="option-menu-list">
-                      {general.map((general: SideMenuItem, idx) => {
-                        return liMenuElement("general", general, idx);
-                      })}
+                {SIDENAV_MENU_CONFIG.map((sidenavSection, index) => {
+                  const sectionOptions = sidenavSection.options || [];
+                  return (
+                    <div key={`${sidenavSection.name}-${index}`}>
+                      <section className="general-sec">
+                        <>
+                          <h5 className="sec-general-label">
+                            {translateText(sidenavSection.name)}
+                          </h5>
+                          <div className="option-menu-list">
+                            {sectionOptions.map((option: SideMenuItem, idx) => {
+                              return liMenuElement("general", option, idx);
+                            })}
+                          </div>
+                        </>
+                      </section>
+                      <hr />
                     </div>
-                  </>
-                </section>
-                <hr />
-                <section className="general-sec">
-                  <>
-                    <h5 className="sec-general-label">Mi Banda</h5>
-                    <div className="option-menu-list">
-                      {miBanda.map((section: SideMenuItem, idx) => {
-                        return liMenuElement("general", section, idx);
-                      })}
-                    </div>
-                  </>
-                </section>
-                <hr />
-                <section className="general-sec">
-                  <>
-                    <h5 className="sec-general-label">Configuración</h5>
-                    <div className="option-menu-list">
-                      {config.map((section: SideMenuItem, idx) => {
-                        return liMenuElement("general", section, idx);
-                      })}
-                    </div>
-                  </>
-                </section>
-                {/* <section>
-                                    <h5 className='sec-general'>Herramientas</h5>
-                                </section> */}
+                  );
+                })}
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           )}

@@ -111,6 +111,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   },
   {
     name: "social",
+    requireSession: true,
     sections: [
       {
         name: "social_network_presence",
@@ -184,6 +185,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   },
   {
     name: "backline",
+    requireSession: true,
     sections: [
       {
         name: "sound_backline",

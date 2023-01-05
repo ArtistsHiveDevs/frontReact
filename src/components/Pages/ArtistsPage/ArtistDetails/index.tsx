@@ -5,6 +5,7 @@ import { useParams } from "react-router";
 import { useArtistsSlice } from "~/common/slices";
 import { selectArtists } from "~/common/slices/artists/selectors";
 import { useI18n } from "~/common/utils";
+import RequireAuthComponent from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
 import SectionsPanel from "~/components/shared/layout/SectionPanel";
 import {
   TabbedPage,
@@ -107,34 +108,47 @@ const ArtistDetailPage = () => {
     (subpage) => {
       return {
         name: translateSubpage(subpage.name),
+        requireSession: subpage.requireSession,
         tabContent: () => {
-          return subpage.sections.map((section, index) => {
-            // Icon Detailed Attributes
-            const sectionAttributes: IconDetailedAttribute[] =
-              section.attributes?.map((attribute) => {
-                return {
-                  name: attribute.name,
-                  title: getAttributeName(
-                    subpage.name,
-                    section.name,
-                    attribute
-                  ),
-                  icon: attribute?.icon,
-                  value: getData(attribute.name),
-                };
-              });
+          return (
+            <RequireAuthComponent requiredSession={subpage.requireSession}>
+              {subpage.sections.map((section, index) => {
+                // Icon Detailed Attributes
+                const sectionAttributes: IconDetailedAttribute[] =
+                  section.attributes?.map((attribute) => {
+                    return {
+                      name: attribute.name,
+                      title: getAttributeName(
+                        subpage.name,
+                        section.name,
+                        attribute
+                      ),
+                      icon: attribute?.icon,
+                      value: getData(attribute.name),
+                      requireSession: attribute.requireSession,
+                    };
+                  });
 
-            const sectionContent = () => (
-              <AttributesIconFieldReadOnly attributes={sectionAttributes} />
-            );
-            return (
-              <SectionsPanel
-                key={`section-${section.name}-${index}`}
-                sectionName={translateSection(subpage.name, section?.name)}
-                sectionContent={sectionContent}
-              />
-            );
-          });
+                const sectionContent = () => (
+                  <AttributesIconFieldReadOnly attributes={sectionAttributes} />
+                );
+                return (
+                  <RequireAuthComponent
+                    requiredSession={section.requireSession}
+                  >
+                    <SectionsPanel
+                      key={`section-${section.name}-${index}`}
+                      sectionName={translateSection(
+                        subpage.name,
+                        section?.name
+                      )}
+                      sectionContent={sectionContent}
+                    />
+                  </RequireAuthComponent>
+                );
+              })}
+            </RequireAuthComponent>
+          );
         },
       };
     }

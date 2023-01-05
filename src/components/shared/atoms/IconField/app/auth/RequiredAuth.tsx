@@ -61,7 +61,7 @@ export const RequireAuthComponent = ({
   children,
   allowedRoles = [],
   requiredSession = false,
-  name,
+  name = "",
 }) => {
   const { auth } = useAuth();
   const authAppUser: AppUserModel = auth;

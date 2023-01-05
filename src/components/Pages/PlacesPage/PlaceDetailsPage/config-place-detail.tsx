@@ -1,4 +1,7 @@
-import { ProfileDetailsSubpage } from "~/models/domain/profile/profile-details.def";
+import {
+  ProfileComponentTypes,
+  ProfileDetailsSubpage,
+} from "~/models/domain/profile/profile-details.def";
 
 export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
@@ -17,8 +20,9 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             icon: "FaMapMarkerAlt",
           },
           {
-            name: "home_city",
+            name: "cityWithCountry",
             icon: "AiFillHome",
+            emptyTitle: true,
           },
           {
             name: "categories",
@@ -31,6 +35,13 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           {
             name: "spoken_languages",
             icon: "BsTranslate",
+          },
+        ],
+        components: [
+          { componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS },
+          {
+            componentName: ProfileComponentTypes.MAP,
+            data: { lat: "latitude", lng: "longitude" },
           },
         ],
       },

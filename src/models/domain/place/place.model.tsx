@@ -62,4 +62,20 @@ export class PlaceModel
   public get place() {
     return this;
   }
+
+  get cityWithCountry() {
+    return `${this.city}, ${this.country}`;
+  }
+
+  get latitude() {
+    return parseFloat(this.location?.split(",")[0] || "0");
+  }
+
+  get longitude() {
+    return parseFloat(this.location?.split(",")[1] || "0");
+  }
+
+  get latLng() {
+    return { lat: this.latitude, lng: this.longitude };
+  }
 }

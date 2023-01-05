@@ -137,7 +137,7 @@ export const FrMessages = {
                   attributes: {
                     description: "",
                     address: "Indirizzo",
-                    home_city: "Città ",
+                    city: "Città",
                     categories: "Categorie",
                     since: "Da",
                     spoken_languages: "Lingue parlate",

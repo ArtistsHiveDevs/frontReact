@@ -137,7 +137,7 @@ export const EsMessages = {
                   attributes: {
                     description: "",
                     address: "Dirección",
-                    home_city: "Ciudad",
+                    city: "Ciudad",
                     categories: "Categorías",
                     since: "Desde",
                     spoken_languages: "Idiomas hablados",

@@ -210,22 +210,36 @@ export const FrMessages = {
         },
       },
     },
-    footer: {
-      copywrite: {
-        all_rights_reserved: "Tous droits réservés",
-      },
-      column_menu: {
-        what_we_do: {
-          name: "Quoi ont fait?",
-          options: {},
+    sidenav: {
+      name: "Menu principal",
+      sections: {
+        general: {
+          name: "Géneral",
+          options: {
+            home: "Accueil",
+            cultural_agenda: "Agenda culturel",
+          },
         },
-        we: {
-          name: "Nous",
-          options: {},
+        myInfo: {
+          name: "Mes info",
+          options: {
+            inbox: "Boîte de réception",
+            my_profile: "Mon profil",
+            my_bands: "Mes bands",
+            my_events: "Mes événements",
+            my_riders: "Mes riders",
+            my_places: "Mes lieux",
+          },
         },
-        help: {
-          name: "Aidé?",
-          options: {},
+        settings: {
+          name: "Paramètres",
+          options: {
+            settings: "Paramètres",
+            help_center: "Centre d'aide",
+            report: "Signaler",
+            send_comments: "Envoyer des commentaires",
+            logout: "Déconnexion",
+          },
         },
       },
     },

@@ -57,12 +57,15 @@ function validateUserAuthorization(
   return authorizationResult;
 }
 
-export const RequireAuthComponent = ({
-  children,
-  allowedRoles = [],
-  requiredSession = false,
-  name = "",
-}) => {
+export interface RequireAuthParameters {
+  children: any;
+  allowedRoles?: AllowedEntityRole[];
+  requiredSession?: boolean;
+  name?: string;
+}
+
+export const RequireAuthComponent = (props: RequireAuthParameters) => {
+  const { children, allowedRoles, requiredSession, name } = props;
   const { auth } = useAuth();
   const authAppUser: AppUserModel = auth;
 
@@ -92,7 +95,7 @@ export const RequireAuthComponent = ({
 export const RequireAuthPageNavigation = ({ allowedRoles = [] }) => {
   const { auth } = useAuth();
   const authAppUser: AppUserModel = auth;
-  const { location } = useLocation();
+  const location = useLocation();
 
   let nextPage;
 

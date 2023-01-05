@@ -208,5 +208,38 @@ export const DeMessages = {
         },
       },
     },
+    sidenav: {
+      name: "Hauptmeny",
+      sections: {
+        general: {
+          name: "Allgemein",
+          options: {
+            home: "Home",
+            cultural_agenda: "Kulturagenda",
+          },
+        },
+        myInfo: {
+          name: "Meine Info",
+          options: {
+            inbox: "Posteingang",
+            my_profile: "Meine Profil",
+            my_bands: "Meine Bands",
+            my_events: "Meine Veranstaltungen",
+            my_riders: "Meine riders",
+            my_places: "Meine Orte",
+          },
+        },
+        settings: {
+          name: "Einstellungen",
+          options: {
+            settings: "Einstellungen",
+            help_center: "Hilfebereich",
+            report: "Bericht",
+            send_comments: "Kommentare senden",
+            logout: "Abmelden",
+          },
+        },
+      },
+    },
   },
 };

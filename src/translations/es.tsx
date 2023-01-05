@@ -208,5 +208,38 @@ export const EsMessages = {
         },
       },
     },
+    sidenav: {
+      name: "Menú principal",
+      sections: {
+        general: {
+          name: "General",
+          options: {
+            home: "Inicio",
+            cultural_agenda: "Agenda cultural",
+          },
+        },
+        myInfo: {
+          name: "Mi Info",
+          options: {
+            inbox: "Bandeja de entrada",
+            my_profile: "Mi perfil",
+            my_bands: "Mis bandas",
+            my_events: "Mis eventos",
+            my_riders: "Mis riders",
+            my_places: "Mis lugares",
+          },
+        },
+        settings: {
+          name: "Configuración",
+          options: {
+            settings: "Configuración",
+            help_center: "Centro de ayuda",
+            report: "Denunciar",
+            send_comments: "Enviar comentarios",
+            logout: "Cerrar sesión",
+          },
+        },
+      },
+    },
   },
 };

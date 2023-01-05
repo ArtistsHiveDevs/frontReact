@@ -1,5 +1,5 @@
 import { PATHS, SUB_PATHS } from "~/constants";
-import { SideMenuItem } from ".";
+import { AllowedEntityRole } from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
 
 const TRANSLATION_BASE_SIDENAV = "app.sidenav.sections";
 
@@ -15,6 +15,24 @@ function generateTranslationPath(
 ) {
   return `${TRANSLATION_BASE_SIDENAV}.${section}.options.${optionName}`;
 }
+
+export interface SideMenuSection {
+  name: string;
+  options: SideMenuItem[];
+  allowedRoles?: AllowedEntityRole[];
+  requireSession?: boolean;
+}
+
+export interface SideMenuItem {
+  name: string;
+  updated: Date;
+  path?: string;
+  icon?: string;
+  randomId?: boolean;
+  allowedRoles?: AllowedEntityRole[];
+  requireSession?: boolean;
+}
+
 const general: SideMenuItem[] = [
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, "home"),
@@ -29,12 +47,13 @@ const general: SideMenuItem[] = [
     updated: new Date("2/20/16"),
   },
 ];
-const miBanda: SideMenuItem[] = [
+const miInfo: SideMenuItem[] = [
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "inbox"),
     path: "",
     icon: "FaRegEnvelope",
     updated: new Date("2/20/16"),
+    requireSession: true,
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "my_profile"),
@@ -42,6 +61,7 @@ const miBanda: SideMenuItem[] = [
     icon: "FaUser",
     updated: new Date("2/20/16"),
     randomId: true,
+    requireSession: true,
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "my_bands"),
@@ -49,6 +69,8 @@ const miBanda: SideMenuItem[] = [
     icon: "FaUsers",
     updated: new Date("2/20/16"),
     randomId: true,
+    allowedRoles: [{ entityName: "ARTIST" }],
+    requireSession: false,
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "my_events"),
@@ -56,18 +78,21 @@ const miBanda: SideMenuItem[] = [
     icon: "FaRegCalendarAlt",
     updated: new Date("1/18/16"),
     randomId: true,
+    allowedRoles: [{ entityName: "ARTIST" }],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "my_riders"),
     path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}`,
     icon: "FaFileAlt",
     updated: new Date("2/20/16"),
+    allowedRoles: [{ entityName: "ARTIST" }],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "my_places"),
     path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}`,
     icon: "HiBuildingStorefront",
     updated: new Date("2/20/16"),
+    allowedRoles: [{ entityName: "PLACE" }],
   },
 ];
 const config: SideMenuItem[] = [
@@ -88,29 +113,33 @@ const config: SideMenuItem[] = [
     path: "",
     icon: "FaRegFlag",
     updated: new Date("2/20/16"),
+    requireSession: true,
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, "send_comments"),
     path: "",
     icon: "MdFeedback",
     updated: new Date("2/20/16"),
+    requireSession: true,
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, "logout"),
     path: "",
     icon: "HiOutlineLogout",
     updated: new Date("2/20/16"),
+    requireSession: true,
   },
 ];
 
-export const SIDENAV_MENU_CONFIG = [
+export const SIDENAV_MENU_CONFIG: SideMenuSection[] = [
   {
     name: `${TRANSLATION_BASE_SIDENAV}.${SIDENAV_SECTIONS.GENERAL}.name`,
     options: general,
   },
   {
     name: `${TRANSLATION_BASE_SIDENAV}.${SIDENAV_SECTIONS.MY_INFO}.name`,
-    options: miBanda,
+    options: miInfo,
+    requireSession: true,
   },
   {
     name: `${TRANSLATION_BASE_SIDENAV}.${SIDENAV_SECTIONS.SETTINGS}.name`,

@@ -5,8 +5,11 @@ import { Offcanvas, Navbar, Container } from "react-bootstrap";
 import { SearchComponent } from "~/components/shared/search";
 import "./index.scss";
 import DynamicIcons from "~/components/shared/DynamicIcons";
-import { SIDENAV_MENU_CONFIG } from "./sidenav.config";
+import { SideMenuItem, SIDENAV_MENU_CONFIG } from "./sidenav.config";
 import { useI18n } from "~/common/utils";
+import RequireAuthComponent, {
+  AllowedEntityRole,
+} from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
 
 const TRANSLATION_BASE_SIDENAV = "app.sidenav";
 
@@ -43,15 +46,21 @@ const SideNav = () => {
 
   const liMenuElement = (section: string, note: SideMenuItem, idx: number) => {
     return (
-      <a
-        key={idx}
-        className="menu-option"
-        href={void 0}
-        onClick={() => navigateTo(note?.path, note.randomId)}
+      <RequireAuthComponent
+        allowedRoles={note.allowedRoles}
+        requiredSession={note.requireSession}
+        name={note.name}
       >
-        <DynamicIcons iconName={note.icon || "AiFillFile"} size={20} />
-        <span className="menu-option-label">{translateText(note.name)}</span>
-      </a>
+        <a
+          key={idx}
+          className="menu-option"
+          href={void 0}
+          onClick={() => navigateTo(note?.path, note.randomId)}
+        >
+          <DynamicIcons iconName={note.icon || "AiFillFile"} size={20} />
+          <span className="menu-option-label">{translateText(note.name)}</span>
+        </a>
+      </RequireAuthComponent>
     );
   };
 
@@ -157,9 +166,14 @@ const SideNav = () => {
                 {SIDENAV_MENU_CONFIG.map((sidenavSection, index) => {
                   const sectionOptions = sidenavSection.options || [];
                   return (
-                    <div key={`${sidenavSection.name}-${index}`}>
-                      <section className="general-sec">
-                        <>
+                    <RequireAuthComponent
+                      key={`${sidenavSection.name}-${index}`}
+                      allowedRoles={sidenavSection.allowedRoles}
+                      requiredSession={sidenavSection.requireSession}
+                      name={sidenavSection.name}
+                    >
+                      <div>
+                        <section className="general-sec">
                           <h5 className="sec-general-label">
                             {translateText(sidenavSection.name)}
                           </h5>
@@ -168,10 +182,10 @@ const SideNav = () => {
                               return liMenuElement("general", option, idx);
                             })}
                           </div>
-                        </>
-                      </section>
-                      <hr />
-                    </div>
+                        </section>
+                        <hr />
+                      </div>
+                    </RequireAuthComponent>
                   );
                 })}
               </Offcanvas.Body>
@@ -184,11 +198,3 @@ const SideNav = () => {
 };
 
 export default SideNav;
-
-export interface SideMenuItem {
-  name: string;
-  updated: Date;
-  path?: string;
-  icon?: string;
-  randomId?: boolean;
-}

@@ -83,8 +83,8 @@ const NewEntityCard = (props: any) => {
                         </span>
                         <span>
                           <>
-                            {data.place.Nombre} <br /> {data.place.Dirección}
-                            <br /> {data.place.Ciudad}
+                            {data.place.name} <br /> {data.place.address}
+                            <br /> {data.place.city}
                           </>
                         </span>
                       </p>

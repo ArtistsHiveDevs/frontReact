@@ -1,4 +1,4 @@
-import { Status, Wrapper } from "@googlemaps/react-wrapper";
+import { Status } from "@googlemaps/react-wrapper";
 import { ReactElement, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +15,9 @@ import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
 import MainSection from "../MainSection/MainSection";
 import WelcomeSection from "../WelcomeSection/WelcomeSection";
+import "./index.scss";
+
+import MapContainer from "~/components/shared/mapPrinter/mapContainer";
 
 const TRANSLATION_BASE_HOME_PAGE = "app.pages.HomePage";
 
@@ -51,28 +54,48 @@ const HomePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // TODO Datos para el mapa
+
+  const mapData = {
+    zoom: 20,
+    center: { lat: 4.633355, lng: -74.090679 },
+    marksLocation: [
+      { lat: 4.633355, lng: -74.090679 },
+      // { lat: 4.6332706708716085, lng: -74.09073366181859 },
+    ],
+    anotherOpts: {},
+  };
+
+  const mapContainerStyles = { width: "80%", height: "400px" };
+  const googleApiKey = "AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs";
+
+  //  TODO  fin datos para el mapa
+
   function onClickCardEventos(data: any) {
     navigate(`${PATHS.EVENTS}/${SUB_PATHS.ELEMENT_DETAILS}/${data.id}`);
   }
   return (
     <>
-      <h1
-        onClick={() => {
-          console.log("CLICK");
-          document.getElementById("map").style.position = "static";
-          console.log(document.getElementById("map"));
-        }}
-      >
-        Antes Mapa
-      </h1>
-      <div style={{ width: "10rem", height: "10rem" }}>
+      {/* TODO Se comenta implementación de mapa anterior y se llama a nueva */}
+      {/* <h1>Antes Mapa</h1>
+      <div id="map-container">
         <Wrapper
           apiKey={"AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs"}
           render={render}
         >
-          <MyMapComponent center={{ lat: -34.397, lng: 150.644 }} zoom={12} />
+          <MyMapComponent
+            center={{ lat: 4.633355, lng: -74.090679 }}
+            zoom={20}
+          />
         </Wrapper>
       </div>
+      <h1>después Mapa S</h1> */}
+      <h1>Se muestra ubicación</h1>
+      <MapContainer
+        apiKey={googleApiKey}
+        stylesc={mapContainerStyles}
+        mapData={mapData}
+      />
       <h1>después Mapa S</h1>
       <WelcomeSection />
       <div className="home-section-title">
@@ -122,12 +145,13 @@ function MyMapComponent({
   const ref = useRef();
 
   useEffect(() => {
-    new window.google.maps.Map(ref.current, {
+    let marker = new google.maps.Marker(ref.current).setLabel("cualquierCosa");
+    let map = new window.google.maps.Map(ref.current, {
       center,
       zoom,
     });
   });
 
-  return <div ref={ref} id="map" style={{ position: "absolute" }} />;
+  return <div ref={ref} id="map" />;
 }
 export default HomePage;

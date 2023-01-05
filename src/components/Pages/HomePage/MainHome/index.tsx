@@ -54,49 +54,11 @@ const HomePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // TODO Datos para el mapa
-
-  const mapData = {
-    zoom: 20,
-    center: { lat: 4.633355, lng: -74.090679 },
-    marksLocation: [
-      { lat: 4.633355, lng: -74.090679 },
-      // { lat: 4.6332706708716085, lng: -74.09073366181859 },
-    ],
-    anotherOpts: {},
-  };
-
-  const mapContainerStyles = { width: "80%", height: "400px" };
-  const googleApiKey = "AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs";
-
-  //  TODO  fin datos para el mapa
-
   function onClickCardEventos(data: any) {
     navigate(`${PATHS.EVENTS}/${SUB_PATHS.ELEMENT_DETAILS}/${data.id}`);
   }
   return (
     <>
-      {/* TODO Se comenta implementación de mapa anterior y se llama a nueva */}
-      {/* <h1>Antes Mapa</h1>
-      <div id="map-container">
-        <Wrapper
-          apiKey={"AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs"}
-          render={render}
-        >
-          <MyMapComponent
-            center={{ lat: 4.633355, lng: -74.090679 }}
-            zoom={20}
-          />
-        </Wrapper>
-      </div>
-      <h1>después Mapa S</h1> */}
-      <h1>Se muestra ubicación</h1>
-      <MapContainer
-        apiKey={googleApiKey}
-        stylesc={mapContainerStyles}
-        mapData={mapData}
-      />
-      <h1>después Mapa S</h1>
       <WelcomeSection />
       <div className="home-section-title">
         <h1 className="welcome-title">
@@ -131,27 +93,4 @@ const HomePage = () => {
   );
 };
 
-const render = (status: Status): ReactElement => {
-  if (status === Status.FAILURE) return <h1>ERROR</h1>;
-  return <h1>SPINNER</h1>;
-};
-function MyMapComponent({
-  center,
-  zoom,
-}: {
-  center: google.maps.LatLngLiteral;
-  zoom: number;
-}) {
-  const ref = useRef();
-
-  useEffect(() => {
-    let marker = new google.maps.Marker(ref.current).setLabel("cualquierCosa");
-    let map = new window.google.maps.Map(ref.current, {
-      center,
-      zoom,
-    });
-  });
-
-  return <div ref={ref} id="map" />;
-}
 export default HomePage;

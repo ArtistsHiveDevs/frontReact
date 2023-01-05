@@ -13,7 +13,6 @@ const MapViewer = (props: any) => {
     });
 
     data?.marksLocation?.forEach((position: any) => {
-      console.log("entra con marca: ", position);
       new google.maps.Marker({
         position,
         map: map,

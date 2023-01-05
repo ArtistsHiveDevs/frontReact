@@ -18,7 +18,12 @@ import {
   AttributesIconFieldReadOnly,
   IconDetailedAttribute,
 } from "~/components/shared/molecules/general/AttributesIconField";
-import { ProfileDetailAttributeConfiguration } from "~/models/domain/profile/profile-details.def";
+import {
+  ProfileComponentDescriptor,
+  ProfileComponentTypes,
+  ProfileDetailAttributeConfiguration,
+} from "~/models/domain/profile/profile-details.def";
+import MapContainer from "~/components/shared/mapPrinter/mapContainer";
 
 const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
   "app.pages.PlacesPages.PlacesDetailsPage";
@@ -62,8 +67,11 @@ const PlaceDetailPage = () => {
   }, [placeId]);
 
   const getData = (attribute: string) => {
-    const data = currentPlace[attribute as keyof PlaceModel];
-    const response = Array.isArray(data) ? data.join(", ") : data;
+    let response = undefined;
+    if (attribute) {
+      const data = currentPlace[attribute as keyof PlaceModel];
+      response = Array.isArray(data) ? data.join(", ") : data;
+    }
     return response;
   };
 
@@ -126,11 +134,63 @@ const PlaceDetailPage = () => {
                   icon: attribute?.icon,
                   value: getData(attribute.name),
                 };
-              });
+              }) || [];
 
-            const sectionContent = () => (
-              <AttributesIconFieldReadOnly attributes={sectionAttributes} />
-            );
+            let contentComponents: any;
+            if (section.components) {
+              contentComponents = section.components.map(
+                (componentDescriptor: ProfileComponentDescriptor) => {
+                  let renderedComponent = <></>;
+                  if (
+                    componentDescriptor.componentName ===
+                    ProfileComponentTypes.MAP
+                  ) {
+                    const mapData = {
+                      zoom: 18,
+                      center: {
+                        lat: getData(componentDescriptor.data?.lat),
+                        lng: getData(componentDescriptor.data?.lng),
+                      },
+                      marksLocation: [
+                        {
+                          lat: getData(componentDescriptor.data?.lat),
+                          lng: getData(componentDescriptor.data?.lng),
+                        },
+                      ],
+                      anotherOpts: {},
+                    };
+
+                    const googleApiKey =
+                      "AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs";
+
+                    const mapContainerStyles = {
+                      width: "100%",
+                      height: "400px",
+                    };
+
+                    renderedComponent = (
+                      <MapContainer
+                        apiKey={googleApiKey}
+                        stylesc={mapContainerStyles}
+                        mapData={mapData}
+                      />
+                    );
+                  } else {
+                    renderedComponent = (
+                      <AttributesIconFieldReadOnly
+                        attributes={sectionAttributes}
+                      />
+                    );
+                  }
+                  return renderedComponent;
+                }
+              );
+            } else {
+              contentComponents = [
+                <AttributesIconFieldReadOnly attributes={sectionAttributes} />,
+              ];
+            }
+            const sectionContent = () => contentComponents;
             return (
               <SectionsPanel
                 key={`section-${section.name}-${index}`}

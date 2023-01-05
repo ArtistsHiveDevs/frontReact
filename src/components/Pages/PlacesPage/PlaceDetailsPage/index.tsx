@@ -24,6 +24,7 @@ import {
   ProfileDetailAttributeConfiguration,
 } from "~/models/domain/profile/profile-details.def";
 import MapContainer from "~/components/shared/mapPrinter/mapContainer";
+import RequireAuthComponent from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
 
 const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
   "app.pages.PlacesPages.PlacesDetailsPage";
@@ -115,90 +116,106 @@ const PlaceDetailPage = () => {
   };
 
   // Data config
-  const ARTIST_DETAILS_TABBED_PAGES: TabbedPage[] = subPagesInfo.map(
+  const PLACES_DETAILS_TABBED_PAGES: TabbedPage[] = subPagesInfo.map(
     (subpage) => {
       return {
         name: translateSubpage(subpage.name),
+        requireSession: subpage.requireSession,
         tabContent: () => {
-          return subpage.sections.map((section, index) => {
-            // Icon Detailed Attributes
-            const sectionAttributes: IconDetailedAttribute[] =
-              section.attributes?.map((attribute) => {
-                return {
-                  name: attribute.name,
-                  title: getAttributeName(
-                    subpage.name,
-                    section.name,
-                    attribute
-                  ),
-                  icon: attribute?.icon,
-                  value: getData(attribute.name),
-                };
-              }) || [];
-
-            let contentComponents: any;
-            if (section.components) {
-              contentComponents = section.components.map(
-                (componentDescriptor: ProfileComponentDescriptor) => {
-                  let renderedComponent = <></>;
-                  if (
-                    componentDescriptor.componentName ===
-                    ProfileComponentTypes.MAP
-                  ) {
-                    const mapData = {
-                      zoom: 18,
-                      center: {
-                        lat: getData(componentDescriptor.data?.lat),
-                        lng: getData(componentDescriptor.data?.lng),
-                      },
-                      marksLocation: [
-                        {
-                          lat: getData(componentDescriptor.data?.lat),
-                          lng: getData(componentDescriptor.data?.lng),
-                        },
-                      ],
-                      anotherOpts: {},
+          return (
+            <RequireAuthComponent requiredSession={subpage.requireSession}>
+              {subpage.sections.map((section, index) => {
+                // Icon Detailed Attributes
+                const sectionAttributes: IconDetailedAttribute[] =
+                  section.attributes?.map((attribute) => {
+                    return {
+                      name: attribute.name,
+                      title: getAttributeName(
+                        subpage.name,
+                        section.name,
+                        attribute
+                      ),
+                      icon: attribute?.icon,
+                      value: getData(attribute.name),
                     };
+                  }) || [];
 
-                    const googleApiKey =
-                      "AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs";
+                let contentComponents: any;
+                if (section.components) {
+                  contentComponents = section.components.map(
+                    (componentDescriptor: ProfileComponentDescriptor) => {
+                      let renderedComponent = <></>;
+                      if (
+                        componentDescriptor.componentName ===
+                        ProfileComponentTypes.MAP
+                      ) {
+                        const mapData = {
+                          zoom: 18,
+                          center: {
+                            lat: getData(componentDescriptor.data?.lat),
+                            lng: getData(componentDescriptor.data?.lng),
+                          },
+                          marksLocation: [
+                            {
+                              lat: getData(componentDescriptor.data?.lat),
+                              lng: getData(componentDescriptor.data?.lng),
+                            },
+                          ],
+                          anotherOpts: {},
+                        };
 
-                    const mapContainerStyles = {
-                      width: "100%",
-                      height: "400px",
-                    };
+                        const googleApiKey =
+                          "AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs";
 
-                    renderedComponent = (
-                      <MapContainer
-                        apiKey={googleApiKey}
-                        stylesc={mapContainerStyles}
-                        mapData={mapData}
-                      />
-                    );
-                  } else {
-                    renderedComponent = (
-                      <AttributesIconFieldReadOnly
-                        attributes={sectionAttributes}
-                      />
-                    );
-                  }
-                  return renderedComponent;
+                        const mapContainerStyles = {
+                          width: "100%",
+                          height: "400px",
+                        };
+
+                        renderedComponent = (
+                          <MapContainer
+                            apiKey={googleApiKey}
+                            stylesc={mapContainerStyles}
+                            mapData={mapData}
+                          />
+                        );
+                      } else {
+                        renderedComponent = (
+                          <AttributesIconFieldReadOnly
+                            attributes={sectionAttributes}
+                          />
+                        );
+                      }
+                      return renderedComponent;
+                    }
+                  );
+                } else {
+                  contentComponents = [
+                    <AttributesIconFieldReadOnly
+                      attributes={sectionAttributes}
+                    />,
+                  ];
                 }
-              );
-            } else {
-              contentComponents = [
-                <AttributesIconFieldReadOnly attributes={sectionAttributes} />,
-              ];
-            }
-            const sectionContent = () => contentComponents;
-            return (
-              <SectionsPanel
-                key={`section-${section.name}-${index}`}
-                sectionName={translateSection(subpage.name, section?.name)}
-                sectionContent={sectionContent}
-              />
-            );
-          });
+
+                const sectionContent = () => contentComponents;
+
+                return (
+                  <RequireAuthComponent
+                    key={`section-${section.name}-${index}`}
+                    requiredSession={section.requireSession}
+                  >
+                    <SectionsPanel
+                      sectionName={translateSection(
+                        subpage.name,
+                        section?.name
+                      )}
+                      sectionContent={sectionContent}
+                    />
+                  </RequireAuthComponent>
+                );
+              })}
+            </RequireAuthComponent>
+          );
         },
       };
     }
@@ -209,7 +226,7 @@ const PlaceDetailPage = () => {
       {!!currentPlace && (
         <div className="place-container">
           <ProfileHeader element={currentPlace} />
-          <TabbedPanel tabs={ARTIST_DETAILS_TABBED_PAGES} />
+          <TabbedPanel tabs={PLACES_DETAILS_TABBED_PAGES} />
         </div>
       )}
     </>

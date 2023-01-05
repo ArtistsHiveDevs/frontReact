@@ -5,11 +5,13 @@ export enum ProfileComponentTypes {
 export interface ProfileDetailsSubpage {
   name: string;
   sections?: ProfileDetailsSubpageSection[];
+  requireSession?: boolean;
 }
 export interface ProfileDetailsSubpageSection {
   name: string;
   attributes?: ProfileDetailAttributeConfiguration[];
   components?: ProfileComponentDescriptor[];
+  requireSession?: boolean;
 }
 
 export interface ProfileComponentDescriptor {
@@ -18,7 +20,24 @@ export interface ProfileComponentDescriptor {
 }
 export interface ProfileDetailAttributeConfiguration {
   name: string;
+
+  /**
+   *
+   */
   icon?: string;
+
+  /**
+   *
+   */
   emptyTitle?: boolean;
+
+  /**
+   * If true the name will be used literally as the Label
+   */
   literal?: boolean;
+
+  /**
+   *
+   */
+  requireSession?: boolean;
 }

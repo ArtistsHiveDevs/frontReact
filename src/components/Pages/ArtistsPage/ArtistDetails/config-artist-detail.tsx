@@ -30,14 +30,17 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           {
             name: "spoken_languages",
             icon: "TbWorld",
+            requireSession: true,
           },
           {
             name: "stage_languages",
             icon: "BsTranslate",
+            requireSession: true,
           },
           {
             name: "arts_languages",
             icon: "BsFillMegaphoneFill",
+            requireSession: true,
           },
         ],
       },
@@ -47,23 +50,31 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           {
             name: "website",
             icon: "TbWorld",
+            emptyTitle: true,
           },
           {
             name: "email",
             icon: "MdEmail",
+            requireSession: true,
+            emptyTitle: true,
           },
           {
             name: "phone",
             icon: "BsFillTelephoneFill",
+            requireSession: true,
+            emptyTitle: true,
           },
           {
             name: "mobile_phone",
             icon: "FaMobileAlt",
+            requireSession: true,
+            emptyTitle: true,
           },
           {
             name: "Whatsapp",
-            literal: true,
+            emptyTitle: true,
             icon: "BsWhatsapp",
+            requireSession: true,
           },
         ],
       },
@@ -72,32 +83,32 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         attributes: [
           {
             name: "Facebook",
-            literal: true,
+            emptyTitle: true,
             icon: "BsFacebook",
           },
           {
             name: "Twitter",
-            literal: true,
+            emptyTitle: true,
             icon: "BsTwitter",
           },
           {
             name: "Instagram",
-            literal: true,
+            emptyTitle: true,
             icon: "BsInstagram",
           },
           {
             name: "Spotify",
-            literal: true,
+            emptyTitle: true,
             icon: "BsSpotify",
           },
           {
             name: "Youtube",
-            literal: true,
+            emptyTitle: true,
             icon: "BsYoutube",
           },
           {
             name: "CD Baby",
-            literal: true,
+            emptyTitle: true,
             icon: "BsInfoCircleFill",
           },
         ],
@@ -107,6 +118,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       },
       {
         name: "members",
+        requireSession: true,
       },
     ],
   },
@@ -131,17 +143,17 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         attributes: [
           {
             name: "Youtube",
-            literal: true,
+            emptyTitle: true,
             icon: "BsYoutube",
           },
           {
             name: "Spotify",
-            literal: true,
+            emptyTitle: true,
             icon: "BsSpotify",
           },
           {
             name: "Sound cloud",
-            literal: true,
+            emptyTitle: true,
             icon: "GrSoundcloud",
           },
         ],
@@ -208,43 +220,44 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   // },
   {
     name: "social",
+    requireSession: true,
     sections: [
       {
         name: "social_network_presence",
         attributes: [
           {
             name: "Facebook",
-            literal: true,
+            emptyTitle: true,
             icon: "BsFacebook",
           },
           {
             name: "Instagram",
-            literal: true,
+            emptyTitle: true,
             icon: "BsInstagram",
           },
           {
             name: "Twitter",
-            literal: true,
+            emptyTitle: true,
             icon: "BsTwitter",
           },
           {
             name: "Spotify",
-            literal: true,
+            emptyTitle: true,
             icon: "BsSpotify",
           },
           {
             name: "Deezer",
-            literal: true,
+            emptyTitle: true,
             icon: "FaDeezer",
           },
           {
             name: "Apple Music",
-            literal: true,
+            emptyTitle: true,
             icon: "SiApplemusic",
           },
           {
             name: "Youtube",
-            literal: true,
+            emptyTitle: true,
             icon: "BsYoutube",
           },
         ],

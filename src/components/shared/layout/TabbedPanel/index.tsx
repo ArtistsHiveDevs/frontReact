@@ -1,13 +1,15 @@
 import "./index.scss";
 import { useEffect, useState } from "react";
+import RequireAuthComponent from "../../atoms/IconField/app/auth/RequiredAuth";
 
 export interface TabbedPage {
   name: string;
   tabContent: any;
+  requireSession?: boolean;
 }
 
 export const TabbedPanel = (props: any) => {
-  const { tabs } = props;
+  const { tabs, allowedSections } = props;
 
   const [activeSectionIndex, setSection] = useState(0);
 
@@ -26,13 +28,15 @@ export const TabbedPanel = (props: any) => {
         classNames.push("active-tab-title");
       }
       return (
-        <div
-          className={classNames.join(" ")}
-          key={`subpage-section-${idx}`}
-          onClick={() => changeSection(idx)}
-        >
-          <h5>{subpage.name}</h5>
-        </div>
+        <RequireAuthComponent requiredSession={subpage.requireSession}>
+          <div
+            className={classNames.join(" ")}
+            key={`subpage-section-${idx}`}
+            onClick={() => changeSection(idx)}
+          >
+            <h5>{subpage.name}</h5>
+          </div>
+        </RequireAuthComponent>
       );
     });
   };

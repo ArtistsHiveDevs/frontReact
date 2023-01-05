@@ -63,14 +63,14 @@ const HomePage = () => {
 
       <MainSection
         description={"Estos son los artistas nuevos más solicitados"}
-        listView={getCustomList(10, artistList)}
+        listView={getCustomList(18, artistList)}
         params={{ useNewCard: true }}
         title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)}
       />
 
       <MainSection
         description={"Próximos eventos cercanos a ti"}
-        listView={getCustomList(10, eventsList)}
+        listView={getCustomList(30, eventsList)}
         params={{ useNewCard: true }}
         title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.events`)}
         callbacks={{ onClickCard: onClickCardEventos }}
@@ -80,7 +80,7 @@ const HomePage = () => {
         description={
           "Estos son los lugares más cercanos a tu ubicación que están buscando artistas"
         }
-        listView={getCustomList(10, placesList)}
+        listView={getCustomList(22, placesList)}
         params={{ useNewCard: true }}
         title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.places`)}
       />

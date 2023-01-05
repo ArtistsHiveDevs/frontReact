@@ -1,7 +1,11 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { UNLOGGED_USER } from "~/models/app/user/user.model";
+import { AppUserModel, UNLOGGED_USER } from "~/models/app/user/user.model";
 
-export const AuthContext = createContext({});
+export interface AuthContextParams {
+  auth?: AppUserModel;
+  setAuth?: Function;
+}
+export const AuthContext = createContext<AuthContextParams>({});
 
 interface AuthProviderProps {
   children?: ReactNode;
@@ -9,7 +13,7 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [auth, setAuth] = useState(UNLOGGED_USER);
+  const [auth, setAuth] = useState<AppUserModel>(UNLOGGED_USER);
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>

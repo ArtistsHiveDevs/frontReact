@@ -1,7 +1,7 @@
 import React from "react";
 import EntityCard from "~/components/shared/Cards/EntityCard";
 import NewEntityCard from "~/components/shared/Cards/NewEntityCard";
-import ModalCardInfo from "~/components/shared/Modals/ModalCardInfo";
+import GenericModal from "~/components/shared/molecules/general/Modals/ModalCardInfo/GenericModal";
 import "./index.scss";
 
 const MainSection = (props: any) => {

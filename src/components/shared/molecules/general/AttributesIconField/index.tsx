@@ -16,9 +16,11 @@ export const AttributesIconFieldReadOnly = (props: any) => {
     <>
       {attributes?.map((attribute: IconDetailedAttribute, idx: number) => {
         return (
-          <RequireAuthComponent requiredSession={attribute.requireSession}>
+          <RequireAuthComponent
+            key={`attr-icon-field-${idx}`}
+            requiredSession={attribute.requireSession}
+          >
             <IconFieldReadOnly
-              key={`attr-icon-field-${idx}`}
               icon={attribute?.icon}
               fieldName={attribute.title}
               fieldValue={attribute.value}

@@ -6,17 +6,20 @@ export interface ProfileDetailsSubpage {
   name: string;
   sections?: ProfileDetailsSubpageSection[];
   requireSession?: boolean;
+  clickHandlerName?: string;
 }
 export interface ProfileDetailsSubpageSection {
   name: string;
   attributes?: ProfileDetailAttributeConfiguration[];
   components?: ProfileComponentDescriptor[];
   requireSession?: boolean;
+  clickHandlerName?: string;
 }
 
 export interface ProfileComponentDescriptor {
   componentName: ProfileComponentTypes;
   data?: any;
+  clickHandlerName?: string;
 }
 export interface ProfileDetailAttributeConfiguration {
   name: string;

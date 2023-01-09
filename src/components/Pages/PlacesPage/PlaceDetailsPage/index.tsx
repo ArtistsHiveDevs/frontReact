@@ -71,7 +71,10 @@ const PlaceDetailPage = () => {
     let response = undefined;
     if (attribute) {
       const data = currentPlace[attribute as keyof PlaceModel];
-      response = Array.isArray(data) ? data.join(", ") : data;
+      response = data;
+      if (Array.isArray(data) && data.length && typeof data[0] === "string") {
+        response = data.join(", ");
+      }
     }
     return response;
   };
@@ -143,14 +146,17 @@ const PlaceDetailPage = () => {
                 let contentComponents: any;
                 if (section.components) {
                   contentComponents = section.components.map(
-                    (componentDescriptor: ProfileComponentDescriptor) => {
+                    (
+                      componentDescriptor: ProfileComponentDescriptor,
+                      componentIndex: number
+                    ) => {
                       let renderedComponent = <></>;
                       if (
                         componentDescriptor.componentName ===
                         ProfileComponentTypes.MAP
                       ) {
                         const mapData = {
-                          zoom: 18,
+                          zoom: 19,
                           center: {
                             lat: getData(componentDescriptor.data?.lat),
                             lng: getData(componentDescriptor.data?.lng),
@@ -174,6 +180,7 @@ const PlaceDetailPage = () => {
 
                         renderedComponent = (
                           <MapContainer
+                            key={`section-${section.name}-${index}-${componentIndex}`}
                             apiKey={googleApiKey}
                             stylesc={mapContainerStyles}
                             mapData={mapData}
@@ -192,6 +199,7 @@ const PlaceDetailPage = () => {
                 } else {
                   contentComponents = [
                     <AttributesIconFieldReadOnly
+                      key={`section-${section.name}-${index}`}
                       attributes={sectionAttributes}
                     />,
                   ];

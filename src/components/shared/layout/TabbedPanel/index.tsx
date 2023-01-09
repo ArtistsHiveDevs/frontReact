@@ -28,10 +28,12 @@ export const TabbedPanel = (props: any) => {
         classNames.push("active-tab-title");
       }
       return (
-        <RequireAuthComponent requiredSession={subpage.requireSession}>
+        <RequireAuthComponent
+          key={`subpage-section-${idx}`}
+          requiredSession={subpage.requireSession}
+        >
           <div
             className={classNames.join(" ")}
-            key={`subpage-section-${idx}`}
             onClick={() => changeSection(idx)}
           >
             <h5>{subpage.name}</h5>

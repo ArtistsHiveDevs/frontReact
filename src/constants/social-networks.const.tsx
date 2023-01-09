@@ -1,5 +1,4 @@
 import { ParametrizedIFrame } from "~/components/shared/molecules/general/parametrizedIFrame/parametrizedIFrame";
-
 export interface SocialNetworkTemplate {
   url?: string;
   mobile_url?: string;

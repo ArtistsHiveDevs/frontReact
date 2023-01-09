@@ -66,14 +66,12 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           },
           {
             name: "mobile_phone",
-            icon: "FaMobileAlt",
             requireSession: true,
             emptyTitle: true,
           },
           {
-            name: "Whatsapp",
+            name: "whatsapp",
             emptyTitle: true,
-            icon: "BsWhatsapp",
             requireSession: true,
           },
         ],
@@ -82,33 +80,34 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: "social_networks",
         attributes: [
           {
-            name: "Facebook",
+            name: "facebook",
             emptyTitle: true,
             icon: "BsFacebook",
           },
           {
-            name: "Twitter",
+            name: "twitter",
             emptyTitle: true,
             icon: "BsTwitter",
           },
           {
-            name: "Instagram",
+            name: "instagram",
             emptyTitle: true,
             icon: "BsInstagram",
           },
           {
-            name: "Spotify",
+            name: "spotify",
             emptyTitle: true,
             icon: "BsSpotify",
           },
           {
-            name: "Youtube",
+            name: "youtube",
             emptyTitle: true,
             icon: "BsYoutube",
           },
           {
-            name: "CD Baby",
+            name: "cd_baby",
             emptyTitle: true,
+            title: "CD Baby",
             icon: "BsInfoCircleFill",
           },
         ],
@@ -142,12 +141,11 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: "media_channels",
         attributes: [
           {
-            name: "Youtube",
+            name: "youtube",
             emptyTitle: true,
-            icon: "BsYoutube",
           },
           {
-            name: "Spotify",
+            name: "spotify",
             emptyTitle: true,
             icon: "BsSpotify",
           },

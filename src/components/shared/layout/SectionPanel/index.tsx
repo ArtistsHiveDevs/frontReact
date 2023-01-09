@@ -5,7 +5,9 @@ const SectionsPanel = (props: any) => {
 
   return (
     <>
-      <h2 className="section-title">{sectionName}</h2>
+      {sectionContent && sectionName && (
+        <h2 className="section-title">{sectionName}</h2>
+      )}
       {sectionContent && sectionContent()}
     </>
   );

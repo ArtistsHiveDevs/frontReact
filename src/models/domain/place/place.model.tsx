@@ -20,6 +20,7 @@ export interface PlaceTemplate extends EntityTemplate {
   promoter: string;
   tiktok: string;
   profile_pic: string;
+  imageGallery: Image[];
 }
 
 export class PlaceModel
@@ -44,6 +45,7 @@ export class PlaceModel
   declare promoter: string;
   declare tiktok: string;
   declare profile_pic: string;
+  declare imageGallery: Image[];
 
   public get photo() {
     return this.profile_pic;
@@ -72,4 +74,9 @@ export class PlaceModel
   get latLng() {
     return { lat: this.latitude, lng: this.longitude };
   }
+}
+
+export interface Image {
+  src: string;
+  alt?: string;
 }

@@ -25,6 +25,11 @@ import {
 } from "~/models/domain/profile/profile-details.def";
 import MapContainer from "~/components/shared/mapPrinter/mapContainer";
 import RequireAuthComponent from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
+import ImageGallery, {
+  GalleryImageParams,
+} from "~/components/shared/atoms/ImageGallery/ImageGallery";
+import GenericModal from "~/components/shared/molecules/general/Modals/ModalCardInfo/GenericModal";
+import { Image } from "react-bootstrap";
 
 const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
   "app.pages.PlacesPages.PlacesDetailsPage";
@@ -44,6 +49,7 @@ const PlaceDetailPage = () => {
   const subPagesInfo = [...PLACE_DETAIL_SUB_PAGE_CONFIG];
 
   const [currentPlace, setCurrentPlace] = useState<PlaceModel>(undefined);
+  const [currentGalleryImage, setGalleryImage] = useState(undefined);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -118,6 +124,23 @@ const PlaceDetailPage = () => {
     );
   };
 
+  const handlers = {
+    onClickGalleryImage: (source: GalleryImageParams) => {
+      const image = (
+        <Image
+          key={`modal-${source.src}`}
+          className="gallery-image-detail"
+          src={source.src}
+          alt={source.alt || source.src}
+        />
+      );
+      setGalleryImage(image);
+    },
+    onCloseGalleryImage: (value: any) => {
+      setGalleryImage(undefined);
+    },
+  };
+
   // Data config
   const PLACES_DETAILS_TABBED_PAGES: TabbedPage[] = subPagesInfo.map(
     (subpage) => {
@@ -186,11 +209,44 @@ const PlaceDetailPage = () => {
                             mapData={mapData}
                           />
                         );
-                      } else {
+                      } else if (
+                        componentDescriptor.componentName ===
+                        ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS
+                      ) {
                         renderedComponent = (
                           <AttributesIconFieldReadOnly
+                            key={`section-${section.name}-${index}-${componentIndex}`}
                             attributes={sectionAttributes}
                           />
+                        );
+                      } else if (
+                        componentDescriptor.componentName ===
+                        ProfileComponentTypes.IMAGE_GALLERY
+                      ) {
+                        let clickHandler = undefined;
+
+                        if (!!componentDescriptor.clickHandlerName) {
+                          clickHandler =
+                            handlers[
+                              componentDescriptor.clickHandlerName as keyof typeof handlers
+                            ];
+                        }
+                        renderedComponent = (
+                          <>
+                            <ImageGallery
+                              key={`section-${section.name}-${index}-${componentIndex}`}
+                              images={getData(componentDescriptor.data?.images)}
+                              clickHandler={clickHandler}
+                            />
+                            <GenericModal
+                              title={currentPlace.name}
+                              body={currentGalleryImage}
+                              show={!!currentGalleryImage}
+                              onHide={(event: any) =>
+                                handlers.onCloseGalleryImage(event)
+                              }
+                            />
+                          </>
                         );
                       }
                       return renderedComponent;

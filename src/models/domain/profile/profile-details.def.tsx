@@ -1,5 +1,6 @@
 export enum ProfileComponentTypes {
   ATTRIBUTES_ICON_FIELDS,
+  IMAGE_GALLERY,
   MAP,
 }
 export interface ProfileDetailsSubpage {

@@ -8,25 +8,26 @@
   .card-link {
     text-decoration: none;
     color: $black;
-    padding: 10px;
+    // padding: 10px;
   }
 
   .text-modal-info {
     overflow: auto;
-    height: 150px;
-    margin: 10px;
+    // height: 150px;
+    margin: 0.5rem;
+    padding: 0px;
   }
 
   .card-buttons-container {
     text-align: center;
     text-transform: uppercase;
     font-weight: bold;
-    margin: 0px 0px 25px 0px;
+    // margin: 0px 0px 25px 0px;
 
     .card-link {
       text-decoration: none;
       color: $black;
-      padding: 10px;
+      padding: 0.3rem;
     }
   }
 }

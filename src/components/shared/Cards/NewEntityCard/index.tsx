@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import { AligmentVerifiedMark } from "~/constants";
-import ModalCardInfo from "~/components/shared/Modals/ModalCardInfo";
+import GenericModal from "~/components/shared/molecules/general/Modals/ModalCardInfo/GenericModal";
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
 import "./index.scss";
 import DynamicIcons from "~/components/shared/DynamicIcons";
@@ -96,7 +96,7 @@ const NewEntityCard = (props: any) => {
           </>
         )}
       </Card>
-      <ModalCardInfo
+      <GenericModal
         title={data.name}
         body={data.description}
         links={links}

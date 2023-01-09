@@ -1,0 +1,19 @@
+@import "~/variables.module.scss";
+
+.gallery-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow: scroll;
+}
+
+.image-gallery {
+  padding: 0.3rem;
+  width: 45%;
+}
+
+@media (min-width: 760px) {
+  .image-gallery {
+    width: 30%;
+  }
+}

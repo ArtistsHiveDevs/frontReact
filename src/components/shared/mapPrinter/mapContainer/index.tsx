@@ -4,8 +4,6 @@ import { ReactElement } from "react";
 import MapViewer from "../mapViewer";
 
 const MapContainer = (props: any) => {
-  console.log("props del container \n", { props });
-
   const render = (status: Status): ReactElement => {
     if (status === Status.FAILURE) return <h1>ERROR</h1>;
     return <h1>SPINNER</h1>;

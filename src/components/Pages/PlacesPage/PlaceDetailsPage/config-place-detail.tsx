@@ -7,7 +7,16 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
     name: "general",
     sections: [
-      { name: "gallery" },
+      {
+        name: "gallery",
+        components: [
+          {
+            componentName: ProfileComponentTypes.IMAGE_GALLERY,
+            data: { images: "image_gallery" },
+            clickHandlerName: "onClickGalleryImage",
+          },
+        ],
+      },
       {
         name: "general",
         attributes: [

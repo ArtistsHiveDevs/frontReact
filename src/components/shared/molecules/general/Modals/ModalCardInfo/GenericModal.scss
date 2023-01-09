@@ -1,0 +1,33 @@
+@import "~/variables.module.scss";
+
+.modal-container {
+  .modal-content {
+    background: $main-background-color;
+  }
+
+  .card-link {
+    text-decoration: none;
+    color: $black;
+    // padding: 10px;
+  }
+
+  .text-modal-info {
+    overflow: auto;
+    height: auto;
+    margin: 0.5rem;
+    padding: 0px;
+  }
+
+  .card-buttons-container {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    // margin: 0px 0px 25px 0px;
+
+    .card-link {
+      text-decoration: none;
+      color: $black;
+      padding: 0.3rem;
+    }
+  }
+}

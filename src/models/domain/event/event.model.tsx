@@ -45,6 +45,13 @@ export class EventModel
   declare promoter: string;
   declare national_code: string;
 
+  constructor(template: EventTemplate) {
+    super(template);
+
+    this.main_artist = new ArtistModel(template.main_artist);
+    this.guest_artist = new ArtistModel(template.guest_artist);
+  }
+
   public get cardInfo() {
     return { title: this.name, subtitle: this.timetable__initial_date };
   }

@@ -1,5 +1,6 @@
 export enum ProfileComponentTypes {
   ATTRIBUTES_ICON_FIELDS,
+  CALENDAR_SIMPLE_LAYOUT,
   IMAGE_GALLERY,
   MAP,
 }
@@ -21,6 +22,7 @@ export interface ProfileComponentDescriptor {
   componentName: ProfileComponentTypes;
   data?: any;
   clickHandlerName?: string;
+  requireSession?: boolean;
 }
 export interface ProfileDetailAttributeConfiguration {
   name: string;

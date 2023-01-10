@@ -22,6 +22,7 @@
     "@googlemaps/typescript-guards": "^2.0.3",
     "@nixjs23n6/redux-injectors": "^2.0.2",
     "bootstrap": "^5.2.1",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-dom": "^18.2.0",

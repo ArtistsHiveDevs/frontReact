@@ -1,6 +1,9 @@
 import "./index.scss";
 import DynamicIcons from "~/components/shared/DynamicIcons";
-import { SocialNetworks } from "~/constants/social-networks.const";
+import {
+  buildSocialNetworkLink,
+  SocialNetworks,
+} from "~/constants/social-networks.const";
 
 const IconFieldReadOnly = (props: any) => {
   let { fieldName, fieldTitle, icon, fieldValue } = props;
@@ -8,9 +11,9 @@ const IconFieldReadOnly = (props: any) => {
   const socialNetwork = SocialNetworks[fieldName];
   if (!!socialNetwork && typeof fieldValue === "string") {
     if (fieldValue && socialNetwork.url !== undefined) {
-      const domainPrefix = socialNetwork.url ? `${socialNetwork.url}/` : "";
+      const urlSocialNetwork = buildSocialNetworkLink(fieldName, fieldValue);
       renderFieldValue = (
-        <a href={`${domainPrefix}${fieldValue}`} target="_blank">{`${
+        <a href={urlSocialNetwork.url} target={urlSocialNetwork.target}>{`${
           socialNetwork.user_prefix || ""
         }${fieldValue}`}</a>
       );

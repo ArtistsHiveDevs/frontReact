@@ -126,9 +126,9 @@ const EventDetailsPage = () => {
 
       setContactInfoFields([
         {
-          icon: "BsFacebook",
-          fieldName: "",
-          fieldValue: `@${currentEvent?.timetable__guest_time}`,
+          fieldName: "facebook",
+          emptyTitle: true,
+          fieldValue: "asdasd",
         },
         {
           icon: "GrInstagram",
@@ -166,8 +166,8 @@ const EventDetailsPage = () => {
           fieldValue: `@${currentEvent?.timetable__guest_time}`,
         },
         {
-          icon: "HiOutlineMail",
-          fieldName: "",
+          emptyTitle: true,
+          fieldName: "email",
           fieldValue: `email@events.com`,
         },
       ]);
@@ -230,7 +230,7 @@ const EventDetailsPage = () => {
           />
 
           <hr />
-          <h2>
+          <h2 className="section-title">
             {translateText(
               `${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.general_information`
             )}
@@ -241,11 +241,12 @@ const EventDetailsPage = () => {
                 key={`${field.fieldName}-${index}`}
                 icon={field.icon}
                 fieldName={field.fieldName}
+                fieldTitle={field.fieldName}
                 fieldValue={field.fieldValue}
               />
             ))}
           </div>
-          <h2>
+          <h2 className="section-title">
             {translateText(
               `${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.description`
             )}
@@ -278,7 +279,7 @@ const EventDetailsPage = () => {
               diciembre a las 8:00 p.m. en nuestro Teatro Cafam.
             </p>
           </div>
-          <h2>
+          <h2 className="section-title">
             {translateText(`${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.artists`)}
           </h2>
 
@@ -301,7 +302,7 @@ const EventDetailsPage = () => {
             ))}
           </div>
 
-          <h2>
+          <h2 className="section-title">
             {translateText(`${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.contact`)}
           </h2>
           <div className="info-container">
@@ -314,7 +315,7 @@ const EventDetailsPage = () => {
               />
             ))}
           </div>
-          <h2>
+          <h2 className="section-title">
             {translateText(`${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.place`)}
           </h2>
           <div>
@@ -336,7 +337,7 @@ const EventDetailsPage = () => {
               />
             )}
           </div>
-          <h2>
+          <h2 className="section-title">
             {translateText(
               `${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.additionalInfo`
             )}
@@ -355,11 +356,11 @@ const EventDetailsPage = () => {
               </li>
             </ul>
           </div>
-          <h2>
+          <h2 className="section-title">
             {translateText(`${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.discounts`)}
           </h2>
           <div></div>
-          <h2>
+          <h2 className="section-title">
             {translateText(`${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.promoter`)}
           </h2>
           <div></div>

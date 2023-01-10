@@ -22,3 +22,12 @@ h2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
 }
+.section-title {
+  border-bottom: 1px solid $main-title-color;
+  margin-top: 2rem;
+  // font-family: Ms Madi, cursive;
+  font-weight: bold;
+  color: $main-title-color;
+  text-align: left;
+  width: 100%;
+}

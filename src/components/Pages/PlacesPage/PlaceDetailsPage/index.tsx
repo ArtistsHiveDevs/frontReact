@@ -1,6 +1,6 @@
 import "./index.scss";
-import { useParams } from "react-router-dom";
-import { URL_PARAMETER_NAMES } from "~/constants";
+import { useNavigate, useParams } from "react-router-dom";
+import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from "~/constants";
 import { PLACE_DETAIL_SUB_PAGE_CONFIG } from "~/components/Pages/PlacesPage/PlaceDetailsPage/config-place-detail";
 import { useEffect, useState } from "react";
 import { PlaceModel } from "~/models/domain/place/place.model";
@@ -30,12 +30,17 @@ import {
   ImageGallery,
 } from "~/components/shared/atoms/ImageGallery/ImageGallery";
 import GenericModal from "~/components/shared/molecules/general/Modals/ModalCardInfo/GenericModal";
+import { CalendarSimpleLayout } from "~/components/shared/molecules/general/calendar/CalendarSimpleLayout/CalendarSimpleLayout";
+import { EventParams } from "~/components/shared/atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent";
+import moment from "moment";
+import { EventModel } from "~/models/domain/event/event.model";
 
 const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
   "app.pages.PlacesPages.PlacesDetailsPage";
 
 const PlaceDetailPage = () => {
   const { translateText } = useI18n();
+  const navigate = useNavigate();
 
   const urlParameters = useParams();
 
@@ -135,7 +140,17 @@ const PlaceDetailPage = () => {
     onCloseGalleryImage: (value: any) => {
       setGalleryImage(undefined);
     },
+    onClickNextEvent: (value: any) => {
+      navigateTo(PATHS.EVENTS, value.id);
+    },
+    onClickPastEvent: (value: any) => {
+      navigateTo(PATHS.EVENTS, value.id);
+    },
   };
+
+  function navigateTo(newEntity: PATHS, id: string = null) {
+    navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
+  }
 
   // Data config
   const PLACES_DETAILS_TABBED_PAGES: TabbedPage[] = subPagesInfo.map(
@@ -232,9 +247,10 @@ const PlaceDetailPage = () => {
                             ];
                         }
                         renderedComponent = (
-                          <>
+                          <div
+                            key={`section-${section.name}-${index}-${componentIndex}`}
+                          >
                             <ImageGallery
-                              key={`section-${section.name}-${index}-${componentIndex}`}
                               images={getData(componentDescriptor.data?.images)}
                               clickHandler={(source: GalleryImageParams) =>
                                 clickHandler(
@@ -251,7 +267,68 @@ const PlaceDetailPage = () => {
                                 handlers.onCloseGalleryImage(event)
                               }
                             />
-                          </>
+                          </div>
+                        );
+                      } else if (
+                        componentDescriptor.componentName ===
+                        ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT
+                      ) {
+                        const eventsInfo: EventParams[] = (
+                          getData(componentDescriptor.data?.data_source) || []
+                        ).map((event: EventModel) => {
+                          return {
+                            id: event.id,
+                            name: event[
+                              componentDescriptor.data?.fields
+                                ?.title as keyof EventModel
+                            ],
+                            title:
+                              event[
+                                componentDescriptor.data?.fields
+                                  ?.title as keyof EventModel
+                              ],
+                            subtitle:
+                              event[
+                                componentDescriptor.data?.fields
+                                  ?.subtitle as keyof EventModel
+                              ],
+                            picture:
+                              event[
+                                componentDescriptor.data?.fields
+                                  ?.picture as keyof EventModel
+                              ],
+                            datetime: moment(
+                              `${
+                                event[
+                                  componentDescriptor.data?.fields
+                                    ?.date as keyof EventModel
+                                ]
+                              } ${
+                                event[
+                                  componentDescriptor.data?.fields
+                                    ?.time as keyof EventModel
+                                ]
+                              }`,
+                              "YYYY-MM-DD hhmm"
+                            ),
+                          };
+                        });
+
+                        let clickHandler: (source: any, images: any) => void =
+                          undefined;
+
+                        if (!!componentDescriptor.clickHandlerName) {
+                          clickHandler =
+                            handlers[
+                              componentDescriptor.clickHandlerName as keyof typeof handlers
+                            ];
+                        }
+                        renderedComponent = (
+                          <CalendarSimpleLayout
+                            key={`section-${section.name}-${index}`}
+                            events={eventsInfo}
+                            onClickHandler={clickHandler}
+                          />
                         );
                       }
                       return renderedComponent;

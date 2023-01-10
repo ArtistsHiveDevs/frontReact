@@ -5,15 +5,23 @@
   flex-direction: row;
   flex-wrap: nowrap;
   overflow: scroll;
+  align-items: center;
+  grid-gap: 1rem;
 }
 
 .image-gallery {
-  padding: 0.3rem;
   width: 45%;
+  height: fit-content;
+}
+
+.full-size-image-gallery {
+  width: 100%;
+  height: fit-content;
 }
 
 @media (min-width: 760px) {
   .image-gallery {
     width: 30%;
+    height: fit-content;
   }
 }

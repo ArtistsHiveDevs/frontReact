@@ -20,7 +20,7 @@ export const SocialNetworks: {
     icon: "FaDeezer",
   },
   email: {
-    url: "mailto:",
+    url: "mailto",
     icon: "MdEmail",
   },
   facebook: {
@@ -39,11 +39,11 @@ export const SocialNetworks: {
     user_prefix: "",
   },
   mobile_phone: {
-    url: "tel:",
+    url: "tel",
     icon: "FaMobileAlt",
   },
   phone: {
-    url: "tel:",
+    url: "tel",
     icon: "BsFillTelephoneFill",
   },
   sound_cloud: {
@@ -57,7 +57,7 @@ export const SocialNetworks: {
     user_prefix: "",
   },
   tiktok: {
-    url: "https://www.tiktok.com/@",
+    url: "https://www.tiktok.com",
     icon: "FaTiktok",
   },
   twitter: {
@@ -81,3 +81,31 @@ export const SocialNetworks: {
     user_prefix: "",
   },
 };
+
+export function buildSocialNetworkLink(
+  socialNetworkName: string,
+  mainValue: string,
+  extraParams: any = {}
+) {
+  const socialNetwork = SocialNetworks[socialNetworkName];
+  let url = undefined;
+  let target = "_blank";
+
+  if (socialNetwork) {
+    url = `${socialNetwork.url}/${mainValue}`;
+
+    if (
+      socialNetworkName === "email" ||
+      socialNetworkName === "phone" ||
+      socialNetworkName === "mobile_phone"
+    ) {
+      url = `${socialNetwork.url}:${mainValue}`;
+      target = "_self";
+    } else if (socialNetworkName === "tiktok") {
+      url = `${socialNetwork.url}/@${mainValue}`;
+    } else if (socialNetworkName === "website") {
+      url = `${mainValue}`;
+    }
+  }
+  return { url, target };
+}

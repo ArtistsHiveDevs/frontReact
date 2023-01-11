@@ -236,6 +236,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           title: event[componentDescriptor.data?.fields?.title],
           subtitle: event[componentDescriptor.data?.fields?.subtitle],
           picture: event[componentDescriptor.data?.fields?.picture],
+          place: event[componentDescriptor.data?.fields?.place],
           datetime: moment(
             `${event[componentDescriptor.data?.fields?.date]} ${
               event[componentDescriptor.data?.fields?.time]

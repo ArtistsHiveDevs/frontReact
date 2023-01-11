@@ -1,4 +1,4 @@
-import { ProfileDetailsSubpage } from "~/models/domain/profile/profile-details.def";
+import { ProfileDetailsSubpage } from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
 
 export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {

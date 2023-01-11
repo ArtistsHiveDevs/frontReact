@@ -1,5 +1,4 @@
 import moment from "moment";
-import { VerificationStatus } from "~/constants";
 import { EntityModel, EntityTemplate } from "~/models/base";
 import { EventModel, EventTemplate } from "../event/event.model";
 
@@ -54,7 +53,7 @@ export class PlaceModel
 
   constructor(template: PlaceTemplate) {
     super(template);
-    this.events = template.events.map((event) => new EventModel(event));
+    this.events = template.events?.map((event) => new EventModel(event)) || [];
   }
 
   public get photo() {

@@ -18,7 +18,7 @@ import {
   AttributesIconFieldReadOnly,
   IconDetailedAttribute,
 } from "~/components/shared/molecules/general/AttributesIconField";
-import { ProfileDetailAttributeConfiguration } from "~/models/domain/profile/profile-details.def";
+import { ProfileDetailAttributeConfiguration } from "~/components/shared/organisms/ProfilePage/profile-details.def";
 import RequireAuthComponent from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
 
 const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =

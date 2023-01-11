@@ -36,6 +36,9 @@
 .calendar-event-content {
   flex-grow: 7;
   min-width: 55%;
+  p {
+    margin-bottom: 0px;
+  }
 }
 .calendar-event-picture-container {
   flex-grow: 2;
@@ -44,4 +47,8 @@
 .calendar-event-picture {
   width: 100%;
   margin: 0px;
+}
+
+.calendar-event-title {
+  font-weight: 550;
 }

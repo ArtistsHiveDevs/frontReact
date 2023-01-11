@@ -32,9 +32,6 @@ export class ArtistModel
 
   constructor(template: ArtistTemplate) {
     super(template);
-    if (!template.events) {
-      console.log(template);
-    }
     this.events = template.events?.map((event) => new EventModel(event)) || [];
   }
 

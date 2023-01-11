@@ -1,10 +1,9 @@
-import "./CalendarSimpleLayout.scss";
-import RequireAuthComponent from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
-import { Moment } from "moment";
 import {
   CalendarSimpleEvent,
   EventParams,
 } from "~/components/shared/atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent";
+import RequireAuthComponent from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
+import "./CalendarSimpleLayout.scss";
 
 export const CalendarSimpleLayout = (props: {
   events: EventParams[];
@@ -41,7 +40,10 @@ export const CalendarSimpleLayout = (props: {
           return (
             <div key={`${event.name}-${event?.datetime}`}>
               {monthTitle}
-              <CalendarSimpleEvent info={event} onClickHandler={clickHandler} />
+              <CalendarSimpleEvent
+                eventInfo={event}
+                onClickHandler={clickHandler}
+              />
             </div>
           );
         }

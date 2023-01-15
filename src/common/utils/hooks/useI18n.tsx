@@ -1,4 +1,4 @@
-import { useIntl, FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 
 export const useI18n = () => {
   const { locale = "es", formatMessage } = useIntl();

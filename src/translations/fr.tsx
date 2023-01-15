@@ -3,6 +3,25 @@ export const FrMessages = {
     name: "App FR",
     loading: "Chargement en cours",
     pages: {
+      app: {
+        settings: {
+          title: "Paramètres",
+          language_selection: {
+            title: "Sélection de la langue",
+          },
+          user_profile: {
+            title: "Profil de l'utilisateur",
+            user: "Utilisateur",
+            logout: "Se déconnecter",
+            logged_user: "Utilisateur connecté",
+            empty_user: "Il n'y a pas d'utilisateur",
+            user_info: "Informations sur l'utilisateur",
+            roles: "Rôles",
+            artist: "Artiste",
+            place: "Lieu",
+          },
+        },
+      },
       ArtistsPages: {
         ArtistsDetailsPage: {
           subpages: {
@@ -251,35 +270,72 @@ export const FrMessages = {
         },
       },
     },
-    sidenav: {
-      name: "Menu principal",
-      sections: {
-        general: {
-          name: "Géneral",
-          options: {
-            home: "Accueil",
-            cultural_agenda: "Agenda culturel",
+    appbase: {
+      footer: {
+        columns: {
+          what_we_do: {
+            name: "Qu'est-ce qu'on fait ?",
+            options: {
+              cultural_agenda: "Agenda culturel",
+              for_artists: "Pour les artistes",
+              for_places: "Pour les lieux",
+              for_promoters: "Pour les promoteurs",
+              for_festivals: "Pour les festivals",
+            },
+          },
+          about_us: {
+            name: "À propos de nous",
+            options: {
+              history: "Notre histoire",
+              press: "Presse",
+              career: "Carrière",
+              download: "Télécharger l'application",
+              data_policy: "Politique de données",
+            },
+          },
+          help: {
+            name: "Hilfe",
+            options: {
+              help_center: "Hilfezentrum",
+              contact_us: "Kontaktiere uns",
+              report: "Bericht",
+            },
           },
         },
-        myInfo: {
-          name: "Mes info",
-          options: {
-            inbox: "Boîte de réception",
-            my_profile: "Mon profil",
-            my_bands: "Mes bands",
-            my_events: "Mes événements",
-            my_riders: "Mes riders",
-            my_places: "Mes lieux",
-          },
+        copywrite: {
+          allRightsReserved: "Tous les droits sont réservés",
         },
-        settings: {
-          name: "Paramètres",
-          options: {
-            settings: "Paramètres",
-            help_center: "Centre d'aide",
-            report: "Signaler",
-            send_comments: "Envoyer des commentaires",
-            logout: "Déconnexion",
+      },
+      sidenav: {
+        name: "Menu principal",
+        sections: {
+          general: {
+            name: "Géneral",
+            options: {
+              home: "Accueil",
+              cultural_agenda: "Agenda culturel",
+            },
+          },
+          myInfo: {
+            name: "Mes info",
+            options: {
+              inbox: "Boîte de réception",
+              my_profile: "Mon profil",
+              my_bands: "Mes bands",
+              my_events: "Mes événements",
+              my_riders: "Mes riders",
+              my_places: "Mes lieux",
+            },
+          },
+          settings: {
+            name: "Paramètres",
+            options: {
+              settings: "Paramètres",
+              help_center: "Centre d'aide",
+              report: "Signaler",
+              send_comments: "Envoyer des commentaires",
+              logout: "Déconnexion",
+            },
           },
         },
       },

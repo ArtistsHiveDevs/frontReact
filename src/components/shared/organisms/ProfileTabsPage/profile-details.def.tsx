@@ -4,6 +4,7 @@ export enum ProfileComponentTypes {
   HTML_CONTENT,
   IMAGE_GALLERY,
   MAP,
+  SOCIAL_NETWORK_WIDGET,
   PROFILE_THUMBNAIL_CARD,
 }
 export interface ProfileDetailsSubpage {

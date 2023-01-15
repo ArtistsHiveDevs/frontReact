@@ -1,15 +1,13 @@
 import { useState } from "react";
+import { Container, Navbar, Offcanvas } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { Offcanvas, Navbar, Container } from "react-bootstrap";
 
+import { useI18n } from "~/common/utils";
+import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
+import DynamicIcons from "~/components/shared/DynamicIcons";
 import { SearchComponent } from "~/components/shared/search";
 import "./index.scss";
-import DynamicIcons from "~/components/shared/DynamicIcons";
 import { SideMenuItem, SIDENAV_MENU_CONFIG } from "./sidenav.config";
-import { useI18n } from "~/common/utils";
-import RequireAuthComponent, {
-  AllowedEntityRole,
-} from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
 
 const TRANSLATION_BASE_SIDENAV = "app.sidenav";
 

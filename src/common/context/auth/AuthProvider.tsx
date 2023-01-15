@@ -1,5 +1,6 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
-import { AppUserModel, UNLOGGED_USER } from "~/models/app/user/user.model";
+import { createContext, ReactNode, useState } from "react";
+import { crearDummyUser } from "~/components/Pages/app-base/SettingsPage/dummy-users.mock";
+import { AppUserModel } from "~/models/app/user/user.model";
 
 export interface AuthContextParams {
   auth?: AppUserModel;
@@ -13,7 +14,7 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [auth, setAuth] = useState<AppUserModel>(UNLOGGED_USER);
+  const [auth, setAuth] = useState<AppUserModel>(crearDummyUser(4));
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>

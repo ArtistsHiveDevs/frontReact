@@ -1,5 +1,5 @@
-import "./index.scss";
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
+import "./index.scss";
 
 export interface ProfileHeaderElement {
   name: string;
@@ -8,7 +8,7 @@ export interface ProfileHeaderElement {
   subtitle?: string;
 }
 
-const ProfileHeader = (props: any) => {
+export const ProfileHeader = (props: any) => {
   const { element } = props;
   return (
     <div className="profile-header">
@@ -27,5 +27,3 @@ const ProfileHeader = (props: any) => {
     </div>
   );
 };
-
-export default ProfileHeader;

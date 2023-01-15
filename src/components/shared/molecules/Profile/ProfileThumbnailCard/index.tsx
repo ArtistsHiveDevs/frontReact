@@ -1,7 +1,7 @@
-import "./index.scss";
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
+import "./index.scss";
 
-const ProfileThumbnailCard = (props: any) => {
+export const ProfileThumbnailCard = (props: any) => {
   const { elementData, footer, styles, callbacks } = props;
 
   const { profile_pic, name, subtitle, verified_status } = elementData || {};
@@ -36,5 +36,3 @@ const ProfileThumbnailCard = (props: any) => {
     </div>
   );
 };
-
-export default ProfileThumbnailCard;

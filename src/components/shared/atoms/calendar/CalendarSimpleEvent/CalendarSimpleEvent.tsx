@@ -1,6 +1,6 @@
 import { Moment } from "moment";
 import { Image } from "react-bootstrap";
-import RequireAuthComponent from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
+import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import { PlaceModel } from "~/models/domain/place/place.model";
 import "./CalendarSimpleEvent.scss";
 

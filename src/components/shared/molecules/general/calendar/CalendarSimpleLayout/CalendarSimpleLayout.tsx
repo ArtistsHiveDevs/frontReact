@@ -1,8 +1,8 @@
+import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import {
   CalendarSimpleEvent,
   EventParams,
 } from "~/components/shared/atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent";
-import RequireAuthComponent from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
 import "./CalendarSimpleLayout.scss";
 
 export const CalendarSimpleLayout = (props: {

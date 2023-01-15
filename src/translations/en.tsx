@@ -107,20 +107,61 @@ export const EnMessages = {
       },
       EventsPages: {
         EventDetailsPage: {
-          additionalInfo: "Additional Info",
-          artists: "Artists",
-          national_code: "PULEP",
-          contact: "Contact & Media",
-          date: "When?",
-          description: "Description",
-          discounts: "Discounts",
-          eventNotFound: "Event not found",
-          general_information: "General Information",
-          initialTime: "Starting time",
-          minimumAge: "Minimum age",
-          openingDoors: "Doors opening",
-          place: "Place",
-          promoter: "Promoter",
+          subpages: {
+            general: {
+              name: "Info",
+              sections: {
+                general: {
+                  name: "General Information",
+                  attributes: {
+                    national_code: "PULEP",
+                    timetable__initial_date: "When?",
+                    initial_time: "Starting time",
+                    minimumAge: "Minimum age",
+                    timetable__openning_doors: "Doors opening",
+                    promoter: "Promoter",
+                  },
+                },
+                description: {
+                  name: "Description",
+                },
+              },
+            },
+            artists: {
+              name: "Artists",
+              sections: {
+                main_artists: { name: "Main Artists" },
+              },
+            },
+            place: {
+              name: "Place",
+              sections: {
+                location: {
+                  name: "Location",
+                },
+              },
+            },
+            contact: {
+              name: "Contact & Media",
+              sections: {
+                contact: {
+                  name: "Contact Info",
+                },
+                social_networks: {
+                  name: "Social networks",
+                },
+              },
+            },
+            extra_info: {
+              name: "Extras",
+              sections: {
+                additional_info: { name: "Additional Info" },
+                dress_code: { name: "Dress code" },
+                discounts: { name: "Discounts" },
+                promoter: { name: "Promoter" },
+              },
+            },
+          },
         },
       },
       PlacesPages: {

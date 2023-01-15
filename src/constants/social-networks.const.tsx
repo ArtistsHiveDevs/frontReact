@@ -5,6 +5,7 @@ export interface SocialNetworkTemplate {
   user_prefix?: string;
   emptyTitle?: boolean;
   title?: string;
+  widget?: any;
 }
 
 export const SocialNetworks: {
@@ -79,6 +80,26 @@ export const SocialNetworks: {
     user_prefix: "",
     emptyTitle: true,
     title: "Spotify",
+    widget: (params: any) => {
+      let { user, entity } = params;
+      if (!entity) {
+        entity = "artist";
+      }
+      return (
+        user && (
+          <iframe
+            // style="border-radius:12px"
+            src={`https://open.spotify.com/embed/${entity}/${user}?utm_source=generator&theme=0`}
+            width="100%"
+            height="352"
+            frameBorder="0"
+            // allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+          ></iframe>
+        )
+      );
+    },
   },
   tiktok: {
     url: "https://www.tiktok.com",

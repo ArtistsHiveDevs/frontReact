@@ -21,6 +21,8 @@ export interface EventTemplate extends EntityTemplate {
   timetable__main_artist_time: string;
   promoter: string;
   national_code: string;
+  description: string;
+  tickets_website: string;
 }
 
 export class EventModel
@@ -44,6 +46,8 @@ export class EventModel
   declare timetable__main_artist_time: string;
   declare promoter: string;
   declare national_code: string;
+  declare description: string;
+  declare tickets_website: string;
 
   constructor(template: EventTemplate) {
     super(template);
@@ -57,7 +61,15 @@ export class EventModel
     this.place = template.place ? new PlaceModel(template.place) : undefined;
   }
 
-  public get cardInfo() {
+  get cardInfo() {
     return { title: this.name, subtitle: this.timetable__initial_date };
+  }
+
+  get main_artists() {
+    return [this.main_artist, this.guest_artist];
+  }
+
+  get initial_time() {
+    return this.timetable__guest_time;
   }
 }

@@ -218,6 +218,9 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: "spotify",
                 },
+                {
+                  name: "wikipedia",
+                },
               ],
             },
           },

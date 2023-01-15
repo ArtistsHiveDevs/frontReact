@@ -108,6 +108,9 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   name: "youtube",
                 },
                 {
+                  name: "wikipedia",
+                },
+                {
                   name: "cd_baby",
                 },
               ],
@@ -156,17 +159,19 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
               attributes: [
                 {
                   name: "youtube",
-                  emptyTitle: true,
                 },
                 {
                   name: "spotify",
-                  emptyTitle: true,
-                  icon: "BsSpotify",
+                  components: [
+                    {
+                      componentName:
+                        ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
+                      data: {},
+                    },
+                  ],
                 },
                 {
-                  name: "Sound cloud",
-                  emptyTitle: true,
-                  icon: "GrSoundcloud",
+                  name: "sound_cloud",
                 },
               ],
             },

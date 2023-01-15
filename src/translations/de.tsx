@@ -3,6 +3,25 @@ export const DeMessages = {
     name: "App DE",
     loading: "Wird geladen",
     pages: {
+      app: {
+        settings: {
+          title: "Einstellungen",
+          language_selection: {
+            title: "Sprachauswahl",
+          },
+          user_profile: {
+            title: "Benutzerprofil",
+            user: "Benutzer",
+            logout: "Ausloggen",
+            logged_user: "Angemeldeter Benutzer",
+            empty_user: "Es gibt keinen Benutzer",
+            user_info: "Benutzerinfo",
+            roles: "Rollen",
+            artist: "Künstler",
+            place: "Ort",
+          },
+        },
+      },
       ArtistsPages: {
         ArtistsDetailsPage: {
           subpages: {
@@ -249,35 +268,72 @@ export const DeMessages = {
         },
       },
     },
-    sidenav: {
-      name: "Hauptmeny",
-      sections: {
-        general: {
-          name: "Allgemein",
-          options: {
-            home: "Home",
-            cultural_agenda: "Kulturagenda",
+    appbase: {
+      footer: {
+        columns: {
+          what_we_do: {
+            name: "Was machen wir?",
+            options: {
+              cultural_agenda: "Kulturagenda",
+              for_artists: "Für Künstler",
+              for_places: "Für Orte",
+              for_promoters: "Für Promoter",
+              for_festivals: "Für Festivals",
+            },
+          },
+          about_us: {
+            name: "Über uns",
+            options: {
+              history: "Unsere Geschichte",
+              press: "Presse",
+              career: "Werdegang",
+              download: "App herunterladen",
+              data_policy: "Datenrichtlinie",
+            },
+          },
+          help: {
+            name: "Hilfe",
+            options: {
+              help_center: "Hilfezentrum",
+              contact_us: "Kontaktiere uns",
+              report: "Bericht",
+            },
           },
         },
-        myInfo: {
-          name: "Meine Info",
-          options: {
-            inbox: "Posteingang",
-            my_profile: "Meine Profil",
-            my_bands: "Meine Bands",
-            my_events: "Meine Veranstaltungen",
-            my_riders: "Meine riders",
-            my_places: "Meine Orte",
-          },
+        copywrite: {
+          allRightsReserved: "Alle Rechte vorbehalten",
         },
-        settings: {
-          name: "Einstellungen",
-          options: {
-            settings: "Einstellungen",
-            help_center: "Hilfebereich",
-            report: "Bericht",
-            send_comments: "Kommentare senden",
-            logout: "Abmelden",
+      },
+      sidenav: {
+        name: "Hauptmeny",
+        sections: {
+          general: {
+            name: "Allgemein",
+            options: {
+              home: "Home",
+              cultural_agenda: "Kulturagenda",
+            },
+          },
+          myInfo: {
+            name: "Meine Info",
+            options: {
+              inbox: "Posteingang",
+              my_profile: "Meine Profil",
+              my_bands: "Meine Bands",
+              my_events: "Meine Veranstaltungen",
+              my_riders: "Meine riders",
+              my_places: "Meine Orte",
+            },
+          },
+          settings: {
+            name: "Einstellungen",
+            options: {
+              settings: "Einstellungen",
+              help_center: "Hilfebereich",
+              report: "Bericht",
+              send_comments: "Kommentare senden",
+              logout: "Abmelden",
+            },
           },
         },
       },

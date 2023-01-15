@@ -18,7 +18,7 @@ export interface UserAvailableEntityRole {
 export const APP_DOMAIN_ROLES: { [entityName: string]: DomainRole } = {
   ARTIST: {
     entityName: "ARTIST",
-    label: "Artista",
+    label: "user_profile.artist",
     roles: [
       "ARTIST_OWNER",
       "ARTIST_MEMBER",
@@ -38,7 +38,7 @@ export const APP_DOMAIN_ROLES: { [entityName: string]: DomainRole } = {
   },
   PLACE: {
     entityName: "PLACE",
-    label: "Lugar",
+    label: "user_profile.place",
     roles: [
       "PLACE_OWNER",
       "MANAGER",

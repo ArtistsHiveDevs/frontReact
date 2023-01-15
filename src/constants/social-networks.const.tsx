@@ -3,6 +3,8 @@ export interface SocialNetworkTemplate {
   mobile_url?: string;
   icon: string;
   user_prefix?: string;
+  emptyTitle?: boolean;
+  title?: string;
 }
 
 export const SocialNetworks: {
@@ -14,29 +16,47 @@ export const SocialNetworks: {
   appleMusic: {
     url: "https://music.apple.com",
     icon: "SiApplemusic",
+    emptyTitle: true,
+    title: "Apple Music",
+  },
+  cd_baby: {
+    url: "https://CdBaby.com",
+    icon: "BsInfoCircleFill",
+    emptyTitle: true,
+    title: "CD Baby",
   },
   deezer: {
     url: "https://www.deezer.com/es/artist",
     icon: "FaDeezer",
+    emptyTitle: true,
+    title: "Deezer",
   },
   email: {
     url: "mailto",
     icon: "MdEmail",
+    title: "e-mail",
+    emptyTitle: true,
   },
   facebook: {
     url: "https://www.facebook.com",
     mobile_url: "https://m.facebook.com",
     icon: "BsFacebook",
+    emptyTitle: true,
+    title: "Facebook",
   },
   instagram: {
     url: "https://www.instagram.com",
     icon: "BsInstagram",
     user_prefix: "@",
+    emptyTitle: true,
+    title: "Instagram",
   },
   linkedin: {
     url: "https://www.linkedin.com",
     icon: "BsLinkedin",
     user_prefix: "",
+    emptyTitle: true,
+    title: "LinkedIn",
   },
   mobile_phone: {
     url: "tel",
@@ -50,39 +70,53 @@ export const SocialNetworks: {
     url: "https://open.spotify.com/artist",
     icon: "GrSoundcloud",
     user_prefix: "",
+    emptyTitle: true,
+    title: "Sound Cloud",
   },
   spotify: {
     url: "https://open.spotify.com/artist",
     icon: "BsSpotify",
     user_prefix: "",
+    emptyTitle: true,
+    title: "Spotify",
   },
   tiktok: {
     url: "https://www.tiktok.com",
     icon: "FaTiktok",
+    emptyTitle: true,
+    title: "Tik Tok",
   },
   twitter: {
     url: "https://www.twitter.com",
     mobile_url: "https://mobile.twitter.com",
     icon: "BsTwitter",
     user_prefix: "@",
+    emptyTitle: true,
+    title: "Twitter",
   },
   website: {
     url: "",
     icon: "TbWorld",
+    emptyTitle: true,
+    title: "Web",
   },
   whatsapp: {
     url: "https://wa.me",
     icon: "BsWhatsapp",
     user_prefix: "+",
+    emptyTitle: true,
+    title: "WhatsApp",
   },
   youtube: {
     url: "https://www.youtube.com/@",
     icon: "BsYoutube",
     user_prefix: "",
+    emptyTitle: true,
+    title: "Youtube",
   },
 };
 
-export function buildSocialNetworkLink(
+export function buildSocialNetworkLinkData(
   socialNetworkName: string,
   mainValue: string,
   extraParams: any = {}

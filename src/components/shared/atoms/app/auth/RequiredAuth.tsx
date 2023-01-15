@@ -3,7 +3,7 @@ import useAuth from "~/common/utils/hooks/auth/useAuth";
 import { PATHS } from "~/constants";
 import { AppUserModel } from "~/models/app/user/user.model";
 
-enum AuthorizationStates {
+export enum AuthorizationStates {
   ALLOWED,
   UNAUTHORIZED_AND_LOGGED_USER,
   UNAUTHORIZED_AND_UNLOGGED_USER,
@@ -131,4 +131,3 @@ export const RequireAuthPageNavigation = ({ allowedRoles = [] }) => {
   }
   return nextPage;
 };
-export default RequireAuthComponent;

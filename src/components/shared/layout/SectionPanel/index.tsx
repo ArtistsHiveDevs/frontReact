@@ -1,6 +1,6 @@
 import "./index.scss";
 
-const SectionsPanel = (props: any) => {
+export const SectionsPanel = (props: any) => {
   const { sectionName, sectionContent } = props;
 
   return (
@@ -12,5 +12,3 @@ const SectionsPanel = (props: any) => {
     </>
   );
 };
-
-export default SectionsPanel;

@@ -128,6 +128,12 @@ export const SocialNetworks: {
     emptyTitle: true,
     title: "WhatsApp",
   },
+  wikipedia: {
+    icon: "FaWikipediaW",
+    url: "https://en.wikipedia.org/wiki",
+    emptyTitle: true,
+    title: "Wikipedia",
+  },
   youtube: {
     url: "https://www.youtube.com/@",
     icon: "BsYoutube",

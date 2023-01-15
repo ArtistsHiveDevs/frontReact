@@ -1,30 +1,46 @@
+import { useI18n } from "~/common/utils";
 import "./index.scss";
 
 export interface FooterColumnOption {
-  text: string;
+  name: string;
   link?: string;
   icon?: string;
   image?: string;
   isTitle?: string;
+  isLiteralTitle?: boolean;
 }
 export interface FooterColumnTemplate {
-  columnTitle: string;
+  columnName: string;
+  isLiteralTitle?: boolean;
   options?: FooterColumnOption[];
 }
 
+const TRANSLATION_BASE_FOOTER_COLUMNS = "app.appbase.footer.columns";
+
 const FooterColumns = (props: any) => {
   const { footerColumns } = props;
+  const { translateText } = useI18n();
 
   return (
     <>
       <div className="footer-columns">
         {footerColumns?.map((footerColumn: FooterColumnTemplate, idx: any) => {
+          const columnTitle = footerColumn.isLiteralTitle
+            ? footerColumn.columnName
+            : translateText(
+                `${TRANSLATION_BASE_FOOTER_COLUMNS}.${footerColumn.columnName}.name`
+              );
           return (
-            <div key={footerColumn.columnTitle} className="footer-column">
-              <h2 className="column-title">{footerColumn.columnTitle}</h2>
+            <div key={footerColumn.columnName} className="footer-column">
+              <h2 className="column-title">{columnTitle}</h2>
               <ul>
                 {footerColumn.options?.map((option: FooterColumnOption) => {
-                  return <li key={option.text}>{option.text}</li>;
+                  const optionTitle = option.isLiteralTitle
+                    ? option.name
+                    : translateText(
+                        `${TRANSLATION_BASE_FOOTER_COLUMNS}.${footerColumn.columnName}.options.${option.name}`
+                      );
+                  return <li key={option.name}>{optionTitle}</li>;
                 })}
               </ul>
             </div>

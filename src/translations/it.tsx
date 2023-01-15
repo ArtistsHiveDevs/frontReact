@@ -4,6 +4,25 @@ export const ItMessages = {
     loading: "Caricamento in corso",
 
     pages: {
+      app: {
+        settings: {
+          title: "Impostazioni",
+          language_selection: {
+            title: "Selezione della lingua",
+          },
+          user_profile: {
+            title: "Profilo utente",
+            user: "Utente",
+            logout: "Disconnettersi",
+            logged_user: "Utente registrato",
+            empty_user: "Non c'è un utente",
+            user_info: "Informazioni utente",
+            roles: "Ruoli",
+            artist: "Artista",
+            place: "Luogo",
+          },
+        },
+      },
       ArtistsPages: {
         ArtistsDetailsPage: {
           subpages: {
@@ -250,35 +269,72 @@ export const ItMessages = {
         },
       },
     },
-    sidenav: {
-      name: "Menu principale",
-      sections: {
-        general: {
-          name: "Generale",
-          options: {
-            home: "Home",
-            cultural_agenda: "Agenda culturale",
+    appbase: {
+      footer: {
+        columns: {
+          what_we_do: {
+            name: "Cosa facciamo?",
+            options: {
+              cultural_agenda: "Agenda culturale",
+              for_artists: "Per gli artisti",
+              for_places: "Per luoghi",
+              for_promoters: "Per i promotori",
+              for_festivals: "Per i festival",
+            },
+          },
+          about_us: {
+            name: "Chi siamo",
+            options: {
+              history: "La nostra storia",
+              press: "Premere",
+              career: "Carriera",
+              download: "Scarica app",
+              data_policy: "Informativa sui dati",
+            },
+          },
+          help: {
+            name: "Aiuta",
+            options: {
+              help_center: "Centro assistenza",
+              contact_us: "Contattaci",
+              report: "Rapporto",
+            },
           },
         },
-        myInfo: {
-          name: "Mie Info",
-          options: {
-            inbox: "Posta in arrivo",
-            my_profile: "Mio profilo",
-            my_bands: "Miei band",
-            my_events: "Miei eventi",
-            my_riders: "Miei riders",
-            my_places: "Miei luoghi",
-          },
+        copywrite: {
+          allRightsReserved: "Tutti i diritti riservati",
         },
-        settings: {
-          name: "Impostazioni",
-          options: {
-            settings: "Impostazioni",
-            help_center: "Centro assistenza",
-            report: "Segnala",
-            send_comments: "Invia comenti",
-            logout: "Esci",
+      },
+      sidenav: {
+        name: "Menu principale",
+        sections: {
+          general: {
+            name: "Generale",
+            options: {
+              home: "Home",
+              cultural_agenda: "Agenda culturale",
+            },
+          },
+          myInfo: {
+            name: "Mie Info",
+            options: {
+              inbox: "Posta in arrivo",
+              my_profile: "Mio profilo",
+              my_bands: "Miei band",
+              my_events: "Miei eventi",
+              my_riders: "Miei riders",
+              my_places: "Miei luoghi",
+            },
+          },
+          settings: {
+            name: "Impostazioni",
+            options: {
+              settings: "Impostazioni",
+              help_center: "Centro assistenza",
+              report: "Segnala",
+              send_comments: "Invia comenti",
+              logout: "Esci",
+            },
           },
         },
       },

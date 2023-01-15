@@ -30,3 +30,5 @@ export const appMessages: { [key: string]: { [key: string]: string } } = {
   fr: flatObject(FrMessages),
   it: flatObject(ItMessages),
 };
+
+export const AVAILABLE_I18N_LANGUAGES = Object.keys(appMessages);

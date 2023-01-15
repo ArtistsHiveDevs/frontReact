@@ -1,71 +1,41 @@
 // vendor
-import { BrowserRouter as Router } from "react-router-dom";
-import { Suspense, useContext } from "react";
-import { IntlProvider } from "react-intl";
+import { Suspense, useContext, useState } from "react";
 import { HelmetProvider } from "react-helmet-async";
+import { IntlProvider } from "react-intl";
+import { BrowserRouter as Router } from "react-router-dom";
 
 // translations
 import { appMessages } from "./translations";
 
 // routes
-import { RoutesApp } from "./routes";
-import { AuthProvider, HvAppContext, HvAppContextProvider } from "./common";
-import SideNav from "./components/shared/sidenav";
-import FooterColumns, {
-  FooterColumnTemplate,
-} from "./components/shared/Footer/columns-menu";
-import FooterCopywrite from "./components/shared/Footer/footer-copywrite";
-import { PATHS } from "./constants";
+import { AuthProvider, HvAppContext, HvAppContextProvider } from "~/common";
+import { AppFooter } from "~/components/shared/organisms/app/Footer/AppFooter";
+import SideNav from "~/components/shared/sidenav";
+import { PATHS } from "~/constants";
+import { RoutesApp } from "~/routes";
 
 const App = () => {
-  let { lang, messages, setLang } = useContext(HvAppContext);
-  const onError = (error: any) => console.log(`Error Messages: ${error}`);
+  let { lang, messages, setLocale: setLang } = useContext(HvAppContext);
 
-  // Footer
-  const footerColumns: FooterColumnTemplate[] = [
-    {
-      columnTitle: "¿Qué hacemos?",
-      options: [
-        { text: "Agenda cultural", link: "#" },
-        { text: "Para artistas", link: "#" },
-        { text: "Para sitios", link: "#" },
-        { text: "Para promotores", link: "#" },
-        { text: "Para festivales", link: "#" },
-      ],
-    },
-    {
-      columnTitle: "Nosotros",
-      options: [
-        { text: "Historia", link: "#" },
-        { text: "Prensa", link: "#" },
-        { text: "Carrera", link: "#" },
-        { text: "Descarga", link: "#" },
-        { text: "Política de datos", link: "#" },
-      ],
-    },
-    // {
-    //   columnTitle: "Proyectos",
-    //   options: [{ text: "Conoce tu país", link: "#" }],
-    // },
-    {
-      columnTitle: "¿Ayuda?",
-      options: [
-        { text: "Centro de ayuda", link: "#" },
-        { text: "Contáctanos", link: "#" },
-        { text: "Reporta", link: "#" },
-      ],
-    },
-  ];
+  const [appLang, setAppLang] = useState<{ lang: string; messages: any }>({
+    lang,
+    messages,
+  });
+  const onError = (error: any) => console.log(`Error Messages: ${error}`);
 
   return (
     <HelmetProvider>
-      <HvAppContextProvider appMessages={appMessages}>
+      <HvAppContextProvider
+        appMessages={appMessages}
+        lang={appLang}
+        setLang={setAppLang}
+      >
         <Router basename={PATHS.BASENAME}>
           <AuthProvider>
             <IntlProvider
-              defaultLocale={navigator.language || "en"}
-              locale={lang}
-              messages={messages}
+              defaultLocale={appLang.lang || "en"}
+              locale={appLang.lang}
+              messages={appLang.messages}
               onError={onError}
             >
               <div className="wrapper">
@@ -75,8 +45,7 @@ const App = () => {
                   <div className="content">
                     <RoutesApp />
                   </div>
-                  <FooterColumns footerColumns={footerColumns}></FooterColumns>
-                  <FooterCopywrite></FooterCopywrite>
+                  <AppFooter />
                 </Suspense>
               </div>
             </IntlProvider>

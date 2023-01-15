@@ -4,7 +4,7 @@ export function crearDummyUser(numUsuario: number) {
   let updatedUser = UNLOGGED_USER;
   if (numUsuario === 1) {
     updatedUser = new AppUserModel({
-      id: "audasy",
+      id: "1",
       given_names: "Pepito",
       surnames: "Pérez",
       username: "pepito",
@@ -18,7 +18,7 @@ export function crearDummyUser(numUsuario: number) {
   }
   if (numUsuario === 2) {
     updatedUser = new AppUserModel({
-      id: "audasy",
+      id: "2",
       given_names: "Fulanito",
       surnames: "Gómez",
       username: "fgomez",
@@ -37,7 +37,7 @@ export function crearDummyUser(numUsuario: number) {
     updatedUser.modifyDummyRole("ARTIST", "5", "PRODUCER", "add");
   } else if (numUsuario === 3) {
     updatedUser = new AppUserModel({
-      id: "audasy",
+      id: "3",
       given_names: "María",
       surnames: "Pachón",
       username: "mpachon",
@@ -55,7 +55,7 @@ export function crearDummyUser(numUsuario: number) {
     updatedUser.modifyDummyRole("ARTIST", "10", "TOUR_MANAGER", "add");
   } else if (numUsuario === 4) {
     updatedUser = new AppUserModel({
-      id: "audasy",
+      id: "4",
       given_names: "Juanito",
       surnames: "Rodríguez",
       username: "jrod",
@@ -76,7 +76,7 @@ export function crearDummyUser(numUsuario: number) {
     updatedUser.modifyDummyRole("PLACE", "7", "PLACE_OWNER", "add");
   } else if (numUsuario === 5) {
     updatedUser = new AppUserModel({
-      id: "audasy",
+      id: "5",
       given_names: "Laura",
       surnames: "Jiménez",
       username: "ljimenez",

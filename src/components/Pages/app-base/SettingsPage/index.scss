@@ -28,3 +28,8 @@
   font-weight: 600;
   padding: 0.2rem;
 }
+
+.active-lang {
+  text-decoration: solid underline $main-title-color 2px;
+  text-underline-offset: 6px;
+}

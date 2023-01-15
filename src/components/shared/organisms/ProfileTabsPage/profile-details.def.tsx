@@ -1,8 +1,10 @@
 export enum ProfileComponentTypes {
   ATTRIBUTES_ICON_FIELDS,
   CALENDAR_SIMPLE_LAYOUT,
+  HTML_CONTENT,
   IMAGE_GALLERY,
   MAP,
+  PROFILE_THUMBNAIL_CARD,
 }
 export interface ProfileDetailsSubpage {
   name: string;
@@ -11,7 +13,8 @@ export interface ProfileDetailsSubpage {
   clickHandlerName?: string;
 }
 export interface ProfileDetailsSubpageSection {
-  name: string;
+  id?: string;
+  name?: string;
   attributes?: ProfileDetailAttributeConfiguration[];
   components?: ProfileComponentDescriptor[];
   requireSession?: boolean;
@@ -48,4 +51,6 @@ export interface ProfileDetailAttributeConfiguration {
   requireSession?: boolean;
 
   title?: string;
+
+  useTranslation?: boolean;
 }

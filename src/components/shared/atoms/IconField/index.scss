@@ -1,0 +1,10 @@
+.icon-field-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.field-content {
+  overflow-wrap: anywhere;
+}

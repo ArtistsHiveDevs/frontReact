@@ -1,6 +1,5 @@
 import { lazy } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import RequireAuth from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from "~/constants";
 

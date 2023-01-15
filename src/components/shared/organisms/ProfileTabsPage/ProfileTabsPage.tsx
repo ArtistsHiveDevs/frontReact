@@ -27,6 +27,7 @@ import { SectionsPanel } from "~/components/shared/layout/SectionPanel";
 import { TabbedPanel } from "~/components/shared/layout/TabbedPanel";
 import { ProfileHeader } from "~/components/shared/molecules/Profile/ProfileHeader";
 import { ProfileThumbnailCard } from "~/components/shared/molecules/Profile/ProfileThumbnailCard";
+import { SocialNetworks } from "~/constants/social-networks.const";
 
 export interface ProfilePageParams {
   entityName: string;
@@ -219,9 +220,39 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
         componentDescriptor.data?.attributes?.map(
           (attribute: any, componentIndex: number) => {
             let value = getData(attribute.name, parentDataSource);
-            if (attribute.value) {
+            if (attribute.value || attribute.components) {
               if (attribute.value instanceof Function) {
                 value = <>{attribute.value(dataSourceElement)}</>;
+              } else if (attribute.components && attribute.components.length) {
+                value = (
+                  <>
+                    {(attribute.components || []).map(
+                      (
+                        componentDescriptor: ProfileComponentDescriptor,
+                        componentIndex: number
+                      ) => {
+                        const source = parentDataSource || entityData;
+
+                        const dataSourceElement: EntityModel<EntityTemplate> =
+                          source[
+                            componentDescriptor.data
+                              ?.data_source as keyof typeof source
+                          ];
+
+                        componentDescriptor.data.socialNetwork = attribute.name;
+
+                        const generated = buildComponent(
+                          subpage,
+                          section,
+                          componentDescriptor,
+                          componentIndex,
+                          dataSourceElement
+                        );
+                        return generated;
+                      }
+                    )}
+                  </>
+                );
               } else {
                 value = attribute.value;
               }
@@ -381,7 +412,18 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           onClickHandler={clickHandler}
         />
       );
+    } else if (
+      componentDescriptor.componentName ===
+      ProfileComponentTypes.SOCIAL_NETWORK_WIDGET
+    ) {
+      const socialNetworkName = componentDescriptor.data?.socialNetwork;
+      renderedComponent = SocialNetworks[socialNetworkName]?.widget({
+        user: dataSourceElement[
+          socialNetworkName as keyof typeof dataSourceElement
+        ],
+      });
     }
+
     return renderedComponent;
   }
   //#endregion

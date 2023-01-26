@@ -6,12 +6,15 @@ import { SearchListGroup } from "./search-list-group";
 import { ISearchMock, searchMock } from "./search-mock";
 import consts, { Type } from "./constants";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
+import { PlaceModel } from "~/models/domain/place/place.model";
 
 type Prop = {
-  q?: string;
+  q: string;
+  artistList: ArtistModel[];
+  placesList: PlaceModel[];
 };
 
-export const SearchItem: React.FC<Prop> = ({ q = consts.defaultSearch }) => {
+export const SearchItem: React.FC<Prop> = ({q = consts.defaultSearch, artistList, placesList}) => {
   const [results, setResults] = useState(new Set(consts.defaultTypes));
   const [checked, setChecked] = useState(new Set(consts.defaultTypes));
 
@@ -19,10 +22,12 @@ export const SearchItem: React.FC<Prop> = ({ q = consts.defaultSearch }) => {
   const sliceCount = (name: string) =>
     name === "artists" ? consts.maxDefaultArtists : consts.maxDefaultPlaces;
 
-  useEffect(() => {
     /* TODO */
-    const list1: ISearchMock = searchMock()(q)[0];
-    const list2: ISearchMock = searchMock()(q)[1];
+    const list1: ISearchMock = searchMock()(q, artistList)[0];
+    const list2: ISearchMock = searchMock()(q, placesList)[1];
+    const combinatedList: any = [...artistList, ...placesList];
+
+  useEffect(() => {
 
     if (!hasWords && (results.has(Type.ARTISTS) || results.has(Type.PLACES))) {
       setResults((prev) => new Set([...prev, ...consts.defaultTypes]));
@@ -32,7 +37,7 @@ export const SearchItem: React.FC<Prop> = ({ q = consts.defaultSearch }) => {
     if (
       list1.id === Type.ARTISTS &&
       !results.has(Type.ARTISTS) &&
-      Boolean(list1.data().length)
+      Boolean(list1.data()?.length)
     ) {
       setResults((prev) => new Set([...prev, Type.ARTISTS]));
       setChecked((prev) => new Set([...prev, Type.ARTISTS]));
@@ -41,13 +46,13 @@ export const SearchItem: React.FC<Prop> = ({ q = consts.defaultSearch }) => {
     if (
       list2.id === Type.PLACES &&
       !results.has(Type.PLACES) &&
-      Boolean(list2.data().length)
+      Boolean(list2.data()?.length)
     ) {
       setResults((prev) => new Set([...prev, Type.PLACES]));
       setChecked((prev) => new Set([...prev, Type.PLACES]));
     }
 
-    if (list1.data().length === 0) {
+    if (list1.data()?.length === 0) {
       setResults(
         (prev) => new Set([...prev].filter((types) => types !== Type.ARTISTS))
       );
@@ -56,7 +61,7 @@ export const SearchItem: React.FC<Prop> = ({ q = consts.defaultSearch }) => {
       );
     }
 
-    if (list2.data().length === 0) {
+    if (list2.data()?.length === 0) {
       setResults(
         (prev) => new Set([...prev].filter((types) => types !== Type.PLACES))
       );
@@ -106,7 +111,7 @@ export const SearchItem: React.FC<Prop> = ({ q = consts.defaultSearch }) => {
         </div>
       </ListGroup.Item>
 
-      {searchMock()(q).map((list: ISearchMock) => {
+      {searchMock()(q, combinatedList)?.map((list: ISearchMock) => {
         if (!checked.has(Type.ARTISTS) && Type.ARTISTS === list.id) {
           return;
         }
@@ -117,20 +122,22 @@ export const SearchItem: React.FC<Prop> = ({ q = consts.defaultSearch }) => {
 
         return !hasWords
           ? list
-              .data()
-              .slice(0, sliceCount(list.id))
-              .map((search: ArtistModel, idx: number) => (
+              ?.data()
+              ?.slice(0, sliceCount(list.id))
+              ?.map((search: ArtistModel, idx: number) => (
                 <SearchListGroup
                   key={`three-${list.name}-${search.id}${idx}`}
                   search={search}
+                  type  = {`${list.id}`}
                 />
               ))
           : list
-              .data()
-              .map((search: ArtistModel, idx: number) => (
+              ?.data()
+              ?.map((search: ArtistModel, idx: number) => (
                 <SearchListGroup
                   key={`full-${list.name}-${search.id}${idx}`}
                   search={search}
+                  type = {`${list.id}`}
                 />
               ));
       })}

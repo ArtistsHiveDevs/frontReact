@@ -6,11 +6,12 @@ import { ArtistModel } from "~/models/domain/artist/artist.model";
 
 type Prop = {
   search: ArtistModel;
+  type: string;
 };
 
-export const SearchListGroup: React.FC<Prop> = ({ search }) => (
+export const SearchListGroup: React.FC<Prop> = ({ search, type }) => (
   <ListGroup.Item className="search-item">
-    <Link className="search-item__link" to={`/artist/detail/${search.id}`}>
+    <Link className="search-item__link" to={`/${type}/details/${search.id}`}>
       <img className="search-item__img" src={search.profile_pic} />
       <div className="search-item-box">
         <h4 className="search-item__title">{search.name}</h4>

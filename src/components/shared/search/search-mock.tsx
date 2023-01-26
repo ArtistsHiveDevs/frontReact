@@ -1,5 +1,6 @@
-import { findCustomList } from "~/constants";
+import { findCustomList, findOnCustomListInput } from "~/constants";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
+import { PlaceModel } from "~/models/domain/place/place.model";
 
 export interface ISearchMock {
   id: string;
@@ -11,15 +12,14 @@ export interface ISearchMock {
 }
 
 export const searchMock = () => {
-  return (query: string): ISearchMock[] => [
+  return (query: string, list?: ArtistModel[] | PlaceModel[]): ISearchMock[] => [
     {
       id: "artists",
       name: "Artists",
       ratio: 8,
       displayField: "name",
       data: () => {
-        const { newArtistsList: artists } = findCustomList(query);
-
+        const { newList: artists } = findOnCustomListInput(query, list);
         return artists;
       },
       searchType: "startswith",
@@ -30,8 +30,7 @@ export const searchMock = () => {
       ratio: 2,
       displayField: "name",
       data: () => {
-        const { newPlacesList: places } = findCustomList(query);
-
+        const { newList: places } = findOnCustomListInput(query, list);
         return places;
       },
       searchType: "contains",

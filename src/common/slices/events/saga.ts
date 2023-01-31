@@ -1,3 +1,4 @@
+import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest, delay } from "redux-saga/effects";
 
 import { request } from "~/common/utils/request";
@@ -18,6 +19,24 @@ export function* getEvents() {
   }
 }
 
+export function* getQueriedEvents(actionParams?:PayloadAction<string>) {
+  yield delay(500);
+
+  const {payload} = actionParams;
+
+  const requestURL = `${
+    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
+  }/events?q=${payload || 'no_query_str'}`;
+
+  try {
+    const events: EventModel[] = yield call(request, requestURL);
+
+    yield put(actions.queriedEvents(events));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -27,4 +46,5 @@ export function* eventSaga() {
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
   yield takeLatest(actions.loadEvents.type, getEvents);
+  yield takeLatest(actions.queryEvents.type, getQueriedEvents);
 }

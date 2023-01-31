@@ -22,3 +22,8 @@ export const selectEvents = createSelector(
   [selectDomain],
   (EventState) => EventState.events
 );
+
+export const selectQueriedEvents = createSelector(
+  [selectDomain],
+  (EventState) => EventState.queriedEvents
+);

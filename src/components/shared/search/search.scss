@@ -111,5 +111,12 @@ a.search-item__link:hover {
     .bg-ah-third {
       background-color: #d83e3e;
     }
+    .bg-ah-fourth {
+      background-color: #8a5433;
+    }
+    .bg-ah-border-fourth {
+      border: 1px solid rgba(#8a5433, 0.5);
+      color: currentColor;
+    }
   }
 }

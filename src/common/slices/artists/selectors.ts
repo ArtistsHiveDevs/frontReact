@@ -22,3 +22,8 @@ export const selectArtists = createSelector(
   [selectDomain],
   (ArtistState) => ArtistState.artists
 );
+
+export const selectArtistsQuery = createSelector(
+  [selectDomain],
+  (ArtistState) => ArtistState.queriedArtists
+);

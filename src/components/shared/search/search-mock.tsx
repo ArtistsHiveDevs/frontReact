@@ -1,5 +1,6 @@
 import { findCustomList, findOnCustomListInput } from "~/constants";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
+import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
 
 export interface ISearchMock {
@@ -9,6 +10,15 @@ export interface ISearchMock {
   displayField: string;
   data: () => ArtistModel[];
   searchType: string;
+}
+
+export interface ISearchList {
+  id: string;
+  name: string;
+  ratio?: number;
+  displayField: string;
+  data: ArtistModel[] | PlaceModel[] | EventModel[];
+  searchType?: string;
 }
 
 export const searchMock = () => {

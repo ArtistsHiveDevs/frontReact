@@ -8,4 +8,6 @@ export interface EventState {
   events: EventModel[] | [];
   loading: boolean;
   error: EventErrorType | null;
+  eventQueryParams: string;
+  queriedEvents: EventModel[] | [];
 }

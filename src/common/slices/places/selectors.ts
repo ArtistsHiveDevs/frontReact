@@ -22,3 +22,8 @@ export const selectPlaces = createSelector(
   [selectDomain],
   (PlaceState) => PlaceState.places
 );
+
+export const selectQueriedPlaces = createSelector(
+  [selectDomain],
+  (PlaceState) => PlaceState.queriedPlaces
+);

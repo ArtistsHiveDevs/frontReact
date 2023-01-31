@@ -13,15 +13,6 @@ import { selectPlaces } from "~/common/slices/places/selectors";
 
 export const SearchComponent = (props: any) => {
 
-  // Hooks
-  const dispatch = useDispatch();
-
-  const artistList: ArtistModel[] = useSelector(selectArtists);
-  const { actions: artistsActions } = useArtistsSlice();
-
-  const placesList: PlaceModel[] = useSelector(selectPlaces);
-  const { actions: placesActions } = usePlacesSlice();
-
   const { openedStatus } = props;
   const [text, setText] = useState("");
   const [focused, setFocused] = useState(false);
@@ -48,13 +39,6 @@ export const SearchComponent = (props: any) => {
   );
 
   useEffect(() => {
-
-    if (artistList.length === 0) {
-      dispatch(artistsActions.loadArtists());
-    }
-    if (placesList.length === 0) {
-      dispatch(placesActions.loadPlaces());
-    }
 
     window.addEventListener("click", (e) => handleOnClickOut(e));
 
@@ -87,9 +71,7 @@ export const SearchComponent = (props: any) => {
         </InputGroup>
         {focused && (
           <div className="ah-combobox-search">
-            <SearchItem q={text}
-                 artistList = {artistList}
-                 placesList = {placesList} />
+            <SearchItem q={text} />
           </div>
         )}
       </div>

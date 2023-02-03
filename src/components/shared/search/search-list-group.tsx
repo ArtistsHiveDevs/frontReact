@@ -6,13 +6,13 @@ import { ArtistModel } from "~/models/domain/artist/artist.model";
 import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
 
-type Prop = {
+type QueryTemplate = {
   search: ArtistModel | PlaceModel | EventModel;
   type: string;
 };
 
-export const SearchListGroup: React.FC<Prop> = ({ search, type }) => (
-  <ListGroup.Item className="search-item">
+export const SearchListGroup: React.FC<QueryTemplate> = ({ search, type }) => (
+  <ListGroup.Item className="search-item line-up-an">
     <Link className="search-item__link" to={`/${type}/details/${search.id}`}>
       <img className="search-item__img" src={ search instanceof  EventModel ? search.photo :  search?.profile_pic} />
       <div className="search-item-box">

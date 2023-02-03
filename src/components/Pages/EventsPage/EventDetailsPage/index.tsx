@@ -22,7 +22,7 @@ const TRANSLATION_BASE_EVENT_DETAILS_PAGE: string =
 const EventDetailsPage = () => {
   // Component URL Params
   const urlParameters = useParams();
-  const eventId = urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID];
+  const [eventId, setCurrentEventId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
 
   // States
   const [currentEvent, setCurrentEvent] = useState<EventModel>(undefined);
@@ -49,7 +49,12 @@ const EventDetailsPage = () => {
         eventsList?.find((event) => `${event.id}` === `${eventId}`)
       );
     }
-  }, []);
+
+    if (eventId !== urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]) {
+      setCurrentEventId(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
+    }
+
+  }, [urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]]);
 
   useEffect(() => {
     if (!!eventsList.length) {

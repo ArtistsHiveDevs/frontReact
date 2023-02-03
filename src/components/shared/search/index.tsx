@@ -63,7 +63,7 @@ export const SearchComponent = (props: any) => {
             autoComplete="off"
             className="ah-nav-search__input"
             name="search"
-            placeholder="Artistas, lugares..."
+            placeholder="Artistas, eventos, lugares..."
             value={text}
             onChange={handleText}
             onClick={() => handleOnBlur()}

@@ -30,7 +30,7 @@ export function* getQueriedPlaces(actionParams?:PayloadAction<string>) {
 
   const requestURL = `${
     import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/places?q=${payload || 'no_query_str'}`;
+  }/places?q=${payload}`;
 
   try {
     const places: PlaceModel[] = yield call(request, requestURL);
@@ -38,6 +38,7 @@ export function* getQueriedPlaces(actionParams?:PayloadAction<string>) {
     yield put(actions.queriedPlaces(places));
   } catch (err) {
     console.log(err);
+    yield put(actions.repoError(1));
   }
 }
 

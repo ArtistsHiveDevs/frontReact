@@ -25,13 +25,13 @@ export function* getArtists() {
   }
 }
 
-export function* getArtistsDos(actionParams?:PayloadAction<string>) {
+export function* queriedArtists(actionParams?:PayloadAction<string>) {
   yield delay(500);
 
   const {payload} = actionParams;
   const requestURL = `${
     import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/artists?q=${payload || 'no_query_str'}`;
+  }/artists?q=${payload}`;
 
 
   try {
@@ -40,6 +40,7 @@ export function* getArtistsDos(actionParams?:PayloadAction<string>) {
     yield put(actions.artistsQueried(artists));
   } catch (err) {
     console.log(err);
+    yield put(actions.repoError(1));
   }
 }
 
@@ -52,5 +53,5 @@ export function* artistSaga() {
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
   yield takeLatest(actions.loadArtists.type, getArtists);
-  yield takeLatest(actions.queryArtists.type, getArtistsDos);
+  yield takeLatest(actions.queryArtists.type, queriedArtists);
 }

@@ -5,6 +5,7 @@ import { request } from "~/common/utils/request";
 import { EventModel } from "~/models/domain/event/event.model";
 
 import { eventsActions as actions } from ".";
+import { EventErrorType } from "./types";
 
 export function* getEvents() {
   yield delay(500);
@@ -26,7 +27,7 @@ export function* getQueriedEvents(actionParams?:PayloadAction<string>) {
 
   const requestURL = `${
     import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/events?q=${payload || 'no_query_str'}`;
+  }/events?q=${payload}`;
 
   try {
     const events: EventModel[] = yield call(request, requestURL);
@@ -34,6 +35,7 @@ export function* getQueriedEvents(actionParams?:PayloadAction<string>) {
     yield put(actions.queriedEvents(events));
   } catch (err) {
     console.log(err);
+    yield put(actions.repoError(1));
   }
 }
 

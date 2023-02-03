@@ -9,12 +9,13 @@ import { ArtistModel } from "~/models/domain/artist/artist.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
 import { useDispatch, useSelector } from "react-redux";
 import { useArtistsSlice } from "~/common/slices";
-import { selectArtistsQuery } from "~/common/slices/artists/selectors";
-import { selectQueriedPlaces } from "~/common/slices/places/selectors";
+import { selectArtistsQuery, artistsSelectLoading } from "~/common/slices/artists/selectors";
+import { selectQueriedPlaces, placesSelectLoading } from "~/common/slices/places/selectors";
 import { usePlacesSlice } from "~/common/slices/places";
-import { selectQueriedEvents } from "~/common/slices/events/selectors";
+import { eventsSelectLoading, selectQueriedEvents } from "~/common/slices/events/selectors";
 import { EventModel } from "~/models/domain/event/event.model";
 import { useEventsSlice } from "~/common/slices/events";
+import { useStore } from "react-redux";
 
 type Prop = {
   q: string;
@@ -22,10 +23,10 @@ type Prop = {
 
 
 export const SearchItem: React.FC<Prop> = ({q = consts.defaultSearch}) => {
-  const [results, setResults] = useState(new Set(consts.defaultTypes));
   const [checked, setChecked] = useState(new Set(consts.defaultTypes));
 
   const hasWords = Boolean(q);
+
   const sliceCount = (search: ISearchList) => {
     let maxListValues = consts.maxDefaultSearchElements;
     if(search?.ratio) {
@@ -35,14 +36,18 @@ export const SearchItem: React.FC<Prop> = ({q = consts.defaultSearch}) => {
   }
     
     const dispatch = useDispatch();
+    const esto = useStore();
 
     const queriedArtistsList: ArtistModel[] = useSelector(selectArtistsQuery);
+    const queryArtistListLoading: boolean = useSelector(artistsSelectLoading);
     const { actions: artistsActions } = useArtistsSlice();
 
     const queriedPlacesList: PlaceModel[] = useSelector(selectQueriedPlaces);
+    const queryPlacesLoading: boolean = useSelector(placesSelectLoading);
     const { actions: placesActions } = usePlacesSlice();
 
     const queriedEventsList: EventModel[] = useSelector(selectQueriedEvents);
+    const queryEventsLoading: boolean = useSelector(eventsSelectLoading);
     const { actions: eventsActions } = useEventsSlice();
 
     const artistSearchObject : ISearchList = {
@@ -58,7 +63,7 @@ export const SearchItem: React.FC<Prop> = ({q = consts.defaultSearch}) => {
       name: "Places",
       displayField: "name",
       searchType: "contains",
-      data: queriedArtistsList
+      data: queriedPlacesList
     }
 
     const eventsSearchObject : ISearchList = {
@@ -72,76 +77,17 @@ export const SearchItem: React.FC<Prop> = ({q = consts.defaultSearch}) => {
 
   useEffect(() => {
 
-    dispatch(artistsActions.queryArtists(q));
-    dispatch(placesActions.queryPlaces(q));
-    dispatch(eventsActions.queryEvents(q));
-    
-
-    if (!hasWords && (results.has(Type.ARTISTS) || results.has(Type.PLACES) || results.has(Type.EVENTS))) {
-      setResults((prev) => new Set([...prev, ...consts.defaultTypes]));
-      setChecked((prev) => new Set([...prev, ...consts.defaultTypes]));
+    if (q?.length > 0) {
+      dispatch(artistsActions.queryArtists(q));
+      dispatch(placesActions.queryPlaces(q));
+      dispatch(eventsActions.queryEvents(q));
     }
-
-    if (
-      artistSearchObject.id === Type.ARTISTS &&
-      !results.has(Type.ARTISTS) &&
-      Boolean(artistSearchObject.data?.length)
-    ) {
-      setResults((prev) => new Set([...prev, Type.ARTISTS]));
-      setChecked((prev) => new Set([...prev, Type.ARTISTS]));
-    }
-
-    if (
-      placesSearchObject.id === Type.PLACES &&
-      !results.has(Type.PLACES) &&
-      Boolean(placesSearchObject.data?.length)
-    ) {
-      setResults((prev) => new Set([...prev, Type.PLACES]));
-      setChecked((prev) => new Set([...prev, Type.PLACES]));
-    }
-
-    if (
-      placesSearchObject.id === Type.EVENTS &&
-      !results.has(Type.PLACES) &&
-      Boolean(eventsSearchObject.data?.length)
-    ) {
-      setResults((prev) => new Set([...prev, Type.EVENTS]));
-      setChecked((prev) => new Set([...prev, Type.EVENTS]));
-    }
-
-    if (artistSearchObject.data?.length === 0) {
-      setResults(
-        (prev) => new Set([...prev].filter((types) => types !== Type.ARTISTS))
-        );
-        setChecked(
-          (prev) => new Set([...prev].filter((types) => types !== Type.ARTISTS))
-          );
-        }
-
-    if (placesSearchObject.data?.length === 0) {
-      setResults(
-        (prev) => new Set([...prev].filter((types) => types !== Type.PLACES))
-        );
-        setChecked(
-          (prev) => new Set([...prev].filter((types) => types !== Type.PLACES))
-          );
-    }
-
-    if (eventsSearchObject.data?.length === 0) {
-      setResults(
-        (prev) => new Set([...prev].filter((types) => types !== Type.EVENTS))
-        );
-        setChecked(
-          (prev) => new Set([...prev].filter((types) => types !== Type.EVENTS))
-          );
-    }
-
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q]);
 
   const handleChecked = (check: Type) => {
-    if (results.has(check) && checked.has(check)) {
+    if (checked.has(check)) {
       setChecked(
         (prev) => new Set([...prev].filter((types) => types !== check))
       );
@@ -150,35 +96,45 @@ export const SearchItem: React.FC<Prop> = ({q = consts.defaultSearch}) => {
     }
   };
 
-  return (
+  return q?.length > 0 && (
     <ListGroup className="search-list">
       <ListGroup.Item className="search-item-head">
         <h4 className="search-item-head__title">
           {hasWords ? "Lista de resultados" : "Recomendados"}
         </h4>
-        <div className="search-item-head__subtitle">
+        <div className="search-item-head__subtitle disable-select">
           <Badge
             bg={
-              checked.has(Type.ARTISTS) ? "ah-secundary" : "ah-border-secundary"
+              checked.has(Type.ARTISTS) && artistSearchObject?.data?.length > 0 ?
+              "ah-secundary color-hor-an" : "ah-border-secundary"
             }
             onClick={() =>
-              results.has(Type.ARTISTS) ? handleChecked(Type.ARTISTS) : {}
+              artistSearchObject?.data?.length > 0 ?
+              handleChecked(Type.ARTISTS) : {}
             }
           >
             Artists
           </Badge>
           <Badge
-            bg={checked.has(Type.PLACES) ? "ah-third" : "ah-border-third"}
+            bg={
+              checked.has(Type.PLACES) && placesSearchObject?.data?.length > 0 ?
+              "ah-third color-hor-an" : "ah-border-third"
+            }
             onClick={() =>
-              results.has(Type.PLACES) ? handleChecked(Type.PLACES) : {}
+              placesSearchObject?.data?.length > 0 ?
+              handleChecked(Type.PLACES) : {}
             }
           >
             Places
           </Badge>
           <Badge
-            bg={checked.has(Type.PLACES) ? "ah-fourth" : "ah-border-fourth"}
+            bg={
+              checked.has(Type.EVENTS) && eventsSearchObject?.data?.length > 0 ?
+              "ah-fourth color-hor-an" : "ah-border-fourth"
+            }
             onClick={() =>
-              results.has(Type.PLACES) ? handleChecked(Type.EVENTS) : {}
+              eventsSearchObject?.data?.length > 0 ?
+              handleChecked(Type.EVENTS) : {}
             }
           >
             Events
@@ -186,9 +142,31 @@ export const SearchItem: React.FC<Prop> = ({q = consts.defaultSearch}) => {
         </div>
       </ListGroup.Item>
 
+      {
+      queryArtistListLoading &&
+      queryEventsLoading &&
+      queryPlacesLoading && (
+        <ListGroup.Item>
+        <p className="label-search-waiting line-up-an">Escribe tu búsqueda...</p>
+      </ListGroup.Item>
+      )}
+
+      {
+      !queryArtistListLoading &&
+      !queryEventsLoading &&
+      !queryPlacesLoading &&
+      !artistSearchObject?.data.length &&
+      !placesSearchObject?.data.length &&
+      !eventsSearchObject?.data.length &&  
+      (
+        <ListGroup.Item>
+        <p className="label-search-waiting line-up-an">No se ha encontrado ningún resultado</p>
+      </ListGroup.Item>
+      )}
+
       {/* Search Artists */}
 
-      {queriedArtistsList
+      {checked.has(Type.ARTISTS) && artistSearchObject?.data
         ?.slice(0, sliceCount(artistSearchObject))
         ?.map((artist, idx) => {
         if (!checked.has(Type.ARTISTS) && Type.ARTISTS === artist.id) {
@@ -204,20 +182,20 @@ export const SearchItem: React.FC<Prop> = ({q = consts.defaultSearch}) => {
           <SearchListGroup
             key={`three-${artist.name}-${artist.id}${idx}`}
             search={artist}
-            type  = {`${artist.id}`}
+            type  = {`${artistSearchObject.id}`}
           />
         : 
           <SearchListGroup
             key={`full-${artist.name}-${artist.id}${idx}`}
             search={artist}
-            type = {`${artist.id}`}
+            type = {`${artistSearchObject.id}`}
           />
 
       })}
 
       {/* Search places */}
 
-      {queriedPlacesList
+      {checked.has(Type.PLACES) && placesSearchObject?.data
         ?.slice(0, sliceCount(placesSearchObject))
         ?.map((place, idx) => {
         if (!checked.has(Type.ARTISTS) && Type.ARTISTS === place.id) {
@@ -233,20 +211,20 @@ export const SearchItem: React.FC<Prop> = ({q = consts.defaultSearch}) => {
           <SearchListGroup
             key={`three-${place.name}-${place.id}${idx}`}
             search={place}
-            type  = {`${place.id}`}
+            type  = {`${placesSearchObject.id}`}
           />
         : 
           <SearchListGroup
             key={`full-${place.name}-${place.id}${idx}`}
             search={place}
-            type = {`${place.id}`}
+            type = {`${placesSearchObject.id}`}
           />
 
       })}
 
       {/* Search events */}
 
-      {queriedEventsList
+      {checked.has(Type.EVENTS) && eventsSearchObject?.data
         ?.slice(0, sliceCount(eventsSearchObject))
         ?.map((event, idx) => {
         if (!checked.has(Type.ARTISTS) && Type.ARTISTS === event.id) {
@@ -262,16 +240,19 @@ export const SearchItem: React.FC<Prop> = ({q = consts.defaultSearch}) => {
           <SearchListGroup
             key={`three-${event.name}-${event.id}${idx}`}
             search={event}
-            type  = {`${event.id}`}
+            type  = {`${eventsSearchObject.id}`}
           />
         : 
           <SearchListGroup
             key={`full-${event.name}-${event.id}${idx}`}
             search={event}
-            type = {`${event.id}`}
+            type = {`${eventsSearchObject.id}`}
           />
 
       })}
+
+
+
     </ListGroup>
   );
 };

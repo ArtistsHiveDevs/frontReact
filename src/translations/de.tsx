@@ -3,6 +3,7 @@ export const DeMessages = {
     name: "App DE",
     loading: "Wird geladen",
     general: {
+      not_found_results: "Keine Ergebnisse gefunden",
       not_found_page: {
         title: "Hoppla! Wir konnten nicht finden, wonach Sie suchen",
       },

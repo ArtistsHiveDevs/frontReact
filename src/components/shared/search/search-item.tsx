@@ -18,6 +18,7 @@ import {
   placesSelectLoading,
   selectQueriedPlaces,
 } from "~/common/slices/places/selectors";
+import { useI18n } from "~/common/utils";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
 import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
@@ -29,8 +30,15 @@ type Prop = {
   q: string;
 };
 
+const TRANSLATION_BASE_SEARCH = "app.general";
 
 export const SearchItem: React.FC<Prop> = ({ q = consts.defaultSearch }) => {
+  const { translateText, locale } = useI18n();
+
+  function translate(text: string) {
+    return translateText(`${TRANSLATION_BASE_SEARCH}.${text}`);
+  }
+
   const [checked, setChecked] = useState(new Set(consts.defaultTypes));
 
   const hasWords = Boolean(q);
@@ -173,7 +181,7 @@ export const SearchItem: React.FC<Prop> = ({ q = consts.defaultSearch }) => {
           !eventsSearchObject?.data.length && (
             <ListGroup.Item>
               <p className="label-search-waiting line-up-an">
-                No se ha encontrado ningún resultado
+                {translate("not_found_results")}
               </p>
             </ListGroup.Item>
           )}

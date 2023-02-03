@@ -2,6 +2,12 @@ export const FrMessages = {
   app: {
     name: "App FR",
     loading: "Chargement en cours",
+    general: {
+      not_found_results: "Aucun résultat trouvé",
+      not_found_page: {
+        title: "Oups ! Nous n'avons pas trouvé ce que vous cherchez",
+      },
+    },
     pages: {
       app: {
         settings: {

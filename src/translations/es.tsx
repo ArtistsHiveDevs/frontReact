@@ -28,6 +28,86 @@ export const EsMessages = {
           },
         },
       },
+
+      app_base: {
+        UsersPages: {
+          UsersDetailsPage: {
+            subpages: {
+              general: {
+                name: "General",
+                sections: {
+                  general: {
+                    name: "Info General",
+                    attributes: {
+                      fullname: "Nombre completo",
+                    },
+                  },
+                  contact: {
+                    name: "Contacto",
+                  },
+                  emergency_contact: {
+                    name: "Contacto de emergencia",
+                  },
+                },
+              },
+              arts: {
+                name: "Artes",
+                sections: {
+                  music: {
+                    name: "Música",
+                  },
+                  dance: {
+                    name: "Danza",
+                  },
+                  photography: {
+                    name: "Fotografía",
+                  },
+                  video: {
+                    name: "Video",
+                  },
+                  painting: {
+                    name: "Pintura",
+                  },
+                  poetry: {
+                    name: "Poesía",
+                  },
+                  standup_comedy: {
+                    name: "Stand-up Comedy",
+                  },
+                  awards: {
+                    name: "Premios",
+                  },
+                },
+              },
+              memberships: {
+                name: "Membresías",
+                sections: {
+                  artists: {
+                    name: "Artistas",
+                  },
+                  places: {
+                    name: "Lugares",
+                  },
+                },
+              },
+              shows: {
+                name: "Mis eventos",
+                sections: {
+                  my_liked_shows: {
+                    name: "Mis favoritos",
+                  },
+                  next_shows: {
+                    name: "Próximos eventos",
+                  },
+                  past_shows: {
+                    name: "Eventos pasados",
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
       ArtistsPages: {
         ArtistsDetailsPage: {
           subpages: {

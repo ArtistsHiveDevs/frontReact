@@ -1,4 +1,5 @@
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
+import { VerificationStatus } from "~/constants";
 import "./index.scss";
 
 export interface ProfileHeaderElement {
@@ -10,6 +11,13 @@ export interface ProfileHeaderElement {
 
 export const ProfileHeader = (props: any) => {
   const { element } = props;
+  console.log(
+    element,
+    element?.verified_status,
+    element?.verified_status === VerificationStatus.NON_VERIFIED,
+    element?.verified_status === VerificationStatus.VERIFIED,
+    element?.verified_status === VerificationStatus.VERIFIED_AND_APPROVED
+  );
   return (
     <div className="profile-header">
       <img className="avatar" src={element.profile_pic} alt={element?.name} />

@@ -66,8 +66,8 @@ export interface RequireAuthParameters {
 
 export const RequireAuthComponent = (props: RequireAuthParameters) => {
   const { children, allowedRoles, requiredSession, name } = props;
-  const { auth } = useAuth();
-  const authAppUser: AppUserModel = auth;
+  const { loggedUser } = useAuth();
+  const authAppUser: AppUserModel = loggedUser;
 
   let nextPage;
 
@@ -93,8 +93,8 @@ export const RequireAuthComponent = (props: RequireAuthParameters) => {
 };
 
 export const RequireAuthPageNavigation = ({ allowedRoles = [] }) => {
-  const { auth } = useAuth();
-  const authAppUser: AppUserModel = auth;
+  const { loggedUser } = useAuth();
+  const authAppUser: AppUserModel = loggedUser;
   const location = useLocation();
 
   let nextPage;

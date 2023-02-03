@@ -1,10 +1,25 @@
 import { createContext, ReactNode, useState } from "react";
-import { crearDummyUser } from "~/components/Pages/app-base/SettingsPage/dummy-users.mock";
-import { AppUserModel } from "~/models/app/user/user.model";
+import { AppUserModel, UNLOGGED_USER } from "~/models/app/user/user.model";
+import { EntityModel, EntityTemplate } from "~/models/base";
 
+export enum LoggedUserEntity {
+  USER = "User",
+  ARTIST = "Artist",
+  PLACE = "Place",
+}
+export interface LoggedUserProfile {
+  entityName: LoggedUserEntity;
+  entityInstanceId: string;
+}
 export interface AuthContextParams {
-  auth?: AppUserModel;
-  setAuth?: Function;
+  // Getters
+  loggedUser?: AppUserModel;
+  currentUserProfile?: LoggedUserProfile;
+  loggedUserProfile?: EntityModel<EntityTemplate>;
+
+  // Setters
+  setLoggedUser?: Function;
+  setCurrentUserProfile?: Function;
 }
 export const AuthContext = createContext<AuthContextParams>({});
 
@@ -14,10 +29,22 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [auth, setAuth] = useState<AppUserModel>(crearDummyUser(4));
+  const [loggedUser, setLoggedUser] = useState<AppUserModel>(UNLOGGED_USER);
+  const [currentUserProfile, setCurrentUserProfile] =
+    useState<LoggedUserProfile>(undefined);
+  const [loggedUserProfile] =
+    useState<EntityModel<EntityTemplate>>(UNLOGGED_USER);
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
+    <AuthContext.Provider
+      value={{
+        loggedUser,
+        currentUserProfile,
+        loggedUserProfile,
+        setLoggedUser,
+        setCurrentUserProfile,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

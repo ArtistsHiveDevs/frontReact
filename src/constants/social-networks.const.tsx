@@ -67,6 +67,10 @@ export const SocialNetworks: {
     url: "tel",
     icon: "BsFillTelephoneFill",
   },
+  phone_number: {
+    url: "tel",
+    icon: "BsFillTelephoneFill",
+  },
   sound_cloud: {
     url: "https://open.spotify.com/artist",
     icon: "GrSoundcloud",

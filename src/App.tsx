@@ -11,7 +11,6 @@ import { appMessages } from "./translations";
 import { AuthProvider, HvAppContext, HvAppContextProvider } from "~/common";
 import { AppFooter } from "~/components/shared/organisms/app/Footer/AppFooter";
 import SideNav from "~/components/shared/sidenav";
-import { PATHS } from "~/constants";
 import { RoutesApp } from "~/routes";
 
 const App = () => {
@@ -30,7 +29,7 @@ const App = () => {
         lang={appLang}
         setLang={setAppLang}
       >
-        <Router basename={PATHS.BASENAME}>
+        <Router>
           <AuthProvider>
             <IntlProvider
               defaultLocale={appLang.lang || "en"}

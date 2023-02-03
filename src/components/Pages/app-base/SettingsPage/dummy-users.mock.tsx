@@ -13,7 +13,7 @@ export function crearDummyUser(numUsuario: number) {
       roles: [],
       phone_number: "7123456",
 
-      accessToken: "123456789",
+      access_token: "123456789",
     });
   }
   if (numUsuario === 2) {
@@ -27,7 +27,7 @@ export function crearDummyUser(numUsuario: number) {
       roles: [],
       phone_number: "7123456",
 
-      accessToken: "123456789",
+      access_token: "123456789",
     });
 
     updatedUser.modifyDummyRole("ARTIST", "4", "ROADIE", "add");
@@ -46,7 +46,7 @@ export function crearDummyUser(numUsuario: number) {
       roles: [],
       phone_number: "7123456",
 
-      accessToken: "123456789",
+      access_token: "123456789",
     });
 
     updatedUser.modifyDummyRole("ARTIST", "10", "SOUND_ENGINEER", "add");
@@ -64,7 +64,7 @@ export function crearDummyUser(numUsuario: number) {
       roles: [],
       phone_number: "7123456",
 
-      accessToken: "123456789",
+      access_token: "123456789",
     });
 
     updatedUser.modifyDummyRole("ARTIST", "13", "ROADIE", "add");
@@ -85,7 +85,7 @@ export function crearDummyUser(numUsuario: number) {
       roles: [],
       phone_number: "7123456",
 
-      accessToken: "123456789",
+      access_token: "123456789",
     });
 
     updatedUser.modifyDummyRole("PLACE", "4", "PLACE_OWNER", "add");

@@ -28,6 +28,85 @@ export const FrMessages = {
           },
         },
       },
+      app_base: {
+        UsersPages: {
+          UsersDetailsPage: {
+            subpages: {
+              general: {
+                name: "Général",
+                sections: {
+                  general: {
+                    name: "Info Générale",
+                    attributes: {
+                      fullname: "Nom et prénom",
+                    },
+                  },
+                  contact: {
+                    name: "Contact",
+                  },
+                  emergency_contact: {
+                    name: "Contact en cas d'urgence",
+                  },
+                },
+              },
+              arts: {
+                name: "Arts",
+                sections: {
+                  music: {
+                    name: "Musique",
+                  },
+                  dance: {
+                    name: "Danse",
+                  },
+                  photography: {
+                    name: "Photographie",
+                  },
+                  video: {
+                    name: "Video",
+                  },
+                  painting: {
+                    name: "Peinture",
+                  },
+                  poetry: {
+                    name: "Poésie",
+                  },
+                  standup_comedy: {
+                    name: "Comédie stand-up",
+                  },
+                  awards: {
+                    name: "Prix",
+                  },
+                },
+              },
+              memberships: {
+                name: "Membres",
+                sections: {
+                  artists: {
+                    name: "Artistes",
+                  },
+                  places: {
+                    name: "Lieux",
+                  },
+                },
+              },
+              shows: {
+                name: "Mes Événements",
+                sections: {
+                  my_liked_shows: {
+                    name: "Mes abonements",
+                  },
+                  next_shows: {
+                    name: "Spectacles à venir",
+                  },
+                  past_shows: {
+                    name: "Spectacles passés",
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
       ArtistsPages: {
         ArtistsDetailsPage: {
           subpages: {

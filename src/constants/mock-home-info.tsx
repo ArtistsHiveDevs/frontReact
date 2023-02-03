@@ -5,6 +5,12 @@ export enum VerificationStatus {
   VERIFIED,
   VERIFIED_AND_APPROVED,
 }
+export enum UserGender {
+  MALE,
+  FEMALE,
+  NON_BINARY,
+  NON_SPECIFIED,
+}
 
 export enum AligmentVerifiedMark {
   LEFT = "left",

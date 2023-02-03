@@ -27,6 +27,86 @@ export const ItMessages = {
           },
         },
       },
+
+      app_base: {
+        UsersPages: {
+          UsersDetailsPage: {
+            subpages: {
+              general: {
+                name: "Generale",
+                sections: {
+                  general: {
+                    name: "Informazioni generali",
+                    attributes: {
+                      fullname: "Nome e cognome",
+                    },
+                  },
+                  contact: {
+                    name: "Contatto",
+                  },
+                  emergency_contact: {
+                    name: "Contatto di emergenza",
+                  },
+                },
+              },
+              arts: {
+                name: "Arte",
+                sections: {
+                  music: {
+                    name: "Musica",
+                  },
+                  dance: {
+                    name: "Danza",
+                  },
+                  photography: {
+                    name: "Fotografia",
+                  },
+                  video: {
+                    name: "Video",
+                  },
+                  painting: {
+                    name: "Pittura",
+                  },
+                  poetry: {
+                    name: "Poesia",
+                  },
+                  standup_comedy: {
+                    name: "Cabatteria",
+                  },
+                  awards: {
+                    name: "Prezzo",
+                  },
+                },
+              },
+              memberships: {
+                name: "Abbonamenti",
+                sections: {
+                  artists: {
+                    name: "Artisti",
+                  },
+                  places: {
+                    name: "Luoghi",
+                  },
+                },
+              },
+              shows: {
+                name: "Miei eventi",
+                sections: {
+                  my_liked_shows: {
+                    name: "Miei abbonamenti",
+                  },
+                  next_shows: {
+                    name: "Prossimi spettacoli",
+                  },
+                  past_shows: {
+                    name: "Spettacoli passati",
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
       ArtistsPages: {
         ArtistsDetailsPage: {
           subpages: {

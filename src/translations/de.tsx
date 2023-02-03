@@ -2,6 +2,11 @@ export const DeMessages = {
   app: {
     name: "App DE",
     loading: "Wird geladen",
+    general: {
+      not_found_page: {
+        title: "Hoppla! Wir konnten nicht finden, wonach Sie suchen",
+      },
+    },
     pages: {
       app: {
         settings: {

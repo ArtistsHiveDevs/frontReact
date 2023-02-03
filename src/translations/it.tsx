@@ -2,7 +2,12 @@ export const ItMessages = {
   app: {
     name: "App IT",
     loading: "Caricamento in corso",
-
+    general: {
+      not_found_results: "Nessun risultato trovato",
+      not_found_page: {
+        title: "Oops! Non siamo riusciti a trovare quello che stai cercando",
+      },
+    },
     pages: {
       app: {
         settings: {

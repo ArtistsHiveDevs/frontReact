@@ -2,6 +2,12 @@ export const EnMessages = {
   app: {
     name: "App EN",
     loading: "Loading",
+    general: {
+      not_found_results: "No results found",
+      not_found_page: {
+        title: "Oops! We couldn't find what you're looking for",
+      },
+    },
     pages: {
       app: {
         settings: {

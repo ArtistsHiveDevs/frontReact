@@ -5,6 +5,12 @@
   border: solid 1px #ccc;
   padding: 1rem;
 }
+.logged-user-info {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
 .role-names-container {
   display: flex;
   flex-direction: row;

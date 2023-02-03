@@ -14,11 +14,16 @@ const AppSettingsPage = lazy(
 const SearchPage = lazy(() => import("~/components/Pages/SearchPage"));
 
 // Load rider pages
+const UserDetailsPage = lazy(
+  () => import("~/components/Pages/app-base/UsersPage/UserDetails")
+);
+
+// Load rider pages
 const RiderListPage = lazy(
   () => import("~/components/Pages/RidersPage/RiderList")
 );
 
-const RiderDetailPage = lazy(
+const RiderDetailsPage = lazy(
   () => import("~/components/Pages/RidersPage/RiderDetail")
 );
 
@@ -63,7 +68,7 @@ export const RoutesApp: React.FC = () => {
       <Route path={PATHS.RIDERS}>
         <Route element={<RiderListPage />} path="" />
         <Route
-          element={<RiderDetailPage />}
+          element={<RiderDetailsPage />}
           path={
             SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`
           }
@@ -86,6 +91,9 @@ export const RoutesApp: React.FC = () => {
             SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`
           }
         />
+      </Route>
+      <Route path={PATHS.PROFILE}>
+        <Route element={<UserDetailsPage />} path="" />
       </Route>
       <Route element={<HomePage />} path={PATHS.HOME} />
       <Route element={<Navigate to={PATHS.HOME} />} path={PATHS.MAIN} />

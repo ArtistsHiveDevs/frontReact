@@ -2,6 +2,12 @@ export const EsMessages = {
   app: {
     name: "App ES",
     loading: "Cargando....",
+    general: {
+      not_found_results: "No se ha encontrado ningún resultado",
+      not_found_page: {
+        title: "Ups! No encontramos lo que buscas",
+      },
+    },
     pages: {
       app: {
         settings: {

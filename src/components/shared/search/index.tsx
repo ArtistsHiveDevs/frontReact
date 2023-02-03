@@ -1,18 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Form, InputGroup } from "react-bootstrap";
 
-import "./search.scss";
 import { SearchItem } from "./search-item";
-import { ArtistModel } from "~/models/domain/artist/artist.model";
-import { PlaceModel } from "~/models/domain/place/place.model";
-import { useDispatch, useSelector } from "react-redux";
-import { useArtistsSlice } from "~/common/slices/artists";
-import { usePlacesSlice } from "~/common/slices/places";
-import { selectArtists } from "~/common/slices/artists/selectors";
-import { selectPlaces } from "~/common/slices/places/selectors";
+import "./search.scss";
 
 export const SearchComponent = (props: any) => {
-
   const { openedStatus } = props;
   const [text, setText] = useState("");
   const [focused, setFocused] = useState(false);
@@ -39,7 +31,6 @@ export const SearchComponent = (props: any) => {
   );
 
   useEffect(() => {
-
     window.addEventListener("click", (e) => handleOnClickOut(e));
 
     return window.removeEventListener("click", (e) => handleOnClickOut(e));

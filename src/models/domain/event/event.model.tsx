@@ -1,5 +1,5 @@
 import { VerificationStatus } from "~/constants";
-import { EntityModel, EntityTemplate } from "~/models/base";
+import { EntityModel, EntityTemplate, SearchableTemplate } from "~/models/base";
 import { ArtistModel } from "../artist/artist.model";
 import { PlaceModel } from "../place/place.model";
 
@@ -27,7 +27,7 @@ export interface EventTemplate extends EntityTemplate {
 
 export class EventModel
   extends EntityModel<EventTemplate>
-  implements EventTemplate
+  implements EventTemplate, SearchableTemplate
 {
   declare name: string;
   declare verified_status: VerificationStatus;

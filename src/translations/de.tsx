@@ -27,6 +27,86 @@ export const DeMessages = {
           },
         },
       },
+
+      app_base: {
+        UsersPages: {
+          UsersDetailsPage: {
+            subpages: {
+              general: {
+                name: "Allgemein",
+                sections: {
+                  general: {
+                    name: "Allgemeine Informationen",
+                    attributes: {
+                      fullname: "Vollständiger Name",
+                    },
+                  },
+                  contact: {
+                    name: "Kontakt",
+                  },
+                  emergency_contact: {
+                    name: "Notfallkontakt",
+                  },
+                },
+              },
+              arts: {
+                name: "Kunst",
+                sections: {
+                  music: {
+                    name: "Musik",
+                  },
+                  dance: {
+                    name: "Tanz",
+                  },
+                  photography: {
+                    name: "Fotografie",
+                  },
+                  video: {
+                    name: "Video",
+                  },
+                  painting: {
+                    name: "Malerei",
+                  },
+                  poetry: {
+                    name: "Poesie",
+                  },
+                  standup_comedy: {
+                    name: "Standup-Comedy",
+                  },
+                  awards: {
+                    name: "Preis",
+                  },
+                },
+              },
+              memberships: {
+                name: "Mitgliedschaften",
+                sections: {
+                  artists: {
+                    name: "Künstler",
+                  },
+                  places: {
+                    name: "Orte",
+                  },
+                },
+              },
+              shows: {
+                name: "Meine Veranstaltungen",
+                sections: {
+                  my_liked_shows: {
+                    name: "Meine Abonnements",
+                  },
+                  next_shows: {
+                    name: "Bevorstehende Sendungen",
+                  },
+                  past_shows: {
+                    name: "Vergangene Shows",
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
       ArtistsPages: {
         ArtistsDetailsPage: {
           subpages: {

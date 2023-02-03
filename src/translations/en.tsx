@@ -27,6 +27,86 @@ export const EnMessages = {
           },
         },
       },
+
+      app_base: {
+        UsersPages: {
+          UsersDetailsPage: {
+            subpages: {
+              general: {
+                name: "General",
+                sections: {
+                  general: {
+                    name: "General Info",
+                    attributes: {
+                      fullname: "Full name",
+                    },
+                  },
+                  contact: {
+                    name: "Contact",
+                  },
+                  emergency_contact: {
+                    name: "Emergency Contact",
+                  },
+                },
+              },
+              arts: {
+                name: "Arts",
+                sections: {
+                  music: {
+                    name: "Music",
+                  },
+                  dance: {
+                    name: "Dance",
+                  },
+                  photography: {
+                    name: "Photography",
+                  },
+                  video: {
+                    name: "Video",
+                  },
+                  painting: {
+                    name: "Painting",
+                  },
+                  poetry: {
+                    name: "Poetry",
+                  },
+                  standup_comedy: {
+                    name: "Stand-up Comedy",
+                  },
+                  awards: {
+                    name: "Awards",
+                  },
+                },
+              },
+              memberships: {
+                name: "Memberships",
+                sections: {
+                  artists: {
+                    name: "Artists",
+                  },
+                  places: {
+                    name: "Places",
+                  },
+                },
+              },
+              shows: {
+                name: "My Shows",
+                sections: {
+                  my_liked_shows: {
+                    name: "My liked shows",
+                  },
+                  next_shows: {
+                    name: "Next shows",
+                  },
+                  past_shows: {
+                    name: "Past shows",
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
       ArtistsPages: {
         ArtistsDetailsPage: {
           subpages: {

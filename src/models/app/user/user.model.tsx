@@ -56,15 +56,22 @@ export interface AppUserTemplate extends EntityTemplate {
   username: string;
   email: string;
   password?: string;
-  roles: UserAvailableEntityRole[];
   phone_number: string;
+  access_token: string;
+  gender?: number;
+  blood_group?: string;
+  birthdate?: string;
+  nationality?: string;
+  home_city?: string;
+  home_address?: string;
+  latlng?: string;
   profile_pic?: string;
   verified_status?: VerificationStatus;
   user_language?: string;
   created_at?: string;
   updated_at?: string;
 
-  accessToken: string;
+  roles: UserAvailableEntityRole[];
 }
 
 export class AppUserModel
@@ -77,21 +84,25 @@ export class AppUserModel
   declare username: string;
   declare email: string;
   declare password?: string;
-  declare roles: UserAvailableEntityRole[];
-  declare phone_number: string;
-  declare profile_pic?: string;
-  declare verified_status?: VerificationStatus;
-  declare user_language?: string;
-  declare created_at?: string;
-  declare updated_at?: string;
 
   declare accessToken: string;
 
-  constructor(template: AppUserTemplate) {
-    super(template);
+  declare phone_number: string;
+  declare access_token: string;
+  declare gender: number;
+  declare blood_group: string;
+  declare birthdate: string;
+  declare nationality: string;
+  declare home_city: string;
+  declare home_address: string;
+  declare latlng: string;
+  declare profile_pic: string;
+  declare verified_status: VerificationStatus;
+  declare user_language: string;
+  declare created_at: string;
+  declare updated_at: string;
 
-    this.roles = [];
-  }
+  declare roles: UserAvailableEntityRole[];
 
   get fullname() {
     return `${this.given_names} ${this.surnames}`;

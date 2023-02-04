@@ -76,13 +76,22 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
-              attributes: [
+              data_element_title: {
+                prefix: "contact",
+                isConsecutive: true,
+                consecutiveBase: 1,
+              },
+              data_source: "emergency_contact",
+              fields: [
                 {
-                  name: "email",
+                  name: "name",
+                  value: (emergencyContactData: any) => (
+                    <>{`${emergencyContactData.given_names} ${emergencyContactData.surnames}`}</>
+                  ),
+                  emptyTitle: true,
                 },
-                {
-                  name: "phone_number",
-                },
+                { name: "email" },
+                { name: "phone_number" },
               ],
             },
           },
@@ -182,10 +191,11 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: "artists",
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
             data: {
-              attributes: [],
+              data_source: "artistMemberships",
             },
+            clickHandlerName: "onNavigateToEntity",
           },
         ],
       },
@@ -193,10 +203,11 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: "places",
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
             data: {
-              attributes: [],
+              data_source: "placeMemberships",
             },
+            clickHandlerName: "onNavigateToEntity",
           },
         ],
       },

@@ -8,6 +8,9 @@ import {
 } from "~/components/shared/atoms/ImageGallery/ImageGallery";
 import { ProfileTabsPage } from "~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage";
 import { PATHS, SUB_PATHS } from "~/constants";
+import { ArtistModel } from "~/models/domain/artist/artist.model";
+import { EventModel } from "~/models/domain/event/event.model";
+import { PlaceModel } from "~/models/domain/place/place.model";
 import { USER_DETAIL_SUB_PAGE_CONFIG } from "./config-user-detail";
 
 import "./index.scss";
@@ -63,6 +66,20 @@ const UserDetailPage = () => {
     },
     onClickPastEvent: (value: any) => {
       navigateTo(PATHS.EVENTS, value.id);
+    },
+    onNavigateToEntity: (value: any) => {
+      const entityType = value.constructor.name;
+      let entity = undefined;
+      if (entityType === ArtistModel.name) {
+        entity = PATHS.ARTISTS;
+      } else if (entityType === EventModel.name) {
+        entity = PATHS.EVENTS;
+      } else if (entityType === PlaceModel.name) {
+        entity = PATHS.PLACES;
+      }
+      if (entity) {
+        navigateTo(entity, value.id);
+      }
     },
   };
 

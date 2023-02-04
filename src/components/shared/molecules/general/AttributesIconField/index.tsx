@@ -11,10 +11,11 @@ export interface IconDetailedAttribute {
   requireSession?: boolean;
 }
 export const AttributesIconFieldReadOnly = (props: any) => {
-  const { attributes } = props;
+  const { title, attributes } = props;
 
   return (
     <>
+      {title && <h3>{title}</h3>}
       {attributes?.map((attribute: IconDetailedAttribute, idx: number) => {
         return (
           <RequireAuthComponent

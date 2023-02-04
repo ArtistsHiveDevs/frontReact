@@ -67,8 +67,9 @@ abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
 
     //@ts-expect-error
     const attributeValueInTemplate = template[attributeTemplateName];
+
     const defaultValueFunction = defaultValue
-      ? defaultValue()
+      ? defaultValue
       : () => attributeValueInTemplate;
 
     const descriptor: PropertyDescriptor = {

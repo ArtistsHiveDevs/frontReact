@@ -69,9 +69,7 @@ const AppSettingsPage = () => {
       dispatch(placesActions.loadPlaces());
     }
 
-    if (usersList.length === 0) {
-      dispatch(usersActions.loadUsers());
-    }
+    dispatch(usersActions.loadUsers());
 
     setSelectedUser(loggedUser);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -104,7 +102,7 @@ const AppSettingsPage = () => {
     }),
   ];
 
-  const shownFields = ["username", "name", "email"];
+  const shownFields = ["username", "name", "fullname", "email"];
   const keys = !selectedUser
     ? []
     : [...listGetters(selectedUser), ...Object.keys(selectedUser)];
@@ -130,11 +128,11 @@ const AppSettingsPage = () => {
 
   function handleClickRole(
     entityName: string,
-    entityId: string,
+    id: string,
     roleName: string,
     action: "add" | "del"
   ) {
-    loggedUser?.modifyDummyRole(entityName, entityId, roleName, action);
+    loggedUser?.modifyDummyRole(entityName, id, roleName, action);
     const updated = new AppUserModel(loggedUser?.template);
     updated.roles = loggedUser?.roles || [];
 
@@ -213,9 +211,9 @@ const AppSettingsPage = () => {
             const roleConfig: DomainRole = APP_DOMAIN_ROLES[roleKeyName];
 
             let lista: any[] = [];
-            if (roleConfig.entityName === "ARTIST") {
+            if (roleConfig.entityName === "Artist") {
               lista = artistList;
-            } else if (roleConfig.entityName === "PLACE") {
+            } else if (roleConfig.entityName === "Place") {
               lista = placesList;
             }
 
@@ -262,15 +260,15 @@ export const EntityRoles = (props: any) => {
           const userRoles = instance.roles;
           return (
             <EntityInstanceRole
-              key={`${instance.entityId}-${instanceIndex}`}
+              key={`${instance.id}-${instanceIndex}`}
               entityInstanceName={
                 dataSource?.find(
                   (element: EntityModel<EntityTemplate>) =>
-                    element.id === instance.entityId
+                    element.id === instance.id
                 )?.name
               }
               entityName={roleConfig.entityName}
-              entityId={instance.entityId}
+              id={instance.id}
               roles={userRoles}
               handleClickRole={handleClickRole}
             />
@@ -280,8 +278,7 @@ export const EntityRoles = (props: any) => {
   );
 };
 export const EntityInstanceRole = (props: any) => {
-  const { entityName, entityId, entityInstanceName, roles, handleClickRole } =
-    props;
+  const { entityName, id, entityInstanceName, roles, handleClickRole } = props;
   return (
     <div>
       <p>{entityInstanceName}</p>
@@ -291,7 +288,7 @@ export const EntityInstanceRole = (props: any) => {
             <UserRoleName
               key={`${roleName}-${roleIndex}`}
               entityName={entityName}
-              entityId={entityId}
+              id={id}
               roleName={roleName}
               handleClickRole={handleClickRole}
             />
@@ -303,13 +300,13 @@ export const EntityInstanceRole = (props: any) => {
 };
 
 export const UserRoleName = (props: any) => {
-  const { entityName, entityId, roleName, handleClickRole } = props;
+  const { entityName, id, roleName, handleClickRole } = props;
   return (
     <div className="user-role-name">
       <span>{roleName}</span>
       <span
         className="user-role-delete-button"
-        onClick={() => handleClickRole(entityName, entityId, roleName, "del")}
+        onClick={() => handleClickRole(entityName, id, roleName, "del")}
       >
         {" "}
         X{" "}

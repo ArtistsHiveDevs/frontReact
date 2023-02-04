@@ -8,7 +8,7 @@ export interface DomainRole {
 }
 
 export interface UserEntityRoleMap {
-  entityId: string;
+  id: string;
   roles: string[];
 }
 export interface UserAvailableEntityRole {
@@ -18,7 +18,7 @@ export interface UserAvailableEntityRole {
 
 export const APP_DOMAIN_ROLES: { [entityName: string]: DomainRole } = {
   ARTIST: {
-    entityName: "ARTIST",
+    entityName: "Artist",
     label: "user_profile.artist",
     roles: [
       "ARTIST_OWNER",
@@ -38,7 +38,7 @@ export const APP_DOMAIN_ROLES: { [entityName: string]: DomainRole } = {
     ],
   },
   PLACE: {
-    entityName: "PLACE",
+    entityName: "Place",
     label: "user_profile.place",
     roles: [
       "PLACE_OWNER",
@@ -102,6 +102,34 @@ export class AppUserModel
 
   declare roles: UserAvailableEntityRole[];
 
+  constructor(template: AppUserTemplate) {
+    super(template);
+
+    const membershipEntities = ["Artist", "Place"];
+
+    membershipEntities.forEach((entityName: string) => {
+      const roleMap =
+        (this.roles &&
+          this.roles.length &&
+          this.roles.find(
+            (role: UserAvailableEntityRole) => role.entityName === entityName
+          )?.entityRoleMap) ||
+        [];
+
+      const getRoleMap = () => [...roleMap];
+
+      // TODO camelCase
+      this.buildAttribute(
+        `${entityName.toLowerCase()}Memberships`,
+        template,
+        undefined,
+        undefined,
+        undefined,
+        getRoleMap
+      );
+    });
+  }
+
   get fullname() {
     return `${this.given_names} ${this.surnames}`;
   }
@@ -123,11 +151,11 @@ export class AppUserModel
     const role = this.roles.find((role) => role.entityName === entity);
 
     // Busca la instancia de la entidad
-    if (!role.entityRoleMap.find((roleMap) => roleMap.entityId === idEntity)) {
-      role.entityRoleMap.push({ entityId: idEntity, roles: [] });
+    if (!role.entityRoleMap.find((roleMap) => roleMap.id === idEntity)) {
+      role.entityRoleMap.push({ id: idEntity, roles: [] });
     }
     const roleMap = role.entityRoleMap.find(
-      (roleMap) => roleMap.entityId === idEntity
+      (roleMap) => roleMap.id === idEntity
     );
 
     // Revisa si existe el rol en esa instancia

@@ -216,62 +216,107 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       componentDescriptor.componentName ===
       ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS
     ) {
-      const sectionAttributes: IconDetailedAttribute[] =
-        componentDescriptor.data?.attributes?.map(
-          (attribute: any, componentIndex: number) => {
-            let value = getData(attribute.name, parentDataSource);
-            if (attribute.value || attribute.components) {
-              if (attribute.value instanceof Function) {
-                value = <>{attribute.value(dataSourceElement)}</>;
-              } else if (attribute.components && attribute.components.length) {
-                value = (
-                  <>
-                    {(attribute.components || []).map(
-                      (
-                        componentDescriptor: ProfileComponentDescriptor,
-                        componentIndex: number
-                      ) => {
-                        const source = parentDataSource || entityData;
+      function processAttribute(
+        attribute: any,
+        componentIndex: number,
+        parentDataSource: EntityModel<EntityTemplate> = undefined
+      ) {
+        let value = getData(attribute.name, parentDataSource);
+        if (attribute.value || attribute.components) {
+          if (attribute.value instanceof Function) {
+            value = (
+              <>{attribute.value(parentDataSource || dataSourceElement)}</>
+            );
+          } else if (attribute.components && attribute.components.length) {
+            value = (
+              <>
+                {(attribute.components || []).map(
+                  (
+                    componentDescriptor: ProfileComponentDescriptor,
+                    componentIndex: number
+                  ) => {
+                    const source = parentDataSource || entityData;
 
-                        const dataSourceElement: EntityModel<EntityTemplate> =
-                          source[
-                            componentDescriptor.data
-                              ?.data_source as keyof typeof source
-                          ];
+                    const dataSourceElement: EntityModel<EntityTemplate> =
+                      source[
+                        componentDescriptor.data
+                          ?.data_source as keyof typeof source
+                      ];
 
-                        componentDescriptor.data.socialNetwork = attribute.name;
+                    componentDescriptor.data.socialNetwork = attribute.name;
 
-                        const generated = buildComponent(
-                          subpage,
-                          section,
-                          componentDescriptor,
-                          componentIndex,
-                          dataSourceElement
-                        );
-                        return generated;
-                      }
-                    )}
-                  </>
-                );
-              } else {
-                value = attribute.value;
-              }
+                    const generated = buildComponent(
+                      subpage,
+                      section,
+                      componentDescriptor,
+                      componentIndex,
+                      dataSourceElement
+                    );
+                    return generated;
+                  }
+                )}
+              </>
+            );
+          } else {
+            value = attribute.value;
+          }
+        }
+        return {
+          name: attribute.name,
+          title: getAttributeTitle(subpage.name, section.name, attribute),
+          customTitle: !!attribute.title || attribute.useTranslation,
+          icon: attribute?.icon,
+          value,
+          requireSession: attribute.requireSession,
+        };
+      }
+
+      const sectionsAttributes: {
+        title: string;
+        attributes: IconDetailedAttribute[];
+      }[] =
+        (componentDescriptor.data?.attributes && [
+          {
+            title: componentDescriptor.data?.title,
+            attributes: componentDescriptor.data?.attributes?.map(
+              (attribute: any, componentIndex: number) =>
+                processAttribute(attribute, componentIndex)
+            ),
+          },
+        ]) ||
+        (componentDescriptor.data?.data_source &&
+          source[
+            componentDescriptor.data?.data_source as keyof typeof source
+          ]?.map((dataSourceElement: any, elementIndex: number) => {
+            let title = componentDescriptor.data?.data_element_title?.prefix;
+            if (componentDescriptor.data?.data_element_title?.isConsecutive) {
+              title += ` ${
+                elementIndex +
+                componentDescriptor.data?.data_element_title?.consecutiveBase
+              }`;
             }
             return {
-              name: attribute.name,
-              title: getAttributeTitle(subpage.name, section.name, attribute),
-              customTitle: !!attribute.title || attribute.useTranslation,
-              icon: attribute?.icon,
-              value,
-              requireSession: attribute.requireSession,
+              title,
+              attributes: componentDescriptor.data?.fields.map(
+                (attribute: any, componentIndex: number) =>
+                  processAttribute(attribute, componentIndex, dataSourceElement)
+              ),
             };
-          }
-        ) || [];
+          })) ||
+        [];
+
       renderedComponent = (
-        <AttributesIconFieldReadOnly
-          key={`section-${section.name}-attributes-${componentIndex}`}
-          attributes={sectionAttributes}
-        />
+        <>
+          {sectionsAttributes.map(
+            (sectionAttributes: any, sectionIndex: number) => (
+              <AttributesIconFieldReadOnly
+                key={`section-${section.name}-${sectionIndex}-attributes-${componentIndex}`}
+                attributes={sectionAttributes.attributes}
+                title={sectionAttributes?.title}
+              />
+            )
+          )}
+        </>
       );
     } else if (
       componentDescriptor.componentName === ProfileComponentTypes.HTML_CONTENT

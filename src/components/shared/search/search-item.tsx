@@ -1,27 +1,11 @@
 import { useEffect, useState } from "react";
 import Badge from "react-bootstrap/Badge";
 import ListGroup from "react-bootstrap/ListGroup";
-
 import { useDispatch, useSelector, useStore } from "react-redux";
-import { useArtistsSlice } from "~/common/slices";
-import {
-  artistsSelectLoading,
-  selectArtistsQuery,
-} from "~/common/slices/artists/selectors";
-import { useEventsSlice } from "~/common/slices/events";
-import {
-  eventsSelectLoading,
-  selectQueriedEvents,
-} from "~/common/slices/events/selectors";
-import { usePlacesSlice } from "~/common/slices/places";
-import {
-  placesSelectLoading,
-  selectQueriedPlaces,
-} from "~/common/slices/places/selectors";
+import { useSearchSlice } from "~/common/slices/search";
+import { selectSearch, selectSearchLoading } from "~/common/slices/search/selectors";
 import { useI18n } from "~/common/utils";
-import { ArtistModel } from "~/models/domain/artist/artist.model";
-import { EventModel } from "~/models/domain/event/event.model";
-import { PlaceModel } from "~/models/domain/place/place.model";
+import { SearchModel } from "~/models/domain/search/search.model";
 import consts, { Type } from "./constants";
 import { SearchListGroup } from "./search-list-group";
 import { ISearchList } from "./search-mock";
@@ -52,26 +36,17 @@ export const SearchItem: React.FC<Prop> = ({ q = consts.defaultSearch }) => {
   };
 
   const dispatch = useDispatch();
-  const esto = useStore();
 
-  const queriedArtistsList: ArtistModel[] = useSelector(selectArtistsQuery);
-  const queryArtistListLoading: boolean = useSelector(artistsSelectLoading);
-  const { actions: artistsActions } = useArtistsSlice();
-
-  const queriedPlacesList: PlaceModel[] = useSelector(selectQueriedPlaces);
-  const queryPlacesLoading: boolean = useSelector(placesSelectLoading);
-  const { actions: placesActions } = usePlacesSlice();
-
-  const queriedEventsList: EventModel[] = useSelector(selectQueriedEvents);
-  const queryEventsLoading: boolean = useSelector(eventsSelectLoading);
-  const { actions: eventsActions } = useEventsSlice();
+  const queriedSearchList: SearchModel = useSelector(selectSearch);
+  const querySearchLoading: boolean = useSelector(selectSearchLoading);
+  const { actions: searchActions } = useSearchSlice();
 
   const artistSearchObject: ISearchList = {
     id: "artists",
     name: "Artists",
     displayField: "name",
     searchType: "startswith",
-    data: queriedArtistsList,
+    data: queriedSearchList?.artists || [],
   };
 
   const placesSearchObject: ISearchList = {
@@ -79,7 +54,7 @@ export const SearchItem: React.FC<Prop> = ({ q = consts.defaultSearch }) => {
     name: "Places",
     displayField: "name",
     searchType: "contains",
-    data: queriedPlacesList,
+    data: queriedSearchList?.places || [],
   };
 
   const eventsSearchObject: ISearchList = {
@@ -88,14 +63,12 @@ export const SearchItem: React.FC<Prop> = ({ q = consts.defaultSearch }) => {
     displayField: "name",
     ratio: 1,
     searchType: "contains",
-    data: queriedEventsList,
+    data: queriedSearchList?.events || [],
   };
 
   useEffect(() => {
     if (q?.length > 0) {
-      dispatch(artistsActions.queryArtists(q));
-      dispatch(placesActions.queryPlaces(q));
-      dispatch(eventsActions.queryEvents(q));
+      dispatch(searchActions.querySearch(q));
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -165,7 +138,7 @@ export const SearchItem: React.FC<Prop> = ({ q = consts.defaultSearch }) => {
           </div>
         </ListGroup.Item>
 
-        {queryArtistListLoading && queryEventsLoading && queryPlacesLoading && (
+        {querySearchLoading && (
           <ListGroup.Item>
             <p className="label-search-waiting line-up-an">
               Escribe tu búsqueda...
@@ -173,9 +146,7 @@ export const SearchItem: React.FC<Prop> = ({ q = consts.defaultSearch }) => {
           </ListGroup.Item>
         )}
 
-        {!queryArtistListLoading &&
-          !queryEventsLoading &&
-          !queryPlacesLoading &&
+        {!querySearchLoading &&
           !artistSearchObject?.data.length &&
           !placesSearchObject?.data.length &&
           !eventsSearchObject?.data.length && (

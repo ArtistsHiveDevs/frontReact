@@ -403,7 +403,7 @@ export const DeMessages = {
         type_your_search: "Schreiben Sie Ihre Suche",
       },
       sidenav: {
-        name: "Hauptmeny",
+        name: "Hauptmenü",
         sections: {
           general: {
             name: "Allgemein",

@@ -315,7 +315,7 @@ export const FrMessages = {
         not_found_results: "Aucun résultat trouvé",
         recommendations: "Recommandations",
         results_list: "Liste de résultats",
-        search_placeholder: "zArtistes, événements, lieux...",
+        search_placeholder: "Artistes, événements, lieux...",
         see_more: "Voir plus",
         types: {
           ARTISTS: "Artistes",

@@ -71,7 +71,7 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
     }
   };
 
-  const badges: {
+  const entityBadgesAndResults: {
     type: EntityType;
     color: string;
     title: string;
@@ -98,13 +98,13 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
   ];
 
   const entitiesWithResults =
-    badges.filter(
+    entityBadgesAndResults.filter(
       (badge) =>
         checkedFilterEntities.find((checked) => checked === badge.type) &&
         !!badge.data?.length
     ).length || checkedFilterEntities.length;
 
-  const totalElementsByEntity = badges
+  const totalElementsByEntity = entityBadgesAndResults
     .filter((badge) =>
       checkedFilterEntities.find((checked) => checked === badge.type)
     )
@@ -119,7 +119,7 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
     ? consts.totalDefaultSearchElements / entitiesWithResults
     : 0;
 
-  const foundElements = badges
+  const foundElements = entityBadgesAndResults
     .filter((badge) =>
       checkedFilterEntities.find((checked) => checked === badge.type)
     )
@@ -142,7 +142,7 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
               : translate("recommendations")}
           </h4>
           <div className="search-item-head__subtitle disable-select">
-            {badges.map((badge) => (
+            {entityBadgesAndResults.map((badge) => (
               <Badge
                 key={`badge-${badge.title}`}
                 bg={
@@ -180,7 +180,7 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
           </ListGroup.Item>
         )}
 
-        {/* Search Artists */}
+        {/* Results */}
 
         {foundElements.map((element, idx) => {
           let elementType = undefined;

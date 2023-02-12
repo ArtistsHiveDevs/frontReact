@@ -8,12 +8,12 @@ import { placesInitialState } from ".";
 const selectDomain = (state: RootState) =>
   state?.PlacesReducer || placesInitialState;
 
-export const selectLoading = createSelector(
+export const placesSelectLoading = createSelector(
   [selectDomain],
   (PlaceState) => PlaceState.loading
 );
 
-export const selectError = createSelector(
+export const placesSelectError = createSelector(
   [selectDomain],
   (PlaceState) => PlaceState.error
 );
@@ -21,4 +21,9 @@ export const selectError = createSelector(
 export const selectPlaces = createSelector(
   [selectDomain],
   (PlaceState) => PlaceState.places
+);
+
+export const selectQueriedPlaces = createSelector(
+  [selectDomain],
+  (PlaceState) => PlaceState.queriedPlaces
 );

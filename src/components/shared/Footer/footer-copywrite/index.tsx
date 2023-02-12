@@ -23,6 +23,7 @@ const FooterCopywrite = (props: any) => {
             iconName="FaGlobeAmericas"
             size={20}
             className="i18n-icon"
+            color = {'#7a260a'}
           />{" "}
           {AVAILABLE_I18N_LANGUAGES.map((newLang, index, newLangArr) => {
             const styles = [];
@@ -32,7 +33,7 @@ const FooterCopywrite = (props: any) => {
             return (
               <span key={`lang-${index}`}>
                 <span
-                  className={styles.join(" ")}
+                  className={`translate-opt ${styles.join(" ")}`}
                   onClick={() => setLocale(newLang)}
                 >
                   {newLang}

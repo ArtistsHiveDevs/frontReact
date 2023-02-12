@@ -1,5 +1,6 @@
 import moment from "moment";
-import { EntityModel, EntityTemplate } from "~/models/base";
+import { VerificationStatus } from "~/constants";
+import { EntityModel, EntityTemplate, SearchableTemplate } from "~/models/base";
 import { EventModel, EventTemplate } from "../event/event.model";
 
 export interface PlaceTemplate extends EntityTemplate {
@@ -20,7 +21,9 @@ export interface PlaceTemplate extends EntityTemplate {
   website: string;
   promoter: string;
   tiktok: string;
+  subtitle?: string;
   profile_pic: string;
+  verified_status?: VerificationStatus;
   imageGallery: Image[];
 
   events: EventTemplate[];
@@ -28,7 +31,7 @@ export interface PlaceTemplate extends EntityTemplate {
 
 export class PlaceModel
   extends EntityModel<PlaceTemplate>
-  implements PlaceTemplate
+  implements PlaceTemplate, SearchableTemplate
 {
   declare name: string;
   declare place_type: string;
@@ -47,8 +50,10 @@ export class PlaceModel
   declare website: string;
   declare promoter: string;
   declare tiktok: string;
+  declare subtitle?: string;
   declare profile_pic: string;
   declare imageGallery: Image[];
+  declare verified_status?: VerificationStatus;
   declare events: EventTemplate[];
 
   constructor(template: PlaceTemplate) {

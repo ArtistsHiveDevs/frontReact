@@ -1,3 +1,4 @@
+import { PayloadAction } from "@reduxjs/toolkit";
 import { call, delay, put, takeLatest } from "redux-saga/effects";
 
 import { request } from "~/common/utils/request";
@@ -24,6 +25,25 @@ export function* getArtists() {
   }
 }
 
+export function* queriedArtists(actionParams?:PayloadAction<string>) {
+  yield delay(500);
+
+  const {payload} = actionParams;
+  const requestURL = `${
+    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
+  }/artists?q=${payload}`;
+
+
+  try {
+    const artists: ArtistModel[] = yield call(request, requestURL);
+
+    yield put(actions.artistsQueried(artists));
+  } catch (err) {
+    console.log(err);
+    yield put(actions.repoError(1));
+  }
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -33,4 +53,5 @@ export function* artistSaga() {
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
   yield takeLatest(actions.loadArtists.type, getArtists);
+  yield takeLatest(actions.queryArtists.type, queriedArtists);
 }

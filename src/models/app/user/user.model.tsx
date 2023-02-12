@@ -1,4 +1,5 @@
-import { EntityModel, EntityTemplate } from "~/models/base";
+import { VerificationStatus } from "~/constants";
+import { EntityModel, EntityTemplate, SearchableTemplate } from "~/models/base";
 
 export interface DomainRole {
   entityName: string;
@@ -51,26 +52,38 @@ export const APP_DOMAIN_ROLES: { [entityName: string]: DomainRole } = {
 export interface AppUserTemplate extends EntityTemplate {
   given_names: string;
   surnames: string;
+  artistic_name: string;
   username: string;
   email: string;
   password?: string;
   roles: UserAvailableEntityRole[];
   phone_number: string;
+  profile_pic?: string;
+  verified_status?: VerificationStatus;
+  user_language?: string;
+  created_at?: string;
+  updated_at?: string;
 
   accessToken: string;
 }
 
 export class AppUserModel
   extends EntityModel<AppUserTemplate>
-  implements AppUserTemplate
+  implements AppUserTemplate, SearchableTemplate
 {
   declare given_names: string;
   declare surnames: string;
+  declare artistic_name: string;
   declare username: string;
   declare email: string;
   declare password?: string;
   declare roles: UserAvailableEntityRole[];
   declare phone_number: string;
+  declare profile_pic?: string;
+  declare verified_status?: VerificationStatus;
+  declare user_language?: string;
+  declare created_at?: string;
+  declare updated_at?: string;
 
   declare accessToken: string;
 
@@ -82,6 +95,14 @@ export class AppUserModel
 
   get fullname() {
     return `${this.given_names} ${this.surnames}`;
+  }
+
+  get name() {
+    return this.artistic_name || this.fullname;
+  }
+
+  get subtitle(): string {
+    return null;
   }
 
   modifyDummyRole(

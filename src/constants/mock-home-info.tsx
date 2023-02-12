@@ -67,3 +67,17 @@ export function findCustomList(words: string) {
 
   return { newArtistsList, newPlacesList };
 }
+
+export function findOnCustomListInput(query: string, list: any) {
+  const querYFormatted = query?.toLowerCase();
+  const newList = list?.filter(
+    (data: { [key: string]: any }) => {
+      return Object.keys(findByModel).some((model: string) => {
+        if (data[model]?.toLowerCase()?.includes(querYFormatted) && querYFormatted?.length>0) {
+          return true;
+        }
+      });
+    }
+  );
+  return {newList}
+}

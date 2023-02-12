@@ -14,6 +14,8 @@ export const eventsInitialState: EventState = {
   events: [],
   loading: false,
   error: null,
+  eventQueryParams: null,
+  queriedEvents: [],
 };
 
 const slice = createSlice({
@@ -29,6 +31,17 @@ const slice = createSlice({
       const events = action.payload.map((template) => new EventModel(template));
 
       state.events = events;
+      state.loading = false;
+    },
+    queryEvents(state, action: PayloadAction<string>) {
+      state.loading = true;
+      state.error = null;
+      state.queriedEvents = [];
+      state.eventQueryParams = action.payload;
+    },
+    queriedEvents(state, action: PayloadAction<EventModel[]>) {
+      const queriedEventsList = action.payload.map((template) => new EventModel(template));
+      state.queriedEvents = queriedEventsList;
       state.loading = false;
     },
     repoError(state, action: PayloadAction<EventErrorType>) {

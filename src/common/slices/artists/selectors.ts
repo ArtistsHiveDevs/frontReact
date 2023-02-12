@@ -8,12 +8,12 @@ import { artistsInitialState } from ".";
 const selectDomain = (state: RootState) =>
   state?.ArtistsReducer || artistsInitialState;
 
-export const selectLoading = createSelector(
+export const artistsSelectLoading = createSelector(
   [selectDomain],
   (ArtistState) => ArtistState.loading
 );
 
-export const selectError = createSelector(
+export const artistsSelectError = createSelector(
   [selectDomain],
   (ArtistState) => ArtistState.error
 );
@@ -21,4 +21,9 @@ export const selectError = createSelector(
 export const selectArtists = createSelector(
   [selectDomain],
   (ArtistState) => ArtistState.artists
+);
+
+export const selectArtistsQuery = createSelector(
+  [selectDomain],
+  (ArtistState) => ArtistState.queriedArtists
 );

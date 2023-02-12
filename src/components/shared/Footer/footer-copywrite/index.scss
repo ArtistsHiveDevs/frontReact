@@ -1,4 +1,5 @@
 @import "~/variables.module.scss";
+$scale-zoom: 1.1;
 
 .copyright {
   margin: 2rem;
@@ -12,4 +13,16 @@
 .active-lang {
   text-decoration: solid underline $main-title-color 2px;
   text-underline-offset: 6px;
+}
+
+.translate-opt {
+  color: #7a260a;
+  transition: all .2s ease-in-out;
+}
+
+.translate-opt:hover {
+  -webkit-transform: scale($scale-zoom);
+  -ms-transform: scale($scale-zoom);
+  cursor: pointer;
+  display: inline-block;
 }

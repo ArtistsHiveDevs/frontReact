@@ -1,20 +1,22 @@
+@import "~/variables.module.scss";
+
 .hidden {
   display: none;
 }
 .ah-nav-search {
   position: relative;
-  width: 400px;
+  width: 97%;
   &__input:active {
-    background-color: red;
+    background-color: rgb(255, 236, 213);
   }
 }
 
 .ah-combobox-search {
   position: absolute;
-  left: -15px;
   top: 48px;
   max-height: 370px;
   min-height: 1px;
+  width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   z-index: 2;
@@ -67,17 +69,23 @@ a.search-item__link:hover {
   }
 }
 
-.list-group-item {
-  border-bottom-color: white;
-  &:last-of-type {
-    border-bottom-color: rgba(0, 0, 0, 0.125);
-  }
+.entity-1-item {
+  border-left: 0.4rem solid $entity-1 !important;
 }
+.entity-2-item {
+  border-left: 0.4rem solid $entity-2 !important;
+}
+.entity-3-item {
+  border-left: 0.4rem solid $entity-3 !important;
+}
+.entity-4-item {
+  border-left: 0.4rem solid $entity-4 !important;
+}
+
 .list-group-item.search-item-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 432px;
   min-height: 44px;
 }
 .search-item-head {
@@ -87,6 +95,8 @@ a.search-item__link:hover {
     font-size: 14px;
     gap: 5px;
     display: flex;
+    flex-direction: row;
+    overflow-wrap: anywhere;
   }
 
   &__subtitle {
@@ -98,18 +108,83 @@ a.search-item__link:hover {
       cursor: pointer;
     }
     .bg-ah-secundary {
-      background-color: #f58f1a;
+      background-color: $entity-1;
     }
     .bg-ah-border-secundary {
-      border: 1px solid rgba(#f58f1a, 0.5);
+      border: 1px solid rgba($entity-1, 0.5);
       color: currentColor;
     }
     .bg-ah-border-third {
-      border: 1px solid rgba(#d83e3e, 0.5);
+      border: 1px solid rgba($entity-2, 0.5);
       color: currentColor;
     }
     .bg-ah-third {
-      background-color: #d83e3e;
+      background-color: $entity-2;
     }
+    .bg-ah-fourth {
+      background-color: $entity-3;
+    }
+    .bg-ah-border-fourth {
+      border: 1px solid rgba($entity-3, 0.5);
+      color: currentColor;
+    }
+    .bg-ah-border-disabled {
+      border: 1px solid rgba(#919090, 0.5);
+      color: darkgray;
+    }
+  }
+}
+.disable-select {
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+.label-search-waiting {
+  font-weight: lighter;
+}
+
+// Animations
+
+/* lineup class and keyframes */
+.line-up-an {
+  animation: 1s anim-lineUp ease-out;
+}
+@keyframes anim-lineUp {
+  0% {
+    opacity: 0;
+    transform: translateY(80%);
+  }
+  20% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+/* color hor */
+.color-hor-an {
+  animation: 1s anim-colorHor ease-out;
+}
+@keyframes anim-colorHor {
+  0% {
+    opacity: 0;
+    background-position: 0%;
+  }
+  50% {
+    opacity: 1;
+    background-position: 50%;
+  }
+  100% {
+    opacity: 1;
+    background-position: 100%;
   }
 }

@@ -1,5 +1,5 @@
 import { VerificationStatus } from "~/constants";
-import { EntityModel, EntityTemplate } from "~/models/base";
+import { EntityModel, EntityTemplate, SearchableTemplate } from "~/models/base";
 
 export interface DomainRole {
   entityName: string;
@@ -76,7 +76,7 @@ export interface AppUserTemplate extends EntityTemplate {
 
 export class AppUserModel
   extends EntityModel<AppUserTemplate>
-  implements AppUserTemplate
+  implements AppUserTemplate, SearchableTemplate
 {
   declare given_names: string;
   declare surnames: string;
@@ -136,6 +136,10 @@ export class AppUserModel
 
   get name() {
     return this.artistic_name || this.fullname;
+  }
+
+  get subtitle(): string {
+    return null;
   }
 
   modifyDummyRole(

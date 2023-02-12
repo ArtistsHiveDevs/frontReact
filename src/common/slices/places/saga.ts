@@ -1,3 +1,4 @@
+import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest, delay } from "redux-saga/effects";
 
 import { request } from "~/common/utils/request";
@@ -22,6 +23,25 @@ export function* getPlaces() {
   }
 }
 
+export function* getQueriedPlaces(actionParams?:PayloadAction<string>) {
+  yield delay(500);
+
+  const {payload} = actionParams;
+
+  const requestURL = `${
+    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
+  }/places?q=${payload}`;
+
+  try {
+    const places: PlaceModel[] = yield call(request, requestURL);
+
+    yield put(actions.queriedPlaces(places));
+  } catch (err) {
+    console.log(err);
+    yield put(actions.repoError(1));
+  }
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -31,4 +51,5 @@ export function* placeSaga() {
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
   yield takeLatest(actions.loadPlaces.type, getPlaces);
+  yield takeLatest(actions.queryPlaces.type, getQueriedPlaces);
 }

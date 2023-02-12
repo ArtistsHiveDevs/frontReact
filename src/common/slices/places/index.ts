@@ -14,6 +14,8 @@ export const placesInitialState: PlaceState = {
   places: [],
   loading: false,
   error: null,
+  placesQueryParams: null,
+  queriedPlaces: []
 };
 
 const slice = createSlice({
@@ -29,6 +31,20 @@ const slice = createSlice({
       const places = action.payload.map((template) => new PlaceModel(template));
 
       state.places = places;
+      state.loading = false;
+    },
+    queryPlaces(state, action: PayloadAction<string>) {
+      state.loading = true;
+      state.error = null;
+      state.queriedPlaces = [];
+      state.placesQueryParams = action?.payload;
+    },
+    queriedPlaces(state, action: PayloadAction<PlaceModel[] | []>) {
+      const artistsQuery = action.payload.map(
+        (template) => new PlaceModel(template)
+      );
+
+      state.queriedPlaces = artistsQuery;
       state.loading = false;
     },
     repoError(state, action: PayloadAction<PlaceErrorType>) {

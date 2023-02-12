@@ -3,7 +3,6 @@ export const ItMessages = {
     name: "App IT",
     loading: "Caricamento in corso",
     general: {
-      not_found_results: "Nessun risultato trovato",
       not_found_page: {
         title: "Oops! Non siamo riusciti a trovare quello che stai cercando",
       },
@@ -389,6 +388,19 @@ export const ItMessages = {
         copywrite: {
           allRightsReserved: "Tutti i diritti riservati",
         },
+      },
+      search: {
+        not_found_results: "Nessun risultato trovato",
+        recommendations: "Raccomandazioni",
+        results_list: "Resultati",
+        search_placeholder: "Artisti, eventi, luoghi...",
+        see_more: "Vedi di più",
+        types: {
+          ARTISTS: "Artisti",
+          PLACES: "Luoghi",
+          EVENTS: "Eventi",
+        },
+        type_your_search: "Scrivi la tua ricerca",
       },
       sidenav: {
         name: "Menu principale",

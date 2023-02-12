@@ -6,6 +6,7 @@ import { Saga } from "redux-saga";
 import { ArtistState } from "~/common/slices/artists/types";
 import { EventState } from "~/common/slices/events/types";
 import { PlaceState } from "~/common/slices/places/types";
+import { SearchState } from "~/common/slices/search/types";
 import { UserState } from "~/common/slices/users/types";
 
 export interface RootState {
@@ -14,6 +15,7 @@ export interface RootState {
   EventsReducer?: EventState;
   PlacesReducer?: PlaceState;
   UsersReducer?: UserState;
+  SearchReducer?: SearchState;
 }
 
 type RequiredRootState = Required<RootState>;

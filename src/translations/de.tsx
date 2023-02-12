@@ -389,6 +389,19 @@ export const DeMessages = {
           allRightsReserved: "Alle Rechte vorbehalten",
         },
       },
+      search: {
+        not_found_results: "Keine Ergebnisse gefunden",
+        recommendations: "Empfehlungen",
+        results_list: "Ergebnisliste",
+        search_placeholder: "Künstler, Ereignisse, Orte...",
+        see_more: "Mehr sehen",
+        types: {
+          ARTISTS: "Künstler",
+          PLACES: "Orte",
+          EVENTS: "Ereignisse",
+        },
+        type_your_search: "Schreiben Sie Ihre Suche",
+      },
       sidenav: {
         name: "Hauptmeny",
         sections: {

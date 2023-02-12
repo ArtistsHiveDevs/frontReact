@@ -3,7 +3,6 @@ export const FrMessages = {
     name: "App FR",
     loading: "Chargement en cours",
     general: {
-      not_found_results: "Aucun résultat trouvé",
       not_found_page: {
         title: "Oups ! Nous n'avons pas trouvé ce que vous cherchez",
       },
@@ -390,6 +389,19 @@ export const FrMessages = {
         copywrite: {
           allRightsReserved: "Tous les droits sont réservés",
         },
+      },
+      search: {
+        not_found_results: "Aucun résultat trouvé",
+        recommendations: "Recommandations",
+        results_list: "Liste de résultats",
+        search_placeholder: "Artistes, événements, lieux...",
+        see_more: "Voir plus",
+        types: {
+          ARTISTS: "Artistes",
+          PLACES: "Lieux",
+          EVENTS: "Événements",
+        },
+        type_your_search: "Ecrivez votre recherche",
       },
       sidenav: {
         name: "Menu principal",

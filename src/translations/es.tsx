@@ -3,7 +3,6 @@ export const EsMessages = {
     name: "App ES",
     loading: "Cargando....",
     general: {
-      not_found_results: "No se ha encontrado ningún resultado",
       not_found_page: {
         title: "Ups! No encontramos lo que buscas",
       },
@@ -382,6 +381,19 @@ export const EsMessages = {
         copywrite: {
           allRightsReserved: "Todos los derechos reservados",
         },
+      },
+      search: {
+        not_found_results: "No se encontraron resultados",
+        recommendations: "Recomendaciones",
+        results_list: "Resultados",
+        search_placeholder: "Artistas, eventos, lugares...",
+        see_more: "Ver más",
+        types: {
+          ARTISTS: "Artistas",
+          PLACES: "Lugares",
+          EVENTS: "Eventos",
+        },
+        type_your_search: "Escribe tu búsqueda",
       },
       sidenav: {
         name: "Menú principal",

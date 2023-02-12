@@ -68,7 +68,7 @@ const miInfo: SideMenuItem[] = [
     icon: "FaUsers",
     updated: new Date("2/20/16"),
     randomId: true,
-    allowedRoles: [{ entityName: "ARTIST" }],
+    allowedRoles: [{ entityName: "Artist" }],
     requireSession: false,
   },
   {
@@ -77,21 +77,21 @@ const miInfo: SideMenuItem[] = [
     icon: "FaRegCalendarAlt",
     updated: new Date("1/18/16"),
     randomId: true,
-    allowedRoles: [{ entityName: "ARTIST" }],
+    allowedRoles: [{ entityName: "Artist" }],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "my_riders"),
     path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}`,
     icon: "FaFileAlt",
     updated: new Date("2/20/16"),
-    allowedRoles: [{ entityName: "ARTIST" }],
+    allowedRoles: [{ entityName: "Artist" }],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "my_places"),
     path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}`,
     icon: "HiBuildingStorefront",
     updated: new Date("2/20/16"),
-    allowedRoles: [{ entityName: "PLACE" }],
+    allowedRoles: [{ entityName: "Place" }],
   },
 ];
 const config: SideMenuItem[] = [

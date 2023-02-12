@@ -1,11 +1,20 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Form, InputGroup } from "react-bootstrap";
+import { useI18n } from "~/common/utils";
 
-import { SearchItem } from "./search-item";
+import { ResultsList } from "./results-list";
 import "./search.scss";
 
+const TRANSLATION_BASE_SEARCH = "app.appbase.search";
+
 export const SearchComponent = (props: any) => {
-  const { openedStatus } = props;
+  const { translateText, locale } = useI18n();
+
+  function translate(text: string) {
+    return translateText(`${TRANSLATION_BASE_SEARCH}.${text}`);
+  }
+
+  const { openedStatus, onClick } = props;
   const [text, setText] = useState("");
   const [focused, setFocused] = useState(false);
 
@@ -44,17 +53,24 @@ export const SearchComponent = (props: any) => {
   if (openedStatus) {
     stylesSearchField = ["ah-nav-search"];
   }
+
+  function handleClickOnResult(event: any) {
+    if (onClick) {
+      onClick(event);
+      setText("");
+    }
+  }
   return (
     <>
       <div ref={wrapperRef} className={stylesSearchField.join(" ")}>
         <InputGroup>
           <Form.Control
             aria-describedby="basic-addon2"
-            aria-label="Artistas, lugares..."
+            aria-label={translate("search_placeholder")}
             autoComplete="off"
             className="ah-nav-search__input"
             name="search"
-            placeholder="Artistas, eventos, lugares..."
+            placeholder={translate("search_placeholder")}
             value={text}
             onChange={handleText}
             onClick={() => handleOnBlur()}
@@ -62,7 +78,7 @@ export const SearchComponent = (props: any) => {
         </InputGroup>
         {focused && (
           <div className="ah-combobox-search">
-            <SearchItem q={text} />
+            <ResultsList q={text} onClick={handleClickOnResult} />
           </div>
         )}
       </div>

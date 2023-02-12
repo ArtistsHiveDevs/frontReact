@@ -3,7 +3,6 @@ export const EnMessages = {
     name: "App EN",
     loading: "Loading",
     general: {
-      not_found_results: "No results found",
       not_found_page: {
         title: "Oops! We couldn't find what you're looking for",
       },
@@ -309,6 +308,19 @@ export const EnMessages = {
         copywrite: {
           allRightsReserved: "All rights reserved",
         },
+      },
+      search: {
+        not_found_results: "No results found",
+        recommendations: "Recommendations",
+        results_list: "Result list",
+        search_placeholder: "Artists, events, places...",
+        see_more: "See more",
+        types: {
+          ARTISTS: "Artists",
+          PLACES: "Places",
+          EVENTS: "Events",
+        },
+        type_your_search: "Write your search",
       },
       sidenav: {
         name: "Main menu",

@@ -7,7 +7,7 @@ export interface EventTemplate extends EntityTemplate {
   verified_status: VerificationStatus;
   name: string;
   subtitle: string;
-  photo: string;
+  profile_pic: string;
   main_artist_id: string;
   main_artist: ArtistModel;
   guest_artist_id: string;
@@ -32,7 +32,7 @@ export class EventModel
   declare name: string;
   declare verified_status: VerificationStatus;
   declare subtitle: string;
-  declare photo: string;
+  declare profile_pic: string;
   declare main_artist_id: string;
   declare main_artist: ArtistModel;
   declare guest_artist_id: string;
@@ -63,6 +63,10 @@ export class EventModel
 
   get cardInfo() {
     return { title: this.name, subtitle: this.timetable__initial_date };
+  }
+
+  get cityWithCountry() {
+    return `${this.place?.city}, ${this.place?.country}`;
   }
 
   get main_artists() {

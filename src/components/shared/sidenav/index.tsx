@@ -6,6 +6,10 @@ import { useI18n } from "~/common/utils";
 import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import DynamicIcons from "~/components/shared/DynamicIcons";
 import { SearchComponent } from "~/components/shared/search";
+import { PATHS, SUB_PATHS } from "~/constants";
+import { SearchableTemplate } from "~/models/base";
+import { EventModel } from "~/models/domain/event/event.model";
+import { PlaceModel } from "~/models/domain/place/place.model";
 import "./index.scss";
 import { SideMenuItem, SIDENAV_MENU_CONFIG } from "./sidenav.config";
 
@@ -13,7 +17,8 @@ const TRANSLATION_BASE_SIDENAV = "app.sidenav";
 
 const SideNav = () => {
   const [show, setShow] = useState(false);
-  const [openedSearchInputText, openSearchInputText] = useState(false);
+  const [openStatusSearchInputText, setOpenStatusSearchInputText] =
+    useState(false);
   const navigate = useNavigate();
 
   const { translateText } = useI18n();
@@ -22,7 +27,7 @@ const SideNav = () => {
   const handleShow = () => setShow(true);
 
   const showHideSearchField = (event: any) => {
-    openSearchInputText(!openedSearchInputText);
+    setOpenStatusSearchInputText(!openStatusSearchInputText);
   };
 
   const navigateTo = (
@@ -111,9 +116,21 @@ const SideNav = () => {
   };
 
   let searchIcon = "AiOutlineSearch";
-  if (openedSearchInputText) {
+  if (openStatusSearchInputText) {
     searchIcon = "MdSearchOff";
   }
+
+  const handleResultOnClick = (element: SearchableTemplate) => {
+    let newEntity = PATHS.ARTISTS;
+    if (element instanceof PlaceModel) {
+      newEntity = PATHS.PLACES;
+    } else if (element instanceof EventModel) {
+      newEntity = PATHS.EVENTS;
+    }
+
+    setOpenStatusSearchInputText(false);
+    navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${element.id}`);
+  };
 
   return (
     <>
@@ -141,7 +158,10 @@ const SideNav = () => {
               Log in
             </a>
           </div>
-          <SearchComponent openedStatus={openedSearchInputText} />
+          <SearchComponent
+            openedStatus={openStatusSearchInputText}
+            onClick={handleResultOnClick}
+          />
           {!!show && (
             <Navbar.Offcanvas
               placement="start"

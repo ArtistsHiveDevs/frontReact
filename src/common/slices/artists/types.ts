@@ -8,4 +8,6 @@ export interface ArtistState {
   artists: ArtistModel[] | [];
   loading: boolean;
   error: ArtistErrorType | null;
+  artistsQueryParams?: string;
+  queriedArtists?: ArtistModel[] | [];
 }

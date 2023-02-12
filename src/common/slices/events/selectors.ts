@@ -8,12 +8,12 @@ import { eventsInitialState } from ".";
 const selectDomain = (state: RootState) =>
   state?.EventsReducer || eventsInitialState;
 
-export const selectLoading = createSelector(
+export const eventsSelectLoading = createSelector(
   [selectDomain],
   (EventState) => EventState.loading
 );
 
-export const selectError = createSelector(
+export const eventsSelectError = createSelector(
   [selectDomain],
   (EventState) => EventState.error
 );
@@ -21,4 +21,9 @@ export const selectError = createSelector(
 export const selectEvents = createSelector(
   [selectDomain],
   (EventState) => EventState.events
+);
+
+export const selectQueriedEvents = createSelector(
+  [selectDomain],
+  (EventState) => EventState.queriedEvents
 );

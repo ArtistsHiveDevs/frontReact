@@ -1,6 +1,6 @@
 import moment from "moment";
 import { VerificationStatus } from "~/constants";
-import { EntityModel, EntityTemplate } from "~/models/base";
+import { EntityModel, EntityTemplate, SearchableTemplate } from "~/models/base";
 import { EventModel, EventTemplate } from "../event/event.model";
 
 export interface ArtistTemplate extends EntityTemplate {
@@ -17,7 +17,7 @@ export interface ArtistTemplate extends EntityTemplate {
 
 export class ArtistModel
   extends EntityModel<ArtistTemplate>
-  implements ArtistTemplate
+  implements ArtistTemplate, SearchableTemplate
 {
   declare artistType: string;
   declare name: string;

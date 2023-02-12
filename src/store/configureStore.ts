@@ -21,7 +21,8 @@ export function configureAppStore() {
 
   const store = configureStore({
     reducer: createReducer(),
-    middleware: (defaultMiddleware) => [...defaultMiddleware(), ...middlewares],
+    // TODO verify serializable at store
+    middleware: (defaultMiddleware) => [...defaultMiddleware({serializableCheck: false}), ...middlewares],
     devTools: process.env.NODE_ENV === "development",
     enhancers,
   });

@@ -16,6 +16,17 @@ export interface UserAvailableEntityRole {
   entityRoleMap: UserEntityRoleMap[];
 }
 
+export interface UserGenderTemplate {
+  index: number;
+  value: string;
+}
+export const UserGenders: UserGenderTemplate[] = [
+  { index: 1, value: "male" },
+  { index: 2, value: "female" },
+  { index: 3, value: "non_binary" },
+  { index: 4, value: "non_specified" },
+];
+
 export const APP_DOMAIN_ROLES: { [entityName: string]: DomainRole } = {
   ARTIST: {
     entityName: "Artist",
@@ -132,6 +143,10 @@ export class AppUserModel
 
   get fullname() {
     return `${this.given_names} ${this.surnames}`;
+  }
+
+  get genderEnum(): UserGenderTemplate {
+    return UserGenders.find((gender) => gender.index === this.gender);
   }
 
   get name() {

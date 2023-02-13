@@ -165,7 +165,7 @@ export class AppUserModel
       const subscriptionTemplate =
         template[subscription as keyof AppUserTemplate];
       Object.keys(subscriptionTemplate).forEach((eventsType) => {
-        const events =
+        const events: any[] =
           subscriptionTemplate[
             eventsType as keyof typeof subscriptionTemplate
           ] || [];

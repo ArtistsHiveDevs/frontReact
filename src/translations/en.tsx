@@ -97,12 +97,20 @@ export const EnMessages = {
                   },
                 },
               },
-              shows: {
+              my_shows: {
                 name: "My Shows",
                 sections: {
-                  my_liked_shows: {
-                    name: "My liked shows",
+                  next_shows: {
+                    name: "Next shows",
                   },
+                  past_shows: {
+                    name: "Past shows",
+                  },
+                },
+              },
+              my_liked_shows: {
+                name: "My liked shows",
+                sections: {
                   next_shows: {
                     name: "Next shows",
                   },

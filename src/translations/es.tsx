@@ -97,12 +97,20 @@ export const EsMessages = {
                   },
                 },
               },
-              shows: {
+              my_shows: {
                 name: "Mis eventos",
                 sections: {
-                  my_liked_shows: {
-                    name: "Mis favoritos",
+                  next_shows: {
+                    name: "Próximos eventos",
                   },
+                  past_shows: {
+                    name: "Eventos pasados",
+                  },
+                },
+              },
+              my_liked_shows: {
+                name: "Mis eventos favoritos",
+                sections: {
                   next_shows: {
                     name: "Próximos eventos",
                   },

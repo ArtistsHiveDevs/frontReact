@@ -113,6 +113,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   },
   {
     name: "arts",
+    allowedRoles: [{ entityName: "Artist" }],
     sections: [
       {
         name: "music",
@@ -198,6 +199,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   },
   {
     name: "memberships",
+    allowedRoles: [{ entityName: "Artist" }],
     sections: [
       {
         name: "artists",
@@ -227,6 +229,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   },
   {
     name: "my_shows",
+    allowedRoles: [{ entityName: "Artist" }],
     sections: [
       {
         name: "next_shows",

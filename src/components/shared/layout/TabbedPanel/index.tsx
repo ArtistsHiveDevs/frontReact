@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
-import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
+import {
+  AllowedEntityRole,
+  RequireAuthComponent,
+} from "~/components/shared/atoms/app/auth/RequiredAuth";
 import "./index.scss";
 
 export interface TabbedPage {
   name: string;
   tabContent: any;
   requireSession?: boolean;
+  allowedRoles?: AllowedEntityRole[];
 }
 
 export const TabbedPanel = (props: any) => {
@@ -30,6 +34,7 @@ export const TabbedPanel = (props: any) => {
       return (
         <RequireAuthComponent
           key={`subpage-section-${idx}`}
+          allowedRoles={subpage.allowedRoles}
           requiredSession={subpage.requireSession}
         >
           <div

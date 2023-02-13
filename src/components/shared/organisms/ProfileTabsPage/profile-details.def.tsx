@@ -1,3 +1,5 @@
+import { AllowedEntityRole } from "~/components/shared/atoms/app/auth/RequiredAuth";
+
 export enum ProfileComponentTypes {
   ATTRIBUTES_ICON_FIELDS,
   CALENDAR_SIMPLE_LAYOUT,
@@ -11,6 +13,7 @@ export enum ProfileComponentTypes {
 export interface ProfileDetailsSubpage {
   name: string;
   sections?: ProfileDetailsSubpageSection[];
+  allowedRoles?: AllowedEntityRole[];
   requireSession?: boolean;
   clickHandlerName?: string;
 }

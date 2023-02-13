@@ -1,7 +1,9 @@
+import { useI18n } from "~/common/utils";
 import {
   ProfileComponentTypes,
   ProfileDetailsSubpage,
 } from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
+import { AppUserModel } from "~/models/app/user/user.model";
 
 export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
@@ -21,6 +23,16 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   name: "gender",
                   icon: "BsGenderTrans",
                   emptyTitle: true,
+                  value: (user: AppUserModel) => {
+                    const { translateText } = useI18n();
+                    return (
+                      <>
+                        {translateText(
+                          `app.global_dictionary.genders.${user.genderEnum.value}`
+                        )}
+                      </>
+                    );
+                  },
                 },
                 {
                   name: "birthdate",

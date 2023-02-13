@@ -7,6 +7,14 @@ export const DeMessages = {
         title: "Hoppla! Wir konnten nicht finden, wonach Sie suchen",
       },
     },
+    global_dictionary: {
+      genders: {
+        male: "Mann",
+        female: "Frau",
+        non_binary: "Nicht binär",
+        non_specified: "Nicht spezifiziert",
+      },
+    },
     pages: {
       app: {
         settings: {

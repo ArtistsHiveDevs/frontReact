@@ -7,6 +7,14 @@ export const FrMessages = {
         title: "Oups ! Nous n'avons pas trouvé ce que vous cherchez",
       },
     },
+    global_dictionary: {
+      genders: {
+        male: "Homme",
+        female: "Femme",
+        non_binary: "Non binaire",
+        non_specified: "Non spécifié",
+      },
+    },
     pages: {
       app: {
         settings: {

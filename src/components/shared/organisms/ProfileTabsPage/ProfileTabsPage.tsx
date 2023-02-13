@@ -96,6 +96,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     return (subpagesConfig || []).map((subpage) => {
       return {
         name: translateSubpage(subpage.name),
+        allowedRoles: subpage.allowedRoles,
         requireSession: subpage.requireSession,
         tabContent: () => {
           return (

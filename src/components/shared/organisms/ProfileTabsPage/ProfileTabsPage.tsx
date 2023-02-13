@@ -23,6 +23,7 @@ import {
 
 import moment from "moment";
 import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
+import { Title } from "~/components/shared/atoms/Title/Title";
 import { SectionsPanel } from "~/components/shared/layout/SectionPanel";
 import { TabbedPanel } from "~/components/shared/layout/TabbedPanel";
 import { ProfileHeader } from "~/components/shared/molecules/Profile/ProfileHeader";
@@ -467,6 +468,15 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           socialNetworkName as keyof typeof dataSourceElement
         ],
       });
+    } else if (
+      componentDescriptor.componentName === ProfileComponentTypes.TITLE
+    ) {
+      renderedComponent = (
+        <Title
+          title={componentDescriptor.data?.title}
+          size={componentDescriptor.data?.size || "2"}
+        />
+      );
     }
 
     return renderedComponent;

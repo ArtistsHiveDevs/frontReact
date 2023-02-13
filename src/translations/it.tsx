@@ -97,12 +97,20 @@ export const ItMessages = {
                   },
                 },
               },
-              shows: {
+              my_shows: {
                 name: "Miei eventi",
                 sections: {
-                  my_liked_shows: {
-                    name: "Miei abbonamenti",
+                  next_shows: {
+                    name: "Prossimi spettacoli",
                   },
+                  past_shows: {
+                    name: "Spettacoli passati",
+                  },
+                },
+              },
+              my_liked_shows: {
+                name: "Miei abbonamenti",
+                sections: {
                   next_shows: {
                     name: "Prossimi spettacoli",
                   },

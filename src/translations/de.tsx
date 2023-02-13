@@ -97,12 +97,20 @@ export const DeMessages = {
                   },
                 },
               },
-              shows: {
+              my_shows: {
                 name: "Meine Veranstaltungen",
                 sections: {
-                  my_liked_shows: {
-                    name: "Meine Abonnements",
+                  next_shows: {
+                    name: "Bevorstehende Sendungen",
                   },
+                  past_shows: {
+                    name: "Vergangene Shows",
+                  },
+                },
+              },
+              my_liked_shows: {
+                name: "Meine liebe Veranstaltungen",
+                sections: {
                   next_shows: {
                     name: "Bevorstehende Sendungen",
                   },

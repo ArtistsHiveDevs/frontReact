@@ -66,15 +66,21 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
   };
 
   //#region Helpers
-  const getData = (
+  const getData: any = (
     attribute: string,
     dataSource: EntityModel<EntityTemplate> = undefined
   ) => {
     let response = undefined;
     if (attribute) {
       const element = dataSource || entityData;
-      const data = element[attribute as keyof typeof element];
+      const propertyPath = attribute.split(".") || [];
+      const data =
+        propertyPath.reduce((previous, current) => {
+          return previous ? previous[current as keyof typeof previous] : "";
+        }, element) || "";
+
       response = data;
+
       if (
         Array.isArray(data) &&
         data.length &&
@@ -222,7 +228,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
         componentIndex: number,
         parentDataSource: EntityModel<EntityTemplate> = undefined
       ) {
-        let value = getData(attribute.name, parentDataSource);
+        let value = undefined;
         if (attribute.value || attribute.components) {
           if (attribute.value instanceof Function) {
             value = (
@@ -261,6 +267,8 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           } else {
             value = attribute.value;
           }
+        } else {
+          value = getData(attribute.name, parentDataSource);
         }
         return {
           name: attribute.name,

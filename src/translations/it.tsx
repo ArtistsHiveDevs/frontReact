@@ -7,6 +7,14 @@ export const ItMessages = {
         title: "Oops! Non siamo riusciti a trovare quello che stai cercando",
       },
     },
+    global_dictionary: {
+      genders: {
+        male: "Uomo",
+        female: "Donna",
+        non_binary: "Non binario",
+        non_specified: "Non specificato",
+      },
+    },
     pages: {
       app: {
         settings: {

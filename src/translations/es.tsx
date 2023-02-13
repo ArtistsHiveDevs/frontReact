@@ -7,6 +7,14 @@ export const EsMessages = {
         title: "Ups! No encontramos lo que buscas",
       },
     },
+    global_dictionary: {
+      genders: {
+        male: "Hombre",
+        female: "Mujer",
+        non_binary: "No binario",
+        non_specified: "No especificado",
+      },
+    },
     pages: {
       app: {
         settings: {

@@ -1,5 +1,6 @@
 import { VerificationStatus } from "~/constants";
 import { EntityModel, EntityTemplate, SearchableTemplate } from "~/models/base";
+import { EventModel, EventTemplate } from "~/models/domain/event/event.model";
 
 export interface DomainRole {
   entityName: string;
@@ -83,6 +84,14 @@ export interface AppUserTemplate extends EntityTemplate {
   updated_at?: string;
 
   roles: UserAvailableEntityRole[];
+  events_as_artist: {
+    next_events: EventTemplate[];
+    past_events: EventTemplate[];
+  };
+  subscribed_events: {
+    next_events: EventTemplate[];
+    past_events: EventTemplate[];
+  };
 }
 
 export class AppUserModel
@@ -114,6 +123,14 @@ export class AppUserModel
   declare updated_at: string;
 
   declare roles: UserAvailableEntityRole[];
+  declare events_as_artist: {
+    next_events: EventTemplate[];
+    past_events: EventTemplate[];
+  };
+  declare subscribed_events: {
+    next_events: EventTemplate[];
+    past_events: EventTemplate[];
+  };
 
   constructor(template: AppUserTemplate) {
     super(template);
@@ -140,6 +157,21 @@ export class AppUserModel
         undefined,
         getRoleMap
       );
+    });
+
+    // Events
+    const eventSubscriptions = ["events_as_artist", "subscribed_events"];
+    eventSubscriptions.forEach((subscription) => {
+      const subscriptionTemplate =
+        template[subscription as keyof AppUserTemplate];
+      Object.keys(subscriptionTemplate).forEach((eventsType) => {
+        const events =
+          subscriptionTemplate[
+            eventsType as keyof typeof subscriptionTemplate
+          ] || [];
+        this[subscription as keyof AppUserModel][eventsType] =
+          events?.map((event: EventTemplate) => new EventModel(event)) || [];
+      });
     });
   }
 

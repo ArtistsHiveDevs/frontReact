@@ -61,10 +61,7 @@ const UserDetailPage = () => {
     onCloseGalleryImage: (value: any) => {
       setGalleryImage(undefined);
     },
-    onClickNextEvent: (value: any) => {
-      navigateTo(PATHS.EVENTS, value.id);
-    },
-    onClickPastEvent: (value: any) => {
+    onClickEvent: (value: any) => {
       navigateTo(PATHS.EVENTS, value.id);
     },
     onNavigateToEntity: (value: any) => {

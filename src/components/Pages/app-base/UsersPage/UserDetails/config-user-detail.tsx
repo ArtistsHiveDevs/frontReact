@@ -226,34 +226,15 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     ],
   },
   {
-    name: "shows",
+    name: "my_shows",
     sections: [
-      {
-        name: "my_liked_shows",
-        components: [
-          {
-            componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
-            data: {
-              data_source: "nextEvents",
-              fields: {
-                date: "timetable__initial_date",
-                time: "timetable__main_user_time",
-                title: "name",
-                subtitle: "subtitle",
-                place: "place",
-              },
-            },
-            clickHandlerName: "onClickNextEvent",
-          },
-        ],
-      },
       {
         name: "next_shows",
         components: [
           {
             componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
             data: {
-              data_source: "nextEvents",
+              data_source: "events_as_artist.next_events",
               fields: {
                 date: "timetable__initial_date",
                 time: "timetable__main_user_time",
@@ -262,7 +243,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 place: "place",
               },
             },
-            clickHandlerName: "onClickNextEvent",
+            clickHandlerName: "onClickEvent",
           },
         ],
       },
@@ -272,7 +253,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           {
             componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
             data: {
-              data_source: "pastEvents",
+              data_source: "events_as_artist.past_events",
               fields: {
                 date: "timetable__initial_date",
                 time: "timetable__main_user_time",
@@ -281,7 +262,50 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 place: "place",
               },
             },
-            clickHandlerName: "onClickNextEvent",
+            clickHandlerName: "onClickEvent",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "my_liked_shows",
+    sections: [
+      {
+        name: "next_shows",
+        components: [
+          {
+            componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
+            data: {
+              data_source: "subscribed_events.next_events",
+              fields: {
+                date: "timetable__initial_date",
+                time: "timetable__main_user_time",
+                title: "name",
+                subtitle: "subtitle",
+                place: "place",
+              },
+            },
+            clickHandlerName: "onClickEvent",
+          },
+        ],
+      },
+      {
+        name: "past_shows",
+        components: [
+          {
+            componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
+            data: {
+              data_source: "subscribed_events.past_events",
+              fields: {
+                date: "timetable__initial_date",
+                time: "timetable__main_user_time",
+                title: "name",
+                subtitle: "subtitle",
+                place: "place",
+              },
+            },
+            clickHandlerName: "onClickEvent",
           },
         ],
       },

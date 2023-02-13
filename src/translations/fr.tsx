@@ -96,12 +96,20 @@ export const FrMessages = {
                   },
                 },
               },
-              shows: {
+              my_shows: {
                 name: "Mes Événements",
                 sections: {
-                  my_liked_shows: {
-                    name: "Mes abonements",
+                  next_shows: {
+                    name: "Spectacles à venir",
                   },
+                  past_shows: {
+                    name: "Spectacles passés",
+                  },
+                },
+              },
+              my_liked_shows: {
+                name: "Mes abonements",
+                sections: {
                   next_shows: {
                     name: "Spectacles à venir",
                   },

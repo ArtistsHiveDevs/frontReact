@@ -49,7 +49,7 @@ const ArtistDetailPage = () => {
 
   useEffect(() => {
     setCurrentArtist(getArtistInfo(artistId));
-    
+
     if (artistId !== urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]) {
       setCurrentArtistId(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
     }
@@ -70,10 +70,7 @@ const ArtistDetailPage = () => {
     onCloseGalleryImage: (value: any) => {
       setGalleryImage(undefined);
     },
-    onClickNextEvent: (value: any) => {
-      navigateTo(PATHS.EVENTS, value.id);
-    },
-    onClickPastEvent: (value: any) => {
+    onClickEvent: (value: any) => {
       navigateTo(PATHS.EVENTS, value.id);
     },
   };

@@ -7,6 +7,14 @@ export const EnMessages = {
         title: "Oops! We couldn't find what you're looking for",
       },
     },
+    global_dictionary: {
+      genders: {
+        male: "Man",
+        female: "Woman",
+        non_binary: "Non binary",
+        non_specified: "Non specified",
+      },
+    },
     pages: {
       app: {
         settings: {

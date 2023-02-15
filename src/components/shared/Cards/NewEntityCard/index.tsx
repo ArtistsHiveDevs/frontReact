@@ -1,10 +1,10 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import { AligmentVerifiedMark } from "~/constants";
+import DynamicIcons from "~/components/shared/DynamicIcons";
 import GenericModal from "~/components/shared/molecules/general/Modals/ModalCardInfo/GenericModal";
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
+import { AligmentVerifiedMark } from "~/constants";
 import "./index.scss";
-import DynamicIcons from "~/components/shared/DynamicIcons";
 
 const NewEntityCard = (props: any) => {
   const { data, idx, params, callbacks } = props;
@@ -27,6 +27,8 @@ const NewEntityCard = (props: any) => {
 
   const elementCardInfo = data.cardInfo;
 
+  const photoURL = data?.profile_pic || data?.photo;
+
   return (
     <>
       <Card
@@ -36,12 +38,12 @@ const NewEntityCard = (props: any) => {
       >
         {!params?.hidePhoto && (
           <>
-            {data?.photo && (
+            {photoURL && (
               <>
                 <div className="container-img-card">
                   <Card.Img
                     className="img-card"
-                    src={data.photo}
+                    src={photoURL}
                     variant="top"
                   ></Card.Img>
                   <Card.ImgOverlay>

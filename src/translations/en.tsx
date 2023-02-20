@@ -406,11 +406,26 @@ export const EnMessages = {
         },
       },
       search: {
+        empty_results: {
+          title: "There are no results that match your search",
+          suggestions: {
+            statement: "Try any of the following suggestions",
+            spelling: "Check your spelling",
+            less_words: "Use more generic words or fewer words",
+            related_things: "Browse categories to find similar elements",
+          },
+        },
         not_found_results: "No results found",
         recommendations: "Recommendations",
-        results_list: "Result list",
+        result_view_types: {
+          list: "List",
+          map: "Map",
+        },
+        results: "Results",
+        search: "Search",
         search_placeholder: "Artists, events, places...",
         see_more: "See more",
+        what_are_you_looking_for: "What are you looking for?",
         types: {
           ARTISTS: "Artists",
           PLACES: "Places",
@@ -426,6 +441,7 @@ export const EnMessages = {
             options: {
               home: "Home",
               cultural_agenda: "Cultural agenda",
+              search: "Search",
             },
           },
           myInfo: {

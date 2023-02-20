@@ -138,7 +138,7 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
         <ListGroup.Item className="search-item-head">
           <h4 className="search-item-head__title">
             {hasQueryTerms
-              ? translate("results_list")
+              ? translate("results")
               : translate("recommendations")}
           </h4>
           <div className="search-item-head__subtitle disable-select">

@@ -14,8 +14,16 @@ p {
   padding-top: 20px;
 }
 
-.cards-container {
+.cards-container-horizontal {
   display: flex;
   flex-direction: row;
   overflow-x: auto;
+  justify-content: center;
+}
+
+.cards-container-vertical {
+  display: flex;
+  flex-direction: row;
+  flex-wrap:wrap;
+  justify-content: center;
 }

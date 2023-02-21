@@ -12,7 +12,6 @@ type MainSectionInputParams = {
   params?: { [nameParam: string]: any };
   callbacks?: { [nameParam: string]: Function };
   orientation?: string;
-  columnNumber?: number;
 };
 
 const MainSection: React.FC<MainSectionInputParams> = (
@@ -24,7 +23,7 @@ const MainSection: React.FC<MainSectionInputParams> = (
     listView,
     params,
     callbacks,
-    titleAlign: titleAlineation,
+    titleAlign,
     orientation,
   } = props;
 
@@ -33,7 +32,7 @@ const MainSection: React.FC<MainSectionInputParams> = (
       <>
         <h3
           className={`main-section-title`}
-          style={{ textAlign: titleAlineation || "left" }}
+          style={{ textAlign: titleAlign || "left" }}
         >
           {title}
         </h3>

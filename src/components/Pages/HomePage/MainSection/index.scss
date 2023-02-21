@@ -12,6 +12,7 @@ p {
 
 .main-section-title {
   padding-top: 20px;
+  text-transform: capitalize;
 }
 
 .cards-container-horizontal {
@@ -23,7 +24,11 @@ p {
 
 .cards-container-vertical {
   display: flex;
-  flex-direction: row;
-  flex-wrap:wrap;
-  justify-content: center;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.cards-container-vertical::after {
+  content: "";
+  flex: auto;
 }

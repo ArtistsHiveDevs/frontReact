@@ -5,7 +5,7 @@ import { useEventsSlice } from "~/common/slices/events";
 import { selectEvents } from "~/common/slices/events/selectors";
 import { useI18n } from "~/common/utils";
 import MainSection from "~/components/Pages/HomePage/MainSection";
-import { getCustomList } from "~/constants";
+import { getCustomList, sortEventsPerMonth } from "~/constants";
 import { EventModel } from "~/models/domain/event/event.model";
 import "./cultural-agenda-page.scss";
 
@@ -36,13 +36,32 @@ const CulturalAgendaPage: React.FC = () => {
 
   return (
     <>
+      <hr className="hr-solid"></hr>
+
       <MainSection
         title={"Destacados"}
-        listView={getCustomList(30, eventsList)}
+        listView={getCustomList(10, eventsList)}
         params={{ useNewCard: true }}
-        orientation={"vertical"}
         callbacks={{ onClickCard: onClickCardEventos }}
       />
+
+      <hr className="hr-solid"></hr>
+
+      {sortEventsPerMonth(eventsList)?.map((eventCase, idx) => {
+        return (
+          <div key={`event-month-${idx}`}>
+            <MainSection
+              title={eventCase.monthName}
+              titleAlign={"center"}
+              listView={getCustomList(10, eventCase.data)}
+              orientation={"vertical"}
+              params={{ useNewCard: true }}
+              callbacks={{ onClickCard: onClickCardEventos }}
+            />
+            <hr className="hr-solid"></hr>
+          </div>
+        );
+      })}
     </>
   );
 };

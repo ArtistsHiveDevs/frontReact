@@ -6,6 +6,15 @@ import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from "~/constants";
 // Lazy loading
 const HomePage = lazy(() => import("~/components/Pages/HomePage/MainHome"));
 const NotFoundPage = lazy(() => import("~/components/Pages/NotFoundPage"));
+const ContactUsPage = lazy(
+  () => import("~/components/Pages/app-base/ContactUs/ContactUsPage")
+);
+const TermsAndConditionsPage = lazy(
+  () =>
+    import(
+      "~/components/Pages/app-base/TermsAndConditions/TermsAndConditionsPage"
+    )
+);
 
 const AppSettingsPage = lazy(
   () => import("~/components/Pages/app-base/SettingsPage")
@@ -98,6 +107,11 @@ export const RoutesApp: React.FC = () => {
       <Route element={<HomePage />} path={PATHS.HOME} />
       <Route element={<Navigate to={PATHS.HOME} />} path={PATHS.MAIN} />
       <Route element={<SearchPage />} path={PATHS.SEARCH} />
+      <Route element={<ContactUsPage />} path={PATHS.CONTACT_US} />
+      <Route
+        element={<TermsAndConditionsPage />}
+        path={PATHS.TERMS_AND_CONDITIONS}
+      />
 
       <Route element={<NotFoundPage />} path={PATHS.NOT_FOUND} />
       <Route path={PATHS.SETTINGS}>

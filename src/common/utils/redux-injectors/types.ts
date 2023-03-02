@@ -3,6 +3,7 @@ import { SagaInjectionModes } from "@nixjs23n6/redux-injectors";
 import { AnyAction, Reducer } from "@reduxjs/toolkit";
 import { Saga } from "redux-saga";
 
+import { TermsAndConditionsState } from "~/common/slices/app-base/TermsAndConditions/types";
 import { ArtistState } from "~/common/slices/artists/types";
 import { EventState } from "~/common/slices/events/types";
 import { PlaceState } from "~/common/slices/places/types";
@@ -16,6 +17,7 @@ export interface RootState {
   PlacesReducer?: PlaceState;
   SearchReducer?: SearchState;
   UsersReducer?: UserState;
+  TermsAndConditionsReducer?: TermsAndConditionsState;
 }
 
 type RequiredRootState = Required<RootState>;

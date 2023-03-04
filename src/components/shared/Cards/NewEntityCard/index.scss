@@ -64,17 +64,16 @@
   top: 0;
   left: 0;
   width: 3rem;
-  padding-top: 10px;
+  align-content: center;
   .card-date-label {
-    font-weight: bolder;
     font-size: 12px;
     height: 12px;
     text-transform: uppercase;
   }
   .card-date-number {
     font-weight: bolder;
-    font-size: 20px;
-    height: 12px;
+    font-size: 25px;
+    height: 15px;
     text-transform: uppercase;
   }
 }

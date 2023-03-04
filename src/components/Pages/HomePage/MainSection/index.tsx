@@ -12,6 +12,7 @@ type MainSectionInputParams = {
   params?: { [nameParam: string]: any };
   callbacks?: { [nameParam: string]: Function };
   orientation?: string;
+  cardOpts?: { printDayOfWeek: boolean };
 };
 
 const MainSection: React.FC<MainSectionInputParams> = (
@@ -25,6 +26,7 @@ const MainSection: React.FC<MainSectionInputParams> = (
     callbacks,
     titleAlign,
     orientation,
+    cardOpts,
   } = props;
 
   return (
@@ -46,6 +48,7 @@ const MainSection: React.FC<MainSectionInputParams> = (
                   idx={idx}
                   params={params}
                   callbacks={callbacks}
+                  printDayOfWeek={cardOpts?.printDayOfWeek}
                 />
               </div>
             ) : (

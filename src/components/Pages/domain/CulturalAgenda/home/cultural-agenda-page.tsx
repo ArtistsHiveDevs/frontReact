@@ -36,8 +36,6 @@ const CulturalAgendaPage: React.FC = () => {
 
   return (
     <>
-      <hr className="hr-solid"></hr>
-
       <MainSection
         title={"Destacados"}
         listView={getCustomList(10, eventsList)}
@@ -45,21 +43,18 @@ const CulturalAgendaPage: React.FC = () => {
         callbacks={{ onClickCard: onClickCardEventos }}
       />
 
-      <hr className="hr-solid"></hr>
-
       {sortEventsPerMonth(eventsList)?.map((eventCase, idx) => {
         return (
-          <div key={`event-month-${idx}`}>
-            <MainSection
-              title={eventCase.monthName}
-              titleAlign={"center"}
-              listView={getCustomList(10, eventCase.data)}
-              orientation={"vertical"}
-              params={{ useNewCard: true }}
-              callbacks={{ onClickCard: onClickCardEventos }}
-            />
-            <hr className="hr-solid"></hr>
-          </div>
+          <MainSection
+            key={`event-month-${idx}`}
+            title={eventCase.monthName}
+            titleAlign={"center"}
+            listView={getCustomList(10, eventCase.data)}
+            orientation={"vertical"}
+            params={{ useNewCard: true }}
+            cardOpts={{ printDayOfWeek: true }}
+            callbacks={{ onClickCard: onClickCardEventos }}
+          />
         );
       })}
     </>

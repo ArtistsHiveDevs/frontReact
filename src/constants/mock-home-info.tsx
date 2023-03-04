@@ -1,3 +1,5 @@
+import moment from "moment-with-locales-es6";
+import { useI18n } from "~/common/utils";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
 import { EventModel } from "~/models/domain/event/event.model";
 
@@ -17,6 +19,12 @@ export enum AligmentVerifiedMark {
   LEFT = "left",
   RIGHT = "right",
   CENTER = "center",
+}
+
+export enum FormatDateTime {
+  NARROW = "narrow",
+  SHORT = "short",
+  LONG = "long",
 }
 
 export function getCustomList(positions: number, list: any) {
@@ -46,7 +54,7 @@ export function sortEventsPerMonth(list: EventModel[]) {
     if (!!countEvents?.length) {
       returnArray.push({
         id: monthQuantity,
-        monthName: getMonthName(`2020-${monthQuantity + 1}-02`),
+        monthName: formatDateInMomentType(`${monthQuantity + 1}`, "MMMM"),
         data: countEvents,
       });
     }
@@ -62,7 +70,9 @@ export function getEventsPerMonth(month: number, list: EventModel[]) {
 
   if (max > 0) {
     returnList = list.filter((event) => {
-      const listMonth = new Date(event?.timetable__initial_date)?.getMonth();
+      const listMonth = moment(event?.timetable__initial_date, "YYYY-MM-DD")
+        .toDate()
+        ?.getMonth();
       return month === listMonth;
     });
   }
@@ -70,12 +80,26 @@ export function getEventsPerMonth(month: number, list: EventModel[]) {
   return returnList;
 }
 
-export function getMonthName(dateInText: string) {
+export function formatDateInMomentType(
+  dateInText: string,
+  momentFormat: string,
+  customLocale?: string
+) {
+  const { locale } = useI18n();
+  return moment(dateInText)
+    .locale(customLocale || locale)
+    .format(momentFormat);
+}
+
+export function getMonthName(dateInText: string, monthFormat?: FormatDateTime) {
   let monthName;
-  const inputDate = new Date(dateInText);
+  const monthFormatProperty = !!monthFormat ? monthFormat : FormatDateTime.LONG;
+  const inputDate = moment(dateInText).toDate();
   const validateDate = !isNaN(inputDate?.getTime());
   if (validateDate)
-    monthName = inputDate?.toLocaleString("default", { month: "long" });
+    monthName = inputDate?.toLocaleString("default", {
+      month: monthFormatProperty,
+    });
   return monthName;
 }
 

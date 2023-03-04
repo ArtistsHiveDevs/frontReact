@@ -49,16 +49,16 @@ const NewEntityCard = (props: any) => {
                   <Card.ImgOverlay>
                     {data.timetable__initial_date && (
                       <div className="card-date-section">
-                        <p className="card-date-label">
+                        <p className="card-date-number">
                           {formatDateInMomentType(
                             data.timetable__initial_date,
-                            !!printDayOfWeek ? "ddd" : "MMM"
+                            "DD"
                           )}
                         </p>
                         <p className="card-date-label">
                           {formatDateInMomentType(
                             data.timetable__initial_date,
-                            "DD"
+                            !!printDayOfWeek ? "ddd" : "MMM"
                           )}
                         </p>
                       </div>

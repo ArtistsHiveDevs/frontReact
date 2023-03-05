@@ -42,7 +42,7 @@ const general: SideMenuItem[] = [
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, "cultural_agenda"),
-    path: `${PATHS.EVENTS}/${SUB_PATHS.AGENDA}`,
+    path: `${PATHS.CULTURAL_AGENDA}`,
     icon: "FaBullhorn",
     updated: new Date("2/20/16"),
   },

@@ -411,11 +411,26 @@ export const ItMessages = {
         },
       },
       search: {
+        empty_results: {
+          title: "Non ci sono resultati che corrispondono alla tua ricerca",
+          suggestions: {
+            statement: "Prova uno dei seguenti suggerimenti",
+            spelling: "Controlla la tua ortografia",
+            less_words: "Usa parole più generiche o meno parole",
+            related_things: "Sfoglia le categorie per trovare elementi simili",
+          },
+        },
         not_found_results: "Nessun risultato trovato",
         recommendations: "Raccomandazioni",
-        results_list: "Resultati",
+        result_view_types: {
+          list: "Lista",
+          map: "Mappa",
+        },
+        results: "Resultati",
+        search: "Cerca",
         search_placeholder: "Artisti, eventi, luoghi...",
         see_more: "Vedi di più",
+        what_are_you_looking_for: "Cosa stai cercando?",
         types: {
           ARTISTS: "Artisti",
           PLACES: "Luoghi",
@@ -431,6 +446,7 @@ export const ItMessages = {
             options: {
               home: "Home",
               cultural_agenda: "Agenda culturale",
+              search: "Cercare",
             },
           },
           myInfo: {

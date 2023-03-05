@@ -6,15 +6,27 @@ import { SearchModel } from "~/models/domain/search/search.model";
 
 import { searchActions as actions } from ".";
 
-
-export function* queriedSearch(actionParams?:PayloadAction<string>) {
+export function* queriedSearch(actionParams?: PayloadAction<string>) {
   yield delay(500);
 
-  const {payload} = actionParams;
+  const { payload } = actionParams;
+  const params = {
+    q: payload,
+    f: "location_boundaries",
+  };
+
+  const urlParams = Object.keys(params)
+    .reduce((info, currentValue) => {
+      info.push(
+        [currentValue, params[currentValue as keyof typeof params]].join("=")
+      );
+      return info;
+    }, [])
+    .join("&");
+
   const requestURL = `${
     import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/search?q=${payload}`;
-
+  }/search?${urlParams}`;
 
   try {
     const search: SearchModel = yield call(request, requestURL);

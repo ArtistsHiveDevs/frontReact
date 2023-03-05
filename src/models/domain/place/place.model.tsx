@@ -1,6 +1,11 @@
 import moment from "moment";
 import { VerificationStatus } from "~/constants";
-import { EntityModel, EntityTemplate, SearchableTemplate } from "~/models/base";
+import {
+  EntityModel,
+  EntityTemplate,
+  LocatableTemplate,
+  SearchableTemplate,
+} from "~/models/base";
 import { EventModel, EventTemplate } from "../event/event.model";
 
 export interface PlaceTemplate extends EntityTemplate {
@@ -31,7 +36,7 @@ export interface PlaceTemplate extends EntityTemplate {
 
 export class PlaceModel
   extends EntityModel<PlaceTemplate>
-  implements PlaceTemplate, SearchableTemplate
+  implements PlaceTemplate, SearchableTemplate, LocatableTemplate
 {
   declare name: string;
   declare place_type: string;

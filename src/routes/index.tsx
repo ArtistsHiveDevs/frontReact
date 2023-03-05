@@ -53,6 +53,12 @@ const PlaceDetailsPage = lazy(
   () => import("~/components/Pages/PlacesPage/PlaceDetailsPage")
 );
 
+// Load CulturalAgenda page
+const CulturalAgendaPage = lazy(
+  () =>
+    import("~/components/Pages/domain/CulturalAgenda/home/cultural-agenda-page")
+);
+
 export const RoutesApp: React.FC = () => {
   return (
     <Routes>
@@ -64,6 +70,9 @@ export const RoutesApp: React.FC = () => {
             SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`
           }
         />
+      </Route>
+      <Route path={PATHS.CULTURAL_AGENDA}>
+        <Route element={<CulturalAgendaPage />} path="" />
       </Route>
       <Route path={PATHS.RIDERS}>
         <Route element={<RiderListPage />} path="" />

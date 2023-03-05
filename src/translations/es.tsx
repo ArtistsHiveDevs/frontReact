@@ -123,6 +123,11 @@ export const EsMessages = {
           },
         },
       },
+      domain: {
+        CulturalAgenda: {
+          title: "Agenda cultural",
+        },
+      },
       ArtistsPages: {
         ArtistsDetailsPage: {
           subpages: {

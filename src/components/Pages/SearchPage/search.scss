@@ -1,3 +1,5 @@
+@import "~/variables.module.scss";
+
 .ah-search__section {
   display: flex;
   justify-content: flex-start;
@@ -11,7 +13,7 @@
     text-decoration: none;
     color: currentColor;
     &:hover {
-      color: #7a260a;
+      color: $main-title-color;
     }
   }
 
@@ -20,7 +22,7 @@
   }
 }
 .main-section-title {
-  color: #7a260a;
+  color: $main-title-color;
   align-self: flex-start;
 }
 
@@ -37,4 +39,61 @@ section {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  padding-top: 0.7rem;
+  padding-left: 0.5rem;
+  margin-top: 0.8rem;
+  margin-bottom: 0.3rem;
+  border-left: solid 0.4rem #444;
+  border-bottom: solid 1px;
+}
+
+.search-controls {
+  display: flex;
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.select-result-view-types {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-top: 0.7rem;
+  margin-bottom: 1.5rem;
+}
+
+.result-view-type {
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+}
+.active {
+  border-color: $main-title-color;
+  background-color: $secondary-background-light;
+  color: $main-title-color;
+}
+.result-element-container {
+  padding: 1rem;
+  border-bottom: solid 1px #ccc;
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.entity-1-item {
+  border-left: 0.4rem solid $entity-1 !important;
+  border-color: $entity-1;
+}
+.entity-2-item {
+  border-left: 0.4rem solid $entity-2 !important;
+  border-color: $entity-2;
+}
+.entity-3-item {
+  border-left: 0.4rem solid $entity-3 !important;
+  border-color: $entity-3;
+}
+.entity-4-item {
+  border-left: 0.4rem solid $entity-4 !important;
+  border-color: $entity-4;
 }

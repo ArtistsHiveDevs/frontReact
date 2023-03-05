@@ -4,6 +4,7 @@ import { EsMessages } from "./es";
 import { EsCOMessages } from "./es-co";
 import { FrMessages } from "./fr";
 import { ItMessages } from "./it";
+import { PtMessages } from "./pt";
 
 function flat(res: any, key: string, val: any, pre = ""): any {
   const prefix = [pre, key].filter((v) => v).join(".");
@@ -29,6 +30,7 @@ export const appMessages: { [key: string]: { [key: string]: string } } = {
   "es-co": flatObject(EsCOMessages),
   fr: flatObject(FrMessages),
   it: flatObject(ItMessages),
+  pt: flatObject(PtMessages),
 };
 
 export const AVAILABLE_I18N_LANGUAGES = Object.keys(appMessages);

@@ -1,6 +1,7 @@
 export enum PATHS {
   HOME = "/home",
   CONTACT_US = "/contact",
+  PRIVACY_POLICY = "/privacy",
   TERMS_AND_CONDITIONS = "/terms",
   ARTISTS = "/artists",
   CULTURAL_AGENDA = "/agenda",

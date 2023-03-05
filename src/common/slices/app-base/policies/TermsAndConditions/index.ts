@@ -8,7 +8,7 @@ import {
 import {
   TermsAndConditionsModel,
   TermsAndConditionsTemplate,
-} from "~/models/app/termsAndConditions/TermsAndConditions.model";
+} from "~/models/app/policies/termsAndConditions/TermsAndConditions.model";
 
 import { termsAndConditionsSaga } from "./saga";
 import { TermsAndConditionsErrorType, TermsAndConditionsState } from "./types";

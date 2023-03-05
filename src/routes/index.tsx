@@ -15,6 +15,9 @@ const TermsAndConditionsPage = lazy(
       "~/components/Pages/app-base/TermsAndConditions/TermsAndConditionsPage"
     )
 );
+const PrivacyPolicyPage = lazy(
+  () => import("~/components/Pages/app-base/PrivacyPolicy/PrivacyPolicyPage")
+);
 
 const AppSettingsPage = lazy(
   () => import("~/components/Pages/app-base/SettingsPage")
@@ -116,6 +119,7 @@ export const RoutesApp: React.FC = () => {
       <Route element={<HomePage />} path={PATHS.HOME} />
       <Route element={<Navigate to={PATHS.HOME} />} path={PATHS.MAIN} />
       <Route element={<SearchPage />} path={PATHS.SEARCH} />
+      <Route element={<PrivacyPolicyPage />} path={PATHS.PRIVACY_POLICY} />
       <Route element={<ContactUsPage />} path={PATHS.CONTACT_US} />
       <Route
         element={<TermsAndConditionsPage />}

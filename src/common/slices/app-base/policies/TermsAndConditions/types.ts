@@ -1,4 +1,4 @@
-import { TermsAndConditionsModel } from "~/models/app/termsAndConditions/TermsAndConditions.model";
+import { TermsAndConditionsModel } from "~/models/app/policies/termsAndConditions/TermsAndConditions.model";
 
 export enum TermsAndConditionsErrorType {
   RESPONSE_ERROR = 1,

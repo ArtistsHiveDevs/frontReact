@@ -25,7 +25,7 @@ export const AppFooter = () => {
         { name: "press" },
         { name: "career" },
         { name: "download" },
-        { name: "data_policy" },
+        { name: "data_policy", link: PATHS.PRIVACY_POLICY },
       ],
     },
     // {

@@ -1,5 +1,10 @@
 import { VerificationStatus } from "~/constants";
-import { EntityModel, EntityTemplate, SearchableTemplate } from "~/models/base";
+import {
+  EntityModel,
+  EntityTemplate,
+  LocatableTemplate,
+  SearchableTemplate,
+} from "~/models/base";
 import { ArtistModel } from "../artist/artist.model";
 import { PlaceModel } from "../place/place.model";
 
@@ -27,7 +32,7 @@ export interface EventTemplate extends EntityTemplate {
 
 export class EventModel
   extends EntityModel<EventTemplate>
-  implements EventTemplate, SearchableTemplate
+  implements EventTemplate, SearchableTemplate, LocatableTemplate
 {
   declare name: string;
   declare verified_status: VerificationStatus;
@@ -75,5 +80,9 @@ export class EventModel
 
   get initial_time() {
     return this.timetable__guest_time;
+  }
+
+  get latLng() {
+    return this.place?.latLng;
   }
 }

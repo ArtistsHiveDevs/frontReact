@@ -31,6 +31,7 @@ export interface SideMenuItem {
   randomId?: boolean;
   allowedRoles?: AllowedEntityRole[];
   requireSession?: boolean;
+  nestedMenuOptions?: SideMenuItem[];
 }
 
 const general: SideMenuItem[] = [
@@ -46,6 +47,12 @@ const general: SideMenuItem[] = [
     icon: "FaBullhorn",
     updated: new Date("2/20/16"),
   },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, "search"),
+    path: `${PATHS.SEARCH}`,
+    icon: "ImSearch",
+    updated: new Date("2/20/16"),
+  },
 ];
 const miInfo: SideMenuItem[] = [
   {
@@ -54,6 +61,28 @@ const miInfo: SideMenuItem[] = [
     icon: "FaRegEnvelope",
     updated: new Date("2/20/16"),
     requireSession: true,
+    nestedMenuOptions: [
+      {
+        name: generateTranslationPath(
+          SIDENAV_SECTIONS.MY_INFO,
+          "inbox.nested.incoming"
+        ),
+        path: "",
+        icon: "HiInboxIn",
+        updated: new Date("2/20/16"),
+        requireSession: true,
+      },
+      {
+        name: generateTranslationPath(
+          SIDENAV_SECTIONS.MY_INFO,
+          "inbox.nested.sent"
+        ),
+        path: "",
+        icon: "RiMailSendLine",
+        updated: new Date("2/20/16"),
+        requireSession: true,
+      },
+    ],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "my_profile"),
@@ -81,7 +110,7 @@ const miInfo: SideMenuItem[] = [
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "my_riders"),
-    path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}`,
+    path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/2`,
     icon: "FaFileAlt",
     updated: new Date("2/20/16"),
     allowedRoles: [{ entityName: "Artist" }],
@@ -92,6 +121,35 @@ const miInfo: SideMenuItem[] = [
     icon: "HiBuildingStorefront",
     updated: new Date("2/20/16"),
     allowedRoles: [{ entityName: "Place" }],
+  },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "favourites"),
+    path: "",
+    icon: "BsFillBookmarksFill",
+    updated: new Date("2/20/16"),
+    requireSession: true,
+    nestedMenuOptions: [
+      {
+        name: generateTranslationPath(
+          SIDENAV_SECTIONS.MY_INFO,
+          "favourites.nested.saved"
+        ),
+        path: `${PATHS.MY_FAVOURITES}`,
+        icon: "AiFillHeart",
+        updated: new Date("2/20/16"),
+        requireSession: true,
+      },
+      {
+        name: generateTranslationPath(
+          SIDENAV_SECTIONS.MY_INFO,
+          "favourites.nested.tour_planning"
+        ),
+        path: `${PATHS.TOURS_OUTLINE}`,
+        icon: "BsFillJournalBookmarkFill",
+        updated: new Date("2/20/16"),
+        requireSession: true,
+      },
+    ],
   },
 ];
 const config: SideMenuItem[] = [
@@ -127,6 +185,12 @@ const config: SideMenuItem[] = [
     icon: "HiOutlineLogout",
     updated: new Date("2/20/16"),
     requireSession: true,
+  },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "my_riders"),
+    path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/2`,
+    icon: "FaFileAlt",
+    updated: new Date("2/20/16"),
   },
 ];
 

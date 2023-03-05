@@ -3,6 +3,7 @@ export enum PATHS {
   CONTACT_US = "/contact",
   TERMS_AND_CONDITIONS = "/terms",
   ARTISTS = "/artists",
+  CULTURAL_AGENDA = "/agenda",
   MAIN = "/",
   EVENTS = "/events",
   NOT_FOUND = "*",

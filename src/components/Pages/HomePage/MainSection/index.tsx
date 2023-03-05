@@ -1,18 +1,45 @@
 import React from "react";
 import EntityCard from "~/components/shared/Cards/EntityCard";
 import NewEntityCard from "~/components/shared/Cards/NewEntityCard";
-import GenericModal from "~/components/shared/molecules/general/Modals/ModalCardInfo/GenericModal";
+import { EntityModel, EntityTemplate } from "~/models/base";
 import "./index.scss";
 
-const MainSection = (props: any) => {
-  const { title, description, listView, params, callbacks } = props;
+type MainSectionInputParams = {
+  title?: string;
+  titleAlign?: any;
+  description?: string;
+  listView?: EntityModel<EntityTemplate>[];
+  params?: { [nameParam: string]: any };
+  callbacks?: { [nameParam: string]: Function };
+  orientation?: string;
+  cardOpts?: { printDayOfWeek: boolean };
+};
+
+const MainSection: React.FC<MainSectionInputParams> = (
+  props: MainSectionInputParams
+) => {
+  const {
+    title,
+    description,
+    listView,
+    params,
+    callbacks,
+    titleAlign,
+    orientation,
+    cardOpts,
+  } = props;
 
   return (
-    <section className="main-section">
+    <div className="main-section">
       <>
-        <h3 className="main-section-title">{title}</h3>
+        <h3
+          className={`main-section-title`}
+          style={{ textAlign: titleAlign || "left" }}
+        >
+          {title}
+        </h3>
         <p>{description}</p>
-        <div className="cards-container">
+        <div className={`cards-container-${orientation || "horizontal"}`}>
           {listView?.map((element: any, idx: any) => {
             return !!params?.useNewCard ? (
               <div key={`new-entity-cart-detail-${idx}`}>
@@ -21,6 +48,7 @@ const MainSection = (props: any) => {
                   idx={idx}
                   params={params}
                   callbacks={callbacks}
+                  printDayOfWeek={cardOpts?.printDayOfWeek}
                 />
               </div>
             ) : (
@@ -31,7 +59,7 @@ const MainSection = (props: any) => {
           })}
         </div>
       </>
-    </section>
+    </div>
   );
 };
 

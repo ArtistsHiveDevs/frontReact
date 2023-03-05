@@ -3,11 +3,11 @@ import { Card } from "react-bootstrap";
 import DynamicIcons from "~/components/shared/DynamicIcons";
 import GenericModal from "~/components/shared/molecules/general/Modals/ModalCardInfo/GenericModal";
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
-import { AligmentVerifiedMark } from "~/constants";
+import { AligmentVerifiedMark, formatDateInMomentType } from "~/constants";
 import "./index.scss";
 
 const NewEntityCard = (props: any) => {
-  const { data, idx, params, callbacks } = props;
+  const { data, idx, params, callbacks, printDayOfWeek } = props;
   const [modalDetailShow, setModalDetailShow] = React.useState(false);
 
   function onClickCardHandler() {
@@ -47,6 +47,22 @@ const NewEntityCard = (props: any) => {
                     variant="top"
                   ></Card.Img>
                   <Card.ImgOverlay>
+                    {data.timetable__initial_date && (
+                      <div className="card-date-section">
+                        <p className="card-date-number">
+                          {formatDateInMomentType(
+                            data.timetable__initial_date,
+                            "DD"
+                          )}
+                        </p>
+                        <p className="card-date-label">
+                          {formatDateInMomentType(
+                            data.timetable__initial_date,
+                            !!printDayOfWeek ? "ddd" : "MMM"
+                          )}
+                        </p>
+                      </div>
+                    )}
                     <div className="card-name-section">
                       <p className="card-title-label">
                         <span className="verified-comp">
@@ -61,20 +77,6 @@ const NewEntityCard = (props: any) => {
                   </Card.ImgOverlay>
                   {data.place && (
                     <div className="card-footer-place">
-                      {data.timetable__initial_date && (
-                        <p>
-                          <span>
-                            <DynamicIcons
-                              iconName="FaRegCalendarAlt"
-                              size={20}
-                              color="#7a260a"
-                            />
-                          </span>
-                          <span>
-                            <>{data.timetable__initial_date}</>
-                          </span>
-                        </p>
-                      )}
                       <p>
                         <span>
                           <DynamicIcons

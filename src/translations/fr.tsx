@@ -407,11 +407,27 @@ export const FrMessages = {
         },
       },
       search: {
+        empty_results: {
+          title: "Aucun résultat ne correspond à votre recherche",
+          suggestions: {
+            statement: "Essayez l'une des suggestions suivantes",
+            spelling: "Vérifie ton orthographe",
+            less_words: "Utilisez des mots plus génériques ou moins de mots",
+            related_things:
+              "Parcourir les catégories pour trouver des éléments similaires",
+          },
+        },
         not_found_results: "Aucun résultat trouvé",
         recommendations: "Recommandations",
-        results_list: "Liste de résultats",
+        result_view_types: {
+          list: "Liste",
+          map: "Carte",
+        },
+        results: "Résultats",
+        search: "Chercher",
         search_placeholder: "Artistes, événements, lieux...",
         see_more: "Voir plus",
+        what_are_you_looking_for: "Que cherchez-vous ?",
         types: {
           ARTISTS: "Artistes",
           PLACES: "Lieux",
@@ -427,6 +443,7 @@ export const FrMessages = {
             options: {
               home: "Accueil",
               cultural_agenda: "Agenda culturel",
+              search: "Rechercher",
             },
           },
           myInfo: {

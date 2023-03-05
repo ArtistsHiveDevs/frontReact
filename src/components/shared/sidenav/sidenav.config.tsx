@@ -46,6 +46,12 @@ const general: SideMenuItem[] = [
     icon: "FaBullhorn",
     updated: new Date("2/20/16"),
   },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, "search"),
+    path: `${PATHS.SEARCH}`,
+    icon: "ImSearch",
+    updated: new Date("2/20/16"),
+  },
 ];
 const miInfo: SideMenuItem[] = [
   {

@@ -123,6 +123,11 @@ export const EnMessages = {
           },
         },
       },
+      domain: {
+        CulturalAgenda: {
+          title: "Cultural Agenda",
+        },
+      },
       ArtistsPages: {
         ArtistsDetailsPage: {
           subpages: {

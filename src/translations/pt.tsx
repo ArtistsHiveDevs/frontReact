@@ -1,59 +1,58 @@
-export const EsMessages = {
+export const PtMessages = {
   app: {
-    name: "App ES",
-    loading: "Cargando....",
+    name: "App PT",
+    loading: "A carregar",
     general: {
       not_found_page: {
-        title: "Ups! No encontramos lo que buscas",
+        title: "Oops! Não conseguimos encontrar o que está a procurar",
       },
     },
     global_dictionary: {
       genders: {
-        male: "Hombre",
-        female: "Mujer",
-        non_binary: "No binario",
-        non_specified: "No especificado",
+        male: "Homem",
+        female: "Mulher",
+        non_binary: "Não binário",
+        non_specified: "Não especificado",
       },
     },
     pages: {
       app: {
         settings: {
-          title: "Configuración",
+          title: "Configurações",
           language_selection: {
-            title: "Selección de idioma",
+            title: "Seleção de idioma",
           },
           user_profile: {
-            title: "Perfil del usuario",
-            user: "Usuario",
-            logout: "Cerrar sesión",
-            logged_user: "Usuario actual",
-            empty_user: "No hay un usuario",
-            user_info: "Información del usuario",
-            roles: "Roles",
+            title: "Perfil do Usuário",
+            user: "Usuário",
+            logout: "Sair",
+            logged_user: "Usuário Logado",
+            empty_user: "Não há um usuário",
+            user_info: "Informações do Usuário",
+            roles: "Funções",
             artist: "Artista",
-            place: "Lugar",
+            place: "Local",
           },
         },
       },
-
       app_base: {
         UsersPages: {
           UsersDetailsPage: {
             subpages: {
               general: {
-                name: "General",
+                name: "Geral",
                 sections: {
                   general: {
-                    name: "Info General",
+                    name: "Informações Gerais",
                     attributes: {
-                      fullname: "Nombre completo",
+                      fullname: "Nome Completo",
                     },
                   },
                   contact: {
-                    name: "Contacto",
+                    name: "Contato",
                   },
                   emergency_contact: {
-                    name: "Contacto de emergencia",
+                    name: "Contato de Emergência",
                   },
                 },
               },
@@ -64,58 +63,58 @@ export const EsMessages = {
                     name: "Música",
                   },
                   dance: {
-                    name: "Danza",
+                    name: "Dança",
                   },
                   photography: {
-                    name: "Fotografía",
+                    name: "Fotografia",
                   },
                   video: {
-                    name: "Video",
+                    name: "Vídeo",
                   },
                   painting: {
                     name: "Pintura",
                   },
                   poetry: {
-                    name: "Poesía",
+                    name: "Poesia",
                   },
                   standup_comedy: {
-                    name: "Stand-up Comedy",
+                    name: "Comédia Stand-up",
                   },
                   awards: {
-                    name: "Premios",
+                    name: "Prêmios",
                   },
                 },
               },
               memberships: {
-                name: "Membresías",
+                name: "Associações",
                 sections: {
                   artists: {
                     name: "Artistas",
                   },
                   places: {
-                    name: "Lugares",
+                    name: "Locais",
                   },
                 },
               },
               my_shows: {
-                name: "Mis eventos",
+                name: "Meus Shows",
                 sections: {
                   next_shows: {
-                    name: "Próximos eventos",
+                    name: "Próximos shows",
                   },
                   past_shows: {
-                    name: "Eventos pasados",
+                    name: "Shows passados",
                   },
                 },
               },
               my_liked_shows: {
-                name: "Mis eventos favoritos",
+                name: "Meus shows curtidos",
                 sections: {
                   next_shows: {
-                    name: "Próximos eventos",
+                    name: "Próximos shows",
                   },
                   past_shows: {
-                    name: "Eventos pasados",
+                    name: "Shows passados",
                   },
                 },
               },
@@ -125,39 +124,46 @@ export const EsMessages = {
       },
       domain: {
         CulturalAgenda: {
-          title: "Agenda cultural",
+          title: "Agenda Cultural",
         },
       },
       ArtistsPages: {
         ArtistsDetailsPage: {
           subpages: {
             general: {
-              name: "General",
+              name: "Geral",
               sections: {
                 general: {
-                  name: "Info General",
+                  name: "Informações gerais",
                   attributes: {
                     description: "",
                     since: "Desde",
-                    home_city: "Ciudad de residencia",
-                    categories: "Categorías",
-                    genres: "Géneros",
-                    spoken_languages: "Idiomas hablados",
-                    stage_languages: "Idiomas en vivo",
-                    arts_languages: "Idiomas en artes",
+                    home_city: "Cidade natal",
+                    categories: "Categorias",
+                    genres: "Gêneros",
+                    spoken_languages: "Línguas faladas",
+                    stage_languages: "Línguas de palco",
+                    arts_languages: "Línguas das artes",
                   },
                 },
                 contact: {
-                  name: "Contacto",
+                  name: "Contato",
+                  attributes: {
+                    website: "Website",
+                    email: "e-mail",
+                    phone: "Telefone",
+                    mobile_phone: "Celular",
+                    whatsapp: "WhatsApp",
+                  },
                 },
                 social_networks: {
-                  name: "Redes sociales",
+                  name: "Redes sociais",
                 },
                 record_label: {
-                  name: "Sello discográfico",
+                  name: "Gravadoras",
                 },
                 members: {
-                  name: "Miembros",
+                  name: "Membros",
                 },
               },
             },
@@ -165,24 +171,24 @@ export const EsMessages = {
               name: "Artes",
               sections: {
                 discography: {
-                  name: "Discografía",
+                  name: "Discografia",
                   attributes: {
-                    albums: "Álbums",
-                    dvd_video: "DVD / Video",
+                    albums: "Álbuns",
+                    dvd_video: "DVD / Vídeo",
                   },
                 },
                 media_channels: {
-                  name: "Canales multimedia",
+                  name: "Canais de mídia",
                 },
                 gallery: {
-                  name: "Galería",
+                  name: "Galeria",
                   attributes: {
                     photos: "Fotos",
-                    video: "Video",
+                    video: "Vídeo",
                   },
                 },
                 awards: {
-                  name: "Premios",
+                  name: "Prêmios",
                 },
               },
             },
@@ -190,12 +196,12 @@ export const EsMessages = {
               name: "Social",
               sections: {
                 social_network_presence: {
-                  name: "Presencia en redes",
+                  name: "Presença em redes sociais",
                 },
                 stats: {
-                  name: "Estadísticas",
+                  name: "Estatísticas",
                   attributes: {
-                    general_rate: "Calificación general",
+                    general_rate: "Taxa geral",
                     followers: "Seguidores",
                     event_followers: "Seguidores de eventos",
                   },
@@ -206,10 +212,10 @@ export const EsMessages = {
               name: "Shows",
               sections: {
                 next_shows: {
-                  name: "Próximos eventos",
+                  name: "Próximos shows",
                 },
                 past_shows: {
-                  name: "Eventos pasados",
+                  name: "Shows passados",
                 },
               },
             },
@@ -217,8 +223,8 @@ export const EsMessages = {
         },
       },
       HomePage: {
-        welcome: "Bienvenido",
-        news: "Novedades",
+        welcome: "Bem-vindo",
+        news: "Notícias",
         artists: "Artistas",
         events: "Eventos",
         places: "Lugares",
@@ -227,56 +233,56 @@ export const EsMessages = {
         EventDetailsPage: {
           subpages: {
             general: {
-              name: "Info",
+              name: "Informações",
               sections: {
                 general: {
-                  name: "Información General",
+                  name: "Informações gerais",
                   attributes: {
-                    national_code: "Cód. PULEP",
-                    timetable__initial_date: "¿Cuándo?",
-                    initial_time: "Hora",
-                    minimumAge: "Edad mínima",
-                    timetable__openning_doors: "Apertura de puertas",
-                    promoter: "Responsable",
+                    national_code: "Código PULEP",
+                    timetable__initial_date: "Quando?",
+                    initial_time: "Horário de início",
+                    minimumAge: "Idade mínima",
+                    timetable__openning_doors: "Abertura das portas",
+                    promoter: "Promotor",
                   },
                 },
                 description: {
-                  name: "Descripción",
+                  name: "Descrição",
                 },
               },
             },
             artists: {
               name: "Artistas",
               sections: {
-                main_artists: { name: "Artistas principales" },
+                main_artists: { name: "Principais artistas" },
               },
             },
             place: {
-              name: "Lugar",
+              name: "Local",
               sections: {
                 location: {
-                  name: "Ubicación",
+                  name: "Localização",
                 },
               },
             },
             contact: {
-              name: "Contacto & Redes",
+              name: "Contato e Mídia",
               sections: {
                 contact: {
-                  name: "Info de contacto",
+                  name: "Informações de contato",
                 },
                 social_networks: {
-                  name: "Redes sociales",
+                  name: "Redes sociais",
                 },
               },
             },
             extra_info: {
               name: "Extras",
               sections: {
-                additional_info: { name: "Información adicional" },
+                additional_info: { name: "Informações adicionais" },
                 dress_code: { name: "Código de vestimenta" },
-                discounts: { name: "Descuentos" },
-                promoter: { name: "Responsable" },
+                discounts: { name: "Descontos" },
+                promoter: { name: "Promotor" },
               },
             },
           },
@@ -286,50 +292,49 @@ export const EsMessages = {
         PlacesDetailsPage: {
           subpages: {
             general: {
-              name: "General",
+              name: "Generale",
               sections: {
                 gallery: {
-                  name: "Galería",
+                  name: "Galeria",
                 },
                 general: {
-                  name: "Info general",
+                  name: "Informações gerais",
                   attributes: {
                     description: "",
-                    address: "Dirección",
-                    city: "Ciudad",
-                    categories: "Categorías",
+                    address: "Endereço",
+                    city: "Cidade",
+                    categories: "Categorias",
                     since: "Desde",
-                    spoken_languages: "Idiomas hablados",
+                    spoken_languages: "Idiomas falados",
                   },
                 },
                 contact: {
-                  name: "Contacto",
+                  name: "Contato",
                   attributes: {
-                    website: "Website",
-                    email: "e-mail",
-                    phone: "Teléfono",
-                    mobile_phone: "Móvil",
+                    website: "Site",
+                    email: "E-mail",
+                    phone: "Telefone",
+                    mobile_phone: "Celular",
                     whatsapp: "WhatsApp",
                   },
                 },
                 social_networks: {
-                  name: "Redes sociales",
+                  name: "Redes Sociais",
                 },
               },
             },
-
             social: {
               name: "Social",
               sections: {
                 social_network_presence: {
-                  name: "Presencia en redes sociales",
+                  name: "Presença nas redes sociais",
                 },
                 stats: {
-                  name: "Estadísticas",
+                  name: "Estatísticas",
                   attributes: {
-                    general_rate: "Calificación general",
+                    general_rate: "Avaliação geral",
                     followers: "Seguidores",
-                    event_followers: "Seguidores en eventos",
+                    event_followers: "Seguidores de eventos",
                   },
                 },
               },
@@ -338,10 +343,10 @@ export const EsMessages = {
               name: "Shows",
               sections: {
                 next_shows: {
-                  name: "Próximos eventos",
+                  name: "Próximos shows",
                 },
                 past_shows: {
-                  name: "Eventos pasados",
+                  name: "Shows passados",
                 },
               },
             },
@@ -349,18 +354,18 @@ export const EsMessages = {
               name: "Backline",
               sections: {
                 sound_backline: {
-                  name: "Backline sonoro",
+                  name: "Backline de som",
                 },
                 light_backline: {
-                  name: "Backline de luces",
+                  name: "Backline de iluminação",
                 },
               },
             },
             menu: {
               name: "Menu",
               sections: {
-                main_course: { name: "Plato principal" },
-                second_course: { name: "Segundo plato" },
+                main_course: { name: "Prato principal" },
+                second_course: { name: "Segundo prato" },
               },
             },
           },
@@ -371,97 +376,97 @@ export const EsMessages = {
       footer: {
         columns: {
           what_we_do: {
-            name: "¿Qué hacemos?",
+            name: "O que fazemos?",
             options: {
               cultural_agenda: "Agenda Cultural",
-              for_artists: "Para Artistas",
+              for_artists: "Para artistas",
               for_places: "Para lugares",
               for_promoters: "Para promotores",
-              for_festivals: "Para festivales",
+              for_festivals: "Para festivais",
             },
           },
           about_us: {
-            name: "Nosotros",
+            name: "Sobre nós",
             options: {
-              history: "Historia",
-              press: "Prensa",
-              career: "Carrera",
-              download: "Descarga",
-              data_policy: "Política de datos",
+              history: "Nossa história",
+              press: "Imprensa",
+              career: "Carreira",
+              download: "Baixe o aplicativo",
+              data_policy: "Política de dados",
             },
           },
           help: {
-            name: "¿Ayuda?",
+            name: "Ajuda",
             options: {
-              help_center: "Centro de ayuda",
-              contact_us: "Contáctanos",
-              report: "Reporta",
+              help_center: "Central de ajuda",
+              contact_us: "Contate-nos",
+              report: "Reportar",
             },
           },
         },
         copywrite: {
-          allRightsReserved: "Todos los derechos reservados",
+          allRightsReserved: "Todos os direitos reservados",
         },
       },
       search: {
         empty_results: {
-          title: "No hay resultados que coincidan con tu búsqueda",
+          title: "Não há resultados que correspondam à sua pesquisa",
           suggestions: {
-            statement: "Intenta alguna de las siguientes sugerencias",
-            spelling: "Revisa la ortografía",
-            less_words: "Utiliza palabras más genéricas o menos palabras",
+            statement: "Tente qualquer uma das seguintes sugestões",
+            spelling: "Verifique a ortografia",
+            less_words: "Use palavras mais genéricas ou menos palavras",
             related_things:
-              "Navega por las categorías para encontrar elementos similares",
+              "Navegue pelas categorias para encontrar elementos similares",
           },
         },
-        not_found_results: "No se encontraron resultados",
-        recommendations: "Recomendaciones",
+        not_found_results: "Nenhum resultado encontrado",
+        recommendations: "Recomendações",
         result_view_types: {
           list: "Lista",
           map: "Mapa",
         },
         results: "Resultados",
-        search: "Buscar",
+        search: "Pesquisar",
         search_placeholder: "Artistas, eventos, lugares...",
-        see_more: "Ver más",
-        what_are_you_looking_for: "¿Qué buscas?",
+        see_more: "Ver mais",
+        what_are_you_looking_for: "O que você está procurando?",
         types: {
           ARTISTS: "Artistas",
           PLACES: "Lugares",
           EVENTS: "Eventos",
         },
-        type_your_search: "Escribe tu búsqueda",
+        type_your_search: "Digite sua pesquisa",
       },
       sidenav: {
-        name: "Menú principal",
+        name: "Menu principal",
         sections: {
           general: {
-            name: "General",
+            name: "Geral",
             options: {
-              home: "Inicio",
+              home: "Início",
               cultural_agenda: "Agenda cultural",
-              search: "Buscar",
+              search: "Pesquisar",
             },
           },
           myInfo: {
-            name: "Mi Info",
+            name: "Minha informação",
             options: {
-              inbox: "Bandeja de entrada",
-              my_profile: "Mi perfil",
-              my_bands: "Mis bandas",
-              my_events: "Mis eventos",
-              my_riders: "Mis riders",
-              my_places: "Mis lugares",
+              inbox: "Caixa de entrada",
+              my_profile: "Meu perfil",
+              my_bands: "Minhas bandas",
+              my_events: "Meus eventos",
+              my_riders: "Meus riders",
+              my_places: "Meus lugares",
             },
           },
           settings: {
-            name: "Configuración",
+            name: "Configurações",
             options: {
-              settings: "Configuración",
-              help_center: "Centro de ayuda",
-              report: "Denunciar",
-              send_comments: "Enviar comentarios",
-              logout: "Cerrar sesión",
+              settings: "Configurações",
+              help_center: "Central de ajuda",
+              report: "Reportar",
+              send_comments: "Enviar comentários",
+              logout: "Sair",
             },
           },
         },

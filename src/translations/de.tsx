@@ -123,6 +123,11 @@ export const DeMessages = {
           },
         },
       },
+      domain: {
+        CulturalAgenda: {
+          title: "Kulturelle Agenda",
+        },
+      },
       ArtistsPages: {
         ArtistsDetailsPage: {
           subpages: {

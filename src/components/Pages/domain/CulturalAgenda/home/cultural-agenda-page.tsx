@@ -9,7 +9,7 @@ import { getCustomList, sortEventsPerMonth } from "~/constants";
 import { EventModel } from "~/models/domain/event/event.model";
 import "./cultural-agenda-page.scss";
 
-const TRANSLATION_BASE_AGENDA_CULTURAL_PAGE = "";
+const TRANSLATION_BASE_AGENDA_CULTURAL_PAGE = "app.pages.domain.CulturalAgenda";
 
 const CulturalAgendaPage: React.FC = () => {
   // Slices
@@ -36,6 +36,7 @@ const CulturalAgendaPage: React.FC = () => {
 
   return (
     <>
+      <h1>{translateText(`${TRANSLATION_BASE_AGENDA_CULTURAL_PAGE}.title`)}</h1>
       <MainSection
         title={"Destacados"}
         listView={getCustomList(10, eventsList)}

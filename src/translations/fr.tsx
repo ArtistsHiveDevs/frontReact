@@ -122,6 +122,11 @@ export const FrMessages = {
           },
         },
       },
+      domain: {
+        CulturalAgenda: {
+          title: "Agenda culturel",
+        },
+      },
       ArtistsPages: {
         ArtistsDetailsPage: {
           subpages: {

@@ -14,7 +14,7 @@ export const SearchInitialState: SearchState = {
   search: null,
   loading: false,
   error: null,
-  searchQueryParam: ''
+  searchQueryParam: "",
 };
 
 const slice = createSlice({
@@ -27,7 +27,7 @@ const slice = createSlice({
       state.search = null;
       state.searchQueryParam = action?.payload;
     },
-    searchQueried(state, action: PayloadAction<SearchModel | {}>) {
+    searchQueried(state, action: PayloadAction<SearchModel>) {
       state.search = new SearchModel(action.payload);
       state.loading = false;
     },

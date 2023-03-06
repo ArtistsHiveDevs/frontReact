@@ -1,0 +1,9 @@
+@import "~/variables.module.scss";
+
+.custom-badge {
+  border: 1px solid $main-title-color;
+  background-color: $secondary-background-light;
+  border-radius: 10px;
+  padding: 0.4rem;
+  margin: 0.3rem;
+}

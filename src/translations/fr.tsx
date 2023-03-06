@@ -14,6 +14,16 @@ export const FrMessages = {
         non_binary: "Non binaire",
         non_specified: "Non spécifié",
       },
+      art_types: {
+        dance: "Danse",
+        music: "Musique",
+        painting: "Peinture",
+        poetry: "Poésie",
+        photography: "Photographie",
+        standup_comedy: "Comédie Stand-up",
+        theatre: "Théâtre",
+        video: "Vidéo",
+      },
     },
     pages: {
       app: {

@@ -14,6 +14,16 @@ export const DeMessages = {
         non_binary: "Nicht binär",
         non_specified: "Nicht spezifiziert",
       },
+      art_types: {
+        dance: "Tanz",
+        music: "Musik",
+        painting: "Malerei",
+        poetry: "Poesie",
+        photography: "Fotografie",
+        standup_comedy: "Stand-up Comedy",
+        theatre: "Theater",
+        video: "Video",
+      },
     },
     pages: {
       app: {

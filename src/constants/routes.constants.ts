@@ -1,5 +1,6 @@
 export enum PATHS {
   HOME = "/home",
+  ACADEMIES = "/academies",
   ARTISTS = "/artists",
   CULTURAL_AGENDA = "/agenda",
   MAIN = "/",

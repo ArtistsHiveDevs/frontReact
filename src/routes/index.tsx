@@ -36,6 +36,14 @@ const EventDetailsPage = lazy(
   () => import("~/components/Pages/EventsPage/EventDetailsPage")
 );
 
+// Load Academies pages
+const AcademiesListPage = lazy(
+  () => import("~/components/Pages/domain/AcademiesPage/AcademiesListPage")
+);
+const AcademyDetailsPage = lazy(
+  () => import("~/components/Pages/domain/AcademiesPage/AcademyDetailsPage")
+);
+
 // Load Artists pages
 const ArtistsListPage = lazy(
   () => import("~/components/Pages/ArtistsPage/ArtistsList")
@@ -62,6 +70,15 @@ const CulturalAgendaPage = lazy(
 export const RoutesApp: React.FC = () => {
   return (
     <Routes>
+      <Route path={PATHS.ACADEMIES}>
+        <Route element={<AcademiesListPage />} path="" />
+        <Route
+          element={<AcademyDetailsPage />}
+          path={
+            SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`
+          }
+        />
+      </Route>
       <Route path={PATHS.ARTISTS}>
         <Route element={<ArtistsListPage />} path="" />
         <Route

@@ -127,6 +127,90 @@ export const EsMessages = {
         CulturalAgenda: {
           title: "Agenda cultural",
         },
+        AcademiesPages: {
+          AcademiesDetailsPage: {
+            subpages: {
+              general: {
+                name: "General",
+                sections: {
+                  gallery: {
+                    name: "Galería",
+                  },
+                  general: {
+                    name: "Info general",
+                    attributes: {
+                      description: "",
+                      address: "Dirección",
+                      city: "Ciudad",
+                      categories: "Categorías",
+                      since: "Desde",
+                      spoken_languages: "Idiomas hablados",
+                    },
+                  },
+                  contact: {
+                    name: "Contacto",
+                    attributes: {
+                      website: "Website",
+                      email: "e-mail",
+                      phone: "Teléfono",
+                      mobile_phone: "Móvil",
+                      whatsapp: "WhatsApp",
+                    },
+                  },
+                  social_networks: {
+                    name: "Redes sociales",
+                  },
+                },
+              },
+
+              social: {
+                name: "Social",
+                sections: {
+                  social_network_presence: {
+                    name: "Presencia en redes sociales",
+                  },
+                  stats: {
+                    name: "Estadísticas",
+                    attributes: {
+                      general_rate: "Calificación general",
+                      followers: "Seguidores",
+                      event_followers: "Seguidores en eventos",
+                    },
+                  },
+                },
+              },
+              shows: {
+                name: "Shows",
+                sections: {
+                  next_shows: {
+                    name: "Próximos eventos",
+                  },
+                  past_shows: {
+                    name: "Eventos pasados",
+                  },
+                },
+              },
+              backline: {
+                name: "Backline",
+                sections: {
+                  sound_backline: {
+                    name: "Backline sonoro",
+                  },
+                  light_backline: {
+                    name: "Backline de luces",
+                  },
+                },
+              },
+              menu: {
+                name: "Menu",
+                sections: {
+                  main_course: { name: "Plato principal" },
+                  second_course: { name: "Segundo plato" },
+                },
+              },
+            },
+          },
+        },
       },
       ArtistsPages: {
         ArtistsDetailsPage: {

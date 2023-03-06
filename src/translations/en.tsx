@@ -14,6 +14,16 @@ export const EnMessages = {
         non_binary: "Non binary",
         non_specified: "Non specified",
       },
+      art_types: {
+        dance: "Dance",
+        music: "Music",
+        painting: "Painting",
+        poetry: "Poetry",
+        photography: "Photography",
+        standup_comedy: "Stand-up Comedy",
+        theatre: "Theatre",
+        video: "Video",
+      },
     },
     pages: {
       app: {

@@ -14,6 +14,16 @@ export const ItMessages = {
         non_binary: "Non binario",
         non_specified: "Non specificato",
       },
+      art_types: {
+        dance: "Danza",
+        music: "Musica",
+        painting: "Pittura",
+        poetry: "Poesia",
+        photography: "Fotografia",
+        standup_comedy: "Cavaliere",
+        theatre: "Teatro",
+        video: "Video",
+      },
     },
     pages: {
       app: {

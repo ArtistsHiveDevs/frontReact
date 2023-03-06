@@ -14,6 +14,16 @@ export const EsMessages = {
         non_binary: "No binario",
         non_specified: "No especificado",
       },
+      art_types: {
+        dance: "Danza",
+        music: "Música",
+        painting: "Pintura",
+        poetry: "Poesía",
+        photography: "Fotografía",
+        standup_comedy: "Stand-up Comedy",
+        theatre: "Teatro",
+        video: "Video",
+      },
     },
     pages: {
       app: {

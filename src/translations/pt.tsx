@@ -14,6 +14,16 @@ export const PtMessages = {
         non_binary: "Não binário",
         non_specified: "Não especificado",
       },
+      art_types: {
+        dance: "Dança",
+        music: "Música",
+        painting: "Pintura",
+        poetry: "Poesia",
+        photography: "Fotografia",
+        standup_comedy: "Comédia Stand-up",
+        theatre: "Teatro",
+        video: "Video",
+      },
     },
     pages: {
       app: {

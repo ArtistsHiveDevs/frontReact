@@ -60,6 +60,7 @@ const SideNav = () => {
       </RequireAuthComponent>
     );
   };
+
   let searchIcon = "AiOutlineSearch";
   if (openStatusSearchInputText) {
     searchIcon = "MdSearchOff";
@@ -78,7 +79,7 @@ const SideNav = () => {
     <>
       <Navbar className="toolbar-header mb-3" expand="true">
         <Container fluid>
-          <div>
+          <div className="nav-menu-opt">
             <Navbar.Toggle
               aria-controls={`offcanvasNavbar-expand`}
               className="icon-burger"
@@ -91,7 +92,15 @@ const SideNav = () => {
               width="100"
             />
           </div>
-          <div>
+
+          <div className="nav-search-opt">
+            <SearchComponent
+              openedStatus={openStatusSearchInputText}
+              onClick={handleResultOnClick}
+            />
+          </div>
+
+          <div className="nav-login-opt">
             <span onClick={showHideSearchField}>
               <DynamicIcons iconName={searchIcon} size={30} />
             </span>
@@ -104,10 +113,7 @@ const SideNav = () => {
               </a>
             )}
           </div>
-          <SearchComponent
-            openedStatus={openStatusSearchInputText}
-            onClick={handleResultOnClick}
-          />
+
           {!!show && (
             <Navbar.Offcanvas
               placement="start"

@@ -1,4 +1,5 @@
 @import "~/variables.module.scss";
+@import 'bootstrap';
 
 .hidden {
   display: none;
@@ -15,18 +16,28 @@
   color: white;
   font-weight: 600;
 
-  .icon-burger {
-    background-color: white;
+  .nav-menu-opt {
+    order: 1;
+    .icon-burger {
+      background-color: white;
+    }
   }
 
-  .brand-text {
-    margin-left: 10px;
-    color: $main-title-color;
-    text-decoration: none;
+  .nav-search-opt {
+    width: 60%;
+    order: 2;
   }
 
-  .brand-text:hover {
+  .nav-login-opt {
+    order: 3;
+    .brand-text {
+      margin-left: 10px;
+      color: $main-title-color;
+      text-decoration: none;
+    }
   }
+
+
 }
 
 .img-logotipo {
@@ -85,3 +96,25 @@
 .offcanvas-body {
   height: 90%;
 }
+
+
+// Media queries zone
+
+@include media-breakpoint-down(sm) {
+  .toolbar-header {
+    .nav-menu-opt {
+      order: 1;
+    }
+  
+    .nav-search-opt {
+      order: 3;
+      width: 100%;
+      margin-top: 5px;
+    }
+  
+    .nav-login-opt {
+      order: 2;
+    }
+  }
+}
+

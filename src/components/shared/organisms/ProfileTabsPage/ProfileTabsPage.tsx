@@ -29,6 +29,7 @@ import { TabbedPanel } from "~/components/shared/layout/TabbedPanel";
 import { ProfileHeader } from "~/components/shared/molecules/Profile/ProfileHeader";
 import { ProfileThumbnailCard } from "~/components/shared/molecules/Profile/ProfileThumbnailCard";
 import { SocialNetworks } from "~/constants/social-networks.const";
+import { GenresListView } from "../../molecules/domain/genres/GenresListView";
 
 export interface ProfilePageParams {
   entityName: string;
@@ -93,14 +94,17 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
   };
 
   const transformedConfig = () => {
-    return (subpagesConfig || []).map((subpage) => {
+    return (subpagesConfig || []).map((subpage, subPageIndex) => {
       return {
         name: translateSubpage(subpage.name),
         allowedRoles: subpage.allowedRoles,
         requireSession: subpage.requireSession,
         tabContent: () => {
           return (
-            <RequireAuthComponent requiredSession={subpage.requireSession}>
+            <RequireAuthComponent
+              requiredSession={subpage.requireSession}
+              key={`section_${subPageIndex}_${subpage.name}`}
+            >
               {(subpage.sections || []).map((section, index) => {
                 // Icon Detailed Attributes
 
@@ -486,6 +490,12 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           size={componentDescriptor.data?.size || "2"}
         />
       );
+    } else if (
+      componentDescriptor.componentName === ProfileComponentTypes.ARTS_GENRES
+    ) {
+      const content = getData(componentDescriptor.data?.genres) || {};
+
+      return <GenresListView genres={content} />;
     }
 
     return renderedComponent;

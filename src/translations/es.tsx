@@ -14,6 +14,16 @@ export const EsMessages = {
         non_binary: "No binario",
         non_specified: "No especificado",
       },
+      art_types: {
+        dance: "Danza",
+        music: "Música",
+        painting: "Pintura",
+        poetry: "Poesía",
+        photography: "Fotografía",
+        standup_comedy: "Stand-up Comedy",
+        theatre: "Teatro",
+        video: "Video",
+      },
     },
     pages: {
       app: {
@@ -147,6 +157,9 @@ export const EsMessages = {
                     arts_languages: "Idiomas en artes",
                   },
                 },
+                genres: {
+                  name: "Géneros",
+                },
                 contact: {
                   name: "Contacto",
                 },
@@ -243,6 +256,9 @@ export const EsMessages = {
                 description: {
                   name: "Descripción",
                 },
+                genres: {
+                  name: "Géneros",
+                },
               },
             },
             artists: {
@@ -301,6 +317,9 @@ export const EsMessages = {
                     since: "Desde",
                     spoken_languages: "Idiomas hablados",
                   },
+                },
+                genres: {
+                  name: "Géneros",
                 },
                 contact: {
                   name: "Contacto",

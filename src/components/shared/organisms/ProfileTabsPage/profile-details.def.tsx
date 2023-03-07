@@ -3,6 +3,7 @@ import { AllowedEntityRole } from "~/components/shared/atoms/app/auth/RequiredAu
 export enum ProfileComponentTypes {
   ATTRIBUTES_ICON_FIELDS,
   CALENDAR_SIMPLE_LAYOUT,
+  ARTS_GENRES,
   HTML_CONTENT,
   IMAGE_GALLERY,
   MAP,

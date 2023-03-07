@@ -32,6 +32,7 @@ export interface PlaceTemplate extends EntityTemplate {
   imageGallery: Image[];
 
   events: EventTemplate[];
+  genres: { [artType: string]: string[] };
 }
 
 export class PlaceModel
@@ -60,6 +61,7 @@ export class PlaceModel
   declare imageGallery: Image[];
   declare verified_status?: VerificationStatus;
   declare events: EventTemplate[];
+  declare genres: { [artType: string]: string[] };
 
   constructor(template: PlaceTemplate) {
     super(template);

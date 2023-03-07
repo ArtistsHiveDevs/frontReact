@@ -14,6 +14,16 @@ export const FrMessages = {
         non_binary: "Non binaire",
         non_specified: "Non spécifié",
       },
+      art_types: {
+        dance: "Danse",
+        music: "Musique",
+        painting: "Peinture",
+        poetry: "Poésie",
+        photography: "Photographie",
+        standup_comedy: "Comédie Stand-up",
+        theatre: "Théâtre",
+        video: "Vidéo",
+      },
     },
     pages: {
       app: {
@@ -146,6 +156,9 @@ export const FrMessages = {
                     arts_languages: "Langues du arts",
                   },
                 },
+                genres: {
+                  name: "Genres",
+                },
                 contact: {
                   name: "Contact",
                   attributes: {
@@ -249,6 +262,9 @@ export const FrMessages = {
                 description: {
                   name: "Description",
                 },
+                genres: {
+                  name: "Genres",
+                },
               },
             },
             artists: {
@@ -309,6 +325,9 @@ export const FrMessages = {
                     stage_languages: "Lingue en scena",
                     arts_languages: "Lingue dell'arte",
                   },
+                },
+                genres: {
+                  name: "Genres",
                 },
                 contact: {
                   name: "Contatto",

@@ -156,6 +156,9 @@ export const PtMessages = {
                     arts_languages: "Línguas das artes",
                   },
                 },
+                genres: {
+                  name: "Gêneros",
+                },
                 contact: {
                   name: "Contato",
                   attributes: {
@@ -259,6 +262,9 @@ export const PtMessages = {
                 description: {
                   name: "Descrição",
                 },
+                genres: {
+                  name: "Gêneros",
+                },
               },
             },
             artists: {
@@ -317,6 +323,9 @@ export const PtMessages = {
                     since: "Desde",
                     spoken_languages: "Idiomas falados",
                   },
+                },
+                genres: {
+                  name: "Gêneros",
                 },
                 contact: {
                   name: "Contato",

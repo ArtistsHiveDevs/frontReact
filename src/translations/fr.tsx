@@ -156,6 +156,9 @@ export const FrMessages = {
                     arts_languages: "Langues du arts",
                   },
                 },
+                genres: {
+                  name: "Genres",
+                },
                 contact: {
                   name: "Contact",
                   attributes: {
@@ -259,6 +262,9 @@ export const FrMessages = {
                 description: {
                   name: "Description",
                 },
+                genres: {
+                  name: "Genres",
+                },
               },
             },
             artists: {
@@ -319,6 +325,9 @@ export const FrMessages = {
                     stage_languages: "Lingue en scena",
                     arts_languages: "Lingue dell'arte",
                   },
+                },
+                genres: {
+                  name: "Genres",
                 },
                 contact: {
                   name: "Contatto",

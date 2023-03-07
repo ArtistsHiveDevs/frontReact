@@ -157,6 +157,9 @@ export const ItMessages = {
                     arts_languages: "Lingue dell'arte",
                   },
                 },
+                genres: {
+                  name: "Generi",
+                },
                 contact: {
                   name: "Contatto",
                   attributes: {
@@ -260,6 +263,9 @@ export const ItMessages = {
                 description: {
                   name: "Descrizione",
                 },
+                genres: {
+                  name: "Generi",
+                },
               },
             },
             artists: {
@@ -318,6 +324,9 @@ export const ItMessages = {
                     since: "Da",
                     spoken_languages: "Lingue parlate",
                   },
+                },
+                genres: {
+                  name: "Generi",
                 },
                 contact: {
                   name: "Contatto",

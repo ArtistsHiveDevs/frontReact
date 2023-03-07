@@ -157,6 +157,9 @@ export const DeMessages = {
                     arts_languages: "Sprachen der Künste",
                   },
                 },
+                genres: {
+                  name: "Genres",
+                },
                 contact: {
                   name: "Kontakt",
                   attributes: {
@@ -260,6 +263,9 @@ export const DeMessages = {
                 description: {
                   name: "Beschreibung",
                 },
+                genres: {
+                  name: "Genres",
+                },
               },
             },
             artists: {
@@ -318,6 +324,9 @@ export const DeMessages = {
                     since: "Da",
                     spoken_languages: "Lingue parlate",
                   },
+                },
+                genres: {
+                  name: "Genres",
                 },
                 contact: {
                   name: "Contatto",

@@ -32,10 +32,6 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   icon: "BsInfoCircleFill",
                 },
                 {
-                  name: "genres",
-                  icon: "BsInfoCircleFill",
-                },
-                {
                   name: "spoken_languages",
                   icon: "TbWorld",
                   requireSession: true,
@@ -51,6 +47,17 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   requireSession: true,
                 },
               ],
+            },
+          },
+        ],
+      },
+      {
+        name: "genres",
+        components: [
+          {
+            componentName: ProfileComponentTypes.ARTS_GENRES,
+            data: {
+              genres: "genres",
             },
           },
         ],

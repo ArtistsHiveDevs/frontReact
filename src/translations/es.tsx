@@ -157,6 +157,9 @@ export const EsMessages = {
                     arts_languages: "Idiomas en artes",
                   },
                 },
+                genres: {
+                  name: "Géneros",
+                },
                 contact: {
                   name: "Contacto",
                 },
@@ -253,6 +256,9 @@ export const EsMessages = {
                 description: {
                   name: "Descripción",
                 },
+                genres: {
+                  name: "Géneros",
+                },
               },
             },
             artists: {
@@ -311,6 +317,9 @@ export const EsMessages = {
                     since: "Desde",
                     spoken_languages: "Idiomas hablados",
                   },
+                },
+                genres: {
+                  name: "Géneros",
                 },
                 contact: {
                   name: "Contacto",

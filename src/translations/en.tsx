@@ -157,6 +157,9 @@ export const EnMessages = {
                     arts_languages: "Art languages",
                   },
                 },
+                genres: {
+                  name: "Genres",
+                },
                 contact: {
                   name: "Contact",
                   attributes: {
@@ -260,6 +263,9 @@ export const EnMessages = {
                 description: {
                   name: "Description",
                 },
+                genres: {
+                  name: "Genres",
+                },
               },
             },
             artists: {
@@ -318,6 +324,9 @@ export const EnMessages = {
                     since: "Da",
                     spoken_languages: "Lingue parlate",
                   },
+                },
+                genres: {
+                  name: "Genres",
                 },
                 contact: {
                   name: "Contatto",

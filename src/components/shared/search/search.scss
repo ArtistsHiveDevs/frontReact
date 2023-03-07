@@ -5,7 +5,6 @@
 }
 .ah-nav-search {
   position: relative;
-  width: 97%;
   &__input:active {
     background-color: rgb(255, 236, 213);
   }
@@ -185,5 +184,52 @@ a.search-item__link:hover {
   100% {
     opacity: 1;
     background-position: 100%;
+  }
+}
+
+/* lineWidth class and keyframes */
+.line-width-an {
+  animation: 1s anim-lineWidth ease-out;
+}
+@keyframes anim-lineWidth {
+  0% {
+    opacity: 0;
+    transform: translateX(80%);
+  }
+  20% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+
+/* lineWidthHide class and keyframes */
+.line-width-hide-an {
+  animation: 1s anim-lineWidthHide forwards;
+}
+@keyframes anim-lineWidthHide {
+  0% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+  20% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+  50% {
+    opacity: 0;
+    transform: translateX(80%);
+  }
+  100% {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    visibility: hidden;
   }
 }

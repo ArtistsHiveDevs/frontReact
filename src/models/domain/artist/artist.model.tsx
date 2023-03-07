@@ -13,6 +13,7 @@ export interface ArtistTemplate extends EntityTemplate {
   description: string;
   date?: Date;
   events: EventTemplate[];
+  genres: { [artType: string]: string[] };
 }
 
 export class ArtistModel
@@ -29,6 +30,7 @@ export class ArtistModel
   declare date?: Date;
 
   declare events: EventTemplate[];
+  declare genres: { [artType: string]: string[] };
 
   constructor(template: ArtistTemplate) {
     super(template);

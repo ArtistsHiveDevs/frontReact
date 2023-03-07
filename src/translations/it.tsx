@@ -14,6 +14,16 @@ export const ItMessages = {
         non_binary: "Non binario",
         non_specified: "Non specificato",
       },
+      art_types: {
+        dance: "Danza",
+        music: "Musica",
+        painting: "Pittura",
+        poetry: "Poesia",
+        photography: "Fotografia",
+        standup_comedy: "Cavaliere",
+        theatre: "Teatro",
+        video: "Video",
+      },
     },
     pages: {
       app: {
@@ -147,6 +157,9 @@ export const ItMessages = {
                     arts_languages: "Lingue dell'arte",
                   },
                 },
+                genres: {
+                  name: "Generi",
+                },
                 contact: {
                   name: "Contatto",
                   attributes: {
@@ -250,6 +263,9 @@ export const ItMessages = {
                 description: {
                   name: "Descrizione",
                 },
+                genres: {
+                  name: "Generi",
+                },
               },
             },
             artists: {
@@ -308,6 +324,9 @@ export const ItMessages = {
                     since: "Da",
                     spoken_languages: "Lingue parlate",
                   },
+                },
+                genres: {
+                  name: "Generi",
                 },
                 contact: {
                   name: "Contatto",

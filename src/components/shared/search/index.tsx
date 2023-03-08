@@ -49,9 +49,9 @@ export const SearchComponent = (props: any) => {
     setText(event.target.value || "");
   };
 
-  let stylesSearchField = ["hidden"];
+  let stylesSearchField = ["line-width-hide-an"];
   if (openedStatus) {
-    stylesSearchField = ["ah-nav-search"];
+    stylesSearchField = ["ah-nav-search line-width-an"];
   }
 
   function handleClickOnResult(event: any) {

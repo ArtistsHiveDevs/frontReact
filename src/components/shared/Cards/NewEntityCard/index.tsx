@@ -71,7 +71,9 @@ const NewEntityCard = (props: any) => {
                             verifiedStatus={data?.verified_status}
                           />
                         </span>
-                        <span>{elementCardInfo?.title || data?.name}</span>
+                        <span className="title-card-span">
+                          {elementCardInfo?.title || data?.name}
+                        </span>
                       </p>
                     </div>
                   </Card.ImgOverlay>

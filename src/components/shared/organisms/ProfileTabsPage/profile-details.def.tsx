@@ -5,6 +5,7 @@ export enum ProfileComponentTypes {
   CALENDAR_SIMPLE_LAYOUT,
   ARTS_GENRES,
   HTML_CONTENT,
+  IMAGE,
   IMAGE_GALLERY,
   MAP,
   SOCIAL_NETWORK_WIDGET,

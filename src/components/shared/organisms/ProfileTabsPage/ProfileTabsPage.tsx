@@ -424,15 +424,25 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
             componentDescriptor.clickHandlerName as keyof typeof handlers
           ];
       }
+      let images: GalleryImageParams[] = [];
+
+      if (componentDescriptor.data?.images) {
+        images = getData(componentDescriptor.data?.images);
+      }
+      if (componentDescriptor.data?.image) {
+        images = [{ src: getData(componentDescriptor.data?.image) }];
+      }
       renderedComponent = (
         <div
         // key={`section-${section.name}-${index}-${componentIndex}`}
         >
           <ImageGallery
-            images={getData(componentDescriptor.data?.images)}
-            clickHandler={(source: GalleryImageParams) =>
-              clickHandler(source, getData(componentDescriptor.data?.images))
-            }
+            images={images}
+            clickHandler={(source: GalleryImageParams) => {
+              if (clickHandler) {
+                clickHandler(source, getData(componentDescriptor.data?.images));
+              }
+            }}
           />
         </div>
       );

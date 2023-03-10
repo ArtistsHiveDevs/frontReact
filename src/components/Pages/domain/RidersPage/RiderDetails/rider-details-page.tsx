@@ -87,7 +87,11 @@ const RiderDetailPage = () => {
           entityData={currentRider}
           translation_base_path={TRANSLATION_BASE_ARTIST_DETAIL_PAGE}
           subpagesConfig={subPagesInfo}
-          profileHeaderComponent={<></>}
+          profileHeaderComponent={
+            <>
+              <h1>{currentRider.name}</h1>
+            </>
+          }
           handlers={handlers}
         />
       )}

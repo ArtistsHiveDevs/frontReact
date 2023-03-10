@@ -3,9 +3,12 @@ import { GeneralMusicalInstrumentModel } from "~/models/domain/musical-instrumen
 
 export interface CrewMemberTemplate {
   name: string;
-  document_type: string;
-  document_number: string;
+  artistic_name?: string;
+  document_type?: string;
+  document_number?: string;
   role: string;
+  dietary_restrictions?: string;
+  allergies?: string[];
 }
 
 export interface CrewTeamTemplate {
@@ -13,8 +16,11 @@ export interface CrewTeamTemplate {
   managers?: CrewMemberTemplate[];
   engineers?: CrewMemberTemplate[];
   roadies?: CrewMemberTemplate[];
+  logistics?: CrewMemberTemplate[];
+  communication?: CrewMemberTemplate[];
   security?: CrewMemberTemplate[];
   others?: CrewMemberTemplate[];
+  [crewList: string]: CrewMemberTemplate[];
 }
 
 export interface InputRiderTemplate {
@@ -44,9 +50,10 @@ export interface ArtistRiderTemplate extends EntityTemplate {
   artistId: string;
   name: string;
   instruments: GeneralMusicalInstrumentModel[];
-  inputList: InputRiderTemplate[];
-  mixesList: MixRiderTemplate[];
-  crewList: CrewTeamTemplate;
+  requirements?: {
+    audio: { inputList: InputRiderTemplate[]; mixesList: MixRiderTemplate[] };
+  };
+  staff: { crewList: CrewTeamTemplate };
   stageSpecs: StageSpecs;
   created_at: Date;
   updated_at: Date;
@@ -55,22 +62,16 @@ export class ArtistRiderModel
   extends EntityModel<ArtistRiderTemplate>
   implements ArtistRiderTemplate
 {
-  artistId: string;
-  name: string;
-  instruments: GeneralMusicalInstrumentModel[];
-  inputList: InputRiderTemplate[];
-  mixesList: MixRiderTemplate[];
-  crewList: CrewTeamTemplate;
-  stageSpecs: StageSpecs;
-  created_at: Date;
-  updated_at: Date;
-
-  constructor(template: ArtistRiderTemplate) {
-    super(template);
-    this.instruments = template.instruments || [];
-    this.inputList = template.inputList || [];
-    this.mixesList = template.mixesList || [];
-  }
+  declare artistId: string;
+  declare name: string;
+  declare instruments: GeneralMusicalInstrumentModel[];
+  declare requirements?: {
+    audio: { inputList: InputRiderTemplate[]; mixesList: MixRiderTemplate[] };
+  };
+  declare staff: { crewList: CrewTeamTemplate };
+  declare stageSpecs: StageSpecs;
+  declare created_at: Date;
+  declare updated_at: Date;
 
   get crewMembersByRole(): { role: string; people: CrewMemberTemplate[] }[] {
     const crewMembers: { role: string; people: CrewMemberTemplate[] }[] = [];

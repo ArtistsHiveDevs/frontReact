@@ -2,6 +2,7 @@ import {
   ProfileComponentTypes,
   ProfileDetailsSubpage,
 } from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
+import { ArtistRiderModel } from "~/models/domain/rider/rider.model";
 
 export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
@@ -98,46 +99,9 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: "staff",
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ProfileComponentTypes.CREW_LIST_VIEW,
             data: {
-              attributes: [
-                {
-                  name: "albums",
-                  icon: "BsInfoCircleFill",
-                },
-              ],
-            },
-          },
-        ],
-      },
-      {
-        name: "allergies",
-        components: [
-          {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [
-                {
-                  name: "albums",
-                  icon: "BsInfoCircleFill",
-                },
-              ],
-            },
-          },
-        ],
-      },
-      {
-        name: "rooming_list",
-        components: [
-          {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [
-                {
-                  name: "albums",
-                  icon: "BsInfoCircleFill",
-                },
-              ],
+              crewList: "staff.crewList",
             },
           },
         ],
@@ -171,6 +135,15 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 },
               ],
             },
+          },
+        ],
+      },
+      {
+        name: "rooming_list",
+        components: [
+          {
+            componentName: ProfileComponentTypes.TABLE,
+            data: {},
           },
         ],
       },
@@ -270,15 +243,18 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             },
           },
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ProfileComponentTypes.TABLE,
             data: {
-              attributes: [
-                {
-                  name: "Facebook",
-                  emptyTitle: true,
-                  icon: "BsFacebook",
-                },
-              ],
+              tableConfig: (rider: ArtistRiderModel) => {
+                let config = undefined;
+                if (rider?.requirements?.audio?.inputList?.length) {
+                  config = {
+                    columns: Object.keys(rider.requirements.audio.inputList[0]),
+                    rows: rider.requirements.audio.inputList,
+                  };
+                }
+                return config;
+              },
             },
           },
           {
@@ -289,15 +265,18 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             },
           },
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ProfileComponentTypes.TABLE,
             data: {
-              attributes: [
-                {
-                  name: "Facebook",
-                  emptyTitle: true,
-                  icon: "BsFacebook",
-                },
-              ],
+              tableConfig: (rider: ArtistRiderModel) => {
+                let config = undefined;
+                if (rider?.requirements?.audio?.mixesList?.length) {
+                  config = {
+                    columns: Object.keys(rider.requirements.audio.mixesList[0]),
+                    rows: rider.requirements.audio.mixesList,
+                  };
+                }
+                return config;
+              },
             },
           },
         ],

@@ -59,6 +59,17 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
+        name: "genres",
+        components: [
+          {
+            componentName: ProfileComponentTypes.ARTS_GENRES,
+            data: {
+              genres: "genres",
+            },
+          },
+        ],
+      },
+      {
         name: "contact",
         components: [
           {

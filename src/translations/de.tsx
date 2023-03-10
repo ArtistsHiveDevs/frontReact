@@ -14,6 +14,16 @@ export const DeMessages = {
         non_binary: "Nicht binär",
         non_specified: "Nicht spezifiziert",
       },
+      art_types: {
+        dance: "Tanz",
+        music: "Musik",
+        painting: "Malerei",
+        poetry: "Poesie",
+        photography: "Fotografie",
+        standup_comedy: "Stand-up Comedy",
+        theatre: "Theater",
+        video: "Video",
+      },
     },
     pages: {
       app: {
@@ -231,6 +241,9 @@ export const DeMessages = {
                     arts_languages: "Sprachen der Künste",
                   },
                 },
+                genres: {
+                  name: "Genres",
+                },
                 contact: {
                   name: "Kontakt",
                   attributes: {
@@ -334,6 +347,9 @@ export const DeMessages = {
                 description: {
                   name: "Beschreibung",
                 },
+                genres: {
+                  name: "Genres",
+                },
               },
             },
             artists: {
@@ -392,6 +408,9 @@ export const DeMessages = {
                     since: "Da",
                     spoken_languages: "Lingue parlate",
                   },
+                },
+                genres: {
+                  name: "Genres",
                 },
                 contact: {
                   name: "Contatto",

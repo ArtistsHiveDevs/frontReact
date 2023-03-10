@@ -14,6 +14,16 @@ export const EnMessages = {
         non_binary: "Non binary",
         non_specified: "Non specified",
       },
+      art_types: {
+        dance: "Dance",
+        music: "Music",
+        painting: "Painting",
+        poetry: "Poetry",
+        photography: "Photography",
+        standup_comedy: "Stand-up Comedy",
+        theatre: "Theatre",
+        video: "Video",
+      },
     },
     pages: {
       app: {
@@ -231,6 +241,9 @@ export const EnMessages = {
                     arts_languages: "Art languages",
                   },
                 },
+                genres: {
+                  name: "Genres",
+                },
                 contact: {
                   name: "Contact",
                   attributes: {
@@ -334,6 +347,9 @@ export const EnMessages = {
                 description: {
                   name: "Description",
                 },
+                genres: {
+                  name: "Genres",
+                },
               },
             },
             artists: {
@@ -392,6 +408,9 @@ export const EnMessages = {
                     since: "Da",
                     spoken_languages: "Lingue parlate",
                   },
+                },
+                genres: {
+                  name: "Genres",
                 },
                 contact: {
                   name: "Contatto",

@@ -14,6 +14,16 @@ export const PtMessages = {
         non_binary: "Não binário",
         non_specified: "Não especificado",
       },
+      art_types: {
+        dance: "Dança",
+        music: "Música",
+        painting: "Pintura",
+        poetry: "Poesia",
+        photography: "Fotografia",
+        standup_comedy: "Comédia Stand-up",
+        theatre: "Teatro",
+        video: "Video",
+      },
     },
     pages: {
       app: {
@@ -229,6 +239,9 @@ export const PtMessages = {
                     arts_languages: "Línguas das artes",
                   },
                 },
+                genres: {
+                  name: "Gêneros",
+                },
                 contact: {
                   name: "Contato",
                   attributes: {
@@ -332,6 +345,9 @@ export const PtMessages = {
                 description: {
                   name: "Descrição",
                 },
+                genres: {
+                  name: "Gêneros",
+                },
               },
             },
             artists: {
@@ -390,6 +406,9 @@ export const PtMessages = {
                     since: "Desde",
                     spoken_languages: "Idiomas falados",
                   },
+                },
+                genres: {
+                  name: "Gêneros",
                 },
                 contact: {
                   name: "Contato",

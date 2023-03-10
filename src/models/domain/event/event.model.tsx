@@ -28,6 +28,7 @@ export interface EventTemplate extends EntityTemplate {
   national_code: string;
   description: string;
   tickets_website: string;
+  genres: { [artType: string]: string[] };
 }
 
 export class EventModel
@@ -53,6 +54,7 @@ export class EventModel
   declare national_code: string;
   declare description: string;
   declare tickets_website: string;
+  declare genres: { [artType: string]: string[] };
 
   constructor(template: EventTemplate) {
     super(template);

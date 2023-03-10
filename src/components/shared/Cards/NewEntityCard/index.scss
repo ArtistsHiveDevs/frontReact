@@ -3,7 +3,7 @@
 .new-entity-card {
   min-width: 180px !important;
   max-width: 180px !important;
-  margin: 1.2rem 0.5rem 0.5rem 0.5rem;
+  margin: 1.2rem 0.5rem 1.2rem 0.5rem;
   border: none !important;
 }
 
@@ -47,6 +47,12 @@
     .card-title-label {
       font-weight: bolder;
       font-size: 13px;
+      height: 64px;
+      overflow-y: hidden;
+
+      .title-card-span {
+        display: block;
+      }
 
       .verified-comp {
         padding: 5px;

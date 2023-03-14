@@ -1,5 +1,6 @@
 import { useState } from "react";
-import DynamicIcons from "../../../DynamicIcons";
+import { useI18n } from "~/common/utils";
+import DynamicIcons from "~/components/shared/DynamicIcons";
 import "./favoriteSubscribe.scss";
 
 type FavoriteSubscribeInputTemplate = {
@@ -14,7 +15,7 @@ type FavoriteSubscribeInputTemplate = {
   };
 };
 
-export const FavoriteDefaultTypes = {
+export const FavoriteSubscritionIconDefaultTypes = {
   ALARM: {
     active: "BsAlarmFill",
     disabled: "BsAlarm",
@@ -29,7 +30,10 @@ export const FavoriteDefaultTypes = {
   },
 };
 
-export const FavoriteSubscribe: React.FC<FavoriteSubscribeInputTemplate> = (
+const TRANSLATION_BASE_SUBSCRIPTION =
+  "app.global_dictionary.actions.subscription";
+
+export const FavoriteSubscription: React.FC<FavoriteSubscribeInputTemplate> = (
   props: FavoriteSubscribeInputTemplate
 ) => {
   // Hooks
@@ -37,9 +41,14 @@ export const FavoriteSubscribe: React.FC<FavoriteSubscribeInputTemplate> = (
     props?.customSubscriberTo || false
   );
 
+  const { translateText } = useI18n();
+
   // Constants
-  const inconRender = props.iconType || FavoriteDefaultTypes.HEART;
-  const defaultText = subscriberTo ? "Quitar favorito" : "Agregar favorito";
+  const inconRender =
+    props.iconType || FavoriteSubscritionIconDefaultTypes.HEART;
+  const defaultText = subscriberTo
+    ? translateText(`${TRANSLATION_BASE_SUBSCRIPTION}.unsubscribe`)
+    : translateText(`${TRANSLATION_BASE_SUBSCRIPTION}.subscribe`);
 
   // Functions
   function onClickIconHandler() {
@@ -49,11 +58,13 @@ export const FavoriteSubscribe: React.FC<FavoriteSubscribeInputTemplate> = (
       callback.onClickIcon(subscriberTo);
     }
   }
+  const buttonState = `fav-subs-${subscriberTo ? "active" : "initial"}`;
+  const classes = ["fav-button", buttonState];
 
   return (
     <span
       onClick={() => onClickIconHandler()}
-      className={`fav-subs-${subscriberTo ? "active" : "initial"}`}
+      className={classes.join(" ")}
       data-toggle="tooltip"
       title={`${props?.tooltipCustomText || defaultText}`}
     >

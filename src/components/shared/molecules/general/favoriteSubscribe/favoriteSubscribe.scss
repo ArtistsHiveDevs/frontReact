@@ -1,18 +1,18 @@
 @import "~/variables.module.scss";
-@import 'bootstrap';
+@import "bootstrap";
 
 .fav-subs-initial,
-.fav-subs-active{
-    position: absolute;
-    transition: transform 0.8s ease;
+.fav-subs-active {
+  position: absolute;
+  transition: transform 0.8s ease;
 }
 
 .fav-subs-initial:hover {
-    transform: scale(1.1);
-    cursor: pointer;
+  transform: scale(1.1);
+  cursor: pointer;
 }
 
 .fav-subs-active:hover {
-    transform: scale(1.3);
-    cursor: pointer;
+  transform: scale(1.3);
+  cursor: pointer;
 }

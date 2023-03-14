@@ -119,13 +119,16 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
                     (
                       componentDescriptor: ProfileComponentDescriptor,
                       componentIndex: number
-                    ) =>
-                      buildComponent(
-                        subpage,
-                        section,
-                        componentDescriptor,
-                        componentIndex
-                      )
+                    ) => (
+                      <div key={`content-comp-${index || ""}-section`}>
+                        {buildComponent(
+                          subpage,
+                          section,
+                          componentDescriptor,
+                          componentIndex
+                        )}
+                      </div>
+                    )
                   );
                 }
 

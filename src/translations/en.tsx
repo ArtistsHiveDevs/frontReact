@@ -24,6 +24,12 @@ export const EnMessages = {
         theatre: "Theatre",
         video: "Video",
       },
+      actions: {
+        subscription: {
+          subscribe: "Subscribe",
+          unsubscribe: "Unsubscribe",
+        },
+      },
     },
     pages: {
       app: {

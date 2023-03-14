@@ -1,3 +1,7 @@
+import {
+  FavoriteSubscription,
+  FavoriteSubscritionIconDefaultTypes,
+} from "~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe";
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
 import "./index.scss";
 
@@ -19,6 +23,12 @@ export const ProfileHeader = (props: any) => {
           <h2>
             {element?.name}
             <VerifiedArtist verifiedStatus={element?.verified_status} />
+
+            <FavoriteSubscription
+              color={"#7a260a"}
+              size={24}
+              iconType={FavoriteSubscritionIconDefaultTypes.HEART}
+            />
           </h2>
         </div>
         <div className="profile-name">

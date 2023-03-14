@@ -24,6 +24,12 @@ export const EsMessages = {
         theatre: "Teatro",
         video: "Video",
       },
+      actions: {
+        subscription: {
+          subscribe: "Suscribirse",
+          unsubscribe: "Cancelar",
+        },
+      },
     },
     pages: {
       app: {

@@ -24,6 +24,12 @@ export const ItMessages = {
         theatre: "Teatro",
         video: "Video",
       },
+      actions: {
+        subscription: {
+          subscribe: "Iscriversi",
+          unsubscribe: "Disiscriversi",
+        },
+      },
     },
     pages: {
       app: {

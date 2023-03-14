@@ -24,6 +24,12 @@ export const DeMessages = {
         theatre: "Theater",
         video: "Video",
       },
+      actions: {
+        subscription: {
+          subscribe: "Abonnieren",
+          unsubscribe: "Abbestellen",
+        },
+      },
     },
     pages: {
       app: {

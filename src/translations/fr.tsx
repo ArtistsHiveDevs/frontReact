@@ -24,6 +24,12 @@ export const FrMessages = {
         theatre: "Théâtre",
         video: "Vidéo",
       },
+      actions: {
+        subscription: {
+          subscribe: "S'abonner",
+          unsubscribe: "Se désabonner",
+        },
+      },
     },
     pages: {
       app: {

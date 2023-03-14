@@ -22,8 +22,8 @@ import {
 } from "./profile-details.def";
 
 import moment from "moment";
-import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import { Title } from "~/components/shared/atoms/Title/Title";
+import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import { SectionsPanel } from "~/components/shared/layout/SectionPanel";
 import { TabbedPanel } from "~/components/shared/layout/TabbedPanel";
 import { ProfileHeader } from "~/components/shared/molecules/Profile/ProfileHeader";
@@ -114,13 +114,16 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
                     (
                       componentDescriptor: ProfileComponentDescriptor,
                       componentIndex: number
-                    ) =>
-                      buildComponent(
-                        subpage,
-                        section,
-                        componentDescriptor,
-                        componentIndex
-                      )
+                    ) => (
+                      <div key={`content-comp-${index || ""}-section`}>
+                        {buildComponent(
+                          subpage,
+                          section,
+                          componentDescriptor,
+                          componentIndex
+                        )}
+                      </div>
+                    )
                   );
                 }
 

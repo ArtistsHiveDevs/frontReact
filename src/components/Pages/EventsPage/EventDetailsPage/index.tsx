@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEventsSlice } from "~/common/slices/events";
 import { selectEvents } from "~/common/slices/events/selectors";
 import { useI18n } from "~/common/utils";
-import DynamicIcons from "~/components/shared/DynamicIcons";
+import { FavoriteSubscribe } from "~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe";
 import { ProfileTabsPage } from "~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage";
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from "~/constants";
@@ -104,7 +104,7 @@ const EventDetailsPage = () => {
                   <VerifiedArtist
                     verifiedStatus={currentEvent?.verified_status}
                   />
-                  <DynamicIcons iconName="FaHeart" size={25} color="#e30000" />
+                  <FavoriteSubscribe color={"#7a260a"} size={30} />
                 </h1>
                 <Image
                   alt={currentEvent.name}

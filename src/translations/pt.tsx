@@ -24,6 +24,12 @@ export const PtMessages = {
         theatre: "Teatro",
         video: "Video",
       },
+      actions: {
+        subscription: {
+          subscribe: "Subscrever",
+          unsubscribe: "Cancelar",
+        },
+      },
     },
     pages: {
       app: {

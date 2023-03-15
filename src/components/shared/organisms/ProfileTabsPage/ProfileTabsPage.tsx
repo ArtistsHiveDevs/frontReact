@@ -443,6 +443,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
         >
           <ImageGallery
             images={images}
+            imageSize="fs"
             clickHandler={(source: GalleryImageParams) => {
               if (clickHandler) {
                 clickHandler(source, getData(componentDescriptor.data?.images));

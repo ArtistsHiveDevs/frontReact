@@ -30,6 +30,25 @@ export const DeMessages = {
           unsubscribe: "Abbestellen",
         },
       },
+      stats: {
+        rating: {
+          overall: "Gesamtbewertung",
+          stage: "Bühne",
+          sound: "Ton",
+          backline: "Backline",
+          lights: "Beleuchtung",
+          dressing_room: "Umkleideraum",
+          hospitality_food: "Verpflegung",
+          hospitality_drinks: "Getränke",
+          timeliness: "Pünktlichkeit",
+          communication: "Kommunikation",
+          transportation: "Transport",
+          logistic: "Logistik",
+          location: "Ort",
+          seating_capacity: "Sitzplatzkapazität",
+          total_rates: "Gesamtbewertungen",
+        },
+      },
     },
     pages: {
       app: {
@@ -349,20 +368,14 @@ export const DeMessages = {
                 },
               },
             },
-
-            social: {
-              name: "Sociale",
+            stats: {
+              name: "Statistics",
               sections: {
                 social_network_presence: {
                   name: "Presenza sui social network",
                 },
-                stats: {
-                  name: "Statistiche",
-                  attributes: {
-                    general_rate: "Qualificazione generale",
-                    followers: "Followers",
-                    event_followers: "Eventi followers",
-                  },
+                rating: {
+                  name: "Rating",
                 },
               },
             },

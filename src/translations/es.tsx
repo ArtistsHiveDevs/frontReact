@@ -30,6 +30,25 @@ export const EsMessages = {
           unsubscribe: "Cancelar",
         },
       },
+      stats: {
+        rating: {
+          overall: "Calificación general",
+          stage: "Escenario",
+          sound: "Sonido",
+          backline: "Equipo técnico",
+          lights: "Luces",
+          dressing_room: "Camarín",
+          hospitality_food: "Alimentos de hospitalidad",
+          hospitality_drinks: "Bebidas de hospitalidad",
+          timeliness: "Puntualidad",
+          communication: "Comunicación",
+          transportation: "Transporte",
+          logistic: "Logística",
+          location: "Ubicación",
+          seating_capacity: "Capacidad de asientos",
+          total_rates: "Calificaciones totales",
+        },
+      },
     },
     pages: {
       app: {
@@ -342,20 +361,14 @@ export const EsMessages = {
                 },
               },
             },
-
-            social: {
-              name: "Social",
+            stats: {
+              name: "Estadísticas",
               sections: {
                 social_network_presence: {
                   name: "Presencia en redes sociales",
                 },
-                stats: {
-                  name: "Estadísticas",
-                  attributes: {
-                    general_rate: "Calificación general",
-                    followers: "Seguidores",
-                    event_followers: "Seguidores en eventos",
-                  },
+                rating: {
+                  name: "Calificaciones",
                 },
               },
             },

@@ -14,7 +14,11 @@ const IconFieldReadOnly = (props: any) => {
     customTitle,
     emptyTitle,
     useDivInValue,
+    useColon,
   } = props;
+
+  useColon = useColon === undefined || useColon;
+
   let renderFieldValue = fieldValue;
   const socialNetwork = SocialNetworks[fieldName];
 
@@ -58,7 +62,12 @@ const IconFieldReadOnly = (props: any) => {
       )}
       {useDivInValue && (
         <div className="field-content">
-          {fieldTitle && <strong>{fieldTitle}: </strong>}
+          {fieldTitle && (
+            <strong>
+              {fieldTitle}
+              {useColon ? ":" : ""}{" "}
+            </strong>
+          )}
           {renderFieldValue}
         </div>
       )}

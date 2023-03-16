@@ -348,6 +348,9 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
         ];
       }
 
+      const useColon = componentDescriptor.data?.useColon;
+      const useDivInValue = componentDescriptor.data?.useDivInValue;
+
       renderedComponent = (
         <>
           {sectionsAttributes.map(
@@ -356,7 +359,8 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
                 key={`section-${section.name}-${sectionIndex}-attributes-${componentIndex}`}
                 attributes={sectionAttributes.attributes}
                 title={sectionAttributes?.title}
-                useDivInValue={true}
+                useDivInValue={useDivInValue}
+                useColon={useColon}
               />
             )
           )}

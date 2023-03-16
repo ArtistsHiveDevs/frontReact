@@ -75,7 +75,7 @@ export const SocialNetworks: {
     icon: "BsFillTelephoneFill",
   },
   sound_cloud: {
-    url: "https://w.soundcloud.com/player/",
+    url: "https://soundcloud.com/",
     icon: "GrSoundcloud",
     user_prefix: "",
     emptyTitle: true,

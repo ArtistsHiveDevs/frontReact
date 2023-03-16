@@ -482,10 +482,12 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       ProfileComponentTypes.SOCIAL_NETWORK_WIDGET
     ) {
       const socialNetworkName = componentDescriptor.data?.socialNetwork;
-      renderedComponent = SocialNetworks[socialNetworkName]?.widget({
-        user: dataSourceElement[
-          socialNetworkName as keyof typeof dataSourceElement
-        ],
+      const selectedSocialNetwork = SocialNetworks[socialNetworkName];
+      const user =
+        dataSourceElement[socialNetworkName as keyof typeof dataSourceElement];
+
+      renderedComponent = selectedSocialNetwork?.widget({
+        user,
       });
     } else if (
       componentDescriptor.componentName === ProfileComponentTypes.TITLE

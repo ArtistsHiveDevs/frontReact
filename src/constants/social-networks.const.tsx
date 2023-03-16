@@ -1,3 +1,5 @@
+import { ParametrizedIFrame } from "~/components/shared/molecules/general/parametrizedIFrame/parametrizedIFrame";
+
 export interface SocialNetworkTemplate {
   url?: string;
   mobile_url?: string;
@@ -5,6 +7,7 @@ export interface SocialNetworkTemplate {
   user_prefix?: string;
   emptyTitle?: boolean;
   title?: string;
+  useSimpleWidget?: boolean;
   widget?: any;
 }
 
@@ -72,11 +75,28 @@ export const SocialNetworks: {
     icon: "BsFillTelephoneFill",
   },
   sound_cloud: {
-    url: "https://open.spotify.com/artist",
+    url: "https://w.soundcloud.com/player/",
     icon: "GrSoundcloud",
     user_prefix: "",
     emptyTitle: true,
     title: "Sound Cloud",
+    widget: (params: any) => {
+      let { user, entity, width, height } = params;
+      if (!entity) {
+        entity = "playlists";
+      }
+      return (
+        user && (
+          <ParametrizedIFrame
+            key={`scloud-frame-${user}-${entity || ""}`}
+            srcUrl={`https://w.soundcloud.com/player/?url=https://api.soundcloud.com/${entity}/${user}&`}
+            customWidth={width}
+            customHeight={height}
+            customStyles={{ borderRadius: "10px" }}
+          />
+        )
+      );
+    },
   },
   spotify: {
     url: "https://open.spotify.com/artist",
@@ -85,22 +105,18 @@ export const SocialNetworks: {
     emptyTitle: true,
     title: "Spotify",
     widget: (params: any) => {
-      let { user, entity } = params;
+      let { user, entity, width, height } = params;
       if (!entity) {
         entity = "artist";
       }
       return (
         user && (
-          <iframe
-            // style="border-radius:12px"
-            src={`https://open.spotify.com/embed/${entity}/${user}?utm_source=generator&theme=0`}
-            width="100%"
-            height="352"
-            frameBorder="0"
-            // allowfullscreen=""
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
+          <ParametrizedIFrame
+            key={`scloud-frame-${user}-${entity || ""}`}
+            srcUrl={`https://open.spotify.com/embed/${entity}/${user}?utm_source=generator&theme=0`}
+            customWidth={width}
+            customHeight={height}
+          />
         )
       );
     },
@@ -144,6 +160,20 @@ export const SocialNetworks: {
     user_prefix: "",
     emptyTitle: true,
     title: "Youtube",
+    widget: (params: any) => {
+      let { user, entity, width, height } = params;
+      return (
+        user && (
+          <ParametrizedIFrame
+            key={`scloud-frame-${user}-${entity || ""}`}
+            srcUrl={`https://www.youtube.com/embed/${user}`}
+            customWidth={width}
+            customHeight={height}
+            customStyles={{ borderRadius: "10px" }}
+          />
+        )
+      );
+    },
   },
 };
 

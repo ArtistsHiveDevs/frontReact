@@ -354,6 +354,9 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
         ];
       }
 
+      const useColon = componentDescriptor.data?.useColon;
+      const useDivInValue = componentDescriptor.data?.useDivInValue;
+
       renderedComponent = (
         <>
           {sectionsAttributes.map(
@@ -362,7 +365,8 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
                 key={`section-${section.name}-${sectionIndex}-attributes-${componentIndex}`}
                 attributes={sectionAttributes.attributes}
                 title={sectionAttributes?.title}
-                useDivInValue={true}
+                useDivInValue={useDivInValue}
+                useColon={useColon}
               />
             )
           )}
@@ -512,10 +516,12 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       ProfileComponentTypes.SOCIAL_NETWORK_WIDGET
     ) {
       const socialNetworkName = componentDescriptor.data?.socialNetwork;
-      renderedComponent = SocialNetworks[socialNetworkName]?.widget({
-        user: dataSourceElement[
-          socialNetworkName as keyof typeof dataSourceElement
-        ],
+      const selectedSocialNetwork = SocialNetworks[socialNetworkName];
+      const user =
+        dataSourceElement[socialNetworkName as keyof typeof dataSourceElement];
+
+      renderedComponent = selectedSocialNetwork?.widget({
+        user,
       });
     } else if (
       componentDescriptor.componentName === ProfileComponentTypes.TITLE

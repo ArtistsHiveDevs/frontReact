@@ -30,6 +30,25 @@ export const FrMessages = {
           unsubscribe: "Se désabonner",
         },
       },
+      stats: {
+        rating: {
+          overall: "Note globale",
+          stage: "Scène",
+          sound: "Son",
+          backline: "Matériel",
+          lights: "Lumières",
+          dressing_room: "Loge",
+          hospitality_food: "Nourriture de l'hospitalité",
+          hospitality_drinks: "Boissons de l'hospitalité",
+          timeliness: "Ponctualité",
+          communication: "Communication",
+          transportation: "Transport",
+          logistic: "Logistique",
+          location: "Lieu",
+          seating_capacity: "Capacité d'assise",
+          total_rates: "Total des notes",
+        },
+      },
     },
     pages: {
       app: {
@@ -436,15 +455,14 @@ export const FrMessages = {
                 },
               },
             },
-
-            social: {
-              name: "Sociale",
+            stats: {
+              name: "Statistiche",
               sections: {
                 social_network_presence: {
                   name: "Presenza sui social network",
                 },
-                stats: {
-                  name: "Statistiche",
+                rating: {
+                  name: "rating",
                   attributes: {
                     general_rate: "Qualificazione generale",
                     followers: "Followers",

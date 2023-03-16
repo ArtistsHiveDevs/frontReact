@@ -6,8 +6,19 @@ import {
 import "./index.scss";
 
 const IconFieldReadOnly = (props: any) => {
-  let { fieldName, fieldTitle, icon, fieldValue, customTitle, emptyTitle } =
-    props;
+  let {
+    fieldName,
+    fieldTitle,
+    icon,
+    fieldValue,
+    customTitle,
+    emptyTitle,
+    useDivInValue,
+    useColon,
+  } = props;
+
+  useColon = useColon === undefined || useColon;
+
   let renderFieldValue = fieldValue;
   const socialNetwork = SocialNetworks[fieldName];
 
@@ -49,10 +60,23 @@ const IconFieldReadOnly = (props: any) => {
           <DynamicIcons iconName={icon} size={20} color="#7a260a" />
         </span>
       )}
-      <span className="field-content">
-        {fieldTitle && <strong>{fieldTitle}: </strong>}
-        {renderFieldValue}
-      </span>
+      {useDivInValue && (
+        <div className="field-content">
+          {fieldTitle && (
+            <strong>
+              {fieldTitle}
+              {useColon ? ":" : ""}{" "}
+            </strong>
+          )}
+          {renderFieldValue}
+        </div>
+      )}
+      {!useDivInValue && (
+        <span className="field-content">
+          {fieldTitle && <strong>{fieldTitle}: </strong>}
+          {renderFieldValue}
+        </span>
+      )}
     </div>
   );
 };

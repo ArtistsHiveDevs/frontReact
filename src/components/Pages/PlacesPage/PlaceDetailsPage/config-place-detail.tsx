@@ -1,7 +1,9 @@
+import { RatingStarsView } from "~/components/shared/atoms/gui/rating-stars-view/RatingStarsView";
 import {
   ProfileComponentTypes,
   ProfileDetailsSubpage,
 } from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
+import { PlaceRatingTemplate } from "~/models/domain/place/place.model";
 
 export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
@@ -129,7 +131,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     ],
   },
   {
-    name: "social",
+    name: "stats",
     requireSession: true,
     sections: [
       {
@@ -166,19 +168,117 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "stats",
-        attributes: [
+        name: "rating",
+        components: [
           {
-            name: "general_rate",
-            icon: "BsStarFill",
-          },
-          {
-            name: "followers",
-            icon: "FaUserFriends",
-          },
-          {
-            name: "event_followers",
-            icon: "FaUserFriends",
+            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              data_source: "stats.rating",
+              fields: [
+                {
+                  name: "overall",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: PlaceRatingTemplate) => (
+                    <RatingStarsView rating={rating.overall} />
+                  ),
+                },
+                {
+                  name: "stage",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: PlaceRatingTemplate) => (
+                    <RatingStarsView rating={rating.stage} />
+                  ),
+                },
+                {
+                  name: "sound",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: PlaceRatingTemplate) => (
+                    <RatingStarsView rating={rating.sound} />
+                  ),
+                },
+                {
+                  name: "backline",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: PlaceRatingTemplate) => (
+                    <RatingStarsView rating={rating.backline} />
+                  ),
+                },
+                {
+                  name: "lights",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: PlaceRatingTemplate) => (
+                    <RatingStarsView rating={rating.lights} />
+                  ),
+                },
+                {
+                  name: "dressing_room",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: PlaceRatingTemplate) => (
+                    <RatingStarsView rating={rating.dressing_room} />
+                  ),
+                },
+                {
+                  name: "hospitality_food",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: PlaceRatingTemplate) => (
+                    <RatingStarsView rating={rating.hospitality_food} />
+                  ),
+                },
+                {
+                  name: "hospitality_drinks",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: PlaceRatingTemplate) => (
+                    <RatingStarsView rating={rating.hospitality_drinks} />
+                  ),
+                },
+                {
+                  name: "timeliness",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: PlaceRatingTemplate) => (
+                    <RatingStarsView rating={rating.timeliness} />
+                  ),
+                },
+                {
+                  name: "communication",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: PlaceRatingTemplate) => (
+                    <RatingStarsView rating={rating.communication} />
+                  ),
+                },
+                {
+                  name: "transportation",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: PlaceRatingTemplate) => (
+                    <RatingStarsView rating={rating.transportation} />
+                  ),
+                },
+                {
+                  name: "logistic",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: PlaceRatingTemplate) => (
+                    <RatingStarsView rating={rating.logistic} />
+                  ),
+                },
+                {
+                  name: "location",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: PlaceRatingTemplate) => (
+                    <RatingStarsView rating={rating.location} />
+                  ),
+                },
+                {
+                  name: "seating_capacity",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: PlaceRatingTemplate) => (
+                    <RatingStarsView rating={rating.seating_capacity} />
+                  ),
+                },
+                {
+                  name: "total_rates",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                },
+              ],
+            },
           },
         ],
       },

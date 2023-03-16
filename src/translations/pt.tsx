@@ -30,6 +30,25 @@ export const PtMessages = {
           unsubscribe: "Cancelar",
         },
       },
+      stats: {
+        rating: {
+          overall: "Avaliação geral",
+          stage: "Palco",
+          sound: "Som",
+          backline: "Equipamento",
+          lights: "Iluminação",
+          dressing_room: "Sala de vestir",
+          hospitality_food: "Alimentação",
+          hospitality_drinks: "Bebidas",
+          timeliness: "Pontualidade",
+          communication: "Comunicação",
+          transportation: "Transporte",
+          logistic: "Logística",
+          location: "Localização",
+          seating_capacity: "Capacidade de assentos",
+          total_rates: "Total de avaliações",
+        },
+      },
     },
     pages: {
       app: {
@@ -431,14 +450,14 @@ export const PtMessages = {
                 },
               },
             },
-            social: {
-              name: "Social",
+            stats: {
+              name: "Estatísticas",
               sections: {
                 social_network_presence: {
                   name: "Presença nas redes sociais",
                 },
-                stats: {
-                  name: "Estatísticas",
+                rating: {
+                  name: "Avaliação",
                   attributes: {
                     general_rate: "Avaliação geral",
                     followers: "Seguidores",

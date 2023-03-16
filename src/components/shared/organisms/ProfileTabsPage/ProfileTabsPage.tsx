@@ -58,7 +58,9 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     attribute: ProfileDetailAttributeConfiguration
   ) => {
     let title: string = "";
-    if (attribute.title) {
+    if (attribute.translationPath) {
+      title = translateText(`${attribute.translationPath}.${attribute.name}`);
+    } else if (attribute.title) {
       title = attribute.title;
     } else if (attribute.useTranslation || attribute.emptyTitle === undefined) {
       title = translateAttribute(subpageName, sectionName, attribute.name);
@@ -187,10 +189,16 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
   ) {
     const source = parentDataSource || entityData;
 
-    const dataSourceElement: EntityModel<EntityTemplate> = componentDescriptor
-      .data?.data_source
-      ? source[componentDescriptor.data?.data_source as keyof typeof source]
-      : source;
+    let dataSourceElement: EntityModel<EntityTemplate> = source;
+
+    if (componentDescriptor.data?.data_source) {
+      const dsPath = componentDescriptor.data?.data_source.split(".") || [];
+      const element = source;
+      dataSourceElement =
+        dsPath.reduce((previous: any, current: any) => {
+          return previous ? previous[current as keyof typeof previous] : {};
+        }, element) || {};
+    }
 
     let renderedComponent = <></>;
     if (componentDescriptor.componentName === ProfileComponentTypes.MAP) {
@@ -288,23 +296,27 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
         };
       }
 
-      const sectionsAttributes: {
+      let sectionsAttributes: {
         title: string;
         attributes: IconDetailedAttribute[];
-      }[] =
-        (componentDescriptor.data?.attributes && [
-          {
-            title: componentDescriptor.data?.title,
-            attributes: componentDescriptor.data?.attributes?.map(
-              (attribute: any, componentIndex: number) =>
-                processAttribute(attribute, componentIndex)
-            ),
-          },
-        ]) ||
-        (componentDescriptor.data?.data_source &&
-          source[
-            componentDescriptor.data?.data_source as keyof typeof source
-          ]?.map((dataSourceElement: any, elementIndex: number) => {
+      }[] = [];
+
+      if (componentDescriptor.data?.data_source) {
+        const dsPath = componentDescriptor.data?.data_source.split(".") || [];
+        const element = source;
+        const dsElement =
+          dsPath.reduce((previous: any, current: any) => {
+            return previous ? previous[current as keyof typeof previous] : {};
+          }, element) || {};
+
+        const isDSArray = Array.isArray(dsElement);
+        let dsAsArray = dsElement;
+        if (!isDSArray) {
+          dsAsArray = [dsElement];
+        }
+
+        sectionsAttributes = dsAsArray.map(
+          (dataSourceElement: any, elementIndex: number) => {
             let title = componentDescriptor.data?.data_element_title?.prefix;
             if (componentDescriptor.data?.data_element_title?.isConsecutive) {
               title += ` ${
@@ -319,8 +331,19 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
                   processAttribute(attribute, componentIndex, dataSourceElement)
               ),
             };
-          })) ||
-        [];
+          }
+        );
+      } else if (componentDescriptor.data?.attributes) {
+        sectionsAttributes = [
+          {
+            title: componentDescriptor.data?.title,
+            attributes: componentDescriptor.data?.attributes?.map(
+              (attribute: any, componentIndex: number) =>
+                processAttribute(attribute, componentIndex)
+            ),
+          },
+        ];
+      }
 
       renderedComponent = (
         <>
@@ -330,6 +353,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
                 key={`section-${section.name}-${sectionIndex}-attributes-${componentIndex}`}
                 attributes={sectionAttributes.attributes}
                 title={sectionAttributes?.title}
+                useDivInValue={true}
               />
             )
           )}

@@ -11,7 +11,7 @@ export interface IconDetailedAttribute {
   requireSession?: boolean;
 }
 export const AttributesIconFieldReadOnly = (props: any) => {
-  const { title, attributes } = props;
+  const { title, attributes, useDivInValue } = props;
 
   return (
     <>
@@ -28,6 +28,7 @@ export const AttributesIconFieldReadOnly = (props: any) => {
               customTitle={attribute.customTitle}
               icon={attribute?.icon}
               fieldValue={attribute.value}
+              useDivInValue={useDivInValue}
             />
           </RequireAuthComponent>
         );

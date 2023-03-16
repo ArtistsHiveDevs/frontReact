@@ -59,4 +59,6 @@ export interface ProfileDetailAttributeConfiguration {
   title?: string;
 
   useTranslation?: boolean;
+
+  translationPath?: string;
 }

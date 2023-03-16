@@ -8,6 +8,23 @@ import {
 } from "~/models/base";
 import { EventModel, EventTemplate } from "../event/event.model";
 
+export interface PlaceRatingTemplate {
+  overall: number;
+  stage: number;
+  sound: number;
+  backline: number;
+  lights: number;
+  dressing_room: number;
+  hospitality_food: number;
+  hospitality_drinks: number;
+  timeliness: number;
+  communication: number;
+  transportation: number;
+  logistic: number;
+  location: number;
+  seating_capacity: number;
+  total_rates: number;
+}
 export interface PlaceTemplate extends EntityTemplate {
   name: string;
   place_type: string;
@@ -33,6 +50,10 @@ export interface PlaceTemplate extends EntityTemplate {
 
   events: EventTemplate[];
   genres: { [artType: string]: string[] };
+
+  stats: {
+    rating: PlaceRatingTemplate;
+  };
 }
 
 export class PlaceModel
@@ -62,6 +83,9 @@ export class PlaceModel
   declare verified_status?: VerificationStatus;
   declare events: EventTemplate[];
   declare genres: { [artType: string]: string[] };
+  declare stats: {
+    rating: PlaceRatingTemplate;
+  };
 
   constructor(template: PlaceTemplate) {
     super(template);

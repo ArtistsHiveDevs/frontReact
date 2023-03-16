@@ -30,6 +30,25 @@ export const EnMessages = {
           unsubscribe: "Unsubscribe",
         },
       },
+      stats: {
+        rating: {
+          overall: "Overall",
+          stage: "Stage",
+          sound: "Sound",
+          backline: "Backline",
+          lights: "Lights",
+          dressing_room: "Dressing room",
+          hospitality_food: "Hospitality Food",
+          hospitality_drinks: "Hospitality Drinks",
+          timeliness: "Timeliness",
+          communication: "Communication",
+          transportation: "Transportation",
+          logistic: "Logistic",
+          location: "Location",
+          seating_capacity: "Seating capacity",
+          total_rates: "Total rates",
+        },
+      },
     },
     pages: {
       app: {
@@ -349,20 +368,14 @@ export const EnMessages = {
                 },
               },
             },
-
-            social: {
-              name: "Sociale",
+            stats: {
+              name: "Statistics",
               sections: {
                 social_network_presence: {
                   name: "Presenza sui social network",
                 },
-                stats: {
-                  name: "Statistiche",
-                  attributes: {
-                    general_rate: "Qualificazione generale",
-                    followers: "Followers",
-                    event_followers: "Eventi followers",
-                  },
+                rating: {
+                  name: "Rating",
                 },
               },
             },

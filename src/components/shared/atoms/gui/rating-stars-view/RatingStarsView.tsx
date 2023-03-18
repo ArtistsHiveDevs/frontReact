@@ -15,13 +15,25 @@ export const RatingStarsView = (props: { rating: number }) => {
   return (
     <div>
       {[...Array(fullStars)].map((e, i) => (
-        <DynamicIcons color={fullStarColor} iconName="IoIosStar" />
+        <DynamicIcons
+          key={`fullstar_${i}`}
+          color={fullStarColor}
+          iconName="IoIosStar"
+        />
       ))}
       {[...Array(halfStar)].map((e, i) => (
-        <DynamicIcons color={fullStarColor} iconName="IoIosStarHalf" />
+        <DynamicIcons
+          key={`halfstar_${i}`}
+          color={fullStarColor}
+          iconName="IoIosStarHalf"
+        />
       ))}
       {[...Array(emptyRate)].map((e, i) => (
-        <DynamicIcons color={emptyStarColor} iconName="IoIosStarOutline" />
+        <DynamicIcons
+          key={`emptystar_${i}`}
+          color={emptyStarColor}
+          iconName="IoIosStarOutline"
+        />
       ))}
     </div>
   );

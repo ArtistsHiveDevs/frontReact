@@ -112,7 +112,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
               requiredSession={subpage.requireSession}
               key={`section_${subPageIndex}_${subpage.name}`}
             >
-              {(subpage.sections || []).map((section, index) => {
+              {(subpage.sections || []).map((section, sectionIndex) => {
                 // Icon Detailed Attributes
 
                 let contentComponents: any = <></>;
@@ -122,7 +122,11 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
                       componentDescriptor: ProfileComponentDescriptor,
                       componentIndex: number
                     ) => (
-                      <div key={`content-comp-${index || ""}-section`}>
+                      <div
+                        key={`content-comp-${subPageIndex}-${
+                          sectionIndex || ""
+                        }-${componentIndex}`}
+                      >
                         {buildComponent(
                           subpage,
                           section,
@@ -138,7 +142,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
 
                 return (
                   <RequireAuthComponent
-                    key={`section-${section.name}-${index}`}
+                    key={`section-${section.name}-${sectionIndex}`}
                     requiredSession={section.requireSession}
                   >
                     <SectionsPanel
@@ -331,9 +335,11 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
             }
             return {
               title,
-              attributes: componentDescriptor.data?.fields.map(
-                (attribute: any, componentIndex: number) =>
-                  processAttribute(attribute, componentIndex, dataSourceElement)
+              attributes: (
+                componentDescriptor.data?.attributes ||
+                componentDescriptor.data?.fields
+              ).map((attribute: any, componentIndex: number) =>
+                processAttribute(attribute, componentIndex, dataSourceElement)
               ),
             };
           }

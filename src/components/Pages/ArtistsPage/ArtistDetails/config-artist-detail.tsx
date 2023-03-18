@@ -166,6 +166,13 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
               attributes: [
                 {
                   name: "youtube",
+                  components: [
+                    {
+                      componentName:
+                        ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
+                      data: {},
+                    },
+                  ],
                 },
                 {
                   name: "spotify",
@@ -179,6 +186,13 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 },
                 {
                   name: "sound_cloud",
+                  components: [
+                    {
+                      componentName:
+                        ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
+                      data: {},
+                    },
+                  ],
                 },
               ],
             },

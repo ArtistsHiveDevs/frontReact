@@ -1,7 +1,9 @@
+import { RatingStarsView } from "~/components/shared/atoms/gui/rating-stars-view/RatingStarsView";
 import {
   ProfileComponentTypes,
   ProfileDetailsSubpage,
 } from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
+import { ArtistRatingTemplate } from "~/models/domain/artist/artist.model";
 
 export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
@@ -318,23 +320,79 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "stats",
+        name: "rating",
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
-              attributes: [
+              data_source: "stats.rating",
+              fields: [
                 {
-                  name: "general_rate",
-                  icon: "BsStarFill",
+                  name: "overall",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: ArtistRatingTemplate) => (
+                    <RatingStarsView rating={rating.overall} />
+                  ),
                 },
                 {
-                  name: "followers",
-                  icon: "FaUserFriends",
+                  name: "talent",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: ArtistRatingTemplate) => (
+                    <RatingStarsView rating={rating.talent} />
+                  ),
                 },
                 {
-                  name: "event_followers",
-                  icon: "FaUserFriends",
+                  name: "performance",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: ArtistRatingTemplate) => (
+                    <RatingStarsView rating={rating.performance} />
+                  ),
+                },
+                {
+                  name: "proffesionalism",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: ArtistRatingTemplate) => (
+                    <RatingStarsView rating={rating.proffesionalism} />
+                  ),
+                },
+                {
+                  name: "stage_presence",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: ArtistRatingTemplate) => (
+                    <RatingStarsView rating={rating.stage_presence} />
+                  ),
+                },
+                {
+                  name: "charisma",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: ArtistRatingTemplate) => (
+                    <RatingStarsView rating={rating.charisma} />
+                  ),
+                },
+                {
+                  name: "timeliness",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: ArtistRatingTemplate) => (
+                    <RatingStarsView rating={rating.timeliness} />
+                  ),
+                },
+                {
+                  name: "communication",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: ArtistRatingTemplate) => (
+                    <RatingStarsView rating={rating.communication} />
+                  ),
+                },
+                {
+                  name: "respectfulness",
+                  translationPath: `app.global_dictionary.stats.rating`,
+                  value: (rating: ArtistRatingTemplate) => (
+                    <RatingStarsView rating={rating.respectfulness} />
+                  ),
+                },
+                {
+                  name: "total_rates",
+                  translationPath: `app.global_dictionary.stats.rating`,
                 },
               ],
             },

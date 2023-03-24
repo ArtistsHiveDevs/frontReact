@@ -3,6 +3,19 @@ import { VerificationStatus } from "~/constants";
 import { EntityModel, EntityTemplate, SearchableTemplate } from "~/models/base";
 import { EventModel, EventTemplate } from "../event/event.model";
 
+export interface ArtistRatingTemplate {
+  overall: number;
+  talent: number;
+  performance: number;
+  proffesionalism: number;
+  stage_presence: number;
+  charisma: number;
+  timeliness: number;
+  communication: number;
+  respectfulness: number;
+  total_rates: number;
+}
+
 export interface ArtistTemplate extends EntityTemplate {
   artistType: string;
   name: string;
@@ -14,6 +27,9 @@ export interface ArtistTemplate extends EntityTemplate {
   date?: Date;
   events: EventTemplate[];
   genres: { [artType: string]: string[] };
+  stats: {
+    rating: ArtistRatingTemplate;
+  };
 }
 
 export class ArtistModel
@@ -31,6 +47,10 @@ export class ArtistModel
 
   declare events: EventTemplate[];
   declare genres: { [artType: string]: string[] };
+
+  declare stats: {
+    rating: ArtistRatingTemplate;
+  };
 
   constructor(template: ArtistTemplate) {
     super(template);

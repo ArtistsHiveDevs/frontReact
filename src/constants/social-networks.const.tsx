@@ -155,7 +155,7 @@ export const SocialNetworks: {
     title: "Wikipedia",
   },
   youtube: {
-    url: "https://www.youtube.com/@",
+    url: "https://www.youtube.com",
     icon: "BsYoutube",
     user_prefix: "",
     emptyTitle: true,
@@ -197,6 +197,8 @@ export function buildSocialNetworkLinkData(
       url = `${socialNetwork.url}:${mainValue}`;
       target = "_self";
     } else if (socialNetworkName === "tiktok") {
+      url = `${socialNetwork.url}/@${mainValue}`;
+    } else if (socialNetworkName === "youtube") {
       url = `${socialNetwork.url}/@${mainValue}`;
     } else if (socialNetworkName === "website") {
       url = `${mainValue}`;

@@ -220,6 +220,36 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   name: "video",
                   icon: "ImVideoCamera",
                 },
+                {
+                  name: "instagram",
+                  components: [
+                    {
+                      componentName:
+                        ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
+                      data: {},
+                    },
+                  ],
+                },
+                {
+                  name: "tiktok",
+                  components: [
+                    {
+                      componentName:
+                        ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
+                      data: {},
+                    },
+                  ],
+                },
+                {
+                  name: "vimeo",
+                  components: [
+                    {
+                      componentName:
+                        ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
+                      data: {},
+                    },
+                  ],
+                },
               ],
             },
           },

@@ -135,6 +135,12 @@ export const SocialNetworks: {
     emptyTitle: true,
     title: "Twitter",
   },
+  vimeo: {
+    url: "",
+    icon: "BsVimeo",
+    emptyTitle: true,
+    title: "Vimeo",
+  },
   website: {
     url: "",
     icon: "TbWorld",

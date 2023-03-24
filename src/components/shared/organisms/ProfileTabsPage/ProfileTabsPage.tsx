@@ -540,10 +540,12 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           (paramsValues[param] = getData(params[param], dataSourceElement))
       );
 
-      renderedComponent = selectedSocialNetwork?.widget({
-        user,
-        ...paramsValues,
-      });
+      renderedComponent =
+        selectedSocialNetwork?.widget &&
+        selectedSocialNetwork?.widget({
+          user,
+          ...paramsValues,
+        });
     } else if (
       componentDescriptor.componentName === ProfileComponentTypes.TITLE
     ) {

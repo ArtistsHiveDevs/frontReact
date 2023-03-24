@@ -30,6 +30,22 @@ export interface ArtistTemplate extends EntityTemplate {
   stats: {
     rating: ArtistRatingTemplate;
   };
+
+  since: number;
+  home_city: string;
+  spoken_languages: string[];
+  stage_languages: string[];
+  arts_languages: string[];
+
+  website: string;
+  email: string;
+  mobile_phone: string;
+  whatsapp: string;
+  facebook: string;
+  instagram: string;
+  spotify: string;
+  youtube: string;
+  youtube_widget_id: string;
 }
 
 export class ArtistModel
@@ -51,6 +67,22 @@ export class ArtistModel
   declare stats: {
     rating: ArtistRatingTemplate;
   };
+
+  declare since: number;
+  declare home_city: string;
+  declare spoken_languages: string[];
+  declare stage_languages: string[];
+  declare arts_languages: string[];
+
+  declare website: string;
+  declare email: string;
+  declare mobile_phone: string;
+  declare whatsapp: string;
+  declare facebook: string;
+  declare instagram: string;
+  declare spotify: string;
+  declare youtube: string;
+  declare youtube_widget_id: string;
 
   constructor(template: ArtistTemplate) {
     super(template);

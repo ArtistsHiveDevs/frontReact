@@ -47,6 +47,12 @@ export const FrMessages = {
           location: "Lieu",
           seating_capacity: "Capacité d'assise",
           total_rates: "Total des notes",
+          talent: "Talent",
+          performance: "Performance",
+          proffesionalism: "Professionnalisme",
+          stage_presence: "Présence sur scène",
+          charisma: "Charisme",
+          respectfulness: "Respect",
         },
       },
     },
@@ -244,6 +250,9 @@ export const FrMessages = {
                     event_followers: "Événement followers",
                   },
                 },
+                rating: {
+                  name: "Notation",
+                },
               },
             },
             shows: {
@@ -376,7 +385,7 @@ export const FrMessages = {
                   name: "Presenza sui social network",
                 },
                 rating: {
-                  name: "rating",
+                  name: "Notation",
                   attributes: {
                     general_rate: "Qualificazione generale",
                     followers: "Followers",

@@ -172,7 +172,11 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                     {
                       componentName:
                         ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
-                      data: {},
+                      data: {
+                        params: {
+                          videoURL: "youtube_widget_id",
+                        },
+                      },
                     },
                   ],
                 },

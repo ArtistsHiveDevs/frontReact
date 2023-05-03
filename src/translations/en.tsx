@@ -25,6 +25,7 @@ export const EnMessages = {
         video: "Video",
       },
       actions: {
+        follow_us: "Follow us",
         subscription: {
           subscribe: "Subscribe",
           unsubscribe: "Unsubscribe",

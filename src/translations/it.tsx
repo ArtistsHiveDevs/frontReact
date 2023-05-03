@@ -25,6 +25,7 @@ export const ItMessages = {
         video: "Video",
       },
       actions: {
+        follow_us: "Seguici",
         subscription: {
           subscribe: "Iscriversi",
           unsubscribe: "Disiscriversi",

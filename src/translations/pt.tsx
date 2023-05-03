@@ -25,6 +25,7 @@ export const PtMessages = {
         video: "Video",
       },
       actions: {
+        follow_us: "Siga-nos",
         subscription: {
           subscribe: "Subscrever",
           unsubscribe: "Cancelar",

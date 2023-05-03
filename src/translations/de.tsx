@@ -25,6 +25,7 @@ export const DeMessages = {
         video: "Video",
       },
       actions: {
+        follow_us: "Folst uns",
         subscription: {
           subscribe: "Abonnieren",
           unsubscribe: "Abbestellen",

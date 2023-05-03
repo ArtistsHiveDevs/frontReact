@@ -25,6 +25,7 @@ export const FrMessages = {
         video: "Vidéo",
       },
       actions: {
+        follow_us: "Suivez-nous",
         subscription: {
           subscribe: "S'abonner",
           unsubscribe: "Se désabonner",

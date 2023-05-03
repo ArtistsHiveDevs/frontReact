@@ -17,7 +17,7 @@ const FooterCopywrite = (props: any) => {
         <p>
           {translateText(`${TRANSLATION_BASE_COPYWRITE}.allRightsReserved`)}
         </p>
-        <p>2022</p>
+        <p>2022 - {new Date().getFullYear()}</p>
         <p>
           <DynamicIcons
             iconName="FaGlobeAmericas"

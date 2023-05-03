@@ -206,3 +206,11 @@ export function buildSocialNetworkLinkData(
   }
   return { url, target };
 }
+
+export const ARTISTS_HIVE_SOCIAL_NETWORKS = {
+  facebook: "artistshive",
+  instagram: "artistshive",
+  tiktok: "artistshive",
+  twitter: "artistshivecom",
+  youtube: "ArtistsHive",
+};

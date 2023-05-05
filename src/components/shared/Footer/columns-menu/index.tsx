@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useI18n } from "~/common/utils";
 import "./index.scss";
 
@@ -22,14 +21,6 @@ const FooterColumns = (props: any) => {
   const { footerColumns } = props;
   const { translateText } = useI18n();
 
-  const navigate = useNavigate();
-
-  const handleClick = (option: FooterColumnOption) => {
-    if (option.link) {
-      navigate(option.link);
-    }
-  };
-
   return (
     <>
       <div className="footer-columns">
@@ -49,11 +40,7 @@ const FooterColumns = (props: any) => {
                     : translateText(
                         `${TRANSLATION_BASE_FOOTER_COLUMNS}.${footerColumn.columnName}.options.${option.name}`
                       );
-                  return (
-                    <li key={option.name} onClick={() => handleClick(option)}>
-                      {optionTitle}
-                    </li>
-                  );
+                  return <li key={option.name}>{optionTitle}</li>;
                 })}
               </ul>
             </div>

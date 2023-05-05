@@ -30,7 +30,7 @@ export const AppFooter = () => {
     },
     // {
     //   columnTitle: "Proyectos",
-    //   options: [{ text: "Conoce tu país" }],
+    //   options: [{ text: "Conoce tu país", link: "#"}],
     // },
     {
       columnName: "help",

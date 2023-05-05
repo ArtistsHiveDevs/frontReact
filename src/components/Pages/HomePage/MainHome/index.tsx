@@ -141,7 +141,6 @@ const HomePage = () => {
               <div className="offer-to-industry" key={actor.title}>
                 <p className="text-offer">{actor.title}</p>
                 <Image
-                  fluid={true}
                   rounded={true}
                   src={actor.image}
                   className="offer-to-industry-image"

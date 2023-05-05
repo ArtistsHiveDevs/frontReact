@@ -8,6 +8,9 @@ export const DeMessages = {
       },
     },
     global_dictionary: {
+      artists_hive: {
+        slogan: "Kreiere, Vernetze dich, Fliege....",
+      },
       genders: {
         male: "Mann",
         female: "Frau",
@@ -30,6 +33,13 @@ export const DeMessages = {
           subscribe: "Abonnieren",
           unsubscribe: "Abbestellen",
         },
+      },
+      entities: {
+        academies: { plural: "Akademien", singular: "Akademie" },
+        artists: { plural: "Künstler", singular: "Künstler" },
+        events: { plural: "Veranstaltungen", singular: "Veranstaltung" },
+        places: { plural: "Orte", singular: "Ort" },
+        promoters: { plural: "Veranstalter", singular: "Veranstalter" },
       },
       stats: {
         rating: {
@@ -277,6 +287,10 @@ export const DeMessages = {
         artists: "Artists",
         events: "Ereignisses",
         places: "Örtlichkeit",
+        industry_offer: {
+          title: "Bist du Teil der Musikindustrie?",
+          call_to_action: "Erfahre mehr über unser Angebot",
+        },
       },
       EventsPages: {
         EventDetailsPage: {

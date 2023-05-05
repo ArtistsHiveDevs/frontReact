@@ -8,6 +8,9 @@ export const ItMessages = {
       },
     },
     global_dictionary: {
+      artists_hive: {
+        slogan: "Crea, Connettiti, Vola...",
+      },
       genders: {
         male: "Uomo",
         female: "Donna",
@@ -30,6 +33,13 @@ export const ItMessages = {
           subscribe: "Iscriversi",
           unsubscribe: "Disiscriversi",
         },
+      },
+      entities: {
+        academies: { plural: "Accademie", singular: "Accademia" },
+        artists: { plural: "Artisti", singular: "Artista" },
+        events: { plural: "Eventi", singular: "Evento" },
+        places: { plural: "Luoghi", singular: "Luogo" },
+        promoters: { plural: "Promotori", singular: "Promotore" },
       },
       stats: {
         rating: {
@@ -277,6 +287,10 @@ export const ItMessages = {
         artists: "Artisti",
         events: "Eventi",
         places: "Posti",
+        industry_offer: {
+          title: "Fai parte dell'industria musicale?",
+          call_to_action: "Scopri la nostra proposta",
+        },
       },
       EventsPages: {
         EventDetailsPage: {

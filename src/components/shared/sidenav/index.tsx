@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import { useI18n } from "~/common/utils";
 import useAuth from "~/common/utils/hooks/auth/useAuth";
-import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import DynamicIcons from "~/components/shared/DynamicIcons";
+import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import { SearchComponent } from "~/components/shared/search";
 import { PATHS, SUB_PATHS } from "~/constants";
 import { SearchableTemplate } from "~/models/base";
@@ -13,7 +13,7 @@ import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
 import { ProfilePicture } from "../atoms/gui/ProfilePicture/ProfilePicture";
 import "./index.scss";
-import { SideMenuItem, SIDENAV_MENU_CONFIG } from "./sidenav.config";
+import { SIDENAV_MENU_CONFIG, SideMenuItem } from "./sidenav.config";
 
 const TRANSLATION_BASE_SIDENAV = "app.appbase.sidenav";
 
@@ -146,12 +146,14 @@ const SideNav = () => {
               className="icon-burger"
               onClick={handleShow}
             />
-            <img
-              alt="Artists Hive Logo"
-              className="img-logotipo"
-              src="https://npcarlos.co/artistsHive_mocks/logo.png"
-              width="100"
-            />
+            <a href="/">
+              <img
+                alt="Artists Hive Logo"
+                className="img-logotipo"
+                src="https://npcarlos.co/artistsHive_mocks/logo.png"
+                width="100"
+              />
+            </a>
           </div>
 
           <div className="nav-search-opt">
@@ -182,12 +184,14 @@ const SideNav = () => {
               onHide={handleClose}
             >
               <Offcanvas.Header closeButton className="sidebar-header">
-                <img
-                  alt="Artists Hive Logo"
-                  className="img-logotipo"
-                  src="https://npcarlos.co/artistsHive_mocks/logo.png"
-                  width="100"
-                />
+                <a href="/">
+                  <img
+                    alt="Artists Hive Logo"
+                    className="img-logotipo"
+                    src="https://npcarlos.co/artistsHive_mocks/logo.png"
+                    width="100"
+                  />
+                </a>
                 <h4 className="menu-title">
                   {translateText(`${TRANSLATION_BASE_SIDENAV}.name`)}
                 </h4>

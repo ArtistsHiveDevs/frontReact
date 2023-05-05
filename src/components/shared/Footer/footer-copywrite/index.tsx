@@ -17,13 +17,13 @@ const FooterCopywrite = (props: any) => {
         <p>
           {translateText(`${TRANSLATION_BASE_COPYWRITE}.allRightsReserved`)}
         </p>
-        <p>2022</p>
+        <p>2022 - {new Date().getFullYear()}</p>
         <p>
           <DynamicIcons
             iconName="FaGlobeAmericas"
             size={20}
             className="i18n-icon"
-            color = {'#7a260a'}
+            color={"#7a260a"}
           />{" "}
           {AVAILABLE_I18N_LANGUAGES.map((newLang, index, newLangArr) => {
             const styles = [];

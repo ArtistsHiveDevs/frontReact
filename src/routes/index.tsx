@@ -6,18 +6,6 @@ import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from "~/constants";
 // Lazy loading
 const HomePage = lazy(() => import("~/components/Pages/HomePage/MainHome"));
 const NotFoundPage = lazy(() => import("~/components/Pages/NotFoundPage"));
-const ContactUsPage = lazy(
-  () => import("~/components/Pages/app-base/ContactUs/ContactUsPage")
-);
-const TermsAndConditionsPage = lazy(
-  () =>
-    import(
-      "~/components/Pages/app-base/TermsAndConditions/TermsAndConditionsPage"
-    )
-);
-const PrivacyPolicyPage = lazy(
-  () => import("~/components/Pages/app-base/PrivacyPolicy/PrivacyPolicyPage")
-);
 
 const AppSettingsPage = lazy(
   () => import("~/components/Pages/app-base/SettingsPage")
@@ -28,13 +16,6 @@ const SearchPage = lazy(() => import("~/components/Pages/SearchPage"));
 // Load rider pages
 const UserDetailsPage = lazy(
   () => import("~/components/Pages/app-base/UsersPage/UserDetails")
-);
-
-const IndustryOfferPage = lazy(
-  () =>
-    import(
-      "~/components/Pages/domain/industry-offer/template/IndustryOfferTemplate"
-    )
 );
 
 // Load rider pages
@@ -126,22 +107,10 @@ export const RoutesApp: React.FC = () => {
       <Route element={<HomePage />} path={PATHS.HOME} />
       <Route element={<Navigate to={PATHS.HOME} />} path={PATHS.MAIN} />
       <Route element={<SearchPage />} path={PATHS.SEARCH} />
-      <Route element={<PrivacyPolicyPage />} path={PATHS.PRIVACY_POLICY} />
-      <Route element={<ContactUsPage />} path={PATHS.CONTACT_US} />
-      <Route
-        element={<TermsAndConditionsPage />}
-        path={PATHS.TERMS_AND_CONDITIONS}
-      />
 
       <Route element={<NotFoundPage />} path={PATHS.NOT_FOUND} />
       <Route path={PATHS.SETTINGS}>
         <Route element={<AppSettingsPage />} path="" />
-      </Route>
-      <Route path={PATHS.INDUSTRY_OFFER}>
-        <Route
-          element={<IndustryOfferPage />}
-          path={`:${URL_PARAMETER_NAMES.ROLE}`}
-        />
       </Route>
     </Routes>
   );

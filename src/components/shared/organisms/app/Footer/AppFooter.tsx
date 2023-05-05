@@ -3,7 +3,6 @@ import FooterColumns, {
 } from "~/components/shared/Footer/columns-menu";
 import FooterCopywrite from "~/components/shared/Footer/footer-copywrite";
 import FooterSocialNetworks from "~/components/shared/Footer/footer-social-networks/FooterSocialNetworks";
-import { PATHS } from "~/constants";
 import "./AppFooter.scss";
 
 export const AppFooter = () => {
@@ -12,21 +11,21 @@ export const AppFooter = () => {
     {
       columnName: "what_we_do",
       options: [
-        { name: "cultural_agenda" },
-        { name: "for_artists" },
-        { name: "for_places" },
-        { name: "for_promoters" },
-        { name: "for_festivals" },
+        { name: "cultural_agenda", link: "#" },
+        { name: "for_artists", link: "#" },
+        { name: "for_places", link: "#" },
+        { name: "for_promoters", link: "#" },
+        { name: "for_festivals", link: "#" },
       ],
     },
     {
       columnName: "about_us",
       options: [
-        { name: "history" },
-        { name: "press" },
-        { name: "career" },
-        { name: "download" },
-        { name: "data_policy", link: PATHS.PRIVACY_POLICY },
+        { name: "history", link: "#" },
+        { name: "press", link: "#" },
+        { name: "career", link: "#" },
+        { name: "download", link: "#" },
+        { name: "data_policy", link: "#" },
       ],
     },
     // {
@@ -36,9 +35,9 @@ export const AppFooter = () => {
     {
       columnName: "help",
       options: [
-        { name: "help_center" },
-        { name: "contact_us", link: PATHS.CONTACT_US },
-        { name: "report" },
+        { name: "help_center", link: "#" },
+        { name: "contact_us", link: "#" },
+        { name: "report", link: "#" },
       ],
     },
   ];

@@ -8,6 +8,9 @@ export const FrMessages = {
       },
     },
     global_dictionary: {
+      artists_hive: {
+        slogan: "Crée, Connecte-toi, Envole-toi...",
+      },
       genders: {
         male: "Homme",
         female: "Femme",
@@ -30,6 +33,13 @@ export const FrMessages = {
           subscribe: "S'abonner",
           unsubscribe: "Se désabonner",
         },
+      },
+      entities: {
+        academies: { plural: "Académies", singular: "Académie" },
+        artists: { plural: "Artistes", singular: "Artiste" },
+        events: { plural: "Événements", singular: "Événement" },
+        places: { plural: "Lieux", singular: "Lieu" },
+        promoters: { plural: "Promoteurs", singular: "Promoteur" },
       },
       stats: {
         rating: {
@@ -276,6 +286,10 @@ export const FrMessages = {
         artists: "Artistes",
         events: "Événements",
         places: "Endroits",
+        industry_offer: {
+          title: "Fais-tu partie de l'industrie musicale ?",
+          call_to_action: "Découvre notre proposition",
+        },
       },
       EventsPages: {
         EventDetailsPage: {

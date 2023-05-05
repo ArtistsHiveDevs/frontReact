@@ -18,6 +18,13 @@ const UserDetailsPage = lazy(
   () => import("~/components/Pages/app-base/UsersPage/UserDetails")
 );
 
+const IndustryOfferPage = lazy(
+  () =>
+    import(
+      "~/components/Pages/domain/industry-offer/template/IndustryOfferTemplate"
+    )
+);
+
 // Load rider pages
 const RiderListPage = lazy(
   () => import("~/components/Pages/RidersPage/RiderList")
@@ -111,6 +118,12 @@ export const RoutesApp: React.FC = () => {
       <Route element={<NotFoundPage />} path={PATHS.NOT_FOUND} />
       <Route path={PATHS.SETTINGS}>
         <Route element={<AppSettingsPage />} path="" />
+      </Route>
+      <Route path={PATHS.INDUSTRY_OFFER}>
+        <Route
+          element={<IndustryOfferPage />}
+          path={`:${URL_PARAMETER_NAMES.ROLE}`}
+        />
       </Route>
     </Routes>
   );

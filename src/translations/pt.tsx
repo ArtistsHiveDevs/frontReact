@@ -8,6 +8,9 @@ export const PtMessages = {
       },
     },
     global_dictionary: {
+      artists_hive: {
+        slogan: "Crie, Conecte-se, Voe...",
+      },
       genders: {
         male: "Homem",
         female: "Mulher",
@@ -30,6 +33,13 @@ export const PtMessages = {
           subscribe: "Subscrever",
           unsubscribe: "Cancelar",
         },
+      },
+      entities: {
+        academies: { plural: "Academias", singular: "Academia" },
+        artists: { plural: "Artistas", singular: "Artista" },
+        events: { plural: "Eventos", singular: "Evento" },
+        places: { plural: "Locais", singular: "Local" },
+        promoters: { plural: "Promotores", singular: "Promotor" },
       },
       stats: {
         rating: {
@@ -276,6 +286,10 @@ export const PtMessages = {
         artists: "Artistas",
         events: "Eventos",
         places: "Lugares",
+        industry_offer: {
+          title: "Você faz parte da indústria musical?",
+          call_to_action: "Conheça nossa proposta",
+        },
       },
       EventsPages: {
         EventDetailsPage: {

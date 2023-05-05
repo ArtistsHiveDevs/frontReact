@@ -52,7 +52,9 @@ p {
 
 .offer-to-industry-image {
   height: 13rem;
-  width: 20rem;
+  max-height: 13rem;
+  width: 17rem;
+  max-width: 17rem;
 }
 
 .text-offer {

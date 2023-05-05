@@ -8,6 +8,9 @@ export const EnMessages = {
       },
     },
     global_dictionary: {
+      artists_hive: {
+        slogan: "Create, Connect, Fly...",
+      },
       genders: {
         male: "Man",
         female: "Woman",
@@ -30,6 +33,13 @@ export const EnMessages = {
           subscribe: "Subscribe",
           unsubscribe: "Unsubscribe",
         },
+      },
+      entities: {
+        academies: { plural: "Academies", singular: "Academy" },
+        artists: { plural: "Artists", singular: "Artist" },
+        events: { plural: "Events", singular: "Event" },
+        places: { plural: "Places", singular: "Place" },
+        promoters: { plural: "Promoters", singular: "Promoter" },
       },
       stats: {
         rating: {
@@ -277,6 +287,10 @@ export const EnMessages = {
         artists: "Artists",
         events: "Events",
         places: "Places",
+        industry_offer: {
+          title: "Are you part of the music industry?",
+          call_to_action: "Discover our proposal",
+        },
       },
       EventsPages: {
         EventDetailsPage: {

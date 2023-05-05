@@ -8,6 +8,9 @@ export const EsMessages = {
       },
     },
     global_dictionary: {
+      artists_hive: {
+        slogan: "Crea, Conecta, Vuela...",
+      },
       genders: {
         male: "Hombre",
         female: "Mujer",
@@ -30,6 +33,13 @@ export const EsMessages = {
           subscribe: "Suscribirse",
           unsubscribe: "Cancelar",
         },
+      },
+      entities: {
+        academies: { plural: "Academias", singular: "Academia" },
+        artists: { plural: "Artistas", singular: "Artista" },
+        events: { plural: "Eventos", singular: "Evento" },
+        places: { plural: "Lugares", singular: "Lugar" },
+        promoters: { plural: "Promotores", singular: "Promotor" },
       },
       stats: {
         rating: {
@@ -270,6 +280,10 @@ export const EsMessages = {
         artists: "Artistas",
         events: "Eventos",
         places: "Lugares",
+        industry_offer: {
+          title: "¿Eres parte de la industria musical?",
+          call_to_action: "Conoce nuestra propuesta",
+        },
       },
       EventsPages: {
         EventDetailsPage: {

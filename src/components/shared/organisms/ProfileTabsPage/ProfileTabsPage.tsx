@@ -22,7 +22,10 @@ import {
 import "./ProfileTabsPage.scss";
 
 import moment from "moment";
+import { Table } from "react-bootstrap";
 import { EVENT_DETAIL_SUB_PAGE_CONFIG } from "~/components/Pages/EventsPage/EventDetailsPage/config-event-detail";
+import { CrewListView } from "~/components/shared//molecules/domain/crewListView/CrewListView";
+import { GenresListView } from "~/components/shared//molecules/domain/genres/GenresListView";
 import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import { Title } from "~/components/shared/atoms/Title/Title";
 import { SectionsPanel } from "~/components/shared/layout/SectionPanel";
@@ -30,7 +33,6 @@ import { TabbedPanel } from "~/components/shared/layout/TabbedPanel";
 import { ProfileHeader } from "~/components/shared/molecules/Profile/ProfileHeader";
 import { ProfileThumbnailCard } from "~/components/shared/molecules/Profile/ProfileThumbnailCard";
 import { SocialNetworks } from "~/constants/social-networks.const";
-import { GenresListView } from "../../molecules/domain/genres/GenresListView";
 
 export interface ProfilePageParams {
   entityName: string;
@@ -461,15 +463,26 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
             componentDescriptor.clickHandlerName as keyof typeof handlers
           ];
       }
+      let images: GalleryImageParams[] = [];
+
+      if (componentDescriptor.data?.images) {
+        images = getData(componentDescriptor.data?.images);
+      }
+      if (componentDescriptor.data?.image) {
+        images = [{ src: getData(componentDescriptor.data?.image) }];
+      }
       renderedComponent = (
         <div
         // key={`section-${section.name}-${index}-${componentIndex}`}
         >
           <ImageGallery
-            images={getData(componentDescriptor.data?.images)}
-            clickHandler={(source: GalleryImageParams) =>
-              clickHandler(source, getData(componentDescriptor.data?.images))
-            }
+            images={images}
+            imageSize="fs"
+            clickHandler={(source: GalleryImageParams) => {
+              if (clickHandler) {
+                clickHandler(source, getData(componentDescriptor.data?.images));
+              }
+            }}
           />
         </div>
       );
@@ -548,6 +561,40 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       const content = getData(componentDescriptor.data?.genres) || {};
 
       return <GenresListView genres={content} />;
+    } else if (
+      componentDescriptor.componentName === ProfileComponentTypes.CREW_LIST_VIEW
+    ) {
+      const crewList = getData(componentDescriptor.data?.crewList) || {};
+      console.log("ProfileTabs", componentDescriptor.data?.crewList, crewList);
+      renderedComponent = <CrewListView crewList={crewList} />;
+    } else if (
+      componentDescriptor.componentName === ProfileComponentTypes.TABLE
+    ) {
+      const tableConfig = componentDescriptor.data?.tableConfig
+        ? componentDescriptor.data?.tableConfig(dataSourceElement)
+        : undefined;
+
+      console.log("Table", componentDescriptor.data?.crewList, tableConfig);
+      renderedComponent = (tableConfig && (
+        <Table responsive>
+          <thead>
+            <tr>
+              {tableConfig.columns.map((column: any) => (
+                <th>{column}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {tableConfig.rows.map((row: any) => (
+              <tr>
+                {tableConfig.columns.map((column: any) => (
+                  <td>{row[column]}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )) || <></>;
     }
 
     return renderedComponent;

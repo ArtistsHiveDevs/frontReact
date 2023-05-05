@@ -7,6 +7,7 @@ import { PrivacyPolicyState } from "~/common/slices/app-base/policies/PrivacyPol
 import { TermsAndConditionsState } from "~/common/slices/app-base/policies/TermsAndConditions/types";
 import { ArtistState } from "~/common/slices/artists/types";
 import { AcademyState } from "~/common/slices/domain/academies/types";
+import { RiderState } from "~/common/slices/domain/riders/types";
 import { EventState } from "~/common/slices/events/types";
 import { PlaceState } from "~/common/slices/places/types";
 import { SearchState } from "~/common/slices/search/types";
@@ -16,6 +17,7 @@ export interface RootState {
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
   AcademiesReducer?: AcademyState;
   ArtistsReducer?: ArtistState;
+  RidersReducer?: RiderState;
   EventsReducer?: EventState;
   PlacesReducer?: PlaceState;
   SearchReducer?: SearchState;

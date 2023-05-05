@@ -263,6 +263,88 @@ export const EnMessages = {
             },
           },
         },
+        RidersPages: {
+          RidersDetailsPage: {
+            subpages: {
+              general: {
+                name: "General",
+                sections: {
+                  general: {
+                    name: "General",
+                  },
+                  contact: {
+                    name: "Contact",
+                  },
+                  general_technical_features: {
+                    name: "General Technical Features",
+                  },
+                },
+              },
+              people: {
+                name: "People",
+                sections: {
+                  staff: {
+                    name: "Staff",
+                  },
+                  allergies: {
+                    name: "Allergies",
+                  },
+                  rooming_list: {
+                    name: "Rooming List",
+                  },
+                  external_transportation: {
+                    name: "External transportation",
+                  },
+                  internal_transportation: {
+                    name: "Internal transportation",
+                  },
+                },
+              },
+              technical_requirements: {
+                name: "Technical Requirements",
+                sections: {
+                  staging: {
+                    name: "Staging",
+                  },
+                  audio_requirements: {
+                    name: "Audio Requirements",
+                  },
+                  video_requirements: {
+                    name: "Video Requirements",
+                  },
+                  lights_requirements: {
+                    name: "Lights Requirements",
+                  },
+                  stage_design: {
+                    name: "Stage Design",
+                  },
+                  special_effects: {
+                    name: "Special Effects",
+                  },
+                },
+              },
+              backline: {
+                name: "Backline",
+                sections: {
+                  external_required_backline: {
+                    name: "External required backline",
+                  },
+                  owned_backline: {
+                    name: "Owned backline",
+                  },
+                },
+              },
+              sound_test: {
+                name: "Sound Test",
+                sections: {
+                  timing: {
+                    name: "Timing",
+                  },
+                },
+              },
+            },
+          },
+        },
       },
       ArtistsPages: {
         ArtistsDetailsPage: {

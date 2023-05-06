@@ -25,6 +25,7 @@ export const EsMessages = {
         video: "Video",
       },
       actions: {
+        follow_us: "Síguenos",
         subscription: {
           subscribe: "Suscribirse",
           unsubscribe: "Cancelar",

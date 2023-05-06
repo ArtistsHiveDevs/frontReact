@@ -2,6 +2,7 @@
 import { SagaInjectionModes } from "@nixjs23n6/redux-injectors";
 import { AnyAction, Reducer } from "@reduxjs/toolkit";
 import { Saga } from "redux-saga";
+import { IndustryOfferState } from "~/common/slices/app-base/IndustryOffer/types";
 import { PrivacyPolicyState } from "~/common/slices/app-base/policies/PrivacyPolicy/types";
 
 import { TermsAndConditionsState } from "~/common/slices/app-base/policies/TermsAndConditions/types";
@@ -20,6 +21,7 @@ export interface RootState {
   UsersReducer?: UserState;
   TermsAndConditionsReducer?: TermsAndConditionsState;
   PrivacyPolicyReducer?: PrivacyPolicyState;
+  IndustryOfferReducer?: IndustryOfferState;
 }
 
 type RequiredRootState = Required<RootState>;

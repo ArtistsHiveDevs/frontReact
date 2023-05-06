@@ -19,6 +19,9 @@ import { LocatableTemplate, SearchableTemplate } from "~/models/base";
 import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
 import { SearchModel } from "~/models/domain/search/search.model";
+import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
+
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 const TRANSLATION_BASE_SEARCH = "app.appbase.search";
 const MAX_RESULTS_PER_PAGE = 10;
@@ -152,7 +155,8 @@ export default function SearchPage() {
       .map((entityName) =>
         results.locatedResults[entityName].map((element: LocatableTemplate) => {
           return {
-            ...element.latLng, //text: JSON.stringify(element.latLng)
+            position: { ...element.latLng },
+            icon: GMapsSvgMaker(faHome.icon),
           };
         })
       )
@@ -174,6 +178,8 @@ export default function SearchPage() {
       anotherOpts: {},
     };
   }
+
+  console.log({ mapData });
 
   const googleApiKey = "AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs";
 

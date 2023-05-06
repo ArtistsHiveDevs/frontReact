@@ -19,9 +19,11 @@ $scale-zoom: 1.1;
   justify-content: center;
   a {
     color: white;
+    transition: transform 0.2s;
   }
   a:hover {
     color: $entity-1;
+    transform: scale(1.5);
   }
 }
 

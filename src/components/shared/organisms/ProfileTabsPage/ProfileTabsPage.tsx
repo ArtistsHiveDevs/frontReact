@@ -33,6 +33,9 @@ import { TabbedPanel } from "~/components/shared/layout/TabbedPanel";
 import { ProfileHeader } from "~/components/shared/molecules/Profile/ProfileHeader";
 import { ProfileThumbnailCard } from "~/components/shared/molecules/Profile/ProfileThumbnailCard";
 import { SocialNetworks } from "~/constants/social-networks.const";
+import { GenresListView } from "../../molecules/domain/genres/GenresListView";
+import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
+import { faMicrophoneLines } from "@fortawesome/free-solid-svg-icons";
 
 export interface ProfilePageParams {
   entityName: string;
@@ -222,8 +225,11 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
         },
         marksLocation: [
           {
-            lat,
-            lng,
+            position: { lat, lng },
+            icon: GMapsSvgMaker(faMicrophoneLines.icon, {
+              color: "rgb(94, 90, 90)",
+              scale: 0.07,
+            }),
           },
         ],
         anotherOpts: {},

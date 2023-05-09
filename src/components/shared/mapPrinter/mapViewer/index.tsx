@@ -13,13 +13,18 @@ const MapViewer = (props: any) => {
     });
 
     data?.marksLocation?.forEach((data: any) => {
-      const { position, icon } = data;
+      const { position, iconData } = data;
       new google.maps.Marker({
         position,
-        icon: {
-          ...icon,
-          anchor: new google.maps.Point(icon.iconAnchor[0], icon.iconAnchor[1]),
-        },
+        ...(!!iconData && {
+          icon: {
+            ...iconData,
+            anchor: new google.maps.Point(
+              iconData.iconAnchor[0],
+              iconData.iconAnchor[1]
+            ),
+          },
+        }),
         map: map,
       });
     });

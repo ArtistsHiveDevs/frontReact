@@ -156,7 +156,7 @@ export default function SearchPage() {
         results.locatedResults[entityName].map((element: LocatableTemplate) => {
           return {
             position: { ...element.latLng },
-            icon: GMapsSvgMaker(faHome.icon),
+            iconData: GMapsSvgMaker(faHome.icon),
           };
         })
       )

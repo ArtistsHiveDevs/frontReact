@@ -223,7 +223,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
         marksLocation: [
           {
             position: { lat, lng },
-            icon: GMapsSvgMaker(faMicrophoneLines.icon, {
+            iconData: GMapsSvgMaker(faMicrophoneLines.icon, {
               color: "rgb(94, 90, 90)",
               scale: 0.07,
             }),

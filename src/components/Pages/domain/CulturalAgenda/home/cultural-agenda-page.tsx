@@ -8,6 +8,7 @@ import MainSection from "~/components/Pages/HomePage/MainSection";
 import { getCustomList, sortEventsPerMonth } from "~/constants";
 import { EventModel } from "~/models/domain/event/event.model";
 import "./cultural-agenda-page.scss";
+import FilterBarComponent from "~/components/shared/organisms/FilterBar/filter-bar";
 
 const TRANSLATION_BASE_AGENDA_CULTURAL_PAGE = "app.pages.domain.CulturalAgenda";
 
@@ -45,6 +46,8 @@ const CulturalAgendaPage: React.FC = () => {
         params={{ useNewCard: true }}
         callbacks={{ onClickCard: onClickCardEventos }}
       />
+
+      <FilterBarComponent />
 
       {sortEventsPerMonth(eventsList)?.map((eventCase, idx) => {
         return (

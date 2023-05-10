@@ -78,7 +78,12 @@ export const SearchComponent = (props: any) => {
         </InputGroup>
         {focused && (
           <div className="ah-combobox-search">
-            <ResultsList q={text} onClick={handleClickOnResult} />
+            <ResultsList
+              q={text}
+              onClick={handleClickOnResult}
+              typeOfSearch={props?.typeOfSearch}
+              hideResultHeader={props.hideResultHeader}
+            />
           </div>
         )}
       </div>

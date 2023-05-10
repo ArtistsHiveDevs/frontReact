@@ -46,7 +46,6 @@ export function getCustomList(positions: number, list: any) {
       }
     }
   }
-
   return returnList;
 }
 

@@ -1,24 +1,22 @@
-import { useState } from "react";
+import { MutableRefObject, useImperativeHandle, useState } from "react";
 import { Container, Form } from "react-bootstrap";
 
 type ListElementOption = {
   label: string;
   value: string;
-  isDefault?: boolean;
 };
 
 type SelectListTemplate = {
   list: ListElementOption[];
   callback?: Function;
+  parentReference?: MutableRefObject<any>;
 };
 
 const SelectListComponent: React.FC<SelectListTemplate> = (
   props: SelectListTemplate
 ) => {
-  const findDefaultValue =
-    props.list.find((category) => category?.isDefault)?.value ||
-    props.list[0].value;
-  const [selectedValue, updateSelectedValue] = useState(findDefaultValue);
+  const defaultValue = "default";
+  const [selectedValue, updateSelectedValue] = useState(defaultValue);
 
   function handleChangeSelect(event: string) {
     updateSelectedValue(event);
@@ -26,6 +24,12 @@ const SelectListComponent: React.FC<SelectListTemplate> = (
       props?.callback(event);
     }
   }
+
+  useImperativeHandle(props?.parentReference, () => ({
+    restartPickValue() {
+      updateSelectedValue(defaultValue);
+    },
+  }));
 
   return (
     <Container className="drop-down-list-container">
@@ -35,6 +39,7 @@ const SelectListComponent: React.FC<SelectListTemplate> = (
         value={selectedValue}
         onChange={(event) => handleChangeSelect(event.target.value)}
       >
+        <option value={"default"}>Seleccione una opción</option>
         {props.list.map((listElement: ListElementOption, idx: number) => {
           return (
             <option

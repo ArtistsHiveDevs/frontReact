@@ -437,6 +437,12 @@ export const DeMessages = {
       },
     },
     appbase: {
+      betabar: {
+        contact_us: "Kontaktiere uns",
+        disclaimer:
+          "Du siehst gerade eine Testversion unserer Plattform. Wir hoffen, sie gefällt dir. Du kannst dich über den unten stehenden Button mit uns in Verbindung setzen.",
+        our_email_is: "Unsere E-Mail ist:",
+      },
       footer: {
         columns: {
           what_we_do: {

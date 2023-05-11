@@ -1,5 +1,5 @@
-import "./index.scss";
 import { useEffect, useRef } from "react";
+import "./index.scss";
 
 const MapViewer = (props: any) => {
   const ref = useRef();

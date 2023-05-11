@@ -10,6 +10,7 @@ import {
   selectSearchLoading,
 } from "~/common/slices/search/selectors";
 import { useI18n } from "~/common/utils";
+import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
 import DynamicIcons from "~/components/shared/DynamicIcons";
 import MapContainer from "~/components/shared/mapPrinter/mapContainer";
 import { ResultElement } from "~/components/shared/search/result-element";
@@ -19,7 +20,6 @@ import { LocatableTemplate, SearchableTemplate } from "~/models/base";
 import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
 import { SearchModel } from "~/models/domain/search/search.model";
-import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
 
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 
@@ -178,8 +178,6 @@ export default function SearchPage() {
       anotherOpts: {},
     };
   }
-
-  // console.log({ mapData });
 
   const googleApiKey = "AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs";
 

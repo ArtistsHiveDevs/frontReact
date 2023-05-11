@@ -6,6 +6,7 @@ import { useI18n } from "~/common/utils";
 import useAuth from "~/common/utils/hooks/auth/useAuth";
 import DynamicIcons from "~/components/shared/DynamicIcons";
 import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
+import BetaBarComponent from "~/components/shared/organisms/app/BetaBar/beta-bar";
 import { SearchComponent } from "~/components/shared/search";
 import { PATHS, SUB_PATHS } from "~/constants";
 import { SearchableTemplate } from "~/models/base";
@@ -14,7 +15,6 @@ import { PlaceModel } from "~/models/domain/place/place.model";
 import { ProfilePicture } from "../atoms/gui/ProfilePicture/ProfilePicture";
 import "./index.scss";
 import { SIDENAV_MENU_CONFIG, SideMenuItem } from "./sidenav.config";
-import BetaBarComponent from "../organisms/app/BetaBar/beta-bar";
 
 const TRANSLATION_BASE_SIDENAV = "app.appbase.sidenav";
 

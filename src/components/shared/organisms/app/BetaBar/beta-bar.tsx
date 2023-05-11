@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Button,
   Col,
@@ -6,17 +7,25 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
+import { useI18n } from "~/common/utils";
 import "./beta-bar.scss";
-import { useState } from "react";
+
+const TRANSLATION_BASE_BETA_BAR = "app.appbase.betabar";
 
 const BetaBarComponent: React.FC = () => {
+  const { translateText } = useI18n();
+
+  const translate = (text: string) => {
+    return translateText(`${TRANSLATION_BASE_BETA_BAR}.${text}`);
+  };
   const email = "support.it@artistshive.com";
 
   const [hideSection, updateHideSection] = useState(false);
 
   const tooltip = (
     <Tooltip id="tooltip">
-      <strong>{email}</strong> es nuestro correo.
+      {translate("our_email_is")}
+      <strong>{email}</strong>.
     </Tooltip>
   );
   return (
@@ -34,16 +43,12 @@ const BetaBarComponent: React.FC = () => {
         </Row>
         <Row>
           <Col className="beta-text-col">
-            <Row className="beta-label-text">
-              Estás viendo una versión de prueba de nuestra plataforma.
-              Esperamos que te guste, puedes contactarnos en el botón que está a
-              continuación.
-            </Row>
+            <Row className="beta-label-text">{translate("disclaimer")}</Row>
           </Col>
           <Col sm={2} className="beta-button-col">
             <OverlayTrigger placement="bottom" overlay={tooltip}>
               <Button className="button-styles" href={`mailto:${email}`}>
-                Contáctanos
+                {translate("contact_us")}
               </Button>
             </OverlayTrigger>
           </Col>

@@ -1,5 +1,8 @@
 export enum PATHS {
   HOME = "/home",
+  CONTACT_US = "/contact",
+  PRIVACY_POLICY = "/privacy",
+  TERMS_AND_CONDITIONS = "/terms",
   ACADEMIES = "/academies",
   ARTISTS = "/artists",
   CULTURAL_AGENDA = "/agenda",
@@ -7,6 +10,7 @@ export enum PATHS {
   EVENTS = "/events",
   NOT_FOUND = "*",
   SHOWS = "/shows",
+  INDUSTRY_OFFER = "/offer",
   PROFILE = "/profile",
   PLACES = "/places",
   RIDERS = "/riders",
@@ -24,4 +28,5 @@ export enum SUB_PATHS {
 
 export enum URL_PARAMETER_NAMES {
   ELEMENT_ID = "id",
+  ROLE = "role",
 }

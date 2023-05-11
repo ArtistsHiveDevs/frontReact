@@ -179,8 +179,6 @@ export default function SearchPage() {
     };
   }
 
-  console.log({ mapData });
-
   const googleApiKey = "AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs";
 
   const mapContainerStyles = {

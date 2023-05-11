@@ -10,7 +10,7 @@ export interface ImageGalleryContainerParams {
 }
 
 export interface GalleryImageParams {
-  id?: string;
+  id: string;
   src: string;
   alt?: string;
 }

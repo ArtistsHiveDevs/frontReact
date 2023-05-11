@@ -6,6 +6,7 @@ import { useI18n } from "~/common/utils";
 import useAuth from "~/common/utils/hooks/auth/useAuth";
 import DynamicIcons from "~/components/shared/DynamicIcons";
 import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
+import BetaBarComponent from "~/components/shared/organisms/app/BetaBar/beta-bar";
 import { SearchComponent } from "~/components/shared/search";
 import { PATHS, SUB_PATHS } from "~/constants";
 import { SearchableTemplate } from "~/models/base";
@@ -138,6 +139,7 @@ const SideNav = () => {
 
   return (
     <>
+      <BetaBarComponent />
       <Navbar className="toolbar-header mb-3" expand="true">
         <Container fluid>
           <div className="nav-menu-opt">

@@ -1,5 +1,5 @@
-import { Image } from "react-bootstrap";
 import "./ImageGallery.scss";
+import { Image } from "react-bootstrap";
 
 export interface ImageGalleryContainerParams {
   title?: string;

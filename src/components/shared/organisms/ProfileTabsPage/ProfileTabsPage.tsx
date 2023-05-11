@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router";
 import { useI18n } from "~/common/utils";
-import { EventParams } from "~/components/shared/atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent";
 import {
   GalleryImageParams,
   ImageGallery,
 } from "~/components/shared/atoms/ImageGallery/ImageGallery";
+import { EventParams } from "~/components/shared/atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent";
 import MapContainer from "~/components/shared/mapPrinter/mapContainer";
 import {
   AttributesIconFieldReadOnly,
@@ -12,6 +12,7 @@ import {
 } from "~/components/shared/molecules/general/AttributesIconField";
 import { CalendarSimpleLayout } from "~/components/shared/molecules/general/calendar/CalendarSimpleLayout/CalendarSimpleLayout";
 import { EntityModel, EntityTemplate } from "~/models/base";
+import "./ProfileTabsPage.scss";
 import {
   ProfileComponentDescriptor,
   ProfileComponentTypes,
@@ -19,23 +20,21 @@ import {
   ProfileDetailsSubpage,
   ProfileDetailsSubpageSection,
 } from "./profile-details.def";
-import "./ProfileTabsPage.scss";
 
+import { faMicrophoneLines } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import { Table } from "react-bootstrap";
+import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
 import { EVENT_DETAIL_SUB_PAGE_CONFIG } from "~/components/Pages/EventsPage/EventDetailsPage/config-event-detail";
 import { CrewListView } from "~/components/shared//molecules/domain/crewListView/CrewListView";
 import { GenresListView } from "~/components/shared//molecules/domain/genres/GenresListView";
-import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import { Title } from "~/components/shared/atoms/Title/Title";
+import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import { SectionsPanel } from "~/components/shared/layout/SectionPanel";
 import { TabbedPanel } from "~/components/shared/layout/TabbedPanel";
 import { ProfileHeader } from "~/components/shared/molecules/Profile/ProfileHeader";
 import { ProfileThumbnailCard } from "~/components/shared/molecules/Profile/ProfileThumbnailCard";
 import { SocialNetworks } from "~/constants/social-networks.const";
-import { GenresListView } from "../../molecules/domain/genres/GenresListView";
-import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
-import { faMicrophoneLines } from "@fortawesome/free-solid-svg-icons";
 
 export interface ProfilePageParams {
   entityName: string;
@@ -605,6 +604,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
 
     return renderedComponent;
   }
+
   //#endregion
 
   return (

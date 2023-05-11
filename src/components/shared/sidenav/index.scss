@@ -1,0 +1,70 @@
+@import "~/variables.module.scss";
+
+.toolbar-header {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  background-color: #efe5b0;
+  color: white;
+  font-weight: 600;
+
+  .icon-burger {
+    background-color: white;
+  }
+
+  .brand-text {
+    margin-left: 10px;
+    color: $main-title-color;
+  }
+}
+
+.menu-brand {
+  color: $main-title-color;
+  text-align: center;
+  width: 100%;
+  font-family: Ms Madi, cursive;
+  font-weight: bold;
+}
+
+.menu-title {
+  // text-align: center;
+  font-family: Roboto, Helvetica Neue, sans-serif;
+  font-weight: bold;
+  letter-spacing: -1px;
+}
+
+.general-sec {
+  .sec-general-label {
+    font-size: 14px;
+    color: $gray-medium;
+    font-weight: bold;
+  }
+
+  .option-menu-list {
+    display: grid;
+  }
+
+  .menu-option {
+    font-weight: bold;
+    font-family: Roboto, Helvetica Neue, sans-serif;
+    font-size: 16px;
+    text-decoration: none;
+    color: $black;
+    margin: 15px 0px 15px 0px;
+  }
+
+  .menu-option :hover {
+    color: $gray-medium;
+  }
+
+  .menu-option-img {
+    transform: rotate(180deg);
+  }
+
+  .menu-option-label {
+    padding-left: 10px;
+  }
+}

@@ -10,6 +10,7 @@ import { appMessages } from "./translations";
 // routes
 import { RoutesApp } from "./routes";
 import { HvAppContext, HvAppContextProvider } from "./common";
+import SideNav from "./components/shared/sidenav";
 
 const App = () => {
   let { lang, messages, setLang } = useContext(HvAppContext);
@@ -26,8 +27,14 @@ const App = () => {
             onError={onError}
           >
             <div className="wrapper">
+              <SideNav />
+
               <Suspense fallback={<div>Loading...</div>}>
-                <RoutesApp />
+                <div className="content">
+                  <div className="content">
+                    <RoutesApp />
+                  </div>
+                </div>
               </Suspense>
             </div>
           </IntlProvider>

@@ -19,12 +19,14 @@ import consts, { EntityType } from "./search-constants";
 type SearchProperties = {
   q: string;
   onClick?: Function;
+  typeOfSearch?: EntityType[];
+  hideResultHeader?: boolean;
 };
 
 const TRANSLATION_BASE_SEARCH = "app.appbase.search";
 
 export const ResultsList: React.FC<SearchProperties> = (params) => {
-  const { q, onClick } = params;
+  const { q, onClick, typeOfSearch, hideResultHeader } = params;
 
   const { translateText, locale } = useI18n();
 
@@ -46,7 +48,7 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
 
   useEffect(() => {
     if (q?.length > 0) {
-      setCheckedFilterEntities([...consts.defaultTypes]);
+      setCheckedFilterEntities([...(typeOfSearch || consts.defaultTypes)]);
       dispatch(searchActions.querySearch(q));
     }
 
@@ -135,34 +137,42 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
   return (
     q?.length > 0 && (
       <ListGroup className="search-list">
-        <ListGroup.Item className="search-item-head">
-          <h4 className="search-item-head__title">
-            {hasQueryTerms
-              ? translate("results")
-              : translate("recommendations")}
-          </h4>
-          <div className="search-item-head__subtitle disable-select">
-            {entityBadgesAndResults.map((badge) => (
-              <Badge
-                key={`badge-${badge.title}`}
-                bg={
-                  badge.data?.length === 0
-                    ? `ah-border-disabled`
-                    : checkedFilterEntities.find(
-                        (check) => check === badge.type
-                      )
-                    ? `ah-${badge.color} color-hor-an`
-                    : `ah-border-${badge.color}`
-                }
-                onClick={() =>
-                  badge.data?.length > 0 ? handleChecked(badge.type) : {}
-                }
-              >
-                {badge.title}
-              </Badge>
-            ))}
-          </div>
-        </ListGroup.Item>
+        {!hideResultHeader && (
+          <ListGroup.Item className="search-item-head">
+            <h4 className="search-item-head__title">
+              {hasQueryTerms
+                ? translate("results")
+                : translate("recommendations")}
+            </h4>
+            <div className="search-item-head__subtitle disable-select">
+              {entityBadgesAndResults
+                .filter((badge) =>
+                  (typeOfSearch || consts.defaultTypes).find(
+                    (type) => type === badge.type
+                  )
+                )
+                .map((badge) => (
+                  <Badge
+                    key={`badge-${badge.title}`}
+                    bg={
+                      badge.data?.length === 0
+                        ? `ah-border-disabled`
+                        : checkedFilterEntities.find(
+                            (check) => check === badge.type
+                          )
+                        ? `ah-${badge.color} color-hor-an`
+                        : `ah-border-${badge.color}`
+                    }
+                    onClick={() =>
+                      badge.data?.length > 0 ? handleChecked(badge.type) : {}
+                    }
+                  >
+                    {badge.title}
+                  </Badge>
+                ))}
+            </div>
+          </ListGroup.Item>
+        )}
 
         {querySearchLoading && (
           <ListGroup.Item>

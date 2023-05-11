@@ -179,7 +179,7 @@ export default function SearchPage() {
     };
   }
 
-  console.log({ mapData });
+  // console.log({ mapData });
 
   const googleApiKey = "AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs";
 

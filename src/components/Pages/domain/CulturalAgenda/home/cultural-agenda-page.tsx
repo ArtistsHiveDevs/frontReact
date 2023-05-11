@@ -58,7 +58,6 @@ const CulturalAgendaPage: React.FC = () => {
   }
 
   function onFilterSearchAction(search: SearchableTemplate) {
-    console.log("filtro search: ", search);
     updateFilteredList(findEventsPerArtist(eventsList, search));
   }
 

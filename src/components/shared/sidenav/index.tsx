@@ -14,6 +14,7 @@ import { PlaceModel } from "~/models/domain/place/place.model";
 import { ProfilePicture } from "../atoms/gui/ProfilePicture/ProfilePicture";
 import "./index.scss";
 import { SIDENAV_MENU_CONFIG, SideMenuItem } from "./sidenav.config";
+import BetaBarComponent from "../organisms/app/BetaBar/beta-bar";
 
 const TRANSLATION_BASE_SIDENAV = "app.appbase.sidenav";
 
@@ -138,6 +139,7 @@ const SideNav = () => {
 
   return (
     <>
+      <BetaBarComponent />
       <Navbar className="toolbar-header mb-3" expand="true">
         <Container fluid>
           <div className="nav-menu-opt">

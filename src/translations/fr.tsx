@@ -443,6 +443,12 @@ export const FrMessages = {
       },
     },
     appbase: {
+      betabar: {
+        contact_us: "Contactez-nous",
+        disclaimer:
+          "Vous regardez une version de test de notre plateforme. Nous espérons qu'elle vous plaît. Vous pouvez nous contacter en utilisant le bouton ci-dessous.",
+        our_email_is: "Notre adresse e-mail est:",
+      },
       footer: {
         columns: {
           what_we_do: {

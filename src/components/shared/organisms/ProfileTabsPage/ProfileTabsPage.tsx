@@ -32,7 +32,7 @@ import { TabbedPanel } from "~/components/shared/layout/TabbedPanel";
 import { ProfileHeader } from "~/components/shared/molecules/Profile/ProfileHeader";
 import { ProfileThumbnailCard } from "~/components/shared/molecules/Profile/ProfileThumbnailCard";
 import { SocialNetworks } from "~/constants/social-networks.const";
--
+
 export interface ProfilePageParams {
   entityName: string;
   translation_base_path: string;

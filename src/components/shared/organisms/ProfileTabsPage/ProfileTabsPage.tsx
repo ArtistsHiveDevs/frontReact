@@ -477,6 +477,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       if (componentDescriptor.data?.image) {
         images = [{ src: getData(componentDescriptor.data?.image) }];
       }
+
       renderedComponent = (
         <div
         // key={`section-${section.name}-${index}-${componentIndex}`}
@@ -605,6 +606,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
 
     return renderedComponent;
   }
+
   //#endregion
 
   return (

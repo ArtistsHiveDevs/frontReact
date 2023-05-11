@@ -20,9 +20,6 @@ import { LocatableTemplate, SearchableTemplate } from "~/models/base";
 import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
 import { SearchModel } from "~/models/domain/search/search.model";
-import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
-
-import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 

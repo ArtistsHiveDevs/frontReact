@@ -6,6 +6,7 @@ import remarkGfm from "remark-gfm";
 import { useIndustryOfferSlice } from "~/common/slices/app-base/IndustryOffer";
 import { selectIndustryOffer } from "~/common/slices/app-base/IndustryOffer/selectors";
 import { IndustryOfferModel } from "~/models/domain/industryOffer/IndustryOffer.model";
+import "./IndustryOfferTemplate.scss";
 
 const IndustryOfferTemplate = () => {
   const urlParameters = useParams();
@@ -20,14 +21,16 @@ const IndustryOfferTemplate = () => {
 
   // Effects
   useEffect(() => {
-    if (!offer) {
-      dispatch(industryOfferActions.loadIndustryOffer({ role }));
-    }
+    dispatch(industryOfferActions.loadIndustryOffer({ role }));
   }, []);
 
   return (
     offer && (
-      <ReactMarkdown children={offer.offer} remarkPlugins={[remarkGfm]} />
+      <ReactMarkdown
+        children={offer.offer}
+        remarkPlugins={[remarkGfm]}
+        className="md-render"
+      />
     )
   );
 };

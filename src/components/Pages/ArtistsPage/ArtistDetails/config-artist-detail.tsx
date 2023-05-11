@@ -304,7 +304,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   // },
   {
     name: "social",
-    requireSession: true,
+    // requireSession: true,
     sections: [
       {
         name: "social_network_presence",

@@ -132,7 +132,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   },
   {
     name: "stats",
-    requireSession: true,
+    // requireSession: true,
     sections: [
       {
         name: "social_network_presence",

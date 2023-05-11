@@ -466,15 +466,19 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
             componentDescriptor.clickHandlerName as keyof typeof handlers
           ];
       }
+
       renderedComponent = (
         <div
         // key={`section-${section.name}-${index}-${componentIndex}`}
         >
           <ImageGallery
             images={getData(componentDescriptor.data?.images)}
-            clickHandler={(source: GalleryImageParams) =>
-              clickHandler(source, getData(componentDescriptor.data?.images))
-            }
+            imageSize="fs"
+            clickHandler={(source: GalleryImageParams) => {
+              if (clickHandler) {
+                clickHandler(source, getData(componentDescriptor.data?.images));
+              }
+            }}
           />
         </div>
       );
@@ -525,9 +529,19 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       const user =
         dataSourceElement[socialNetworkName as keyof typeof dataSourceElement];
 
-      renderedComponent = selectedSocialNetwork?.widget({
-        user,
-      });
+      const params = componentDescriptor.data?.params || {};
+      const paramsValues: any = {};
+      Object.keys(params).forEach(
+        (param) =>
+          (paramsValues[param] = getData(params[param], dataSourceElement))
+      );
+
+      renderedComponent =
+        selectedSocialNetwork?.widget &&
+        selectedSocialNetwork?.widget({
+          user,
+          ...paramsValues,
+        });
     } else if (
       componentDescriptor.componentName === ProfileComponentTypes.TITLE
     ) {
@@ -537,16 +551,11 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           size={componentDescriptor.data?.size || "2"}
         />
       );
-    } else if (
-      componentDescriptor.componentName === ProfileComponentTypes.ARTS_GENRES
-    ) {
-      const content = getData(componentDescriptor.data?.genres) || {};
-
-      return <GenresListView genres={content} />;
     }
 
     return renderedComponent;
   }
+
   //#endregion
 
   return (

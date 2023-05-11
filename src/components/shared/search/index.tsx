@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { Form, InputGroup } from "react-bootstrap";
 import { useI18n } from "~/common/utils";
 
@@ -39,6 +45,12 @@ export const SearchComponent = (props: any) => {
     [focused]
   );
 
+  useImperativeHandle(props?.parentReference, () => ({
+    restartQueryValue() {
+      setText("");
+    },
+  }));
+
   useEffect(() => {
     window.addEventListener("click", (e) => handleOnClickOut(e));
 
@@ -78,7 +90,12 @@ export const SearchComponent = (props: any) => {
         </InputGroup>
         {focused && (
           <div className="ah-combobox-search">
-            <ResultsList q={text} onClick={handleClickOnResult} />
+            <ResultsList
+              q={text}
+              onClick={handleClickOnResult}
+              typeOfSearch={props?.typeOfSearch}
+              hideResultHeader={props.hideResultHeader}
+            />
           </div>
         )}
       </div>

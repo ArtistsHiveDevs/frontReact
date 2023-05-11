@@ -75,7 +75,7 @@ export const SocialNetworks: {
     icon: "BsFillTelephoneFill",
   },
   sound_cloud: {
-    url: "https://w.soundcloud.com/player/",
+    url: "https://soundcloud.com/",
     icon: "GrSoundcloud",
     user_prefix: "",
     emptyTitle: true,
@@ -135,6 +135,12 @@ export const SocialNetworks: {
     emptyTitle: true,
     title: "Twitter",
   },
+  vimeo: {
+    url: "",
+    icon: "BsVimeo",
+    emptyTitle: true,
+    title: "Vimeo",
+  },
   website: {
     url: "",
     icon: "TbWorld",
@@ -161,12 +167,12 @@ export const SocialNetworks: {
     emptyTitle: true,
     title: "Youtube",
     widget: (params: any) => {
-      let { user, entity, width, height } = params;
+      let { entity, width, height, videoURL } = params;
       return (
-        user && (
+        videoURL && (
           <ParametrizedIFrame
-            key={`scloud-frame-${user}-${entity || ""}`}
-            srcUrl={`https://www.youtube.com/embed/${user}`}
+            key={`scloud-frame-${videoURL}-${entity || ""}`}
+            srcUrl={`https://www.youtube.com/embed/${videoURL}`}
             customWidth={width}
             customHeight={height}
             customStyles={{ borderRadius: "10px" }}

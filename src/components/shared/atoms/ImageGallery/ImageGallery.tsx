@@ -1,5 +1,5 @@
-import "./ImageGallery.scss";
 import { Image } from "react-bootstrap";
+import "./ImageGallery.scss";
 
 export interface ImageGalleryContainerParams {
   title?: string;
@@ -10,7 +10,7 @@ export interface ImageGalleryContainerParams {
 }
 
 export interface GalleryImageParams {
-  id: string;
+  id?: string;
   src: string;
   alt?: string;
 }

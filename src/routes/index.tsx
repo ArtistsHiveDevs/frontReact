@@ -39,11 +39,14 @@ const IndustryOfferPage = lazy(
 
 // Load rider pages
 const RiderListPage = lazy(
-  () => import("~/components/Pages/RidersPage/RiderList")
+  () => import("~/components/Pages/domain/RidersPage/RidersList")
 );
 
 const RiderDetailsPage = lazy(
-  () => import("~/components/Pages/RidersPage/RiderDetail")
+  () =>
+    import(
+      "~/components/Pages/domain/RidersPage/RiderDetails/rider-details-page"
+    )
 );
 
 // Load events/shows pages

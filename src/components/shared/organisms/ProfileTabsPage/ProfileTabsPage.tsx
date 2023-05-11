@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router";
 import { useI18n } from "~/common/utils";
-import { EventParams } from "~/components/shared/atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent";
 import {
   GalleryImageParams,
   ImageGallery,
 } from "~/components/shared/atoms/ImageGallery/ImageGallery";
+import { EventParams } from "~/components/shared/atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent";
 import MapContainer from "~/components/shared/mapPrinter/mapContainer";
 import {
   AttributesIconFieldReadOnly,
@@ -12,6 +12,7 @@ import {
 } from "~/components/shared/molecules/general/AttributesIconField";
 import { CalendarSimpleLayout } from "~/components/shared/molecules/general/calendar/CalendarSimpleLayout/CalendarSimpleLayout";
 import { EntityModel, EntityTemplate } from "~/models/base";
+import "./ProfileTabsPage.scss";
 import {
   ProfileComponentDescriptor,
   ProfileComponentTypes,
@@ -19,20 +20,21 @@ import {
   ProfileDetailsSubpage,
   ProfileDetailsSubpageSection,
 } from "./profile-details.def";
-import "./ProfileTabsPage.scss";
 
+import { faMicrophoneLines } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
+import { Table } from "react-bootstrap";
+import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
 import { EVENT_DETAIL_SUB_PAGE_CONFIG } from "~/components/Pages/EventsPage/EventDetailsPage/config-event-detail";
-import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
+import { CrewListView } from "~/components/shared//molecules/domain/crewListView/CrewListView";
+import { GenresListView } from "~/components/shared//molecules/domain/genres/GenresListView";
 import { Title } from "~/components/shared/atoms/Title/Title";
+import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import { SectionsPanel } from "~/components/shared/layout/SectionPanel";
 import { TabbedPanel } from "~/components/shared/layout/TabbedPanel";
 import { ProfileHeader } from "~/components/shared/molecules/Profile/ProfileHeader";
 import { ProfileThumbnailCard } from "~/components/shared/molecules/Profile/ProfileThumbnailCard";
 import { SocialNetworks } from "~/constants/social-networks.const";
-import { GenresListView } from "../../molecules/domain/genres/GenresListView";
-import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
-import { faMicrophoneLines } from "@fortawesome/free-solid-svg-icons";
 
 export interface ProfilePageParams {
   entityName: string;
@@ -466,15 +468,26 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
             componentDescriptor.clickHandlerName as keyof typeof handlers
           ];
       }
+      let images: GalleryImageParams[] = [];
+
+      if (componentDescriptor.data?.images) {
+        images = getData(componentDescriptor.data?.images);
+      }
+      if (componentDescriptor.data?.image) {
+        images = [{ src: getData(componentDescriptor.data?.image) }];
+      }
       renderedComponent = (
         <div
         // key={`section-${section.name}-${index}-${componentIndex}`}
         >
           <ImageGallery
-            images={getData(componentDescriptor.data?.images)}
-            clickHandler={(source: GalleryImageParams) =>
-              clickHandler(source, getData(componentDescriptor.data?.images))
-            }
+            images={images}
+            imageSize="fs"
+            clickHandler={(source: GalleryImageParams) => {
+              if (clickHandler) {
+                clickHandler(source, getData(componentDescriptor.data?.images));
+              }
+            }}
           />
         </div>
       );
@@ -525,9 +538,19 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       const user =
         dataSourceElement[socialNetworkName as keyof typeof dataSourceElement];
 
-      renderedComponent = selectedSocialNetwork?.widget({
-        user,
-      });
+      const params = componentDescriptor.data?.params || {};
+      const paramsValues: any = {};
+      Object.keys(params).forEach(
+        (param) =>
+          (paramsValues[param] = getData(params[param], dataSourceElement))
+      );
+
+      renderedComponent =
+        selectedSocialNetwork?.widget &&
+        selectedSocialNetwork?.widget({
+          user,
+          ...paramsValues,
+        });
     } else if (
       componentDescriptor.componentName === ProfileComponentTypes.TITLE
     ) {
@@ -543,10 +566,45 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       const content = getData(componentDescriptor.data?.genres) || {};
 
       return <GenresListView genres={content} />;
+    } else if (
+      componentDescriptor.componentName === ProfileComponentTypes.CREW_LIST_VIEW
+    ) {
+      const crewList = getData(componentDescriptor.data?.crewList) || {};
+      console.log("ProfileTabs", componentDescriptor.data?.crewList, crewList);
+      renderedComponent = <CrewListView crewList={crewList} />;
+    } else if (
+      componentDescriptor.componentName === ProfileComponentTypes.TABLE
+    ) {
+      const tableConfig = componentDescriptor.data?.tableConfig
+        ? componentDescriptor.data?.tableConfig(dataSourceElement)
+        : undefined;
+
+      console.log("Table", componentDescriptor.data?.crewList, tableConfig);
+      renderedComponent = (tableConfig && (
+        <Table responsive>
+          <thead>
+            <tr>
+              {tableConfig.columns.map((column: any) => (
+                <th>{column}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {tableConfig.rows.map((row: any) => (
+              <tr>
+                {tableConfig.columns.map((column: any) => (
+                  <td>{row[column]}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )) || <></>;
     }
 
     return renderedComponent;
   }
+
   //#endregion
 
   return (

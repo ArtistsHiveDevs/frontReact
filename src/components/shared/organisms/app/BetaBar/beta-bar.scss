@@ -3,6 +3,7 @@
 .container-beta {
     background-color: $gray-light;
     width: 100%;
+    max-width: 100%!important;
 
     .beta-disclaimer {
         width: 100%;

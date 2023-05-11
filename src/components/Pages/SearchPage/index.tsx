@@ -10,6 +10,7 @@ import {
   selectSearchLoading,
 } from "~/common/slices/search/selectors";
 import { useI18n } from "~/common/utils";
+import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
 import DynamicIcons from "~/components/shared/DynamicIcons";
 import MapContainer from "~/components/shared/mapPrinter/mapContainer";
 import { ResultElement } from "~/components/shared/search/result-element";
@@ -156,7 +157,7 @@ export default function SearchPage() {
         results.locatedResults[entityName].map((element: LocatableTemplate) => {
           return {
             position: { ...element.latLng },
-            icon: GMapsSvgMaker(faHome.icon),
+            iconData: GMapsSvgMaker(faHome.icon),
           };
         })
       )

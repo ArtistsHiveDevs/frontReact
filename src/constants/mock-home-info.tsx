@@ -32,6 +32,10 @@ export function getCustomList(positions: number, list: any) {
   const indexArray: number[] = [];
   const max = list?.length | 0;
 
+  if (positions > max) {
+    positions = max;
+  }
+
   if (max > 0) {
     while (returnList.length < positions) {
       const index = Math.floor(Math.random() * max);
@@ -42,7 +46,6 @@ export function getCustomList(positions: number, list: any) {
       }
     }
   }
-
   return returnList;
 }
 

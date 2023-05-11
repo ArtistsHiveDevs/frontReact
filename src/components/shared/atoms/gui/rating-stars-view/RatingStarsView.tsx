@@ -35,6 +35,7 @@ export const RatingStarsView = (props: { rating: number }) => {
           iconName="IoIosStarOutline"
         />
       ))}
+      {` (${fullStars}.${!!decimalPart ? "5" : "0"})`}
     </div>
   );
 };

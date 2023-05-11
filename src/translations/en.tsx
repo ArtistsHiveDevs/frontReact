@@ -603,6 +603,12 @@ export const EnMessages = {
       },
     },
     appbase: {
+      betabar: {
+        contact_us: "Contact us",
+        disclaimer:
+          "You are viewing a trial version of our platform. We hope you like it. You can contact us using the button below.",
+        our_email_is: "Our email is:",
+      },
       footer: {
         columns: {
           what_we_do: {

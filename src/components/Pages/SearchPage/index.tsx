@@ -10,6 +10,7 @@ import {
   selectSearchLoading,
 } from "~/common/slices/search/selectors";
 import { useI18n } from "~/common/utils";
+import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
 import DynamicIcons from "~/components/shared/DynamicIcons";
 import MapContainer from "~/components/shared/mapPrinter/mapContainer";
 import { ResultElement } from "~/components/shared/search/result-element";
@@ -19,6 +20,8 @@ import { LocatableTemplate, SearchableTemplate } from "~/models/base";
 import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
 import { SearchModel } from "~/models/domain/search/search.model";
+
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 const TRANSLATION_BASE_SEARCH = "app.appbase.search";
 const MAX_RESULTS_PER_PAGE = 10;
@@ -152,7 +155,8 @@ export default function SearchPage() {
       .map((entityName) =>
         results.locatedResults[entityName].map((element: LocatableTemplate) => {
           return {
-            ...element.latLng, //text: JSON.stringify(element.latLng)
+            position: { ...element.latLng },
+            iconData: GMapsSvgMaker(faHome.icon),
           };
         })
       )

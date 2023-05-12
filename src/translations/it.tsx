@@ -437,6 +437,12 @@ export const ItMessages = {
       },
     },
     appbase: {
+      betabar: {
+        contact_us: "Contattaci",
+        disclaimer:
+          "Stai visualizzando una versione di prova della nostra piattaforma. Speriamo che ti piaccia. Puoi contattarci utilizzando il pulsante sottostante.",
+        our_email_is: "Il nostro indirizzo email è:",
+      },
       footer: {
         columns: {
           what_we_do: {

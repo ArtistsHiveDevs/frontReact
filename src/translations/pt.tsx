@@ -441,6 +441,12 @@ export const PtMessages = {
       },
     },
     appbase: {
+      betabar: {
+        contact_us: "Entre em contato",
+        disclaimer:
+          "Você está visualizando uma versão de teste da nossa plataforma. Esperamos que goste. Você pode entrar em contato conosco usando o botão abaixo.",
+        our_email_is: "Nosso e-mail é:",
+      },
       footer: {
         columns: {
           what_we_do: {

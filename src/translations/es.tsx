@@ -430,6 +430,12 @@ export const EsMessages = {
       },
     },
     appbase: {
+      betabar: {
+        contact_us: "Contáctanos",
+        disclaimer:
+          "Estás viendo una versión de prueba de nuestra plataforma. Esperamos que te guste, puedes comunicarte con usando el botón que está a continuación.",
+        our_email_is: "Nuesto email es:",
+      },
       footer: {
         columns: {
           what_we_do: {

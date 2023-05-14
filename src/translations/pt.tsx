@@ -28,6 +28,11 @@ export const PtMessages = {
         video: "Video",
       },
       actions: {
+        accounts: {
+          login: "Entrar",
+          signup: "Registrar-se",
+          create_account: "Criar conta",
+        },
         follow_us: "Siga-nos",
         subscription: {
           subscribe: "Subscrever",
@@ -88,6 +93,15 @@ export const PtMessages = {
         },
       },
       app_base: {
+        LoginPage: {
+          paragraph1:
+            "Você está visualizando uma versão de teste da nossa plataforma. Atualmente, o registro de usuários está limitado.",
+          paragraph2:
+            "Se você deseja se juntar à colmeia de artistas, convidamos você a se registrar clicando no botão abaixo.",
+          paragraph3:
+            "Lembre-se de que você pode se registrar como parte do ecossistema musical ou como um fã. Faça seu registro e fique atento à agenda cultural. Você receberá notificações e alertas para eventos do seu interesse.",
+          button: "Registrar-me na versão de testev",
+        },
         UsersPages: {
           UsersDetailsPage: {
             subpages: {
@@ -177,6 +191,9 @@ export const PtMessages = {
       domain: {
         CulturalAgenda: {
           title: "Agenda Cultural",
+        },
+        IndustryOfferPage: {
+          create_account_banner: "Junte-se à colmeia",
         },
       },
       ArtistsPages: {

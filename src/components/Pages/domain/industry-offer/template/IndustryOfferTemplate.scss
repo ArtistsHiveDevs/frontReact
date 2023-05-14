@@ -20,3 +20,35 @@
     text-align: justify;
   }
 }
+
+.banner-create-account {
+  width: 90%;
+  border: solid 1px $gray-light;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.banner-create-account-text {
+  width: 70%;
+  text-align: center;
+  font-weight: 700;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-styles {
+  font-size: 0.8rem;
+  background-color: $entity-3;
+  border: 1px solid $entity-3;
+  transition: transform 0.2s;
+}
+
+.button-styles:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  background-color: $main-title-color;
+}

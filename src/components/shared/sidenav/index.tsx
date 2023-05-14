@@ -113,7 +113,7 @@ const SideNav = () => {
               <ProfilePicture src={loggedUser.profile_pic} size="xs" />
             )}
             {!loggedUser && (
-              <a className="brand-text" href="#">
+              <a className="brand-text" onClick={() => navigate(PATHS.LOGIN)}>
                 Log in
               </a>
             )}

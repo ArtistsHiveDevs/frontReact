@@ -28,6 +28,11 @@ export const EsMessages = {
         video: "Video",
       },
       actions: {
+        accounts: {
+          login: "Iniciar sesión",
+          signup: "Registrarse",
+          create_account: "Crear cuenta",
+        },
         follow_us: "Síguenos",
         subscription: {
           subscribe: "Suscribirse",
@@ -89,6 +94,15 @@ export const EsMessages = {
       },
 
       app_base: {
+        LoginPage: {
+          paragraph1:
+            "Estás viendo una versión de prueba de nuestra plataforma. Actualmente estamos con el registro de usuarios limitado.",
+          paragraph2:
+            "Si quieres unirte a la colmena de artistas, te invitamos a registrarte haciendo clic en el siguiente botón.",
+          paragraph3:
+            "Recuerda que te puedes registrar siendo parte del ecosistema musical o también como un fan. Regístrate y ten presente la agenda cultural, recibirás notificaciones y alertas para eventos de tu interés.",
+          button: "Registrarme en la versión de prueba",
+        },
         UsersPages: {
           UsersDetailsPage: {
             subpages: {
@@ -178,6 +192,9 @@ export const EsMessages = {
       domain: {
         CulturalAgenda: {
           title: "Agenda cultural",
+        },
+        IndustryOfferPage: {
+          create_account_banner: "Únete a la colmena",
         },
       },
       ArtistsPages: {

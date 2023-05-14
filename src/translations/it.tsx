@@ -28,6 +28,11 @@ export const ItMessages = {
         video: "Video",
       },
       actions: {
+        accounts: {
+          login: "Accedi",
+          signup: "Registrati",
+          create_account: "Crea account",
+        },
         follow_us: "Seguici",
         subscription: {
           subscribe: "Iscriversi",
@@ -89,6 +94,15 @@ export const ItMessages = {
       },
 
       app_base: {
+        LoginPage: {
+          paragraph1:
+            "Stai visualizzando una versione di prova della nostra piattaforma. Attualmente, la registrazione degli utenti è limitata.",
+          paragraph2:
+            "Se desideri unirti alla comunità degli artisti, ti invitiamo a registrarti facendo clic sul seguente pulsante.",
+          paragraph3:
+            "Ricorda che puoi registrarti sia come parte dell'ecosistema musicale che come fan. Registrati e tieni presente l'agenda culturale, riceverai notifiche e avvisi per eventi di tuo interesse.",
+          button: "Registrarmi nella versione di prova",
+        },
         UsersPages: {
           UsersDetailsPage: {
             subpages: {
@@ -178,6 +192,9 @@ export const ItMessages = {
       domain: {
         CulturalAgenda: {
           title: "Agenda culturale",
+        },
+        IndustryOfferPage: {
+          create_account_banner: "Unisciti all'alveare",
         },
       },
       ArtistsPages: {

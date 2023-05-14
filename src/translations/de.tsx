@@ -28,6 +28,11 @@ export const DeMessages = {
         video: "Video",
       },
       actions: {
+        accounts: {
+          login: "Login",
+          signup: "Registrieren",
+          create_account: "Konto erstellen",
+        },
         follow_us: "Folst uns",
         subscription: {
           subscribe: "Abonnieren",
@@ -89,6 +94,15 @@ export const DeMessages = {
       },
 
       app_base: {
+        LoginPage: {
+          paragraph1:
+            "Du siehst gerade eine Testversion unserer Plattform. Derzeit ist die Benutzerregistrierung begrenzt.",
+          paragraph2:
+            "Wenn du dich dem Künstlerkollektiv anschließen möchtest, laden wir dich ein, dich zu registrieren, indem du auf den folgenden Button klickst.",
+          paragraph3:
+            "Denke daran, dass du dich entweder als Teil des Musikökosystems oder als Fan registrieren kannst. Registriere dich und behalte den Kulturkalender im Blick. Du erhältst Benachrichtigungen und Hinweise zu Veranstaltungen, die dich interessieren.",
+          button: "Registrieren Sie mich in der Testversion",
+        },
         UsersPages: {
           UsersDetailsPage: {
             subpages: {
@@ -178,6 +192,9 @@ export const DeMessages = {
       domain: {
         CulturalAgenda: {
           title: "Kulturelle Agenda",
+        },
+        IndustryOfferPage: {
+          create_account_banner: "Schließe dich dem Bienenstock an",
         },
       },
       ArtistsPages: {

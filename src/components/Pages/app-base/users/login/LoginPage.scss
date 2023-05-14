@@ -1,0 +1,27 @@
+@import "~/variables.module.scss";
+
+.button-styles {
+  font-size: 0.8rem;
+  background-color: $entity-3;
+  border: 1px solid $entity-3;
+  transition: transform 0.2s;
+}
+
+.button-styles:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  background-color: $main-title-color;
+}
+
+.login-content {
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+.login-footer {
+  margin-top: 3rem;
+  margin-bottom: 4rem;
+}
+
+p {
+  text-align: justify;
+}

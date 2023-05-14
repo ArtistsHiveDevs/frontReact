@@ -28,6 +28,11 @@ export const EnMessages = {
         video: "Video",
       },
       actions: {
+        accounts: {
+          login: "Login",
+          signup: "Sign up",
+          create_account: "Create account",
+        },
         follow_us: "Follow us",
         subscription: {
           subscribe: "Subscribe",
@@ -89,6 +94,15 @@ export const EnMessages = {
       },
 
       app_base: {
+        LoginPage: {
+          paragraph1:
+            "You are viewing a trial version of our platform. Currently, user registration is limited.",
+          paragraph2:
+            "If you want to join the community of artists, we invite you to register by clicking on the button below.",
+          paragraph3:
+            "Remember that you can register as part of the music ecosystem or as a fan. Register and keep track of the cultural agenda. You will receive notifications and alerts for events of your interest.",
+          button: "Sign me up for the trial version",
+        },
         UsersPages: {
           UsersDetailsPage: {
             subpages: {
@@ -178,6 +192,9 @@ export const EnMessages = {
       domain: {
         CulturalAgenda: {
           title: "Cultural Agenda",
+        },
+        IndustryOfferPage: {
+          create_account_banner: "Join the hive",
         },
       },
       ArtistsPages: {

@@ -28,6 +28,11 @@ export const FrMessages = {
         video: "Vidéo",
       },
       actions: {
+        accounts: {
+          login: "Connexion",
+          signup: "S'inscrire",
+          create_account: "Créer un compte",
+        },
         follow_us: "Suivez-nous",
         subscription: {
           subscribe: "S'abonner",
@@ -88,6 +93,15 @@ export const FrMessages = {
         },
       },
       app_base: {
+        LoginPage: {
+          paragraph1:
+            "Vous consultez une version de test de notre plateforme. Actuellement, l'inscription des utilisateurs est limitée.",
+          paragraph2:
+            "Si vous souhaitez rejoindre la ruche d'artistes, nous vous invitons à vous inscrire en cliquant sur le bouton ci-dessous.",
+          paragraph3:
+            "Rappelez-vous que vous pouvez vous inscrire en tant que membre de l'écosystème musical ou en tant que fan. Inscrivez-vous et tenez compte de l'agenda culturel. Vous recevrez des notifications et des alertes pour les événements qui vous intéressent.",
+          button: "M'inscrire dans la version de test",
+        },
         UsersPages: {
           UsersDetailsPage: {
             subpages: {
@@ -177,6 +191,9 @@ export const FrMessages = {
       domain: {
         CulturalAgenda: {
           title: "Agenda culturel",
+        },
+        IndustryOfferPage: {
+          create_account_banner: "Rejoins la ruche",
         },
       },
       ArtistsPages: {

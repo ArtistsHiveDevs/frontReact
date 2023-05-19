@@ -1,5 +1,6 @@
 import moment from "moment";
 import { VerificationStatus } from "~/constants";
+import { SocialNetworkStatsTemplate } from "~/constants/social-networks.const";
 import {
   EntityModel,
   EntityTemplate,
@@ -53,6 +54,7 @@ export interface PlaceTemplate extends EntityTemplate {
 
   stats: {
     rating: PlaceRatingTemplate;
+    socialNetworks: SocialNetworkStatsTemplate[];
   };
 }
 
@@ -85,6 +87,7 @@ export class PlaceModel
   declare genres: { [artType: string]: string[] };
   declare stats: {
     rating: PlaceRatingTemplate;
+    socialNetworks: SocialNetworkStatsTemplate[];
   };
 
   constructor(template: PlaceTemplate) {

@@ -1,5 +1,6 @@
 import moment from "moment";
 import { VerificationStatus } from "~/constants";
+import { SocialNetworkStatsTemplate } from "~/constants/social-networks.const";
 import { EntityModel, EntityTemplate, SearchableTemplate } from "~/models/base";
 import { EventModel, EventTemplate } from "../event/event.model";
 
@@ -29,6 +30,7 @@ export interface ArtistTemplate extends EntityTemplate {
   genres: { [artType: string]: string[] };
   stats: {
     rating: ArtistRatingTemplate;
+    socialNetworks: SocialNetworkStatsTemplate[];
   };
 
   since: number;
@@ -65,6 +67,7 @@ export class ArtistModel
   declare genres: { [artType: string]: string[] };
   declare stats: {
     rating: ArtistRatingTemplate;
+    socialNetworks: SocialNetworkStatsTemplate[];
   };
 
   declare since: number;

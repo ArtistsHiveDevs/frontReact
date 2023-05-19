@@ -38,6 +38,8 @@ export interface ProfileComponentDescriptor {
 export interface ProfileDetailAttributeConfiguration {
   name: string;
 
+  hidden?: boolean;
+
   /**
    *
    */

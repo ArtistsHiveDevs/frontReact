@@ -63,4 +63,6 @@ export interface ProfileDetailAttributeConfiguration {
   useTranslation?: boolean;
 
   translationPath?: string;
+
+  value?: Function | string | number;
 }

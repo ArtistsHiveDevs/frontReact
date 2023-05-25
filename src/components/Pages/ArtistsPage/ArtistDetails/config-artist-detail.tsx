@@ -1,9 +1,13 @@
 import { RatingStarsView } from "~/components/shared/atoms/gui/rating-stars-view/RatingStarsView";
+import { SocialNetworkStats } from "~/components/shared/domain/atoms/gui/social-network-stats/SocialNetworkStats";
 import {
   ProfileComponentTypes,
   ProfileDetailsSubpage,
 } from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
-import { ArtistRatingTemplate } from "~/models/domain/artist/artist.model";
+import {
+  ArtistModel,
+  ArtistRatingTemplate,
+} from "~/models/domain/artist/artist.model";
 
 export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
@@ -312,7 +316,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   // },
   {
     name: "social",
-    requireSession: true,
+    requireSession: false,
     sections: [
       {
         name: "social_network_presence",
@@ -322,39 +326,151 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             data: {
               attributes: [
                 {
-                  name: "Facebook",
-                  emptyTitle: true,
-                  icon: "BsFacebook",
+                  name: "facebook",
+                  hidden: (artist: ArtistModel) => {
+                    return !artist.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "facebook"
+                    );
+                  },
+                  value: (artist: ArtistModel) => {
+                    const socialNetworkData = artist.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "facebook"
+                    );
+                    return (
+                      <SocialNetworkStats
+                        followers={socialNetworkData?.followers}
+                        extraData={socialNetworkData}
+                      />
+                    );
+                  },
                 },
                 {
-                  name: "Instagram",
-                  emptyTitle: true,
-                  icon: "BsInstagram",
+                  name: "instagram",
+                  hidden: (artist: ArtistModel) => {
+                    return !artist.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "instagram"
+                    );
+                  },
+                  value: (artist: ArtistModel) => {
+                    const socialNetworkData = artist.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "instagram"
+                    );
+                    return (
+                      <SocialNetworkStats
+                        followers={socialNetworkData?.followers}
+                        extraData={socialNetworkData}
+                      />
+                    );
+                  },
                 },
                 {
-                  name: "Twitter",
-                  emptyTitle: true,
-                  icon: "BsTwitter",
+                  name: "twitter",
+                  hidden: (artist: ArtistModel) => {
+                    return !artist.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "twitter"
+                    );
+                  },
+                  value: (artist: ArtistModel) => {
+                    const socialNetworkData = artist.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "twitter"
+                    );
+                    return (
+                      <SocialNetworkStats
+                        followers={socialNetworkData?.followers}
+                        extraData={socialNetworkData}
+                      />
+                    );
+                  },
                 },
                 {
-                  name: "Spotify",
-                  emptyTitle: true,
-                  icon: "BsSpotify",
+                  name: "spotify",
+                  hidden: (artist: ArtistModel) => {
+                    return !artist.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "spotify"
+                    );
+                  },
+                  value: (artist: ArtistModel) => {
+                    const socialNetworkData = artist.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "spotify"
+                    );
+                    return (
+                      <SocialNetworkStats
+                        followers={socialNetworkData?.followers}
+                        extraData={socialNetworkData}
+                      />
+                    );
+                  },
                 },
                 {
-                  name: "Deezer",
-                  emptyTitle: true,
-                  icon: "FaDeezer",
+                  name: "deezer",
+                  hidden: (artist: ArtistModel) => {
+                    return !artist.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "deezer"
+                    );
+                  },
+                  value: (artist: ArtistModel) => {
+                    const socialNetworkData = artist.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "deezer"
+                    );
+                    return (
+                      <SocialNetworkStats
+                        followers={socialNetworkData?.followers}
+                        extraData={socialNetworkData}
+                      />
+                    );
+                  },
                 },
                 {
-                  name: "Apple Music",
-                  emptyTitle: true,
-                  icon: "SiApplemusic",
+                  name: "appleMusic",
+                  hidden: (artist: ArtistModel) => {
+                    return !artist.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "appleMusic"
+                    );
+                  },
+                  value: (artist: ArtistModel) => {
+                    const socialNetworkData = artist.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "appleMusic"
+                    );
+                    return (
+                      <SocialNetworkStats
+                        followers={socialNetworkData?.followers}
+                        extraData={socialNetworkData}
+                      />
+                    );
+                  },
                 },
                 {
-                  name: "Youtube",
-                  emptyTitle: true,
-                  icon: "BsYoutube",
+                  name: "youtube",
+                  hidden: (artist: ArtistModel) => {
+                    return !artist.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "youtube"
+                    );
+                  },
+                  value: (artist: ArtistModel) => {
+                    const socialNetworkData = artist.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "youtube"
+                    );
+                    return (
+                      <SocialNetworkStats
+                        followers={socialNetworkData?.followers}
+                        extraData={socialNetworkData}
+                      />
+                    );
+                  },
                 },
               ],
             },

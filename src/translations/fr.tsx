@@ -34,6 +34,8 @@ export const FrMessages = {
           create_account: "Créer un compte",
         },
         follow_us: "Suivez-nous",
+        show_more: "Afficher plus",
+        show_less: "Afficher moins",
         subscription: {
           subscribe: "S'abonner",
           unsubscribe: "Se désabonner",

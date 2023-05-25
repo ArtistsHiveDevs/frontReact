@@ -34,6 +34,8 @@ export const PtMessages = {
           create_account: "Criar conta",
         },
         follow_us: "Siga-nos",
+        show_more: "Mostrar mais",
+        show_less: "Mostrar menos",
         subscription: {
           subscribe: "Subscrever",
           unsubscribe: "Cancelar",

@@ -4,11 +4,6 @@ import { useNavigate } from "react-router";
 import { useEventsSlice } from "~/common/slices/events";
 import { selectEvents } from "~/common/slices/events/selectors";
 import { useI18n } from "~/common/utils";
-import MainSection from "~/components/Pages/HomePage/MainSection/MainSection";
-import { getCustomList, sortEventsPerMonth } from "~/constants";
-import { EventModel } from "~/models/domain/event/event.model";
-import "./cultural-agenda-page.scss";
-import FilterBarComponent from "~/components/shared/organisms/FilterBar/filter-bar";
 import {
   findEventsPerArtist,
   findEventsPerDate,
@@ -16,7 +11,17 @@ import {
   mapStringArrayForListType,
   searchGenresFromEvents,
 } from "~/common/utils/object-utils/object-utils-index";
+import MainSection from "~/components/Pages/HomePage/MainSection/MainSection";
+import FilterBarComponent from "~/components/shared/organisms/FilterBar/filter-bar";
+import {
+  PATHS,
+  SUB_PATHS,
+  getCustomList,
+  sortEventsPerMonth,
+} from "~/constants";
 import { SearchableTemplate } from "~/models/base";
+import { EventModel } from "~/models/domain/event/event.model";
+import "./cultural-agenda-page.scss";
 
 const TRANSLATION_BASE_AGENDA_CULTURAL_PAGE = "app.pages.domain.CulturalAgenda";
 
@@ -34,7 +39,7 @@ const CulturalAgendaPage: React.FC = () => {
 
   // Functions
   function onClickCardEventos(data: any) {
-    console.log(data);
+    navigate(`${PATHS.EVENTS}/${SUB_PATHS.ELEMENT_DETAILS}/${data.id}`);
   }
 
   function onFilterCategoriesAction(categorie: string) {

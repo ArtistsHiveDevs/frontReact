@@ -265,7 +265,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
                 {(attribute.components || []).map(
                   (
                     componentDescriptor: ProfileComponentDescriptor,
-                    componentIndex: number
+                    componentIndexAtt: number
                   ) => {
                     const source = parentDataSource || entityData;
 
@@ -281,10 +281,16 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
                       subpage,
                       section,
                       componentDescriptor,
-                      componentIndex,
+                      componentIndexAtt,
                       dataSourceElement
                     );
-                    return generated;
+                    return (
+                      <div
+                        key={`build-comp-${componentIndex}-${componentIndexAtt}`}
+                      >
+                        {generated}
+                      </div>
+                    );
                   }
                 )}
               </>

@@ -30,6 +30,7 @@ export interface ProfileDetailsSubpageSection {
 export interface ProfileComponentDescriptor {
   componentName: ProfileComponentTypes;
   data?: any;
+  data_source?: any;
   clickHandlerName?: string;
   requireSession?: boolean;
 }

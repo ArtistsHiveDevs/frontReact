@@ -34,6 +34,8 @@ export const EsMessages = {
           create_account: "Crear cuenta",
         },
         follow_us: "Síguenos",
+        show_more: "Mostrar más",
+        show_less: "Mostrar menos",
         subscription: {
           subscribe: "Suscribirse",
           unsubscribe: "Cancelar",

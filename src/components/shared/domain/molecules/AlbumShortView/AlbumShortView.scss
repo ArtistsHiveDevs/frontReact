@@ -1,0 +1,15 @@
+@import "~/variables.module.scss";
+
+.album-short-view {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  > div {
+    padding: 0.3rem;
+    padding-bottom: 1rem;
+  }
+}
+
+.album-title {
+  font-weight: 750;
+  font-size: larger;
+}

@@ -148,7 +148,15 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
               attributes: [
                 {
                   name: "albums",
-                  icon: "BsInfoCircleFill",
+                  icon: "SlDisc",
+                  components: [
+                    {
+                      componentName:
+                        ProfileComponentTypes.DISCOGRAPHY_LIST_VIEW,
+                      data_source: "arts.music.albums",
+                      data: {},
+                    },
+                  ],
                 },
                 {
                   name: "dvd_video",

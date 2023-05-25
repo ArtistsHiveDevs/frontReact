@@ -21,17 +21,17 @@ import {
   ProfileDetailsSubpageSection,
 } from "./profile-details.def";
 
+import { faMicrophoneLines } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
+import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
 import { Title } from "~/components/shared/atoms/Title/Title";
 import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
+import { AlbumsShortListView } from "~/components/shared/domain/organisms/AlbumsShortListView/AlbumsShortListView";
 import { SectionsPanel } from "~/components/shared/layout/SectionPanel";
 import { TabbedPanel } from "~/components/shared/layout/TabbedPanel";
 import { ProfileHeader } from "~/components/shared/molecules/Profile/ProfileHeader";
 import { ProfileThumbnailCard } from "~/components/shared/molecules/Profile/ProfileThumbnailCard";
 import { SocialNetworks } from "~/constants/social-networks.const";
-import { GenresListView } from "../../molecules/domain/genres/GenresListView";
-import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
-import { faMicrophoneLines } from "@fortawesome/free-solid-svg-icons";
 
 export interface ProfilePageParams {
   entityName: string;
@@ -554,6 +554,13 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           size={componentDescriptor.data?.size || "2"}
         />
       );
+    } else if (
+      componentDescriptor.componentName ===
+      ProfileComponentTypes.DISCOGRAPHY_LIST_VIEW
+    ) {
+      const discography = getData(componentDescriptor.data_source);
+
+      renderedComponent = <AlbumsShortListView discography={discography} />;
     }
 
     return renderedComponent;

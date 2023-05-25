@@ -34,6 +34,8 @@ export const DeMessages = {
           create_account: "Konto erstellen",
         },
         follow_us: "Folst uns",
+        show_more: "Mehr anzeigen",
+        show_less: "Weniger anzeigen",
         subscription: {
           subscribe: "Abonnieren",
           unsubscribe: "Abbestellen",

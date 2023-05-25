@@ -287,12 +287,29 @@ export const EnMessages = {
                 sections: {
                   general: {
                     name: "General",
+                    attributes: {
+                      since: "Since",
+                      home_city: "Home city",
+                      categories: "Categories",
+                      spoken_languages: "Spoken Languages",
+                      stage_languages: "Stage languages",
+                      arts_languages: "Arts Languages",
+                    },
                   },
                   contact: {
                     name: "Contact",
+                    attributes: {
+                      production_manager_phone: "Production Manager Phone",
+                      tour_manager_phone: "Tour Manager Phone",
+                    },
                   },
                   general_technical_features: {
                     name: "General Technical Features",
+                    attributes: {
+                      frecuency_response: "FQ Response",
+                      sound_pressure: "Sound Pressure",
+                      foh_distance: "FOH Distance",
+                    },
                   },
                 },
               },
@@ -310,9 +327,15 @@ export const EnMessages = {
                   },
                   external_transportation: {
                     name: "External transportation",
+                    attributes: {
+                      albums: "Flights",
+                    },
                   },
                   internal_transportation: {
                     name: "Internal transportation",
+                    attributes: {
+                      albums: "Ground transportation",
+                    },
                   },
                 },
               },

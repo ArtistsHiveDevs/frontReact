@@ -279,6 +279,112 @@ export const DeMessages = {
             },
           },
         },
+        RidersPages: {
+          RidersDetailsPage: {
+            subpages: {
+              general: {
+                name: "Allgemein",
+                sections: {
+                  general: {
+                    name: "Allgemein",
+                    attributes: {
+                      since: "Seit",
+                      home_city: "Heimatstadt",
+                      categories: "Kategorien",
+                      spoken_languages: "Gesprochene Sprachen",
+                      stage_languages: "Bühnensprachen",
+                      arts_languages: "Kunstsprachen",
+                    },
+                  },
+                  contact: {
+                    name: "Kontakt",
+                    attributes: {
+                      production_manager_phone:
+                        "Telefon des Produktionsleiters",
+                      tour_manager_phone: "Telefon des Tourmanagers",
+                    },
+                  },
+                  general_technical_features: {
+                    name: "Allgemeine technische Merkmale",
+                    attributes: {
+                      frecuency_response: "Frequenzantwort",
+                      sound_pressure: "Schalldruck",
+                      foh_distance: "FOH-Entfernung",
+                    },
+                  },
+                },
+              },
+              people: {
+                name: "Personen",
+                sections: {
+                  staff: {
+                    name: "Personal",
+                  },
+                  allergies: {
+                    name: "Allergien",
+                  },
+                  rooming_list: {
+                    name: "Unterbringungsliste",
+                  },
+                  external_transportation: {
+                    name: "Externer Transport",
+                    attributes: {
+                      albums: "Flüge",
+                    },
+                  },
+                  internal_transportation: {
+                    name: "Interner Transport",
+                    attributes: {
+                      albums: "Bodenverkehrsmittel",
+                    },
+                  },
+                },
+              },
+              technical_requirements: {
+                name: "Technische Anforderungen",
+                sections: {
+                  staging: {
+                    name: "Bühnenaufbau",
+                  },
+                  audio_requirements: {
+                    name: "Audioanforderungen",
+                  },
+                  video_requirements: {
+                    name: "Videoanforderungen",
+                  },
+                  lights_requirements: {
+                    name: "Lichtanforderungen",
+                  },
+                  stage_design: {
+                    name: "Bühnendesign",
+                  },
+                  special_effects: {
+                    name: "Sondereffekte",
+                  },
+                },
+              },
+              backline: {
+                name: "Backline",
+                sections: {
+                  external_required_backline: {
+                    name: "Externe benötigte Backline",
+                  },
+                  owned_backline: {
+                    name: "Eigene Backline",
+                  },
+                },
+              },
+              sound_test: {
+                name: "Soundtest",
+                sections: {
+                  timing: {
+                    name: "Timing",
+                  },
+                },
+              },
+            },
+          },
+        },
         IndustryOfferPage: {
           create_account_banner: "Schließe dich dem Bienenstock an",
         },

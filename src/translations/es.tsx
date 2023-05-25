@@ -279,6 +279,112 @@ export const EsMessages = {
             },
           },
         },
+        RidersPages: {
+          RidersDetailsPage: {
+            subpages: {
+              general: {
+                name: "General",
+                sections: {
+                  general: {
+                    name: "General",
+                    attributes: {
+                      since: "Desde",
+                      home_city: "Ciudad de origen",
+                      categories: "Categorías",
+                      spoken_languages: "Idiomas hablados",
+                      stage_languages: "Idiomas de escenario",
+                      arts_languages: "Idiomas artísticos",
+                    },
+                  },
+                  contact: {
+                    name: "Contacto",
+                    attributes: {
+                      production_manager_phone:
+                        "Teléfono del gerente de producción",
+                      tour_manager_phone: "Teléfono del tour manager",
+                    },
+                  },
+                  general_technical_features: {
+                    name: "Características técnicas generales",
+                    attributes: {
+                      frecuency_response: "Respuesta de frecuencia",
+                      sound_pressure: "Presión sonora",
+                      foh_distance: "Distancia FOH",
+                    },
+                  },
+                },
+              },
+              people: {
+                name: "Personas",
+                sections: {
+                  staff: {
+                    name: "Equipo",
+                  },
+                  allergies: {
+                    name: "Alergias",
+                  },
+                  rooming_list: {
+                    name: "Lista de hospedaje",
+                  },
+                  external_transportation: {
+                    name: "Transporte externo",
+                    attributes: {
+                      albums: "Vuelos",
+                    },
+                  },
+                  internal_transportation: {
+                    name: "Transporte interno",
+                    attributes: {
+                      albums: "Transporte terrestre",
+                    },
+                  },
+                },
+              },
+              technical_requirements: {
+                name: "Requisitos técnicos",
+                sections: {
+                  staging: {
+                    name: "Escenografía",
+                  },
+                  audio_requirements: {
+                    name: "Requisitos de audio",
+                  },
+                  video_requirements: {
+                    name: "Requisitos de video",
+                  },
+                  lights_requirements: {
+                    name: "Requisitos de iluminación",
+                  },
+                  stage_design: {
+                    name: "Diseño de escenario",
+                  },
+                  special_effects: {
+                    name: "Efectos especiales",
+                  },
+                },
+              },
+              backline: {
+                name: "Backline",
+                sections: {
+                  external_required_backline: {
+                    name: "Backline externo requerido",
+                  },
+                  owned_backline: {
+                    name: "Backline propio",
+                  },
+                },
+              },
+              sound_test: {
+                name: "Prueba de sonido",
+                sections: {
+                  timing: {
+                    name: "Tiempo",
+                  },
+                },
+              },
+            },
+          },
+        },
         IndustryOfferPage: {
           create_account_banner: "Únete a la colmena",
         },

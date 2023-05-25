@@ -1,0 +1,9 @@
+@import "~/variables.module.scss";
+
+.grid-feature-row {
+  display: grid;
+  grid-template-columns: 55% 15% 27%;
+  > div {
+    align-self: center;
+  }
+}

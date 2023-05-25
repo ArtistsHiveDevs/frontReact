@@ -277,6 +277,112 @@ export const PtMessages = {
             },
           },
         },
+        RidersPages: {
+          RidersDetailsPage: {
+            subpages: {
+              general: {
+                name: "Geral",
+                sections: {
+                  general: {
+                    name: "Geral",
+                    attributes: {
+                      since: "Desde",
+                      home_city: "Cidade natal",
+                      categories: "Categorias",
+                      spoken_languages: "Idiomas falados",
+                      stage_languages: "Idiomas de palco",
+                      arts_languages: "Idiomas de artes",
+                    },
+                  },
+                  contact: {
+                    name: "Contato",
+                    attributes: {
+                      production_manager_phone:
+                        "Telefone do gerente de produção",
+                      tour_manager_phone: "Telefone do gerente de turnê",
+                    },
+                  },
+                  general_technical_features: {
+                    name: "Recursos técnicos gerais",
+                    attributes: {
+                      frecuency_response: "Resposta de frequência",
+                      sound_pressure: "Pressão sonora",
+                      foh_distance: "Distância FOH",
+                    },
+                  },
+                },
+              },
+              people: {
+                name: "Pessoas",
+                sections: {
+                  staff: {
+                    name: "Equipe",
+                  },
+                  allergies: {
+                    name: "Alergias",
+                  },
+                  rooming_list: {
+                    name: "Lista de acomodação",
+                  },
+                  external_transportation: {
+                    name: "Transporte externo",
+                    attributes: {
+                      albums: "Voos",
+                    },
+                  },
+                  internal_transportation: {
+                    name: "Transporte interno",
+                    attributes: {
+                      albums: "Transporte terrestre",
+                    },
+                  },
+                },
+              },
+              technical_requirements: {
+                name: "Requisitos técnicos",
+                sections: {
+                  staging: {
+                    name: "Montagem",
+                  },
+                  audio_requirements: {
+                    name: "Requisitos de áudio",
+                  },
+                  video_requirements: {
+                    name: "Requisitos de vídeo",
+                  },
+                  lights_requirements: {
+                    name: "Requisitos de iluminação",
+                  },
+                  stage_design: {
+                    name: "Design do palco",
+                  },
+                  special_effects: {
+                    name: "Efeitos especiais",
+                  },
+                },
+              },
+              backline: {
+                name: "Backline",
+                sections: {
+                  external_required_backline: {
+                    name: "Backline externo necessário",
+                  },
+                  owned_backline: {
+                    name: "Backline próprio",
+                  },
+                },
+              },
+              sound_test: {
+                name: "Teste de som",
+                sections: {
+                  timing: {
+                    name: "Tempo",
+                  },
+                },
+              },
+            },
+          },
+        },
         IndustryOfferPage: {
           create_account_banner: "Junte-se à colmeia",
         },

@@ -279,6 +279,112 @@ export const ItMessages = {
             },
           },
         },
+        RidersPages: {
+          RidersDetailsPage: {
+            subpages: {
+              general: {
+                name: "Generale",
+                sections: {
+                  general: {
+                    name: "Generale",
+                    attributes: {
+                      since: "Da",
+                      home_city: "Città di origine",
+                      categories: "Categorie",
+                      spoken_languages: "Lingue parlate",
+                      stage_languages: "Lingue di palco",
+                      arts_languages: "Lingue artistiche",
+                    },
+                  },
+                  contact: {
+                    name: "Contatto",
+                    attributes: {
+                      production_manager_phone:
+                        "Telefono del responsabile di produzione",
+                      tour_manager_phone: "Telefono del tour manager",
+                    },
+                  },
+                  general_technical_features: {
+                    name: "Caratteristiche tecniche generali",
+                    attributes: {
+                      frecuency_response: "Risposta in frequenza",
+                      sound_pressure: "Pressione sonora",
+                      foh_distance: "Distanza FOH",
+                    },
+                  },
+                },
+              },
+              people: {
+                name: "Persone",
+                sections: {
+                  staff: {
+                    name: "Staff",
+                  },
+                  allergies: {
+                    name: "Allergie",
+                  },
+                  rooming_list: {
+                    name: "Lista di alloggio",
+                  },
+                  external_transportation: {
+                    name: "Trasporto esterno",
+                    attributes: {
+                      albums: "Voli",
+                    },
+                  },
+                  internal_transportation: {
+                    name: "Trasporto interno",
+                    attributes: {
+                      albums: "Trasporto terrestre",
+                    },
+                  },
+                },
+              },
+              technical_requirements: {
+                name: "Requisiti tecnici",
+                sections: {
+                  staging: {
+                    name: "Scenografia",
+                  },
+                  audio_requirements: {
+                    name: "Requisiti audio",
+                  },
+                  video_requirements: {
+                    name: "Requisiti video",
+                  },
+                  lights_requirements: {
+                    name: "Requisiti di illuminazione",
+                  },
+                  stage_design: {
+                    name: "Progettazione palco",
+                  },
+                  special_effects: {
+                    name: "Effetti speciali",
+                  },
+                },
+              },
+              backline: {
+                name: "Backline",
+                sections: {
+                  external_required_backline: {
+                    name: "Backline esterno richiesto",
+                  },
+                  owned_backline: {
+                    name: "Backline di proprietà",
+                  },
+                },
+              },
+              sound_test: {
+                name: "Test del suono",
+                sections: {
+                  timing: {
+                    name: "Tempistica",
+                  },
+                },
+              },
+            },
+          },
+        },
         IndustryOfferPage: {
           create_account_banner: "Unisciti all'alveare",
         },

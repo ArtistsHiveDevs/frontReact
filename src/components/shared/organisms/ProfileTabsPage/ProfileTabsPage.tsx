@@ -22,11 +22,14 @@ import {
 
 import { faMicrophoneLines } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
+import { Table } from "react-bootstrap";
 import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
 import { EVENT_DETAIL_SUB_PAGE_CONFIG } from "~/components/Pages/EventsPage/EventDetailsPage/config-event-detail";
 import { Title } from "~/components/shared/atoms/Title/Title";
 import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 
+import { CrewListView } from "~/components/shared//molecules/domain/crewListView/CrewListView";
+import { GenresListView } from "~/components/shared//molecules/domain/genres/GenresListView";
 import { AlbumsShortListView } from "~/components/shared/domain/organisms/AlbumsShortListView/AlbumsShortListView";
 import { CountriesCitiesListView } from "~/components/shared/domain/organisms/CountriesCitiesListView/CountriesCitiesListView";
 import { SectionsPanel } from "~/components/shared/layout/SectionPanel";
@@ -481,13 +484,20 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
             componentDescriptor.clickHandlerName as keyof typeof handlers
           ];
       }
+      let images: GalleryImageParams[] = [];
 
+      if (componentDescriptor.data?.images) {
+        images = getData(componentDescriptor.data?.images);
+      }
+      if (componentDescriptor.data?.image) {
+        images = [{ src: getData(componentDescriptor.data?.image) }];
+      }
       renderedComponent = (
         <div
         // key={`section-${section.name}-${index}-${componentIndex}`}
         >
           <ImageGallery
-            images={getData(componentDescriptor.data?.images)}
+            images={images}
             imageSize="fs"
             clickHandler={(source: GalleryImageParams) => {
               if (clickHandler) {
@@ -566,6 +576,46 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           size={componentDescriptor.data?.size || "2"}
         />
       );
+    } else if (
+      componentDescriptor.componentName === ProfileComponentTypes.ARTS_GENRES
+    ) {
+      const content = getData(componentDescriptor.data?.genres) || {};
+
+      return <GenresListView genres={content} />;
+    } else if (
+      componentDescriptor.componentName === ProfileComponentTypes.CREW_LIST_VIEW
+    ) {
+      const crewList = getData(componentDescriptor.data?.crewList) || {};
+      console.log("ProfileTabs", componentDescriptor.data?.crewList, crewList);
+      renderedComponent = <CrewListView crewList={crewList} />;
+    } else if (
+      componentDescriptor.componentName === ProfileComponentTypes.TABLE
+    ) {
+      const tableConfig = componentDescriptor.data?.tableConfig
+        ? componentDescriptor.data?.tableConfig(dataSourceElement)
+        : undefined;
+
+      console.log("Table", componentDescriptor.data?.crewList, tableConfig);
+      renderedComponent = (tableConfig && (
+        <Table responsive>
+          <thead>
+            <tr>
+              {tableConfig.columns.map((column: any) => (
+                <th>{column}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {tableConfig.rows.map((row: any) => (
+              <tr>
+                {tableConfig.columns.map((column: any) => (
+                  <td>{row[column]}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )) || <></>;
     } else if (
       componentDescriptor.componentName ===
       ProfileComponentTypes.DISCOGRAPHY_LIST_VIEW

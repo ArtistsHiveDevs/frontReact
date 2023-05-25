@@ -1,9 +1,13 @@
 import { RatingStarsView } from "~/components/shared/atoms/gui/rating-stars-view/RatingStarsView";
+import { SocialNetworkStats } from "~/components/shared/domain/atoms/gui/social-network-stats/SocialNetworkStats";
 import {
   ProfileComponentTypes,
   ProfileDetailsSubpage,
 } from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
-import { PlaceRatingTemplate } from "~/models/domain/place/place.model";
+import {
+  PlaceModel,
+  PlaceRatingTemplate,
+} from "~/models/domain/place/place.model";
 
 export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
@@ -132,38 +136,165 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   },
   {
     name: "stats",
-    requireSession: true,
+    // requireSession: true,
     sections: [
       {
         name: "social_network_presence",
-        attributes: [
+        components: [
           {
-            name: "facebook",
-            emptyTitle: true,
-          },
-          {
-            name: "instagram",
-            emptyTitle: true,
-          },
-          {
-            name: "twitter",
-            emptyTitle: true,
-          },
-          {
-            name: "spotify",
-            emptyTitle: true,
-          },
-          {
-            name: "deezer",
-            emptyTitle: true,
-          },
-          {
-            name: "appleMusic",
-            emptyTitle: true,
-          },
-          {
-            name: "youtube",
-            emptyTitle: true,
+            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  name: "facebook",
+                  hidden: (place: PlaceModel) => {
+                    console.log(">>> ", place);
+                    return !place.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "facebook"
+                    );
+                  },
+                  value: (place: PlaceModel) => {
+                    const socialNetworkData = place.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "facebook"
+                    );
+                    return (
+                      <SocialNetworkStats
+                        followers={socialNetworkData?.followers}
+                        extraData={socialNetworkData}
+                      />
+                    );
+                  },
+                },
+                {
+                  name: "instagram",
+                  hidden: (place: PlaceModel) => {
+                    return !place.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "instagram"
+                    );
+                  },
+                  value: (place: PlaceModel) => {
+                    const socialNetworkData = place.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "instagram"
+                    );
+                    return (
+                      <SocialNetworkStats
+                        followers={socialNetworkData?.followers}
+                        extraData={socialNetworkData}
+                      />
+                    );
+                  },
+                },
+                {
+                  name: "twitter",
+                  hidden: (place: PlaceModel) => {
+                    return !place.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "twitter"
+                    );
+                  },
+                  value: (place: PlaceModel) => {
+                    const socialNetworkData = place.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "twitter"
+                    );
+                    return (
+                      <SocialNetworkStats
+                        followers={socialNetworkData?.followers}
+                        extraData={socialNetworkData}
+                      />
+                    );
+                  },
+                },
+                {
+                  name: "spotify",
+                  hidden: (place: PlaceModel) => {
+                    return !place.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "spotify"
+                    );
+                  },
+                  value: (place: PlaceModel) => {
+                    const socialNetworkData = place.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "spotify"
+                    );
+                    return (
+                      <SocialNetworkStats
+                        followers={socialNetworkData?.followers}
+                        extraData={socialNetworkData}
+                      />
+                    );
+                  },
+                },
+                {
+                  name: "deezer",
+                  hidden: (place: PlaceModel) => {
+                    return !place.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "deezer"
+                    );
+                  },
+                  value: (place: PlaceModel) => {
+                    const socialNetworkData = place.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "deezer"
+                    );
+                    return (
+                      <SocialNetworkStats
+                        followers={socialNetworkData?.followers}
+                        extraData={socialNetworkData}
+                      />
+                    );
+                  },
+                },
+                {
+                  name: "appleMusic",
+                  hidden: (place: PlaceModel) => {
+                    return !place.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "appleMusic"
+                    );
+                  },
+                  value: (place: PlaceModel) => {
+                    const socialNetworkData = place.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "appleMusic"
+                    );
+                    return (
+                      <SocialNetworkStats
+                        followers={socialNetworkData?.followers}
+                        extraData={socialNetworkData}
+                      />
+                    );
+                  },
+                },
+                {
+                  name: "youtube",
+                  hidden: (place: PlaceModel) => {
+                    return !place.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "youtube"
+                    );
+                  },
+                  value: (place: PlaceModel) => {
+                    const socialNetworkData = place.stats.socialNetworks.find(
+                      (socialNetworkStats) =>
+                        socialNetworkStats.name === "youtube"
+                    );
+                    return (
+                      <SocialNetworkStats
+                        followers={socialNetworkData?.followers}
+                        extraData={socialNetworkData}
+                      />
+                    );
+                  },
+                },
+              ],
+            },
           },
         ],
       },

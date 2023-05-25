@@ -34,6 +34,8 @@ export const EnMessages = {
           create_account: "Create account",
         },
         follow_us: "Follow us",
+        show_more: "Show more",
+        show_less: "Show less",
         subscription: {
           subscribe: "Subscribe",
           unsubscribe: "Unsubscribe",
@@ -244,7 +246,7 @@ export const EnMessages = {
               name: "Arts",
               sections: {
                 discography: {
-                  name: "discography",
+                  name: "Discography",
                   attributes: {
                     albums: "Albums",
                     dvd_video: "DVD / Video",

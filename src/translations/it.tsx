@@ -34,6 +34,8 @@ export const ItMessages = {
           create_account: "Crea account",
         },
         follow_us: "Seguici",
+        show_more: "Mostra di più",
+        show_less: "Mostra di meno",
         subscription: {
           subscribe: "Iscriversi",
           unsubscribe: "Disiscriversi",

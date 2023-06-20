@@ -282,6 +282,9 @@ export const EsMessages = {
             shows: {
               name: "Shows",
               sections: {
+                summary: {
+                  name: "Resumen",
+                },
                 next_shows: {
                   name: "Próximos eventos",
                 },

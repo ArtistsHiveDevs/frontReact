@@ -26,6 +26,7 @@ import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
 import { Title } from "~/components/shared/atoms/Title/Title";
 import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import { AlbumsShortListView } from "~/components/shared/domain/organisms/AlbumsShortListView/AlbumsShortListView";
+import { CountriesCitiesListView } from "~/components/shared/domain/organisms/CountriesCitiesListView/CountriesCitiesListView";
 import { SectionsPanel } from "~/components/shared/layout/SectionPanel";
 import { TabbedPanel } from "~/components/shared/layout/TabbedPanel";
 import { ProfileHeader } from "~/components/shared/molecules/Profile/ProfileHeader";
@@ -568,6 +569,13 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       const discography = getData(componentDescriptor.data_source);
 
       renderedComponent = <AlbumsShortListView discography={discography} />;
+    } else if (
+      componentDescriptor.componentName ===
+      ProfileComponentTypes.VISITED_COUNTRIES_CITIES_LIST_VIEW
+    ) {
+      const cities = getData(componentDescriptor.data?.cities) || [];
+
+      renderedComponent = <CountriesCitiesListView cities={cities} />;
     }
 
     return renderedComponent;

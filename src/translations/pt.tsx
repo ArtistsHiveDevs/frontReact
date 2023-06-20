@@ -288,6 +288,9 @@ export const PtMessages = {
             shows: {
               name: "Shows",
               sections: {
+                summary: {
+                  name: "Resumo",
+                },
                 next_shows: {
                   name: "Próximos shows",
                 },

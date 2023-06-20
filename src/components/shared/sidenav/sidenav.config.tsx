@@ -87,7 +87,7 @@ const miInfo: SideMenuItem[] = [
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "my_riders"),
-    path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}`,
+    path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/2`,
     icon: "FaFileAlt",
     updated: new Date("2/20/16"),
     allowedRoles: [{ entityName: "Artist" }],
@@ -133,6 +133,12 @@ const config: SideMenuItem[] = [
     icon: "HiOutlineLogout",
     updated: new Date("2/20/16"),
     requireSession: true,
+  },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "my_riders"),
+    path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/2`,
+    icon: "FaFileAlt",
+    updated: new Date("2/20/16"),
   },
 ];
 

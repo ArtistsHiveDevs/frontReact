@@ -289,6 +289,9 @@ export const ItMessages = {
             shows: {
               name: "Shows",
               sections: {
+                summary: {
+                  name: "Riassunto",
+                },
                 next_shows: {
                   name: "Prossimi spettacoli",
                 },

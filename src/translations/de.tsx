@@ -289,6 +289,9 @@ export const DeMessages = {
             shows: {
               name: "Shows",
               sections: {
+                summary: {
+                  name: "Zusammenfassung",
+                },
                 next_shows: {
                   name: "Nächsten Shows",
                 },

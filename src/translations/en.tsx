@@ -289,6 +289,9 @@ export const EnMessages = {
             shows: {
               name: "Shows",
               sections: {
+                summary: {
+                  name: "Summary",
+                },
                 next_shows: {
                   name: "Next shows",
                 },

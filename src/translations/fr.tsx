@@ -288,6 +288,9 @@ export const FrMessages = {
             shows: {
               name: "Shows",
               sections: {
+                summary: {
+                  name: "Résumé",
+                },
                 next_shows: {
                   name: "Spectacles à venir",
                 },

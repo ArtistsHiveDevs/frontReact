@@ -11,6 +11,7 @@ export enum ProfileComponentTypes {
   SOCIAL_NETWORK_WIDGET,
   TITLE,
   PROFILE_THUMBNAIL_CARD,
+  VISITED_COUNTRIES_CITIES_LIST_VIEW,
 }
 export interface ProfileDetailsSubpage {
   name: string;

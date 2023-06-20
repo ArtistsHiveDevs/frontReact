@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./search.scss";
 
-import { Collapse, Form, InputGroup, Modal } from "react-bootstrap";
+import { Collapse, Form, Image, InputGroup, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchSlice } from "~/common/slices/search";
 import {
@@ -197,6 +197,7 @@ export default function SearchPage() {
           <DynamicIcons iconName="BsSliders" size={20} />
         </div>
       </div>
+
       {!!results && !!open.length && (
         <>
           <div className="select-result-view-types">
@@ -294,6 +295,11 @@ export default function SearchPage() {
       )}
 
       {emptyResults()}
+      {(!results || results.totalResults === 0) && (
+        <div style={{ maxWidth: "10rem" }}>
+          <Image src="https://npcarlos.co/artistsHive_mocks/search.png" fluid />
+        </div>
+      )}
       {openModal()}
     </>
   );

@@ -563,6 +563,18 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     name: "shows",
     sections: [
       {
+        name: "summary",
+        components: [
+          {
+            componentName:
+              ProfileComponentTypes.VISITED_COUNTRIES_CITIES_LIST_VIEW,
+            data: {
+              cities: "cities",
+            },
+          },
+        ],
+      },
+      {
         name: "next_shows",
         components: [
           {

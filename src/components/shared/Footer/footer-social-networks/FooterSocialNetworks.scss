@@ -1,0 +1,46 @@
+@import "~/variables.module.scss";
+$scale-zoom: 1.1;
+
+.ah-social-networks {
+  padding: 2rem;
+  margin-bottom: 3rem;
+  background-color: $main-title-color;
+  text-align: center;
+  color: white;
+}
+
+.ah-social-networks-container {
+  background-color: $main-title-color;
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  a {
+    color: white;
+    transition: transform 0.2s;
+    padding: 0.5rem;
+  }
+  a:hover {
+    color: $entity-1;
+    transform: scale(1.5);
+  }
+}
+
+.active-lang {
+  text-decoration: solid underline $main-title-color 2px;
+  text-underline-offset: 6px;
+}
+
+.translate-opt {
+  color: #7a260a;
+  transition: all 0.2s ease-in-out;
+}
+
+.translate-opt:hover {
+  -webkit-transform: scale($scale-zoom);
+  -ms-transform: scale($scale-zoom);
+  cursor: pointer;
+  display: inline-block;
+}

@@ -33,6 +33,8 @@ export function* queriedArtists(actionParams?:PayloadAction<string>) {
     import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
   }/artists?q=${payload}`;
 
+  
+
 
   try {
     const artists: ArtistModel[] = yield call(request, requestURL);

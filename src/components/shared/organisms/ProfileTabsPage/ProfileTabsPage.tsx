@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router";
 import { useI18n } from "~/common/utils";
 import {
   GalleryImageParams,
@@ -25,6 +24,7 @@ import { faMicrophoneLines } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
 import { EVENT_DETAIL_SUB_PAGE_CONFIG } from "~/components/Pages/EventsPage/EventDetailsPage/config-event-detail";
+import { Title } from "~/components/shared/atoms/Title/Title";
 import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import { AlbumsShortListView } from "~/components/shared/domain/organisms/AlbumsShortListView/AlbumsShortListView";
 import { SectionsPanel } from "~/components/shared/layout/SectionPanel";
@@ -52,7 +52,6 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
   } = props;
 
   const { translateText } = useI18n();
-  const navigate = useNavigate();
 
   const getAttributeTitle = (
     subpageName: string,

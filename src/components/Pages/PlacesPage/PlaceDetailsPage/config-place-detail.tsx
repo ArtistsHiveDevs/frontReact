@@ -148,7 +148,6 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: "facebook",
                   hidden: (place: PlaceModel) => {
-                    console.log(">>> ", place);
                     return !place.stats.socialNetworks.find(
                       (socialNetworkStats) =>
                         socialNetworkStats.name === "facebook"

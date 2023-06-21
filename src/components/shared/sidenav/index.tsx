@@ -1,16 +1,14 @@
 import { useState } from "react";
 import { Container, Navbar, Offcanvas } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { useI18n } from "~/common/utils";
 import useAuth from "~/common/utils/hooks/auth/useAuth";
+import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
 import DynamicIcons from "~/components/shared/DynamicIcons";
 import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import BetaBarComponent from "~/components/shared/organisms/app/BetaBar/beta-bar";
 import { SearchComponent } from "~/components/shared/search";
-import { PATHS, SUB_PATHS } from "~/constants";
+import { PATHS } from "~/constants";
 import { SearchableTemplate } from "~/models/base";
-import { EventModel } from "~/models/domain/event/event.model";
-import { PlaceModel } from "~/models/domain/place/place.model";
 import { ProfilePicture } from "../atoms/gui/ProfilePicture/ProfilePicture";
 import "./index.scss";
 import { SIDENAV_MENU_CONFIG, SideMenuItem } from "./sidenav.config";
@@ -21,7 +19,7 @@ const SideNav = () => {
   const [show, setShow] = useState(false);
   const [openStatusSearchInputText, setOpenStatusSearchInputText] =
     useState(false);
-  const navigate = useNavigate();
+  const { navigateToEntity, navigateToInnerPath } = useNavigation();
   const { translateText } = useI18n();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -37,9 +35,9 @@ const SideNav = () => {
       paramId = `${Math.floor(Math.random() * 18) + 1}`;
     }
     if (path) {
-      navigate(`${path}/${paramId}`);
+      navigateToInnerPath({ path: `${path}/${paramId}` });
     } else {
-      navigate(``);
+      navigateToInnerPath({ path: `` });
     }
     setShow(false);
   };
@@ -68,14 +66,8 @@ const SideNav = () => {
     searchIcon = "MdSearchOff";
   }
   const handleResultOnClick = (element: SearchableTemplate) => {
-    let newEntity = PATHS.ARTISTS;
-    if (element instanceof PlaceModel) {
-      newEntity = PATHS.PLACES;
-    } else if (element instanceof EventModel) {
-      newEntity = PATHS.EVENTS;
-    }
     setOpenStatusSearchInputText(false);
-    navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${element.id}`);
+    navigateToEntity({ entityType: element.constructor.name, id: element.id });
   };
   return (
     <>
@@ -113,7 +105,10 @@ const SideNav = () => {
               <ProfilePicture src={loggedUser.profile_pic} size="xs" />
             )}
             {!loggedUser && (
-              <a className="brand-text" onClick={() => navigate(PATHS.LOGIN)}>
+              <a
+                className="brand-text"
+                onClick={() => navigateToInnerPath({ path: PATHS.LOGIN })}
+              >
                 Log in
               </a>
             )}

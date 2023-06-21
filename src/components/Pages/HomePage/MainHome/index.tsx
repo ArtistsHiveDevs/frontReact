@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Image } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 import { useArtistsSlice } from "~/common/slices/artists";
 import { selectArtists } from "~/common/slices/artists/selectors";
 import { useEventsSlice } from "~/common/slices/events";
@@ -9,7 +8,8 @@ import { selectEvents } from "~/common/slices/events/selectors";
 import { usePlacesSlice } from "~/common/slices/places";
 import { selectPlaces } from "~/common/slices/places/selectors";
 import { useI18n } from "~/common/utils";
-import { PATHS, SUB_PATHS, getCustomList } from "~/constants";
+import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
+import { PATHS, getCustomList } from "~/constants";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
 import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
@@ -33,7 +33,7 @@ const HomePage = () => {
   // Hooks
   const dispatch = useDispatch();
   const { translateText } = useI18n();
-  const navigate = useNavigate();
+  const { navigateToEntity, navigateToInnerPath } = useNavigation();
 
   // Effects
   useEffect(() => {
@@ -50,19 +50,19 @@ const HomePage = () => {
   }, []);
 
   function onClickCardArtist(data: any) {
-    navigate(`${PATHS.ARTISTS}/${SUB_PATHS.ELEMENT_DETAILS}/${data.id}`);
+    navigateToEntity({ entityType: ArtistModel.name, id: data.id });
   }
 
   function onClickCardEventos(data: any) {
-    navigate(`${PATHS.EVENTS}/${SUB_PATHS.ELEMENT_DETAILS}/${data.id}`);
+    navigateToEntity({ entityType: EventModel.name, id: data.id });
   }
 
   function onClickCardPlaces(data: any) {
-    navigate(`${PATHS.PLACES}/${SUB_PATHS.ELEMENT_DETAILS}/${data.id}`);
+    navigateToEntity({ entityType: PlaceModel.name, id: data.id });
   }
 
   const openOfferIndustry = (actorRole: string) => {
-    navigate(`${PATHS.INDUSTRY_OFFER}/${actorRole}`);
+    navigateToInnerPath({ path: `${PATHS.INDUSTRY_OFFER}/${actorRole}` });
   };
 
   const offerActors = [

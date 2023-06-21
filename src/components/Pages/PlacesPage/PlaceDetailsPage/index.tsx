@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { usePlacesSlice } from "~/common/slices/places";
 import { selectPlaces } from "~/common/slices/places/selectors";
+import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
 import { PLACE_DETAIL_SUB_PAGE_CONFIG } from "~/components/Pages/PlacesPage/PlaceDetailsPage/config-place-detail";
 import {
   GalleryImageParams,
   ImageGallery,
 } from "~/components/shared/atoms/ImageGallery/ImageGallery";
 import { ProfileTabsPage } from "~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage";
-import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from "~/constants";
+import { URL_PARAMETER_NAMES } from "~/constants";
+import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
 import "./index.scss";
 
@@ -17,7 +19,7 @@ const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
   "app.pages.PlacesPages.PlacesDetailsPage";
 
 const PlaceDetailPage = () => {
-  const navigate = useNavigate();
+  const { navigateToEntity } = useNavigation();
 
   const urlParameters = useParams();
 
@@ -54,7 +56,6 @@ const PlaceDetailPage = () => {
     if (placeId !== urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]) {
       setCurrentPlaceId(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
     }
-
   }, [placeId, urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]]);
 
   const getPlaceInfo = (id: string) => {
@@ -73,16 +74,12 @@ const PlaceDetailPage = () => {
       setGalleryImage(undefined);
     },
     onClickNextEvent: (value: any) => {
-      navigateTo(PATHS.EVENTS, value.id);
+      navigateToEntity({ entityType: EventModel.name, id: value.id });
     },
     onClickPastEvent: (value: any) => {
-      navigateTo(PATHS.EVENTS, value.id);
+      navigateToEntity({ entityType: EventModel.name, id: value.id });
     },
   };
-
-  function navigateTo(newEntity: PATHS, id: string = null) {
-    navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
-  }
 
   // Data config
   subPagesInfo;

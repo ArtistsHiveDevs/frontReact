@@ -3,20 +3,19 @@ import "./index.scss";
 import { useEffect, useState } from "react";
 import { Image } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEventsSlice } from "~/common/slices/events";
 import { selectEvents } from "~/common/slices/events/selectors";
 import { useI18n } from "~/common/utils";
+import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
+import VerifiedArtist from "~/components/shared/VerifiedArtist";
 import {
   FavoriteSubscription,
   FavoriteSubscritionIconDefaultTypes,
 } from "~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe";
 import { ProfileTabsPage } from "~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage";
-import VerifiedArtist from "~/components/shared/VerifiedArtist";
-import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from "~/constants";
-import { ArtistModel } from "~/models/domain/artist/artist.model";
+import { URL_PARAMETER_NAMES } from "~/constants";
 import { EventModel } from "~/models/domain/event/event.model";
-import { PlaceModel } from "~/models/domain/place/place.model";
 import { EVENT_DETAIL_SUB_PAGE_CONFIG } from "./config-event-detail";
 
 const TRANSLATION_BASE_EVENT_DETAILS_PAGE: string =
@@ -43,7 +42,7 @@ const EventDetailsPage = () => {
 
   const { translateText } = useI18n();
 
-  const navigate = useNavigate();
+  const { navigateToEntity } = useNavigation();
 
   // Effects
   useEffect(() => {
@@ -69,24 +68,14 @@ const EventDetailsPage = () => {
     }
   }, [eventsList]);
 
-  function navigateTo(newEntity: PATHS, id: string = null) {
-    navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
-  }
+  // function navigateTo(newEntity: PATHS, id: string = null) {
+  //   navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
+  // }
 
   const handlers = {
     onNavigateToEntity: (value: any) => {
       const entityType = value.constructor.name;
-      let entity = undefined;
-      if (entityType === ArtistModel.name) {
-        entity = PATHS.ARTISTS;
-      } else if (entityType === EventModel.name) {
-        entity = PATHS.EVENTS;
-      } else if (entityType === PlaceModel.name) {
-        entity = PATHS.PLACES;
-      }
-      if (entity) {
-        navigateTo(entity, value.id);
-      }
+      navigateToEntity({ entityType, id: value.id });
     },
   };
 

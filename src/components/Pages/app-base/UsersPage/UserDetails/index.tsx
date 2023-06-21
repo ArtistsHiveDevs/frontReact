@@ -1,25 +1,22 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import useAuth from "~/common/utils/hooks/auth/useAuth";
 import {
   GalleryImageParams,
   ImageGallery,
 } from "~/components/shared/atoms/ImageGallery/ImageGallery";
 import { ProfileTabsPage } from "~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage";
-import { PATHS, SUB_PATHS } from "~/constants";
-import { ArtistModel } from "~/models/domain/artist/artist.model";
-import { EventModel } from "~/models/domain/event/event.model";
-import { PlaceModel } from "~/models/domain/place/place.model";
 import { USER_DETAIL_SUB_PAGE_CONFIG } from "./config-user-detail";
 
+import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
+import { EventModel } from "~/models/domain/event/event.model";
 import "./index.scss";
 
 const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
   "app.pages.app_base.UsersPages.UsersDetailsPage";
 
 const UserDetailPage = () => {
-  const navigate = useNavigate();
+  const { navigateToEntity } = useNavigation();
 
   const { loggedUser, setLoggedUser } = useAuth();
 
@@ -62,27 +59,13 @@ const UserDetailPage = () => {
       setGalleryImage(undefined);
     },
     onClickEvent: (value: any) => {
-      navigateTo(PATHS.EVENTS, value.id);
+      navigateToEntity({ entityType: EventModel.name, id: value.id });
     },
     onNavigateToEntity: (value: any) => {
       const entityType = value.constructor.name;
-      let entity = undefined;
-      if (entityType === ArtistModel.name) {
-        entity = PATHS.ARTISTS;
-      } else if (entityType === EventModel.name) {
-        entity = PATHS.EVENTS;
-      } else if (entityType === PlaceModel.name) {
-        entity = PATHS.PLACES;
-      }
-      if (entity) {
-        navigateTo(entity, value.id);
-      }
+      navigateToEntity({ entityType, id: value.id });
     },
   };
-
-  function navigateTo(newEntity: PATHS, id: string = null) {
-    navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
-  }
 
   return (
     <>

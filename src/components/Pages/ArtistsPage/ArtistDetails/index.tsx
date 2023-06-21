@@ -1,23 +1,25 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useArtistsSlice } from "~/common/slices/artists";
 import { selectArtists } from "~/common/slices/artists/selectors";
+import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
 import { ARTIST_DETAIL_SUB_PAGE_CONFIG } from "~/components/Pages/ArtistsPage/ArtistDetails/config-artist-detail";
 import {
   GalleryImageParams,
   ImageGallery,
 } from "~/components/shared/atoms/ImageGallery/ImageGallery";
 import { ProfileTabsPage } from "~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage";
-import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from "~/constants";
+import { URL_PARAMETER_NAMES } from "~/constants";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
+import { EventModel } from "~/models/domain/event/event.model";
 import "./index.scss";
 
 const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
   "app.pages.ArtistsPages.ArtistsDetailsPage";
 
 const ArtistDetailPage = () => {
-  const navigate = useNavigate();
+  const { navigateToEntity } = useNavigation();
 
   const urlParameters = useParams();
 
@@ -71,13 +73,9 @@ const ArtistDetailPage = () => {
       setGalleryImage(undefined);
     },
     onClickEvent: (value: any) => {
-      navigateTo(PATHS.EVENTS, value.id);
+      navigateToEntity({ entityType: EventModel.name, id: value.id });
     },
   };
-
-  function navigateTo(newEntity: PATHS, id: string = null) {
-    navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
-  }
 
   return (
     <>

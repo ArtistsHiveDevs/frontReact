@@ -3,7 +3,6 @@ import "./search.scss";
 
 import { Collapse, Form, InputGroup, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 import { useSearchSlice } from "~/common/slices/search";
 import {
   selectSearch,
@@ -15,13 +14,11 @@ import DynamicIcons from "~/components/shared/DynamicIcons";
 import MapContainer from "~/components/shared/mapPrinter/mapContainer";
 import { ResultElement } from "~/components/shared/search/result-element";
 import consts from "~/components/shared/search/search-constants";
-import { PATHS, SUB_PATHS } from "~/constants";
 import { LocatableTemplate, SearchableTemplate } from "~/models/base";
-import { EventModel } from "~/models/domain/event/event.model";
-import { PlaceModel } from "~/models/domain/place/place.model";
 import { SearchModel } from "~/models/domain/search/search.model";
 
 import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
 
 const TRANSLATION_BASE_SEARCH = "app.appbase.search";
 const MAX_RESULTS_PER_PAGE = 10;
@@ -67,17 +64,10 @@ export default function SearchPage() {
 
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
+  const { navigateToEntity } = useNavigation();
 
   const handleResultOnClick = (element: SearchableTemplate) => {
-    let newEntity = PATHS.ARTISTS;
-    if (element instanceof PlaceModel) {
-      newEntity = PATHS.PLACES;
-    } else if (element instanceof EventModel) {
-      newEntity = PATHS.EVENTS;
-    }
-
-    navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${element.id}`);
+    navigateToEntity({ entityType: element.constructor.name, id: element.id });
   };
   // Effects
 

@@ -12,7 +12,6 @@ export function* getPrivacyPolicy(
 ) {
   yield delay(500);
 
-  console.log(actionParams);
   const requestURL = `${
     import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
   }/privacy?v=1.0`;

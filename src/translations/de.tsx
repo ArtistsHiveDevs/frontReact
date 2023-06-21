@@ -471,6 +471,7 @@ export const DeMessages = {
             name: "Was machen wir?",
             options: {
               cultural_agenda: "Kulturagenda",
+              for_academies: "Für Akademien",
               for_artists: "Für Künstler",
               for_places: "Für Orte",
               for_promoters: "Für Promoter",

@@ -23,3 +23,11 @@
     color: $main-title-color;
   }
 }
+
+.option-active {
+  color: $main-title-color;
+}
+
+.option-disabled {
+  color: $gray-medium;
+}

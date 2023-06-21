@@ -49,8 +49,15 @@ const FooterColumns = (props: any) => {
                     : translateText(
                         `${TRANSLATION_BASE_FOOTER_COLUMNS}.${footerColumn.columnName}.options.${option.name}`
                       );
+                  const classNames = !!option.link
+                    ? "option-active"
+                    : "option-disabled";
                   return (
-                    <li key={option.name} onClick={() => handleClick(option)}>
+                    <li
+                      key={option.name}
+                      onClick={() => handleClick(option)}
+                      className={classNames}
+                    >
                       {optionTitle}
                     </li>
                   );

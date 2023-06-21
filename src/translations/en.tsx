@@ -471,6 +471,7 @@ export const EnMessages = {
             name: "What we do?",
             options: {
               cultural_agenda: "Cultural Agenda",
+              for_academies: "For academies",
               for_artists: "For artists",
               for_places: "For places",
               for_promoters: "For promoters",

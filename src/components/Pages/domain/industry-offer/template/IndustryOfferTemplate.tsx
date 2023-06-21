@@ -2,12 +2,13 @@ import { useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import remarkGfm from "remark-gfm";
 import { useIndustryOfferSlice } from "~/common/slices/app-base/IndustryOffer";
 import { selectIndustryOffer } from "~/common/slices/app-base/IndustryOffer/selectors";
 import { useI18n } from "~/common/utils";
 import useAuth from "~/common/utils/hooks/auth/useAuth";
+import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
 import { PATHS } from "~/constants";
 import { IndustryOfferModel } from "~/models/domain/industryOffer/IndustryOffer.model";
 import "./IndustryOfferTemplate.scss";
@@ -22,7 +23,7 @@ const IndustryOfferTemplate = () => {
 
   const { loggedUser, setLoggedUser } = useAuth();
   const { translateText } = useI18n();
-  const navigate = useNavigate();
+  const { navigateToInnerPath } = useNavigation();
 
   const { role } = urlParameters;
 
@@ -50,7 +51,7 @@ const IndustryOfferTemplate = () => {
           </div>
           <Button
             className="button-styles"
-            onClick={() => navigate(PATHS.SIGN_UP)}
+            onClick={() => navigateToInnerPath({ path: PATHS.SIGN_UP })}
           >
             {translateText(
               `${TRANSLATION_BASE_GLOBAL_DICT_ACTIONS_ACCOUNTS}.create_account`

@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router";
 import { useI18n } from "~/common/utils";
 import {
   GalleryImageParams,
@@ -52,7 +51,6 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
   } = props;
 
   const { translateText } = useI18n();
-  const navigate = useNavigate();
 
   const getAttributeTitle = (
     subpageName: string,

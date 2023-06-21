@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 import { useEventsSlice } from "~/common/slices/events";
 import { selectEvents } from "~/common/slices/events/selectors";
 import { useI18n } from "~/common/utils";
+import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
 import {
   findEventsPerArtist,
   findEventsPerDate,
@@ -13,12 +13,7 @@ import {
 } from "~/common/utils/object-utils/object-utils-index";
 import MainSection from "~/components/Pages/HomePage/MainSection/MainSection";
 import FilterBarComponent from "~/components/shared/organisms/FilterBar/filter-bar";
-import {
-  PATHS,
-  SUB_PATHS,
-  getCustomList,
-  sortEventsPerMonth,
-} from "~/constants";
+import { getCustomList, sortEventsPerMonth } from "~/constants";
 import { SearchableTemplate } from "~/models/base";
 import { EventModel } from "~/models/domain/event/event.model";
 import "./cultural-agenda-page.scss";
@@ -33,13 +28,13 @@ const CulturalAgendaPage: React.FC = () => {
   // Hooks
   const dispatch = useDispatch();
   const { translateText } = useI18n();
-  const navigate = useNavigate();
+  const { navigateToEntity } = useNavigation();
   const defaultFilteredList: EventModel[] = null;
   const [filteredList, updateFilteredList] = useState(defaultFilteredList);
 
   // Functions
   function onClickCardEventos(data: any) {
-    navigate(`${PATHS.EVENTS}/${SUB_PATHS.ELEMENT_DETAILS}/${data.id}`);
+    navigateToEntity({ entityType: EventModel.name, id: data.id });
   }
 
   function onFilterCategoriesAction(categorie: string) {

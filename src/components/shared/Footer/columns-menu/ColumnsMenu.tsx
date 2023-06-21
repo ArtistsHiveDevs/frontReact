@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router-dom";
 import { useI18n } from "~/common/utils";
+import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
 import "./ColumnsMenu.scss";
-
 export interface FooterColumnOption {
   name: string;
   link?: string;
@@ -22,11 +21,11 @@ const FooterColumns = (props: any) => {
   const { footerColumns } = props;
   const { translateText } = useI18n();
 
-  const navigate = useNavigate();
+  const { navigateToInnerPath } = useNavigation();
 
   const handleClick = (option: FooterColumnOption) => {
     if (option.link) {
-      navigate(option.link);
+      navigateToInnerPath({ path: option.link });
     }
   };
 

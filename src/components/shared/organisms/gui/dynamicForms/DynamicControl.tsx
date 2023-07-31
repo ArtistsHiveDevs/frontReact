@@ -1,49 +1,41 @@
-import { useFormContext } from "react-hook-form";
+import { FieldErrors, FieldValues, useFormContext } from "react-hook-form";
+import { createSelect } from "./components/Select";
+import { createSlider } from "./components/Slider";
+import { createTextField } from "./components/TextField";
 import { DynamicFieldData } from "./dynamic-control-types";
 
-export const DynamicControl = ({
-  inputType,
-  fieldName,
-  defaultValue,
-  options = [],
-  config = {},
-}: DynamicFieldData) => {
+export const DynamicControl = (params: {
+  fields: DynamicFieldData;
+  errors: FieldErrors<FieldValues>;
+}) => {
+  const { fields, errors } = params;
   const { register } = useFormContext();
+
+  const {
+    label,
+    inputType,
+    fieldName,
+    defaultValue,
+    placeholder = "",
+    options = [],
+    config = {},
+    componentParams = {},
+  }: DynamicFieldData = fields;
 
   switch (inputType) {
     case "text":
-      return (
-        <input
-          type="text"
-          {...register(fieldName, config)}
-          defaultValue={defaultValue}
-        />
-      );
-    case "select": {
-      return (
-        <select
-          {...register(fieldName, config)}
-          defaultValue={defaultValue}
-          name={fieldName}
-          id={fieldName}
-        >
-          {options.map((o, index) => (
-            <option key={index} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
-      );
-    }
     case "number":
-      return (
-        <input
-          type="number"
-          {...register(fieldName, config)}
-          defaultValue={defaultValue}
-        />
-      );
+    case "password":
+    case "tel":
+      return createTextField(register, fields, errors);
+    case "select": {
+      return createSelect(register, fields, errors);
+    }
+    case "range": {
+      return createSlider(register, fields, errors);
+    }
     default:
-      return <input type="text" />;
+      fields.inputType = "text";
+      return createTextField(register, fields, errors);
   }
 };

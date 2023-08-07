@@ -2,7 +2,7 @@ import DynamicIcons from "~/components/shared/DynamicIcons";
 import "./index.scss";
 
 const IconFieldReadOnly = (props: any) => {
-  const { icon, fieldName, fieldValue } = props;
+  let { fieldName, fieldTitle, icon, fieldValue } = props;
   return (
     <>
       <p className="info-line">
@@ -13,8 +13,8 @@ const IconFieldReadOnly = (props: any) => {
         )}
         <span>
           <>
-            {fieldName && <strong>{fieldName}: </strong>}
-            {fieldValue}
+            {fieldTitle && <strong>{fieldTitle}: </strong>}
+            {renderFieldValue}
           </>
         </span>
       </p>

@@ -68,7 +68,7 @@ const ArtistDetailPage = () => {
     return artistList.find((artist) => artist.id === id);
   };
 
-  const getAttributeName = (
+  const getAttributeTitle = (
     subpageName: string,
     sectionName: string,
     attribute: ProfileDetailAttributeConfiguration
@@ -118,7 +118,7 @@ const ArtistDetailPage = () => {
                   section.attributes?.map((attribute) => {
                     return {
                       name: attribute.name,
-                      title: getAttributeName(
+                      title: getAttributeTitle(
                         subpage.name,
                         section.name,
                         attribute

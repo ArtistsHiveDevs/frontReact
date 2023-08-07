@@ -44,4 +44,6 @@ export interface ProfileDetailAttributeConfiguration {
    *
    */
   requireSession?: boolean;
+
+  title?: string;
 }

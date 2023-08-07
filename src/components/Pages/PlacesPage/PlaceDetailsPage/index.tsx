@@ -89,7 +89,7 @@ const PlaceDetailPage = () => {
     return placesList.find((place) => place.id === id);
   };
 
-  const getAttributeName = (
+  const getAttributeTitle = (
     subpageName: string,
     sectionName: string,
     attribute: ProfileDetailAttributeConfiguration
@@ -156,13 +156,14 @@ const PlaceDetailPage = () => {
                   section.attributes?.map((attribute) => {
                     return {
                       name: attribute.name,
-                      title: getAttributeName(
+                      title: getAttributeTitle(
                         subpage.name,
                         section.name,
                         attribute
                       ),
                       icon: attribute?.icon,
                       value: getData(attribute.name),
+                      requireSession: attribute.requireSession,
                     };
                   }) || [];
 

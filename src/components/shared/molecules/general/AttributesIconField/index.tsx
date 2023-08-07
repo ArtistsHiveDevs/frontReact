@@ -21,8 +21,9 @@ export const AttributesIconFieldReadOnly = (props: any) => {
             requiredSession={attribute.requireSession}
           >
             <IconFieldReadOnly
+              fieldName={attribute.name}
+              fieldTitle={attribute.title}
               icon={attribute?.icon}
-              fieldName={attribute.title}
               fieldValue={attribute.value}
             />
           </RequireAuthComponent>

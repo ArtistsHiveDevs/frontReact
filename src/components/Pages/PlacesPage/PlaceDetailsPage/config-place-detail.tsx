@@ -26,7 +26,6 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           },
           {
             name: "address",
-            icon: "FaMapMarkerAlt",
             emptyTitle: true,
           },
           {
@@ -60,28 +59,23 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         attributes: [
           {
             name: "website",
-            icon: "TbWorld",
             emptyTitle: true,
           },
           {
             name: "email",
-            icon: "MdEmail",
             emptyTitle: true,
           },
           {
             name: "phone",
-            icon: "BsFillTelephoneFill",
             emptyTitle: true,
           },
           {
             name: "mobile_phone",
-            icon: "FaMobileAlt",
             emptyTitle: true,
           },
           {
-            name: "Whatsapp",
+            name: "whatsapp",
             literal: true,
-            icon: "BsWhatsapp",
             emptyTitle: true,
           },
         ],
@@ -90,28 +84,23 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: "social_networks",
         attributes: [
           {
-            name: "Facebook",
-            icon: "BsFacebook",
+            name: "facebook",
             emptyTitle: true,
           },
           {
-            name: "Twitter",
-            icon: "BsTwitter",
+            name: "twitter",
             emptyTitle: true,
           },
           {
-            name: "Instagram",
-            icon: "BsInstagram",
+            name: "instagram",
             emptyTitle: true,
           },
           {
-            name: "Spotify",
-            icon: "BsSpotify",
+            name: "spotify",
             emptyTitle: true,
           },
           {
-            name: "Youtube",
-            icon: "BsYoutube",
+            name: "youtube",
             emptyTitle: true,
           },
         ],
@@ -148,7 +137,6 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           {
             name: "Deezer",
             emptyTitle: true,
-            icon: "FaDeezer",
           },
           {
             name: "Apple Music",

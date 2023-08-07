@@ -26,10 +26,11 @@ export interface DynamicFieldData {
   label: string;
   inputType: ControlType;
   fieldName: string;
-  defaultValue: any;
+  defaultValue?: any;
   placeholder?: string;
   options?: SelectOption[];
   config?: RegisterOptions;
   componentParams?: any;
+  handlersNames?: string[];
   error?: FieldErrors<FieldValues>;
 }

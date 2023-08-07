@@ -40,6 +40,7 @@
     "react-query": "^3.39.2",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.1",
+    "react-select": "^5.7.4",
     "react-world-flags": "^1.5.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-saga": "^1.2.1",

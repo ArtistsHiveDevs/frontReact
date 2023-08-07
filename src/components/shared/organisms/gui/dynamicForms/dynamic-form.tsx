@@ -5,22 +5,18 @@ import { DynamicFieldData } from "./dynamic-control-types";
 
 interface FormProps {
   fields: DynamicFieldData[];
+  handlers: { onSubmit: Function; [handlerName: string]: Function };
 }
 
-export const DynamicForm = ({ fields }: FormProps) => {
+export const DynamicForm = (props: FormProps) => {
+  const { fields, handlers } = props;
   const formMethods = useForm();
   const {
     handleSubmit,
     formState: { errors },
   } = formMethods;
 
-  function onSubmit(data: any, error: any) {
-    // your logic on what to do with data
-    console.log("ASDASDADASD");
-    console.log("###  ", data, error);
-
-    console.log(errors);
-  }
+  const onSubmit: any = handlers["onSubmit"];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -28,7 +24,11 @@ export const DynamicForm = ({ fields }: FormProps) => {
         <Stack spacing={2}>
           {fields.map((d, i) => (
             <div key={i}>
-              <DynamicControl fields={d} errors={{ ...errors }} />
+              <DynamicControl
+                fieldData={d}
+                handlers={{ ...handlers }}
+                errors={{ ...errors }}
+              />
             </div>
           ))}
           <Button type="submit" variant="contained">

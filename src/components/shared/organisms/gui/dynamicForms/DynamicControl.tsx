@@ -5,10 +5,13 @@ import { createTextField } from "./components/TextField";
 import { DynamicFieldData } from "./dynamic-control-types";
 
 export const DynamicControl = (params: {
-  fields: DynamicFieldData;
+  fieldData: DynamicFieldData;
   errors: FieldErrors<FieldValues>;
+  handlers: { [handlerName: string]: Function };
+  control?: any;
 }) => {
-  const { fields, errors } = params;
+  const { fieldData: fieldData, errors, handlers } = params;
+
   const { register } = useFormContext();
 
   const {
@@ -20,22 +23,27 @@ export const DynamicControl = (params: {
     options = [],
     config = {},
     componentParams = {},
-  }: DynamicFieldData = fields;
+  }: DynamicFieldData = fieldData;
 
   switch (inputType) {
     case "text":
     case "number":
     case "password":
     case "tel":
-      return createTextField(register, fields, errors);
+      return createTextField(register, fieldData, errors);
     case "select": {
-      return createSelect(register, fields, errors);
+      return createSelect({
+        register,
+        fieldData,
+        errors,
+        handlers,
+      });
     }
     case "range": {
-      return createSlider(register, fields, errors);
+      return createSlider(register, fieldData, errors);
     }
     default:
-      fields.inputType = "text";
-      return createTextField(register, fields, errors);
+      fieldData.inputType = "text";
+      return createTextField(register, fieldData, errors);
   }
 };

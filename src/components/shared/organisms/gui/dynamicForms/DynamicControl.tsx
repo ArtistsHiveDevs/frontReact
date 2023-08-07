@@ -1,7 +1,10 @@
 import { FieldErrors, FieldValues, useFormContext } from "react-hook-form";
 import { createSelect } from "./components/Select";
 import { createSlider } from "./components/Slider";
-import { createTextField } from "./components/TextField";
+import {
+  createSocialNetworkTextField,
+  createTextField,
+} from "./components/TextField";
 import { DynamicFieldData } from "./dynamic-control-types";
 
 export const DynamicControl = (params: {
@@ -31,6 +34,8 @@ export const DynamicControl = (params: {
     case "password":
     case "tel":
       return createTextField(register, fieldData, errors);
+    case "socialNetwork":
+      return createSocialNetworkTextField(register, fieldData, errors);
     case "select": {
       return createSelect({
         register,

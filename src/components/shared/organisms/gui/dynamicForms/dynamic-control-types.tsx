@@ -15,7 +15,8 @@ export type ControlType =
   | "date"
   | "datetime"
   | "month"
-  | "week";
+  | "week"
+  | "socialNetwork";
 
 export interface SelectOption {
   label: string;
@@ -23,7 +24,7 @@ export interface SelectOption {
 }
 
 export interface DynamicFieldData {
-  label: string;
+  label?: string;
   inputType: ControlType;
   fieldName: string;
   defaultValue?: any;

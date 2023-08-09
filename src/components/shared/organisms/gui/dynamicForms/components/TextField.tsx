@@ -1,8 +1,11 @@
+import { faMicrophoneLines } from "@fortawesome/free-solid-svg-icons";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import { useState } from "react";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
 import DynamicIcons from "~/components/shared/DynamicIcons";
+import MapContainer from "~/components/shared/mapPrinter/mapContainer";
 import { SocialNetworks } from "~/constants/social-networks.const";
 import { DynamicFieldData } from "../dynamic-control-types";
 
@@ -132,4 +135,50 @@ export const createSocialNetworkTextField = (
   fieldData.config = { ...pattern };
 
   return createTextField(register, fieldData, errors);
+};
+
+export const createAddresTextField = (
+  register: UseFormRegister<FieldValues>,
+  fieldData: DynamicFieldData,
+  errors: FieldErrors<FieldValues>
+) => {
+  const googleApiKey = "AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs";
+
+  const lat = 4.6126;
+  const lng = -74.0705;
+
+  const mapData = {
+    zoom: 19,
+    center: {
+      lat,
+      lng,
+    },
+    marksLocation: [
+      {
+        position: { lat, lng },
+        iconData: GMapsSvgMaker(faMicrophoneLines.icon, {
+          color: "rgb(94, 90, 90)",
+          scale: 0.07,
+        }),
+      },
+    ],
+    anotherOpts: {},
+  };
+
+  const mapContainerStyles = {
+    width: "100%",
+    height: "400px",
+  };
+
+  return (
+    <div>
+      {createTextField(register, fieldData, errors)}
+      <MapContainer
+        //   key={`section-${section.name}-${index}-${componentIndex}`}
+        apiKey={googleApiKey}
+        stylesc={mapContainerStyles}
+        mapData={mapData}
+      />
+    </div>
+  );
 };

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Image } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useArtistsSlice } from "~/common/slices/artists";
@@ -9,12 +9,14 @@ import { usePlacesSlice } from "~/common/slices/places";
 import { selectPlaces } from "~/common/slices/places/selectors";
 import { useI18n } from "~/common/utils";
 import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
+import { DynamicForm } from "~/components/shared/organisms/gui/dynamicForms/dynamic-form";
 import { PATHS, getCustomList } from "~/constants";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
 import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
 import MainSection from "../MainSection";
 import WelcomeSection from "../WelcomeSection";
+import { fields } from "./data";
 import "./index.scss";
 
 const TRANSLATION_BASE_HOME_PAGE = "app.pages.HomePage";
@@ -87,6 +89,53 @@ const HomePage = () => {
         "https://artsedcollab.org/wp-content/uploads/2018/12/20180118_121442_24968897657_o-600x450.jpg",
     },
   ];
+
+  const provincias = {
+    AR: [
+      { value: "BsAs", label: "Buenos Aires" },
+      { value: "neu", label: "Neuquén" },
+      { value: "bar", label: "Bariloche" },
+      { value: "cor", label: "Córdoba" },
+    ],
+    CO: [
+      { value: "bog", label: "Bogotá" },
+      { value: "med", label: "Medellín" },
+      { value: "cal", label: "Cali" },
+      { value: "barr", label: "Barranquilla" },
+    ],
+    PE: [
+      { value: "Lim", label: "Lima" },
+      { value: "Cuz", label: "Cuzco" },
+      { value: "Iqui", label: "Iquitos" },
+      { value: "CHI", label: "Chiclayo" },
+    ],
+  };
+
+  const [fieldsForm, updateFields] = useState(fields);
+  const [ciudadesForm, updateCiudades] = useState([]);
+  const handlers = {
+    onSubmit: (data: any, error?: any) => {
+      console.log("#####----------->>>>  !!! ", data);
+    },
+    onChangecountry: (data: any) => {
+      const ciudades =
+        !!data &&
+        !!data.value &&
+        Object.keys(provincias).indexOf(data?.value) >= 0
+          ? provincias[data.value as keyof typeof provincias]
+          : [];
+      const provinceField = fields.find(
+        (fieldData) => fieldData.fieldName === "province"
+      );
+      provinceField.options = ciudades;
+      // provinceField.defaultValue =
+      //   (ciudades && ciudades.length && ciudades[1].value) || "";
+
+      updateFields(fields);
+      updateCiudades(ciudades);
+    },
+  };
+
   return (
     <>
       <WelcomeSection />
@@ -153,6 +202,9 @@ const HomePage = () => {
             );
           })}
         </div>
+        <h1>PRUEBA FORM</h1>
+        <h1>Dynamic form</h1>
+        <DynamicForm fields={fieldsForm} handlers={handlers} />
       </div>
     </>
   );

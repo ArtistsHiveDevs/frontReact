@@ -41,7 +41,12 @@ const SideNav = () => {
     }
     setShow(false);
   };
-  const liMenuElement = (section: string, note: SideMenuItem, idx: number) => {
+  const liMenuElement = (
+    section: string,
+    note: SideMenuItem,
+    idx: number,
+    level = 0
+  ) => {
     return (
       <RequireAuthComponent
         allowedRoles={note.allowedRoles}
@@ -53,10 +58,16 @@ const SideNav = () => {
           className="menu-option"
           href={void 0}
           onClick={() => navigateTo(note?.path, note.randomId)}
+          style={{ paddingLeft: `${level * 3}rem` }}
         >
           <DynamicIcons iconName={note.icon || "AiFillFile"} size={20} />
           <span className="menu-option-label">{translateText(note.name)}</span>
         </a>
+        {note.nestedMenuOptions &&
+          note.nestedMenuOptions.length &&
+          note.nestedMenuOptions.map((childOption, index) =>
+            liMenuElement(section, childOption, index, level + 1)
+          )}
       </RequireAuthComponent>
     );
   };

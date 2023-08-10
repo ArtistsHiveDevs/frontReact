@@ -31,6 +31,7 @@ export interface SideMenuItem {
   randomId?: boolean;
   allowedRoles?: AllowedEntityRole[];
   requireSession?: boolean;
+  nestedMenuOptions?: SideMenuItem[];
 }
 
 const general: SideMenuItem[] = [
@@ -60,6 +61,25 @@ const miInfo: SideMenuItem[] = [
     icon: "FaRegEnvelope",
     updated: new Date("2/20/16"),
     requireSession: true,
+    nestedMenuOptions: [
+      {
+        name: generateTranslationPath(
+          SIDENAV_SECTIONS.MY_INFO,
+          "inbox.nested.incoming"
+        ),
+        path: "",
+        icon: "MdOutlineEventAvailable",
+        updated: new Date("2/20/16"),
+        requireSession: true,
+      },
+      {
+        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "inbox"),
+        path: "",
+        icon: "MdOutlineEventAvailable",
+        updated: new Date("2/20/16"),
+        requireSession: true,
+      },
+    ],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "my_profile"),

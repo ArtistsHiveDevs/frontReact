@@ -743,6 +743,9 @@ export const FrMessages = {
             name: "Mes info",
             options: {
               inbox: "Boîte de réception",
+              "inbox.nested": {
+                incoming: "Incoming",
+              },
               my_profile: "Mon profil",
               my_bands: "Mes bands",
               my_events: "Mes événements",

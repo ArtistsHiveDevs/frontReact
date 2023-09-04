@@ -22,14 +22,14 @@ export const createSlider = (
     if (typeof config.min === "number") {
       rangeLimits.min = config.min;
     } else {
-      rangeLimits.min = config.min.value;
+      rangeLimits.min = (config.min as any).value;
     }
   }
   if (!!config?.max) {
     if (typeof config.max === "number") {
       rangeLimits.max = config.max;
     } else {
-      rangeLimits.max = config.max.value;
+      rangeLimits.max = (config.max as any).value;
     }
   }
   if (!!componentParams["step"]) {

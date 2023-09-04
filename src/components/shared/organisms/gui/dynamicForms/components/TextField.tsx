@@ -70,14 +70,14 @@ export const createTextField = (
       if (typeof config.min === "number") {
         inputProps.inputProps.min = config.min;
       } else {
-        inputProps.inputProps.min = config.min.value;
+        inputProps.inputProps.min = (config.min as any).value;
       }
     }
     if (!!config?.max) {
       if (typeof config.max === "number") {
         inputProps.inputProps.max = config.max;
       } else {
-        inputProps.inputProps.max = config.max.value;
+        inputProps.inputProps.max = (config.max as any).value;
       }
     }
   }

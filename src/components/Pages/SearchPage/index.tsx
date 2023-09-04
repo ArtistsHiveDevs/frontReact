@@ -21,7 +21,7 @@ import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
 
 const TRANSLATION_BASE_SEARCH = "app.appbase.search";
-const MAX_RESULTS_PER_PAGE = 10;
+const MAX_RESULTS_PER_PAGE = 40;
 
 export default function SearchPage() {
   const { translateText, locale } = useI18n();

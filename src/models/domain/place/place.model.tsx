@@ -108,7 +108,7 @@ export class PlaceModel
   }
 
   get cityWithCountry() {
-    return `${this.city}, ${this.country}`;
+    return `${this.city}, ${this.state}, ${this.country}`;
   }
 
   get latitude() {

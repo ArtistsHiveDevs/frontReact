@@ -1,3 +1,4 @@
+import Flag from "react-world-flags";
 import { RatingStarsView } from "~/components/shared/atoms/gui/rating-stars-view/RatingStarsView";
 import { SocialNetworkStats } from "~/components/shared/domain/atoms/gui/social-network-stats/SocialNetworkStats";
 import {
@@ -42,6 +43,26 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   name: "cityWithCountry",
                   icon: "AiFillHome",
                   emptyTitle: true,
+                  value: (place: PlaceModel) => {
+                    const flag = place?.country;
+
+                    const flags = {
+                      Colombia: "co",
+                      España: "es",
+                      Inglaterra: "GB-ENG",
+                    };
+                    return (
+                      <>
+                        <span>{place?.cityWithCountry}</span>
+                        {"   "}
+                        <Flag
+                          code={flags[flag as keyof typeof flags]}
+                          height="15"
+                          style={{ border: "1px solid #999" }}
+                        />
+                      </>
+                    );
+                  },
                 },
                 {
                   name: "categories",

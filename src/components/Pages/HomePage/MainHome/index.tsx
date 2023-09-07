@@ -7,10 +7,14 @@ import { useEventsSlice } from "~/common/slices/events";
 import { selectEvents } from "~/common/slices/events/selectors";
 import { usePlacesSlice } from "~/common/slices/places";
 import { selectPlaces } from "~/common/slices/places/selectors";
+import { useUsersSlice } from "~/common/slices/users";
+import { selectUsers } from "~/common/slices/users/selectors";
 import { useI18n } from "~/common/utils";
+import useAuth from "~/common/utils/hooks/auth/useAuth";
 import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
 import { DynamicForm } from "~/components/shared/organisms/gui/dynamicForms/dynamic-form";
 import { PATHS, getCustomList } from "~/constants";
+import { AppUserModel } from "~/models/app/user/user.model";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
 import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
@@ -31,6 +35,19 @@ const HomePage = () => {
 
   const placesList: PlaceModel[] = useSelector(selectPlaces);
   const { actions: placesActions } = usePlacesSlice();
+
+  const usersList: AppUserModel[] = useSelector(selectUsers);
+  const { actions: usersActions } = useUsersSlice();
+  const { loggedUser, setLoggedUser } = useAuth();
+
+  useEffect(() => {
+    dispatch(usersActions.loadUsers());
+  }, []);
+
+  useEffect(() => {
+    const pos = Math.floor(Math.random() * usersList.length);
+    setLoggedUser(usersList[pos]);
+  }, [usersList]);
 
   // Hooks
   const dispatch = useDispatch();

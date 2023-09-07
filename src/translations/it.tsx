@@ -734,11 +734,20 @@ export const ItMessages = {
             name: "Mie Info",
             options: {
               inbox: "Posta in arrivo",
-              my_profile: "Mio profilo",
-              my_bands: "Miei band",
-              my_events: "Miei eventi",
-              my_riders: "Miei riders",
-              my_places: "Miei luoghi",
+              "inbox.nested": {
+                incoming: "In arrivo",
+                sent: "Inviati",
+              },
+              my_profile: "Il mio profilo",
+              my_bands: "Le mie band",
+              my_events: "I miei eventi",
+              my_riders: "I miei rider",
+              my_places: "I miei luoghi",
+              favourites: "Preferiti",
+              "favourites.nested": {
+                saved: "Salvati",
+                tour_planning: "Pianificazione del tour",
+              },
             },
           },
           settings: {

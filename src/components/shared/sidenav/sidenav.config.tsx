@@ -68,14 +68,17 @@ const miInfo: SideMenuItem[] = [
           "inbox.nested.incoming"
         ),
         path: "",
-        icon: "MdOutlineEventAvailable",
+        icon: "HiInboxIn",
         updated: new Date("2/20/16"),
         requireSession: true,
       },
       {
-        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "inbox"),
+        name: generateTranslationPath(
+          SIDENAV_SECTIONS.MY_INFO,
+          "inbox.nested.sent"
+        ),
         path: "",
-        icon: "MdOutlineEventAvailable",
+        icon: "RiMailSendLine",
         updated: new Date("2/20/16"),
         requireSession: true,
       },
@@ -118,6 +121,35 @@ const miInfo: SideMenuItem[] = [
     icon: "HiBuildingStorefront",
     updated: new Date("2/20/16"),
     allowedRoles: [{ entityName: "Place" }],
+  },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "favourites"),
+    path: "",
+    icon: "BsFillBookmarksFill",
+    updated: new Date("2/20/16"),
+    requireSession: true,
+    nestedMenuOptions: [
+      {
+        name: generateTranslationPath(
+          SIDENAV_SECTIONS.MY_INFO,
+          "favourites.nested.saved"
+        ),
+        path: "",
+        icon: "AiFillHeart",
+        updated: new Date("2/20/16"),
+        requireSession: true,
+      },
+      {
+        name: generateTranslationPath(
+          SIDENAV_SECTIONS.MY_INFO,
+          "favourites.nested.tour_planning"
+        ),
+        path: "",
+        icon: "BsFillJournalBookmarkFill",
+        updated: new Date("2/20/16"),
+        requireSession: true,
+      },
+    ],
   },
 ];
 const config: SideMenuItem[] = [

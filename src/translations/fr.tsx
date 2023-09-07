@@ -744,13 +744,19 @@ export const FrMessages = {
             options: {
               inbox: "Boîte de réception",
               "inbox.nested": {
-                incoming: "Incoming",
+                incoming: "Entrants",
+                sent: "Envoyés",
               },
               my_profile: "Mon profil",
               my_bands: "Mes bands",
               my_events: "Mes événements",
               my_riders: "Mes riders",
               my_places: "Mes lieux",
+              favourites: "Favoris",
+              "favourites.nested": {
+                saved: "Enregistrés",
+                tour_planning: "Planification de tours",
+              },
             },
           },
           settings: {

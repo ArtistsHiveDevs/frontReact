@@ -735,11 +735,20 @@ export const DeMessages = {
             name: "Meine Info",
             options: {
               inbox: "Posteingang",
-              my_profile: "Meine Profil",
+              "inbox.nested": {
+                incoming: "Eingehend",
+                sent: "Gesendet",
+              },
+              my_profile: "Mein Profil",
               my_bands: "Meine Bands",
               my_events: "Meine Veranstaltungen",
-              my_riders: "Meine riders",
+              my_riders: "Meine Rider",
               my_places: "Meine Orte",
+              favourites: "Favoriten",
+              "favourites.nested": {
+                saved: "Gespeichert",
+                tour_planning: "Tourplanung",
+              },
             },
           },
           settings: {

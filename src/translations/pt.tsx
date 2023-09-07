@@ -738,11 +738,20 @@ export const PtMessages = {
             name: "Minha informação",
             options: {
               inbox: "Caixa de entrada",
+              "inbox.nested": {
+                incoming: "Recebidos",
+                sent: "Enviados",
+              },
               my_profile: "Meu perfil",
               my_bands: "Minhas bandas",
               my_events: "Meus eventos",
               my_riders: "Meus riders",
               my_places: "Meus lugares",
+              favourites: "Favoritos",
+              "favourites.nested": {
+                saved: "Salvos",
+                tour_planning: "Planejamento de turnê",
+              },
             },
           },
           settings: {

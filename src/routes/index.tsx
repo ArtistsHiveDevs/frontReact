@@ -95,6 +95,20 @@ const CulturalAgendaPage = lazy(
     import("~/components/Pages/domain/CulturalAgenda/home/cultural-agenda-page")
 );
 
+// Load Favourites page
+const TourPreplanningListPage = lazy(
+  () =>
+    import(
+      "~/components/Pages/domain/FavouritesPages/TourPlanningListPage/TourPreplanningListPage"
+    )
+);
+const SavedListPage = lazy(
+  () =>
+    import(
+      "~/components/Pages/domain/FavouritesPages/SavedListPage/SavedListPage"
+    )
+);
+
 export const RoutesApp: React.FC = () => {
   return (
     <Routes>
@@ -169,6 +183,18 @@ export const RoutesApp: React.FC = () => {
         <Route
           element={<IndustryOfferPage />}
           path={`:${URL_PARAMETER_NAMES.ROLE}`}
+        />
+      </Route>
+      <Route path={PATHS.MY_FAVOURITES}>
+        <Route element={<SavedListPage />} path="" />
+      </Route>
+      <Route path={PATHS.TOURS_OUTLINE}>
+        <Route element={<TourPreplanningListPage />} path="" />
+        <Route
+          element={<PlaceDetailsPage />}
+          path={
+            SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`
+          }
         />
       </Route>
     </Routes>

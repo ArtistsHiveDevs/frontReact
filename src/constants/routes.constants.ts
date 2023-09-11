@@ -20,6 +20,8 @@ export enum PATHS {
   SEARCH = "/search",
   BASENAME = "/artistsHive",
   SETTINGS = "/settings",
+  MY_FAVOURITES = "/favourites",
+  TOURS_OUTLINE = "/toursOutline",
   REDIRECT_UNAUTHORIZED_AND_UNLOGGED_USER = "/home",
   REDIRECT_UNAUTHORIZED_AND_LOGGED_USER = "/home",
 }

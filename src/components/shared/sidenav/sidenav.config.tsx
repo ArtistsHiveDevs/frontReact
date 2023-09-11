@@ -134,7 +134,7 @@ const miInfo: SideMenuItem[] = [
           SIDENAV_SECTIONS.MY_INFO,
           "favourites.nested.saved"
         ),
-        path: "",
+        path: `${PATHS.MY_FAVOURITES}`,
         icon: "AiFillHeart",
         updated: new Date("2/20/16"),
         requireSession: true,
@@ -144,7 +144,7 @@ const miInfo: SideMenuItem[] = [
           SIDENAV_SECTIONS.MY_INFO,
           "favourites.nested.tour_planning"
         ),
-        path: "",
+        path: `${PATHS.TOURS_OUTLINE}`,
         icon: "BsFillJournalBookmarkFill",
         updated: new Date("2/20/16"),
         requireSession: true,

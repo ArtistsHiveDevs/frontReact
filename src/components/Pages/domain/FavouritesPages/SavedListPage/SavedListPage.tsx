@@ -1,5 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { savedFavouritesActions } from "~/common/slices/domain/favourites/favourites";
+import { selectSavedFavourites } from "~/common/slices/domain/favourites/favourites/selectors";
 import {
   GalleryImageParams,
   ImageGallery,
@@ -10,6 +14,7 @@ import {
 } from "~/components/shared/layout/TabbedPanel";
 import { ProfileDetailsSubpage } from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
 import { PATHS, SUB_PATHS } from "~/constants";
+import { SavedFavouritesModel } from "~/models/domain/favourites/favourites";
 import { SAVED_LIST_PAGE_CONFIG } from "./config-saved-list-page";
 import "./index.scss";
 
@@ -20,6 +25,28 @@ const SavedListPage = () => {
   const navigate = useNavigate();
 
   const subPagesInfo = [...SAVED_LIST_PAGE_CONFIG];
+
+  // Slices
+  const favouritesList: SavedFavouritesModel[] = useSelector(
+    selectSavedFavourites
+  );
+
+  // Hooks
+  const dispatch = useDispatch();
+
+  // Effects
+  useEffect(() => {
+    console.log("consultando");
+    dispatch(savedFavouritesActions.loadSavedFavourites());
+    if (favouritesList.length === 0) {
+      console.log("pidiendo favoritos");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    console.log("#### ", favouritesList);
+  }, [favouritesList]);
 
   const handlers = {
     onClickGalleryImage: (

@@ -8,7 +8,8 @@ import { PrivacyPolicyState } from "~/common/slices/app-base/policies/PrivacyPol
 import { TermsAndConditionsState } from "~/common/slices/app-base/policies/TermsAndConditions/types";
 import { ArtistState } from "~/common/slices/artists/types";
 import { AcademyState } from "~/common/slices/domain/academies/types";
-import { SavedFavouritesState } from "~/common/slices/domain/favourites/favourites/types";
+import { SavedState } from "~/common/slices/domain/favourites/saved/types";
+
 import { RiderState } from "~/common/slices/domain/riders/types";
 import { EventState } from "~/common/slices/events/types";
 import { PlaceState } from "~/common/slices/places/types";
@@ -27,8 +28,10 @@ export interface RootState {
   TermsAndConditionsReducer?: TermsAndConditionsState;
   PrivacyPolicyReducer?: PrivacyPolicyState;
   IndustryOfferReducer?: IndustryOfferState;
-  SavedFavouritesReducer?: SavedFavouritesState;
+  // SavedFavouritesReducer?: SavedFavouritesState;
+  // SavedFavouritesReducer?: SavedFavouritesState;
   // ToursOutlinesReducer?: ToursOutlinesState;
+  SavedReducer?: SavedState;
 }
 
 type RequiredRootState = Required<RootState>;

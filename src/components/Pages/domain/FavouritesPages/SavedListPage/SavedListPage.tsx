@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useSavedSlice } from "~/common/slices/domain/favourites/saved";
 import { selectSaved } from "~/common/slices/domain/favourites/saved/selectors";
 import { useSearchSlice } from "~/common/slices/search";
+import { useI18n } from "~/common/utils";
+import DynamicIcons from "~/components/shared/DynamicIcons";
 import {
   GalleryImageParams,
   ImageGallery,
@@ -16,12 +18,14 @@ import consts from "~/components/shared/search/search-constants";
 import { PATHS, SUB_PATHS } from "~/constants";
 import { SavedModel, SavedTemplate } from "~/models/domain/favourites/saved";
 import { SAVED_LIST_PAGE_CONFIG } from "./config-saved-list-page";
-import "./index.scss";
+import "./saved-list-page.scss";
 
 const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
   "app.pages.domain.AcademiesPages.AcademiesDetailsPage";
+const TRANSLATION_BASE_SEARCH = "app.appbase.search";
 
 const SavedListPage = () => {
+  const { translateText, locale } = useI18n();
   const navigate = useNavigate();
 
   const [open, setOpen] = useState([]);
@@ -77,6 +81,10 @@ const SavedListPage = () => {
     navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
   }
 
+  function translate(text: string) {
+    return translateText(`${TRANSLATION_BASE_SEARCH}.${text}`);
+  }
+
   // Data config
   const tabs: TabbedPage[] = subPagesInfo.map(
     (subpage: ProfileDetailsSubpage) => {
@@ -90,44 +98,89 @@ const SavedListPage = () => {
   );
 
   console.log(">>>  ####   ", favouritesList, "DDñ");
+  const emptyResults = () => {
+    let emptyContent = <></>;
+    if (favouritesList?.totalResults === 0) {
+      emptyContent = (
+        <article>
+          <h3>{translate("empty_results.title")}</h3>
+          <p>{translate("empty_results.suggestions.statement")}</p>
+          <ul>
+            <li>{translate("empty_results.suggestions.spelling")}</li>
+            <li>{translate("empty_results.suggestions.less_words")}</li>
+            <li>{translate("empty_results.suggestions.related_things")}</li>
+          </ul>
+        </article>
+      );
+    }
+    return emptyContent;
+  };
 
   return (
     <>
       <h1>My favourites</h1>
-      {favouritesList?.likedEntities.map((entityName, entityIndex) => {
-        const entityColorIndex =
-          consts.defaultTypes.findIndex(
-            (type) => type.toLowerCase() === entityName.toLowerCase()
-          ) + 1;
 
-        return (
-          favouritesList && (
-            <Collapse in={open[entityIndex]}>
-              <div id="example-collapse-text-2">
-                <article className="day-forecast">
-                  {(
-                    favouritesList[entityName as keyof typeof favouritesList] ||
-                    []
+      {favouritesList &&
+        favouritesList.likedEntities.map((entityName, entityIndex) => {
+          const entityColorIndex =
+            consts.defaultTypes.findIndex(
+              (type) => type.toLowerCase() === entityName.toLowerCase()
+            ) + 1;
+
+          return (
+            <section key={`section-${entityIndex}-${entityName}`}>
+              <div
+                className={`group-title-icon  entity-${entityColorIndex}-item`}
+                onClick={() => {
+                  const newObjectValues = [...open];
+                  newObjectValues[entityIndex] = !newObjectValues[entityIndex];
+                  setOpen(newObjectValues);
+                }}
+              >
+                <h3 className="main-section-title">
+                  {translate(`types.${entityName.toUpperCase()}`)} (
+                  {
+                    favouritesList.pagination[
+                      `total_${entityName}` as keyof typeof favouritesList.pagination
+                    ]
+                  }
                   )
-                    .slice(0, MAX_RESULTS_PER_PAGE)
-                    .map((entityObject: SavedTemplate, objectIndex: number) => (
-                      <div
-                        className="result-element-container"
-                        key={`result-${entityName}-${objectIndex}-${entityObject.id}`}
-                        // onClick={() => handleResultOnClick(entityObject)}
-                      >
-                        <ResultElement
-                          element={entityObject}
-                          elementType={entityName}
-                        />
-                      </div>
-                    ))}
-                </article>
+                </h3>
+                <DynamicIcons
+                  color="#7a260a"
+                  iconName="AiOutlineDown"
+                  size="20"
+                />
               </div>
-            </Collapse>
-          )
-        );
-      })}
+              <Collapse in={open[entityIndex]}>
+                <div id="example-collapse-text-2">
+                  <article className="day-forecast">
+                    {(
+                      favouritesList[
+                        entityName as keyof typeof favouritesList
+                      ] || []
+                    )
+                      .slice(0, MAX_RESULTS_PER_PAGE)
+                      .map(
+                        (entityObject: SavedTemplate, objectIndex: number) => (
+                          <div
+                            className="result-element-container"
+                            key={`result-${entityName}-${objectIndex}-${entityObject.id}`}
+                            // onClick={() => handleResultOnClick(entityObject)}
+                          >
+                            <ResultElement
+                              element={entityObject}
+                              elementType={entityName}
+                            />
+                          </div>
+                        )
+                      )}
+                  </article>
+                </div>
+              </Collapse>
+            </section>
+          );
+        })}
     </>
   );
 };

@@ -7,10 +7,16 @@ import {
 import { EventModel, EventTemplate } from "~/models/domain/event/event.model";
 import { PlaceModel, PlaceTemplate } from "~/models/domain/place/place.model";
 
+export interface SavedFavouritesPaginationTemplate {
+  total_artists: number;
+  total_events: number;
+  total_places: number;
+}
 export interface SavedTemplate extends EntityTemplate, SearchableTemplate {
   artists: ArtistTemplate[];
   places: PlaceTemplate[];
   events: EventTemplate[];
+  pagination: SavedFavouritesPaginationTemplate;
 }
 
 export class SavedModel
@@ -20,6 +26,7 @@ export class SavedModel
   declare artists: ArtistTemplate[];
   declare events: EventTemplate[];
   declare places: PlaceTemplate[];
+  declare pagination: SavedFavouritesPaginationTemplate;
 
   constructor(template: SavedTemplate) {
     super(template);
@@ -38,6 +45,10 @@ export class SavedModel
   country?: string;
   place?: PlaceModel;
   verified_status?: VerificationStatus;
+
+  get totalResults() {
+    return this.artists.length + this.events.length + this.places.length;
+  }
 
   get likedEntities() {
     return Object.keys(this).filter((entityName) => {

@@ -29,7 +29,7 @@ export function* queriedTourOutline(actionParams?: PayloadAction<string>) {
   }/users/34/tours_outlines?${urlParams}`;
 
   try {
-    const tourOutline: TourOutlineModel = yield call(request, requestURL);
+    const tourOutline: TourOutlineModel[] = yield call(request, requestURL);
 
     yield put(actions.tourOutlineQueried(tourOutline));
   } catch (err) {

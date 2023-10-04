@@ -1,13 +1,12 @@
-import { AcademyModel } from "~/models/domain/academy/academy.model";
+import { TourOutlineModel } from "~/models/domain/favourites/tourOutline";
 
-export enum AcademyErrorType {
+export enum TourOutlineErrorType {
   RESPONSE_ERROR = 1,
 }
 
-export interface AcademyState {
-  academies: AcademyModel[] | [];
+export interface TourOutlineState {
+  toursOutlines: TourOutlineModel[];
   loading: boolean;
-  error: AcademyErrorType | null;
-  academiesQueryParams: string;
-  queriedAcademies: AcademyModel[] | [];
+  error: TourOutlineErrorType | null;
+  tourOutlineQueryParam?: string;
 }

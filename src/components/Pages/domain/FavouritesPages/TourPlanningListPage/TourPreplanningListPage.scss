@@ -1,1 +1,84 @@
 @import "~/variables.module.scss";
+
+section {
+  width: 100%;
+  max-width: 100%;
+  article {
+    max-width: 100%;
+  }
+}
+
+.group-title-icon {
+  display: grid;
+  grid-template-columns: 0% 40% 8%;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding-top: 0.7rem;
+  padding-left: 0.5rem;
+  margin-top: 0.8rem;
+  margin-bottom: 0.3rem;
+  border-left: solid 0.4rem #444;
+  border-bottom: solid 1px;
+}
+
+.select-result-view-types {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-top: 0.7rem;
+  margin-bottom: 1.5rem;
+}
+
+.result-view-type {
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+}
+.active {
+  border-color: $main-title-color;
+  background-color: $secondary-background-light;
+  color: $main-title-color;
+}
+.result-element-container {
+  padding: 1rem;
+  border-bottom: solid 1px #ccc;
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.avatar {
+  object-fit: cover;
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+  margin: 0.5rem;
+}
+.profile-header {
+  display: flex;
+  text-align: left;
+
+  .header-title {
+    margin: 1.2rem;
+    h2 {
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      color: #333;
+    }
+
+    .profile-name {
+      display: flex;
+    }
+  }
+}
+
+.tour-outline-card {
+  padding: 2rem;
+  padding-bottom: 2rem;
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.2rem;
+  border: solid 1px #777;
+  border-top: none;
+  margin-bottom: 1rem;
+}

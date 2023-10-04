@@ -9,6 +9,7 @@ import { TermsAndConditionsState } from "~/common/slices/app-base/policies/Terms
 import { ArtistState } from "~/common/slices/artists/types";
 import { AcademyState } from "~/common/slices/domain/academies/types";
 import { SavedState } from "~/common/slices/domain/favourites/saved/types";
+import { TourOutlineState } from "~/common/slices/domain/favourites/tour-outlines/types";
 
 import { RiderState } from "~/common/slices/domain/riders/types";
 import { EventState } from "~/common/slices/events/types";
@@ -30,7 +31,7 @@ export interface RootState {
   IndustryOfferReducer?: IndustryOfferState;
   // SavedFavouritesReducer?: SavedFavouritesState;
   // SavedFavouritesReducer?: SavedFavouritesState;
-  // ToursOutlinesReducer?: ToursOutlinesState;
+  ToursOutlinesReducer?: TourOutlineState;
   SavedReducer?: SavedState;
 }
 

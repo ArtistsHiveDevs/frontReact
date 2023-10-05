@@ -140,38 +140,42 @@ const TourPreplanningListPage = () => {
                       <div>
                         <>
                           <p>
-                            <b>Desde:</b>
+                            <b>Desde: </b>
                             {tourOutline.summary.days.initial_date.toLocaleString(
                               "en-GB"
                             )}
                           </p>
                           <p>
-                            <b>Hasta:</b>
+                            <b>Hasta: </b>
                             {tourOutline.summary.days.final_date.toLocaleString(
                               "en-GB"
                             )}
                           </p>
                           <p>
                             <b>Countries:</b>
+                          </p>
+                          <p className="inner-content">
                             {tourOutline.summary.countries.map(
                               (country, index, countries) => (
-                                <>
+                                <p key={country.name}>
                                   <Flag
-                                    key={country.name}
                                     code={
                                       flags[country.name as keyof typeof flags]
                                     }
                                     height="15"
                                     style={{ border: "1px solid #999" }}
                                   />{" "}
-                                  {country.name} ({country.cities.length})
-                                  {index < countries.length - 1 && <>, </>}
-                                </>
+                                  <b>{country.name}</b>
+                                  <br />
+                                  {country.cities.join(", ")}
+                                </p>
                               )
                             )}
                           </p>
                           <p>
                             <b>Presupuesto:</b>
+                          </p>
+                          <p className="inner-content">
                             {Object.keys(buget_subtotals).map((category) => (
                               <p key={category}>
                                 <b>
@@ -180,7 +184,7 @@ const TourPreplanningListPage = () => {
                                       category as keyof typeof buget_subtotals
                                     ]
                                   }
-                                  :
+                                  :{" "}
                                 </b>
                                 $
                                 {

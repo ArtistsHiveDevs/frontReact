@@ -388,6 +388,63 @@ export const DeMessages = {
         IndustryOfferPage: {
           create_account_banner: "Schließe dich dem Bienenstock an",
         },
+        TourPlansPages: {
+          TourPlanDetailsPage: {
+            tourPlanNotFound: "Tour nicht gefunden",
+            subpages: {
+              general: {
+                name: "Allgemein",
+                sections: {
+                  dates: {
+                    name: "Termine",
+                    attributes: {
+                      initial_date: "Anfangsdatum",
+                      final_date: "Enddatum",
+                      total_days: "Gesamttage",
+                    },
+                  },
+                  shows: {
+                    name: "Shows",
+                  },
+                },
+              },
+              dates: {
+                name: "Termine",
+              },
+              budget: {
+                name: "Budget",
+                sections: {
+                  internal_transportation: {
+                    name: "Interne Beförderung",
+                  },
+                  intercity_transportation: {
+                    name: "Streckenbefeörderung",
+                  },
+                  accommodation: {
+                    name: "Unterkunft",
+                  },
+                  food: {
+                    name: "Verpflegung",
+                  },
+                },
+              },
+              wishes: {
+                name: "Wünsche",
+                sections: {
+                  guest_artists: {
+                    name: "Gastkünstler",
+                  },
+                  possible_shows: {
+                    name: "Mögliche Shows",
+                  },
+                },
+              },
+              settings: {
+                name: "Einstellungen",
+              },
+            },
+          },
+        },
       },
       ArtistsPages: {
         ArtistsDetailsPage: {

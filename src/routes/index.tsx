@@ -102,6 +102,12 @@ const TourPreplanningListPage = lazy(
       "~/components/Pages/domain/FavouritesPages/TourPlanningListPage/TourPreplanningListPage"
     )
 );
+const TourDetailsPage = lazy(
+  () =>
+    import(
+      "~/components/Pages/domain/FavouritesPages/TourDetailsPage/TourDetailsPage"
+    )
+);
 const SavedListPage = lazy(
   () =>
     import(
@@ -191,7 +197,7 @@ export const RoutesApp: React.FC = () => {
       <Route path={PATHS.TOURS_OUTLINE}>
         <Route element={<TourPreplanningListPage />} path="" />
         <Route
-          element={<PlaceDetailsPage />}
+          element={<TourDetailsPage />}
           path={
             SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`
           }

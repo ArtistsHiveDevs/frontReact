@@ -63,3 +63,44 @@ export function numberFormatterThousands(num: number, digits: number = 0) {
     ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol
     : "0";
 }
+export function currencyFormat(
+  num: number,
+  options?: {
+    currency?: string;
+    countryCurrency?: string;
+    decimals?: number;
+    thousandSeparator?: string;
+    decimalsSeparator?: string;
+    showCountryCurrency?: boolean;
+  }
+) {
+  const {
+    currency,
+    countryCurrency,
+    showCountryCurrency,
+    decimals,
+    thousandSeparator,
+    decimalsSeparator,
+  } = {
+    currency: "$",
+    countryCurrency: "USD",
+    showCountryCurrency: false,
+    decimals: 0,
+    thousandSeparator: ".",
+    decimalsSeparator: ",",
+    ...options,
+  };
+
+  let countryCurrencyName = showCountryCurrency ? countryCurrency : "";
+  const prefix = `${countryCurrencyName}${currency}`;
+  const suffix = "";
+
+  return (
+    prefix +
+    num
+      .toFixed(decimals)
+      .replace(".", decimalsSeparator)
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1${thousandSeparator}`) +
+    suffix
+  );
+}

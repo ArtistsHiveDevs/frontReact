@@ -1,3 +1,4 @@
+import moment from "moment";
 import { EntityModel, EntityTemplate, SearchableTemplate } from "~/models/base";
 import { ArtistTemplate } from "~/models/domain/artist/artist.model";
 import { EventTemplate } from "~/models/domain/event/event.model";
@@ -56,6 +57,7 @@ export interface TourOutlineSummaryTemplate {
 
 export interface TourOutlineTemplate extends EntityTemplate {
   name: string;
+  subtitle: string;
   summary: TourOutlineSummaryTemplate;
   pictures: TourOutlineProfilePicturesTemplate;
   likedPlaces: PlaceTemplate[];
@@ -69,10 +71,18 @@ export class TourOutlineModel
   implements TourOutlineTemplate, SearchableTemplate
 {
   declare name: string;
+  declare subtitle: string;
   declare summary: TourOutlineSummaryTemplate;
   declare pictures: TourOutlineProfilePicturesTemplate;
   declare likedPlaces: PlaceTemplate[];
   declare likedArtists: ArtistTemplate[];
   declare confirmedEvents: EventTemplate[];
   declare pendingEvents: EventTemplate[];
+
+  get totalDays() {
+    return moment(this.summary.days.final_date).diff(
+      moment(this.summary.days.initial_date),
+      "days"
+    );
+  }
 }

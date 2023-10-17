@@ -18,7 +18,12 @@ export const selectTourOutlineError = createSelector(
   (TourOutlineState) => TourOutlineState.error
 );
 
-export const selectTourOutline = createSelector(
+export const selectToursOutlinesByUser = createSelector(
   [selectDomain],
   (TourOutlineState) => TourOutlineState.toursOutlines
+);
+
+export const selectTourOutlineById = createSelector(
+  [selectDomain],
+  (TourOutlineState) => TourOutlineState.detailedTourOutline
 );

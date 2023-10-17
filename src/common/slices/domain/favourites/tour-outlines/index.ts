@@ -15,25 +15,44 @@ import { TourOutlineErrorType, TourOutlineState } from "./types";
 
 export const TourOutlineInitialState: TourOutlineState = {
   toursOutlines: null,
+  detailedTourOutline: null,
   loading: false,
   error: null,
-  tourOutlineQueryParam: "",
+  userOwner: "",
+  detailTourOutlineId: "",
 };
 
 const slice = createSlice({
   name: "ToursOutlinesReducer",
   initialState: TourOutlineInitialState,
   reducers: {
-    queryTourOutline(state, action: PayloadAction<string>) {
+    getToursOutlinesByUser(state, action: PayloadAction<string>) {
       state.loading = true;
       state.error = null;
       state.toursOutlines = null;
-      state.tourOutlineQueryParam = action?.payload;
+      state.userOwner = action?.payload;
     },
-    tourOutlineQueried(state, action: PayloadAction<TourOutlineTemplate[]>) {
+    getToursOutlinesByUserResponse(
+      state,
+      action: PayloadAction<TourOutlineTemplate[]>
+    ) {
       state.toursOutlines = action.payload.map(
         (tourOutline) => new TourOutlineModel(tourOutline)
       );
+      state.loading = false;
+    },
+    getTourOutlineById(state, action: PayloadAction<string>) {
+      state.loading = true;
+      state.error = null;
+      state.toursOutlines = null;
+      state.detailTourOutlineId = action?.payload;
+    },
+    getTourOutlineByIdResponse(
+      state,
+      action: PayloadAction<TourOutlineTemplate[]>
+    ) {
+      state.detailedTourOutline = new TourOutlineModel(action.payload);
+
       state.loading = false;
     },
     repoError(state, action: PayloadAction<TourOutlineErrorType>) {

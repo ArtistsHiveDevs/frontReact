@@ -6,7 +6,9 @@ export enum TourOutlineErrorType {
 
 export interface TourOutlineState {
   toursOutlines: TourOutlineModel[];
+  detailedTourOutline: TourOutlineModel;
   loading: boolean;
   error: TourOutlineErrorType | null;
-  tourOutlineQueryParam?: string;
+  userOwner?: string;
+  detailTourOutlineId?: string;
 }

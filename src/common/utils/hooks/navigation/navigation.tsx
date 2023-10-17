@@ -2,10 +2,15 @@ import { NavigateOptions, useNavigate } from "react-router-dom";
 import { PATHS, SUB_PATHS } from "~/constants";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
 import { EventModel } from "~/models/domain/event/event.model";
+import { TourOutlineModel } from "~/models/domain/favourites/tourOutline";
 import { PlaceModel } from "~/models/domain/place/place.model";
 
 export const useNavigation = () => {
   const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  };
 
   const navigateToInnerPath = (params: {
     path: string;
@@ -32,6 +37,9 @@ export const useNavigation = () => {
       case PlaceModel.name:
         entity = PATHS.PLACES;
         break;
+      case TourOutlineModel.name:
+        entity = PATHS.TOURS_OUTLINE;
+        break;
 
       default:
         break;
@@ -47,5 +55,5 @@ export const useNavigation = () => {
     }
   };
 
-  return { navigateToEntity, navigateToInnerPath };
+  return { goBack, navigateToEntity, navigateToInnerPath };
 };

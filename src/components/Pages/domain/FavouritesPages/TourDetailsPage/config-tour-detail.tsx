@@ -103,14 +103,9 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       {
         components: [
           {
-            componentName: ProfileComponentTypes.HTML_CONTENT,
+            componentName: ProfileComponentTypes.EVENT_THUMBNAIL_CARD,
             data: {
-              render: (data: any) => {
-                console.log("---- ", data);
-
-                // return <p>sdasdasd</p>;
-                return <>ggg</>;
-              },
+              data_source: "events",
             },
           },
         ],

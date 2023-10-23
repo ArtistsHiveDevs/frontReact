@@ -3,7 +3,6 @@ import {
   GalleryImageParams,
   ImageGallery,
 } from "~/components/shared/atoms/ImageGallery/ImageGallery";
-import { EventParams } from "~/components/shared/atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent";
 import MapContainer from "~/components/shared/mapPrinter/mapContainer";
 import {
   AttributesIconFieldReadOnly,
@@ -21,13 +20,13 @@ import {
 } from "./profile-details.def";
 
 import { faMicrophoneLines } from "@fortawesome/free-solid-svg-icons";
-import moment from "moment";
 import { Table } from "react-bootstrap";
 import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
 import { EVENT_DETAIL_SUB_PAGE_CONFIG } from "~/components/Pages/EventsPage/EventDetailsPage/config-event-detail";
 import { Title } from "~/components/shared/atoms/Title/Title";
 import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 
+import moment from "moment";
 import { CrewListView } from "~/components/shared//molecules/domain/crewListView/CrewListView";
 import { GenresListView } from "~/components/shared//molecules/domain/genres/GenresListView";
 import { AlbumsShortListView } from "~/components/shared/domain/organisms/AlbumsShortListView/AlbumsShortListView";
@@ -36,7 +35,10 @@ import { SectionsPanel } from "~/components/shared/layout/SectionPanel";
 import { TabbedPanel } from "~/components/shared/layout/TabbedPanel";
 import { ProfileHeader } from "~/components/shared/molecules/Profile/ProfileHeader";
 import { ProfileThumbnailCard } from "~/components/shared/molecules/Profile/ProfileThumbnailCard";
+import { formatDateInMomentType } from "~/constants";
 import { SocialNetworks } from "~/constants/social-networks.const";
+import { EventParams } from "../../atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent";
+import { EventThumbnailCard } from "../../molecules/Profile/EventThumbnailCard/EventThumbnailCard";
 
 export interface ProfilePageParams {
   entityName: string;
@@ -473,6 +475,96 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           }}
         />
       ));
+    } else if (
+      componentDescriptor.componentName ===
+      ProfileComponentTypes.EVENT_THUMBNAIL_CARD
+    ) {
+      // Data source
+      const data: any =
+        entityData[
+          componentDescriptor.data?.data_source as keyof typeof entityData
+        ];
+
+      let elements = [];
+      if (Array.isArray(data)) {
+        elements = data;
+      } else {
+        elements.push(data);
+      }
+
+      // Footers
+      let footer: any = () => <></>;
+      const footerDescriptor = componentDescriptor.data?.footer;
+      if (footerDescriptor) {
+        footer = () => {
+          return (footerDescriptor.components || []).map(
+            (
+              componentDescriptor: ProfileComponentDescriptor,
+              componentIndex: number
+            ) => {
+              const source = parentDataSource || entityData;
+
+              const dataSourceElement: EntityModel<EntityTemplate> =
+                source[
+                  componentDescriptor.data?.data_source as keyof typeof source
+                ];
+
+              const generated = buildComponent(
+                subpage,
+                section,
+                componentDescriptor,
+                componentIndex,
+                dataSourceElement
+              );
+              return generated;
+            }
+          );
+        };
+      }
+
+      // Handlers
+      let clickHandler: (source: any) => void = undefined;
+
+      if (!!componentDescriptor.clickHandlerName) {
+        clickHandler =
+          handlers[
+            componentDescriptor.clickHandlerName as keyof typeof handlers
+          ];
+      }
+      return (elements || []).map((element, index, eventsArray) => {
+        const previous = index > 0 ? eventsArray[index - 1] : undefined;
+        console.log(previous);
+        const previousMoment = previous
+          ? moment(previous?.timetable__initial_date)
+          : undefined;
+        const currentMoment = moment(element.timetable__initial_date);
+        const sameMonth = previousMoment?.month() === currentMoment.month();
+
+        return (
+          <>
+            {!sameMonth && (
+              <h3 className="month-title">
+                {formatDateInMomentType(
+                  element.timetable__initial_date,
+                  "MMMM"
+                )}
+              </h3>
+            )}
+            <EventThumbnailCard
+              key={`profile-thumbnail-${index}`}
+              elementData={element}
+              footer={footer}
+              callbacks={{
+                onClickCard: (elementData: any) => {
+                  if (componentDescriptor.clickHandlerName) {
+                    handlers[componentDescriptor.clickHandlerName](elementData);
+                  }
+                },
+              }}
+            />
+          </>
+        );
+      });
     } else if (
       componentDescriptor.componentName === ProfileComponentTypes.IMAGE_GALLERY
     ) {

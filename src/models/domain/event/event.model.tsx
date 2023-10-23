@@ -8,6 +8,16 @@ import {
 import { ArtistModel } from "../artist/artist.model";
 import { PlaceModel } from "../place/place.model";
 
+export enum EVENT_CONFIRMATION_STATUS {
+  DRAFT,
+  CREATED,
+  UNDER_REVIEW,
+  RETURNED,
+  APPROVED,
+  REJECTED,
+  CANCELLED,
+}
+
 export interface EventTemplate extends EntityTemplate {
   verified_status: VerificationStatus;
   name: string;

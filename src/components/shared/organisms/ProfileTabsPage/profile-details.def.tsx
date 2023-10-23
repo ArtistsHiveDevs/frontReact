@@ -14,6 +14,7 @@ export enum ProfileComponentTypes {
   TABLE,
   TITLE,
   PROFILE_THUMBNAIL_CARD,
+  EVENT_THUMBNAIL_CARD,
   VISITED_COUNTRIES_CITIES_LIST_VIEW,
 }
 export interface ProfileDetailsSubpage {

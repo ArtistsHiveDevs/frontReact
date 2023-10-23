@@ -539,6 +539,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           : undefined;
         const currentMoment = moment(element.timetable__initial_date);
         const sameMonth = previousMoment?.month() === currentMoment.month();
+        const sameYear = previousMoment?.year() === currentMoment.year();
 
         return (
           <>
@@ -546,7 +547,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
               <h3 className="month-title">
                 {formatDateInMomentType(
                   element.timetable__initial_date,
-                  "MMMM"
+                  `MMMM${!!previous && !sameYear ? " / YYYY" : ""}`
                 )}
               </h3>
             )}

@@ -10,6 +10,7 @@ import {
   ProfileDetailsSubpage,
 } from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
 import { formatDateInMomentType } from "~/constants";
+import { EVENT_CONFIRMATION_STATUS } from "~/models/domain/event/event.model";
 import { TourOutlineModel } from "~/models/domain/favourites/tourOutline";
 
 function formatDate(date: string) {
@@ -51,6 +52,45 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   name: "total_days",
                   value: (tourOutline: TourOutlineModel) => {
                     return `${tourOutline.totalDays} days`;
+                  },
+                },
+                {
+                  name: "events_state_summary",
+                  value: (tourOutline: TourOutlineModel) => {
+                    return Object.keys(EVENT_CONFIRMATION_STATUS).map(
+                      (status) => {
+                        const eventConfirmStatusColor = (function () {
+                          switch (status) {
+                            case "DRAFT":
+                              return "draft";
+                            case "CREATED":
+                              return "created";
+                            case "UNDER_REVIEW":
+                              return "under-review";
+                            case "RETURNED":
+                              return "in-process";
+                            case "APPROVED":
+                              return "confirmed";
+                            case "REJECTED":
+                            case "CANCELLED":
+                              return "rejected";
+                            default:
+                              return "draft";
+                          }
+                        })();
+                        return (
+                          <p key={`${status}`} className="confirmation-state">
+                            <span
+                              className={[
+                                "event-confirm-status",
+                                eventConfirmStatusColor,
+                              ].join(" ")}
+                            ></span>{" "}
+                            {status} ( / - %)
+                          </p>
+                        );
+                      }
+                    );
                   },
                 },
               ],
@@ -193,6 +233,7 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             data: {
               render: (tourOutline: TourOutlineModel) => {
                 const icons = {
+                  bike: "MdPedalBike",
                   boats: "GiSailboat",
                   car: "BiCar",
                   car_rental: "MdCarRental",
@@ -268,6 +309,8 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   car_rental: "MdCarRental",
                   public_transportation: "FaSubway",
                   van: "FaShuttleVan",
+                  parking: "FaParking",
+                  scooter: "MdOutlineElectricScooter",
                 };
 
                 const budget = tourOutline?.summary?.budget;

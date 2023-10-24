@@ -401,6 +401,7 @@ export const EsMessages = {
                       initial_date: "Fecha Inicial",
                       final_date: "Fecha Final",
                       total_days: "Días Totales",
+                      events_state_summary: "Eventos",
                     },
                   },
                   shows: {

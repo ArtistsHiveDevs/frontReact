@@ -37,6 +37,7 @@ import { ProfileHeader } from "~/components/shared/molecules/Profile/ProfileHead
 import { ProfileThumbnailCard } from "~/components/shared/molecules/Profile/ProfileThumbnailCard";
 import { formatDateInMomentType } from "~/constants";
 import { SocialNetworks } from "~/constants/social-networks.const";
+import { EventModel } from "~/models/domain/event/event.model";
 import { EventParams } from "../../atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent";
 import { EventThumbnailCard } from "../../molecules/Profile/EventThumbnailCard/EventThumbnailCard";
 
@@ -532,27 +533,28 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           ];
       }
       return (elements || []).map((element, index, eventsArray) => {
+        const event = new EventModel(element);
         const previous = index > 0 ? eventsArray[index - 1] : undefined;
-        console.log(previous);
         const previousMoment = previous
           ? moment(previous?.timetable__initial_date)
           : undefined;
-        const currentMoment = moment(element.timetable__initial_date);
+        const currentMoment = moment(event.timetable__initial_date);
         const sameMonth = previousMoment?.month() === currentMoment.month();
+        const sameYear = previousMoment?.year() === currentMoment.year();
 
         return (
           <>
             {!sameMonth && (
               <h3 className="month-title">
                 {formatDateInMomentType(
-                  element.timetable__initial_date,
-                  "MMMM"
+                  event.timetable__initial_date,
+                  `MMMM${!!previous && !sameYear ? " / YYYY" : ""}`
                 )}
               </h3>
             )}
             <EventThumbnailCard
               key={`profile-thumbnail-${index}`}
-              elementData={element}
+              elementData={event}
               footer={footer}
               callbacks={{
                 onClickCard: (elementData: any) => {

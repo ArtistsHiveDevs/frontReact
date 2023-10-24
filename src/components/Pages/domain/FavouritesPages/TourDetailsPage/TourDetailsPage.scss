@@ -31,3 +31,40 @@ h2 {
   text-align: left;
   width: 100%;
 }
+
+.confirmation-state {
+  margin: 0px;
+  padding-left: 1.5rem;
+}
+
+.event-confirm-status {
+  height: 1rem;
+  width: 1rem;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 0.3rem;
+
+  &.draft {
+    border-right: solid 1rem gray;
+  }
+
+  &.created {
+    border-right: solid 1rem cornflowerblue;
+  }
+
+  &.under-review {
+    border-right: solid 1rem salmon;
+  }
+
+  &.in-process {
+    border-right: solid 1rem chocolate;
+  }
+  &.confirmed {
+    border-right: solid 1rem green;
+  }
+
+  &.rejected {
+    border-right: solid 1rem darkred;
+  }
+}

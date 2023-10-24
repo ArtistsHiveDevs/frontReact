@@ -9,13 +9,13 @@ import { ArtistModel } from "../artist/artist.model";
 import { PlaceModel } from "../place/place.model";
 
 export enum EVENT_CONFIRMATION_STATUS {
-  DRAFT,
-  CREATED,
-  UNDER_REVIEW,
-  RETURNED,
-  APPROVED,
-  REJECTED,
-  CANCELLED,
+  DRAFT = "DRAFT",
+  CREATED = "CREATED",
+  UNDER_REVIEW = "UNDER_REVIEW",
+  RETURNED = "RETURNED",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+  CANCELLED = "CANCELLED",
 }
 
 export interface EventTemplate extends EntityTemplate {
@@ -91,7 +91,7 @@ export class EventModel
   }
 
   get initial_time() {
-    return this.timetable__guest_time;
+    return this.timetable__guest_time || this.timetable__main_artist_time;
   }
 
   get latLng() {

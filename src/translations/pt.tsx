@@ -399,6 +399,7 @@ export const PtMessages = {
                       initial_date: "Data Inicial",
                       final_date: "Data Final",
                       total_days: "Dias Totais",
+                      events_state_summary: "Eventos",
                     },
                   },
                   shows: {

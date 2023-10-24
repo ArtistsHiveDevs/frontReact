@@ -402,6 +402,7 @@ export const FrMessages = {
                       initial_date: "Date initiale",
                       final_date: "Date finale",
                       total_days: "Jours au total",
+                      events_state_summary: "Événements",
                     },
                   },
                   shows: {

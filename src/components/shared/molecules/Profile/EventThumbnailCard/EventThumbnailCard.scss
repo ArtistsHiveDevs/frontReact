@@ -6,6 +6,30 @@
   margin-bottom: 1rem;
   box-shadow: 3px 3px #c5c5c5;
   background: #fff6eb;
+  padding: 0.3rem;
+
+  &.draft {
+    border-right: solid 1rem gray;
+  }
+
+  &.created {
+    border-right: solid 1rem cornflowerblue;
+  }
+
+  &.under-review {
+    border-right: solid 1rem salmon;
+  }
+
+  &.in-process {
+    border-right: solid 1rem chocolate;
+  }
+  &.confirmed {
+    border-right: solid 1rem green;
+  }
+
+  &.rejected {
+    border-right: solid 1rem darkred;
+  }
 }
 .profile-header {
   display: flex;
@@ -16,6 +40,13 @@
     border-radius: 50%;
     width: 7.2rem;
     height: 7.2rem;
+    margin: 0.5rem;
+  }
+  .event-avatar {
+    object-fit: cover;
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
     margin: 0.5rem;
   }
   .avatar-place {
@@ -46,19 +77,21 @@
 .container-img-card {
   text-align: center;
   transition: transform 0.2s;
-  max-width: 180px;
+  width: 7rem;
+
+  background: none;
+
   .img-card {
-    max-width: 180px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
+    object-fit: scale-down;
+    border-radius: 50%;
+    background: transparent;
     filter: drop-shadow(4px 4px 4px $gray-medium);
   }
 
   .card-name-section {
     color: #fff6eb;
     background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
+    border-radius: 10%;
     margin-top: 75%;
     min-height: 3 rem;
     -webkit-user-select: none;
@@ -85,50 +118,38 @@
 .card-date-section {
   color: #fff6eb;
   background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
+  border-radius: 10%;
   user-select: none;
-  position: absolute;
   top: 0;
   left: 0;
-  width: 4rem;
+  width: 5rem;
   align-content: center;
-  .card-date-label {
-    font-size: 1rem;
+  margin-top: 1.2rem;
+  margin-left: 0.7rem;
+  margin-bottom: 1.5rem;
+
+  .card-date-month {
+    font-size: 1.2rem;
     text-transform: uppercase;
+    margin: 0rem;
+  }
+  .card-date-hour {
+    font-size: 1.2rem;
     margin: 0rem;
   }
   .card-date-number {
     font-weight: bolder;
-    font-size: 1.5rem;
+    font-size: 2rem;
     text-transform: uppercase;
     margin: 0rem;
   }
 }
 
-.event-confirm-status {
-  height: 1rem;
-  width: 1rem;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  margin-left: 0.3rem;
+.month-title {
+  text-transform: capitalize;
+  padding-top: 2rem;
+}
 
-  &.created {
-    background-color: cornflowerblue;
-  }
-
-  &.under-review {
-    background-color: salmon;
-  }
-
-  &.in-process {
-    background-color: chocolate;
-  }
-  &.confirmed {
-    background-color: green;
-  }
-
-  &.rejected {
-    background-color: darkred;
-  }
+.footer {
+  text-align: center;
 }

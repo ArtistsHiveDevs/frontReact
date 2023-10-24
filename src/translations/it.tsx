@@ -401,6 +401,7 @@ export const ItMessages = {
                       initial_date: "Data Iniziale",
                       final_date: "Data Finale",
                       total_days: "Giorni Totali",
+                      events_state_summary: "Eventi",
                     },
                   },
                   shows: {

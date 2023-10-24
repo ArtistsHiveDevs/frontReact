@@ -401,6 +401,7 @@ export const DeMessages = {
                       initial_date: "Anfangsdatum",
                       final_date: "Enddatum",
                       total_days: "Gesamttage",
+                      events_state_summary: "Veranstaltungen",
                     },
                   },
                   shows: {

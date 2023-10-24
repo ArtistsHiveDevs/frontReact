@@ -400,6 +400,7 @@ export const EnMessages = {
                       initial_date: "Initial Date",
                       final_date: "Final Date",
                       total_days: "Total days",
+                      events_state_summary: "Events",
                     },
                   },
                   shows: {

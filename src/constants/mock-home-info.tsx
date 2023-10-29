@@ -292,9 +292,15 @@ export function getCustomList(positions: number, list: any) {
   const returnList = [];
   const indexArray: number[] = [];
   const max = list?.length | 0;
+
+  if (positions > max) {
+    positions = max;
+  }
+
   if (max > 0) {
     while (returnList.length < positions) {
       const index = Math.floor(Math.random() * max);
+
       if (!indexArray.find((idx) => idx === index)) {
         indexArray.push(index);
         returnList.push(list[index]);

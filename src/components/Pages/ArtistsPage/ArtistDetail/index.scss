@@ -1,0 +1,73 @@
+@import "~/variables.module.scss";
+
+.aritst-container {
+  width: 100%;
+}
+.profile-header {
+  display: flex;
+  text-align: left;
+
+  .avatar {
+    object-fit: cover;
+    border-radius: 50%;
+    width: 8rem;
+    height: 8rem;
+    margin: 0.5rem;
+  }
+  .header-title {
+    margin: 1.2rem;
+    h2 {
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      color: #333;
+    }
+
+    .artist-name {
+      display: flex;
+    }
+  }
+}
+.full-content {
+  text-align: justify;
+  .subpages-tabs {
+    display: flex;
+    flex-direction: row;
+    //   overflow-x: auto;
+    margin: 25px 0px 25px 0px;
+  }
+  .subpage-tab {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-right: 2px solid $main-title-color;
+    height: 20px;
+    h5 {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+  }
+  .subpage-tab:hover {
+    cursor: pointer;
+  }
+
+  .section-title {
+    border-bottom: 1px solid $main-title-color;
+    margin-top: 2rem;
+    font-family: Ms Madi, cursive;
+    font-weight: bold;
+    color: $main-title-color;
+  }
+
+  .info-line {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.attribute {
+  display: flex;
+}
+.attribute-icon {
+  color: $main-title-color;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}

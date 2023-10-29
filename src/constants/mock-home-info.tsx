@@ -40,6 +40,12 @@ export enum VerificationStatus {
   NON_VERIFIED,
 }
 
+export enum AligmentVerifiedMark {
+  LEFT = "left",
+  RIGHT = "right",
+  CENTER = "center",
+}
+
 export const MUSICIANS = [
   new ArtistModel({
     artistType: "musician",

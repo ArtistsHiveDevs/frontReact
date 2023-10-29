@@ -5,11 +5,14 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import "./index.scss";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const SideNav = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  let navigate = useNavigate();
 
   const general: Section[] = [
     {
@@ -19,24 +22,39 @@ const SideNav = () => {
     },
     {
       name: "Mi banda",
-      path: "artist",
+      path: "artist/detail",
       updated: new Date("2/20/16"),
     },
     {
       name: "Riders Técnicos",
-      path: "riders",
+      path: "riders/detail",
       updated: new Date("2/20/16"),
     },
     {
       name: "Próximos eventos",
-      path: "events",
+      path: "shows/detail",
       updated: new Date("1/18/16"),
     },
   ];
 
+  const navigateTo = (path: string | undefined) => {
+    const paramId = Math.floor(Math.random() * 18) + 1;
+    if (path) {
+      navigate(`${path}/${paramId}`);
+    } else {
+      navigate(``);
+    }
+    setShow(false);
+  };
+
   const liMenuElement = (section: string, note: Section, idx: number) => {
     return (
-      <a href="#" className="menu-option" key={idx}>
+      <a
+        href={void 0}
+        onClick={() => navigateTo(note?.path)}
+        className="menu-option"
+        key={idx}
+      >
         <img
           alt="page Logo"
           className="menu-option-img"

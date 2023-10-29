@@ -1,16 +1,16 @@
 // vendor
-import { BrowserRouter as Router } from "react-router-dom";
 import { Suspense, useContext } from "react";
-import { IntlProvider } from "react-intl";
 import { HelmetProvider } from "react-helmet-async";
+import { IntlProvider } from "react-intl";
+import { BrowserRouter as Router } from "react-router-dom";
 
 // translations
 import { appMessages } from "./translations";
 
 // routes
-import { RoutesApp } from "./routes";
 import { HvAppContext, HvAppContextProvider } from "./common";
 import SideNav from "./components/shared/sidenav";
+import { RoutesApp } from "./routes";
 
 const App = () => {
   let { lang, messages, setLang } = useContext(HvAppContext);

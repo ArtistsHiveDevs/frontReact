@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
 import Collapse from "react-bootstrap/Collapse";
+import { Link, useSearchParams } from "react-router-dom";
 
-import { ArtistModel, findCustomList } from "~/constants";
 import { mainSection } from "~/components/Pages/HomePage/home.utils";
 import "~/components/Pages/HomePage/index.scss";
+import { DynamicIcons } from "~/components/shared/DynamicIcons";
+import { ArtistModel, findCustomList } from "~/constants";
 import "./search.scss";
-import DynamicIcons from "~/components/shared/DynamicIcons";
 
 export default function SearchPage() {
   const [open, setOpen] = useState({

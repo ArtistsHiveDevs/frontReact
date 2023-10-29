@@ -1,16 +1,10 @@
-import { ArtistModel, ARTISTS, BARS, getCustomList } from "~/constants";
+import { ArtistModel, ARTISTS, getCustomList, PLACES } from "~/constants";
 
 import { mainSection, welcomeSection } from "./home.utils";
 import "./index.scss";
-import { useI18n } from "~/common/utils";
-
-import Card from "react-bootstrap/Card";
-import VerifiedArtist from "~/components/shared/VerifiedArtist";
-
-const BASE_TRANSLATIONS_HOME_PAGE = "app.pages.HomePage";
 
 const artistList: ArtistModel[] = ARTISTS;
-const placesList: ArtistModel[] = BARS;
+const placesList: ArtistModel[] = PLACES;
 const placeParams = { hidePhoto: true };
 
 const HomePage = () => (
@@ -23,6 +17,13 @@ const HomePage = () => (
       "Artistas",
       "Estos son los artistas nuevos más solicitados",
       getCustomList(10, artistList)
+    )}
+
+    {mainSection(
+      "Eventos",
+      "Próximos eventos cercanos a ti",
+      getCustomList(10, placesList),
+      placeParams
     )}
 
     {mainSection(

@@ -1,10 +1,10 @@
-import "./index.scss";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { DynamicIcons } from "~/components/shared/DynamicIcons";
+import VerifiedArtist from "~/components/shared/VerifiedArtist";
 import { ArtistModel, ARTISTS, URL_PARAMETER_NAMES } from "~/constants";
 import { ARTIST_DETAIL_SUB_PAGE_CONFIG } from "~/constants/config-artist-detail";
-import { useState } from "react";
-import VerifiedArtist from "~/components/shared/VerifiedArtist";
-import DynamicIcons from "~/components/shared/DynamicIcons";
+import "./index.scss";
 
 const ArtistDetailPage = () => {
   const artistList = ARTISTS;

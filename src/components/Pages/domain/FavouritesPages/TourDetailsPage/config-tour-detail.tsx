@@ -166,7 +166,7 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   airbnb: "FaAirbnb",
                   booking: "MdHotel",
                   hotels: "FaHotel",
-                  house_rental: "IoHome",
+                  house_rental: "io5 IoHome",
                 };
 
                 const budget = tourOutline?.summary?.budget;

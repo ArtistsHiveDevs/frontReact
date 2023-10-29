@@ -1,7 +1,6 @@
 import { MdOutlineVerifiedUser, MdVerifiedUser } from "react-icons/md";
-import "./index.scss";
-
 import { AligmentVerifiedMark, VerificationStatus } from "~/constants";
+import "./index.scss";
 
 const VerifiedArtist = (props: any) => {
   const { verifiedStatus, aligment } = props;

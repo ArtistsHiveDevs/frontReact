@@ -118,7 +118,7 @@ const miInfo: SideMenuItem[] = [
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "my_places"),
     path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}`,
-    icon: "HiBuildingStorefront",
+    icon: "hi2 HiBuildingStorefront",
     updated: new Date("2/20/16"),
     allowedRoles: [{ entityName: "Place" }],
   },

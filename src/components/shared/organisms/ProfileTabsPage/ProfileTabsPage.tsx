@@ -344,9 +344,14 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
               attributes: (
                 componentDescriptor.data?.attributes ||
                 componentDescriptor.data?.fields
-              ).map((attribute: any, componentIndex: number) =>
-                processAttribute(attribute, componentIndex, dataSourceElement)
-              ),
+              )
+                .filter(
+                  (attribute: any) =>
+                    !attribute.hidden || !attribute.hidden(dataSourceElement)
+                )
+                .map((attribute: any, componentIndex: number) =>
+                  processAttribute(attribute, componentIndex, dataSourceElement)
+                ),
             };
           }
         );
@@ -354,10 +359,14 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
         sectionsAttributes = [
           {
             title: componentDescriptor.data?.title,
-            attributes: componentDescriptor.data?.attributes?.map(
-              (attribute: any, componentIndex: number) =>
+            attributes: componentDescriptor.data?.attributes
+              .filter(
+                (attribute: any) =>
+                  !attribute.hidden || !attribute.hidden(dataSourceElement)
+              )
+              .map((attribute: any, componentIndex: number) =>
                 processAttribute(attribute, componentIndex)
-            ),
+              ),
           },
         ];
       }

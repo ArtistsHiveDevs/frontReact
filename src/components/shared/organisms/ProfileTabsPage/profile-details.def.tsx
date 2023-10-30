@@ -38,6 +38,8 @@ export interface ProfileComponentDescriptor {
 export interface ProfileDetailAttributeConfiguration {
   name: string;
 
+  hidden?: boolean;
+
   /**
    *
    */
@@ -63,4 +65,6 @@ export interface ProfileDetailAttributeConfiguration {
   useTranslation?: boolean;
 
   translationPath?: string;
+
+  value?: Function | string | number;
 }

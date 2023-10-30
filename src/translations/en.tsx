@@ -733,11 +733,20 @@ export const EnMessages = {
             name: "My Info",
             options: {
               inbox: "Inbox",
-              my_profile: "My profile",
-              my_bands: "My bands",
-              my_events: "My events",
-              my_riders: "My riders",
-              my_places: "My places",
+              "inbox.nested": {
+                incoming: "Incoming",
+                sent: "Sent",
+              },
+              my_profile: "My Profile",
+              my_bands: "My Bands",
+              my_events: "My Events",
+              my_riders: "My Riders",
+              my_places: "My Places",
+              favourites: "Favorites",
+              "favourites.nested": {
+                saved: "Saved",
+                tour_planning: "Tour Planning",
+              },
             },
           },
           settings: {

@@ -728,11 +728,20 @@ export const EsMessages = {
             name: "Mi Info",
             options: {
               inbox: "Bandeja de entrada",
+              "inbox.nested": {
+                incoming: "Entrada",
+                sent: "Enviados",
+              },
               my_profile: "Mi perfil",
               my_bands: "Mis bandas",
               my_events: "Mis eventos",
               my_riders: "Mis riders",
               my_places: "Mis lugares",
+              favourites: "Favoritos",
+              "favourites.nested": {
+                saved: "Guardados",
+                tour_planning: "Planificación de giras",
+              },
             },
           },
           settings: {

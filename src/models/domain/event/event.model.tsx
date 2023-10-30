@@ -48,8 +48,13 @@ export class EventModel
   constructor(template: EventTemplate) {
     super(template);
 
-    this.main_artist = new ArtistModel(template.main_artist);
-    this.guest_artist = new ArtistModel(template.guest_artist);
+    this.main_artist = template.main_artist
+      ? new ArtistModel(template.main_artist)
+      : undefined;
+    this.guest_artist = template.guest_artist
+      ? new ArtistModel(template.guest_artist)
+      : undefined;
+    this.place = template.place ? new PlaceModel(template.place) : undefined;
   }
 
   public get cardInfo() {

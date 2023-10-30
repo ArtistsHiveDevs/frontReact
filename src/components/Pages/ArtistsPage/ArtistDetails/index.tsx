@@ -1,31 +1,24 @@
 import { useEffect, useState } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { useArtistsSlice } from "~/common/slices";
+import { useNavigate, useParams } from "react-router-dom";
+import { useArtistsSlice } from "~/common/slices/artists";
 import { selectArtists } from "~/common/slices/artists/selectors";
-import { useI18n } from "~/common/utils";
-import RequireAuthComponent from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
-import SectionsPanel from "~/components/shared/layout/SectionPanel";
+import { ARTIST_DETAIL_SUB_PAGE_CONFIG } from "~/components/Pages/ArtistsPage/ArtistDetails/config-artist-detail";
+
 import {
-  TabbedPage,
-  TabbedPanel,
-} from "~/components/shared/layout/TabbedPanel";
-import ProfileHeader from "~/components/shared/molecules/Profile/ProfileHeader";
-import {
-  AttributesIconFieldReadOnly,
-  IconDetailedAttribute,
-} from "~/components/shared/molecules/general/AttributesIconField";
-import { ProfileDetailAttributeConfiguration } from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
-import { URL_PARAMETER_NAMES } from "~/constants";
+  GalleryImageParams,
+  ImageGallery,
+} from "~/components/shared/atoms/ImageGallery/ImageGallery";
+import { ProfileTabsPage } from "~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage";
+import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from "~/constants";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
-import { ARTIST_DETAIL_SUB_PAGE_CONFIG } from "./config-artist-detail";
+import "./index.scss";
 
 const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
   "app.pages.ArtistsPages.ArtistsDetailsPage";
 
 const ArtistDetailPage = () => {
-  const { translateText } = useI18n();
+  const navigate = useNavigate();
 
   const urlParameters = useParams();
 
@@ -39,6 +32,7 @@ const ArtistDetailPage = () => {
   const subPagesInfo = [...ARTIST_DETAIL_SUB_PAGE_CONFIG];
 
   const [currentArtist, setCurrentArtist] = useState<ArtistModel>(undefined);
+  const [currentGalleryImage, setGalleryImage] = useState(undefined);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -58,109 +52,43 @@ const ArtistDetailPage = () => {
     setCurrentArtist(getArtistInfo(artistId));
   }, [artistId]);
 
-  const getData = (attribute: string) => {
-    const data = currentArtist[attribute as keyof ArtistModel];
-    const response = Array.isArray(data) ? data.join(", ") : data;
-    return response;
-  };
-
   const getArtistInfo = (id: string) => {
     return artistList.find((artist) => artist.id === id);
   };
 
-  const getAttributeTitle = (
-    subpageName: string,
-    sectionName: string,
-    attribute: ProfileDetailAttributeConfiguration
-  ) => {
-    return attribute.emptyTitle
-      ? ""
-      : attribute.literal
-      ? attribute.name
-      : translateAttribute(subpageName, sectionName, attribute.name);
+  const handlers = {
+    onClickGalleryImage: (
+      source: GalleryImageParams,
+      images: GalleryImageParams[]
+    ) => {
+      const image = <ImageGallery images={images} imageSize="fs" />;
+      setGalleryImage(image);
+    },
+    onCloseGalleryImage: (value: any) => {
+      setGalleryImage(undefined);
+    },
+    onClickNextEvent: (value: any) => {
+      navigateTo(PATHS.EVENTS, value.id);
+    },
+    onClickPastEvent: (value: any) => {
+      navigateTo(PATHS.EVENTS, value.id);
+    },
   };
 
-  // Translation helpers
-  const translateAttribute = (
-    subpage: string,
-    section: string,
-    attribute: string
-  ) => {
-    return translateText(
-      `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.subpages.${subpage}.sections.${section}.attributes.${attribute}`
-    );
-  };
-
-  const translateSubpage = (subpage: string) => {
-    return translateText(
-      `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.subpages.${subpage}.name`
-    );
-  };
-
-  const translateSection = (subpage: string, section: string) => {
-    return translateText(
-      `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.subpages.${subpage}.sections.${section}.name`
-    );
-  };
-
-  // Data config
-  const ARTIST_DETAILS_TABBED_PAGES: TabbedPage[] = subPagesInfo.map(
-    (subpage) => {
-      return {
-        name: translateSubpage(subpage.name),
-        requireSession: subpage.requireSession,
-        tabContent: () => {
-          return (
-            <RequireAuthComponent requiredSession={subpage.requireSession}>
-              {subpage.sections.map((section, index) => {
-                // Icon Detailed Attributes
-                const sectionAttributes: IconDetailedAttribute[] =
-                  section.attributes?.map((attribute) => {
-                    return {
-                      name: attribute.name,
-                      title: getAttributeTitle(
-                        subpage.name,
-                        section.name,
-                        attribute
-                      ),
-                      icon: attribute?.icon,
-                      value: getData(attribute.name),
-                      requireSession: attribute.requireSession,
-                    };
-                  });
-
-                const sectionContent = () => (
-                  <AttributesIconFieldReadOnly attributes={sectionAttributes} />
-                );
-                return (
-                  <RequireAuthComponent
-                    requiredSession={section.requireSession}
-                  >
-                    <SectionsPanel
-                      key={`section-${section.name}-${index}`}
-                      sectionName={translateSection(
-                        subpage.name,
-                        section?.name
-                      )}
-                      sectionContent={sectionContent}
-                    />
-                  </RequireAuthComponent>
-                );
-              })}
-            </RequireAuthComponent>
-          );
-        },
-      };
-    }
-  );
+  function navigateTo(newEntity: PATHS, id: string = null) {
+    navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
+  }
 
   return (
     <>
       {!!currentArtist && (
-        <div className="artist-container">
-          <ProfileHeader element={currentArtist} />
-          <TabbedPanel tabs={ARTIST_DETAILS_TABBED_PAGES} />
-        </div>
+        <ProfileTabsPage
+          entityName="Artist"
+          entityData={currentArtist}
+          translation_base_path={TRANSLATION_BASE_ARTIST_DETAIL_PAGE}
+          subpagesConfig={subPagesInfo}
+          handlers={handlers}
+        />
       )}
     </>
   );

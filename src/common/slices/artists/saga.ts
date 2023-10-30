@@ -7,7 +7,13 @@ import { artistsActions as actions } from ".";
 
 export function* getArtists() {
   yield delay(500);
-  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/artists`;
+
+  const queryParams =
+    "?f=events,events.main_artist,events.guest_artist,events.place";
+
+  const requestURL = `${
+    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
+  }/artists?${queryParams}`;
 
   try {
     const artists: ArtistModel[] = yield call(request, requestURL);

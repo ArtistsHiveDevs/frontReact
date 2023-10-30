@@ -36,7 +36,9 @@ const CulturalAgendaPage: React.FC = () => {
 
   return (
     <>
-      <h1>{translateText(`${TRANSLATION_BASE_AGENDA_CULTURAL_PAGE}.title`)}</h1>
+      <h1 className="agenda-title">
+        {translateText(`${TRANSLATION_BASE_AGENDA_CULTURAL_PAGE}.title`)}
+      </h1>
       <MainSection
         title={"Destacados"}
         listView={getCustomList(10, eventsList)}

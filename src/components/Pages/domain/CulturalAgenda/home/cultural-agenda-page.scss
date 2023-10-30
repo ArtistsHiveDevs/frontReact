@@ -3,4 +3,9 @@
 .hr-solid {
     border-top: 3px solid $main-title-color;
     width: 100%;
-  }
+}
+
+.agenda-title {
+  color: $main-title-color;
+  font-weight: bold;
+}

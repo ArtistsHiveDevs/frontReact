@@ -64,30 +64,21 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
               attributes: [
                 {
                   name: "website",
-                  icon: "TbWorld",
-                  emptyTitle: true,
                 },
                 {
                   name: "email",
-                  icon: "MdEmail",
                   requireSession: true,
-                  emptyTitle: true,
                 },
                 {
                   name: "phone",
-                  icon: "BsFillTelephoneFill",
                   requireSession: true,
-                  emptyTitle: true,
                 },
                 {
                   name: "mobile_phone",
                   requireSession: true,
-                  emptyTitle: true,
                 },
                 {
                   name: "whatsapp",
-                  emptyTitle: true,
-                  requireSession: true,
                 },
               ],
             },
@@ -103,34 +94,21 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
               attributes: [
                 {
                   name: "facebook",
-                  emptyTitle: true,
-                  icon: "BsFacebook",
                 },
                 {
                   name: "twitter",
-                  emptyTitle: true,
-                  icon: "BsTwitter",
                 },
                 {
                   name: "instagram",
-                  emptyTitle: true,
-                  icon: "BsInstagram",
                 },
                 {
                   name: "spotify",
-                  emptyTitle: true,
-                  icon: "BsSpotify",
                 },
                 {
                   name: "youtube",
-                  emptyTitle: true,
-                  icon: "BsYoutube",
                 },
                 {
                   name: "cd_baby",
-                  emptyTitle: true,
-                  title: "CD Baby",
-                  icon: "BsInfoCircleFill",
                 },
               ],
             },

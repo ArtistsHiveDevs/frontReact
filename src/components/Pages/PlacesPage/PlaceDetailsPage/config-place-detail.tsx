@@ -67,24 +67,18 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
               attributes: [
                 {
                   name: "website",
-                  emptyTitle: true,
                 },
                 {
                   name: "email",
-                  emptyTitle: true,
                 },
                 {
                   name: "phone",
-                  emptyTitle: true,
                 },
                 {
                   name: "mobile_phone",
-                  emptyTitle: true,
                 },
                 {
                   name: "whatsapp",
-                  literal: true,
-                  emptyTitle: true,
                 },
               ],
             },
@@ -100,23 +94,18 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
               attributes: [
                 {
                   name: "facebook",
-                  emptyTitle: true,
                 },
                 {
                   name: "twitter",
-                  emptyTitle: true,
                 },
                 {
                   name: "instagram",
-                  emptyTitle: true,
                 },
                 {
                   name: "spotify",
-                  emptyTitle: true,
                 },
                 {
                   name: "youtube",
-                  emptyTitle: true,
                 },
               ],
             },
@@ -133,38 +122,32 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: "social_network_presence",
         attributes: [
           {
-            name: "Facebook",
-            emptyTitle: true,
-            icon: "BsFacebook",
-          },
-          {
-            name: "Instagram",
-            emptyTitle: true,
-            icon: "BsInstagram",
-          },
-          {
-            name: "Twitter",
-            emptyTitle: true,
-            icon: "BsTwitter",
-          },
-          {
-            name: "Spotify",
-            emptyTitle: true,
-            icon: "BsSpotify",
-          },
-          {
-            name: "Deezer",
+            name: "facebook",
             emptyTitle: true,
           },
           {
-            name: "Apple Music",
+            name: "instagram",
             emptyTitle: true,
-            icon: "SiApplemusic",
           },
           {
-            name: "Youtube",
+            name: "twitter",
             emptyTitle: true,
-            icon: "BsYoutube",
+          },
+          {
+            name: "spotify",
+            emptyTitle: true,
+          },
+          {
+            name: "deezer",
+            emptyTitle: true,
+          },
+          {
+            name: "appleMusic",
+            emptyTitle: true,
+          },
+          {
+            name: "youtube",
+            emptyTitle: true,
           },
         ],
       },

@@ -24,13 +24,6 @@ export const EsMessages = {
                 },
                 contact: {
                   name: "Contacto",
-                  attributes: {
-                    website: "Website",
-                    email: "e-mail",
-                    phone: "Teléfono",
-                    mobile_phone: "Celular",
-                    whatsapp: "WhatsApp",
-                  },
                 },
                 social_networks: {
                   name: "Redes sociales",
@@ -107,20 +100,61 @@ export const EsMessages = {
       },
       EventsPages: {
         EventDetailsPage: {
-          additionalInfo: "Información adicional",
-          artists: "Artistas",
-          national_code: "PULEP",
-          contact: "Contacto & Media",
-          date: "¿Cuándo?",
-          description: "Descripción",
-          discounts: "Descuentos",
-          eventNotFound: "Evento no encontrado",
-          general_information: "Información general",
-          initialTime: "Hora",
-          minimumAge: "Edad mínima",
-          openingDoors: "Apertura de puertas",
-          place: "Lugar",
-          promoter: "Responsable",
+          subpages: {
+            general: {
+              name: "Info",
+              sections: {
+                general: {
+                  name: "Información General",
+                  attributes: {
+                    national_code: "Cód. PULEP",
+                    timetable__initial_date: "¿Cuándo?",
+                    initial_time: "Hora",
+                    minimumAge: "Edad mínima",
+                    timetable__openning_doors: "Apertura de puertas",
+                    promoter: "Responsable",
+                  },
+                },
+                description: {
+                  name: "Descripción",
+                },
+              },
+            },
+            artists: {
+              name: "Artistas",
+              sections: {
+                main_artists: { name: "Artistas principales" },
+              },
+            },
+            place: {
+              name: "Lugar",
+              sections: {
+                location: {
+                  name: "Ubicación",
+                },
+              },
+            },
+            contact: {
+              name: "Contacto & Redes",
+              sections: {
+                contact: {
+                  name: "Info de contacto",
+                },
+                social_networks: {
+                  name: "Redes sociales",
+                },
+              },
+            },
+            extra_info: {
+              name: "Extras",
+              sections: {
+                additional_info: { name: "Información adicional" },
+                dress_code: { name: "Código de vestimenta" },
+                discounts: { name: "Descuentos" },
+                promoter: { name: "Responsable" },
+              },
+            },
+          },
         },
       },
       PlacesPages: {

@@ -1,4 +1,4 @@
-import { call, put, takeLatest, delay } from "redux-saga/effects";
+import { call, delay, put, takeLatest } from "redux-saga/effects";
 
 import { request } from "~/common/utils/request";
 import { PlaceModel } from "~/models/domain/place/place.model";
@@ -7,7 +7,11 @@ import { placesActions as actions } from ".";
 
 export function* getPlaces() {
   yield delay(500);
-  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/places`;
+  let queryParams = `f=events,events.main_artist,events.guest_artist`;
+
+  const requestURL = `${
+    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
+  }/places?${queryParams}`;
 
   try {
     const places: PlaceModel[] = yield call(request, requestURL);

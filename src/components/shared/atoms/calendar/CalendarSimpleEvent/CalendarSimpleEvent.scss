@@ -1,0 +1,47 @@
+@import "~/variables.module.scss";
+
+.calendar-event-container {
+  display: flex;
+  background-color: $main-background-color;
+  border-radius: 8px;
+  margin: 0.6rem;
+  padding: 0.6rem;
+  grid-gap: 0.4rem;
+  align-items: center;
+}
+
+.calendar-event-date {
+  flex-grow: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.4rem;
+  min-width: 25%;
+}
+.day {
+  font-weight: 700;
+  font-size: large;
+  color: $main-title-color;
+}
+.month {
+  font-weight: 450;
+  font-size: large;
+  color: $main-title-color;
+}
+.hour {
+  font-weight: 300;
+}
+
+.calendar-event-content {
+  flex-grow: 7;
+  min-width: 55%;
+}
+.calendar-event-picture-container {
+  flex-grow: 2;
+  min-width: 15%;
+}
+.calendar-event-picture {
+  width: 100%;
+  margin: 0px;
+}

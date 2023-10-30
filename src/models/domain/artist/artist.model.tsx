@@ -88,7 +88,7 @@ export class ArtistModel
 
   constructor(template: ArtistTemplate) {
     super(template);
-    this.events = template.events?.map((event) => new EventModel(event)) || [];
+    this.events = template?.events?.map((event) => new EventModel(event)) || [];
   }
 
   get pastEvents() {

@@ -10,7 +10,7 @@
     "build": "tsc && vite build",
     "build-ah": "tsc && vite build --base=/artistsHive/",
     "preview": "vite preview",
-    "deploy": "npm run build-ah && ts-node-esm ./deployment/ftp-upload.ts",
+    "deploy": "npm run build && ts-node-esm ./deployment/ftp-upload.ts",
     "build:android": "npm run build && npx cap sync android"
   },
   "dependencies": {

@@ -57,10 +57,9 @@ const miInfo: SideMenuItem[] = [
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, "my_profile"),
-    path: `${PATHS.PROFILE}/${SUB_PATHS.ELEMENT_DETAILS}`,
+    path: `${PATHS.PROFILE}`,
     icon: "FaUser",
     updated: new Date("2/20/16"),
-    randomId: true,
     requireSession: true,
   },
   {

@@ -20,7 +20,10 @@ import "./index.scss";
 import { FloatingLabel } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { HvAppContext } from "~/common";
+import { useUsersSlice } from "~/common/slices/users";
+import { selectUsers } from "~/common/slices/users/selectors";
 import { useI18n } from "~/common/utils";
+import { ProfilePicture } from "~/components/shared/atoms/gui/ProfilePicture/ProfilePicture";
 import { DynamicIcons } from "~/components/shared/DynamicIcons";
 import {
   AttributesIconFieldReadOnly,
@@ -28,12 +31,11 @@ import {
 } from "~/components/shared/molecules/general/AttributesIconField";
 import { EntityModel, EntityTemplate } from "~/models/base";
 import { AVAILABLE_I18N_LANGUAGES } from "~/translations";
-import { crearDummyUser } from "./dummy-users.mock";
 
 const TRANSLATION_BASE_SETTINGS_PAGE = "app.pages.app.settings";
 
 const AppSettingsPage = () => {
-  const { auth, setAuth } = useAuth();
+  const { loggedUser, setLoggedUser } = useAuth();
 
   const [selectedUser, setSelectedUser] = useState<AppUserModel>(UNLOGGED_USER);
   const [selectedArtistsId, setSelectedArtistId] = useState("");
@@ -44,6 +46,9 @@ const AppSettingsPage = () => {
 
   const placesList: PlaceModel[] = useSelector(selectPlaces);
   const { actions: placesActions } = usePlacesSlice();
+
+  const usersList: AppUserModel[] = useSelector(selectUsers);
+  const { actions: usersActions } = useUsersSlice();
 
   // Hooks
   const dispatch = useDispatch();
@@ -64,17 +69,22 @@ const AppSettingsPage = () => {
       dispatch(placesActions.loadPlaces());
     }
 
-    setSelectedUser(auth);
+    if (usersList.length === 0) {
+      dispatch(usersActions.loadUsers());
+    }
+
+    setSelectedUser(loggedUser);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    setAuth(selectedUser);
+    setLoggedUser(selectedUser);
   }, [selectedUser]);
 
-  function setLoggedUser(numUsuario: number) {
-    if (numUsuario > 0) {
-      setSelectedUser(crearDummyUser(numUsuario));
+  function setCurrentUser(user: AppUserModel) {
+    if (user) {
+      setSelectedUser(user);
+      setLocale(user.user_language);
     } else {
       setSelectedUser(UNLOGGED_USER);
     }
@@ -94,7 +104,7 @@ const AppSettingsPage = () => {
     }),
   ];
 
-  const shownFields = ["username", "fullname", "email"];
+  const shownFields = ["username", "name", "email"];
   const keys = !selectedUser
     ? []
     : [...listGetters(selectedUser), ...Object.keys(selectedUser)];
@@ -124,14 +134,13 @@ const AppSettingsPage = () => {
     roleName: string,
     action: "add" | "del"
   ) {
-    auth?.modifyDummyRole(entityName, entityId, roleName, action);
-    const updated = new AppUserModel(auth?.template);
-    updated.roles = auth?.roles || [];
+    loggedUser?.modifyDummyRole(entityName, entityId, roleName, action);
+    const updated = new AppUserModel(loggedUser?.template);
+    updated.roles = loggedUser?.roles || [];
 
     setSelectedUser(updated);
   }
 
-  const usuarios = [1, 2, 3, 4, 5];
   return (
     <>
       <h2>{translate("title")}</h2>
@@ -163,24 +172,24 @@ const AppSettingsPage = () => {
         {translate("user_profile.title")}{" "}
       </h3>
       <p>
-        {usuarios.map((numeroUsuario) => {
+        {usersList.map((user) => {
           const styles = [];
-          if (`${numeroUsuario}` === selectedUser?.id) {
+          if (`${user.id}` === selectedUser?.id) {
             styles.push("active-lang");
           }
           return (
-            <span key={`user_${numeroUsuario}`}>
+            <span key={`user_${user.id}`}>
               <span
                 className={styles.join(" ")}
-                onClick={() => setLoggedUser(numeroUsuario)}
+                onClick={() => setCurrentUser(user)}
               >
-                {translate("user_profile.user")} {numeroUsuario}
+                {user.name}
               </span>
               {" | "}
             </span>
           );
         })}
-        <span onClick={() => setLoggedUser(0)}>
+        <span onClick={() => setCurrentUser(UNLOGGED_USER)}>
           {translate("user_profile.logout")}
         </span>
       </p>
@@ -190,7 +199,15 @@ const AppSettingsPage = () => {
       {selectedUser && (
         <div className="logged-user-box">
           <h5>{translate("user_profile.user_info")}:</h5>
-          <AttributesIconFieldReadOnly attributes={userAttributes} />
+          <div className="logged-user-info">
+            <ProfilePicture src={selectedUser.profile_pic} />
+            <div>
+              <AttributesIconFieldReadOnly
+                attributes={userAttributes}
+                className="logged-user-info-data"
+              />
+            </div>
+          </div>
           <h5>{translate("user_profile.roles")}:</h5>
           {Object.keys(APP_DOMAIN_ROLES).map((roleKeyName, index) => {
             const roleConfig: DomainRole = APP_DOMAIN_ROLES[roleKeyName];

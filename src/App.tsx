@@ -12,8 +12,8 @@ import { appMessages } from "./translations";
 import { AuthProvider, HvAppContext, HvAppContextProvider } from "./common";
 
 import { AppFooter } from "~/components/shared/organisms/app/Footer/AppFooter";
-import SideNav from "./components/shared/sidenav";
-import { RoutesApp } from "./routes";
+import SideNav from "~/components/shared/sidenav";
+import { RoutesApp } from "~/routes";
 
 const App = () => {
   let { lang, messages, setLocale: setLang } = useContext(HvAppContext);

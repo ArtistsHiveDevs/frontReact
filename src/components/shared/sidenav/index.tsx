@@ -6,17 +6,21 @@ import { DynamicIcons } from "~/components/shared/DynamicIcons";
 import { SearchComponent } from "~/components/shared/search";
 
 import { useI18n } from "~/common/utils";
+import useAuth from "~/common/utils/hooks/auth/useAuth";
 import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import { PATHS, SUB_PATHS } from "~/constants";
 import { SearchableTemplate } from "~/models/base";
 import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
+import { ProfilePicture } from "../atoms/gui/ProfilePicture/ProfilePicture";
 import "./index.scss";
 import { SIDENAV_MENU_CONFIG, SideMenuItem } from "./sidenav.config";
 
-const TRANSLATION_BASE_SIDENAV = "app.sidenav";
+const TRANSLATION_BASE_SIDENAV = "app.appbase.sidenav";
 
 const SideNav = () => {
+  const { loggedUser, setLoggedUser } = useAuth();
+
   const [show, setShow] = useState(false);
   const [openStatusSearchInputText, setOpenStatusSearchInputText] =
     useState(false);
@@ -54,9 +58,9 @@ const SideNav = () => {
         allowedRoles={note.allowedRoles}
         requiredSession={note.requireSession}
         name={note.name}
+        key={idx}
       >
         <a
-          key={idx}
           className="menu-option"
           href={void 0}
           onClick={() => navigateTo(note?.path, note.randomId)}
@@ -154,10 +158,14 @@ const SideNav = () => {
             <span onClick={showHideSearchField}>
               <DynamicIcons iconName={searchIcon} size={30} />
             </span>
-            {logosRedes()}
-            <a className="brand-text" href="#">
-              Log in
-            </a>
+            {loggedUser && (
+              <ProfilePicture src={loggedUser.profile_pic} size="xs" />
+            )}
+            {!loggedUser && (
+              <a className="brand-text" href="#">
+                Log in
+              </a>
+            )}
           </div>
           <SearchComponent
             openedStatus={openStatusSearchInputText}

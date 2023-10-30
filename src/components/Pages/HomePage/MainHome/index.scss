@@ -1,0 +1,80 @@
+@import "~/variables.module.scss";
+
+.welcome-section {
+  margin-top: 20px;
+}
+
+.welcome-title {
+  color: $main-title-color;
+  text-align: center;
+  width: 100%;
+  // font-family: Ms Madi, cursive;
+  font-weight: bold;
+  padding-top: 2rem;
+}
+
+p {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol;
+  font-size: 14px;
+}
+
+.home-section-title {
+  text-align: center;
+  margin: 20px 0px 10px 0px;
+}
+
+#map-container {
+  width: 100%;
+  height: 400px;
+  display: flex;
+
+  #map {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+  }
+}
+
+.offer-to-industry-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.offer-to-industry {
+  flex: 100%;
+  position: relative;
+  padding: 1rem;
+}
+
+.offer-to-industry-image {
+  height: 13rem;
+  max-height: 13rem;
+  width: 17rem;
+  max-width: 17rem;
+}
+
+.text-offer {
+  position: absolute;
+  top: 30%;
+  width: 90%;
+  text-align: center;
+  color: white;
+  font-size: xxx-large;
+  font-weight: 700;
+}
+
+@media (min-width: 720px) {
+  .offer-to-industry {
+    flex: 50%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .offer-to-industry {
+    flex: 25%;
+  }
+}

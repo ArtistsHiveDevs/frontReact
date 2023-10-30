@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { Container, Navbar, Offcanvas } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { Offcanvas, Navbar, Container } from "react-bootstrap";
 
-import { SUB_PATHS } from "~/constants";
+import { DynamicIcons } from "~/components/shared/DynamicIcons";
 import { SearchComponent } from "~/components/shared/search";
+import { SUB_PATHS } from "~/constants";
 import "./index.scss";
 
 const SideNav = () => {
@@ -60,11 +61,7 @@ const SideNav = () => {
         href={void 0}
         onClick={() => navigateTo(note?.path)}
       >
-        <img
-          alt="page Logo"
-          className="menu-option-img"
-          src="/src/assets/img/page-empty.svg"
-        />
+        <DynamicIcons iconName="AiFillFile" size={25} />
         <span className="menu-option-label">{note.name}</span>
       </a>
     );

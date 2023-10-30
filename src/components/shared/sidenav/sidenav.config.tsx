@@ -1,4 +1,4 @@
-import { AllowedEntityRole } from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
+import { AllowedEntityRole } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import { PATHS, SUB_PATHS } from "~/constants";
 
 const TRANSLATION_BASE_SIDENAV = "app.sidenav.sections";

@@ -6,7 +6,7 @@ import { DynamicIcons } from "~/components/shared/DynamicIcons";
 import { SearchComponent } from "~/components/shared/search";
 
 import { useI18n } from "~/common/utils";
-import RequireAuthComponent from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
+import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import "./index.scss";
 import { SideMenuItem, SIDENAV_MENU_CONFIG } from "./sidenav.config";
 

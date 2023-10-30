@@ -1,4 +1,4 @@
-import RequireAuthComponent from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
+import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import {
   CalendarSimpleEvent,
   EventParams,

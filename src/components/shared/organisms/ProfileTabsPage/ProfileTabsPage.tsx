@@ -22,10 +22,11 @@ import {
 } from "./profile-details.def";
 
 import moment from "moment";
-import RequireAuthComponent from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
-import SectionsPanel from "~/components/shared/layout/SectionPanel";
+import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
+import { SectionsPanel } from "~/components/shared/layout/SectionPanel";
 import { TabbedPanel } from "~/components/shared/layout/TabbedPanel";
-import ProfileHeader from "~/components/shared/molecules/Profile/ProfileHeader";
+import { ProfileHeader } from "~/components/shared/molecules/Profile/ProfileHeader";
+import { ProfileThumbnailCard } from "~/components/shared/molecules/Profile/ProfileThumbnailCard";
 
 export interface ProfilePageParams {
   entityName: string;
@@ -33,10 +34,17 @@ export interface ProfilePageParams {
   entityData: EntityModel<EntityTemplate>;
   handlers?: any;
   subpagesConfig?: ProfileDetailsSubpage[];
+  profileHeaderComponent?: any;
 }
 
 export const ProfileTabsPage = (props: ProfilePageParams) => {
-  const { translation_base_path, entityData, handlers, subpagesConfig } = props;
+  const {
+    translation_base_path,
+    entityData,
+    handlers,
+    subpagesConfig,
+    profileHeaderComponent,
+  } = props;
 
   const { translateText } = useI18n();
   const navigate = useNavigate();
@@ -46,19 +54,30 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     sectionName: string,
     attribute: ProfileDetailAttributeConfiguration
   ) => {
-    return attribute.emptyTitle
-      ? ""
-      : attribute.literal
-      ? attribute.name
-      : translateAttribute(subpageName, sectionName, attribute.name);
+    let title: string = "";
+    if (attribute.title) {
+      title = attribute.title;
+    } else if (attribute.useTranslation || attribute.emptyTitle === undefined) {
+      title = translateAttribute(subpageName, sectionName, attribute.name);
+    }
+    return title;
   };
+
   //#region Helpers
-  const getData = (attribute: string) => {
+  const getData = (
+    attribute: string,
+    dataSource: EntityModel<EntityTemplate> = undefined
+  ) => {
     let response = undefined;
     if (attribute) {
-      const data = entityData[attribute as keyof typeof entityData];
+      const element = dataSource || entityData;
+      const data = element[attribute as keyof typeof element];
       response = data;
-      if (Array.isArray(data) && data.length && typeof data[0] === "string") {
+      if (
+        Array.isArray(data) &&
+        data.length &&
+        (typeof data[0] === "string" || typeof data[0] === "number")
+      ) {
         response = data.join(", ");
       }
     }
@@ -66,19 +85,19 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
   };
 
   const transformedConfig = () => {
-    return subpagesConfig.map((subpage) => {
+    return (subpagesConfig || []).map((subpage) => {
       return {
         name: translateSubpage(subpage.name),
         requireSession: subpage.requireSession,
         tabContent: () => {
           return (
             <RequireAuthComponent requiredSession={subpage.requireSession}>
-              {subpage.sections.map((section, index) => {
+              {(subpage.sections || []).map((section, index) => {
                 // Icon Detailed Attributes
 
                 let contentComponents: any = <></>;
                 if (section.components) {
-                  contentComponents = section.components.map(
+                  contentComponents = (section.components || []).map(
                     (
                       componentDescriptor: ProfileComponentDescriptor,
                       componentIndex: number
@@ -133,9 +152,11 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
   };
 
   const translateSection = (subpage: string, section: string) => {
-    return translateText(
-      `${translation_base_path}.subpages.${subpage}.sections.${section}.name`
-    );
+    return section
+      ? translateText(
+          `${translation_base_path}.subpages.${subpage}.sections.${section}.name`
+        )
+      : undefined;
   };
   //#endregion
 
@@ -145,20 +166,31 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     subpage: ProfileDetailsSubpage,
     section: ProfileDetailsSubpageSection,
     componentDescriptor: ProfileComponentDescriptor,
-    componentIndex: number
+    componentIndex: number,
+    parentDataSource: EntityModel<EntityTemplate> = undefined
   ) {
+    const source = parentDataSource || entityData;
+
+    const dataSourceElement: EntityModel<EntityTemplate> = componentDescriptor
+      .data?.data_source
+      ? source[componentDescriptor.data?.data_source as keyof typeof source]
+      : source;
+
     let renderedComponent = <></>;
     if (componentDescriptor.componentName === ProfileComponentTypes.MAP) {
+      const lat = getData(componentDescriptor.data?.lat, dataSourceElement);
+      const lng = getData(componentDescriptor.data?.lng, dataSourceElement);
+
       const mapData = {
         zoom: 19,
         center: {
-          lat: getData(componentDescriptor.data?.lat),
-          lng: getData(componentDescriptor.data?.lng),
+          lat,
+          lng,
         },
         marksLocation: [
           {
-            lat: getData(componentDescriptor.data?.lat),
-            lng: getData(componentDescriptor.data?.lng),
+            lat,
+            lng,
           },
         ],
         anotherOpts: {},
@@ -184,21 +216,109 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS
     ) {
       const sectionAttributes: IconDetailedAttribute[] =
-        componentDescriptor.data?.attributes?.map((attribute: any) => {
-          return {
-            name: attribute.name,
-            title: getAttributeTitle(subpage.name, section.name, attribute),
-            icon: attribute?.icon,
-            value: getData(attribute.name),
-            requireSession: attribute.requireSession,
-          };
-        }) || [];
+        componentDescriptor.data?.attributes?.map(
+          (attribute: any, componentIndex: number) => {
+            let value = getData(attribute.name, parentDataSource);
+            if (attribute.value) {
+              if (attribute.value instanceof Function) {
+                value = <>{attribute.value(dataSourceElement)}</>;
+              } else {
+                value = attribute.value;
+              }
+            }
+            return {
+              name: attribute.name,
+              title: getAttributeTitle(subpage.name, section.name, attribute),
+              customTitle: !!attribute.title || attribute.useTranslation,
+              icon: attribute?.icon,
+              value,
+              requireSession: attribute.requireSession,
+            };
+          }
+        ) || [];
       renderedComponent = (
         <AttributesIconFieldReadOnly
-          //   key={`section-${section.name}-${index}-${componentIndex}`}
+          key={`section-${section.name}-attributes-${componentIndex}`}
           attributes={sectionAttributes}
         />
       );
+    } else if (
+      componentDescriptor.componentName === ProfileComponentTypes.HTML_CONTENT
+    ) {
+      const content =
+        getData(componentDescriptor.data?.attribute_content) ||
+        componentDescriptor.data?.content;
+      return <>{content}</>;
+    } else if (
+      componentDescriptor.componentName ===
+      ProfileComponentTypes.PROFILE_THUMBNAIL_CARD
+    ) {
+      // Data source
+      const data: any =
+        entityData[
+          componentDescriptor.data?.data_source as keyof typeof entityData
+        ];
+
+      let elements = [];
+      if (Array.isArray(data)) {
+        elements = data;
+      } else {
+        elements.push(data);
+      }
+
+      // Footers
+      let footer: any = () => <></>;
+      const footerDescriptor = componentDescriptor.data?.footer;
+      if (footerDescriptor) {
+        footer = () => {
+          return (footerDescriptor.components || []).map(
+            (
+              componentDescriptor: ProfileComponentDescriptor,
+              componentIndex: number
+            ) => {
+              const source = parentDataSource || entityData;
+
+              const dataSourceElement: EntityModel<EntityTemplate> =
+                source[
+                  componentDescriptor.data?.data_source as keyof typeof source
+                ];
+
+              const generated = buildComponent(
+                subpage,
+                section,
+                componentDescriptor,
+                componentIndex,
+                dataSourceElement
+              );
+              return generated;
+            }
+          );
+        };
+      }
+
+      // Handlers
+      let clickHandler: (source: any) => void = undefined;
+
+      if (!!componentDescriptor.clickHandlerName) {
+        clickHandler =
+          handlers[
+            componentDescriptor.clickHandlerName as keyof typeof handlers
+          ];
+      }
+      return (elements || []).map((element, index) => (
+        <ProfileThumbnailCard
+          key={`profile-thumbnail-${index}`}
+          elementData={element}
+          footer={footer}
+          callbacks={{
+            onClickCard: (elementData: any) => {
+              if (componentDescriptor.clickHandlerName) {
+                handlers[componentDescriptor.clickHandlerName](elementData);
+              }
+            },
+          }}
+        />
+      ));
     } else if (
       componentDescriptor.componentName === ProfileComponentTypes.IMAGE_GALLERY
     ) {
@@ -270,7 +390,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     <>
       {!!entityData && (
         <div className="place-container">
-          <ProfileHeader element={entityData} />
+          {profileHeaderComponent || <ProfileHeader element={entityData} />}
           <TabbedPanel tabs={transformedConfig()} />
         </div>
       )}

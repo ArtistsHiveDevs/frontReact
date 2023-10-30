@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import RequireAuthComponent from "../../atoms/IconField/app/auth/RequiredAuth";
+import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import "./index.scss";
 
 export interface TabbedPage {

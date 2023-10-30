@@ -1,5 +1,6 @@
 // vendor
-import { Suspense, useContext } from "react";
+
+import { Suspense, useContext, useState } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { IntlProvider } from "react-intl";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -9,62 +10,33 @@ import { appMessages } from "./translations";
 
 // routes
 import { AuthProvider, HvAppContext, HvAppContextProvider } from "./common";
-import { FooterColumnTemplate } from "./components/shared/Footer/columns-menu";
 
-import FooterColumns from "./components/shared/Footer/columns-menu/ColumnsMenu";
-import FooterCopywrite from "./components/shared/Footer/footer-copywrite/FooterCopywrite";
+import { AppFooter } from "~/components/shared/organisms/app/Footer/AppFooter";
 import SideNav from "./components/shared/sidenav";
 import { RoutesApp } from "./routes";
 
 const App = () => {
-  let { lang, messages, setLang } = useContext(HvAppContext);
-  const onError = (error: any) => console.log(`Error Messages: ${error}`);
+  let { lang, messages, setLocale: setLang } = useContext(HvAppContext);
 
-  // Footer
-  const footerColumns: FooterColumnTemplate[] = [
-    {
-      columnTitle: "¿Qué hacemos?",
-      options: [
-        { text: "Agenda cultural", link: "#" },
-        { text: "Para artistas", link: "#" },
-        { text: "Para sitios", link: "#" },
-        { text: "Para promotores", link: "#" },
-        { text: "Para festivales", link: "#" },
-      ],
-    },
-    {
-      columnTitle: "Nosotros",
-      options: [
-        { text: "Historia", link: "#" },
-        { text: "Prensa", link: "#" },
-        { text: "Carrera", link: "#" },
-        { text: "Descarga", link: "#" },
-        { text: "Política de datos", link: "#" },
-      ],
-    },
-    // {
-    //   columnTitle: "Proyectos",
-    //   options: [{ text: "Conoce tu país", link: "#" }],
-    // },
-    {
-      columnTitle: "¿Ayuda?",
-      options: [
-        { text: "Centro de ayuda", link: "#" },
-        { text: "Contáctanos", link: "#" },
-        { text: "Reporta", link: "#" },
-      ],
-    },
-  ];
+  const [appLang, setAppLang] = useState<{ lang: string; messages: any }>({
+    lang,
+    messages,
+  });
+  const onError = (error: any) => console.log(`Error Messages: ${error}`);
 
   return (
     <HelmetProvider>
-      <HvAppContextProvider appMessages={appMessages}>
+      <HvAppContextProvider
+        appMessages={appMessages}
+        lang={appLang}
+        setLang={setAppLang}
+      >
         <Router>
           <AuthProvider>
             <IntlProvider
-              defaultLocale={navigator.language || "en"}
-              locale={lang}
-              messages={messages}
+              defaultLocale={appLang.lang || "en"}
+              locale={appLang.lang}
+              messages={appLang.messages}
               onError={onError}
             >
               <div className="wrapper">
@@ -74,9 +46,7 @@ const App = () => {
                   <div className="content">
                     <RoutesApp />
                   </div>
-
-                  <FooterColumns footerColumns={footerColumns}></FooterColumns>
-                  <FooterCopywrite />
+                  <AppFooter />
                 </Suspense>
               </div>
             </IntlProvider>

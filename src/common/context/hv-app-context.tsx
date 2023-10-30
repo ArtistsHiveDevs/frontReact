@@ -1,5 +1,4 @@
-import { useState, useEffect, createContext } from "react";
-import { setFlagsFromString } from "v8";
+import { createContext, useEffect } from "react";
 
 import { appMessages } from "~/translations";
 
@@ -10,16 +9,20 @@ import {
 
 const DEFAULT_LANG_BY_ENV = import.meta.env.VITE_DEFAULT_LANGUAGE;
 
-const defaultLang: string =
-  localStorage?.currentLang ||
-  navigator.language ||
-  DEFAULT_LANG_BY_ENV ||
-  "en";
+const defaultLang = () => {
+  return (
+    localStorage?.currentLang ||
+    navigator.language ||
+    DEFAULT_LANG_BY_ENV ||
+    "en"
+  );
+};
 
 export const HvAppContext = createContext<IHvAppContext>({
-  lang: getAvailableLang(defaultLang),
-  messages: appMessages[getAvailableLang(defaultLang)],
-  setLang: (newLang: string) => {
+  lang: defaultLang(),
+  messages:
+    appMessages[getAvailableLang(defaultLang()) as keyof typeof appMessages],
+  setLocale: (newLang: string) => {
     localStorage.currentLang = getAvailableLang(newLang);
   },
 });
@@ -48,31 +51,29 @@ function getAvailableLang(lang: string) {
 export const HvAppContextProvider = ({
   children,
   appMessages,
+  setLang,
+  lang,
 }: IHvAppContextProvider) => {
-  const [lang, setLang] = useState(defaultLang);
-
-  const messages = appMessages[getAvailableLang(lang)] || {};
-
   function onSetLang(nextLang: string) {
     localStorage.currentLang = nextLang;
-    setLang(nextLang);
+    setLang({ lang: nextLang, messages: appMessages[nextLang] });
   }
 
   useEffect(() => {
     if (!lang) {
-      const nextLang = defaultLang;
+      const nextLang = defaultLang();
 
       localStorage.currentLang = nextLang;
-      setLang(nextLang);
+      setLang({ lang: nextLang, messages: appMessages[nextLang] });
     }
-  }, [getAvailableLang(lang)]);
+  }, [lang]);
 
   return (
     <HvAppContext.Provider
       value={{
-        lang,
-        messages,
-        setLang: onSetLang,
+        lang: lang.lang,
+        messages: appMessages[lang.lang],
+        setLocale: onSetLang,
       }}
     >
       {children}

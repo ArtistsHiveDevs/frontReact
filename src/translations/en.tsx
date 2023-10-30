@@ -3,6 +3,25 @@ export const EnMessages = {
     name: "App EN",
     loading: "Loading",
     pages: {
+      app: {
+        settings: {
+          title: "Settings",
+          language_selection: {
+            title: "Language selection",
+          },
+          user_profile: {
+            title: "User Profile",
+            user: "User",
+            logout: "Logout",
+            logged_user: "Logged User",
+            empty_user: "There is not an user",
+            user_info: "User Info",
+            roles: "Roles",
+            artist: "Artist",
+            place: "Place",
+          },
+        },
+      },
       ArtistsPages: {
         ArtistsDetailsPage: {
           subpages: {
@@ -249,35 +268,72 @@ export const EnMessages = {
         },
       },
     },
-    sidenav: {
-      name: "Main menu",
-      sections: {
-        general: {
-          name: "General",
-          options: {
-            home: "Home",
-            cultural_agenda: "Cultural agenda",
+    appbase: {
+      footer: {
+        columns: {
+          what_we_do: {
+            name: "What we do?",
+            options: {
+              cultural_agenda: "Cultural Agenda",
+              for_artists: "For artists",
+              for_places: "For places",
+              for_promoters: "For promoters",
+              for_festivals: "For festivals",
+            },
+          },
+          about_us: {
+            name: "About us",
+            options: {
+              history: "Our history",
+              press: "Press",
+              career: "Career",
+              download: "Download the app",
+              data_policy: "Data Policy",
+            },
+          },
+          help: {
+            name: "Help",
+            options: {
+              help_center: "Help center",
+              contact_us: "Contact us",
+              report: "Report",
+            },
           },
         },
-        myInfo: {
-          name: "My Info",
-          options: {
-            inbox: "Inbox",
-            my_profile: "My profile",
-            my_bands: "My bands",
-            my_events: "My events",
-            my_riders: "My riders",
-            my_places: "My places",
-          },
+        copywrite: {
+          allRightsReserved: "All rights reserved",
         },
-        settings: {
-          name: "Settings",
-          options: {
-            settings: "Settings",
-            help_center: "Help Center",
-            report: "Report",
-            send_comments: "Send Comments",
-            logout: "Logout",
+      },
+      sidenav: {
+        name: "Main menu",
+        sections: {
+          general: {
+            name: "General",
+            options: {
+              home: "Home",
+              cultural_agenda: "Cultural agenda",
+            },
+          },
+          myInfo: {
+            name: "My Info",
+            options: {
+              inbox: "Inbox",
+              my_profile: "My profile",
+              my_bands: "My bands",
+              my_events: "My events",
+              my_riders: "My riders",
+              my_places: "My places",
+            },
+          },
+          settings: {
+            name: "Settings",
+            options: {
+              settings: "Settings",
+              help_center: "Help Center",
+              report: "Report",
+              send_comments: "Send Comments",
+              logout: "Logout",
+            },
           },
         },
       },

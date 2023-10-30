@@ -1,7 +1,7 @@
 import { AllowedEntityRole } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import { PATHS, SUB_PATHS } from "~/constants";
 
-const TRANSLATION_BASE_SIDENAV = "app.sidenav.sections";
+const TRANSLATION_BASE_SIDENAV = "app.appbase.sidenav.sections";
 
 const enum SIDENAV_SECTIONS {
   GENERAL = "general",

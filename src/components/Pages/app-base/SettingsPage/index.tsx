@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useArtistsSlice } from "~/common/slices";
 import { selectArtists } from "~/common/slices/artists/selectors";
@@ -19,12 +19,18 @@ import "./index.scss";
 
 import { FloatingLabel } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+import { HvAppContext } from "~/common";
+import { useI18n } from "~/common/utils";
+import { DynamicIcons } from "~/components/shared/DynamicIcons";
 import {
   AttributesIconFieldReadOnly,
   IconDetailedAttribute,
 } from "~/components/shared/molecules/general/AttributesIconField";
 import { EntityModel, EntityTemplate } from "~/models/base";
+import { AVAILABLE_I18N_LANGUAGES } from "~/translations";
 import { crearDummyUser } from "./dummy-users.mock";
+
+const TRANSLATION_BASE_SETTINGS_PAGE = "app.pages.app.settings";
 
 const AppSettingsPage = () => {
   const { auth, setAuth } = useAuth();
@@ -41,6 +47,12 @@ const AppSettingsPage = () => {
 
   // Hooks
   const dispatch = useDispatch();
+  const { translateText, locale } = useI18n();
+  let { lang, messages, setLocale } = useContext(HvAppContext);
+
+  function translate(text: string) {
+    return translateText(`${TRANSLATION_BASE_SETTINGS_PAGE}.${text}`);
+  }
 
   // Effects
   useEffect(() => {
@@ -122,29 +134,64 @@ const AppSettingsPage = () => {
   const usuarios = [1, 2, 3, 4, 5];
   return (
     <>
-      <h2>Settings</h2>
-      <h3>Perfil de usuario </h3>
+      <h2>{translate("title")}</h2>
+      <h3>
+        <DynamicIcons iconName="FaGlobeAmericas" size={20} />{" "}
+        {translate("language_selection.title")}{" "}
+      </h3>
       <p>
-        {usuarios.map((numeroUsuario) => {
+        {AVAILABLE_I18N_LANGUAGES.map((newLang, index, newLangArr) => {
+          const styles = [];
+          if (newLang === lang) {
+            styles.push("active-lang");
+          }
           return (
-            <>
-              <span onClick={() => setLoggedUser(numeroUsuario)}>
-                Usuario {numeroUsuario}
+            <span key={`lang-${index}`}>
+              <span
+                className={styles.join(" ")}
+                onClick={() => setLocale(newLang)}
+              >
+                {newLang}
               </span>
-              {" | "}
-            </>
+              {index < newLangArr.length - 1 && "  |  "}
+            </span>
           );
         })}
-        <span onClick={() => setLoggedUser(0)}>Cerrar sesión</span>
       </p>
-      <p>Usuario loggeado:</p>
+      <h3>
+        <DynamicIcons iconName="FaUserAstronaut" size={20} />
+        {translate("user_profile.title")}{" "}
+      </h3>
+      <p>
+        {usuarios.map((numeroUsuario) => {
+          const styles = [];
+          if (`${numeroUsuario}` === selectedUser?.id) {
+            styles.push("active-lang");
+          }
+          return (
+            <span key={`user_${numeroUsuario}`}>
+              <span
+                className={styles.join(" ")}
+                onClick={() => setLoggedUser(numeroUsuario)}
+              >
+                {translate("user_profile.user")} {numeroUsuario}
+              </span>
+              {" | "}
+            </span>
+          );
+        })}
+        <span onClick={() => setLoggedUser(0)}>
+          {translate("user_profile.logout")}
+        </span>
+      </p>
+      <p>{translate("user_profile.logged_user")}:</p>
 
-      {!selectedUser && <p>No hay un usuario</p>}
+      {!selectedUser && <p>{translate("user_profile.empty_user")}</p>}
       {selectedUser && (
         <div className="logged-user-box">
-          <h5>User info:</h5>
+          <h5>{translate("user_profile.user_info")}:</h5>
           <AttributesIconFieldReadOnly attributes={userAttributes} />
-          <h5>Roles:</h5>
+          <h5>{translate("user_profile.roles")}:</h5>
           {Object.keys(APP_DOMAIN_ROLES).map((roleKeyName, index) => {
             const roleConfig: DomainRole = APP_DOMAIN_ROLES[roleKeyName];
 
@@ -184,9 +231,14 @@ const AppSettingsPage = () => {
 
 export const EntityRoles = (props: any) => {
   const { roleConfig, instances, dataSource, handleClickRole } = props;
+
+  const { translateText } = useI18n();
+  function translate(text: string) {
+    return translateText(`${TRANSLATION_BASE_SETTINGS_PAGE}.${text}`);
+  }
   return (
     <div>
-      <h6>{roleConfig.label}</h6>
+      <h6>{translate(roleConfig.label)}</h6>
       {instances
         .filter((instance: UserEntityRoleMap) => !!instance.roles.length)
         .map((instance: UserEntityRoleMap, instanceIndex: number) => {
@@ -195,10 +247,10 @@ export const EntityRoles = (props: any) => {
             <EntityInstanceRole
               key={`${instance.entityId}-${instanceIndex}`}
               entityInstanceName={
-                dataSource.find(
+                dataSource?.find(
                   (element: EntityModel<EntityTemplate>) =>
                     element.id === instance.entityId
-                ).name
+                )?.name
               }
               entityName={roleConfig.entityName}
               entityId={instance.entityId}

@@ -42,7 +42,6 @@ const PlaceDetailPage = () => {
 
   useEffect(() => {
     if (!!placesList.length) {
-      console.log(getPlaceInfo(placeId));
       setCurrentPlace(getPlaceInfo(placeId));
     }
   }, [placesList]);

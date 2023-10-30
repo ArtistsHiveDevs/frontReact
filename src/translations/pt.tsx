@@ -386,6 +386,63 @@ export const PtMessages = {
         IndustryOfferPage: {
           create_account_banner: "Junte-se à colmeia",
         },
+        TourPlansPages: {
+          TourPlanDetailsPage: {
+            tourPlanNotFound: "Tour não encontrado",
+            subpages: {
+              general: {
+                name: "Geral",
+                sections: {
+                  dates: {
+                    name: "Datas",
+                    attributes: {
+                      initial_date: "Data Inicial",
+                      final_date: "Data Final",
+                      total_days: "Dias Totais",
+                    },
+                  },
+                  shows: {
+                    name: "Shows",
+                  },
+                },
+              },
+              dates: {
+                name: "Datas",
+              },
+              budget: {
+                name: "Orçamento",
+                sections: {
+                  internal_transportation: {
+                    name: "Transporte Interno",
+                  },
+                  intercity_transportation: {
+                    name: "Transporte entre Cidades",
+                  },
+                  accommodation: {
+                    name: "Alojamento",
+                  },
+                  food: {
+                    name: "Alimentação",
+                  },
+                },
+              },
+              wishes: {
+                name: "Desejos",
+                sections: {
+                  guest_artists: {
+                    name: "Artistas Convidados",
+                  },
+                  possible_shows: {
+                    name: "Shows Possíveis",
+                  },
+                },
+              },
+              settings: {
+                name: "Configurações",
+              },
+            },
+          },
+        },
       },
       ArtistsPages: {
         ArtistsDetailsPage: {

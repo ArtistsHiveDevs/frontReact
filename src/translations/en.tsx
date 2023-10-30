@@ -387,6 +387,49 @@ export const EnMessages = {
         IndustryOfferPage: {
           create_account_banner: "Join the hive",
         },
+        TourPlansPages: {
+          TourPlanDetailsPage: {
+            tourPlanNotFound: "Tour not found",
+            subpages: {
+              general: {
+                name: "General",
+                sections: {
+                  dates: {
+                    name: "Dates",
+                    attributes: {
+                      initial_date: "Initial Date",
+                      final_date: "Final Date",
+                      total_days: "Total days",
+                    },
+                  },
+                  shows: {
+                    name: "Shows",
+                  },
+                },
+              },
+              dates: { name: "Dates" },
+              budget: {
+                name: "Budget",
+                sections: {
+                  internal_transportation: { name: "Transporte interno" },
+                  intercity_transportation: {
+                    name: "Transporte entre ciudades",
+                  },
+                  accomodation: { name: "Acomodación" },
+                  food: { name: "Alimentación" },
+                },
+              },
+              wishes: {
+                name: "Wishes",
+                sections: {
+                  guest_artists: { name: "Guest Artists" },
+                  possible_shows: { name: "Possible shows" },
+                },
+              },
+              settings: { name: "Settings" },
+            },
+          },
+        },
       },
       ArtistsPages: {
         ArtistsDetailsPage: {

@@ -388,6 +388,63 @@ export const EsMessages = {
         IndustryOfferPage: {
           create_account_banner: "Únete a la colmena",
         },
+        TourPlansPages: {
+          TourPlanDetailsPage: {
+            tourPlanNotFound: "Tour no encontrada",
+            subpages: {
+              general: {
+                name: "General",
+                sections: {
+                  dates: {
+                    name: "Fechas",
+                    attributes: {
+                      initial_date: "Fecha Inicial",
+                      final_date: "Fecha Final",
+                      total_days: "Días Totales",
+                    },
+                  },
+                  shows: {
+                    name: "Espectáculos",
+                  },
+                },
+              },
+              dates: {
+                name: "Fechas",
+              },
+              budget: {
+                name: "Presupuesto",
+                sections: {
+                  internal_transportation: {
+                    name: "Transporte Interno",
+                  },
+                  intercity_transportation: {
+                    name: "Transporte entre Ciudades",
+                  },
+                  accommodation: {
+                    name: "Alojamiento",
+                  },
+                  food: {
+                    name: "Comida",
+                  },
+                },
+              },
+              wishes: {
+                name: "Deseos",
+                sections: {
+                  guest_artists: {
+                    name: "Artistas Invitados",
+                  },
+                  possible_shows: {
+                    name: "Espectáculos Posibles",
+                  },
+                },
+              },
+              settings: {
+                name: "Configuración",
+              },
+            },
+          },
+        },
       },
       ArtistsPages: {
         ArtistsDetailsPage: {

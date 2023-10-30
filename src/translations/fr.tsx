@@ -389,6 +389,63 @@ export const FrMessages = {
         IndustryOfferPage: {
           create_account_banner: "Rejoins la ruche",
         },
+        TourPlansPages: {
+          TourPlanDetailsPage: {
+            tourPlanNotFound: "Tour non trouvé",
+            subpages: {
+              general: {
+                name: "Général",
+                sections: {
+                  dates: {
+                    name: "Dates",
+                    attributes: {
+                      initial_date: "Date initiale",
+                      final_date: "Date finale",
+                      total_days: "Jours au total",
+                    },
+                  },
+                  shows: {
+                    name: "Spectacles",
+                  },
+                },
+              },
+              dates: {
+                name: "Dates",
+              },
+              budget: {
+                name: "Budget",
+                sections: {
+                  internal_transportation: {
+                    name: "Transport interne",
+                  },
+                  intercity_transportation: {
+                    name: "Transport interurbain",
+                  },
+                  accommodation: {
+                    name: "Hébergement",
+                  },
+                  food: {
+                    name: "Alimentation",
+                  },
+                },
+              },
+              wishes: {
+                name: "Vœux",
+                sections: {
+                  guest_artists: {
+                    name: "Artistes invités",
+                  },
+                  possible_shows: {
+                    name: "Spectacles possibles",
+                  },
+                },
+              },
+              settings: {
+                name: "Paramètres",
+              },
+            },
+          },
+        },
       },
       ArtistsPages: {
         ArtistsDetailsPage: {

@@ -388,6 +388,63 @@ export const ItMessages = {
         IndustryOfferPage: {
           create_account_banner: "Unisciti all'alveare",
         },
+        TourPlansPages: {
+          TourPlanDetailsPage: {
+            tourPlanNotFound: "Tour non trovato",
+            subpages: {
+              general: {
+                name: "Generale",
+                sections: {
+                  dates: {
+                    name: "Date",
+                    attributes: {
+                      initial_date: "Data Iniziale",
+                      final_date: "Data Finale",
+                      total_days: "Giorni Totali",
+                    },
+                  },
+                  shows: {
+                    name: "Spettacoli",
+                  },
+                },
+              },
+              dates: {
+                name: "Date",
+              },
+              budget: {
+                name: "Budget",
+                sections: {
+                  internal_transportation: {
+                    name: "Trasporto Interno",
+                  },
+                  intercity_transportation: {
+                    name: "Trasporto tra Città",
+                  },
+                  accommodation: {
+                    name: "Alloggio",
+                  },
+                  food: {
+                    name: "Cibo",
+                  },
+                },
+              },
+              wishes: {
+                name: "Desideri",
+                sections: {
+                  guest_artists: {
+                    name: "Artisti Ospiti",
+                  },
+                  possible_shows: {
+                    name: "Spettacoli Possibili",
+                  },
+                },
+              },
+              settings: {
+                name: "Impostazioni",
+              },
+            },
+          },
+        },
       },
       ArtistsPages: {
         ArtistsDetailsPage: {

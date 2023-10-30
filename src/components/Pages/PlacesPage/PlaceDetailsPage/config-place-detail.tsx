@@ -1,7 +1,7 @@
 import {
   ProfileComponentTypes,
   ProfileDetailsSubpage,
-} from "~/models/domain/profile/profile-details.def";
+} from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
 
 export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
@@ -19,35 +19,39 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       },
       {
         name: "general",
-        attributes: [
-          {
-            name: "description",
-            emptyTitle: true,
-          },
-          {
-            name: "address",
-            emptyTitle: true,
-          },
-          {
-            name: "cityWithCountry",
-            icon: "AiFillHome",
-            emptyTitle: true,
-          },
-          {
-            name: "categories",
-            icon: "BsInfoCircleFill",
-          },
-          {
-            name: "since",
-            icon: "BsCalendar",
-          },
-          {
-            name: "spoken_languages",
-            icon: "BsTranslate",
-          },
-        ],
         components: [
-          { componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS },
+          {
+            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  name: "description",
+                  emptyTitle: true,
+                },
+                {
+                  name: "address",
+                  emptyTitle: true,
+                },
+                {
+                  name: "cityWithCountry",
+                  icon: "AiFillHome",
+                  emptyTitle: true,
+                },
+                {
+                  name: "categories",
+                  icon: "BsInfoCircleFill",
+                },
+                {
+                  name: "since",
+                  icon: "BsCalendar",
+                },
+                {
+                  name: "spoken_languages",
+                  icon: "BsTranslate",
+                },
+              ],
+            },
+          },
           {
             componentName: ProfileComponentTypes.MAP,
             data: { lat: "latitude", lng: "longitude" },
@@ -56,52 +60,66 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       },
       {
         name: "contact",
-        attributes: [
+        components: [
           {
-            name: "website",
-            emptyTitle: true,
-          },
-          {
-            name: "email",
-            emptyTitle: true,
-          },
-          {
-            name: "phone",
-            emptyTitle: true,
-          },
-          {
-            name: "mobile_phone",
-            emptyTitle: true,
-          },
-          {
-            name: "whatsapp",
-            literal: true,
-            emptyTitle: true,
+            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  name: "website",
+                  emptyTitle: true,
+                },
+                {
+                  name: "email",
+                  emptyTitle: true,
+                },
+                {
+                  name: "phone",
+                  emptyTitle: true,
+                },
+                {
+                  name: "mobile_phone",
+                  emptyTitle: true,
+                },
+                {
+                  name: "whatsapp",
+                  literal: true,
+                  emptyTitle: true,
+                },
+              ],
+            },
           },
         ],
       },
       {
         name: "social_networks",
-        attributes: [
+        components: [
           {
-            name: "facebook",
-            emptyTitle: true,
-          },
-          {
-            name: "twitter",
-            emptyTitle: true,
-          },
-          {
-            name: "instagram",
-            emptyTitle: true,
-          },
-          {
-            name: "spotify",
-            emptyTitle: true,
-          },
-          {
-            name: "youtube",
-            emptyTitle: true,
+            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  name: "facebook",
+                  emptyTitle: true,
+                },
+                {
+                  name: "twitter",
+                  emptyTitle: true,
+                },
+                {
+                  name: "instagram",
+                  emptyTitle: true,
+                },
+                {
+                  name: "spotify",
+                  emptyTitle: true,
+                },
+                {
+                  name: "youtube",
+                  emptyTitle: true,
+                },
+              ],
+            },
           },
         ],
       },

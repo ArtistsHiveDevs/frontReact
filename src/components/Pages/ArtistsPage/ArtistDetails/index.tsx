@@ -16,9 +16,9 @@ import {
   AttributesIconFieldReadOnly,
   IconDetailedAttribute,
 } from "~/components/shared/molecules/general/AttributesIconField";
+import { ProfileDetailAttributeConfiguration } from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
 import { URL_PARAMETER_NAMES } from "~/constants";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
-import { ProfileDetailAttributeConfiguration } from "~/models/domain/profile/profile-details.def";
 import { ARTIST_DETAIL_SUB_PAGE_CONFIG } from "./config-artist-detail";
 
 const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =

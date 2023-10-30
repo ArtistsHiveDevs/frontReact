@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Image } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { usePlacesSlice } from "~/common/slices/places";
@@ -6,6 +7,9 @@ import { selectPlaces } from "~/common/slices/places/selectors";
 import { useI18n } from "~/common/utils";
 import { PLACE_DETAIL_SUB_PAGE_CONFIG } from "~/components/Pages/PlacesPage/PlaceDetailsPage/config-place-detail";
 import RequireAuthComponent from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
+import ImageGallery, {
+  GalleryImageParams,
+} from "~/components/shared/atoms/ImageGallery/ImageGallery";
 import SectionsPanel from "~/components/shared/layout/SectionPanel";
 import {
   TabbedPage,
@@ -17,6 +21,7 @@ import {
   AttributesIconFieldReadOnly,
   IconDetailedAttribute,
 } from "~/components/shared/molecules/general/AttributesIconField";
+import GenericModal from "~/components/shared/molecules/general/Modals/ModalCardInfo/GenericModal";
 import { URL_PARAMETER_NAMES } from "~/constants";
 import { PlaceModel } from "~/models/domain/place/place.model";
 import {
@@ -44,6 +49,7 @@ const PlaceDetailPage = () => {
   const subPagesInfo = [...PLACE_DETAIL_SUB_PAGE_CONFIG];
 
   const [currentPlace, setCurrentPlace] = useState<PlaceModel>(undefined);
+  const [currentGalleryImage, setGalleryImage] = useState(undefined);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -118,6 +124,23 @@ const PlaceDetailPage = () => {
     );
   };
 
+  const handlers = {
+    onClickGalleryImage: (source: GalleryImageParams) => {
+      const image = (
+        <Image
+          key={`modal-${source.src}`}
+          className="gallery-image-detail"
+          src={source.src}
+          alt={source.alt || source.src}
+        />
+      );
+      setGalleryImage(image);
+    },
+    onCloseGalleryImage: (value: any) => {
+      setGalleryImage(undefined);
+    },
+  };
+
   // Data config
   const PLACES_DETAILS_TABBED_PAGES: TabbedPage[] = subPagesInfo.map(
     (subpage) => {
@@ -186,11 +209,44 @@ const PlaceDetailPage = () => {
                             mapData={mapData}
                           />
                         );
-                      } else {
+                      } else if (
+                        componentDescriptor.componentName ===
+                        ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS
+                      ) {
                         renderedComponent = (
                           <AttributesIconFieldReadOnly
+                            key={`section-${section.name}-${index}-${componentIndex}`}
                             attributes={sectionAttributes}
                           />
+                        );
+                      } else if (
+                        componentDescriptor.componentName ===
+                        ProfileComponentTypes.IMAGE_GALLERY
+                      ) {
+                        let clickHandler = undefined;
+
+                        if (!!componentDescriptor.clickHandlerName) {
+                          clickHandler =
+                            handlers[
+                              componentDescriptor.clickHandlerName as keyof typeof handlers
+                            ];
+                        }
+                        renderedComponent = (
+                          <>
+                            <ImageGallery
+                              key={`section-${section.name}-${index}-${componentIndex}`}
+                              images={getData(componentDescriptor.data?.images)}
+                              clickHandler={clickHandler}
+                            />
+                            <GenericModal
+                              title={currentPlace.name}
+                              body={currentGalleryImage}
+                              show={!!currentGalleryImage}
+                              onHide={(event: any) =>
+                                handlers.onCloseGalleryImage(event)
+                              }
+                            />
+                          </>
                         );
                       }
                       return renderedComponent;

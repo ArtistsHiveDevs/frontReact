@@ -1,10 +1,11 @@
-import "./ImageGallery.scss";
 import { Image } from "react-bootstrap";
+import "./ImageGallery.scss";
 
 export interface ImageGalleryContainerParams {
   title?: string;
   subtitle?: string;
   images: GalleryImageParams[];
+  imageSize?: "sm" | "fs";
   clickHandler?: Function;
 }
 
@@ -15,7 +16,14 @@ export interface GalleryImageParams {
 }
 
 export const ImageGallery = (props: ImageGalleryContainerParams) => {
-  const { images, clickHandler } = props;
+  const { images, clickHandler, imageSize } = props;
+
+  const imageClasses: string[] = [];
+  if (imageSize === "fs") {
+    imageClasses.push("full-size-image-gallery");
+  } else {
+    imageClasses.push("image-gallery");
+  }
 
   function onClick(source: GalleryImageParams) {
     if (!!clickHandler) {
@@ -31,7 +39,7 @@ export const ImageGallery = (props: ImageGalleryContainerParams) => {
         return (
           <Image
             key={`${image.src}-${index}`}
-            className="image-gallery"
+            className={imageClasses.join(" ")}
             src={image.src}
             alt={image.alt || image.src}
             onClick={() => onClick(image)}
@@ -41,5 +49,3 @@ export const ImageGallery = (props: ImageGalleryContainerParams) => {
     </div>
   );
 };
-
-export default ImageGallery;

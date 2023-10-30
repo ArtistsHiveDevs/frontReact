@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Image } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { usePlacesSlice } from "~/common/slices/places";
@@ -7,8 +6,9 @@ import { selectPlaces } from "~/common/slices/places/selectors";
 import { useI18n } from "~/common/utils";
 import { PLACE_DETAIL_SUB_PAGE_CONFIG } from "~/components/Pages/PlacesPage/PlaceDetailsPage/config-place-detail";
 import RequireAuthComponent from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
-import ImageGallery, {
+import {
   GalleryImageParams,
+  ImageGallery,
 } from "~/components/shared/atoms/ImageGallery/ImageGallery";
 import SectionsPanel from "~/components/shared/layout/SectionPanel";
 import {
@@ -125,15 +125,11 @@ const PlaceDetailPage = () => {
   };
 
   const handlers = {
-    onClickGalleryImage: (source: GalleryImageParams) => {
-      const image = (
-        <Image
-          key={`modal-${source.src}`}
-          className="gallery-image-detail"
-          src={source.src}
-          alt={source.alt || source.src}
-        />
-      );
+    onClickGalleryImage: (
+      source: GalleryImageParams,
+      images: GalleryImageParams[]
+    ) => {
+      const image = <ImageGallery images={images} imageSize="fs" />;
       setGalleryImage(image);
     },
     onCloseGalleryImage: (value: any) => {
@@ -224,7 +220,10 @@ const PlaceDetailPage = () => {
                         componentDescriptor.componentName ===
                         ProfileComponentTypes.IMAGE_GALLERY
                       ) {
-                        let clickHandler = undefined;
+                        let clickHandler: (
+                          source: GalleryImageParams,
+                          images: any
+                        ) => void = undefined;
 
                         if (!!componentDescriptor.clickHandlerName) {
                           clickHandler =
@@ -237,7 +236,12 @@ const PlaceDetailPage = () => {
                             <ImageGallery
                               key={`section-${section.name}-${index}-${componentIndex}`}
                               images={getData(componentDescriptor.data?.images)}
-                              clickHandler={clickHandler}
+                              clickHandler={(source: GalleryImageParams) =>
+                                clickHandler(
+                                  source,
+                                  getData(componentDescriptor.data?.images)
+                                )
+                              }
                             />
                             <GenericModal
                               title={currentPlace.name}

@@ -3,7 +3,6 @@ import {
   GalleryImageParams,
   ImageGallery,
 } from "~/components/shared/atoms/ImageGallery/ImageGallery";
-import { EventParams } from "~/components/shared/atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent";
 import MapContainer from "~/components/shared/mapPrinter/mapContainer";
 import {
   AttributesIconFieldReadOnly,
@@ -21,12 +20,13 @@ import {
 } from "./profile-details.def";
 
 import { faMicrophoneLines } from "@fortawesome/free-solid-svg-icons";
-import moment from "moment";
 import { Table } from "react-bootstrap";
 import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
+import { EVENT_DETAIL_SUB_PAGE_CONFIG } from "~/components/Pages/EventsPage/EventDetailsPage/config-event-detail";
 import { Title } from "~/components/shared/atoms/Title/Title";
 import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
 
+import moment from "moment";
 import { CrewListView } from "~/components/shared//molecules/domain/crewListView/CrewListView";
 import { GenresListView } from "~/components/shared//molecules/domain/genres/GenresListView";
 import { AlbumsShortListView } from "~/components/shared/domain/organisms/AlbumsShortListView/AlbumsShortListView";
@@ -36,6 +36,7 @@ import { TabbedPanel } from "~/components/shared/layout/TabbedPanel";
 import { ProfileHeader } from "~/components/shared/molecules/Profile/ProfileHeader";
 import { ProfileThumbnailCard } from "~/components/shared/molecules/Profile/ProfileThumbnailCard";
 import { SocialNetworks } from "~/constants/social-networks.const";
+import { EventParams } from "../../atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent";
 
 export interface ProfilePageParams {
   entityName: string;
@@ -72,6 +73,8 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     }
     return title;
   };
+
+  const subPagesInfo = [...EVENT_DETAIL_SUB_PAGE_CONFIG];
 
   //#region Helpers
   const getData: any = (

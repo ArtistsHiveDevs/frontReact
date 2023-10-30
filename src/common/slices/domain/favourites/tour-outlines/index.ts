@@ -5,62 +5,68 @@ import {
   useInjectReducer,
   useInjectSaga,
 } from "~/common/utils/redux-injectors";
-import { AcademyModel } from "~/models/domain/academy/academy.model";
 
-import { academySaga } from "./saga";
-import { AcademyErrorType, AcademyState } from "./types";
+import {
+  TourOutlineModel,
+  TourOutlineTemplate,
+} from "~/models/domain/favourites/tourOutline";
+import { tourOutlineSaga } from "./saga";
+import { TourOutlineErrorType, TourOutlineState } from "./types";
 
-export const academiesInitialState: AcademyState = {
-  academies: [],
+export const TourOutlineInitialState: TourOutlineState = {
+  toursOutlines: null,
+  detailedTourOutline: null,
   loading: false,
   error: null,
-  academiesQueryParams: null,
-  queriedAcademies: [],
+  userOwner: "",
+  detailTourOutlineId: "",
 };
 
 const slice = createSlice({
-  name: "AcademiesReducer",
-  initialState: academiesInitialState,
+  name: "ToursOutlinesReducer",
+  initialState: TourOutlineInitialState,
   reducers: {
-    loadAcademies(state) {
+    getToursOutlinesByUser(state, action: PayloadAction<string>) {
       state.loading = true;
       state.error = null;
-      state.academies = [];
+      state.toursOutlines = null;
+      state.userOwner = action?.payload;
     },
-    academiesLoaded(state, action: PayloadAction<AcademyModel[]>) {
-      const academies = action.payload.map(
-        (template) => new AcademyModel(template)
+    getToursOutlinesByUserResponse(
+      state,
+      action: PayloadAction<TourOutlineTemplate[]>
+    ) {
+      state.toursOutlines = action.payload.map(
+        (tourOutline) => new TourOutlineModel(tourOutline)
       );
-
-      state.academies = academies;
       state.loading = false;
     },
-    queryAcademies(state, action: PayloadAction<string>) {
+    getTourOutlineById(state, action: PayloadAction<string>) {
       state.loading = true;
       state.error = null;
-      state.queriedAcademies = [];
-      state.academiesQueryParams = action?.payload;
+      state.toursOutlines = null;
+      state.detailTourOutlineId = action?.payload;
     },
-    queriedAcademies(state, action: PayloadAction<AcademyModel[] | []>) {
-      const artistsQuery = action.payload.map(
-        (template) => new AcademyModel(template)
-      );
+    getTourOutlineByIdResponse(
+      state,
+      action: PayloadAction<TourOutlineTemplate[]>
+    ) {
+      state.detailedTourOutline = new TourOutlineModel(action.payload);
 
-      state.queriedAcademies = artistsQuery;
       state.loading = false;
     },
-    repoError(state, action: PayloadAction<AcademyErrorType>) {
+    repoError(state, action: PayloadAction<TourOutlineErrorType>) {
       state.error = action.payload;
       state.loading = false;
     },
   },
 });
 
-export const { actions: academiesActions, reducer } = slice;
+export const { actions: tourOutlineActions, reducer } = slice;
 
-export const useAcademiesSlice = () => {
+export const useTourOutlineSlice = () => {
   useInjectReducer({ key: slice.name, reducer: slice.reducer });
-  useInjectSaga({ key: slice.name, saga: academySaga });
+  useInjectSaga({ key: slice.name, saga: tourOutlineSaga });
 
   return { actions: slice.actions };
 };

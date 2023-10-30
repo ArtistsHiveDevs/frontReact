@@ -2,28 +2,28 @@ import { createSelector } from "@reduxjs/toolkit";
 
 import { RootState } from "~/common/utils/redux-injectors/types";
 
-import { academiesInitialState } from ".";
+import { TourOutlineInitialState } from ".";
 
 // First select the relevant part from the state
 const selectDomain = (state: RootState) =>
-  state?.AcademiesReducer || academiesInitialState;
+  state?.ToursOutlinesReducer || TourOutlineInitialState;
 
-export const academiesSelectLoading = createSelector(
+export const selectTourOutlineLoading = createSelector(
   [selectDomain],
-  (AcademyState) => AcademyState.loading
+  (TourOutlineState) => TourOutlineState.loading
 );
 
-export const academiesSelectError = createSelector(
+export const selectTourOutlineError = createSelector(
   [selectDomain],
-  (AcademyState) => AcademyState.error
+  (TourOutlineState) => TourOutlineState.error
 );
 
-export const selectAcademies = createSelector(
+export const selectToursOutlinesByUser = createSelector(
   [selectDomain],
-  (AcademyState) => AcademyState.academies
+  (TourOutlineState) => TourOutlineState.toursOutlines
 );
 
-export const selectQueriedAcademies = createSelector(
+export const selectTourOutlineById = createSelector(
   [selectDomain],
-  (AcademyState) => AcademyState.queriedAcademies
+  (TourOutlineState) => TourOutlineState.detailedTourOutline
 );

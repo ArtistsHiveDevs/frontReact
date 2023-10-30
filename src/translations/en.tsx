@@ -416,7 +416,7 @@ export const EnMessages = {
                   intercity_transportation: {
                     name: "Transporte entre ciudades",
                   },
-                  accomodation: { name: "Acomodación" },
+                  accommodation: { name: "Acomodación" },
                   food: { name: "Alimentación" },
                 },
               },

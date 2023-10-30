@@ -1,4 +1,5 @@
 import { VerificationStatus } from "~/constants";
+import { PlaceModel } from "../domain/place/place.model";
 
 interface Template {}
 
@@ -19,7 +20,7 @@ export interface SearchableTemplate extends EntityTemplate {
   description?: string;
   cityWithCountry?: string;
   country?: string;
-  place?: any;
+  place?: PlaceModel;
   verified_status?: VerificationStatus;
 }
 

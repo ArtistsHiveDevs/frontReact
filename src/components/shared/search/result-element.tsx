@@ -1,5 +1,6 @@
 import ListGroup from "react-bootstrap/ListGroup";
 
+import Flag from "react-world-flags";
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
 import { SearchableTemplate } from "~/models/base";
 import consts from "./search-constants";
@@ -24,6 +25,14 @@ export const ResultElement: React.FC<QueryTemplate> = (
       onClick(element);
     }
   };
+  const flag = element?.country || element.place?.country;
+
+  const flags = {
+    Colombia: "co",
+    España: "es",
+    Inglaterra: "GB-ENG",
+  };
+
   return (
     <ListGroup.Item
       className={`search-item line-up-an entity-${entityIndex}-item`}
@@ -36,8 +45,20 @@ export const ResultElement: React.FC<QueryTemplate> = (
             {element.name}
             <VerifiedArtist verifiedStatus={element?.verified_status} />
           </h4>
-          <h5 className="search-item__subtitle">
-            {element?.subtitle || element?.cityWithCountry}
+          <h5>
+            {element?.subtitle || (
+              <>
+                <span className="search-item__subtitle">
+                  {element?.cityWithCountry}
+                </span>
+                {"   "}
+                <Flag
+                  code={flags[flag as keyof typeof flags]}
+                  height="15"
+                  style={{ border: "1px solid #999" }}
+                />
+              </>
+            )}
           </h5>
         </div>
       </div>

@@ -50,7 +50,11 @@ const ArtistDetailPage = () => {
 
   useEffect(() => {
     setCurrentArtist(getArtistInfo(artistId));
-  }, [artistId]);
+    
+    if (artistId !== urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]) {
+      setCurrentArtistId(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
+    }
+  }, [artistId, urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]]);
 
   const getArtistInfo = (id: string) => {
     return artistList.find((artist) => artist.id === id);

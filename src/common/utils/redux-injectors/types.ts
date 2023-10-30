@@ -6,12 +6,14 @@ import { Saga } from "redux-saga";
 import { ArtistState } from "~/common/slices/artists/types";
 import { EventState } from "~/common/slices/events/types";
 import { PlaceState } from "~/common/slices/places/types";
+import { SearchState } from "~/common/slices/search/types";
 
 export interface RootState {
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
   ArtistsReducer?: ArtistState;
   EventsReducer?: EventState;
   PlacesReducer?: PlaceState;
+  SearchReducer?: SearchState;
 }
 
 type RequiredRootState = Required<RootState>;

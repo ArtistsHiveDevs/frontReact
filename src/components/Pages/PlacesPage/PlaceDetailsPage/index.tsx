@@ -49,7 +49,12 @@ const PlaceDetailPage = () => {
   useEffect(() => {
     getPlaceInfo(placeId);
     setCurrentPlace(getPlaceInfo(placeId));
-  }, [placeId]);
+
+    if (placeId !== urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]) {
+      setCurrentPlaceId(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
+    }
+
+  }, [placeId, urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]]);
 
   const getPlaceInfo = (id: string) => {
     return placesList.find((place) => place.id === id);

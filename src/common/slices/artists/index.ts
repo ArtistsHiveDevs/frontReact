@@ -14,6 +14,8 @@ export const artistsInitialState: ArtistState = {
   artists: [],
   loading: false,
   error: null,
+  artistsQueryParams: '',
+  queriedArtists: []
 };
 
 const slice = createSlice({
@@ -31,6 +33,20 @@ const slice = createSlice({
       );
 
       state.artists = artists;
+      state.loading = false;
+    },
+    queryArtists(state, action: PayloadAction<string>) {
+      state.loading = true;
+      state.error = null;
+      state.queriedArtists = [];
+      state.artistsQueryParams = action?.payload;
+    },
+    artistsQueried(state, action: PayloadAction<ArtistModel[] | []>) {
+      const artistsQuery = action.payload.map(
+        (template) => new ArtistModel(template)
+      );
+
+      state.queriedArtists = artistsQuery;
       state.loading = false;
     },
     repoError(state, action: PayloadAction<ArtistErrorType>) {

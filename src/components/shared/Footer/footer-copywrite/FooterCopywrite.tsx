@@ -19,7 +19,11 @@ const FooterCopywrite = (props: any) => {
         </p>
         <p>2022</p>
         <p>
-          <DynamicIcons iconName="FaGlobeAmericas" size={20} />{" "}
+          <DynamicIcons
+            iconName="FaGlobeAmericas"
+            size={20}
+            color={"#7a260a"}
+          />{" "}
           {AVAILABLE_I18N_LANGUAGES.map((newLang, index, newLangArr) => {
             const styles = [];
             if (newLang === lang) {
@@ -28,7 +32,7 @@ const FooterCopywrite = (props: any) => {
             return (
               <span key={`lang-${index}`}>
                 <span
-                  className={styles.join(" ")}
+                  className={`translate-opt ${styles.join(" ")}`}
                   onClick={() => setLocale(newLang)}
                 >
                   {newLang}

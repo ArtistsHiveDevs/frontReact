@@ -8,4 +8,6 @@ export interface PlaceState {
   places: PlaceModel[] | [];
   loading: boolean;
   error: PlaceErrorType | null;
+  placesQueryParams: string;
+  queriedPlaces: PlaceModel[] | [];
 }

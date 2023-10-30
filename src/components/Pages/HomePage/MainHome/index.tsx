@@ -1,27 +1,20 @@
-import { getCustomList } from "~/constants";
-
-import "./index.scss";
-
-import { useEffect } from "react";
+import { Status, Wrapper } from "@googlemaps/react-wrapper";
+import { ReactElement, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
-import { useArtistsSlice } from "~/common/slices/artists";
+import { useNavigate } from "react-router-dom";
+import { useArtistsSlice } from "~/common/slices";
 import { selectArtists } from "~/common/slices/artists/selectors";
 import { useEventsSlice } from "~/common/slices/events";
 import { selectEvents } from "~/common/slices/events/selectors";
 import { usePlacesSlice } from "~/common/slices/places";
 import { selectPlaces } from "~/common/slices/places/selectors";
 import { useI18n } from "~/common/utils";
-
-import MainSection from "../MainSection/MainSection";
-import WelcomeSection from "../WelcomeSection/WelcomeSection";
-
-import { PATHS, SUB_PATHS } from "~/constants";
+import { PATHS, SUB_PATHS, getCustomList } from "~/constants";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
 import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
-
-import "./index.scss";
+import MainSection from "../MainSection/MainSection";
+import WelcomeSection from "../WelcomeSection/WelcomeSection";
 
 const TRANSLATION_BASE_HOME_PAGE = "app.pages.HomePage";
 
@@ -63,6 +56,24 @@ const HomePage = () => {
   }
   return (
     <>
+      <h1
+        onClick={() => {
+          console.log("CLICK");
+          document.getElementById("map").style.position = "static";
+          console.log(document.getElementById("map"));
+        }}
+      >
+        Antes Mapa
+      </h1>
+      <div style={{ width: "10rem", height: "10rem" }}>
+        <Wrapper
+          apiKey={"AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs"}
+          render={render}
+        >
+          <MyMapComponent center={{ lat: -34.397, lng: 150.644 }} zoom={12} />
+        </Wrapper>
+      </div>
+      <h1>después Mapa S</h1>
       <WelcomeSection />
       <div className="home-section-title">
         <h1 className="welcome-title">
@@ -97,4 +108,26 @@ const HomePage = () => {
   );
 };
 
+const render = (status: Status): ReactElement => {
+  if (status === Status.FAILURE) return <h1>ERROR</h1>;
+  return <h1>SPINNER</h1>;
+};
+function MyMapComponent({
+  center,
+  zoom,
+}: {
+  center: google.maps.LatLngLiteral;
+  zoom: number;
+}) {
+  const ref = useRef();
+
+  useEffect(() => {
+    new window.google.maps.Map(ref.current, {
+      center,
+      zoom,
+    });
+  });
+
+  return <div ref={ref} id="map" style={{ position: "absolute" }} />;
+}
 export default HomePage;

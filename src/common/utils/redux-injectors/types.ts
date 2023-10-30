@@ -3,8 +3,11 @@ import { SagaInjectionModes } from "@nixjs23n6/redux-injectors";
 import { AnyAction, Reducer } from "@reduxjs/toolkit";
 import { Saga } from "redux-saga";
 
+import { ArtistState } from "~/common/slices/artists/types";
+
 export interface RootState {
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
+  ArtistsReducer?: ArtistState;
 }
 
 type RequiredRootState = Required<RootState>;

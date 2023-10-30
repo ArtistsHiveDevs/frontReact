@@ -12,6 +12,7 @@ import { selectUsers } from "~/common/slices/users/selectors";
 import { useI18n } from "~/common/utils";
 import useAuth from "~/common/utils/hooks/auth/useAuth";
 import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
+import { DynamicForm } from "~/components/shared/organisms/gui/dynamicForms/dynamic-form";
 import { PATHS, getCustomList } from "~/constants";
 import { AppUserModel } from "~/models/app/user/user.model";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
@@ -19,6 +20,7 @@ import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
 import MainSection from "../MainSection/MainSection";
 import WelcomeSection from "../WelcomeSection/WelcomeSection";
+import { fields } from "./data";
 import "./index.scss";
 
 const TRANSLATION_BASE_HOME_PAGE = "app.pages.HomePage";
@@ -126,6 +128,7 @@ const HomePage = () => {
     ],
   };
 
+  const [fieldsForm, updateFields] = useState(fields);
   const [ciudadesForm, updateCiudades] = useState([]);
   const handlers = {
     onSubmit: (data: any, error?: any) => {
@@ -138,7 +141,14 @@ const HomePage = () => {
         Object.keys(provincias).indexOf(data?.value) >= 0
           ? provincias[data.value as keyof typeof provincias]
           : [];
+      const provinceField = fields.find(
+        (fieldData) => fieldData.fieldName === "province"
+      );
+      provinceField.options = ciudades;
+      // provinceField.defaultValue =
+      //   (ciudades && ciudades.length && ciudades[1].value) || "";
 
+      updateFields(fields);
       updateCiudades(ciudades);
     },
   };
@@ -209,6 +219,9 @@ const HomePage = () => {
             );
           })}
         </div>
+        <h1>PRUEBA FORM</h1>
+        <h1>Dynamic form</h1>
+        <DynamicForm fields={fieldsForm} handlers={handlers} />
       </div>
     </>
   );

@@ -1,5 +1,5 @@
-import "./index.scss";
 import { useEffect, useState } from "react";
+import "./index.scss";
 
 export interface TabbedPage {
   name: string;

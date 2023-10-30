@@ -1,19 +1,6 @@
-export interface ArtistDetailsSubpage {
-  name: string;
-  sections?: ArtistDetailsSubpageSection[];
-}
-export interface ArtistDetailsSubpageSection {
-  name: string;
-  attributes?: DetailAttribute[];
-}
-export interface DetailAttribute {
-  name: string;
-  icon?: string;
-  emptyTitle?: boolean;
-  literal?: boolean;
-}
+import { ProfileDetailsSubpage } from "~/models/domain/profile/profile-details.def";
 
-export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ArtistDetailsSubpage[] = [
+export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
     name: "general",
     sections: [

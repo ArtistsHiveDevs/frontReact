@@ -9,7 +9,7 @@ export function* getArtists() {
   yield delay(500);
 
   const queryParams =
-    "?f=events,events.main_artist,events.guest_artist,events.place";
+    "f=events,events.main_artist,events.guest_artist,events.place";
 
   const requestURL = `${
     import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL

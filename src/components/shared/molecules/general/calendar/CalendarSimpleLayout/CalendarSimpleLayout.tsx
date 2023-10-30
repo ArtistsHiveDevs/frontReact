@@ -40,7 +40,10 @@ export const CalendarSimpleLayout = (props: {
           return (
             <div key={`${event.name}-${event?.datetime}`}>
               {monthTitle}
-              <CalendarSimpleEvent info={event} onClickHandler={clickHandler} />
+              <CalendarSimpleEvent
+                eventInfo={event}
+                onClickHandler={clickHandler}
+              />
             </div>
           );
         }

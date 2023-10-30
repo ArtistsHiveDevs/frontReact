@@ -30,6 +30,25 @@ export const ItMessages = {
           unsubscribe: "Disiscriversi",
         },
       },
+      stats: {
+        rating: {
+          overall: "Valutazione complessiva",
+          stage: "Palcoscenico",
+          sound: "Audio",
+          backline: "Backline",
+          lights: "Luci",
+          dressing_room: "Sala trucco e parrucco",
+          hospitality_food: "Cibo ospitalità",
+          hospitality_drinks: "Bevande ospitalità",
+          timeliness: "Puntualità",
+          communication: "Comunicazione",
+          transportation: "Trasporto",
+          logistic: "Logistica",
+          location: "Posizione",
+          seating_capacity: "Capacità sedute",
+          total_rates: "Valutazioni totali",
+        },
+      },
     },
     pages: {
       app: {
@@ -349,20 +368,14 @@ export const ItMessages = {
                 },
               },
             },
-
-            social: {
-              name: "Sociale",
+            stats: {
+              name: "Statistiche",
               sections: {
                 social_network_presence: {
                   name: "Presenza sui social network",
                 },
-                stats: {
-                  name: "Statistiche",
-                  attributes: {
-                    general_rate: "Qualificazione generale",
-                    followers: "Followers",
-                    event_followers: "Eventi followers",
-                  },
+                rating: {
+                  name: "Qualificazione",
                 },
               },
             },

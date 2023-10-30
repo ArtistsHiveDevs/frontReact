@@ -1,4 +1,4 @@
-import { ArtistModel } from "~/constants";
+import { ArtistModel } from "~/models/domain/artist/artist.model";
 
 export enum ArtistErrorType {
   RESPONSE_ERROR = 1,

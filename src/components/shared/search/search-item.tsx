@@ -1,12 +1,11 @@
-import ListGroup from "react-bootstrap/ListGroup";
-import Badge from "react-bootstrap/Badge";
 import { useEffect, useState } from "react";
+import Badge from "react-bootstrap/Badge";
+import ListGroup from "react-bootstrap/ListGroup";
 
-import { ArtistModel } from "~/constants";
-
+import { ArtistModel } from "~/models/domain/artist/artist.model";
+import consts, { Type } from "./constants";
 import { SearchListGroup } from "./search-list-group";
 import { ISearchMock, searchMock } from "./search-mock";
-import consts, { Type } from "./constants";
 
 type Prop = {
   q?: string;

@@ -1,7 +1,7 @@
-import { call, put, takeLatest, delay } from "redux-saga/effects";
+import { call, delay, put, takeLatest } from "redux-saga/effects";
 
 import { request } from "~/common/utils/request";
-import { ArtistModel } from "~/constants";
+import { ArtistModel } from "~/models/domain/artist/artist.model";
 
 import { artistsActions as actions } from ".";
 

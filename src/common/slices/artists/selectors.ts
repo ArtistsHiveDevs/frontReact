@@ -2,11 +2,11 @@ import { createSelector } from "@reduxjs/toolkit";
 
 import { RootState } from "~/common/utils/redux-injectors/types";
 
-import { initialState } from ".";
+import { artistsInitialState } from ".";
 
 // First select the relevant part from the state
 const selectDomain = (state: RootState) =>
-  state?.ArtistsReducer || initialState;
+  state?.ArtistsReducer || artistsInitialState;
 
 export const selectLoading = createSelector(
   [selectDomain],

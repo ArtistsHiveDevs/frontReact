@@ -46,19 +46,19 @@ export class PlaceModel
   declare Responsable: string;
   declare tiktok: string;
 
-  public get photo() {
+  photo() {
     return this.profile_pic;
   }
 
-  public get name() {
+  name() {
     return this.Nombre;
   }
 
-  public get cardInfo() {
+  cardInfo() {
     return { title: this.Nombre };
   }
 
-  public get place() {
+  place() {
     return this;
   }
 }

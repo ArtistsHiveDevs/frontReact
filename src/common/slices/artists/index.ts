@@ -1,16 +1,16 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 
-import { ArtistModel } from "~/constants";
 import { createSlice } from "~/common/utils/@reduxjs/toolkit";
 import {
   useInjectReducer,
   useInjectSaga,
 } from "~/common/utils/redux-injectors";
+import { ArtistModel } from "~/models/domain/artist/artist.model";
 
 import { artistSaga } from "./saga";
 import { ArtistErrorType, ArtistState } from "./types";
 
-export const initialState: ArtistState = {
+export const artistsInitialState: ArtistState = {
   artists: [],
   loading: false,
   error: null,
@@ -18,7 +18,7 @@ export const initialState: ArtistState = {
 
 const slice = createSlice({
   name: "ArtistsReducer",
-  initialState,
+  initialState: artistsInitialState,
   reducers: {
     loadArtists(state) {
       state.loading = true;
@@ -26,7 +26,9 @@ const slice = createSlice({
       state.artists = [];
     },
     artistLoaded(state, action: PayloadAction<ArtistModel[]>) {
-      const artists = action.payload;
+      const artists = action.payload.map(
+        (template) => new ArtistModel(template)
+      );
 
       state.artists = artists;
       state.loading = false;

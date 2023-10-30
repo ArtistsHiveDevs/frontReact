@@ -1,69 +1,114 @@
-import { EntityModel, EntityTemplate } from "~/models/base";
+import moment from "moment";
+import { VerificationStatus } from "~/constants";
+import { SocialNetworkStatsTemplate } from "~/constants/social-networks.const";
+import {
+  EntityModel,
+  EntityTemplate,
+  LocatableTemplate,
+  SearchableTemplate,
+} from "~/models/base";
+import { EventModel, EventTemplate } from "../event/event.model";
 
+export interface PlaceRatingTemplate {
+  overall: number;
+  stage: number;
+  sound: number;
+  backline: number;
+  lights: number;
+  dressing_room: number;
+  hospitality_food: number;
+  hospitality_drinks: number;
+  timeliness: number;
+  communication: number;
+  transportation: number;
+  logistic: number;
+  location: number;
+  seating_capacity: number;
+  total_rates: number;
+}
 export interface PlaceTemplate extends EntityTemplate {
-  Nombre: string;
-  profile_pic: string;
-  Tipo: string;
-  Género: string;
-  País: string;
-  Departamento: string;
-  Ciudad: string;
-  Dirección: string;
-  "Lat, Long": string;
-  "Sede principal": string;
+  name: string;
+  place_type: string;
+  music_genre: string;
+  country: string;
+  state: string;
+  city: string;
+  address: string;
+  location: string;
   email: string;
-  Teléfono: string;
-  Carácter: string;
-  FB: string;
-  IG: string;
-  Twitter: string;
-  web: string;
-  Responsable: string;
+  phone: string;
+  public_private: string;
+  facebook: string;
+  instagram: string;
+  twitter: string;
+  website: string;
+  promoter: string;
   tiktok: string;
+  subtitle?: string;
+  profile_pic: string;
+  verified_status?: VerificationStatus;
+  imageGallery: Image[];
+
+  events: EventTemplate[];
+  genres: { [artType: string]: string[] };
+
+  stats: {
+    rating: PlaceRatingTemplate;
+    socialNetworks: SocialNetworkStatsTemplate[];
+  };
 }
 
 export class PlaceModel
   extends EntityModel<PlaceTemplate>
-  implements PlaceTemplate
+  implements PlaceTemplate, SearchableTemplate, LocatableTemplate
 {
-  declare Nombre: string;
-  declare profile_pic: string;
-  declare Tipo: string;
-  declare Género: string;
-  declare País: string;
-  declare Departamento: string;
-  declare Ciudad: string;
-  declare Dirección: string;
-  declare "Lat, Long": string;
-  declare "Sede principal": string;
+  declare name: string;
+  declare place_type: string;
+  declare music_genre: string;
+  declare country: string;
+  declare state: string;
+  declare city: string;
+  declare address: string;
+  declare location: string;
   declare email: string;
-  declare Teléfono: string;
-  declare Carácter: string;
-  declare FB: string;
-  declare IG: string;
-  declare Twitter: string;
-  declare web: string;
-  declare Responsable: string;
+  declare phone: string;
+  declare public_private: string;
+  declare facebook: string;
+  declare instagram: string;
+  declare twitter: string;
+  declare website: string;
+  declare promoter: string;
   declare tiktok: string;
+  declare subtitle?: string;
+  declare profile_pic: string;
+  declare imageGallery: Image[];
+  declare verified_status?: VerificationStatus;
+  declare events: EventTemplate[];
+  declare genres: { [artType: string]: string[] };
+  declare stats: {
+    rating: PlaceRatingTemplate;
+    socialNetworks: SocialNetworkStatsTemplate[];
+  };
 
-  photo() {
+  constructor(template: PlaceTemplate) {
+    super(template);
+    this.events = template.events?.map((event) => new EventModel(event)) || [];
+  }
+
+  public get photo() {
     return this.profile_pic;
   }
 
-  name() {
-    return this.Nombre;
+  public get cardInfo() {
+    return { title: this.name };
   }
 
-  cardInfo() {
-    return { title: this.Nombre };
-  }
-
-  place() {
+  public get place() {
     return this;
   }
 
   get cityWithCountry() {
-    return `${this.city}, ${this.country}`;
+    return `${this.city}, ${this.state}, ${this.country}`;
   }
 
   get latitude() {
@@ -77,4 +122,46 @@ export class PlaceModel
   get latLng() {
     return { lat: this.latitude, lng: this.longitude };
   }
+
+  get pastEvents() {
+    return this.events
+      .filter((event) =>
+        moment(event.timetable__initial_date).isBefore(moment())
+      )
+      .sort((e1, e2) => {
+        const date1 = e1.timetable__initial_date.toUpperCase(); // ignore upper and lowercase
+        const date2 = e2.timetable__initial_date.toUpperCase(); // ignore upper and lowercase
+        if (date1 < date2) {
+          return -1;
+        } else if (date1 > date2) {
+          return 1;
+        }
+        // names must be equal
+        return 0;
+      })
+      .reverse();
+  }
+
+  get nextEvents() {
+    return this.events
+      .filter((event) =>
+        moment(event.timetable__initial_date).isSameOrAfter(moment())
+      )
+      .sort((e1, e2) => {
+        const date1 = e1.timetable__initial_date.toUpperCase(); // ignore upper and lowercase
+        const date2 = e2.timetable__initial_date.toUpperCase(); // ignore upper and lowercase
+        if (date1 < date2) {
+          return -1;
+        } else if (date1 > date2) {
+          return 1;
+        }
+        // names must be equal
+        return 0;
+      });
+  }
+}
+
+export interface Image {
+  src: string;
+  alt?: string;
 }

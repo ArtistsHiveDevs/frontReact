@@ -92,8 +92,8 @@ const EventDetailsPage = () => {
           fieldName: "",
           fieldValue: (
             <>
-              {currentEvent.place.Nombre} <br /> {currentEvent.place.Dirección}
-              <br /> {currentEvent.place.Ciudad}
+              {currentEvent.place.name} <br /> {currentEvent.place.address}
+              <br /> {currentEvent.place.city}
             </>
           ),
         },
@@ -177,22 +177,22 @@ const EventDetailsPage = () => {
         {
           icon: "FaMapMarkerAlt",
           fieldName: "",
-          fieldValue: currentEvent.place?.Dirección,
+          fieldValue: currentEvent.place?.address,
         },
         {
           icon: "FaCity",
           fieldName: "",
-          fieldValue: `${currentEvent.place?.Ciudad}, ${currentEvent.place?.País}`,
+          fieldValue: `${currentEvent.place?.city}, ${currentEvent.place?.country}`,
         },
         {
           icon: "FaPhoneAlt",
           fieldName: "",
-          fieldValue: currentEvent.place?.Teléfono,
+          fieldValue: currentEvent.place?.phone,
         },
         {
           icon: "FaWhatsapp",
           fieldName: "",
-          fieldValue: currentEvent.place?.Teléfono,
+          fieldValue: currentEvent.place?.phone,
         },
       ]);
     }
@@ -325,7 +325,7 @@ const EventDetailsPage = () => {
                 elementData={{
                   id: currentEvent.place_id,
                   profile_pic: currentEvent.place?.profile_pic,
-                  name: currentEvent.place?.Nombre,
+                  name: currentEvent.place?.name,
                   verified_status: currentEvent.main_artist?.verified_status,
                 }}
                 footer={() => placeInfoThumbnailFooter()}
@@ -358,6 +358,10 @@ const EventDetailsPage = () => {
           </div>
           <h2>
             {translateText(`${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.discounts`)}
+          </h2>
+          <div></div>
+          <h2>
+            {translateText(`${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.promoter`)}
           </h2>
           <div></div>
         </>

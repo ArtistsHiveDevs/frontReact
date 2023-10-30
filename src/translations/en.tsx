@@ -137,7 +137,7 @@ export const EnMessages = {
                   attributes: {
                     description: "",
                     address: "Address",
-                    home_city: "Città ",
+                    city: "Città",
                     categories: "Categorie",
                     since: "Da",
                     spoken_languages: "Lingue parlate",

@@ -136,8 +136,8 @@ export const DeMessages = {
                   name: "Info generale",
                   attributes: {
                     description: "",
-                    address: "Città ",
-                    home_city: "Città ",
+                    address: "Indirizzo",
+                    city: "Città",
                     categories: "Categorie",
                     since: "Da",
                     spoken_languages: "Lingue parlate",

@@ -4,10 +4,12 @@ import { AnyAction, Reducer } from "@reduxjs/toolkit";
 import { Saga } from "redux-saga";
 
 import { ArtistState } from "~/common/slices/artists/types";
+import { EventState } from "~/common/slices/events/types";
 
 export interface RootState {
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
   ArtistsReducer?: ArtistState;
+  EventsReducer?: EventState;
 }
 
 type RequiredRootState = Required<RootState>;

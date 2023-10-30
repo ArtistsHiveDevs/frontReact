@@ -8,7 +8,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { appMessages } from "./translations";
 
 // routes
-import { HvAppContext, HvAppContextProvider } from "./common";
+import { AuthProvider, HvAppContext, HvAppContextProvider } from "./common";
 import SideNav from "./components/shared/sidenav";
 import { RoutesApp } from "./routes";
 
@@ -20,24 +20,24 @@ const App = () => {
     <HelmetProvider>
       <HvAppContextProvider appMessages={appMessages}>
         <Router>
-          <IntlProvider
-            defaultLocale={navigator.language || "en"}
-            locale={lang}
-            messages={messages}
-            onError={onError}
-          >
-            <div className="wrapper">
-              <SideNav />
+          <AuthProvider>
+            <IntlProvider
+              defaultLocale={navigator.language || "en"}
+              locale={lang}
+              messages={messages}
+              onError={onError}
+            >
+              <div className="wrapper">
+                <SideNav />
 
-              <Suspense fallback={<div>Loading...</div>}>
-                <div className="content">
+                <Suspense fallback={<div>Loading...</div>}>
                   <div className="content">
                     <RoutesApp />
                   </div>
-                </div>
-              </Suspense>
-            </div>
-          </IntlProvider>
+                </Suspense>
+              </div>
+            </IntlProvider>
+          </AuthProvider>
         </Router>
       </HvAppContextProvider>
     </HelmetProvider>

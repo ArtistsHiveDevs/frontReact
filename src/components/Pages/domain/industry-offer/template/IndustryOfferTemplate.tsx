@@ -39,6 +39,10 @@ const IndustryOfferTemplate = () => {
     dispatch(industryOfferActions.loadIndustryOffer({ role }));
   }, []);
 
+  useEffect(() => {
+    dispatch(industryOfferActions.loadIndustryOffer({ role }));
+  }, [urlParameters]);
+
   const bannerCreateAccount = () => {
     return (
       (loggedUser && <></>) ||

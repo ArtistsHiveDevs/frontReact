@@ -11,10 +11,24 @@ export const AppFooter = () => {
     {
       columnName: "what_we_do",
       options: [
-        { name: "cultural_agenda" },
-        { name: "for_artists" },
-        { name: "for_places" },
-        { name: "for_promoters" },
+        {
+          name: "cultural_agenda",
+          link: PATHS.CULTURAL_AGENDA,
+        },
+        {
+          name: "for_artists",
+          link: `${PATHS.INDUSTRY_OFFER}${PATHS.ARTISTS}`,
+        },
+        {
+          name: "for_promoters",
+          link: `${PATHS.INDUSTRY_OFFER}${PATHS.PROMOTERS}`,
+        },
+        { name: "for_places", link: `${PATHS.INDUSTRY_OFFER}${PATHS.PLACES}` },
+        {
+          name: "for_academies",
+          link: `${PATHS.INDUSTRY_OFFER}${PATHS.ACADEMIES}`,
+        },
+
         { name: "for_festivals" },
       ],
     },

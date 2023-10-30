@@ -669,6 +669,7 @@ export const FrMessages = {
             name: "Qu'est-ce qu'on fait ?",
             options: {
               cultural_agenda: "Agenda culturel",
+              for_academies: "Pour les academies",
               for_artists: "Pour les artistes",
               for_places: "Pour les lieux",
               for_promoters: "Pour les promoteurs",

@@ -654,6 +654,7 @@ export const EsMessages = {
             name: "¿Qué hacemos?",
             options: {
               cultural_agenda: "Agenda Cultural",
+              for_academies: "Para academias",
               for_artists: "Para Artistas",
               for_places: "Para lugares",
               for_promoters: "Para promotores",

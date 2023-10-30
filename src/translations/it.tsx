@@ -661,6 +661,7 @@ export const ItMessages = {
             name: "Cosa facciamo?",
             options: {
               cultural_agenda: "Agenda culturale",
+              for_academies: "Per le accademie",
               for_artists: "Per gli artisti",
               for_places: "Per luoghi",
               for_promoters: "Per i promotori",

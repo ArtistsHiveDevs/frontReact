@@ -664,6 +664,7 @@ export const PtMessages = {
             name: "O que fazemos?",
             options: {
               cultural_agenda: "Agenda Cultural",
+              for_academies: "Para academias",
               for_artists: "Para artistas",
               for_places: "Para lugares",
               for_promoters: "Para promotores",

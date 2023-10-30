@@ -12,9 +12,19 @@ const MapViewer = (props: any) => {
       ...data?.anotherOpts,
     });
 
-    data?.marksLocation?.forEach((position: any) => {
+    data?.marksLocation?.forEach((data: any) => {
+      const { position, iconData } = data;
       new google.maps.Marker({
         position,
+        ...(!!iconData && {
+          icon: {
+            ...iconData,
+            anchor: new google.maps.Point(
+              iconData.iconAnchor[0],
+              iconData.iconAnchor[1]
+            ),
+          },
+        }),
         map: map,
       });
     });

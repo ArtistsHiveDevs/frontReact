@@ -15,7 +15,38 @@ export interface UserAvailableEntityRole {
   entityRoleMap: UserEntityRoleMap[];
 }
 
-export const APP_DOMAIN_ROLES: { [entityName: string]: DomainRole } = {};
+export const APP_DOMAIN_ROLES: { [entityName: string]: DomainRole } = {
+  ARTIST: {
+    entityName: "ARTIST",
+    label: "Artista",
+    roles: [
+      "ARTIST_OWNER",
+      "ARTIST_MEMBER",
+      "MANAGER",
+      "ROADIE",
+      "SOUND_ENGINEER",
+      "LIGHTS_ENGINEER",
+      "STAGE_ENGINEER",
+      "SUBSTITUTE_ARTIST_MEMBER",
+      "ARTIST_OWN_STAFF",
+      "PHOTOGRAPHER",
+      "VIDEOGRAPHER",
+      "PRODUCER",
+      "MEDIA_MANAGER",
+      "TOUR_MANAGER",
+    ],
+  },
+  PLACE: {
+    entityName: "PLACE",
+    label: "Lugar",
+    roles: [
+      "PLACE_OWNER",
+      "MANAGER",
+      "MEDIA_MANAGER",
+      "INFRASTRUCTURE_MANAGER",
+    ],
+  },
+};
 
 export interface AppUserTemplate extends EntityTemplate {
   given_names: string;

@@ -1,11 +1,17 @@
 import { lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import RequireAuth from "~/components/shared/atoms/IconField/app/auth/RequiredAuth";
 
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from "~/constants";
 
 // Lazy loading
 const HomePage = lazy(() => import("~/components/Pages/HomePage/MainHome"));
 const NotFoundPage = lazy(() => import("~/components/Pages/NotFoundPage"));
+
+const AppSettingsPage = lazy(
+  () => import("~/components/Pages/app-base/SettingsPage")
+);
+
 const SearchPage = lazy(() => import("~/components/Pages/SearchPage"));
 
 // Load rider pages
@@ -87,6 +93,9 @@ export const RoutesApp: React.FC = () => {
       <Route element={<SearchPage />} path={PATHS.SEARCH} />
 
       <Route element={<NotFoundPage />} path={PATHS.NOT_FOUND} />
+      <Route path={PATHS.SETTINGS}>
+        <Route element={<AppSettingsPage />} path="" />
+      </Route>
     </Routes>
   );
 };

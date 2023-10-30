@@ -397,7 +397,8 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     ) {
       const content =
         getData(componentDescriptor.data?.attribute_content) ||
-        componentDescriptor.data?.content;
+        componentDescriptor.data?.content ||
+        componentDescriptor.data?.render(parentDataSource || dataSourceElement);
       return <>{content}</>;
     } else if (
       componentDescriptor.componentName ===

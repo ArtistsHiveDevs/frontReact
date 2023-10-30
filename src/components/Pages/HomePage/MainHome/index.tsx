@@ -1,13 +1,11 @@
 import { getCustomList } from "~/constants";
 
-import { ArtistModel } from "~/models/domain/artist/artist.model";
-
 import "./index.scss";
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { useArtistsSlice } from "~/common/slices";
+import { useNavigate } from "react-router";
+import { useArtistsSlice } from "~/common/slices/artists";
 import { selectArtists } from "~/common/slices/artists/selectors";
 import { useEventsSlice } from "~/common/slices/events";
 import { selectEvents } from "~/common/slices/events/selectors";
@@ -18,6 +16,8 @@ import { useI18n } from "~/common/utils";
 import MainSection from "../MainSection/MainSection";
 import WelcomeSection from "../WelcomeSection/WelcomeSection";
 
+import { PATHS, SUB_PATHS } from "~/constants";
+import { ArtistModel } from "~/models/domain/artist/artist.model";
 import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
 
@@ -39,10 +39,12 @@ const HomePage = () => {
   const placesList: PlaceModel[] = useSelector(selectPlaces);
   const { actions: placesActions } = usePlacesSlice();
 
+  // Hooks
   const dispatch = useDispatch();
-
   const { translateText } = useI18n();
+  const navigate = useNavigate();
 
+  // Effects
   useEffect(() => {
     if (artistList.length === 0) {
       dispatch(artistsActions.loadArtists());
@@ -56,6 +58,9 @@ const HomePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function onClickCardEventos(data: any) {
+    navigate(`${PATHS.EVENTS}/${SUB_PATHS.ELEMENT_DETAILS}/${data.id}`);
+  }
   return (
     <>
       <WelcomeSection />
@@ -77,6 +82,7 @@ const HomePage = () => {
         listView={getCustomList(10, eventsList)}
         params={{ useNewCard: true }}
         title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.events`)}
+        callbacks={{ onClickCard: onClickCardEventos }}
       />
 
       <MainSection

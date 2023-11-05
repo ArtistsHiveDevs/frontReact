@@ -1,49 +1,95 @@
-import { useFormContext } from "react-hook-form";
+import {
+  FieldErrors,
+  FieldValues,
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormWatch,
+  useFormContext,
+} from "react-hook-form";
+import { createCheckbox } from "./components/Checkbox";
+import { createFileUpload } from "./components/FileUpload";
+import { createRadio } from "./components/Radio";
+import { createSelect } from "./components/Select";
+import { createSlider } from "./components/Slider";
+import { createTextArea } from "./components/TextArea";
+import {
+  createAddressTextField,
+  createSocialNetworkTextField,
+  createTextField,
+} from "./components/TextField";
+import { createTimeField } from "./components/TimeField";
 import { DynamicFieldData } from "./dynamic-control-types";
 
-export const DynamicControl = ({
-  inputType,
-  fieldName,
-  defaultValue,
-  options = [],
-  config = {},
-}: DynamicFieldData) => {
-  const { register } = useFormContext();
+export interface ComponentGeneratorParams {
+  errors?: FieldErrors<FieldValues>;
+  fieldData: DynamicFieldData;
+  getValues?: UseFormGetValues<FieldValues>;
+  handlers?: { [handlerName: string]: Function };
+  register: UseFormRegister<FieldValues>;
+  watch?: UseFormWatch<FieldValues>;
+}
+
+export const DynamicControl = (params: {
+  fieldData: DynamicFieldData;
+  errors: FieldErrors<FieldValues>;
+  handlers: { [handlerName: string]: Function };
+  control?: any;
+}) => {
+  const { fieldData, errors, handlers } = params;
+  const { register, getValues, watch } = useFormContext();
+
+  const { inputType }: DynamicFieldData = fieldData;
 
   switch (inputType) {
+    // Campos de texto
     case "text":
-      return (
-        <input
-          type="text"
-          {...register(fieldName, config)}
-          defaultValue={defaultValue}
-        />
-      );
-    case "select": {
-      return (
-        <select
-          {...register(fieldName, config)}
-          defaultValue={defaultValue}
-          name={fieldName}
-          id={fieldName}
-        >
-          {options.map((o, index) => (
-            <option key={index} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
-      );
-    }
+    case "password":
+    case "tel":
     case "number":
-      return (
-        <input
-          type="number"
-          {...register(fieldName, config)}
-          defaultValue={defaultValue}
-        />
-      );
+    case "url":
+      return createTextField({ register, fieldData, errors });
+    case "address":
+      return createAddressTextField({ register, fieldData, errors });
+    case "socialNetwork":
+      return createSocialNetworkTextField({ register, fieldData, errors });
+
+    // Área de texto
+    case "textarea":
+      return createTextArea({ register, fieldData, errors });
+
+    // Opciones y selección múltiple
+    case "select":
+      return createSelect({ register, fieldData, errors, handlers });
+    case "checkbox":
+      return createCheckbox({
+        register,
+        getValues,
+        watch,
+        fieldData,
+        errors,
+        handlers,
+      });
+    case "radio":
+      return createRadio({ register, fieldData, errors });
+
+    // Rangos
+    case "range":
+      return createSlider({ register, fieldData, errors });
+
+    // Fechas y horas
+    case "datetime":
+    case "date":
+    case "time":
+    case "month":
+    case "week":
+      return createTimeField(register, fieldData, errors);
+
+    // Carga de archivos
+    case "file":
+      return createFileUpload({ register, fieldData, errors });
+
     default:
-      return <input type="text" />;
+      fieldData.inputType = "text";
+      return createTextField({ register, fieldData, errors });
   }
 };

@@ -1,36 +1,43 @@
-import { ErrorMessage } from "@hookform/error-message";
+import { Button, Stack } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
+
 import { DynamicControl } from "./DynamicControl";
 import { DynamicFieldData } from "./dynamic-control-types";
+import "./dynamic-form.scss";
 
 interface FormProps {
   fields: DynamicFieldData[];
+  handlers: { onSubmit: Function; [handlerName: string]: Function };
 }
 
-export const DynamicForm = ({ fields }: FormProps) => {
+export const DynamicForm = (props: FormProps) => {
+  const { fields, handlers } = props;
   const formMethods = useForm();
   const {
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { errors },
   } = formMethods;
 
-  function onSubmit(data: any, error: any) {
-    // your logic on what to do with data
-    console.log(data);
-  }
+  const onSubmit: any = handlers["onSubmit"];
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className="fullwidth">
       <FormProvider {...formMethods}>
-        {fields.map((d, i) => (
-          <div key={i}>
-            <label htmlFor={d.fieldName}>{d.label}</label>
-            <DynamicControl {...d} />
-            <ErrorMessage errors={errors} name={d.fieldName} />
-          </div>
-        ))}
+        <Stack spacing={2}>
+          {fields.map((d, i) => (
+            <div key={i}>
+              <DynamicControl
+                fieldData={d}
+                handlers={{ ...handlers }}
+                errors={{ ...errors }}
+              />
+            </div>
+          ))}
+          <Button type="submit" variant="contained">
+            Submit
+          </Button>
+        </Stack>
       </FormProvider>
-      <button type="submit">Submit</button>
     </form>
   );
 };

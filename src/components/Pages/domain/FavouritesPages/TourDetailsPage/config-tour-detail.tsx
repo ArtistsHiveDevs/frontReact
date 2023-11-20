@@ -10,7 +10,7 @@ import {
   ProfileDetailsSubpage,
 } from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
 import { formatDateInMomentType } from "~/constants";
-import { EVENT_CONFIRMATION_STATUS } from "~/models/domain/event/event.model";
+import { EventConfirmationStatus } from "~/models/domain/event/event.model";
 import { TourOutlineModel } from "~/models/domain/favourites/tourOutline";
 
 function formatDate(date: string) {
@@ -57,7 +57,14 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: "events_state_summary",
                   value: (tourOutline: TourOutlineModel) => {
-                    return Object.keys(EVENT_CONFIRMATION_STATUS).map(
+                    const eventsFilteredByStatus = (
+                      status: EventConfirmationStatus
+                    ) =>
+                      tourOutline.events.filter(
+                        (event) => event.confirmation_status === status
+                      );
+
+                    return Object.keys(EventConfirmationStatus).map(
                       (status) => {
                         const eventConfirmStatusColor = (function () {
                           switch (status) {
@@ -78,16 +85,28 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                               return "draft";
                           }
                         })();
+
+                        const eventsList = eventsFilteredByStatus(
+                          status as EventConfirmationStatus
+                        );
+
+                        const percentage = !!tourOutline.events.length
+                          ? eventsList.length / tourOutline.events.length
+                          : 0;
+
                         return (
-                          <p key={`${status}`} className="confirmation-state">
-                            <span
-                              className={[
-                                "event-confirm-status",
-                                eventConfirmStatusColor,
-                              ].join(" ")}
-                            ></span>{" "}
-                            {status} ( / - %)
-                          </p>
+                          (eventsList.length === 0 && <></>) || (
+                            <p key={`${status}`} className="confirmation-state">
+                              <span
+                                className={[
+                                  "event-confirm-status",
+                                  eventConfirmStatusColor,
+                                ].join(" ")}
+                              ></span>{" "}
+                              {status} ( {eventsList.length}/
+                              {tourOutline.events.length} - {percentage * 100}%)
+                            </p>
+                          )
                         );
                       }
                     );

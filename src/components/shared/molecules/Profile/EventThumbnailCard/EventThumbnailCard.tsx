@@ -2,10 +2,7 @@ import moment from "moment";
 import Flag from "react-world-flags";
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
 import { formatDateInMomentType } from "~/constants";
-import {
-  EVENT_CONFIRMATION_STATUS,
-  EventModel,
-} from "~/models/domain/event/event.model";
+import { EventModel } from "~/models/domain/event/event.model";
 import "./EventThumbnailCard.scss";
 
 export const EventThumbnailCard = (props: any) => {
@@ -27,12 +24,8 @@ export const EventThumbnailCard = (props: any) => {
     Inglaterra: "GB-ENG",
   };
 
-  const confirmationStatus = Object.keys(EVENT_CONFIRMATION_STATUS)[
-    Math.floor(Math.random() * Object.keys(EVENT_CONFIRMATION_STATUS).length)
-  ];
-
   const eventConfirmStatusColor = (function () {
-    switch (confirmationStatus) {
+    switch (event.confirmation_status) {
       case "DRAFT":
         return "draft";
       case "CREATED":

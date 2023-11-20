@@ -62,8 +62,7 @@ export interface TourOutlineTemplate extends EntityTemplate {
   pictures: TourOutlineProfilePicturesTemplate;
   likedPlaces: PlaceTemplate[];
   likedArtists: ArtistTemplate[];
-  confirmedEvents: EventTemplate[];
-  pendingEvents: EventTemplate[];
+  events: EventTemplate[];
 }
 
 export class TourOutlineModel
@@ -76,8 +75,7 @@ export class TourOutlineModel
   declare pictures: TourOutlineProfilePicturesTemplate;
   declare likedPlaces: PlaceTemplate[];
   declare likedArtists: ArtistTemplate[];
-  declare confirmedEvents: EventTemplate[];
-  declare pendingEvents: EventTemplate[];
+  declare events: EventTemplate[];
 
   get totalDays() {
     return moment(this.summary.days.final_date).diff(

@@ -8,7 +8,7 @@ import {
 import { ArtistModel } from "../artist/artist.model";
 import { PlaceModel } from "../place/place.model";
 
-export enum EVENT_CONFIRMATION_STATUS {
+export enum EventConfirmationStatus {
   DRAFT = "DRAFT",
   CREATED = "CREATED",
   UNDER_REVIEW = "UNDER_REVIEW",
@@ -20,6 +20,7 @@ export enum EVENT_CONFIRMATION_STATUS {
 
 export interface EventTemplate extends EntityTemplate {
   verified_status: VerificationStatus;
+  confirmation_status: EventConfirmationStatus;
   name: string;
   subtitle: string;
   profile_pic: string;
@@ -47,6 +48,7 @@ export class EventModel
 {
   declare name: string;
   declare verified_status: VerificationStatus;
+  declare confirmation_status: EventConfirmationStatus;
   declare subtitle: string;
   declare profile_pic: string;
   declare main_artist_id: string;

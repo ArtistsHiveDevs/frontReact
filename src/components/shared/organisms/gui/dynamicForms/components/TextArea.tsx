@@ -1,5 +1,4 @@
 import { FormLabel, TextField } from "@mui/material";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { ComponentGeneratorParams } from "../DynamicControl";
 
 export const createTextArea = (params: ComponentGeneratorParams) => {

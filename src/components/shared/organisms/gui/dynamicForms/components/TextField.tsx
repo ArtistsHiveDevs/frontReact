@@ -121,7 +121,7 @@ export const createSocialNetworkTextField = (
       value:
         socialNetwork.usernamePattern ||
         /^[A-Za-z](?<=^|[^\/])([A-Za-z0-9_.]{2,24})$/,
-      message: "MAl usuario as",
+      message: `${socialNetwork.title} user pattern is wrong`,
     },
   };
 

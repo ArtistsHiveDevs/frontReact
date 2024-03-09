@@ -10,6 +10,9 @@ import {
   PlaceRatingTemplate,
 } from "~/models/domain/place/place.model";
 
+export const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
+  "app.pages.PlacesPages.PlacesDetailsPage";
+
 export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
     name: "general",

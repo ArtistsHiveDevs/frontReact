@@ -4,7 +4,10 @@ import { useParams } from "react-router-dom";
 import { usePlacesSlice } from "~/common/slices/places";
 import { selectPlaces } from "~/common/slices/places/selectors";
 import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
-import { PLACE_DETAIL_SUB_PAGE_CONFIG } from "~/components/Pages/PlacesPage/PlaceDetailsPage/config-place-detail";
+import {
+  PLACE_DETAIL_SUB_PAGE_CONFIG,
+  TRANSLATION_BASE_ARTIST_DETAIL_PAGE,
+} from "~/components/Pages/PlacesPage/PlaceDetailsPage/config-place-detail";
 import {
   GalleryImageParams,
   ImageGallery,
@@ -13,9 +16,6 @@ import { ProfileTabsPage } from "~/components/shared/organisms/ProfileTabsPage/P
 import { URL_PARAMETER_NAMES } from "~/constants";
 import { EventModel } from "~/models/domain/event/event.model";
 import { PlaceModel } from "~/models/domain/place/place.model";
-
-const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
-  "app.pages.PlacesPages.PlacesDetailsPage";
 
 const PlaceDetailPage = () => {
   const { navigateToEntity } = useNavigation();

@@ -1,4 +1,5 @@
 import { AllowedEntityRole } from "~/components/shared/atoms/app/auth/RequiredAuth";
+import { ControlType } from "../gui/dynamicForms";
 
 export enum ProfileComponentTypes {
   ATTRIBUTES_ICON_FIELDS,
@@ -39,6 +40,7 @@ export interface ProfileComponentDescriptor {
   data_source?: any;
   clickHandlerName?: string;
   requireSession?: boolean;
+  formMetaData?: FormMetadata;
 }
 export interface ProfileDetailAttributeConfiguration {
   name: string;
@@ -72,4 +74,8 @@ export interface ProfileDetailAttributeConfiguration {
   translationPath?: string;
 
   value?: Function | string | number;
+}
+
+export interface FormMetadata {
+  inputType?: ControlType;
 }

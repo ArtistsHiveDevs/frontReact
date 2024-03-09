@@ -4,7 +4,10 @@ import { useParams } from "react-router-dom";
 import { useArtistsSlice } from "~/common/slices/artists";
 import { selectArtists } from "~/common/slices/artists/selectors";
 import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
-import { ARTIST_DETAIL_SUB_PAGE_CONFIG } from "~/components/Pages/ArtistsPage/ArtistDetails/config-artist-detail";
+import {
+  ARTIST_DETAIL_SUB_PAGE_CONFIG,
+  TRANSLATION_BASE_ARTIST_DETAIL_PAGE,
+} from "~/components/Pages/ArtistsPage/ArtistDetails/config-artist-detail";
 
 import {
   GalleryImageParams,
@@ -15,9 +18,6 @@ import { URL_PARAMETER_NAMES } from "~/constants";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
 import { EventModel } from "~/models/domain/event/event.model";
 import "./index.scss";
-
-const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
-  "app.pages.ArtistsPages.ArtistsDetailsPage";
 
 const ArtistDetailPage = () => {
   const { navigateToEntity } = useNavigation();

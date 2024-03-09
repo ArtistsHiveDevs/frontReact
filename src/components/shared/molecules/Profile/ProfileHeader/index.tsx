@@ -1,3 +1,4 @@
+import { Avatar } from "@mui/material";
 import VerifiedArtist from "~/components/shared/VerifiedArtist";
 import {
   FavoriteSubscription,
@@ -14,25 +15,47 @@ export interface ProfileHeaderElement {
 
 export const ProfileHeader = (props: any) => {
   const { element } = props;
+  const isEditable = false;
+
+  const generateEditableField = (
+    fieldName: string,
+    element: any,
+    isEditable?: boolean
+  ) => {
+    return (
+      <>
+        {element && element[fieldName]}
+        {!element && fieldName}
+      </>
+    );
+  };
 
   return (
     <div className="profile-header">
-      <img className="avatar" src={element.profile_pic} alt={element?.name} />
+      <Avatar
+        src={element?.profile_pic}
+        alt={element?.name}
+        sx={{ width: 120, height: 120 }}
+      />
       <div className="header-title d-grid align-items-bottom">
         <div className="profile-name">
           <h2>
-            {element?.name}
-            <VerifiedArtist verifiedStatus={element?.verified_status} />
+            {generateEditableField("name", element, isEditable)}
+            {element && (
+              <>
+                <VerifiedArtist verifiedStatus={element?.verified_status} />
 
-            <FavoriteSubscription
-              color={"#7a260a"}
-              size={24}
-              iconType={FavoriteSubscritionIconDefaultTypes.HEART}
-            />
+                <FavoriteSubscription
+                  color={"#7a260a"}
+                  size={24}
+                  iconType={FavoriteSubscritionIconDefaultTypes.HEART}
+                />
+              </>
+            )}
           </h2>
         </div>
         <div className="profile-name">
-          <p>{element?.subtitle}</p>
+          <p>{generateEditableField("subtitle", element, isEditable)}</p>
         </div>
       </div>
     </div>

@@ -9,6 +9,8 @@ import {
   ArtistRatingTemplate,
 } from "~/models/domain/artist/artist.model";
 
+export const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
+  "app.pages.ArtistsPages.ArtistsDetailsPage";
 export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
     name: "general",

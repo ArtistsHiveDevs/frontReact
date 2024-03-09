@@ -79,6 +79,10 @@ const ArtistsListPage = lazy(
 const ArtistDetailsPage = lazy(
   () => import("~/components/Pages/ArtistsPage/ArtistDetails")
 );
+const ArtistCreatePage = lazy(
+  () =>
+    import("~/components/Pages/ArtistsPage/ArtistCreatePage/ArtistCreatePage")
+);
 
 // Load Places pages
 const PlacesListPage = lazy(
@@ -87,6 +91,11 @@ const PlacesListPage = lazy(
 
 const PlaceDetailsPage = lazy(
   () => import("~/components/Pages/PlacesPage/PlaceDetailsPage")
+);
+
+const PlaceCreatePage = lazy(
+  () =>
+    import("~/components/Pages/PlacesPage/PlacesCreatePage/PlacesCreatePage")
 );
 
 // Load CulturalAgenda page
@@ -135,6 +144,7 @@ export const RoutesApp: React.FC = () => {
             SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`
           }
         />
+        <Route element={<ArtistCreatePage />} path={SUB_PATHS.CREATE} />
       </Route>
       <Route path={PATHS.CULTURAL_AGENDA}>
         <Route element={<CulturalAgendaPage />} path="" />
@@ -165,6 +175,7 @@ export const RoutesApp: React.FC = () => {
             SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`
           }
         />
+        <Route element={<ArtistDetailsPage />} path={SUB_PATHS.CREATE} />
       </Route>
       <Route path={PATHS.PROFILE}>
         <Route element={<UserDetailsPage />} path="" />

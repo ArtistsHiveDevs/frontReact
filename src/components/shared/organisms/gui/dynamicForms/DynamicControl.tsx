@@ -36,7 +36,7 @@ export const DynamicControl = (params: {
   control?: any;
 }) => {
   const { fieldData, errors, handlers } = params;
-  const { register, getValues, watch } = useFormContext();
+  const { register, getValues, watch } = useFormContext() || {};
 
   const { inputType }: DynamicFieldData = fieldData;
 

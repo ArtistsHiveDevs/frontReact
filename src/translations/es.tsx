@@ -36,10 +36,12 @@ export const EsMessages = {
         follow_us: "Síguenos",
         show_more: "Mostrar más",
         show_less: "Mostrar menos",
+        submit: "Enviar",
         subscription: {
           subscribe: "Suscribirse",
           unsubscribe: "Cancelar",
         },
+        upload: "Cargar",
       },
       entities: {
         academies: { plural: "Academias", singular: "Academia" },
@@ -47,6 +49,24 @@ export const EsMessages = {
         events: { plural: "Eventos", singular: "Evento" },
         places: { plural: "Lugares", singular: "Lugar" },
         promoters: { plural: "Promotores", singular: "Promotor" },
+      },
+      location: {
+        borough: "Barrio",
+        canton: "Cantón",
+        city: "Ciudad",
+        county: "Condado",
+        continent: "Continente",
+        country: "País",
+        department: "Departamento",
+        district: "Distrito",
+        hamlet: "Aldea",
+        location: "Ubicación",
+        municipality: "Municipio",
+        province: "Provincia",
+        region: "Región",
+        state: "Estado",
+        town: "Pueblo",
+        village: "Pueblo",
       },
       stats: {
         rating: {
@@ -207,7 +227,7 @@ export const EsMessages = {
                   general: {
                     name: "Info general",
                     attributes: {
-                      description: "",
+                      description: "Descripción",
                       address: "Dirección",
                       city: "Ciudad",
                       categories: "Categorías",
@@ -456,7 +476,7 @@ export const EsMessages = {
                 general: {
                   name: "Info General",
                   attributes: {
-                    description: "",
+                    description: "Descripción",
                     since: "Desde",
                     home_city: "Ciudad de residencia",
                     categories: "Categorías",
@@ -629,12 +649,15 @@ export const EsMessages = {
                 general: {
                   name: "Info general",
                   attributes: {
-                    description: "",
+                    description: "Descripción",
                     address: "Dirección",
                     city: "Ciudad",
+                    cityWithCountry: "Ubicación",
                     categories: "Categorías",
                     since: "Desde",
                     spoken_languages: "Idiomas hablados",
+                    stage_languages: "Idiomas en escena",
+                    arts_languages: "Idiomas de las artes",
                   },
                 },
                 genres: {
@@ -792,9 +815,11 @@ export const EsMessages = {
               },
               my_profile: "Mi perfil",
               my_bands: "Mis bandas",
+              "my_bands.nested": { create: "Crear Banda" },
               my_events: "Mis eventos",
               my_riders: "Mis riders",
               my_places: "Mis lugares",
+              "my_places.nested": { create: "Crear lugar" },
               favourites: "Favoritos",
               "favourites.nested": {
                 saved: "Guardados",

@@ -36,10 +36,12 @@ export const DeMessages = {
         follow_us: "Folst uns",
         show_more: "Mehr anzeigen",
         show_less: "Weniger anzeigen",
+        submit: "Absenden",
         subscription: {
           subscribe: "Abonnieren",
           unsubscribe: "Abbestellen",
         },
+        upload: "Hochladen",
       },
       entities: {
         academies: { plural: "Akademien", singular: "Akademie" },
@@ -47,6 +49,24 @@ export const DeMessages = {
         events: { plural: "Veranstaltungen", singular: "Veranstaltung" },
         places: { plural: "Orte", singular: "Ort" },
         promoters: { plural: "Veranstalter", singular: "Veranstalter" },
+      },
+      location: {
+        borough: "Stadtteil",
+        canton: "Kanton",
+        city: "Stadt",
+        county: "Landkreis",
+        continent: "Kontinent",
+        country: "Land",
+        department: "Departement",
+        district: "Bezirk",
+        hamlet: "Weiler",
+        location: "Ort",
+        municipality: "Gemeinde",
+        province: "Provinz",
+        region: "Region",
+        state: "Bundesland",
+        town: "Stadt",
+        village: "Dorf",
       },
       stats: {
         rating: {
@@ -207,7 +227,7 @@ export const DeMessages = {
                   general: {
                     name: "Info generale",
                     attributes: {
-                      description: "",
+                      description: "Beschreibung",
                       address: "Indirizzo",
                       city: "Città",
                       categories: "Categorie",
@@ -456,7 +476,7 @@ export const DeMessages = {
                 general: {
                   name: "Allgemeine Informationen",
                   attributes: {
-                    description: "",
+                    description: "Beschreibung",
                     since: "Seit",
                     home_city: "Stadt der Niederlassung",
                     categories: "Kategorien",
@@ -636,12 +656,15 @@ export const DeMessages = {
                 general: {
                   name: "Info generale",
                   attributes: {
-                    description: "",
-                    address: "Indirizzo",
-                    city: "Città",
-                    categories: "Categorie",
-                    since: "Da",
-                    spoken_languages: "Lingue parlate",
+                    description: "Beschreibung",
+                    address: "Adresse",
+                    city: "Stadt",
+                    cityWithCountry: "Ort",
+                    categories: "Kategorien",
+                    since: "Seit",
+                    spoken_languages: "Gesprochene Sprachen",
+                    stage_languages: "Bühnensprachen",
+                    arts_languages: "Sprachen der Kunst",
                   },
                 },
                 genres: {
@@ -799,9 +822,11 @@ export const DeMessages = {
               },
               my_profile: "Mein Profil",
               my_bands: "Meine Bands",
+              "my_bands.nested": { create: "Band erstellen" },
               my_events: "Meine Veranstaltungen",
               my_riders: "Meine Rider",
               my_places: "Meine Orte",
+              "my_places.nested": { create: "Ort erstellen" },
               favourites: "Favoriten",
               "favourites.nested": {
                 saved: "Gespeichert",

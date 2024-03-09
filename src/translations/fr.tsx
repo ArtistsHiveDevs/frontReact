@@ -36,10 +36,12 @@ export const FrMessages = {
         follow_us: "Suivez-nous",
         show_more: "Afficher plus",
         show_less: "Afficher moins",
+        submit: "Soumettre",
         subscription: {
           subscribe: "S'abonner",
           unsubscribe: "Se désabonner",
         },
+        upload: "Télécharger",
       },
       entities: {
         academies: { plural: "Académies", singular: "Académie" },
@@ -47,6 +49,24 @@ export const FrMessages = {
         events: { plural: "Événements", singular: "Événement" },
         places: { plural: "Lieux", singular: "Lieu" },
         promoters: { plural: "Promoteurs", singular: "Promoteur" },
+      },
+      location: {
+        borough: "Arrondissement",
+        canton: "Canton",
+        city: "Ville",
+        county: "Comté",
+        continent: "Continent",
+        country: "Pays",
+        department: "Département",
+        district: "District",
+        hamlet: "Hameau",
+        location: "Lieu",
+        municipality: "Municipalité",
+        province: "Province",
+        region: "Région",
+        state: "État",
+        town: "Ville",
+        village: "Village",
       },
       stats: {
         rating: {
@@ -206,9 +226,10 @@ export const FrMessages = {
                   general: {
                     name: "Info generale",
                     attributes: {
-                      description: "",
+                      description: "Description",
                       address: "Indirizzo",
                       city: "Città",
+                      cityWithCountry: "Ville",
                       categories: "Categorie",
                       since: "Da",
                       spoken_languages: "Lingue parlate",
@@ -457,7 +478,7 @@ export const FrMessages = {
                 general: {
                   name: "Info Générale",
                   attributes: {
-                    description: "",
+                    description: "Description",
                     since: "Depuis",
                     home_city: "Ville de l'établissement",
                     categories: "Catégories",
@@ -637,14 +658,15 @@ export const FrMessages = {
                 general: {
                   name: "Info generale",
                   attributes: {
-                    description: "",
-                    address: "Indirizzo",
-                    city: "Città",
-                    categories: "Categorie",
-                    since: "Da",
-                    spoken_languages: "Lingue parlate",
-                    stage_languages: "Lingue en scena",
-                    arts_languages: "Lingue dell'arte",
+                    description: "Description",
+                    address: "Adresse",
+                    city: "Ville",
+                    cityWithCountry: "Lieu",
+                    categories: "Catégories",
+                    since: "Depuis",
+                    spoken_languages: "Langues parlées",
+                    stage_languages: "Langues de scène",
+                    arts_languages: "Langues des arts",
                   },
                 },
                 genres: {
@@ -807,9 +829,11 @@ export const FrMessages = {
               },
               my_profile: "Mon profil",
               my_bands: "Mes bands",
+              "my_bands.nested": { create: "Créer une Band" },
               my_events: "Mes événements",
               my_riders: "Mes riders",
               my_places: "Mes lieux",
+              "my_places.nested": { create: "Créer un lieu" },
               favourites: "Favoris",
               "favourites.nested": {
                 saved: "Enregistrés",

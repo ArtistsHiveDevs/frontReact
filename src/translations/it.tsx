@@ -36,10 +36,12 @@ export const ItMessages = {
         follow_us: "Seguici",
         show_more: "Mostra di più",
         show_less: "Mostra di meno",
+        submit: "Invia",
         subscription: {
           subscribe: "Iscriversi",
           unsubscribe: "Disiscriversi",
         },
+        upload: "Carica",
       },
       entities: {
         academies: { plural: "Accademie", singular: "Accademia" },
@@ -47,6 +49,24 @@ export const ItMessages = {
         events: { plural: "Eventi", singular: "Evento" },
         places: { plural: "Luoghi", singular: "Luogo" },
         promoters: { plural: "Promotori", singular: "Promotore" },
+      },
+      location: {
+        borough: "Quartiere",
+        canton: "Cantone",
+        city: "Città",
+        county: "Contea",
+        continent: "Continente",
+        country: "Paese",
+        department: "Dipartimento",
+        district: "Distretto",
+        hamlet: "Borgo",
+        location: "Luogo",
+        municipality: "Comune",
+        province: "Provincia",
+        region: "Regione",
+        state: "Stato",
+        town: "Città",
+        village: "Villaggio",
       },
       stats: {
         rating: {
@@ -207,7 +227,7 @@ export const ItMessages = {
                   general: {
                     name: "Info generale",
                     attributes: {
-                      description: "",
+                      description: "Descrizione",
                       address: "Indirizzo",
                       city: "Città",
                       categories: "Categorie",
@@ -456,9 +476,10 @@ export const ItMessages = {
                 general: {
                   name: "Info generale",
                   attributes: {
-                    description: "",
+                    description: "Descrizione",
                     since: "Da",
                     home_city: "Città ",
+                    cityWithCountry: "Città",
                     categories: "Categorie",
                     genres: "Generi",
                     spoken_languages: "Lingue parlate",
@@ -636,12 +657,15 @@ export const ItMessages = {
                 general: {
                   name: "Info generale",
                   attributes: {
-                    description: "",
+                    description: "Descrizione",
                     address: "Indirizzo",
                     city: "Città",
+                    cityWithCountry: "Posizione",
                     categories: "Categorie",
-                    since: "Da",
+                    since: "Dal",
                     spoken_languages: "Lingue parlate",
+                    stage_languages: "Lingue in scena",
+                    arts_languages: "Lingue delle arti",
                   },
                 },
                 genres: {
@@ -798,9 +822,11 @@ export const ItMessages = {
               },
               my_profile: "Il mio profilo",
               my_bands: "Le mie band",
+              "my_bands.nested": { create: "Crea una band" },
               my_events: "I miei eventi",
               my_riders: "I miei rider",
               my_places: "I miei luoghi",
+              "my_places.nested": { create: "Crea luogo" },
               favourites: "Preferiti",
               "favourites.nested": {
                 saved: "Salvati",

@@ -36,10 +36,12 @@ export const EnMessages = {
         follow_us: "Follow us",
         show_more: "Show more",
         show_less: "Show less",
+        submit: "Submit",
         subscription: {
           subscribe: "Subscribe",
           unsubscribe: "Unsubscribe",
         },
+        upload: "Upload",
       },
       entities: {
         academies: { plural: "Academies", singular: "Academy" },
@@ -47,6 +49,24 @@ export const EnMessages = {
         events: { plural: "Events", singular: "Event" },
         places: { plural: "Places", singular: "Place" },
         promoters: { plural: "Promoters", singular: "Promoter" },
+      },
+      location: {
+        borough: "Borough",
+        canton: "Canton",
+        city: "City",
+        county: "County",
+        continent: "Continent",
+        country: "Country",
+        department: "Department",
+        district: "District",
+        hamlet: "Hamlet",
+        location: "Location",
+        municipality: "Municipality",
+        province: "Province",
+        region: "Region",
+        state: "State",
+        town: "Town",
+        village: "Village",
       },
       stats: {
         rating: {
@@ -207,9 +227,10 @@ export const EnMessages = {
                   general: {
                     name: "Info generale",
                     attributes: {
-                      description: "",
+                      description: "Description",
                       address: "Address",
                       city: "Città",
+                      cityWithCountry: "City",
                       categories: "Categorie",
                       since: "Da",
                       spoken_languages: "Lingue parlate",
@@ -441,7 +462,7 @@ export const EnMessages = {
                 general: {
                   name: "General Info",
                   attributes: {
-                    description: "",
+                    description: "Description",
                     since: "Since",
                     home_city: "Home city",
                     categories: "Categories",
@@ -621,29 +642,32 @@ export const EnMessages = {
                 general: {
                   name: "Info generale",
                   attributes: {
-                    description: "",
+                    description: "Description",
                     address: "Address",
-                    city: "Città",
-                    categories: "Categorie",
-                    since: "Da",
-                    spoken_languages: "Lingue parlate",
+                    city: "City",
+                    cityWithCountry: "Location",
+                    categories: "Categories",
+                    since: "Since",
+                    spoken_languages: "Spoken Languages",
+                    stage_languages: "Stage Languages",
+                    arts_languages: "Arts Languages",
                   },
                 },
                 genres: {
                   name: "Genres",
                 },
                 contact: {
-                  name: "Contatto",
+                  name: "Contact",
                   attributes: {
                     website: "Website",
                     email: "e-mail",
-                    phone: "Telefono",
-                    mobile_phone: "Cellulare",
+                    phone: "Phone",
+                    mobile_phone: "Mobile phone",
                     whatsapp: "WhatsApp",
                   },
                 },
                 social_networks: {
-                  name: "Reti Sociali",
+                  name: "Social Networks",
                 },
               },
             },
@@ -783,9 +807,11 @@ export const EnMessages = {
               },
               my_profile: "My Profile",
               my_bands: "My Bands",
+              "my_bands.nested": { create: "Create Band" },
               my_events: "My Events",
               my_riders: "My Riders",
               my_places: "My Places",
+              "my_places.nested": { create: "Create Place" },
               favourites: "Favorites",
               "favourites.nested": {
                 saved: "Saved",

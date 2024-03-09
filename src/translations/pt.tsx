@@ -36,10 +36,12 @@ export const PtMessages = {
         follow_us: "Siga-nos",
         show_more: "Mostrar mais",
         show_less: "Mostrar menos",
+        submit: "Enviar",
         subscription: {
           subscribe: "Subscrever",
           unsubscribe: "Cancelar",
         },
+        upload: "Carregar",
       },
       entities: {
         academies: { plural: "Academias", singular: "Academia" },
@@ -47,6 +49,24 @@ export const PtMessages = {
         events: { plural: "Eventos", singular: "Evento" },
         places: { plural: "Locais", singular: "Local" },
         promoters: { plural: "Promotores", singular: "Promotor" },
+      },
+      location: {
+        borough: "Bairro",
+        canton: "Cantão",
+        city: "Cidade",
+        county: "Condado",
+        continent: "Continente",
+        country: "País",
+        department: "Departamento",
+        district: "Distrito",
+        hamlet: "Aldeia",
+        location: "Local",
+        municipality: "Município",
+        province: "Província",
+        region: "Região",
+        state: "Estado",
+        town: "Cidade",
+        village: "Vila",
       },
       stats: {
         rating: {
@@ -206,7 +226,7 @@ export const PtMessages = {
                   general: {
                     name: "Informações gerais",
                     attributes: {
-                      description: "",
+                      description: "Descrição",
                       address: "Endereço",
                       city: "Cidade",
                       categories: "Categorias",
@@ -454,7 +474,7 @@ export const PtMessages = {
                 general: {
                   name: "Informações gerais",
                   attributes: {
-                    description: "",
+                    description: "Descrição",
                     since: "Desde",
                     home_city: "Cidade natal",
                     categories: "Categorias",
@@ -634,12 +654,15 @@ export const PtMessages = {
                 general: {
                   name: "Informações gerais",
                   attributes: {
-                    description: "",
+                    description: "Descrição",
                     address: "Endereço",
                     city: "Cidade",
+                    cityWithCountry: "Localização",
                     categories: "Categorias",
                     since: "Desde",
                     spoken_languages: "Idiomas falados",
+                    stage_languages: "Idiomas de palco",
+                    arts_languages: "Idiomas das artes",
                   },
                 },
                 genres: {
@@ -802,9 +825,11 @@ export const PtMessages = {
               },
               my_profile: "Meu perfil",
               my_bands: "Minhas bandas",
+              "my_bands.nested": { create: "Criar uma Band" },
               my_events: "Meus eventos",
               my_riders: "Meus riders",
               my_places: "Meus lugares",
+              "my_places.nested": { create: "Criar local" },
               favourites: "Favoritos",
               "favourites.nested": {
                 saved: "Salvos",

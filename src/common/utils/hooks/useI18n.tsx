@@ -2,7 +2,8 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { SocialNetworks } from "~/constants/social-networks.const";
 
 export const useI18n = () => {
-  const { locale = "es", formatMessage } = useIntl();
+  let { locale, formatMessage } = useIntl();
+  locale = !!locale ? locale : "es";
 
   const translateText = (messageId: string) => {
     const subpaths = messageId?.split(".") || [];
@@ -12,7 +13,9 @@ export const useI18n = () => {
       if (!socialNetworkName) {
         response = formatMessage({ id: messageId });
       } else {
-        response = socialNetworkName.title;
+        response =
+          socialNetworkName.title ||
+          (!socialNetworkName.emptyTitle && formatMessage({ id: messageId }));
       }
     }
     return response;

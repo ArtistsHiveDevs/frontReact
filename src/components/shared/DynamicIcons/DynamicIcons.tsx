@@ -82,6 +82,9 @@ export function DynamicIcons({
       case "si":
         import("react-icons/si/index").then(loadIcon);
         break;
+      case "tb":
+        import("react-icons/tb/index").then(loadIcon);
+        break;
       default:
         import("react-icons/fa/index").then(loadIcon);
     }

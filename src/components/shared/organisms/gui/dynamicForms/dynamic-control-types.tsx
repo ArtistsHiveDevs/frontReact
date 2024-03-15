@@ -39,4 +39,5 @@ export interface DynamicFieldData {
   componentParams?: any;
   handlersNames?: string[];
   error?: FieldErrors<FieldValues>;
+  focused?: boolean;
 }

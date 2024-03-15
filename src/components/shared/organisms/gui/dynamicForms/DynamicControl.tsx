@@ -27,6 +27,7 @@ export interface ComponentGeneratorParams {
   handlers?: { [handlerName: string]: Function };
   register: UseFormRegister<FieldValues>;
   watch?: UseFormWatch<FieldValues>;
+  formContext?: any;
 }
 
 export const DynamicControl = (params: {
@@ -47,7 +48,7 @@ export const DynamicControl = (params: {
     case "tel":
     case "number":
     case "url":
-      return createTextField({ register, fieldData, errors });
+      return createTextField({ register, fieldData, errors, handlers });
     case "address":
       return createAddressTextField({ register, fieldData, errors });
     case "socialNetwork":
@@ -82,7 +83,7 @@ export const DynamicControl = (params: {
     case "time":
     case "month":
     case "week":
-      return createTimeField(register, fieldData, errors);
+      return createTimeField({ register, fieldData, errors });
 
     // Carga de archivos
     case "file":

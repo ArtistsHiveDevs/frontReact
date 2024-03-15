@@ -7,7 +7,8 @@ import {
   Modal,
   Stack,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { useI18n } from "~/common/utils";
 import { ComponentGeneratorParams } from "../DynamicControl";
 import { DynamicFieldData } from "../dynamic-control-types";
@@ -32,22 +33,25 @@ const style = {
 
 export const createChipPicker = (params: ComponentGeneratorParams) => {
   const { translateText } = useI18n();
-  const { fieldData, formContext } = params;
+  const { fieldData } = params;
   let { componentParams, config, fieldName, options } =
     fieldData as DynamicFieldData;
   options = options || [];
   config = config || {};
-  const { register } = formContext;
+
+  const { register, formState } = useFormContext();
+  const { errors } = formState || {};
 
   const [selectedOptions, updateSelectedOptions] = useState([]);
-  // (options || [])
-  //   .filter((option) => option.selected)
-  //   .map((option) => option.value)
   const [displayAllOptions, setDisplayAllOptions] = useState(false);
 
-  // useEffect(() => {
+  useEffect(() => {
+    const defaultSelectedOptions = (options || [])
+      .filter((option) => option.selected)
+      .map((option) => option.value);
 
-  // }, [selectedOptions]);
+    updateSelectedOptions(defaultSelectedOptions);
+  }, [options]);
 
   const hideLabel = componentParams?.hideLabel;
 
@@ -59,7 +63,7 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
     } else {
       newSelection.push(element.value);
     }
-    console.log(selectedOptions, newSelection);
+
     updateSelectedOptions(newSelection);
     config.value = newSelection || [];
     register(fieldName, config);
@@ -74,18 +78,18 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
     setDisplayAllOptions(false);
   };
 
-  // useEffect(() => {
-  //   // updateSelectedOptions(
-  //   //   options.filter((option) => option.selected).map((option) => option.value)
-  //   // );
-  // }, [params]);
   config.value = selectedOptions || [];
+
   register(fieldName, config);
 
   return (
     <>
       {!hideLabel && (
-        <FormLabel style={{ wordBreak: "break-word", wordWrap: "break-word" }}>
+        <FormLabel
+          style={{ wordBreak: "break-word", wordWrap: "break-word" }}
+          error={!!errors[fieldName]}
+          required={!!config.required}
+        >
           {fieldData.label}
         </FormLabel>
       )}

@@ -7,6 +7,8 @@ import {
   useFormContext,
 } from "react-hook-form";
 import { createCheckbox } from "./components/Checkbox";
+import { createChipPicker } from "./components/ChipPicker";
+import { createCitySelect } from "./components/CitySelector";
 import { createFileUpload } from "./components/FileUpload";
 import { createRadio } from "./components/Radio";
 import { createSelect } from "./components/Select";
@@ -25,7 +27,7 @@ export interface ComponentGeneratorParams {
   fieldData: DynamicFieldData;
   getValues?: UseFormGetValues<FieldValues>;
   handlers?: { [handlerName: string]: Function };
-  register: UseFormRegister<FieldValues>;
+  register?: UseFormRegister<FieldValues>;
   watch?: UseFormWatch<FieldValues>;
   formContext?: any;
 }
@@ -58,7 +60,13 @@ export const DynamicControl = (params: {
     case "textarea":
       return createTextArea({ register, fieldData, errors });
 
+    // Ubicación
+    case "citySelector":
+      return createCitySelect({ fieldData, handlers });
+
     // Opciones y selección múltiple
+    case "chipPicker":
+      return createChipPicker({ register, fieldData, errors, handlers });
     case "select":
       return createSelect({ register, fieldData, errors, handlers });
     case "checkbox":

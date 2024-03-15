@@ -6,7 +6,8 @@ import Select from "react-select";
 import { ComponentGeneratorParams } from "../DynamicControl";
 
 export const createSelect = (params: ComponentGeneratorParams) => {
-  const { register, fieldData, errors, handlers } = params;
+  const { register, formState } = useFormContext();
+  const { fieldData, errors, handlers } = params;
   const {
     label,
     fieldName,

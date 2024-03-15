@@ -81,6 +81,7 @@ export interface ProfileDetailAttributeConfiguration {
 
 export interface FormMetadata {
   inputType?: ControlType;
+  fieldName?: string;
   componentParams?: any;
   config?: RegisterOptions;
 }

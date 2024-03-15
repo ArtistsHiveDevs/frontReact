@@ -1,6 +1,7 @@
-import { InputLabel } from "@mui/material";
+import { Avatar, AvatarGroup, InputLabel } from "@mui/material";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
+import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useI18n } from "~/common/utils";
 import { DynamicIcons } from "~/components/shared/DynamicIcons";
@@ -36,6 +37,16 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
   } = fieldData || {};
 
   const { multipleFiles, accept } = componentParams || {};
+  const [selectedFiles, setSelectedFiles] = useState([]);
+
+  const handleChange = (event: any) => {
+    const newList = event?.target?.files || {};
+    const values = Object.values(newList);
+
+    setSelectedFiles(values);
+  };
+
+  const avatarSize = 70;
 
   return (
     <>
@@ -47,6 +58,19 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
         {label}
       </InputLabel>
 
+      <AvatarGroup max={4}>
+        {!!selectedFiles &&
+          selectedFiles.map((file, index) => (
+            <Avatar
+              alt={file.name}
+              src={URL.createObjectURL(file)}
+              variant="square"
+              key={`${fieldName}-file-${index}`}
+              sx={{ width: avatarSize, height: avatarSize, margin: "auto" }}
+            />
+          ))}
+      </AvatarGroup>
+
       <Button
         component="label"
         variant="contained"
@@ -55,9 +79,10 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
         {translateText(`${TRANSLATION_BASE_GLOBAL_DICT_ACTIONS}.upload`)}
         <VisuallyHiddenInput
           type="file"
-          {...register(fieldName)}
+          {...register(fieldName, config)}
           multiple={multipleFiles}
           accept={accept}
+          onChange={(event) => handleChange(event)}
         />
       </Button>
     </>

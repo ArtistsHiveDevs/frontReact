@@ -49,7 +49,7 @@ export const SocialNetworks: {
     icon: "BsFacebook",
     emptyTitle: true,
     title: "Facebook",
-    usernamePattern: /^[0-9]{3}(?<=^|[^\/])([A-Za-z0-9_.]{2,24})$/,
+    usernamePattern: /^(?<=^|[^\/])([A-Za-z0-9_.]{2,24})$/,
   },
   instagram: {
     url: "https://www.instagram.com",

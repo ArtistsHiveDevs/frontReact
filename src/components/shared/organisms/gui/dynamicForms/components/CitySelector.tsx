@@ -1,5 +1,6 @@
 import { FormLabel } from "@mui/material";
 import { useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { useI18n } from "~/common/utils";
 import { ComponentGeneratorParams } from "../DynamicControl";
 import { DynamicFieldData } from "../dynamic-control-types";
@@ -176,8 +177,9 @@ const countries: any = [
 ];
 
 export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
-  const { formContext, fieldData, handlers } = citySelectorParams;
-  const { register } = formContext;
+  const { fieldData, handlers } = citySelectorParams;
+  const { register, formState } = useFormContext();
+
   const [countryOptions, updateCountryOptions] = useState(countries);
   const [selectedCountry, updateSelectedCountry] = useState();
   const [stateOptions, updateStateOptions] = useState([]);
@@ -250,22 +252,18 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
     <div>
       <FormLabel>{fieldData.label}</FormLabel>
       {createSelect({
-        formContext,
         fieldData: fieldDataCountries,
         handlers: customHandlers,
       })}
       {createSelect({
-        formContext,
         fieldData: fieldDataStates,
         handlers: customHandlers,
       })}
       {createSelect({
-        formContext,
         fieldData: fieldDataCities,
         handlers: customHandlers,
       })}
       {createSelect({
-        formContext,
         fieldData: fieldDataDistricts,
         handlers: customHandlers,
       })}

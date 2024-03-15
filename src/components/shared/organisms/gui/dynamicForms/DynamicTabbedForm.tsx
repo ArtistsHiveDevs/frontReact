@@ -14,7 +14,11 @@ import {
   ProfileDetailsSubpageSection,
 } from "../../ProfileTabsPage/profile-details.def";
 import { DynamicControl } from "./DynamicControl";
-import { ControlType, DynamicFieldData } from "./dynamic-control-types";
+import {
+  ControlType,
+  DynamicFieldData,
+  SelectOption,
+} from "./dynamic-control-types";
 
 const TRANSLATION_GLOBAL_DICTIONARY = "app.global_dictionary";
 
@@ -25,9 +29,11 @@ export interface DynamicTabbedFormParams {
   entityType: string;
   profileHeaderComponent?: any;
   elementData?: EntityModel<EntityTemplate>;
+  fieldOptions?: { [fieldName: string]: any };
 }
 export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
-  const { tabsInfo, elementData, handlers, translationBasePath } = params;
+  const { tabsInfo, elementData, handlers, translationBasePath, fieldOptions } =
+    params;
 
   const { translateText } = useI18n();
   const formMethods = useForm();
@@ -90,6 +96,17 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       formState: { errors },
     } = formMethods;
 
+    const componentFieldData: DynamicFieldData = {
+      inputType: "text",
+      fieldName: componentDescriptor?.formMetaData?.fieldName,
+      // label: getAttributeTitle(subpage.name, section.name, attributeInfo),
+      componentParams: componentDescriptor?.formMetaData?.componentParams || {},
+      config: componentDescriptor?.formMetaData?.config || {},
+      options: fieldOptions[componentDescriptor?.formMetaData?.fieldName] || [],
+    };
+
+    let addComponentField = false;
+
     if (
       componentDescriptor.componentName ===
       ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS
@@ -101,19 +118,27 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
           let inputType: ControlType = formMetaData?.inputType || "text";
 
           const socialNetwork = SocialNetworks[attributeInfo.name];
-          if (!!socialNetwork) {
+          if (inputType === "text" && !!socialNetwork) {
             inputType = "socialNetwork";
           }
 
           if (attributeInfo.name === "description") {
             attributeInfo.emptyTitle = false;
           }
+
+          const fieldName: string = attributeInfo.name;
+          const currentValue: any = elementData
+            ? elementData[fieldName as keyof typeof elementData]
+            : undefined;
+
           const fieldData: DynamicFieldData = {
             inputType,
             fieldName: attributeInfo.name,
             label: getAttributeTitle(subpage.name, section.name, attributeInfo),
             componentParams: formMetaData?.componentParams || {},
             config: formMetaData?.config || {},
+            options: fieldOptions[attributeInfo.name] || [],
+            defaultValue: currentValue,
           };
 
           const field = (
@@ -128,8 +153,33 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
           fields.push(field);
         }
       );
+    } else if (componentDescriptor?.formMetaData?.inputType === "address") {
+      componentFieldData.inputType = "address";
+      addComponentField = true;
+    } else if (
+      componentDescriptor.componentName === ProfileComponentTypes.ARTS_GENRES
+    ) {
+      componentFieldData.inputType = "chipPicker";
+      addComponentField = true;
+    } else if (
+      componentDescriptor.componentName === ProfileComponentTypes.IMAGE_GALLERY
+    ) {
+      componentFieldData.inputType = "file";
+      addComponentField = true;
     }
 
+    if (addComponentField) {
+      const field = (
+        <DynamicControl
+          fieldData={componentFieldData}
+          errors={errors}
+          handlers={handlers}
+          key={`${componentDescriptor?.formMetaData?.fieldName}-${componentIndex}`}
+        />
+      );
+
+      fields.push(field);
+    }
     return (
       <>
         <Stack spacing={2}>{fields}</Stack>
@@ -215,6 +265,31 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       </Button>
     </form>
   );
+};
+
+export const findFieldMetadata = (fieldName: string, fieldsForm: any) => {
+  let searchedField: any;
+  fieldsForm.forEach((tabInfo: any) => {
+    tabInfo.sections.forEach((section: any) => {
+      if (!searchedField) {
+        searchedField = section.fields.find(
+          (fieldData: any) => fieldData.fieldName === fieldName
+        );
+      }
+    });
+  });
+  return searchedField;
+};
+
+export const setOptionsToField = (
+  fieldName: string,
+  options: SelectOption[],
+  fieldsForm: any
+) => {
+  const field = findFieldMetadata(fieldName, fieldsForm);
+  if (field) {
+    field.options = options;
+  }
 };
 
 // export const convertTabbedProfileDetailIntoTabbedForm = (

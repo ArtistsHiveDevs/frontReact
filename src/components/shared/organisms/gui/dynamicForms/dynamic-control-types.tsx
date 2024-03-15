@@ -19,7 +19,9 @@ export type ControlType =
   | "month"
   | "week"
   | "socialNetwork"
-  | "file";
+  | "file"
+  | "citySelector"
+  | "chipPicker";
 
 export interface SelectOption {
   label: string;

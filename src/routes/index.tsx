@@ -176,6 +176,10 @@ export const RoutesApp: React.FC = () => {
           }
         />
         <Route element={<PlaceCreatePage />} path={SUB_PATHS.CREATE} />
+        <Route
+          element={<PlaceCreatePage />}
+          path={SUB_PATHS.EDIT + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
+        />
       </Route>
       <Route path={PATHS.PROFILE}>
         <Route element={<UserDetailsPage />} path="" />

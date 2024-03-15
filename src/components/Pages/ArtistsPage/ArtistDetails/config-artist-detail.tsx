@@ -25,15 +25,33 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: "description",
                   emptyTitle: true,
+                  formMetaData: {
+                    inputType: "textarea",
+                    config: {
+                      required: false,
+                    },
+                  },
                 },
 
                 {
                   name: "since",
                   icon: "BsCalendar",
+                  formMetaData: {
+                    inputType: "date",
+                    componentParams: {
+                      disableFuture: true,
+                    },
+                    config: {
+                      required: false,
+                    },
+                  },
                 },
                 {
                   name: "home_city",
                   icon: "AiFillHome",
+                  formMetaData: {
+                    inputType: "citySelector",
+                  },
                 },
                 {
                   name: "categories",
@@ -43,16 +61,22 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   name: "spoken_languages",
                   icon: "TbWorld",
                   requireSession: true,
+                  formMetaData: { inputType: "chipPicker" },
                 },
                 {
                   name: "stage_languages",
                   icon: "BsTranslate",
                   requireSession: true,
+                  formMetaData: { inputType: "chipPicker" },
                 },
                 {
                   name: "arts_languages",
                   icon: "BsFillMegaphoneFill",
                   requireSession: true,
+                  formMetaData: {
+                    inputType: "chipPicker",
+                    config: { required: true },
+                  },
                 },
               ],
             },
@@ -67,6 +91,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             data: {
               genres: "genres",
             },
+            formMetaData: { inputType: "chipPicker", fieldName: "genres" },
           },
         ],
       },
@@ -83,6 +108,11 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: "email",
                   requireSession: true,
+                  formMetaData: {
+                    config: {
+                      required: false,
+                    },
+                  },
                 },
                 {
                   name: "phone",
@@ -91,6 +121,11 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: "mobile_phone",
                   requireSession: true,
+                  formMetaData: {
+                    config: {
+                      required: false,
+                    },
+                  },
                 },
                 {
                   name: "whatsapp",

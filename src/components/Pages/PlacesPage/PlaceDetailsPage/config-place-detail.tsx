@@ -10,7 +10,7 @@ import {
   PlaceRatingTemplate,
 } from "~/models/domain/place/place.model";
 
-export const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
+export const TRANSLATION_BASE_PLACE_DETAIL_PAGE =
   "app.pages.PlacesPages.PlacesDetailsPage";
 
 export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
@@ -24,6 +24,11 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             componentName: ProfileComponentTypes.IMAGE_GALLERY,
             data: { images: "image_gallery" },
             clickHandlerName: "onClickGalleryImage",
+            formMetaData: {
+              inputType: "file",
+              fieldName: "image_gallery",
+              componentParams: { multipleFiles: true, accept: "image/*" },
+            },
           },
         ],
       },
@@ -37,10 +42,9 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: "description",
                   emptyTitle: true,
-                },
-                {
-                  name: "address",
-                  emptyTitle: true,
+                  formMetaData: {
+                    inputType: "textarea",
+                  },
                 },
                 {
                   name: "cityWithCountry",
@@ -66,6 +70,16 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                       </>
                     );
                   },
+                  formMetaData: {
+                    inputType: "citySelector",
+                  },
+                },
+                {
+                  name: "address",
+                  emptyTitle: true,
+                  formMetaData: {
+                    inputType: "address",
+                  },
                 },
                 {
                   name: "categories",
@@ -74,10 +88,20 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: "since",
                   icon: "BsCalendar",
+                  formMetaData: {
+                    inputType: "date",
+                    componentParams: {
+                      disableFuture: true,
+                    },
+                    config: {
+                      required: false,
+                    },
+                  },
                 },
                 {
                   name: "spoken_languages",
                   icon: "BsTranslate",
+                  formMetaData: { inputType: "chipPicker" },
                 },
               ],
             },
@@ -96,6 +120,8 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             data: {
               genres: "genres",
             },
+
+            formMetaData: { inputType: "chipPicker", fieldName: "genres" },
           },
         ],
       },

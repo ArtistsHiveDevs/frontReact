@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { SelectOption } from "~/components/shared/organisms/gui/dynamicForms";
 import { DynamicTabbedForm } from "~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
 import {
@@ -8,19 +7,12 @@ import {
 } from "../ArtistDetails/config-artist-detail";
 
 const ArtistsCreatePage = () => {
-  const [fieldsForm, updateFields] = useState([]);
   const [availableLanguages, updateAvailableLanguages] = useState([]);
   const [availableGenres, updateAvailableGenres] = useState([]);
 
   useEffect(() => {
-    // updateFields(
-    //   convertTabbedProfileDetailIntoTabbedForm(ARTIST_DETAIL_SUB_PAGE_CONFIG)
-    // );
-  }, []);
-
-  useEffect(() => {
     const langsOR = [
-      { label: "ES", value: "es", selected: true },
+      { label: "ES", value: "es", selected: false },
       { label: "DE", value: "de" },
       { label: "FR", value: "fr" },
       { label: "PT", value: "pt" },
@@ -34,36 +26,19 @@ const ArtistsCreatePage = () => {
           langs.push({
             label: `${lng.label}${number}`,
             value: `${lng.value}${number}`,
+            selected: Math.random() > 1 - 90 / 100,
           })
         )
       );
 
     updateAvailableLanguages(langs);
     updateAvailableGenres([
-      { label: "Cumbia", value: "cumbia" },
-      { label: "Reggaetón", value: "reggaetón" },
-      { label: "Rock", value: "rock", selected: true },
-      { label: "Jazz", value: "jazz" },
+      { label: "Cumbia", value: "genre1" },
+      { label: "Reggaetón", value: "genre2" },
+      { label: "Rock", value: "genre3", selected: true },
+      { label: "Jazz", value: "genr4" },
     ]);
-  }, [fieldsForm]);
-
-  useEffect(() => {
-    if (availableLanguages && availableLanguages.length) {
-      setOptionsToField("spoken_languages", availableLanguages, fieldsForm);
-      setOptionsToField("stage_languages", availableLanguages, fieldsForm);
-      setOptionsToField("arts_languages", availableLanguages, fieldsForm);
-    }
-  }, [availableLanguages]);
-
-  useEffect(() => {
-    if (availableGenres && availableGenres.length) {
-      const genresField = findFieldMetadata("genres", fieldsForm);
-
-      if (genresField) {
-        genresField.options = availableGenres;
-      }
-    }
-  }, [availableGenres]);
+  }, []);
 
   const handlers = {
     onSubmit: (data: any, error?: any) => {
@@ -91,40 +66,20 @@ const ArtistsCreatePage = () => {
 
   return (
     <>
-      <h1>Crear Artista</h1>
       <DynamicTabbedForm
         tabsInfo={ARTIST_DETAIL_SUB_PAGE_CONFIG}
         handlers={handlers}
         translationBasePath={TRANSLATION_BASE_ARTIST_DETAIL_PAGE}
         entityType={ArtistModel.name}
+        fieldOptions={{
+          genres: availableGenres,
+          arts_languages: availableLanguages,
+          spoken_languages: availableLanguages,
+          stage_languages: availableLanguages,
+        }}
       />
     </>
   );
-};
-
-const findFieldMetadata = (fieldName: string, fieldsForm: any) => {
-  let searchedField: any;
-  fieldsForm.forEach((tabInfo: any) => {
-    tabInfo.sections.forEach((section: any) => {
-      if (!searchedField) {
-        searchedField = section.fields.find(
-          (fieldData: any) => fieldData.fieldName === fieldName
-        );
-      }
-    });
-  });
-  return searchedField;
-};
-
-const setOptionsToField = (
-  fieldName: string,
-  options: SelectOption[],
-  fieldsForm: any
-) => {
-  const field = findFieldMetadata(fieldName, fieldsForm);
-  if (field) {
-    field.options = options;
-  }
 };
 
 export default ArtistsCreatePage;

@@ -28,6 +28,7 @@ export enum PATHS {
 
 export enum SUB_PATHS {
   CREATE = "new",
+  EDIT = "edit",
   ELEMENT_DETAILS = "details",
   AGENDA = "agenda",
 }

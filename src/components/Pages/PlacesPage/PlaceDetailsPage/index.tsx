@@ -6,7 +6,7 @@ import { selectPlaces } from "~/common/slices/places/selectors";
 import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
 import {
   PLACE_DETAIL_SUB_PAGE_CONFIG,
-  TRANSLATION_BASE_ARTIST_DETAIL_PAGE,
+  TRANSLATION_BASE_PLACE_DETAIL_PAGE,
 } from "~/components/Pages/PlacesPage/PlaceDetailsPage/config-place-detail";
 import {
   GalleryImageParams,
@@ -89,7 +89,7 @@ const PlaceDetailPage = () => {
         <ProfileTabsPage
           entityName="Place"
           entityData={currentPlace}
-          translation_base_path={TRANSLATION_BASE_ARTIST_DETAIL_PAGE}
+          translation_base_path={TRANSLATION_BASE_PLACE_DETAIL_PAGE}
           subpagesConfig={subPagesInfo}
           handlers={handlers}
         />

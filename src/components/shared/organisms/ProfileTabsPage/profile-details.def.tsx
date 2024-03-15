@@ -84,4 +84,6 @@ export interface FormMetadata {
   fieldName?: string;
   componentParams?: any;
   config?: RegisterOptions;
+  createForm?: FormMetadata;
+  editForm?: FormMetadata;
 }

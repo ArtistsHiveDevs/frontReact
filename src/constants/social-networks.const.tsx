@@ -68,14 +68,17 @@ export const SocialNetworks: {
   mobile_phone: {
     url: "tel",
     icon: "FaMobileAlt",
+    title: "Mobile",
   },
   phone: {
     url: "tel",
     icon: "BsFillTelephoneFill",
+    title: "Phone",
   },
   phone_number: {
     url: "tel",
     icon: "BsFillTelephoneFill",
+    title: "Phone",
   },
   sound_cloud: {
     url: "https://soundcloud.com/",

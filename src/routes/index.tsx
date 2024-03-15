@@ -175,7 +175,7 @@ export const RoutesApp: React.FC = () => {
             SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`
           }
         />
-        <Route element={<ArtistDetailsPage />} path={SUB_PATHS.CREATE} />
+        <Route element={<PlaceCreatePage />} path={SUB_PATHS.CREATE} />
       </Route>
       <Route path={PATHS.PROFILE}>
         <Route element={<UserDetailsPage />} path="" />

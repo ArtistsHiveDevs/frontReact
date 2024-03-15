@@ -1,3 +1,4 @@
+import { RegisterOptions } from "react-hook-form";
 import { AllowedEntityRole } from "~/components/shared/atoms/app/auth/RequiredAuth";
 import { ControlType } from "../gui/dynamicForms";
 
@@ -74,8 +75,12 @@ export interface ProfileDetailAttributeConfiguration {
   translationPath?: string;
 
   value?: Function | string | number;
+
+  formMetaData?: FormMetadata;
 }
 
 export interface FormMetadata {
   inputType?: ControlType;
+  componentParams?: any;
+  config?: RegisterOptions;
 }

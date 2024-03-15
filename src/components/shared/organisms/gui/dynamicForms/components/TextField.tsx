@@ -9,7 +9,7 @@ import { SocialNetworks } from "~/constants/social-networks.const";
 import { ComponentGeneratorParams } from "../DynamicControl";
 
 export const createTextField = (params: ComponentGeneratorParams) => {
-  const { errors, fieldData, register } = params || {};
+  const { errors, fieldData, register, handlers } = params || {};
   const [isPasswordType] = useState(fieldData.inputType === "password");
 
   const {
@@ -21,6 +21,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
     options = [],
     config = {},
     componentParams = {},
+    focused = false,
   } = fieldData;
 
   if (isPasswordType) {
@@ -79,8 +80,17 @@ export const createTextField = (params: ComponentGeneratorParams) => {
     config.valueAsNumber = true;
   }
 
+  const emptyFunction = (data: any) => {
+    // console.log("BLUR ", fieldName, data);
+  };
+  const onBlurHandler = (handlers && handlers["onBlur"]) || emptyFunction;
+  const variant = componentParams?.variant || "outlined";
+
+  const { required } = config || {};
+
   return (
     <TextField
+      required={required === true || required === "true"}
       label={label}
       type={inputType}
       {...register(fieldName, config)}
@@ -89,6 +99,11 @@ export const createTextField = (params: ComponentGeneratorParams) => {
       error={!!errors[fieldName]}
       helperText={errors[fieldName]?.message?.toString()}
       InputProps={inputProps}
+      onBlur={(data) => {
+        onBlurHandler(data);
+      }}
+      focused={focused}
+      variant={variant}
       fullWidth
     />
   );
@@ -108,7 +123,7 @@ export const createSocialNetworkTextField = (
     fieldData.componentParams = {};
   }
 
-  fieldData.componentParams.startAdornment = (
+  fieldData.componentParams.startAdornment = socialNetwork.icon && (
     <InputAdornment position="start">
       <DynamicIcons iconName={socialNetwork.icon} size={20} color="#7a260a" />{" "}
       {socialNetwork.user_prefix}
@@ -116,19 +131,26 @@ export const createSocialNetworkTextField = (
   );
 
   // -------------- VALIDATION -------------
+  let wrongPatternErrorMessage = `${socialNetwork.title} user pattern is wrong`;
+  if (fieldData.fieldName === "email") {
+    wrongPatternErrorMessage = "email is not valid";
+  }
   const pattern = {
     pattern: {
-      value:
-        socialNetwork.usernamePattern ||
-        /^[A-Za-z](?<=^|[^\/])([A-Za-z0-9_.]{2,24})$/,
-      message: `${socialNetwork.title} user pattern is wrong`,
+      value: socialNetwork.usernamePattern, // /^[A-Za-z](?<=^|[^\/])([A-Za-z0-9_.]{2,24})$/,
+      message: wrongPatternErrorMessage,
     },
   };
 
   if (!fieldData.config) {
     fieldData.config = {};
   }
-  fieldData.config = { ...pattern };
+  fieldData.config = {
+    ...pattern,
+    required: fieldData?.config?.required,
+    maxLength: fieldData?.config?.maxLength,
+    minLength: fieldData?.config?.minLength,
+  };
 
   return createTextField({ register, fieldData, errors });
 };

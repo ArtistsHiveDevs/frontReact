@@ -1,10 +1,21 @@
-import { InputLabel, MenuItem, Select } from "@mui/material";
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import { DatePicker } from "@mui/x-date-pickers";
+import { Dayjs } from "dayjs";
+import {
+  Controller,
+  FieldErrors,
+  FieldValues,
+  UseFormRegister,
+  useForm,
+  useFormContext,
+} from "react-hook-form";
 import { DynamicFieldData } from "../dynamic-control-types";
 
-export const createTimeField = (
-  register: UseFormRegister<FieldValues>,
-  {
+export const createTimeField = (params: {
+  register: UseFormRegister<FieldValues>;
+  fieldData: DynamicFieldData;
+  errors: FieldErrors<FieldValues>;
+}) => {
+  const {
     label,
     inputType,
     fieldName,
@@ -13,28 +24,51 @@ export const createTimeField = (
     options = [],
     config = {},
     componentParams = {},
-  }: DynamicFieldData,
-  errors: FieldErrors<FieldValues>
-) => {
+  } = params?.fieldData || {};
+  const { disablePast, disableFuture } = componentParams || {};
+
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      date: null as Dayjs | null,
+    },
+  });
+
+  const { register, formState } = useFormContext();
+  const { errors } = formState || {};
+  if (register) {
+    register(fieldName, config);
+  }
+
   return (
     <>
-      <InputLabel id={`label_${fieldName}`}>{label}</InputLabel>
-      <Select
-        {...register(fieldName, config)}
-        labelId={fieldName}
-        id={fieldName}
-        name={fieldName}
-        value={defaultValue}
-        label={label}
-        fullWidth
-        // onChange={handleChange}
-      >
-        {options.map((o, index) => (
-          <MenuItem key={index} value={o.value}>
-            {o.label}
-          </MenuItem>
-        ))}
-      </Select>
+      <Controller
+        control={control}
+        name="date"
+        rules={{ required: true }}
+        render={({ field }) => {
+          return (
+            <DatePicker
+              label="Date"
+              value={field.value}
+              inputRef={field.ref}
+              onChange={(date) => {
+                field.onChange(date);
+                config.value = date;
+                register(fieldName, config);
+              }}
+              disablePast={disablePast}
+              disableFuture={disableFuture}
+              displayWeekNumber={componentParams?.displayWeekNumber}
+              slotProps={{
+                textField: {
+                  required: !!config?.required,
+                  error: !!errors[fieldName],
+                },
+              }}
+            />
+          );
+        }}
+      />
     </>
   );
 };

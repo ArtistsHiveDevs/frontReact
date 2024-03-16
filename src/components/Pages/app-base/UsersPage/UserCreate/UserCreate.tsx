@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import {
   DynamicForm,
   SelectOption,
-  convertTabbedProfileDetailIntoTabbedForm,
 } from "~/components/shared/organisms/gui/dynamicForms";
 import { AppUserModel } from "~/models/app/user/user.model";
-import { USER_DETAIL_SUB_PAGE_CONFIG } from "../UserDetails/config-user-detail";
 
 const TRANSLATION_BASE_USER_DETAIL_PAGE =
   "app.pages.app_base.UsersPages.UsersDetailsPage";
@@ -15,11 +13,11 @@ const PlacesCreatePage = () => {
   const [availableLanguages, updateAvailableLanguages] = useState([]);
   const [availableGenres, updateAvailableGenres] = useState([]);
 
-  useEffect(() => {
-    updateFields(
-      convertTabbedProfileDetailIntoTabbedForm(USER_DETAIL_SUB_PAGE_CONFIG)
-    );
-  }, []);
+  // useEffect(() => {
+  //   updateFields(
+  //     convertTabbedProfileDetailIntoTabbedForm(USER_DETAIL_SUB_PAGE_CONFIG)
+  //   );
+  // }, []);
 
   useEffect(() => {
     const langsOR = [

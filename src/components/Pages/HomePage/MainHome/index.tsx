@@ -12,7 +12,6 @@ import { selectUsers } from "~/common/slices/users/selectors";
 import { useI18n } from "~/common/utils";
 import useAuth from "~/common/utils/hooks/auth/useAuth";
 import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
-import { DynamicForm } from "~/components/shared/organisms/gui/dynamicForms/dynamic-form";
 import { PATHS, getCustomList } from "~/constants";
 import { AppUserModel } from "~/models/app/user/user.model";
 import { ArtistModel } from "~/models/domain/artist/artist.model";
@@ -219,9 +218,9 @@ const HomePage = () => {
             );
           })}
         </div>
-        <h1>PRUEBA FORM</h1>
-        <h1>Dynamic form</h1>
-        <DynamicForm fields={fieldsForm} handlers={handlers} />
+        {/* <h1>PRUEBA FORM</h1>
+        <h1>Dynamic form</h1> */}
+        {/* <DynamicForm fields={fieldsForm} handlers={handlers} /> */}
       </div>
     </>
   );

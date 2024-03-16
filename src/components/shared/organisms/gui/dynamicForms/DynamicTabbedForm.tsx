@@ -141,6 +141,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
             defaultValue: currentValue,
           };
 
+          // console.log(fieldName, currentValue, fieldData);
           const field = (
             <DynamicControl
               fieldData={fieldData}

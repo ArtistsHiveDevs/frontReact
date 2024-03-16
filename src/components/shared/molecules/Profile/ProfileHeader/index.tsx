@@ -35,7 +35,11 @@ export const ProfileHeader = (props: any) => {
   const avatarSize = 120;
 
   const [fields, setFieldData] = useState<FieldInfo[]>([
-    { name: "name", label: "Nombre", config: { required: true, minLength: 3 } },
+    {
+      name: "name",
+      label: "Nombre",
+      config: { required: false, minLength: 3 },
+    },
     { name: "subtitle", label: "Subtitle" },
   ]);
 

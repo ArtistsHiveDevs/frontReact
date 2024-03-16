@@ -1,6 +1,6 @@
 import { faMicrophoneLines } from "@fortawesome/free-solid-svg-icons";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
 import { DynamicIcons } from "~/components/shared/DynamicIcons";
@@ -23,6 +23,11 @@ export const createTextField = (params: ComponentGeneratorParams) => {
     componentParams = {},
     focused = false,
   } = fieldData;
+
+  useEffect(() => {
+    setCurrentValue(fieldData?.defaultValue);
+  }, [fieldData]);
+  const [currentValue, setCurrentValue] = useState(defaultValue);
 
   if (isPasswordType) {
     const [showPassword, setShowPassword] = useState(false);
@@ -88,13 +93,14 @@ export const createTextField = (params: ComponentGeneratorParams) => {
 
   const { required } = config || {};
 
+  // console.log("¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿   ¿¿¿¿     ", fieldName, defaultValue);
   return (
     <TextField
       required={required === true || required === "true"}
       label={label}
       type={inputType}
       {...register(fieldName, config)}
-      defaultValue={defaultValue}
+      value={currentValue}
       placeholder={placeholder}
       error={!!errors[fieldName]}
       helperText={errors[fieldName]?.message?.toString()}
@@ -102,6 +108,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
       onBlur={(data) => {
         onBlurHandler(data);
       }}
+      onChange={(data) => setCurrentValue(data.target.value)}
       focused={focused}
       variant={variant}
       fullWidth

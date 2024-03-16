@@ -8,6 +8,7 @@
     "dev:host": "vite --host",
     "dev:host:remote": "vite --host --mode remote",
     "build": "tsc && vite build",
+    "build-hs": "tsc && vite build --max-old-space-size=8192",
     "build-ah": "tsc && vite build --base=/artistsHive/",
     "preview": "vite preview",
     "deploy": "npm run build && npm run upload",

@@ -1,4 +1,4 @@
-import { ParametrizedIFrame } from "~/components/shared/molecules/general/parametrizedIFrame/parametrizedIFrame";
+import { ParametrizedIFrame } from '~/components/shared/molecules/general/parametrizedIFrame/parametrizedIFrame';
 
 export interface SocialNetworkTemplate {
   url?: string;
@@ -16,109 +16,109 @@ export const SocialNetworks: {
   [socialNetworkName: string]: SocialNetworkTemplate;
 } = {
   address: {
-    icon: "FaMapMarkerAlt",
+    icon: 'FaMapMarkerAlt',
   },
   appleMusic: {
-    url: "https://music.apple.com",
-    icon: "SiApplemusic",
+    url: 'https://music.apple.com',
+    icon: 'SiApplemusic',
     emptyTitle: true,
-    title: "Apple Music",
+    title: 'Apple Music',
   },
   cd_baby: {
-    url: "https://CdBaby.com",
-    icon: "BsInfoCircleFill",
+    url: 'https://CdBaby.com',
+    icon: 'BsInfoCircleFill',
     emptyTitle: true,
-    title: "CD Baby",
+    title: 'CD Baby',
   },
   deezer: {
-    url: "https://www.deezer.com/es/artist",
-    icon: "FaDeezer",
+    url: 'https://www.deezer.com/es/artist',
+    icon: 'FaDeezer',
     emptyTitle: true,
-    title: "Deezer",
+    title: 'Deezer',
   },
   email: {
-    url: "mailto",
-    icon: "MdEmail",
-    title: "e-mail",
+    url: 'mailto',
+    icon: 'MdEmail',
+    title: 'e-mail',
     emptyTitle: true,
     usernamePattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
   },
   facebook: {
-    url: "https://www.facebook.com",
-    mobile_url: "https://m.facebook.com",
-    icon: "BsFacebook",
+    url: 'https://www.facebook.com',
+    mobile_url: 'https://m.facebook.com',
+    icon: 'BsFacebook',
     emptyTitle: true,
-    title: "Facebook",
+    title: 'Facebook',
     usernamePattern: /^(?<=^|[^\/])([A-Za-z0-9_.]{2,24})$/,
   },
   instagram: {
-    url: "https://www.instagram.com",
-    icon: "BsInstagram",
-    user_prefix: "@",
+    url: 'https://www.instagram.com',
+    icon: 'BsInstagram',
+    user_prefix: '@',
     emptyTitle: true,
-    title: "Instagram",
+    title: 'Instagram',
   },
   linkedin: {
-    url: "https://www.linkedin.com",
-    icon: "BsLinkedin",
-    user_prefix: "",
+    url: 'https://www.linkedin.com',
+    icon: 'BsLinkedin',
+    user_prefix: '',
     emptyTitle: true,
-    title: "LinkedIn",
+    title: 'LinkedIn',
   },
   mobile_phone: {
-    url: "tel",
-    icon: "FaMobileAlt",
-    title: "Mobile",
+    url: 'tel',
+    icon: 'FaMobileAlt',
+    title: 'Mobile',
   },
   phone: {
-    url: "tel",
-    icon: "BsFillTelephoneFill",
-    title: "Phone",
+    url: 'tel',
+    icon: 'BsFillTelephoneFill',
+    title: 'Phone',
   },
   phone_number: {
-    url: "tel",
-    icon: "BsFillTelephoneFill",
-    title: "Phone",
+    url: 'tel',
+    icon: 'BsFillTelephoneFill',
+    title: 'Phone',
   },
   sound_cloud: {
-    url: "https://soundcloud.com/",
-    icon: "GrSoundcloud",
-    user_prefix: "",
+    url: 'https://soundcloud.com/',
+    icon: 'GrSoundcloud',
+    user_prefix: '',
     emptyTitle: true,
-    title: "Sound Cloud",
+    title: 'Sound Cloud',
     widget: (params: any) => {
       let { user, entity, width, height } = params;
       if (!entity) {
-        entity = "playlists";
+        entity = 'playlists';
       }
       return (
         user && (
           <ParametrizedIFrame
-            key={`scloud-frame-${user}-${entity || ""}`}
+            key={`scloud-frame-${user}-${entity || ''}`}
             srcUrl={`https://w.soundcloud.com/player/?url=https://api.soundcloud.com/${entity}/${user}&`}
             customWidth={width}
             customHeight={height}
-            customStyles={{ borderRadius: "10px" }}
+            customStyles={{ borderRadius: '10px' }}
           />
         )
       );
     },
   },
   spotify: {
-    url: "https://open.spotify.com/artist",
-    icon: "BsSpotify",
-    user_prefix: "",
+    url: 'https://open.spotify.com/artist',
+    icon: 'BsSpotify',
+    user_prefix: '',
     emptyTitle: true,
-    title: "Spotify",
+    title: 'Spotify',
     widget: (params: any) => {
       let { user, entity, width, height } = params;
       if (!entity) {
-        entity = "artist";
+        entity = 'artist';
       }
       return (
         user && (
           <ParametrizedIFrame
-            key={`scloud-frame-${user}-${entity || ""}`}
+            key={`scloud-frame-${user}-${entity || ''}`}
             srcUrl={`https://open.spotify.com/embed/${entity}/${user}?utm_source=generator&theme=0`}
             customWidth={width}
             customHeight={height}
@@ -128,72 +128,72 @@ export const SocialNetworks: {
     },
   },
   threads: {
-    url: "https://www.threads.net",
-    icon: "TbSocial",
+    url: 'https://www.threads.net',
+    icon: 'TbSocial',
     emptyTitle: false,
-    title: "Threads",
+    title: 'Threads',
   },
   tiktok: {
-    url: "https://www.tiktok.com",
-    icon: "FaTiktok",
+    url: 'https://www.tiktok.com',
+    icon: 'FaTiktok',
     emptyTitle: true,
-    title: "Tik Tok",
+    title: 'Tik Tok',
   },
   twitch: {
-    url: "https://www.twitch.tv",
-    icon: "FaTwitch",
+    url: 'https://www.twitch.tv',
+    icon: 'FaTwitch',
     emptyTitle: true,
-    title: "Twitch",
+    title: 'Twitch',
   },
   twitter: {
-    url: "https://www.twitter.com",
-    mobile_url: "https://mobile.twitter.com",
-    icon: "BsTwitter",
-    user_prefix: "@",
+    url: 'https://www.twitter.com',
+    mobile_url: 'https://mobile.twitter.com',
+    icon: 'BsTwitterX',
+    user_prefix: '@',
     emptyTitle: true,
-    title: "Twitter",
+    title: 'X (Twitter)',
   },
   vimeo: {
-    url: "",
-    icon: "BsVimeo",
+    url: '',
+    icon: 'BsVimeo',
     emptyTitle: true,
-    title: "Vimeo",
+    title: 'Vimeo',
   },
   website: {
-    url: "",
-    icon: "TbWorld",
+    url: '',
+    icon: 'TbWorld',
     emptyTitle: true,
-    title: "Web",
+    title: 'Web',
   },
   whatsapp: {
-    url: "https://wa.me",
-    icon: "BsWhatsapp",
-    user_prefix: "+",
+    url: 'https://wa.me',
+    icon: 'BsWhatsapp',
+    user_prefix: '+',
     emptyTitle: true,
-    title: "WhatsApp",
+    title: 'WhatsApp',
   },
   wikipedia: {
-    icon: "FaWikipediaW",
-    url: "https://en.wikipedia.org/wiki",
+    icon: 'FaWikipediaW',
+    url: 'https://en.wikipedia.org/wiki',
     emptyTitle: true,
-    title: "Wikipedia",
+    title: 'Wikipedia',
   },
   youtube: {
-    url: "https://www.youtube.com",
-    icon: "BsYoutube",
-    user_prefix: "",
+    url: 'https://www.youtube.com',
+    icon: 'BsYoutube',
+    user_prefix: '',
     emptyTitle: true,
-    title: "Youtube",
+    title: 'Youtube',
     widget: (params: any) => {
       let { entity, width, height, videoURL } = params;
       return (
         videoURL && (
           <ParametrizedIFrame
-            key={`scloud-frame-${videoURL}-${entity || ""}`}
+            key={`scloud-frame-${videoURL}-${entity || ''}`}
             srcUrl={`https://www.youtube.com/embed/${videoURL}`}
             customWidth={width}
             customHeight={height}
-            customStyles={{ borderRadius: "10px" }}
+            customStyles={{ borderRadius: '10px' }}
           />
         )
       );
@@ -201,28 +201,20 @@ export const SocialNetworks: {
   },
 };
 
-export function buildSocialNetworkLinkData(
-  socialNetworkName: string,
-  mainValue: string,
-  extraParams: any = {}
-) {
+export function buildSocialNetworkLinkData(socialNetworkName: string, mainValue: string, extraParams: any = {}) {
   const socialNetwork = SocialNetworks[socialNetworkName];
   let url = undefined;
-  let target = "_blank";
+  let target = '_blank';
   if (socialNetwork) {
     url = `${socialNetwork.url}/${mainValue}`;
-    if (
-      socialNetworkName === "email" ||
-      socialNetworkName === "phone" ||
-      socialNetworkName === "mobile_phone"
-    ) {
+    if (socialNetworkName === 'email' || socialNetworkName === 'phone' || socialNetworkName === 'mobile_phone') {
       url = `${socialNetwork.url}:${mainValue}`;
-      target = "_self";
-    } else if (socialNetworkName === "tiktok") {
+      target = '_self';
+    } else if (socialNetworkName === 'tiktok') {
       url = `${socialNetwork.url}/@${mainValue}`;
-    } else if (socialNetworkName === "youtube") {
+    } else if (socialNetworkName === 'youtube') {
       url = `${socialNetwork.url}/@${mainValue}`;
-    } else if (socialNetworkName === "website") {
+    } else if (socialNetworkName === 'website') {
       url = `${mainValue}`;
     }
   }
@@ -230,12 +222,12 @@ export function buildSocialNetworkLinkData(
 }
 
 export const ARTISTS_HIVE_SOCIAL_NETWORKS = {
-  facebook: "artistshive",
-  instagram: "artistshive",
-  tiktok: "artistshive",
-  twitch: "artistshive",
-  twitter: "artistshivecom",
-  youtube: "ArtistsHive",
+  facebook: 'artistshive',
+  instagram: 'artistshive',
+  tiktok: 'artistshive',
+  twitch: 'artistshive',
+  twitter: 'artistshivecom',
+  youtube: 'ArtistsHive',
 };
 
 export interface SocialNetworkStatsTemplate {

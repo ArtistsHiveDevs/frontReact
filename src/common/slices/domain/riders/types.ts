@@ -1,4 +1,4 @@
-import { ArtistRiderModel } from "~/models/domain/rider/rider.model";
+import { ArtistRiderModel } from '~/models/domain/rider/rider.model';
 
 export enum RiderErrorType {
   RESPONSE_ERROR = 1,

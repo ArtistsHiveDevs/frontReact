@@ -1,1 +1,1 @@
-export * from "./TourPreplanningListPage";
+export * from './TourPreplanningListPage';

@@ -1,4 +1,4 @@
-import { AcademyModel } from "~/models/domain/academy/academy.model";
+import { AcademyModel } from '~/models/domain/academy/academy.model';
 
 export enum AcademyErrorType {
   RESPONSE_ERROR = 1,

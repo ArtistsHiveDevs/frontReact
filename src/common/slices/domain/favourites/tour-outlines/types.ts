@@ -1,4 +1,4 @@
-import { TourOutlineModel } from "~/models/domain/favourites/tourOutline";
+import { TourOutlineModel } from '~/models/domain/favourites/tourOutline';
 
 export enum TourOutlineErrorType {
   RESPONSE_ERROR = 1,

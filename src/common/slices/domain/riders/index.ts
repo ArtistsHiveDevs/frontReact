@@ -1,14 +1,11 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction } from '@reduxjs/toolkit';
 
-import { createSlice } from "~/common/utils/@reduxjs/toolkit";
-import {
-  useInjectReducer,
-  useInjectSaga,
-} from "~/common/utils/redux-injectors";
-import { ArtistRiderModel } from "~/models/domain/rider/rider.model";
+import { createSlice } from '~/common/utils/@reduxjs/toolkit';
+import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
+import { ArtistRiderModel } from '~/models/domain/rider/rider.model';
 
-import { riderSaga } from "./saga";
-import { RiderErrorType, RiderState } from "./types";
+import { riderSaga } from './saga';
+import { RiderErrorType, RiderState } from './types';
 
 export const ridersInitialState: RiderState = {
   riders: [],
@@ -19,7 +16,7 @@ export const ridersInitialState: RiderState = {
 };
 
 const slice = createSlice({
-  name: "RidersReducer",
+  name: 'RidersReducer',
   initialState: ridersInitialState,
   reducers: {
     loadRiders(state) {
@@ -28,9 +25,7 @@ const slice = createSlice({
       state.riders = [];
     },
     ridersLoaded(state, action: PayloadAction<ArtistRiderModel[]>) {
-      const riders = action.payload.map(
-        (template) => new ArtistRiderModel(template)
-      );
+      const riders = action.payload.map((template) => new ArtistRiderModel(template));
 
       state.riders = riders;
       state.loading = false;
@@ -42,9 +37,7 @@ const slice = createSlice({
       state.ridersQueryParams = action?.payload;
     },
     queriedRiders(state, action: PayloadAction<ArtistRiderModel[] | []>) {
-      const artistsQuery = action.payload.map(
-        (template) => new ArtistRiderModel(template)
-      );
+      const artistsQuery = action.payload.map((template) => new ArtistRiderModel(template));
 
       state.queriedRiders = artistsQuery;
       state.loading = false;

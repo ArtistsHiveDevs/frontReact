@@ -1,11 +1,11 @@
-import { Button, Image } from "react-bootstrap";
-import { useNavigate } from "react-router";
-import { useI18n } from "~/common/utils";
-import useAuth from "~/common/utils/hooks/auth/useAuth";
-import { PATHS } from "~/constants";
-import "./LoginPage.scss";
+import { Button, Image } from 'react-bootstrap';
+import { useNavigate } from 'react-router';
+import { useI18n } from '~/common/utils';
+import useAuth from '~/common/utils/hooks/auth/useAuth';
+import { PATHS } from '~/constants';
+import './LoginPage.scss';
 
-const TRANSLATION_BASE_LOGIN_PAGE = "app.pages.app_base.LoginPage";
+const TRANSLATION_BASE_LOGIN_PAGE = 'app.pages.app_base.LoginPage';
 
 export const LoginPage = () => {
   const { loggedUser, setLoggedUser } = useAuth();
@@ -29,10 +29,7 @@ export const LoginPage = () => {
       </Button>
 
       <div className="login-footer">
-        <Image
-          fluid={true}
-          src="https://c1.wallpaperflare.com/preview/516/564/13/band-music-performance-perform.jpg"
-        />
+        <Image fluid={true} src="https://c1.wallpaperflare.com/preview/516/564/13/band-music-performance-perform.jpg" />
       </div>
     </>
   );

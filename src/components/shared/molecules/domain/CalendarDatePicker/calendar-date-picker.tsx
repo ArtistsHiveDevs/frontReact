@@ -1,7 +1,7 @@
-import { Container, Form } from "react-bootstrap";
-import "./calendar-date-picker.scss";
-import moment from "moment";
-import { MutableRefObject, useImperativeHandle, useState } from "react";
+import { Container, Form } from 'react-bootstrap';
+import './calendar-date-picker.scss';
+import moment from 'moment';
+import { MutableRefObject, useImperativeHandle, useState } from 'react';
 
 type CalendarDatePickupTemplate = {
   initialDate?: string;
@@ -9,13 +9,9 @@ type CalendarDatePickupTemplate = {
   parentReference?: MutableRefObject<any>;
 };
 
-const CalendarDatePickupComponent: React.FC<CalendarDatePickupTemplate> = (
-  props: CalendarDatePickupTemplate
-) => {
+const CalendarDatePickupComponent: React.FC<CalendarDatePickupTemplate> = (props: CalendarDatePickupTemplate) => {
   const today = new Date();
-  const [datePickerValue, updateSelectedValue] = useState(
-    props?.initialDate || ""
-  );
+  const [datePickerValue, updateSelectedValue] = useState(props?.initialDate || '');
   function handlePickerOnChange(event: any) {
     // if (moment(event).toDate() < today) {
     //   updateSelectedValue(props?.initialDate || "");
@@ -33,7 +29,7 @@ const CalendarDatePickupComponent: React.FC<CalendarDatePickupTemplate> = (
   }
   useImperativeHandle(props?.parentReference, () => ({
     restartDatePickValue() {
-      updateSelectedValue(props?.initialDate || "");
+      updateSelectedValue(props?.initialDate || '');
     },
   }));
   return (

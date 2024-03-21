@@ -1,24 +1,14 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState } from "~/common/utils/redux-injectors/types";
+import { RootState } from '~/common/utils/redux-injectors/types';
 
-import { SavedInitialState } from ".";
+import { SavedInitialState } from '.';
 
 // First select the relevant part from the state
-const selectDomain = (state: RootState) =>
-  state?.SavedReducer || SavedInitialState;
+const selectDomain = (state: RootState) => state?.SavedReducer || SavedInitialState;
 
-export const selectSavedLoading = createSelector(
-  [selectDomain],
-  (SavedState) => SavedState.loading
-);
+export const selectSavedLoading = createSelector([selectDomain], (SavedState) => SavedState.loading);
 
-export const selectSavedError = createSelector(
-  [selectDomain],
-  (SavedState) => SavedState.error
-);
+export const selectSavedError = createSelector([selectDomain], (SavedState) => SavedState.error);
 
-export const selectSaved = createSelector(
-  [selectDomain],
-  (SavedState) => SavedState.saved
-);
+export const selectSaved = createSelector([selectDomain], (SavedState) => SavedState.saved);

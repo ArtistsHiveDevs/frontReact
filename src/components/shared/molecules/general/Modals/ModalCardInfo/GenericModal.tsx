@@ -1,22 +1,13 @@
-import { Button, Modal } from "react-bootstrap";
-import "./GenericModal.scss";
+import { Button, Modal } from 'react-bootstrap';
+import './GenericModal.scss';
 
 const GenericModal = (props: any) => {
   const { title, body, buttons, links } = props;
   return (
-    <Modal
-      className="modal-container"
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
+    <Modal className="modal-container" {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Header closeButton>
         {title && (
-          <Modal.Title
-            id="contained-modal-title-vcenter"
-            className="modal-title"
-          >
+          <Modal.Title id="contained-modal-title-vcenter" className="modal-title">
             {title}
           </Modal.Title>
         )}
@@ -26,10 +17,7 @@ const GenericModal = (props: any) => {
         <Modal.Footer className="card-buttons-container">
           {buttons?.map((button: any, idx: number) => {
             return (
-              <Button
-                key={`button-modal-${idx}`}
-                onClick={() => props.onHide(`b${button.label}`)}
-              >
+              <Button key={`button-modal-${idx}`} onClick={() => props.onHide(`b${button.label}`)}>
                 {button.label}
               </Button>
             );

@@ -1,6 +1,6 @@
-import { VerificationStatus } from "~/constants";
-import { EntityModel, EntityTemplate, SearchableTemplate } from "~/models/base";
-import { EventModel, EventTemplate } from "~/models/domain/event/event.model";
+import { VerificationStatus } from '~/constants';
+import { EntityModel, EntityTemplate, SearchableTemplate } from '~/models/base';
+import { EventModel, EventTemplate } from '~/models/domain/event/event.model';
 
 export interface DomainRole {
   entityName: string;
@@ -22,42 +22,37 @@ export interface UserGenderTemplate {
   value: string;
 }
 export const UserGenders: UserGenderTemplate[] = [
-  { index: 1, value: "male" },
-  { index: 2, value: "female" },
-  { index: 3, value: "non_binary" },
-  { index: 4, value: "non_specified" },
+  { index: 1, value: 'male' },
+  { index: 2, value: 'female' },
+  { index: 3, value: 'non_binary' },
+  { index: 4, value: 'non_specified' },
 ];
 
 export const APP_DOMAIN_ROLES: { [entityName: string]: DomainRole } = {
   ARTIST: {
-    entityName: "Artist",
-    label: "user_profile.artist",
+    entityName: 'Artist',
+    label: 'user_profile.artist',
     roles: [
-      "ARTIST_OWNER",
-      "ARTIST_MEMBER",
-      "MANAGER",
-      "ROADIE",
-      "SOUND_ENGINEER",
-      "LIGHTS_ENGINEER",
-      "STAGE_ENGINEER",
-      "SUBSTITUTE_ARTIST_MEMBER",
-      "ARTIST_OWN_STAFF",
-      "PHOTOGRAPHER",
-      "VIDEOGRAPHER",
-      "PRODUCER",
-      "MEDIA_MANAGER",
-      "TOUR_MANAGER",
+      'ARTIST_OWNER',
+      'ARTIST_MEMBER',
+      'MANAGER',
+      'ROADIE',
+      'SOUND_ENGINEER',
+      'LIGHTS_ENGINEER',
+      'STAGE_ENGINEER',
+      'SUBSTITUTE_ARTIST_MEMBER',
+      'ARTIST_OWN_STAFF',
+      'PHOTOGRAPHER',
+      'VIDEOGRAPHER',
+      'PRODUCER',
+      'MEDIA_MANAGER',
+      'TOUR_MANAGER',
     ],
   },
   PLACE: {
-    entityName: "Place",
-    label: "user_profile.place",
-    roles: [
-      "PLACE_OWNER",
-      "MANAGER",
-      "MEDIA_MANAGER",
-      "INFRASTRUCTURE_MANAGER",
-    ],
+    entityName: 'Place',
+    label: 'user_profile.place',
+    roles: ['PLACE_OWNER', 'MANAGER', 'MEDIA_MANAGER', 'INFRASTRUCTURE_MANAGER'],
   },
 };
 
@@ -94,10 +89,7 @@ export interface AppUserTemplate extends EntityTemplate {
   };
 }
 
-export class AppUserModel
-  extends EntityModel<AppUserTemplate>
-  implements AppUserTemplate, SearchableTemplate
-{
+export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUserTemplate, SearchableTemplate {
   declare given_names: string;
   declare surnames: string;
   declare artistic_name: string;
@@ -135,15 +127,13 @@ export class AppUserModel
   constructor(template: AppUserTemplate) {
     super(template);
 
-    const membershipEntities = ["Artist", "Place"];
+    const membershipEntities = ['Artist', 'Place'];
 
     membershipEntities.forEach((entityName: string) => {
       const roleMap =
         (this.roles &&
           this.roles.length &&
-          this.roles.find(
-            (role: UserAvailableEntityRole) => role.entityName === entityName
-          )?.entityRoleMap) ||
+          this.roles.find((role: UserAvailableEntityRole) => role.entityName === entityName)?.entityRoleMap) ||
         [];
 
       const getRoleMap = () => [...roleMap];
@@ -160,15 +150,11 @@ export class AppUserModel
     });
 
     // Events
-    const eventSubscriptions = ["events_as_artist", "subscribed_events"];
+    const eventSubscriptions = ['events_as_artist', 'subscribed_events'];
     eventSubscriptions.forEach((subscription) => {
-      const subscriptionTemplate =
-        template[subscription as keyof AppUserTemplate];
+      const subscriptionTemplate = template[subscription as keyof AppUserTemplate];
       Object.keys(subscriptionTemplate).forEach((eventsType) => {
-        const events: any[] =
-          subscriptionTemplate[
-            eventsType as keyof typeof subscriptionTemplate
-          ] || [];
+        const events: any[] = subscriptionTemplate[eventsType as keyof typeof subscriptionTemplate] || [];
         this[subscription as keyof AppUserModel][eventsType] =
           events?.map((event: EventTemplate) => new EventModel(event)) || [];
       });
@@ -191,12 +177,7 @@ export class AppUserModel
     return null;
   }
 
-  modifyDummyRole(
-    entity: string,
-    idEntity: string,
-    roleName: string,
-    action: "add" | "del"
-  ) {
+  modifyDummyRole(entity: string, idEntity: string, roleName: string, action: 'add' | 'del') {
     // Busca la entidad en la que se va modificar el rol
     if (!this.roles.find((role) => role.entityName === entity)) {
       this.roles.push({ entityName: entity, entityRoleMap: [] });
@@ -207,33 +188,27 @@ export class AppUserModel
     if (!role.entityRoleMap.find((roleMap) => roleMap.id === idEntity)) {
       role.entityRoleMap.push({ id: idEntity, roles: [] });
     }
-    const roleMap = role.entityRoleMap.find(
-      (roleMap) => roleMap.id === idEntity
-    );
+    const roleMap = role.entityRoleMap.find((roleMap) => roleMap.id === idEntity);
 
     // Revisa si existe el rol en esa instancia
     const exists = roleMap.roles.includes(roleName);
-    if (action === "add") {
+    if (action === 'add') {
       if (!exists) {
         roleMap.roles.push(roleName);
       }
-    } else if (action === "del") {
+    } else if (action === 'del') {
       if (exists) {
         // Elimina el rol de la instancia
         roleMap.roles = roleMap.roles.filter((role) => role !== roleName);
 
         if (!roleMap.roles.length) {
           // Si la instancia no tiene más roles, se elimina
-          role.entityRoleMap = role.entityRoleMap.filter(
-            (roleMap) => roleMap.roles.length
-          );
+          role.entityRoleMap = role.entityRoleMap.filter((roleMap) => roleMap.roles.length);
         }
 
         if (!role.entityRoleMap.length) {
           // Si el usuario no tiene instancias, elimina la entidad
-          this.roles = this.roles.filter(
-            (entityRoles) => entityRoles.entityRoleMap.length
-          );
+          this.roles = this.roles.filter((entityRoles) => entityRoles.entityRoleMap.length);
         }
       }
     }

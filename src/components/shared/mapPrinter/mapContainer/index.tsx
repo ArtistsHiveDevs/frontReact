@@ -1,7 +1,7 @@
-import { Status, Wrapper } from "@googlemaps/react-wrapper";
-import { ReactElement } from "react";
-import MapViewer from "../mapViewer";
-import "./index.scss";
+import { Status, Wrapper } from '@googlemaps/react-wrapper';
+import { ReactElement } from 'react';
+import MapViewer from '../mapViewer';
+import './index.scss';
 
 const MapContainer = (props: any) => {
   const render = (status: Status): ReactElement => {

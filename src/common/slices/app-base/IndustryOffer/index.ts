@@ -1,17 +1,11 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction } from '@reduxjs/toolkit';
 
-import { createSlice } from "~/common/utils/@reduxjs/toolkit";
-import {
-  useInjectReducer,
-  useInjectSaga,
-} from "~/common/utils/redux-injectors";
+import { createSlice } from '~/common/utils/@reduxjs/toolkit';
+import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
 
-import {
-  IndustryOfferModel,
-  IndustryOfferTemplate,
-} from "~/models/domain/industryOffer/IndustryOffer.model";
-import { industryOfferSaga } from "./saga";
-import { IndustryOfferErrorType, IndustryOfferState } from "./types";
+import { IndustryOfferModel, IndustryOfferTemplate } from '~/models/domain/industryOffer/IndustryOffer.model';
+import { industryOfferSaga } from './saga';
+import { IndustryOfferErrorType, IndustryOfferState } from './types';
 
 export const industryOfferInitialState: IndustryOfferState = {
   queriedRole: undefined,
@@ -21,7 +15,7 @@ export const industryOfferInitialState: IndustryOfferState = {
 };
 
 const slice = createSlice({
-  name: "IndustryOfferReducer",
+  name: 'IndustryOfferReducer',
   initialState: industryOfferInitialState,
   reducers: {
     loadIndustryOffer(state, action?: PayloadAction<{ role: string }>) {

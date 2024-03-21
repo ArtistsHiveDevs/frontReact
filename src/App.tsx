@@ -1,29 +1,29 @@
 // vendor
 
-import { Suspense, useContext, useState } from "react";
-import { HelmetProvider } from "react-helmet-async";
-import { IntlProvider } from "react-intl";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Suspense, useContext, useState } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
+import { IntlProvider } from 'react-intl';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 // translations
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import "dayjs/locale/de";
-import "dayjs/locale/en";
-import "dayjs/locale/es";
-import "dayjs/locale/fr";
-import "dayjs/locale/it";
-import "dayjs/locale/pt";
-import { appMessages } from "./translations";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import 'dayjs/locale/de';
+import 'dayjs/locale/en';
+import 'dayjs/locale/es';
+import 'dayjs/locale/fr';
+import 'dayjs/locale/it';
+import 'dayjs/locale/pt';
+import { appMessages } from './translations';
 
 // routes
-import { AuthProvider, HvAppContext, HvAppContextProvider } from "./common";
+import { AuthProvider, HvAppContext, HvAppContextProvider } from './common';
 
-import { deDE, enUS, esES, frFR, itIT, ptBR } from "@mui/x-date-pickers";
+import { deDE, enUS, esES, frFR, itIT, ptBR } from '@mui/x-date-pickers';
 
-import { AppFooter } from "~/components/shared/organisms/app/Footer/AppFooter";
-import SideNav from "~/components/shared/sidenav";
-import { RoutesApp } from "~/routes";
+import { AppFooter } from '~/components/shared/organisms/app/Footer/AppFooter';
+import SideNav from '~/components/shared/sidenav';
+import { RoutesApp } from '~/routes';
 
 const App = () => {
   let { lang, messages, setLocale: setLang } = useContext(HvAppContext);
@@ -38,26 +38,19 @@ const App = () => {
 
   return (
     <HelmetProvider>
-      <HvAppContextProvider
-        appMessages={appMessages}
-        lang={appLang}
-        setLang={setAppLang}
-      >
+      <HvAppContextProvider appMessages={appMessages} lang={appLang} setLang={setAppLang}>
         <Router>
           <AuthProvider>
             <IntlProvider
-              defaultLocale={appLang.lang || "en"}
+              defaultLocale={appLang.lang || 'en'}
               locale={appLang.lang}
               messages={appLang.messages}
               onError={onError}
             >
               <LocalizationProvider
                 dateAdapter={AdapterDayjs}
-                adapterLocale={appLang.lang || "en"}
-                localeText={
-                  guii18nData.components.MuiLocalizationProvider.defaultProps
-                    .localeText
-                }
+                adapterLocale={appLang.lang || 'en'}
+                localeText={guii18nData.components.MuiLocalizationProvider.defaultProps.localeText}
               >
                 <div className="wrapper">
                   <SideNav />
@@ -81,19 +74,19 @@ const App = () => {
 const geti18nGUILanguage = (currentLang: string) => {
   let language = enUS;
   switch (currentLang) {
-    case "de":
+    case 'de':
       language = deDE;
       break;
-    case "es":
+    case 'es':
       language = esES;
       break;
-    case "fr":
+    case 'fr':
       language = frFR;
       break;
-    case "it":
+    case 'it':
       language = itIT;
       break;
-    case "pt":
+    case 'pt':
       language = ptBR;
       break;
   }

@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { DynamicTabbedForm } from "~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm";
-import { ArtistModel } from "~/models/domain/artist/artist.model";
+import { useEffect, useState } from 'react';
+import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
+import { ArtistModel } from '~/models/domain/artist/artist.model';
 import {
   ARTIST_DETAIL_SUB_PAGE_CONFIG,
   TRANSLATION_BASE_ARTIST_DETAIL_PAGE,
-} from "../ArtistDetails/config-artist-detail";
+} from '../ArtistDetails/config-artist-detail';
 
 const ArtistsCreatePage = () => {
   const [availableLanguages, updateAvailableLanguages] = useState([]);
@@ -12,15 +12,15 @@ const ArtistsCreatePage = () => {
 
   useEffect(() => {
     const langsOR = [
-      { label: "ES", value: "es", selected: false },
-      { label: "DE", value: "de" },
-      { label: "FR", value: "fr" },
-      { label: "PT", value: "pt" },
+      { label: 'ES', value: 'es', selected: false },
+      { label: 'DE', value: 'de' },
+      { label: 'FR', value: 'fr' },
+      { label: 'PT', value: 'pt' },
     ];
     let langs = [...langsOR];
 
     Array(20)
-      .fill("x")
+      .fill('x')
       .forEach((valu, number) =>
         langsOR.forEach((lng) =>
           langs.push({
@@ -33,19 +33,19 @@ const ArtistsCreatePage = () => {
 
     updateAvailableLanguages(langs);
     updateAvailableGenres([
-      { label: "Cumbia", value: "genre1" },
-      { label: "Reggaetón", value: "genre2" },
-      { label: "Rock", value: "genre3", selected: true },
-      { label: "Jazz", value: "genr4" },
+      { label: 'Cumbia', value: 'genre1' },
+      { label: 'Reggaetón', value: 'genre2' },
+      { label: 'Rock', value: 'genre3', selected: true },
+      { label: 'Jazz', value: 'genr4' },
     ]);
   }, []);
 
   const handlers = {
     onSubmit: (data: any, error?: any) => {
-      console.log("#####----------->>>>  !!! ", data);
+      console.log('#####----------->>>>  !!! ', data);
     },
     onChangecountry: (data: any) => {
-      console.log("#####----------->>>>  !!! ", data);
+      console.log('#####----------->>>>  !!! ', data);
       // const ciudades =
       //   !!data &&
       //   !!data.value &&

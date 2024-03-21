@@ -1,10 +1,10 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { call, delay, put, takeLatest } from "redux-saga/effects";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { call, delay, put, takeLatest } from 'redux-saga/effects';
 
-import { request } from "~/common/utils/request";
+import { request } from '~/common/utils/request';
 
-import { SavedModel } from "~/models/domain/favourites/saved";
-import { savedActions as actions } from ".";
+import { SavedModel } from '~/models/domain/favourites/saved';
+import { savedActions as actions } from '.';
 
 export function* queriedSaved(actionParams?: PayloadAction<string>) {
   yield delay(500);
@@ -12,21 +12,17 @@ export function* queriedSaved(actionParams?: PayloadAction<string>) {
   const { payload } = actionParams;
   const params = {
     q: payload,
-    f: "location_boundaries",
+    f: 'location_boundaries',
   };
 
   const urlParams = Object.keys(params)
     .reduce((info, currentValue) => {
-      info.push(
-        [currentValue, params[currentValue as keyof typeof params]].join("=")
-      );
+      info.push([currentValue, params[currentValue as keyof typeof params]].join('='));
       return info;
     }, [])
-    .join("&");
+    .join('&');
 
-  const requestURL = `${
-    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/users/34/favourites?${urlParams}`;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/34/favourites?${urlParams}`;
 
   try {
     const saved: SavedModel = yield call(request, requestURL);

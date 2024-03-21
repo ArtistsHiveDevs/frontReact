@@ -1,18 +1,16 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { call, put, takeLatest, delay } from "redux-saga/effects";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { call, put, takeLatest, delay } from 'redux-saga/effects';
 
-import { request } from "~/common/utils/request";
-import { PlaceModel } from "~/models/domain/place/place.model";
+import { request } from '~/common/utils/request';
+import { PlaceModel } from '~/models/domain/place/place.model';
 
-import { placesActions as actions } from ".";
+import { placesActions as actions } from '.';
 
 export function* getPlaces() {
   yield delay(500);
   let queryParams = `f=events,events.main_artist,events.guest_artist`;
 
-  const requestURL = `${
-    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/places?${queryParams}`;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/places?${queryParams}`;
 
   try {
     const places: PlaceModel[] = yield call(request, requestURL);
@@ -23,14 +21,12 @@ export function* getPlaces() {
   }
 }
 
-export function* getQueriedPlaces(actionParams?:PayloadAction<string>) {
+export function* getQueriedPlaces(actionParams?: PayloadAction<string>) {
   yield delay(500);
 
-  const {payload} = actionParams;
+  const { payload } = actionParams;
 
-  const requestURL = `${
-    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/places?q=${payload}`;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/places?q=${payload}`;
 
   try {
     const places: PlaceModel[] = yield call(request, requestURL);

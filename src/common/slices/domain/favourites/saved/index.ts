@@ -1,24 +1,21 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction } from '@reduxjs/toolkit';
 
-import { createSlice } from "~/common/utils/@reduxjs/toolkit";
-import {
-  useInjectReducer,
-  useInjectSaga,
-} from "~/common/utils/redux-injectors";
+import { createSlice } from '~/common/utils/@reduxjs/toolkit';
+import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
 
-import { SavedModel } from "~/models/domain/favourites/saved";
-import { savedSaga } from "./saga";
-import { SavedErrorType, SavedState } from "./types";
+import { SavedModel } from '~/models/domain/favourites/saved';
+import { savedSaga } from './saga';
+import { SavedErrorType, SavedState } from './types';
 
 export const SavedInitialState: SavedState = {
   saved: null,
   loading: false,
   error: null,
-  savedQueryParam: "",
+  savedQueryParam: '',
 };
 
 const slice = createSlice({
-  name: "SavedReducer",
+  name: 'SavedReducer',
   initialState: SavedInitialState,
   reducers: {
     querySaved(state, action: PayloadAction<string>) {

@@ -1,5 +1,5 @@
-import { FormLabel, TextField } from "@mui/material";
-import { ComponentGeneratorParams } from "../DynamicControl";
+import { FormLabel, TextField } from '@mui/material';
+import { ComponentGeneratorParams } from '../DynamicControl';
 
 export const createTextArea = (params: ComponentGeneratorParams) => {
   const { errors, fieldData, register } = params || {};
@@ -18,7 +18,7 @@ export const createTextArea = (params: ComponentGeneratorParams) => {
         maxRows={10}
         label={
           <FormLabel
-            required={required === true || required === "true"}
+            required={required === true || required === 'true'}
             error={!!Object.keys(errors || {}).find((key) => key === fieldName)}
           >
             {label}

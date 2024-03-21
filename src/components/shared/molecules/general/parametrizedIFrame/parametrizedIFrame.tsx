@@ -1,4 +1,4 @@
-import "./parametrizedIFrame.scss";
+import './parametrizedIFrame.scss';
 
 type ParametrizedIFrameTemplate = {
   srcUrl: string;
@@ -8,15 +8,13 @@ type ParametrizedIFrameTemplate = {
   title?: string;
 };
 
-export const ParametrizedIFrame: React.FC<ParametrizedIFrameTemplate> = (
-  props: ParametrizedIFrameTemplate
-) => {
+export const ParametrizedIFrame: React.FC<ParametrizedIFrameTemplate> = (props: ParametrizedIFrameTemplate) => {
   return (
     <iframe
       style={props?.customStyles}
       src={`${props.srcUrl}`}
-      width={`${props?.customWidth || "100%"}`}
-      height={`${props?.customHeight || "200px"}`}
+      width={`${props?.customWidth || '100%'}`}
+      height={`${props?.customHeight || '200px'}`}
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy"
       title={props?.title}

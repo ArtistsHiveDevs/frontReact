@@ -1,10 +1,10 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { call, delay, put, takeLatest } from "redux-saga/effects";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { call, delay, put, takeLatest } from 'redux-saga/effects';
 
-import { request } from "~/common/utils/request";
-import { SearchModel } from "~/models/domain/search/search.model";
+import { request } from '~/common/utils/request';
+import { SearchModel } from '~/models/domain/search/search.model';
 
-import { searchActions as actions } from ".";
+import { searchActions as actions } from '.';
 
 export function* queriedSearch(actionParams?: PayloadAction<string>) {
   yield delay(500);
@@ -12,21 +12,17 @@ export function* queriedSearch(actionParams?: PayloadAction<string>) {
   const { payload } = actionParams;
   const params = {
     q: payload,
-    f: "location_boundaries",
+    f: 'location_boundaries',
   };
 
   const urlParams = Object.keys(params)
     .reduce((info, currentValue) => {
-      info.push(
-        [currentValue, params[currentValue as keyof typeof params]].join("=")
-      );
+      info.push([currentValue, params[currentValue as keyof typeof params]].join('='));
       return info;
     }, [])
-    .join("&");
+    .join('&');
 
-  const requestURL = `${
-    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/search?${urlParams}`;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/search?${urlParams}`;
 
   try {
     const search: SearchModel = yield call(request, requestURL);

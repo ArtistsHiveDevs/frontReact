@@ -1,36 +1,36 @@
 import {
   ProfileComponentTypes,
   ProfileDetailsSubpage,
-} from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
-import { EventModel } from "~/models/domain/event/event.model";
-import { PlaceModel } from "~/models/domain/place/place.model";
+} from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
+import { EventModel } from '~/models/domain/event/event.model';
+import { PlaceModel } from '~/models/domain/place/place.model';
 
 export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
-    name: "general",
+    name: 'general',
     sections: [
       {
-        name: "general",
+        name: 'general',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  icon: "FaRegCalendarAlt",
-                  name: "timetable__initial_date",
+                  icon: 'FaRegCalendarAlt',
+                  name: 'timetable__initial_date',
                 },
                 {
-                  icon: "TbDoorEnter",
-                  name: "timetable__openning_doors",
+                  icon: 'TbDoorEnter',
+                  name: 'timetable__openning_doors',
                 },
                 {
-                  icon: "IoTimeOutline",
-                  name: "initial_time",
+                  icon: 'IoTimeOutline',
+                  name: 'initial_time',
                 },
                 {
-                  icon: "FaMapMarkerAlt",
-                  name: "place.name",
+                  icon: 'FaMapMarkerAlt',
+                  name: 'place.name',
                   emptyTitle: true,
                   value: (event: EventModel) => {
                     return (
@@ -44,21 +44,21 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   },
                 },
                 {
-                  icon: "IoTicketOutline",
-                  name: "tickets_website",
+                  icon: 'IoTicketOutline',
+                  name: 'tickets_website',
                   emptyTitle: true,
                 },
                 {
-                  icon: "IoTimeOutline",
-                  name: "minimumAge",
+                  icon: 'IoTimeOutline',
+                  name: 'minimumAge',
                 },
                 {
-                  icon: "BsInfoCircleFill",
-                  name: "promoter",
+                  icon: 'BsInfoCircleFill',
+                  name: 'promoter',
                 },
                 {
-                  icon: "IoBarcodeOutline",
-                  name: "national_code",
+                  icon: 'IoBarcodeOutline',
+                  name: 'national_code',
                 },
               ],
             },
@@ -66,23 +66,23 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "description",
+        name: 'description',
         components: [
           {
             componentName: ProfileComponentTypes.HTML_CONTENT,
             data: {
-              attribute_content: "description",
+              attribute_content: 'description',
             },
           },
         ],
       },
       {
-        name: "genres",
+        name: 'genres',
         components: [
           {
             componentName: ProfileComponentTypes.ARTS_GENRES,
             data: {
-              genres: "genres",
+              genres: 'genres',
             },
           },
         ],
@@ -90,70 +90,70 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     ],
   },
   {
-    name: "artists",
+    name: 'artists',
     sections: [
       {
-        name: "main_artists",
+        name: 'main_artists',
         components: [
           {
             componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
             data: {
-              data_source: "main_artists",
+              data_source: 'main_artists',
             },
-            clickHandlerName: "onNavigateToEntity",
+            clickHandlerName: 'onNavigateToEntity',
           },
         ],
       },
     ],
   },
   {
-    name: "place",
+    name: 'place',
     sections: [
       {
-        id: "place",
+        id: 'place',
         components: [
           {
             componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
             data: {
-              data_source: "place",
+              data_source: 'place',
               footer: {
                 components: [
                   {
                     componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
                     data: {
-                      data_source: "place",
+                      data_source: 'place',
                       attributes: [
                         {
-                          name: "address",
+                          name: 'address',
                         },
                         {
-                          icon: "FaCity",
-                          name: "city",
+                          icon: 'FaCity',
+                          name: 'city',
                           emptyTitle: true,
                           value: (place: PlaceModel) => {
                             return <>{`${place.city}, ${place.country}`}</>;
                           },
                         },
                         {
-                          name: "website",
+                          name: 'website',
                         },
                         {
-                          name: "phone",
+                          name: 'phone',
                         },
                         {
-                          name: "mobile_phone",
+                          name: 'mobile_phone',
                         },
                         {
-                          name: "whatsapp",
+                          name: 'whatsapp',
                         },
                         {
-                          name: "email",
+                          name: 'email',
                         },
                         {
-                          name: "facebook",
+                          name: 'facebook',
                         },
                         {
-                          name: "instagram",
+                          name: 'instagram',
                         },
                       ],
                     },
@@ -161,19 +161,19 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 ],
               },
             },
-            clickHandlerName: "onNavigateToEntity",
+            clickHandlerName: 'onNavigateToEntity',
           },
         ],
       },
       {
-        name: "location",
+        name: 'location',
         components: [
           {
             componentName: ProfileComponentTypes.MAP,
             data: {
-              data_source: "place",
-              lat: "latitude",
-              lng: "longitude",
+              data_source: 'place',
+              lat: 'latitude',
+              lng: 'longitude',
             },
           },
         ],
@@ -181,26 +181,26 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     ],
   },
   {
-    name: "contact",
+    name: 'contact',
     sections: [
       {
-        name: "contact",
+        name: 'contact',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "website",
+                  name: 'website',
                 },
                 {
-                  name: "phone",
+                  name: 'phone',
                 },
                 {
-                  name: "mobile_phone",
+                  name: 'mobile_phone',
                 },
                 {
-                  name: "email",
+                  name: 'email',
                 },
               ],
             },
@@ -208,29 +208,29 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "social_networks",
+        name: 'social_networks',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "facebook",
+                  name: 'facebook',
                 },
                 {
-                  name: "instagram",
+                  name: 'instagram',
                 },
                 {
-                  name: "twitter",
+                  name: 'twitter',
                 },
                 {
-                  name: "youtube",
+                  name: 'youtube',
                 },
                 {
-                  name: "spotify",
+                  name: 'spotify',
                 },
                 {
-                  name: "wikipedia",
+                  name: 'wikipedia',
                 },
               ],
             },
@@ -240,48 +240,48 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     ],
   },
   {
-    name: "extra_info",
+    name: 'extra_info',
     sections: [
       {
-        name: "additional_info",
+        name: 'additional_info',
         components: [
           {
             componentName: ProfileComponentTypes.HTML_CONTENT,
             data: {
-              attribute_content: "additional_info",
+              attribute_content: 'additional_info',
             },
           },
         ],
       },
       {
-        name: "dress_code",
+        name: 'dress_code',
         components: [
           {
             componentName: ProfileComponentTypes.HTML_CONTENT,
             data: {
-              attribute_content: "dress_code",
+              attribute_content: 'dress_code',
             },
           },
         ],
       },
       {
-        name: "discounts",
+        name: 'discounts',
         components: [
           {
             componentName: ProfileComponentTypes.HTML_CONTENT,
             data: {
-              attribute_content: "discounts",
+              attribute_content: 'discounts',
             },
           },
         ],
       },
       {
-        name: "promoter",
+        name: 'promoter',
         components: [
           {
             componentName: ProfileComponentTypes.HTML_CONTENT,
             data: {
-              attribute_content: "promoter",
+              attribute_content: 'promoter',
             },
           },
         ],

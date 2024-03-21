@@ -1,19 +1,17 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { call, delay, put, takeLatest } from "redux-saga/effects";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { call, delay, put, takeLatest } from 'redux-saga/effects';
 
-import { request } from "~/common/utils/request";
+import { request } from '~/common/utils/request';
 
-import { TourOutlineModel } from "~/models/domain/favourites/tourOutline";
-import { tourOutlineActions as actions } from ".";
+import { TourOutlineModel } from '~/models/domain/favourites/tourOutline';
+import { tourOutlineActions as actions } from '.';
 
 export function* getToursOutlinesByUser(actionParams?: PayloadAction<string>) {
   yield delay(500);
 
   const { payload: userId } = actionParams;
 
-  const requestURL = `${
-    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/users/${userId}/tours_outlines`;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/${userId}/tours_outlines`;
 
   try {
     const toursOutlines: TourOutlineModel[] = yield call(request, requestURL);
@@ -30,9 +28,7 @@ export function* getTourOutlineById(actionParams?: PayloadAction<string>) {
 
   const { payload: outlineId } = actionParams;
 
-  const requestURL = `${
-    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/tours_outlines/${outlineId}`;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/tours_outlines/${outlineId}`;
 
   try {
     const toursOutlines: TourOutlineModel[] = yield call(request, requestURL);

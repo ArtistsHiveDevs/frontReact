@@ -5,22 +5,18 @@ import {
   UseFormRegister,
   UseFormWatch,
   useFormContext,
-} from "react-hook-form";
-import { createCheckbox } from "./components/Checkbox";
-import { createChipPicker } from "./components/ChipPicker";
-import { createCitySelect } from "./components/CitySelector";
-import { createFileUpload } from "./components/FileUpload";
-import { createRadio } from "./components/Radio";
-import { createSelect } from "./components/Select";
-import { createSlider } from "./components/Slider";
-import { createTextArea } from "./components/TextArea";
-import {
-  createAddressTextField,
-  createSocialNetworkTextField,
-  createTextField,
-} from "./components/TextField";
-import { createTimeField } from "./components/TimeField";
-import { DynamicFieldData } from "./dynamic-control-types";
+} from 'react-hook-form';
+import { createCheckbox } from './components/Checkbox';
+import { createChipPicker } from './components/ChipPicker';
+import { createCitySelect } from './components/CitySelector';
+import { createFileUpload } from './components/FileUpload';
+import { createRadio } from './components/Radio';
+import { createSelect } from './components/Select';
+import { createSlider } from './components/Slider';
+import { createTextArea } from './components/TextArea';
+import { createAddressTextField, createSocialNetworkTextField, createTextField } from './components/TextField';
+import { createTimeField } from './components/TimeField';
+import { DynamicFieldData } from './dynamic-control-types';
 
 export interface ComponentGeneratorParams {
   errors?: FieldErrors<FieldValues>;
@@ -45,31 +41,31 @@ export const DynamicControl = (params: {
 
   switch (inputType) {
     // Campos de texto
-    case "text":
-    case "password":
-    case "tel":
-    case "number":
-    case "url":
+    case 'text':
+    case 'password':
+    case 'tel':
+    case 'number':
+    case 'url':
       return createTextField({ register, fieldData, errors, handlers });
-    case "address":
+    case 'address':
       return createAddressTextField({ register, fieldData, errors });
-    case "socialNetwork":
+    case 'socialNetwork':
       return createSocialNetworkTextField({ register, fieldData, errors });
 
     // Área de texto
-    case "textarea":
+    case 'textarea':
       return createTextArea({ register, fieldData, errors });
 
     // Ubicación
-    case "citySelector":
+    case 'citySelector':
       return createCitySelect({ fieldData, handlers });
 
     // Opciones y selección múltiple
-    case "chipPicker":
+    case 'chipPicker':
       return createChipPicker({ register, fieldData, errors, handlers });
-    case "select":
+    case 'select':
       return createSelect({ register, fieldData, errors, handlers });
-    case "checkbox":
+    case 'checkbox':
       return createCheckbox({
         register,
         getValues,
@@ -78,27 +74,27 @@ export const DynamicControl = (params: {
         errors,
         handlers,
       });
-    case "radio":
+    case 'radio':
       return createRadio({ register, fieldData, errors });
 
     // Rangos
-    case "range":
+    case 'range':
       return createSlider({ register, fieldData, errors });
 
     // Fechas y horas
-    case "datetime":
-    case "date":
-    case "time":
-    case "month":
-    case "week":
+    case 'datetime':
+    case 'date':
+    case 'time':
+    case 'month':
+    case 'week':
       return createTimeField({ register, fieldData, errors });
 
     // Carga de archivos
-    case "file":
+    case 'file':
       return createFileUpload({ register, fieldData, errors });
 
     default:
-      fieldData.inputType = "text";
+      fieldData.inputType = 'text';
       return createTextField({ register, fieldData, errors });
   }
 };

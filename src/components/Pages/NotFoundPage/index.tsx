@@ -1,6 +1,6 @@
-import { useI18n } from "~/common/utils";
+import { useI18n } from '~/common/utils';
 
-const TRANSLATION_BASE_SEARCH = "app.general.not_found_page";
+const TRANSLATION_BASE_SEARCH = 'app.general.not_found_page';
 
 const NotFoundPage = () => {
   const { translateText, locale } = useI18n();
@@ -10,7 +10,7 @@ const NotFoundPage = () => {
   }
   return (
     <>
-      <h1>{translate("title")}</h1>
+      <h1>{translate('title')}</h1>
       <p></p>
     </>
   );

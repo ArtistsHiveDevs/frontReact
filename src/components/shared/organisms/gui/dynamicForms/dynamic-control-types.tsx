@@ -1,27 +1,27 @@
-import { FieldErrors, FieldValues, RegisterOptions } from "react-hook-form";
+import { FieldErrors, FieldValues, RegisterOptions } from 'react-hook-form';
 
 export type ControlType =
-  | "address"
-  | "text"
-  | "select"
-  | "number"
-  | "password"
-  | "textarea"
-  | "tel"
-  | "checkbox"
-  | "radio"
-  | "switch"
-  | "range"
-  | "url"
-  | "time"
-  | "date"
-  | "datetime"
-  | "month"
-  | "week"
-  | "socialNetwork"
-  | "file"
-  | "citySelector"
-  | "chipPicker";
+  | 'address'
+  | 'text'
+  | 'select'
+  | 'number'
+  | 'password'
+  | 'textarea'
+  | 'tel'
+  | 'checkbox'
+  | 'radio'
+  | 'switch'
+  | 'range'
+  | 'url'
+  | 'time'
+  | 'date'
+  | 'datetime'
+  | 'month'
+  | 'week'
+  | 'socialNetwork'
+  | 'file'
+  | 'citySelector'
+  | 'chipPicker';
 
 export interface SelectOption {
   label: string;

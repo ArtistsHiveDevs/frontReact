@@ -1,208 +1,208 @@
 export const PtMessages = {
   app: {
-    name: "App PT",
-    loading: "A carregar",
+    name: 'App PT',
+    loading: 'A carregar',
     general: {
       not_found_page: {
-        title: "Oops! Não conseguimos encontrar o que está a procurar",
+        title: 'Oops! Não conseguimos encontrar o que está a procurar',
       },
     },
     global_dictionary: {
       artists_hive: {
-        slogan: "Crie, Conecte-se, Voe...",
+        slogan: 'Crie, Conecte-se, Voe...',
       },
       genders: {
-        male: "Homem",
-        female: "Mulher",
-        non_binary: "Não binário",
-        non_specified: "Não especificado",
+        male: 'Homem',
+        female: 'Mulher',
+        non_binary: 'Não binário',
+        non_specified: 'Não especificado',
       },
       art_types: {
-        dance: "Dança",
-        music: "Música",
-        painting: "Pintura",
-        poetry: "Poesia",
-        photography: "Fotografia",
-        standup_comedy: "Comédia Stand-up",
-        theatre: "Teatro",
-        video: "Video",
+        dance: 'Dança',
+        music: 'Música',
+        painting: 'Pintura',
+        poetry: 'Poesia',
+        photography: 'Fotografia',
+        standup_comedy: 'Comédia Stand-up',
+        theatre: 'Teatro',
+        video: 'Video',
       },
       actions: {
         accounts: {
-          login: "Entrar",
-          signup: "Registrar-se",
-          create_account: "Criar conta",
+          login: 'Entrar',
+          signup: 'Registrar-se',
+          create_account: 'Criar conta',
         },
-        follow_us: "Siga-nos",
-        show_more: "Mostrar mais",
-        show_less: "Mostrar menos",
-        submit: "Enviar",
+        follow_us: 'Siga-nos',
+        show_more: 'Mostrar mais',
+        show_less: 'Mostrar menos',
+        submit: 'Enviar',
         subscription: {
-          subscribe: "Subscrever",
-          unsubscribe: "Cancelar",
+          subscribe: 'Subscrever',
+          unsubscribe: 'Cancelar',
         },
-        upload: "Carregar",
+        upload: 'Carregar',
       },
       entities: {
-        academies: { plural: "Academias", singular: "Academia" },
-        artists: { plural: "Artistas", singular: "Artista" },
-        events: { plural: "Eventos", singular: "Evento" },
-        places: { plural: "Locais", singular: "Local" },
-        promoters: { plural: "Promotores", singular: "Promotor" },
+        academies: { plural: 'Academias', singular: 'Academia' },
+        artists: { plural: 'Artistas', singular: 'Artista' },
+        events: { plural: 'Eventos', singular: 'Evento' },
+        places: { plural: 'Locais', singular: 'Local' },
+        promoters: { plural: 'Promotores', singular: 'Promotor' },
       },
       location: {
-        borough: "Bairro",
-        canton: "Cantão",
-        city: "Cidade",
-        county: "Condado",
-        continent: "Continente",
-        country: "País",
-        department: "Departamento",
-        district: "Distrito",
-        hamlet: "Aldeia",
-        location: "Local",
-        municipality: "Município",
-        province: "Província",
-        region: "Região",
-        state: "Estado",
-        town: "Cidade",
-        village: "Vila",
+        borough: 'Bairro',
+        canton: 'Cantão',
+        city: 'Cidade',
+        county: 'Condado',
+        continent: 'Continente',
+        country: 'País',
+        department: 'Departamento',
+        district: 'Distrito',
+        hamlet: 'Aldeia',
+        location: 'Local',
+        municipality: 'Município',
+        province: 'Província',
+        region: 'Região',
+        state: 'Estado',
+        town: 'Cidade',
+        village: 'Vila',
       },
       stats: {
         rating: {
-          overall: "Avaliação geral",
-          stage: "Palco",
-          sound: "Som",
-          backline: "Equipamento",
-          lights: "Iluminação",
-          dressing_room: "Sala de vestir",
-          hospitality_food: "Alimentação",
-          hospitality_drinks: "Bebidas",
-          timeliness: "Pontualidade",
-          communication: "Comunicação",
-          transportation: "Transporte",
-          logistic: "Logística",
-          location: "Localização",
-          seating_capacity: "Capacidade de assentos",
-          total_rates: "Total de avaliações",
-          talent: "Talento",
-          performance: "Desempenho",
-          proffesionalism: "Profissionalismo",
-          stage_presence: "Presença de palco",
-          charisma: "Carisma",
-          respectfulness: "Respeito",
+          overall: 'Avaliação geral',
+          stage: 'Palco',
+          sound: 'Som',
+          backline: 'Equipamento',
+          lights: 'Iluminação',
+          dressing_room: 'Sala de vestir',
+          hospitality_food: 'Alimentação',
+          hospitality_drinks: 'Bebidas',
+          timeliness: 'Pontualidade',
+          communication: 'Comunicação',
+          transportation: 'Transporte',
+          logistic: 'Logística',
+          location: 'Localização',
+          seating_capacity: 'Capacidade de assentos',
+          total_rates: 'Total de avaliações',
+          talent: 'Talento',
+          performance: 'Desempenho',
+          proffesionalism: 'Profissionalismo',
+          stage_presence: 'Presença de palco',
+          charisma: 'Carisma',
+          respectfulness: 'Respeito',
         },
       },
     },
     pages: {
       app: {
         settings: {
-          title: "Configurações",
+          title: 'Configurações',
           language_selection: {
-            title: "Seleção de idioma",
+            title: 'Seleção de idioma',
           },
           user_profile: {
-            title: "Perfil do Usuário",
-            user: "Usuário",
-            logout: "Sair",
-            logged_user: "Usuário Logado",
-            empty_user: "Não há um usuário",
-            user_info: "Informações do Usuário",
-            roles: "Funções",
-            artist: "Artista",
-            place: "Local",
+            title: 'Perfil do Usuário',
+            user: 'Usuário',
+            logout: 'Sair',
+            logged_user: 'Usuário Logado',
+            empty_user: 'Não há um usuário',
+            user_info: 'Informações do Usuário',
+            roles: 'Funções',
+            artist: 'Artista',
+            place: 'Local',
           },
         },
       },
       app_base: {
         LoginPage: {
           paragraph1:
-            "Você está visualizando uma versão de teste da nossa plataforma. Atualmente, o registro de usuários está limitado.",
+            'Você está visualizando uma versão de teste da nossa plataforma. Atualmente, o registro de usuários está limitado.',
           paragraph2:
-            "Se você deseja se juntar à colmeia de artistas, convidamos você a se registrar clicando no botão abaixo.",
+            'Se você deseja se juntar à colmeia de artistas, convidamos você a se registrar clicando no botão abaixo.',
           paragraph3:
-            "Lembre-se de que você pode se registrar como parte do ecossistema musical ou como um fã. Faça seu registro e fique atento à agenda cultural. Você receberá notificações e alertas para eventos do seu interesse.",
-          button: "Registrar-me na versão de testev",
+            'Lembre-se de que você pode se registrar como parte do ecossistema musical ou como um fã. Faça seu registro e fique atento à agenda cultural. Você receberá notificações e alertas para eventos do seu interesse.',
+          button: 'Registrar-me na versão de testev',
         },
         UsersPages: {
           UsersDetailsPage: {
             subpages: {
               general: {
-                name: "Geral",
+                name: 'Geral',
                 sections: {
                   general: {
-                    name: "Informações Gerais",
+                    name: 'Informações Gerais',
                     attributes: {
-                      fullname: "Nome Completo",
+                      fullname: 'Nome Completo',
                     },
                   },
                   contact: {
-                    name: "Contato",
+                    name: 'Contato',
                   },
                   emergency_contact: {
-                    name: "Contato de Emergência",
+                    name: 'Contato de Emergência',
                   },
                 },
               },
               arts: {
-                name: "Artes",
+                name: 'Artes',
                 sections: {
                   music: {
-                    name: "Música",
+                    name: 'Música',
                   },
                   dance: {
-                    name: "Dança",
+                    name: 'Dança',
                   },
                   photography: {
-                    name: "Fotografia",
+                    name: 'Fotografia',
                   },
                   video: {
-                    name: "Vídeo",
+                    name: 'Vídeo',
                   },
                   painting: {
-                    name: "Pintura",
+                    name: 'Pintura',
                   },
                   poetry: {
-                    name: "Poesia",
+                    name: 'Poesia',
                   },
                   standup_comedy: {
-                    name: "Comédia Stand-up",
+                    name: 'Comédia Stand-up',
                   },
                   awards: {
-                    name: "Prêmios",
+                    name: 'Prêmios',
                   },
                 },
               },
               memberships: {
-                name: "Associações",
+                name: 'Associações',
                 sections: {
                   artists: {
-                    name: "Artistas",
+                    name: 'Artistas',
                   },
                   places: {
-                    name: "Locais",
+                    name: 'Locais',
                   },
                 },
               },
               my_shows: {
-                name: "Meus Shows",
+                name: 'Meus Shows',
                 sections: {
                   next_shows: {
-                    name: "Próximos shows",
+                    name: 'Próximos shows',
                   },
                   past_shows: {
-                    name: "Shows passados",
+                    name: 'Shows passados',
                   },
                 },
               },
               my_liked_shows: {
-                name: "Meus shows curtidos",
+                name: 'Meus shows curtidos',
                 sections: {
                   next_shows: {
-                    name: "Próximos shows",
+                    name: 'Próximos shows',
                   },
                   past_shows: {
-                    name: "Shows passados",
+                    name: 'Shows passados',
                   },
                 },
               },
@@ -212,86 +212,86 @@ export const PtMessages = {
       },
       domain: {
         CulturalAgenda: {
-          title: "Agenda Cultural",
+          title: 'Agenda Cultural',
         },
         AcademiesPages: {
           AcademiesDetailsPage: {
             subpages: {
               general: {
-                name: "Generale",
+                name: 'Generale',
                 sections: {
                   gallery: {
-                    name: "Galeria",
+                    name: 'Galeria',
                   },
                   general: {
-                    name: "Informações gerais",
+                    name: 'Informações gerais',
                     attributes: {
-                      description: "Descrição",
-                      address: "Endereço",
-                      city: "Cidade",
-                      categories: "Categorias",
-                      since: "Desde",
-                      spoken_languages: "Idiomas falados",
+                      description: 'Descrição',
+                      address: 'Endereço',
+                      city: 'Cidade',
+                      categories: 'Categorias',
+                      since: 'Desde',
+                      spoken_languages: 'Idiomas falados',
                     },
                   },
                   contact: {
-                    name: "Contato",
+                    name: 'Contato',
                     attributes: {
-                      website: "Site",
-                      email: "E-mail",
-                      phone: "Telefone",
-                      mobile_phone: "Celular",
-                      whatsapp: "WhatsApp",
+                      website: 'Site',
+                      email: 'E-mail',
+                      phone: 'Telefone',
+                      mobile_phone: 'Celular',
+                      whatsapp: 'WhatsApp',
                     },
                   },
                   social_networks: {
-                    name: "Redes Sociais",
+                    name: 'Redes Sociais',
                   },
                 },
               },
               social: {
-                name: "Social",
+                name: 'Social',
                 sections: {
                   social_network_presence: {
-                    name: "Presença nas redes sociais",
+                    name: 'Presença nas redes sociais',
                   },
                   stats: {
-                    name: "Estatísticas",
+                    name: 'Estatísticas',
                     attributes: {
-                      general_rate: "Avaliação geral",
-                      followers: "Seguidores",
-                      event_followers: "Seguidores de eventos",
+                      general_rate: 'Avaliação geral',
+                      followers: 'Seguidores',
+                      event_followers: 'Seguidores de eventos',
                     },
                   },
                 },
               },
               shows: {
-                name: "Shows",
+                name: 'Shows',
                 sections: {
                   next_shows: {
-                    name: "Próximos shows",
+                    name: 'Próximos shows',
                   },
                   past_shows: {
-                    name: "Shows passados",
+                    name: 'Shows passados',
                   },
                 },
               },
               backline: {
-                name: "Backline",
+                name: 'Backline',
                 sections: {
                   sound_backline: {
-                    name: "Backline de som",
+                    name: 'Backline de som',
                   },
                   light_backline: {
-                    name: "Backline de iluminação",
+                    name: 'Backline de iluminação',
                   },
                 },
               },
               menu: {
-                name: "Menu",
+                name: 'Menu',
                 sections: {
-                  main_course: { name: "Prato principal" },
-                  second_course: { name: "Segundo prato" },
+                  main_course: { name: 'Prato principal' },
+                  second_course: { name: 'Segundo prato' },
                 },
               },
             },
@@ -301,102 +301,101 @@ export const PtMessages = {
           RidersDetailsPage: {
             subpages: {
               general: {
-                name: "Geral",
+                name: 'Geral',
                 sections: {
                   general: {
-                    name: "Geral",
+                    name: 'Geral',
                     attributes: {
-                      since: "Desde",
-                      home_city: "Cidade natal",
-                      categories: "Categorias",
-                      spoken_languages: "Idiomas falados",
-                      stage_languages: "Idiomas de palco",
-                      arts_languages: "Idiomas de artes",
+                      since: 'Desde',
+                      home_city: 'Cidade natal',
+                      categories: 'Categorias',
+                      spoken_languages: 'Idiomas falados',
+                      stage_languages: 'Idiomas de palco',
+                      arts_languages: 'Idiomas de artes',
                     },
                   },
                   contact: {
-                    name: "Contato",
+                    name: 'Contato',
                     attributes: {
-                      production_manager_phone:
-                        "Telefone do gerente de produção",
-                      tour_manager_phone: "Telefone do gerente de turnê",
+                      production_manager_phone: 'Telefone do gerente de produção',
+                      tour_manager_phone: 'Telefone do gerente de turnê',
                     },
                   },
                   general_technical_features: {
-                    name: "Recursos técnicos gerais",
+                    name: 'Recursos técnicos gerais',
                     attributes: {
-                      frecuency_response: "Resposta de frequência",
-                      sound_pressure: "Pressão sonora",
-                      foh_distance: "Distância FOH",
+                      frecuency_response: 'Resposta de frequência',
+                      sound_pressure: 'Pressão sonora',
+                      foh_distance: 'Distância FOH',
                     },
                   },
                 },
               },
               people: {
-                name: "Pessoas",
+                name: 'Pessoas',
                 sections: {
                   staff: {
-                    name: "Equipe",
+                    name: 'Equipe',
                   },
                   allergies: {
-                    name: "Alergias",
+                    name: 'Alergias',
                   },
                   rooming_list: {
-                    name: "Lista de acomodação",
+                    name: 'Lista de acomodação',
                   },
                   external_transportation: {
-                    name: "Transporte externo",
+                    name: 'Transporte externo',
                     attributes: {
-                      albums: "Voos",
+                      albums: 'Voos',
                     },
                   },
                   internal_transportation: {
-                    name: "Transporte interno",
+                    name: 'Transporte interno',
                     attributes: {
-                      albums: "Transporte terrestre",
+                      albums: 'Transporte terrestre',
                     },
                   },
                 },
               },
               technical_requirements: {
-                name: "Requisitos técnicos",
+                name: 'Requisitos técnicos',
                 sections: {
                   staging: {
-                    name: "Montagem",
+                    name: 'Montagem',
                   },
                   audio_requirements: {
-                    name: "Requisitos de áudio",
+                    name: 'Requisitos de áudio',
                   },
                   video_requirements: {
-                    name: "Requisitos de vídeo",
+                    name: 'Requisitos de vídeo',
                   },
                   lights_requirements: {
-                    name: "Requisitos de iluminação",
+                    name: 'Requisitos de iluminação',
                   },
                   stage_design: {
-                    name: "Design do palco",
+                    name: 'Design do palco',
                   },
                   special_effects: {
-                    name: "Efeitos especiais",
+                    name: 'Efeitos especiais',
                   },
                 },
               },
               backline: {
-                name: "Backline",
+                name: 'Backline',
                 sections: {
                   external_required_backline: {
-                    name: "Backline externo necessário",
+                    name: 'Backline externo necessário',
                   },
                   owned_backline: {
-                    name: "Backline próprio",
+                    name: 'Backline próprio',
                   },
                 },
               },
               sound_test: {
-                name: "Teste de som",
+                name: 'Teste de som',
                 sections: {
                   timing: {
-                    name: "Tempo",
+                    name: 'Tempo',
                   },
                 },
               },
@@ -404,62 +403,62 @@ export const PtMessages = {
           },
         },
         IndustryOfferPage: {
-          create_account_banner: "Junte-se à colmeia",
+          create_account_banner: 'Junte-se à colmeia',
         },
         TourPlansPages: {
           TourPlanDetailsPage: {
-            tourPlanNotFound: "Tour não encontrado",
+            tourPlanNotFound: 'Tour não encontrado',
             subpages: {
               general: {
-                name: "Geral",
+                name: 'Geral',
                 sections: {
                   dates: {
-                    name: "Datas",
+                    name: 'Datas',
                     attributes: {
-                      initial_date: "Data Inicial",
-                      final_date: "Data Final",
-                      total_days: "Dias Totais",
-                      events_state_summary: "Eventos",
+                      initial_date: 'Data Inicial',
+                      final_date: 'Data Final',
+                      total_days: 'Dias Totais',
+                      events_state_summary: 'Eventos',
                     },
                   },
                   shows: {
-                    name: "Shows",
+                    name: 'Shows',
                   },
                 },
               },
               dates: {
-                name: "Datas",
+                name: 'Datas',
               },
               budget: {
-                name: "Orçamento",
+                name: 'Orçamento',
                 sections: {
                   internal_transportation: {
-                    name: "Transporte Interno",
+                    name: 'Transporte Interno',
                   },
                   intercity_transportation: {
-                    name: "Transporte entre Cidades",
+                    name: 'Transporte entre Cidades',
                   },
                   accommodation: {
-                    name: "Alojamento",
+                    name: 'Alojamento',
                   },
                   food: {
-                    name: "Alimentação",
+                    name: 'Alimentação',
                   },
                 },
               },
               wishes: {
-                name: "Desejos",
+                name: 'Desejos',
                 sections: {
                   guest_artists: {
-                    name: "Artistas Convidados",
+                    name: 'Artistas Convidados',
                   },
                   possible_shows: {
-                    name: "Shows Possíveis",
+                    name: 'Shows Possíveis',
                   },
                 },
               },
               settings: {
-                name: "Configurações",
+                name: 'Configurações',
               },
             },
           },
@@ -469,100 +468,100 @@ export const PtMessages = {
         ArtistsDetailsPage: {
           subpages: {
             general: {
-              name: "Geral",
+              name: 'Geral',
               sections: {
                 general: {
-                  name: "Informações gerais",
+                  name: 'Informações gerais',
                   attributes: {
-                    description: "Descrição",
-                    since: "Desde",
-                    home_city: "Cidade natal",
-                    categories: "Categorias",
-                    genres: "Gêneros",
-                    spoken_languages: "Línguas faladas",
-                    stage_languages: "Línguas de palco",
-                    arts_languages: "Línguas das artes",
+                    description: 'Descrição',
+                    since: 'Desde',
+                    home_city: 'Cidade natal',
+                    categories: 'Categorias',
+                    genres: 'Gêneros',
+                    spoken_languages: 'Línguas faladas',
+                    stage_languages: 'Línguas de palco',
+                    arts_languages: 'Línguas das artes',
                   },
                 },
                 genres: {
-                  name: "Gêneros",
+                  name: 'Gêneros',
                 },
                 contact: {
-                  name: "Contato",
+                  name: 'Contato',
                   attributes: {
-                    website: "Website",
-                    email: "e-mail",
-                    phone: "Telefone",
-                    mobile_phone: "Celular",
-                    whatsapp: "WhatsApp",
+                    website: 'Website',
+                    email: 'e-mail',
+                    phone: 'Telefone',
+                    mobile_phone: 'Celular',
+                    whatsapp: 'WhatsApp',
                   },
                 },
                 social_networks: {
-                  name: "Redes sociais",
+                  name: 'Redes sociais',
                 },
                 record_label: {
-                  name: "Gravadoras",
+                  name: 'Gravadoras',
                 },
                 members: {
-                  name: "Membros",
+                  name: 'Membros',
                 },
               },
             },
             arts: {
-              name: "Artes",
+              name: 'Artes',
               sections: {
                 discography: {
-                  name: "Discografia",
+                  name: 'Discografia',
                   attributes: {
-                    albums: "Álbuns",
-                    dvd_video: "DVD / Vídeo",
+                    albums: 'Álbuns',
+                    dvd_video: 'DVD / Vídeo',
                   },
                 },
                 media_channels: {
-                  name: "Canais de mídia",
+                  name: 'Canais de mídia',
                 },
                 gallery: {
-                  name: "Galeria",
+                  name: 'Galeria',
                   attributes: {
-                    photos: "Fotos",
-                    video: "Vídeo",
+                    photos: 'Fotos',
+                    video: 'Vídeo',
                   },
                 },
                 awards: {
-                  name: "Prêmios",
+                  name: 'Prêmios',
                 },
               },
             },
             social: {
-              name: "Social",
+              name: 'Social',
               sections: {
                 social_network_presence: {
-                  name: "Presença em redes sociais",
+                  name: 'Presença em redes sociais',
                 },
                 stats: {
-                  name: "Estatísticas",
+                  name: 'Estatísticas',
                   attributes: {
-                    general_rate: "Taxa geral",
-                    followers: "Seguidores",
-                    event_followers: "Seguidores de eventos",
+                    general_rate: 'Taxa geral',
+                    followers: 'Seguidores',
+                    event_followers: 'Seguidores de eventos',
                   },
                 },
                 rating: {
-                  name: "Avaliação",
+                  name: 'Avaliação',
                 },
               },
             },
             shows: {
-              name: "Shows",
+              name: 'Shows',
               sections: {
                 summary: {
-                  name: "Resumo",
+                  name: 'Resumo',
                 },
                 next_shows: {
-                  name: "Próximos shows",
+                  name: 'Próximos shows',
                 },
                 past_shows: {
-                  name: "Shows passados",
+                  name: 'Shows passados',
                 },
               },
             },
@@ -570,73 +569,73 @@ export const PtMessages = {
         },
       },
       HomePage: {
-        welcome: "Bem-vindo",
-        news: "Notícias",
-        artists: "Artistas",
-        events: "Eventos",
-        places: "Lugares",
+        welcome: 'Bem-vindo',
+        news: 'Notícias',
+        artists: 'Artistas',
+        events: 'Eventos',
+        places: 'Lugares',
         industry_offer: {
-          title: "Você faz parte da indústria musical?",
-          call_to_action: "Conheça nossa proposta",
+          title: 'Você faz parte da indústria musical?',
+          call_to_action: 'Conheça nossa proposta',
         },
       },
       EventsPages: {
         EventDetailsPage: {
           subpages: {
             general: {
-              name: "Informações",
+              name: 'Informações',
               sections: {
                 general: {
-                  name: "Informações gerais",
+                  name: 'Informações gerais',
                   attributes: {
-                    national_code: "Código PULEP",
-                    timetable__initial_date: "Quando?",
-                    initial_time: "Horário de início",
-                    minimumAge: "Idade mínima",
-                    timetable__openning_doors: "Abertura das portas",
-                    promoter: "Promotor",
+                    national_code: 'Código PULEP',
+                    timetable__initial_date: 'Quando?',
+                    initial_time: 'Horário de início',
+                    minimumAge: 'Idade mínima',
+                    timetable__openning_doors: 'Abertura das portas',
+                    promoter: 'Promotor',
                   },
                 },
                 description: {
-                  name: "Descrição",
+                  name: 'Descrição',
                 },
                 genres: {
-                  name: "Gêneros",
+                  name: 'Gêneros',
                 },
               },
             },
             artists: {
-              name: "Artistas",
+              name: 'Artistas',
               sections: {
-                main_artists: { name: "Principais artistas" },
+                main_artists: { name: 'Principais artistas' },
               },
             },
             place: {
-              name: "Local",
+              name: 'Local',
               sections: {
                 location: {
-                  name: "Localização",
+                  name: 'Localização',
                 },
               },
             },
             contact: {
-              name: "Contato e Mídia",
+              name: 'Contato e Mídia',
               sections: {
                 contact: {
-                  name: "Informações de contato",
+                  name: 'Informações de contato',
                 },
                 social_networks: {
-                  name: "Redes sociais",
+                  name: 'Redes sociais',
                 },
               },
             },
             extra_info: {
-              name: "Extras",
+              name: 'Extras',
               sections: {
-                additional_info: { name: "Informações adicionais" },
-                dress_code: { name: "Código de vestimenta" },
-                discounts: { name: "Descontos" },
-                promoter: { name: "Promotor" },
+                additional_info: { name: 'Informações adicionais' },
+                dress_code: { name: 'Código de vestimenta' },
+                discounts: { name: 'Descontos' },
+                promoter: { name: 'Promotor' },
               },
             },
           },
@@ -646,86 +645,86 @@ export const PtMessages = {
         PlacesDetailsPage: {
           subpages: {
             general: {
-              name: "Generale",
+              name: 'Generale',
               sections: {
                 gallery: {
-                  name: "Galeria",
+                  name: 'Galeria',
                 },
                 general: {
-                  name: "Informações gerais",
+                  name: 'Informações gerais',
                   attributes: {
-                    description: "Descrição",
-                    address: "Endereço",
-                    city: "Cidade",
-                    cityWithCountry: "Localização",
-                    categories: "Categorias",
-                    since: "Desde",
-                    spoken_languages: "Idiomas falados",
-                    stage_languages: "Idiomas de palco",
-                    arts_languages: "Idiomas das artes",
+                    description: 'Descrição',
+                    address: 'Endereço',
+                    city: 'Cidade',
+                    cityWithCountry: 'Localização',
+                    categories: 'Categorias',
+                    since: 'Desde',
+                    spoken_languages: 'Idiomas falados',
+                    stage_languages: 'Idiomas de palco',
+                    arts_languages: 'Idiomas das artes',
                   },
                 },
                 genres: {
-                  name: "Gêneros",
+                  name: 'Gêneros',
                 },
                 contact: {
-                  name: "Contato",
+                  name: 'Contato',
                   attributes: {
-                    website: "Site",
-                    email: "E-mail",
-                    phone: "Telefone",
-                    mobile_phone: "Celular",
-                    whatsapp: "WhatsApp",
+                    website: 'Site',
+                    email: 'E-mail',
+                    phone: 'Telefone',
+                    mobile_phone: 'Celular',
+                    whatsapp: 'WhatsApp',
                   },
                 },
                 social_networks: {
-                  name: "Redes Sociais",
+                  name: 'Redes Sociais',
                 },
               },
             },
             stats: {
-              name: "Estatísticas",
+              name: 'Estatísticas',
               sections: {
                 social_network_presence: {
-                  name: "Presença nas redes sociais",
+                  name: 'Presença nas redes sociais',
                 },
                 rating: {
-                  name: "Avaliação",
+                  name: 'Avaliação',
                   attributes: {
-                    general_rate: "Avaliação geral",
-                    followers: "Seguidores",
-                    event_followers: "Seguidores de eventos",
+                    general_rate: 'Avaliação geral',
+                    followers: 'Seguidores',
+                    event_followers: 'Seguidores de eventos',
                   },
                 },
               },
             },
             shows: {
-              name: "Shows",
+              name: 'Shows',
               sections: {
                 next_shows: {
-                  name: "Próximos shows",
+                  name: 'Próximos shows',
                 },
                 past_shows: {
-                  name: "Shows passados",
+                  name: 'Shows passados',
                 },
               },
             },
             backline: {
-              name: "Backline",
+              name: 'Backline',
               sections: {
                 sound_backline: {
-                  name: "Backline de som",
+                  name: 'Backline de som',
                 },
                 light_backline: {
-                  name: "Backline de iluminação",
+                  name: 'Backline de iluminação',
                 },
               },
             },
             menu: {
-              name: "Menu",
+              name: 'Menu',
               sections: {
-                main_course: { name: "Prato principal" },
-                second_course: { name: "Segundo prato" },
+                main_course: { name: 'Prato principal' },
+                second_course: { name: 'Segundo prato' },
               },
             },
           },
@@ -734,117 +733,116 @@ export const PtMessages = {
     },
     appbase: {
       betabar: {
-        contact_us: "Entre em contato",
+        contact_us: 'Entre em contato',
         disclaimer:
-          "Você está visualizando uma versão de teste da nossa plataforma. Esperamos que goste. Você pode entrar em contato conosco usando o botão abaixo.",
-        our_email_is: "Nosso e-mail é:",
+          'Você está visualizando uma versão de teste da nossa plataforma. Esperamos que goste. Você pode entrar em contato conosco usando o botão abaixo.',
+        our_email_is: 'Nosso e-mail é:',
       },
       footer: {
         columns: {
           what_we_do: {
-            name: "O que fazemos?",
+            name: 'O que fazemos?',
             options: {
-              cultural_agenda: "Agenda Cultural",
-              for_academies: "Para academias",
-              for_artists: "Para artistas",
-              for_places: "Para lugares",
-              for_promoters: "Para promotores",
-              for_festivals: "Para festivais",
+              cultural_agenda: 'Agenda Cultural',
+              for_academies: 'Para academias',
+              for_artists: 'Para artistas',
+              for_places: 'Para lugares',
+              for_promoters: 'Para promotores',
+              for_festivals: 'Para festivais',
             },
           },
           about_us: {
-            name: "Sobre nós",
+            name: 'Sobre nós',
             options: {
-              history: "Nossa história",
-              press: "Imprensa",
-              career: "Carreira",
-              download: "Baixe o aplicativo",
-              data_policy: "Política de dados",
+              history: 'Nossa história',
+              press: 'Imprensa',
+              career: 'Carreira',
+              download: 'Baixe o aplicativo',
+              data_policy: 'Política de dados',
             },
           },
           help: {
-            name: "Ajuda",
+            name: 'Ajuda',
             options: {
-              help_center: "Central de ajuda",
-              contact_us: "Contate-nos",
-              report: "Reportar",
+              help_center: 'Central de ajuda',
+              contact_us: 'Contate-nos',
+              report: 'Reportar',
             },
           },
         },
         copywrite: {
-          allRightsReserved: "Todos os direitos reservados",
+          allRightsReserved: 'Todos os direitos reservados',
         },
       },
       search: {
         empty_results: {
-          title: "Não há resultados que correspondam à sua pesquisa",
+          title: 'Não há resultados que correspondam à sua pesquisa',
           suggestions: {
-            statement: "Tente qualquer uma das seguintes sugestões",
-            spelling: "Verifique a ortografia",
-            less_words: "Use palavras mais genéricas ou menos palavras",
-            related_things:
-              "Navegue pelas categorias para encontrar elementos similares",
+            statement: 'Tente qualquer uma das seguintes sugestões',
+            spelling: 'Verifique a ortografia',
+            less_words: 'Use palavras mais genéricas ou menos palavras',
+            related_things: 'Navegue pelas categorias para encontrar elementos similares',
           },
         },
-        not_found_results: "Nenhum resultado encontrado",
-        recommendations: "Recomendações",
+        not_found_results: 'Nenhum resultado encontrado',
+        recommendations: 'Recomendações',
         result_view_types: {
-          list: "Lista",
-          map: "Mapa",
+          list: 'Lista',
+          map: 'Mapa',
         },
-        results: "Resultados",
-        search: "Pesquisar",
-        search_placeholder: "Artistas, eventos, lugares...",
-        see_more: "Ver mais",
-        what_are_you_looking_for: "O que você está procurando?",
+        results: 'Resultados',
+        search: 'Pesquisar',
+        search_placeholder: 'Artistas, eventos, lugares...',
+        see_more: 'Ver mais',
+        what_are_you_looking_for: 'O que você está procurando?',
         types: {
-          ARTISTS: "Artistas",
-          PLACES: "Lugares",
-          EVENTS: "Eventos",
+          ARTISTS: 'Artistas',
+          PLACES: 'Lugares',
+          EVENTS: 'Eventos',
         },
-        type_your_search: "Digite sua pesquisa",
+        type_your_search: 'Digite sua pesquisa',
       },
       sidenav: {
-        name: "Menu principal",
+        name: 'Menu principal',
         sections: {
           general: {
-            name: "Geral",
+            name: 'Geral',
             options: {
-              home: "Início",
-              cultural_agenda: "Agenda cultural",
-              search: "Pesquisar",
+              home: 'Início',
+              cultural_agenda: 'Agenda cultural',
+              search: 'Pesquisar',
             },
           },
           myInfo: {
-            name: "Minha informação",
+            name: 'Minha informação',
             options: {
-              inbox: "Caixa de entrada",
-              "inbox.nested": {
-                incoming: "Recebidos",
-                sent: "Enviados",
+              inbox: 'Caixa de entrada',
+              'inbox.nested': {
+                incoming: 'Recebidos',
+                sent: 'Enviados',
               },
-              my_profile: "Meu perfil",
-              my_bands: "Minhas bandas",
-              "my_bands.nested": { create: "Criar uma Band" },
-              my_events: "Meus eventos",
-              my_riders: "Meus riders",
-              my_places: "Meus lugares",
-              "my_places.nested": { create: "Criar local" },
-              favourites: "Favoritos",
-              "favourites.nested": {
-                saved: "Salvos",
-                tour_planning: "Planejamento de turnê",
+              my_profile: 'Meu perfil',
+              my_bands: 'Minhas bandas',
+              'my_bands.nested': { create: 'Criar uma Band' },
+              my_events: 'Meus eventos',
+              my_riders: 'Meus riders',
+              my_places: 'Meus lugares',
+              'my_places.nested': { create: 'Criar local' },
+              favourites: 'Favoritos',
+              'favourites.nested': {
+                saved: 'Salvos',
+                tour_planning: 'Planejamento de turnê',
               },
             },
           },
           settings: {
-            name: "Configurações",
+            name: 'Configurações',
             options: {
-              settings: "Configurações",
-              help_center: "Central de ajuda",
-              report: "Reportar",
-              send_comments: "Enviar comentários",
-              logout: "Sair",
+              settings: 'Configurações',
+              help_center: 'Central de ajuda',
+              report: 'Reportar',
+              send_comments: 'Enviar comentários',
+              logout: 'Sair',
             },
           },
         },

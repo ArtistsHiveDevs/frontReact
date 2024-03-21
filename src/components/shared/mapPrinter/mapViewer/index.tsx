@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import "./index.scss";
+import { useEffect, useRef } from 'react';
+import './index.scss';
 
 const MapViewer = (props: any) => {
   const ref = useRef();
@@ -19,10 +19,7 @@ const MapViewer = (props: any) => {
         ...(!!iconData && {
           icon: {
             ...iconData,
-            anchor: new google.maps.Point(
-              iconData.iconAnchor[0],
-              iconData.iconAnchor[1]
-            ),
+            anchor: new google.maps.Point(iconData.iconAnchor[0], iconData.iconAnchor[1]),
           },
         }),
         map: map,

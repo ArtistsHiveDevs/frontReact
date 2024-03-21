@@ -1,28 +1,24 @@
-import { useEffect, useState } from "react";
-import { Collapse } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useSavedSlice } from "~/common/slices/domain/favourites/saved";
-import { selectSaved } from "~/common/slices/domain/favourites/saved/selectors";
-import { useSearchSlice } from "~/common/slices/search";
-import { useI18n } from "~/common/utils";
-import { DynamicIcons } from "~/components/shared/DynamicIcons";
-import {
-  GalleryImageParams,
-  ImageGallery,
-} from "~/components/shared/atoms/ImageGallery/ImageGallery";
-import { TabbedPage } from "~/components/shared/layout/TabbedPanel";
-import { ProfileDetailsSubpage } from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
-import { ResultElement } from "~/components/shared/search/result-element";
-import consts from "~/components/shared/search/search-constants";
-import { PATHS, SUB_PATHS } from "~/constants";
-import { SavedModel, SavedTemplate } from "~/models/domain/favourites/saved";
-import { SAVED_LIST_PAGE_CONFIG } from "./config-saved-list-page";
-import "./saved-list-page.scss";
+import { useEffect, useState } from 'react';
+import { Collapse } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useSavedSlice } from '~/common/slices/domain/favourites/saved';
+import { selectSaved } from '~/common/slices/domain/favourites/saved/selectors';
+import { useSearchSlice } from '~/common/slices/search';
+import { useI18n } from '~/common/utils';
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
+import { TabbedPage } from '~/components/shared/layout/TabbedPanel';
+import { ProfileDetailsSubpage } from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
+import { ResultElement } from '~/components/shared/search/result-element';
+import consts from '~/components/shared/search/search-constants';
+import { PATHS, SUB_PATHS } from '~/constants';
+import { SavedModel, SavedTemplate } from '~/models/domain/favourites/saved';
+import { SAVED_LIST_PAGE_CONFIG } from './config-saved-list-page';
+import './saved-list-page.scss';
 
-const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
-  "app.pages.domain.AcademiesPages.AcademiesDetailsPage";
-const TRANSLATION_BASE_SEARCH = "app.appbase.search";
+const TRANSLATION_BASE_ARTIST_DETAIL_PAGE = 'app.pages.domain.AcademiesPages.AcademiesDetailsPage';
+const TRANSLATION_BASE_SEARCH = 'app.appbase.search';
 
 const SavedListPage = () => {
   const { translateText, locale } = useI18n();
@@ -43,29 +39,23 @@ const SavedListPage = () => {
 
   // Effects
   useEffect(() => {
-    dispatch(savedActions.querySaved("asdasd"));
-    console.log("### % % consultando");
-    dispatch(searchActions.querySearch("Club"));
-    console.log("saved....");
+    dispatch(savedActions.querySaved('asdasd'));
+    console.log('### % % consultando');
+    dispatch(searchActions.querySearch('Club'));
+    console.log('saved....');
     if (favouritesList) {
-      console.log("pidiendo favoritos");
+      console.log('pidiendo favoritos');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    console.log("#### ", favouritesList);
-    setOpen(
-      favouritesList?.likedEntities?.map((entityName, index) => index === 0) ||
-        []
-    );
+    console.log('#### ', favouritesList);
+    setOpen(favouritesList?.likedEntities?.map((entityName, index) => index === 0) || []);
   }, [favouritesList]);
 
   const handlers = {
-    onClickGalleryImage: (
-      source: GalleryImageParams,
-      images: GalleryImageParams[]
-    ) => {
+    onClickGalleryImage: (source: GalleryImageParams, images: GalleryImageParams[]) => {
       const image = <ImageGallery images={images} imageSize="fs" />;
     },
     onCloseGalleryImage: (value: any) => {},
@@ -86,29 +76,27 @@ const SavedListPage = () => {
   }
 
   // Data config
-  const tabs: TabbedPage[] = subPagesInfo.map(
-    (subpage: ProfileDetailsSubpage) => {
-      return {
-        name: subpage.name,
-        tabContent: () => {
-          return <h2>subpage: {subpage.name}</h2>;
-        },
-      };
-    }
-  );
+  const tabs: TabbedPage[] = subPagesInfo.map((subpage: ProfileDetailsSubpage) => {
+    return {
+      name: subpage.name,
+      tabContent: () => {
+        return <h2>subpage: {subpage.name}</h2>;
+      },
+    };
+  });
 
-  console.log(">>>  ####   ", favouritesList, "DDñ");
+  console.log('>>>  ####   ', favouritesList, 'DDñ');
   const emptyResults = () => {
     let emptyContent = <></>;
     if (favouritesList?.totalResults === 0) {
       emptyContent = (
         <article>
-          <h3>{translate("empty_results.title")}</h3>
-          <p>{translate("empty_results.suggestions.statement")}</p>
+          <h3>{translate('empty_results.title')}</h3>
+          <p>{translate('empty_results.suggestions.statement')}</p>
           <ul>
-            <li>{translate("empty_results.suggestions.spelling")}</li>
-            <li>{translate("empty_results.suggestions.less_words")}</li>
-            <li>{translate("empty_results.suggestions.related_things")}</li>
+            <li>{translate('empty_results.suggestions.spelling')}</li>
+            <li>{translate('empty_results.suggestions.less_words')}</li>
+            <li>{translate('empty_results.suggestions.related_things')}</li>
           </ul>
         </article>
       );
@@ -123,9 +111,7 @@ const SavedListPage = () => {
       {favouritesList &&
         favouritesList.likedEntities.map((entityName, entityIndex) => {
           const entityColorIndex =
-            consts.defaultTypes.findIndex(
-              (type) => type.toLowerCase() === entityName.toLowerCase()
-            ) + 1;
+            consts.defaultTypes.findIndex((type) => type.toLowerCase() === entityName.toLowerCase()) + 1;
 
           return (
             <section key={`section-${entityIndex}-${entityName}`}>
@@ -139,42 +125,24 @@ const SavedListPage = () => {
               >
                 <h3 className="main-section-title">
                   {translate(`types.${entityName.toUpperCase()}`)} (
-                  {
-                    favouritesList.pagination[
-                      `total_${entityName}` as keyof typeof favouritesList.pagination
-                    ]
-                  }
-                  )
+                  {favouritesList.pagination[`total_${entityName}` as keyof typeof favouritesList.pagination]})
                 </h3>
-                <DynamicIcons
-                  color="#7a260a"
-                  iconName="AiOutlineDown"
-                  size="20"
-                />
+                <DynamicIcons color="#7a260a" iconName="AiOutlineDown" size="20" />
               </div>
               <Collapse in={open[entityIndex]}>
                 <div id="example-collapse-text-2">
                   <article className="day-forecast">
-                    {(
-                      favouritesList[
-                        entityName as keyof typeof favouritesList
-                      ] || []
-                    )
+                    {(favouritesList[entityName as keyof typeof favouritesList] || [])
                       .slice(0, MAX_RESULTS_PER_PAGE)
-                      .map(
-                        (entityObject: SavedTemplate, objectIndex: number) => (
-                          <div
-                            className="result-element-container"
-                            key={`result-${entityName}-${objectIndex}-${entityObject.id}`}
-                            // onClick={() => handleResultOnClick(entityObject)}
-                          >
-                            <ResultElement
-                              element={entityObject}
-                              elementType={entityName}
-                            />
-                          </div>
-                        )
-                      )}
+                      .map((entityObject: SavedTemplate, objectIndex: number) => (
+                        <div
+                          className="result-element-container"
+                          key={`result-${entityName}-${objectIndex}-${entityObject.id}`}
+                          // onClick={() => handleResultOnClick(entityObject)}
+                        >
+                          <ResultElement element={entityObject} elementType={entityName} />
+                        </div>
+                      ))}
                   </article>
                 </div>
               </Collapse>

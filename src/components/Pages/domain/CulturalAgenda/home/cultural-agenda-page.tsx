@@ -1,24 +1,24 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useEventsSlice } from "~/common/slices/events";
-import { selectEvents } from "~/common/slices/events/selectors";
-import { useI18n } from "~/common/utils";
-import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEventsSlice } from '~/common/slices/events';
+import { selectEvents } from '~/common/slices/events/selectors';
+import { useI18n } from '~/common/utils';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import {
   findEventsPerArtist,
   findEventsPerDate,
   findEventsPerGenre,
   mapStringArrayForListType,
   searchGenresFromEvents,
-} from "~/common/utils/object-utils/object-utils-index";
-import MainSection from "~/components/Pages/HomePage/MainSection/MainSection";
-import FilterBarComponent from "~/components/shared/organisms/FilterBar/filter-bar";
-import { getCustomList, sortEventsPerMonth } from "~/constants";
-import { SearchableTemplate } from "~/models/base";
-import { EventModel } from "~/models/domain/event/event.model";
-import "./cultural-agenda-page.scss";
+} from '~/common/utils/object-utils/object-utils-index';
+import MainSection from '~/components/Pages/HomePage/MainSection/MainSection';
+import FilterBarComponent from '~/components/shared/organisms/FilterBar/filter-bar';
+import { getCustomList, sortEventsPerMonth } from '~/constants';
+import { SearchableTemplate } from '~/models/base';
+import { EventModel } from '~/models/domain/event/event.model';
+import './cultural-agenda-page.scss';
 
-const TRANSLATION_BASE_AGENDA_CULTURAL_PAGE = "app.pages.domain.CulturalAgenda";
+const TRANSLATION_BASE_AGENDA_CULTURAL_PAGE = 'app.pages.domain.CulturalAgenda';
 
 const CulturalAgendaPage: React.FC = () => {
   // Slices
@@ -38,7 +38,7 @@ const CulturalAgendaPage: React.FC = () => {
   }
 
   function onFilterCategoriesAction(categorie: string) {
-    if (categorie !== "default") {
+    if (categorie !== 'default') {
       updateFilteredList(findEventsPerGenre(eventsList, categorie));
     } else {
       updateFilteredList(null);
@@ -75,12 +75,10 @@ const CulturalAgendaPage: React.FC = () => {
 
   return (
     <>
-      <h1 className="agenda-title">
-        {translateText(`${TRANSLATION_BASE_AGENDA_CULTURAL_PAGE}.title`)}
-      </h1>
+      <h1 className="agenda-title">{translateText(`${TRANSLATION_BASE_AGENDA_CULTURAL_PAGE}.title`)}</h1>
       {!filteredList && (
         <MainSection
-          title={"Destacados"}
+          title={'Destacados'}
           listView={getCustomList(10, eventsList)}
           params={{ useNewCard: true }}
           callbacks={{ onClickCard: onClickCardEventos }}
@@ -102,9 +100,9 @@ const CulturalAgendaPage: React.FC = () => {
           <MainSection
             key={`event-month-${idx}`}
             title={eventCase.monthName}
-            titleAlign={"center"}
+            titleAlign={'center'}
             listView={getCustomList(10, eventCase.data)}
-            orientation={"vertical"}
+            orientation={'vertical'}
             params={{ useNewCard: true }}
             cardOpts={{ printDayOfWeek: true }}
             callbacks={{ onClickCard: onClickCardEventos }}

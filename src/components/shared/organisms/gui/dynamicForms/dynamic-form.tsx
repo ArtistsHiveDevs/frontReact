@@ -1,10 +1,10 @@
-import { Button, Stack } from "@mui/material";
-import { FormProvider, useForm } from "react-hook-form";
+import { Button, Stack } from '@mui/material';
+import { FormProvider, useForm } from 'react-hook-form';
 
-import { useI18n } from "~/common/utils";
-import { DynamicControl } from "./DynamicControl";
-import { DynamicFieldData } from "./dynamic-control-types";
-import "./dynamic-form.scss";
+import { useI18n } from '~/common/utils';
+import { DynamicControl } from './DynamicControl';
+import { DynamicFieldData } from './dynamic-control-types';
+import './dynamic-form.scss';
 
 interface FormProps {
   fields: DynamicFieldData[];
@@ -13,7 +13,7 @@ interface FormProps {
   entityType: string;
 }
 
-const TRANSLATION_GLOBAL_DICTIONARY = "app.global_dictionary";
+const TRANSLATION_GLOBAL_DICTIONARY = 'app.global_dictionary';
 
 export const DynamicForm = (props: FormProps) => {
   const { fields, handlers } = props;
@@ -24,7 +24,7 @@ export const DynamicForm = (props: FormProps) => {
     formState: { errors },
   } = formMethods;
 
-  const onSubmit: any = handlers["onSubmit"];
+  const onSubmit: any = handlers['onSubmit'];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="fullwidth">
@@ -32,11 +32,7 @@ export const DynamicForm = (props: FormProps) => {
         <Stack spacing={2}>
           {fields.map((d, i) => (
             <div key={i}>
-              <DynamicControl
-                fieldData={d}
-                handlers={{ ...handlers }}
-                errors={{ ...errors }}
-              />
+              <DynamicControl fieldData={d} handlers={{ ...handlers }} errors={{ ...errors }} />
             </div>
           ))}
           <Button type="submit" variant="contained">

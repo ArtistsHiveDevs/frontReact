@@ -1,4 +1,4 @@
-import { EventModel } from "~/models/domain/event/event.model";
+import { EventModel } from '~/models/domain/event/event.model';
 
 export enum EventErrorType {
   RESPONSE_ERROR = 1,

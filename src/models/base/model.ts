@@ -1,5 +1,5 @@
-import { toCamelCase } from "~/common/utils/string-utils";
-import { EntityTemplate, ObjectValueTemplate } from "./template";
+import { toCamelCase } from '~/common/utils/string-utils';
+import { EntityTemplate, ObjectValueTemplate } from './template';
 
 /**
  *
@@ -16,17 +16,14 @@ abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
     this._template = template;
 
     Object.keys(template)
-      .filter((templateKey) => templateKey !== "_data")
+      .filter((templateKey) => templateKey !== '_data')
       .forEach((templateKey: string): void => {
-        const builderName = `onBuildTemplateField${toCamelCase(
-          templateKey,
-          false
-        )}`;
+        const builderName = `onBuildTemplateField${toCamelCase(templateKey, false)}`;
         //@ts-expect-error
         const builder = this[builderName];
-        const functionBuildTemplateValue: (key: string, template: T) => void = (
-          builder || this.buildAttribute
-        ).bind(this);
+        const functionBuildTemplateValue: (key: string, template: T) => void = (builder || this.buildAttribute).bind(
+          this
+        );
         functionBuildTemplateValue(templateKey, template);
       });
   }
@@ -68,9 +65,7 @@ abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
     //@ts-expect-error
     const attributeValueInTemplate = template[attributeTemplateName];
 
-    const defaultValueFunction = defaultValue
-      ? defaultValue
-      : () => attributeValueInTemplate;
+    const defaultValueFunction = defaultValue ? defaultValue : () => attributeValueInTemplate;
 
     const descriptor: PropertyDescriptor = {
       get:
@@ -124,6 +119,6 @@ export class EntityModel<T extends EntityTemplate> extends Model<T> {
  */
 export class ObjectValueModel<T extends ObjectValueTemplate> extends Model<T> {
   public toJSON(): T {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 }

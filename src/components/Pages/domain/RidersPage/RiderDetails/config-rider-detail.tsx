@@ -1,68 +1,47 @@
 import {
   ProfileComponentTypes,
   ProfileDetailsSubpage,
-} from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
-import { ArtistRiderModel } from "~/models/domain/rider/rider.model";
+} from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
+import { ArtistRiderModel } from '~/models/domain/rider/rider.model';
 
 export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
-    name: "general",
+    name: 'general',
     sections: [
       {
-        name: "general",
+        name: 'general',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "description",
+                  name: 'description',
                   emptyTitle: true,
                 },
                 {
-                  name: "since",
-                  icon: "BsCalendar",
+                  name: 'since',
+                  icon: 'BsCalendar',
                 },
                 {
-                  name: "home_city",
-                  icon: "AiFillHome",
+                  name: 'home_city',
+                  icon: 'AiFillHome',
                 },
                 {
-                  name: "categories",
-                  icon: "BsInfoCircleFill",
+                  name: 'categories',
+                  icon: 'BsInfoCircleFill',
                 },
                 {
-                  name: "spoken_languages",
-                  icon: "TbWorld",
+                  name: 'spoken_languages',
+                  icon: 'TbWorld',
                 },
                 {
-                  name: "stage_languages",
-                  icon: "BsTranslate",
+                  name: 'stage_languages',
+                  icon: 'BsTranslate',
                 },
                 {
-                  name: "arts_languages",
-                  icon: "BsFillMegaphoneFill",
-                },
-              ],
-            },
-          },
-        ],
-      },
-      {
-        name: "contact",
-        components: [
-          {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [
-                {
-                  name: "email",
-                },
-                {
-                  name: "production_manager_phone",
-                },
-                {
-                  name: "tour_manager_phone",
+                  name: 'arts_languages',
+                  icon: 'BsFillMegaphoneFill',
                 },
               ],
             },
@@ -70,20 +49,41 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "general_technical_features",
+        name: 'contact',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "frecuency_response",
+                  name: 'email',
                 },
                 {
-                  name: "sound_pressure",
+                  name: 'production_manager_phone',
                 },
                 {
-                  name: "foh_distance",
+                  name: 'tour_manager_phone',
+                },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        name: 'general_technical_features',
+        components: [
+          {
+            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  name: 'frecuency_response',
+                },
+                {
+                  name: 'sound_pressure',
+                },
+                {
+                  name: 'foh_distance',
                 },
               ],
             },
@@ -93,29 +93,29 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     ],
   },
   {
-    name: "people",
+    name: 'people',
     sections: [
       {
-        name: "staff",
+        name: 'staff',
         components: [
           {
             componentName: ProfileComponentTypes.CREW_LIST_VIEW,
             data: {
-              crewList: "staff.crewList",
+              crewList: 'staff.crewList',
             },
           },
         ],
       },
       {
-        name: "external_transportation",
+        name: 'external_transportation',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "albums",
-                  icon: "BsInfoCircleFill",
+                  name: 'albums',
+                  icon: 'BsInfoCircleFill',
                 },
               ],
             },
@@ -123,15 +123,15 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "internal_transportation",
+        name: 'internal_transportation',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "albums",
-                  icon: "BsInfoCircleFill",
+                  name: 'albums',
+                  icon: 'BsInfoCircleFill',
                 },
               ],
             },
@@ -139,7 +139,7 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "rooming_list",
+        name: 'rooming_list',
         components: [
           {
             componentName: ProfileComponentTypes.TABLE,
@@ -150,96 +150,96 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     ],
   },
   {
-    name: "technical_requirements",
+    name: 'technical_requirements',
     sections: [
       {
-        name: "staging",
+        name: 'staging',
         components: [
           {
             componentName: ProfileComponentTypes.TITLE,
             data: {
-              title: "Stage plot",
-              size: "3",
+              title: 'Stage plot',
+              size: '3',
             },
           },
           {
             componentName: ProfileComponentTypes.TITLE,
             data: {
-              title: "Top view",
-              size: "5",
+              title: 'Top view',
+              size: '5',
             },
           },
           {
             componentName: ProfileComponentTypes.IMAGE_GALLERY,
             data: {
-              image: "stage_plot.topview",
+              image: 'stage_plot.topview',
             },
           },
           {
             componentName: ProfileComponentTypes.TITLE,
             data: {
-              title: "Front view",
-              size: "5",
+              title: 'Front view',
+              size: '5',
             },
           },
           {
             componentName: ProfileComponentTypes.IMAGE_GALLERY,
             data: {
-              image: "stage_plot.frontview",
+              image: 'stage_plot.frontview',
             },
           },
           {
             componentName: ProfileComponentTypes.TITLE,
             data: {
-              title: "Stage & structures",
-              size: "3",
+              title: 'Stage & structures',
+              size: '3',
             },
           },
           {
             componentName: ProfileComponentTypes.TITLE,
             data: {
-              title: "Tarima",
-              size: "5",
+              title: 'Tarima',
+              size: '5',
             },
           },
           {
             componentName: ProfileComponentTypes.TITLE,
             data: {
-              title: "Sobre Tarima",
-              size: "5",
+              title: 'Sobre Tarima',
+              size: '5',
             },
           },
           {
             componentName: ProfileComponentTypes.TITLE,
             data: {
-              title: "Structures",
-              size: "3",
+              title: 'Structures',
+              size: '3',
             },
           },
           {
             componentName: ProfileComponentTypes.TITLE,
             data: {
-              title: "Roofs",
-              size: "5",
+              title: 'Roofs',
+              size: '5',
             },
           },
           {
             componentName: ProfileComponentTypes.TITLE,
             data: {
-              title: "House Mix",
-              size: "5",
+              title: 'House Mix',
+              size: '5',
             },
           },
         ],
       },
       {
-        name: "audio_requirements",
+        name: 'audio_requirements',
         components: [
           {
             componentName: ProfileComponentTypes.TITLE,
             data: {
-              title: "Input List",
-              size: "3",
+              title: 'Input List',
+              size: '3',
             },
           },
           {
@@ -260,8 +260,8 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           {
             componentName: ProfileComponentTypes.TITLE,
             data: {
-              title: "Mezclas y monitoreo",
-              size: "3",
+              title: 'Mezclas y monitoreo',
+              size: '3',
             },
           },
           {
@@ -282,41 +282,41 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "video_requirements",
+        name: 'video_requirements',
         components: [
           {
             componentName: ProfileComponentTypes.TITLE,
             data: {
-              title: "Reproducción de video",
-              size: "3",
+              title: 'Reproducción de video',
+              size: '3',
             },
           },
           {
             componentName: ProfileComponentTypes.TITLE,
             data: {
-              title: "Pantallas",
-              size: "3",
+              title: 'Pantallas',
+              size: '3',
             },
           },
           {
             componentName: ProfileComponentTypes.TITLE,
             data: {
-              title: "Pantalla izquierda",
-              size: "5",
+              title: 'Pantalla izquierda',
+              size: '5',
             },
           },
           {
             componentName: ProfileComponentTypes.TITLE,
             data: {
-              title: "Pantalla Central",
-              size: "5",
+              title: 'Pantalla Central',
+              size: '5',
             },
           },
           {
             componentName: ProfileComponentTypes.TITLE,
             data: {
-              title: "Pantalla Derecha",
-              size: "5",
+              title: 'Pantalla Derecha',
+              size: '5',
             },
           },
           {
@@ -324,9 +324,9 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             data: {
               attributes: [
                 {
-                  name: "Facebook",
+                  name: 'Facebook',
                   emptyTitle: true,
-                  icon: "BsFacebook",
+                  icon: 'BsFacebook',
                 },
               ],
             },
@@ -334,16 +334,16 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "lights_requirements",
+        name: 'lights_requirements',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "Facebook",
+                  name: 'Facebook',
                   emptyTitle: true,
-                  icon: "BsFacebook",
+                  icon: 'BsFacebook',
                 },
               ],
             },
@@ -351,16 +351,16 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "stage_design",
+        name: 'stage_design',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "Facebook",
+                  name: 'Facebook',
                   emptyTitle: true,
-                  icon: "BsFacebook",
+                  icon: 'BsFacebook',
                 },
               ],
             },
@@ -368,16 +368,16 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "special_effects",
+        name: 'special_effects',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "Facebook",
+                  name: 'Facebook',
                   emptyTitle: true,
-                  icon: "BsFacebook",
+                  icon: 'BsFacebook',
                 },
               ],
             },
@@ -387,19 +387,19 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     ],
   },
   {
-    name: "backline",
+    name: 'backline',
     sections: [
       {
-        name: "external_required_backline",
+        name: 'external_required_backline',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "Facebook",
+                  name: 'Facebook',
                   emptyTitle: true,
-                  icon: "BsFacebook",
+                  icon: 'BsFacebook',
                 },
               ],
             },
@@ -407,16 +407,16 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "owned_backline",
+        name: 'owned_backline',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "Facebook",
+                  name: 'Facebook',
                   emptyTitle: true,
-                  icon: "BsFacebook",
+                  icon: 'BsFacebook',
                 },
               ],
             },
@@ -426,19 +426,19 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     ],
   },
   {
-    name: "sound_test",
+    name: 'sound_test',
     sections: [
       {
-        name: "timing",
+        name: 'timing',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "Facebook",
+                  name: 'Facebook',
                   emptyTitle: true,
-                  icon: "BsFacebook",
+                  icon: 'BsFacebook',
                 },
               ],
             },

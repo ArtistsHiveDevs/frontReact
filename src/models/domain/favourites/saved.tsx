@@ -1,11 +1,8 @@
-import { VerificationStatus } from "~/constants";
-import { EntityModel, EntityTemplate, SearchableTemplate } from "~/models/base";
-import {
-  ArtistModel,
-  ArtistTemplate,
-} from "~/models/domain/artist/artist.model";
-import { EventModel, EventTemplate } from "~/models/domain/event/event.model";
-import { PlaceModel, PlaceTemplate } from "~/models/domain/place/place.model";
+import { VerificationStatus } from '~/constants';
+import { EntityModel, EntityTemplate, SearchableTemplate } from '~/models/base';
+import { ArtistModel, ArtistTemplate } from '~/models/domain/artist/artist.model';
+import { EventModel, EventTemplate } from '~/models/domain/event/event.model';
+import { PlaceModel, PlaceTemplate } from '~/models/domain/place/place.model';
 
 export interface SavedFavouritesPaginationTemplate {
   total_artists: number;
@@ -19,10 +16,7 @@ export interface SavedTemplate extends EntityTemplate, SearchableTemplate {
   pagination: SavedFavouritesPaginationTemplate;
 }
 
-export class SavedModel
-  extends EntityModel<SavedTemplate>
-  implements SavedTemplate, SavedTemplate
-{
+export class SavedModel extends EntityModel<SavedTemplate> implements SavedTemplate, SavedTemplate {
   declare artists: ArtistTemplate[];
   declare events: EventTemplate[];
   declare places: PlaceTemplate[];
@@ -30,12 +24,9 @@ export class SavedModel
 
   constructor(template: SavedTemplate) {
     super(template);
-    this.artists =
-      template?.artists?.map((artist) => new ArtistModel(artist)) || [];
-    this.events =
-      template?.events?.map((events) => new EventModel(events)) || [];
-    this.places =
-      template?.places?.map((places) => new PlaceModel(places)) || [];
+    this.artists = template?.artists?.map((artist) => new ArtistModel(artist)) || [];
+    this.events = template?.events?.map((events) => new EventModel(events)) || [];
+    this.places = template?.places?.map((places) => new PlaceModel(places)) || [];
   }
   profile_pic?: string;
   name: string;

@@ -1,19 +1,15 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import useAuth from "~/common/utils/hooks/auth/useAuth";
-import {
-  GalleryImageParams,
-  ImageGallery,
-} from "~/components/shared/atoms/ImageGallery/ImageGallery";
-import { ProfileTabsPage } from "~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage";
-import { USER_DETAIL_SUB_PAGE_CONFIG } from "./config-user-detail";
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import useAuth from '~/common/utils/hooks/auth/useAuth';
+import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
+import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
+import { USER_DETAIL_SUB_PAGE_CONFIG } from './config-user-detail';
 
-import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
-import { EventModel } from "~/models/domain/event/event.model";
-import "./index.scss";
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { EventModel } from '~/models/domain/event/event.model';
+import './index.scss';
 
-const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
-  "app.pages.app_base.UsersPages.UsersDetailsPage";
+const TRANSLATION_BASE_ARTIST_DETAIL_PAGE = 'app.pages.app_base.UsersPages.UsersDetailsPage';
 
 const UserDetailPage = () => {
   const { navigateToEntity } = useNavigation();
@@ -48,10 +44,7 @@ const UserDetailPage = () => {
   // };
 
   const handlers = {
-    onClickGalleryImage: (
-      source: GalleryImageParams,
-      images: GalleryImageParams[]
-    ) => {
+    onClickGalleryImage: (source: GalleryImageParams, images: GalleryImageParams[]) => {
       const image = <ImageGallery images={images} imageSize="fs" />;
       setGalleryImage(image);
     },

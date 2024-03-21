@@ -1,11 +1,11 @@
-import { useContext } from "react";
-import { HvAppContext } from "~/common";
-import { useI18n } from "~/common/utils";
-import { DynamicIcons } from "~/components/shared/DynamicIcons";
-import { AVAILABLE_I18N_LANGUAGES } from "~/translations";
-import "./FooterCopyWrite.scss";
+import { useContext } from 'react';
+import { HvAppContext } from '~/common';
+import { useI18n } from '~/common/utils';
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import { AVAILABLE_I18N_LANGUAGES } from '~/translations';
+import './FooterCopyWrite.scss';
 
-const TRANSLATION_BASE_COPYWRITE = "app.appbase.footer.copywrite";
+const TRANSLATION_BASE_COPYWRITE = 'app.appbase.footer.copywrite';
 
 const FooterCopywrite = (props: any) => {
   let { lang, messages, setLocale } = useContext(HvAppContext);
@@ -14,30 +14,21 @@ const FooterCopywrite = (props: any) => {
     <>
       <div className="copyright">
         <p>Artists Hive ©</p>
-        <p>
-          {translateText(`${TRANSLATION_BASE_COPYWRITE}.allRightsReserved`)}
-        </p>
+        <p>{translateText(`${TRANSLATION_BASE_COPYWRITE}.allRightsReserved`)}</p>
         <p>2022 - {new Date().getFullYear()}</p>
         <p>
-          <DynamicIcons
-            iconName="FaGlobeAmericas"
-            size={20}
-            color={"#7a260a"}
-          />{" "}
+          <DynamicIcons iconName="FaGlobeAmericas" size={20} color={'#7a260a'} />{' '}
           {AVAILABLE_I18N_LANGUAGES.map((newLang, index, newLangArr) => {
             const styles = [];
             if (newLang === lang) {
-              styles.push("active-lang");
+              styles.push('active-lang');
             }
             return (
               <span key={`lang-${index}`}>
-                <span
-                  className={`translate-opt ${styles.join(" ")}`}
-                  onClick={() => setLocale(newLang)}
-                >
+                <span className={`translate-opt ${styles.join(' ')}`} onClick={() => setLocale(newLang)}>
                   {newLang}
                 </span>
-                {index < newLangArr.length - 1 && "  |  "}
+                {index < newLangArr.length - 1 && '  |  '}
               </span>
             );
           })}

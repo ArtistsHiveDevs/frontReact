@@ -1,14 +1,11 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction } from '@reduxjs/toolkit';
 
-import { createSlice } from "~/common/utils/@reduxjs/toolkit";
-import {
-  useInjectReducer,
-  useInjectSaga,
-} from "~/common/utils/redux-injectors";
-import { AppUserModel } from "~/models/app/user/user.model";
+import { createSlice } from '~/common/utils/@reduxjs/toolkit';
+import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
+import { AppUserModel } from '~/models/app/user/user.model';
 
-import { userSaga } from "./saga";
-import { UserErrorType, UserState } from "./types";
+import { userSaga } from './saga';
+import { UserErrorType, UserState } from './types';
 
 export const usersInitialState: UserState = {
   users: [],
@@ -17,7 +14,7 @@ export const usersInitialState: UserState = {
 };
 
 const slice = createSlice({
-  name: "UsersReducer",
+  name: 'UsersReducer',
   initialState: usersInitialState,
   reducers: {
     loadUsers(state) {
@@ -26,9 +23,7 @@ const slice = createSlice({
       state.users = [];
     },
     userLoaded(state, action: PayloadAction<AppUserModel[]>) {
-      const users = action.payload.map(
-        (template) => new AppUserModel(template)
-      );
+      const users = action.payload.map((template) => new AppUserModel(template));
 
       state.users = users;
       state.loading = false;

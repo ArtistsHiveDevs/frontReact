@@ -1,5 +1,5 @@
-import { InputLabel, Slider } from "@mui/material";
-import { ComponentGeneratorParams } from "../DynamicControl";
+import { InputLabel, Slider } from '@mui/material';
+import { ComponentGeneratorParams } from '../DynamicControl';
 
 export const createSlider = (params: ComponentGeneratorParams) => {
   const { fieldData, register } = params;
@@ -9,7 +9,7 @@ export const createSlider = (params: ComponentGeneratorParams) => {
     inputType,
     fieldName,
     defaultValue,
-    placeholder = "",
+    placeholder = '',
     options = [],
     config = {},
     componentParams = {},
@@ -18,21 +18,21 @@ export const createSlider = (params: ComponentGeneratorParams) => {
   const rangeLimits: { max?: number; min?: number; step?: number } = {};
 
   if (!!config?.min) {
-    if (typeof config.min === "number") {
+    if (typeof config.min === 'number') {
       rangeLimits.min = config.min;
     } else {
       rangeLimits.min = (config.min as any).value;
     }
   }
   if (!!config?.max) {
-    if (typeof config.max === "number") {
+    if (typeof config.max === 'number') {
       rangeLimits.max = config.max;
     } else {
       rangeLimits.max = (config.max as any).value;
     }
   }
-  if (!!componentParams["step"]) {
-    rangeLimits.step = componentParams["step"];
+  if (!!componentParams['step']) {
+    rangeLimits.step = componentParams['step'];
   }
 
   config.valueAsNumber = true;

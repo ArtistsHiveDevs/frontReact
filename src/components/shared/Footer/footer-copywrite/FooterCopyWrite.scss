@@ -1,4 +1,4 @@
-@import "~/variables.module.scss";
+@import '~/variables.module.scss';
 $scale-zoom: 1.1;
 
 .copyright {
@@ -17,7 +17,7 @@ $scale-zoom: 1.1;
 
 .translate-opt {
   color: #7a260a;
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .translate-opt:hover {

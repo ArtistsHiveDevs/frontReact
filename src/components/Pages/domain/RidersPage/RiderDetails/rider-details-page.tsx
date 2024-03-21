@@ -1,29 +1,23 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { useRidersSlice } from "~/common/slices/domain/riders";
-import { selectRiders } from "~/common/slices/domain/riders/selectors";
-import {
-  GalleryImageParams,
-  ImageGallery,
-} from "~/components/shared/atoms/ImageGallery/ImageGallery";
-import { ProfileTabsPage } from "~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage";
-import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from "~/constants";
-import { ArtistRiderModel } from "~/models/domain/rider/rider.model";
-import { RIDER_DETAILS_SUB_PAGE_CONFIG } from "./config-rider-detail";
-import "./index.scss";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useRidersSlice } from '~/common/slices/domain/riders';
+import { selectRiders } from '~/common/slices/domain/riders/selectors';
+import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
+import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
+import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
+import { ArtistRiderModel } from '~/models/domain/rider/rider.model';
+import { RIDER_DETAILS_SUB_PAGE_CONFIG } from './config-rider-detail';
+import './index.scss';
 
-const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
-  "app.pages.domain.RidersPages.RidersDetailsPage";
+const TRANSLATION_BASE_ARTIST_DETAIL_PAGE = 'app.pages.domain.RidersPages.RidersDetailsPage';
 
 const RiderDetailPage = () => {
   const navigate = useNavigate();
 
   const urlParameters = useParams();
 
-  const [riderId, setCurrentRiderId] = useState(
-    urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]
-  );
+  const [riderId, setCurrentRiderId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
 
   const riderList: ArtistRiderModel[] = useSelector(selectRiders);
   const { actions: ridersActions } = useRidersSlice();
@@ -60,10 +54,7 @@ const RiderDetailPage = () => {
   };
 
   const handlers = {
-    onClickGalleryImage: (
-      source: GalleryImageParams,
-      images: GalleryImageParams[]
-    ) => {
+    onClickGalleryImage: (source: GalleryImageParams, images: GalleryImageParams[]) => {
       const image = <ImageGallery images={images} imageSize="fs" />;
       setGalleryImage(image);
     },

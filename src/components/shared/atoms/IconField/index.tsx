@@ -1,21 +1,9 @@
-import { DynamicIcons } from "~/components/shared/DynamicIcons";
-import {
-  buildSocialNetworkLinkData,
-  SocialNetworks,
-} from "~/constants/social-networks.const";
-import "./index.scss";
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import { buildSocialNetworkLinkData, SocialNetworks } from '~/constants/social-networks.const';
+import './index.scss';
 
 const IconFieldReadOnly = (props: any) => {
-  let {
-    fieldName,
-    fieldTitle,
-    icon,
-    fieldValue,
-    customTitle,
-    emptyTitle,
-    useDivInValue,
-    useColon,
-  } = props;
+  let { fieldName, fieldTitle, icon, fieldValue, customTitle, emptyTitle, useDivInValue, useColon } = props;
 
   useColon = useColon === undefined || useColon;
 
@@ -23,19 +11,12 @@ const IconFieldReadOnly = (props: any) => {
   const socialNetwork = SocialNetworks[fieldName];
 
   if (!!socialNetwork) {
-    if (
-      typeof fieldValue === "string" ||
-      typeof fieldValue === "number" ||
-      typeof fieldValue === undefined
-    ) {
+    if (typeof fieldValue === 'string' || typeof fieldValue === 'number' || typeof fieldValue === undefined) {
       if (fieldValue && socialNetwork.url !== undefined) {
-        const urlSocialNetwork = buildSocialNetworkLinkData(
-          fieldName,
-          fieldValue
-        );
+        const urlSocialNetwork = buildSocialNetworkLinkData(fieldName, fieldValue);
         renderFieldValue = (
           <a href={urlSocialNetwork.url} target={urlSocialNetwork.target}>
-            {`${socialNetwork.user_prefix || ""}${fieldValue}`}
+            {`${socialNetwork.user_prefix || ''}${fieldValue}`}
           </a>
         );
       }
@@ -46,7 +27,7 @@ const IconFieldReadOnly = (props: any) => {
 
     if (!customTitle) {
       if (socialNetwork.emptyTitle) {
-        fieldTitle = "";
+        fieldTitle = '';
       } else {
         fieldTitle = socialNetwork.title;
       }
@@ -65,7 +46,7 @@ const IconFieldReadOnly = (props: any) => {
           {fieldTitle && (
             <strong>
               {fieldTitle}
-              {useColon ? ":" : ""}{" "}
+              {useColon ? ':' : ''}{' '}
             </strong>
           )}
           {renderFieldValue}

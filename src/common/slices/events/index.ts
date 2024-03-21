@@ -1,14 +1,11 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction } from '@reduxjs/toolkit';
 
-import { createSlice } from "~/common/utils/@reduxjs/toolkit";
-import {
-  useInjectReducer,
-  useInjectSaga,
-} from "~/common/utils/redux-injectors";
-import { EventModel } from "~/models/domain/event/event.model";
+import { createSlice } from '~/common/utils/@reduxjs/toolkit';
+import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
+import { EventModel } from '~/models/domain/event/event.model';
 
-import { eventSaga } from "./saga";
-import { EventErrorType, EventState } from "./types";
+import { eventSaga } from './saga';
+import { EventErrorType, EventState } from './types';
 
 export const eventsInitialState: EventState = {
   events: [],
@@ -19,7 +16,7 @@ export const eventsInitialState: EventState = {
 };
 
 const slice = createSlice({
-  name: "EventsReducer",
+  name: 'EventsReducer',
   initialState: eventsInitialState,
   reducers: {
     loadEvents(state) {

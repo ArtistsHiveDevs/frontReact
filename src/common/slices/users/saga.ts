@@ -1,9 +1,9 @@
-import { call, delay, put, takeLatest } from "redux-saga/effects";
+import { call, delay, put, takeLatest } from 'redux-saga/effects';
 
-import { request } from "~/common/utils/request";
-import { AppUserModel } from "~/models/app/user/user.model";
+import { request } from '~/common/utils/request';
+import { AppUserModel } from '~/models/app/user/user.model';
 
-import { usersActions as actions } from ".";
+import { usersActions as actions } from '.';
 
 export function* getUsers() {
   yield delay(500);

@@ -1,7 +1,7 @@
-import { Card } from "react-bootstrap";
-import { AligmentVerifiedMark } from "~/constants";
-import VerifiedArtist from "~/components/shared/VerifiedArtist";
-import "./index.scss";
+import { Card } from 'react-bootstrap';
+import { AligmentVerifiedMark } from '~/constants';
+import VerifiedArtist from '~/components/shared/VerifiedArtist';
+import './index.scss';
 
 const EntityCard = (props: any) => {
   const { data, idx, params } = props;
@@ -9,22 +9,12 @@ const EntityCard = (props: any) => {
     <Card key={idx} className="entity-card">
       <div className="header-card-container">
         <p>
-          {data?.profile_pic && (
-            <img className="profile-avatar" src={data.profile_pic} />
-          )}
-          {!data?.profile_pic && (
-            <img
-              className="profile-avatar"
-              src="/src/assets/img/empty-profile.png"
-            />
-          )}
+          {data?.profile_pic && <img className="profile-avatar" src={data.profile_pic} />}
+          {!data?.profile_pic && <img className="profile-avatar" src="/src/assets/img/empty-profile.png" />}
         </p>
         <p className="header-card-name">
           <span className="card-title-label">{data.name}</span>
-          <VerifiedArtist
-            aligment={AligmentVerifiedMark.LEFT}
-            verifiedStatus={data?.verified_status}
-          />
+          <VerifiedArtist aligment={AligmentVerifiedMark.LEFT} verifiedStatus={data?.verified_status} />
           <span>{data.subtitle}</span>
         </p>
       </div>

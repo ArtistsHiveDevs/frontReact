@@ -1,5 +1,5 @@
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const ContactUsPage = () => {
   //   const markdown = `A paragraph with *emphasis* and **strong importance**.

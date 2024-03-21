@@ -1,12 +1,7 @@
-import moment from "moment";
-import { VerificationStatus } from "~/constants";
-import {
-  EntityModel,
-  EntityTemplate,
-  LocatableTemplate,
-  SearchableTemplate,
-} from "~/models/base";
-import { EventModel, EventTemplate } from "../event/event.model";
+import moment from 'moment';
+import { VerificationStatus } from '~/constants';
+import { EntityModel, EntityTemplate, LocatableTemplate, SearchableTemplate } from '~/models/base';
+import { EventModel, EventTemplate } from '../event/event.model';
 
 export interface AcademyTemplate extends EntityTemplate {
   name: string;
@@ -83,11 +78,11 @@ export class AcademyModel
   }
 
   get latitude() {
-    return parseFloat(this.location?.split(",")[0] || "0");
+    return parseFloat(this.location?.split(',')[0] || '0');
   }
 
   get longitude() {
-    return parseFloat(this.location?.split(",")[1] || "0");
+    return parseFloat(this.location?.split(',')[1] || '0');
   }
 
   get latLng() {
@@ -96,9 +91,7 @@ export class AcademyModel
 
   get pastEvents() {
     return this.events
-      .filter((event) =>
-        moment(event.timetable__initial_date).isBefore(moment())
-      )
+      .filter((event) => moment(event.timetable__initial_date).isBefore(moment()))
       .sort((e1, e2) => {
         const date1 = e1.timetable__initial_date.toUpperCase(); // ignore upper and lowercase
         const date2 = e2.timetable__initial_date.toUpperCase(); // ignore upper and lowercase
@@ -115,9 +108,7 @@ export class AcademyModel
 
   get nextEvents() {
     return this.events
-      .filter((event) =>
-        moment(event.timetable__initial_date).isSameOrAfter(moment())
-      )
+      .filter((event) => moment(event.timetable__initial_date).isSameOrAfter(moment()))
       .sort((e1, e2) => {
         const date1 = e1.timetable__initial_date.toUpperCase(); // ignore upper and lowercase
         const date2 = e2.timetable__initial_date.toUpperCase(); // ignore upper and lowercase

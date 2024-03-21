@@ -1,25 +1,22 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction } from '@reduxjs/toolkit';
 
-import { createSlice } from "~/common/utils/@reduxjs/toolkit";
-import {
-  useInjectReducer,
-  useInjectSaga,
-} from "~/common/utils/redux-injectors";
-import { ArtistModel } from "~/models/domain/artist/artist.model";
+import { createSlice } from '~/common/utils/@reduxjs/toolkit';
+import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
+import { ArtistModel } from '~/models/domain/artist/artist.model';
 
-import { artistSaga } from "./saga";
-import { ArtistErrorType, ArtistState } from "./types";
+import { artistSaga } from './saga';
+import { ArtistErrorType, ArtistState } from './types';
 
 export const artistsInitialState: ArtistState = {
   artists: [],
   loading: false,
   error: null,
   artistsQueryParams: '',
-  queriedArtists: []
+  queriedArtists: [],
 };
 
 const slice = createSlice({
-  name: "ArtistsReducer",
+  name: 'ArtistsReducer',
   initialState: artistsInitialState,
   reducers: {
     loadArtists(state) {
@@ -28,9 +25,7 @@ const slice = createSlice({
       state.artists = [];
     },
     artistLoaded(state, action: PayloadAction<ArtistModel[]>) {
-      const artists = action.payload.map(
-        (template) => new ArtistModel(template)
-      );
+      const artists = action.payload.map((template) => new ArtistModel(template));
 
       state.artists = artists;
       state.loading = false;
@@ -42,9 +37,7 @@ const slice = createSlice({
       state.artistsQueryParams = action?.payload;
     },
     artistsQueried(state, action: PayloadAction<ArtistModel[] | []>) {
-      const artistsQuery = action.payload.map(
-        (template) => new ArtistModel(template)
-      );
+      const artistsQuery = action.payload.map((template) => new ArtistModel(template));
 
       state.queriedArtists = artistsQuery;
       state.loading = false;

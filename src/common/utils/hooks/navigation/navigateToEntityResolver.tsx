@@ -1,8 +1,8 @@
-import { PATHS } from "~/constants";
-import { ArtistModel } from "~/models/domain/artist/artist.model";
-import { EventModel } from "~/models/domain/event/event.model";
-import { TourOutlineModel } from "~/models/domain/favourites/tourOutline";
-import { PlaceModel } from "~/models/domain/place/place.model";
+import { PATHS } from '~/constants';
+import { ArtistModel } from '~/models/domain/artist/artist.model';
+import { EventModel } from '~/models/domain/event/event.model';
+import { TourOutlineModel } from '~/models/domain/favourites/tourOutline';
+import { PlaceModel } from '~/models/domain/place/place.model';
 
 export const resolveNavigateToEntityPath = (entityType: string) => {
   let entity = undefined;

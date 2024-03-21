@@ -1,5 +1,5 @@
-import { EntityModel, EntityTemplate } from "~/models/base";
-import { GeneralMusicalInstrumentModel } from "~/models/domain/musical-instrument/musical-instrument";
+import { EntityModel, EntityTemplate } from '~/models/base';
+import { GeneralMusicalInstrumentModel } from '~/models/domain/musical-instrument/musical-instrument';
 
 export interface CrewMemberTemplate {
   name: string;
@@ -58,10 +58,7 @@ export interface ArtistRiderTemplate extends EntityTemplate {
   created_at: Date;
   updated_at: Date;
 }
-export class ArtistRiderModel
-  extends EntityModel<ArtistRiderTemplate>
-  implements ArtistRiderTemplate
-{
+export class ArtistRiderModel extends EntityModel<ArtistRiderTemplate> implements ArtistRiderTemplate {
   declare artistId: string;
   declare name: string;
   declare instruments: GeneralMusicalInstrumentModel[];

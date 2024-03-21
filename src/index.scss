@@ -1,5 +1,5 @@
-@import "../node_modules/bootstrap/scss/bootstrap";
-@import "./variables.module.scss";
+@import '../node_modules/bootstrap/scss/bootstrap';
+@import './variables.module.scss';
 
 :root {
   /* Colors */
@@ -17,9 +17,8 @@
   --alpha-05: rgba(0, 0, 0, 0.5);
 
   /* Fonts */
-  --main-font: "Source Sans Pro", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-family-monospace: Menlo, Monaco, "Liberation Mono", "Courier New",
-    monospace;
+  --main-font: 'Source Sans Pro', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-monospace: Menlo, Monaco, 'Liberation Mono', 'Courier New', monospace;
   --line-height: 1.38636;
 
   /* Borders */
@@ -32,12 +31,11 @@
 
   /* Shadows */
   --with-shadow: 0 2px 8px 0 var(--alpha-005);
-  --with-shadow--hover: 0 2px 8px 0 var(--alpha-005),
-    0 4px 16px 0 var(--alpha-005), 0 8px 32px 0 var(--alpha-005);
+  --with-shadow--hover: 0 2px 8px 0 var(--alpha-005), 0 4px 16px 0 var(--alpha-005), 0 8px 32px 0 var(--alpha-005);
 
   --with-shadow--raised: 0 2px 8px 0 var(--alpha-015);
-  --with-shadow--raised--hover: 0 2px 8px 0 var(--alpha-015),
-    0 4px 16px 0 var(--alpha-015), 0 8px 32px 0 var(--alpha-015);
+  --with-shadow--raised--hover: 0 2px 8px 0 var(--alpha-015), 0 4px 16px 0 var(--alpha-015),
+    0 8px 32px 0 var(--alpha-015);
 
   --with-shadow--alert: 0 24px 38px 0 var(--alpha-015);
 }
@@ -69,7 +67,7 @@ h6 {
 
 h1,
 h2 {
-  font-family: "Euphoria Script", cursive;
+  font-family: 'Euphoria Script', cursive;
   color: $main-title-color;
 }
 

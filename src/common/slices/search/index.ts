@@ -1,24 +1,21 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction } from '@reduxjs/toolkit';
 
-import { createSlice } from "~/common/utils/@reduxjs/toolkit";
-import {
-  useInjectReducer,
-  useInjectSaga,
-} from "~/common/utils/redux-injectors";
-import { SearchModel } from "~/models/domain/search/search.model";
+import { createSlice } from '~/common/utils/@reduxjs/toolkit';
+import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
+import { SearchModel } from '~/models/domain/search/search.model';
 
-import { searchSaga } from "./saga";
-import { SearchErrorType, SearchState } from "./types";
+import { searchSaga } from './saga';
+import { SearchErrorType, SearchState } from './types';
 
 export const SearchInitialState: SearchState = {
   search: null,
   loading: false,
   error: null,
-  searchQueryParam: "",
+  searchQueryParam: '',
 };
 
 const slice = createSlice({
-  name: "SearchReducer",
+  name: 'SearchReducer',
   initialState: SearchInitialState,
   reducers: {
     querySearch(state, action: PayloadAction<string>) {

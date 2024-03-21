@@ -1,5 +1,5 @@
-import { VerificationStatus } from "~/constants";
-import { PlaceModel } from "../domain/place/place.model";
+import { VerificationStatus } from '~/constants';
+import { PlaceModel } from '../domain/place/place.model';
 
 interface Template {}
 
@@ -25,9 +25,9 @@ export interface SearchableTemplate extends EntityTemplate {
 }
 
 export function isSearchableEntity(object: any): object is SearchableTemplate {
-  return "name" in object && "profile_pic" in object;
+  return 'name' in object && 'profile_pic' in object;
 }
 
 export function isLocableEntity(object: any): object is LocatableTemplate {
-  return "latLng" in object;
+  return 'latLng' in object;
 }

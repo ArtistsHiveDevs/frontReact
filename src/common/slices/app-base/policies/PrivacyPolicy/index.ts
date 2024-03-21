@@ -1,17 +1,11 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction } from '@reduxjs/toolkit';
 
-import { createSlice } from "~/common/utils/@reduxjs/toolkit";
-import {
-  useInjectReducer,
-  useInjectSaga,
-} from "~/common/utils/redux-injectors";
-import {
-  PrivacyPolicyModel,
-  PrivacyPolicyTemplate,
-} from "~/models/app/policies/privacy/PrivacyPolicy.model";
+import { createSlice } from '~/common/utils/@reduxjs/toolkit';
+import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
+import { PrivacyPolicyModel, PrivacyPolicyTemplate } from '~/models/app/policies/privacy/PrivacyPolicy.model';
 
-import { privacyPolicySaga } from "./saga";
-import { PrivacyPolicyErrorType, PrivacyPolicyState } from "./types";
+import { privacyPolicySaga } from './saga';
+import { PrivacyPolicyErrorType, PrivacyPolicyState } from './types';
 
 export const privacyPolicyInitialState: PrivacyPolicyState = {
   queriedTermsVersion: undefined,
@@ -21,7 +15,7 @@ export const privacyPolicyInitialState: PrivacyPolicyState = {
 };
 
 const slice = createSlice({
-  name: "PrivacyPolicyReducer",
+  name: 'PrivacyPolicyReducer',
   initialState: privacyPolicyInitialState,
   reducers: {
     loadPrivacyPolicy(state, action?: PayloadAction<{ version: string }>) {

@@ -1,95 +1,91 @@
-import Flag from "react-world-flags";
-import { RatingStarsView } from "~/components/shared/atoms/gui/rating-stars-view/RatingStarsView";
-import { SocialNetworkStats } from "~/components/shared/domain/atoms/gui/social-network-stats/SocialNetworkStats";
+import Flag from 'react-world-flags';
+import { RatingStarsView } from '~/components/shared/atoms/gui/rating-stars-view/RatingStarsView';
+import { SocialNetworkStats } from '~/components/shared/domain/atoms/gui/social-network-stats/SocialNetworkStats';
 import {
   ProfileComponentTypes,
   ProfileDetailsSubpage,
-} from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
-import {
-  PlaceModel,
-  PlaceRatingTemplate,
-} from "~/models/domain/place/place.model";
+} from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
+import { PlaceModel, PlaceRatingTemplate } from '~/models/domain/place/place.model';
 
-export const TRANSLATION_BASE_PLACE_DETAIL_PAGE =
-  "app.pages.PlacesPages.PlacesDetailsPage";
+export const TRANSLATION_BASE_PLACE_DETAIL_PAGE = 'app.pages.PlacesPages.PlacesDetailsPage';
 
 export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
-    name: "general",
+    name: 'general',
     sections: [
       {
-        name: "gallery",
+        name: 'gallery',
         components: [
           {
             componentName: ProfileComponentTypes.IMAGE_GALLERY,
-            data: { images: "image_gallery" },
-            clickHandlerName: "onClickGalleryImage",
+            data: { images: 'image_gallery' },
+            clickHandlerName: 'onClickGalleryImage',
             formMetaData: {
-              inputType: "file",
-              fieldName: "image_gallery",
-              componentParams: { multipleFiles: true, accept: "image/*" },
+              inputType: 'file',
+              fieldName: 'image_gallery',
+              componentParams: { multipleFiles: true, accept: 'image/*' },
             },
           },
         ],
       },
       {
-        name: "general",
+        name: 'general',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "description",
+                  name: 'description',
                   emptyTitle: true,
                   formMetaData: {
-                    inputType: "textarea",
+                    inputType: 'textarea',
                   },
                 },
                 {
-                  name: "cityWithCountry",
-                  icon: "AiFillHome",
+                  name: 'cityWithCountry',
+                  icon: 'AiFillHome',
                   emptyTitle: true,
                   value: (place: PlaceModel) => {
                     const flag = place?.country;
 
                     const flags = {
-                      Colombia: "co",
-                      España: "es",
-                      Inglaterra: "GB-ENG",
+                      Colombia: 'co',
+                      España: 'es',
+                      Inglaterra: 'GB-ENG',
                     };
                     return (
                       <>
                         <span>{place?.cityWithCountry}</span>
-                        {"   "}
+                        {'   '}
                         <Flag
                           code={flags[flag as keyof typeof flags]}
                           height="15"
-                          style={{ border: "1px solid #999" }}
+                          style={{ border: '1px solid #999' }}
                         />
                       </>
                     );
                   },
                   formMetaData: {
-                    inputType: "citySelector",
+                    inputType: 'citySelector',
                   },
                 },
                 {
-                  name: "address",
+                  name: 'address',
                   emptyTitle: true,
                   formMetaData: {
-                    inputType: "address",
+                    inputType: 'address',
                   },
                 },
                 {
-                  name: "categories",
-                  icon: "BsInfoCircleFill",
+                  name: 'categories',
+                  icon: 'BsInfoCircleFill',
                 },
                 {
-                  name: "since",
-                  icon: "BsCalendar",
+                  name: 'since',
+                  icon: 'BsCalendar',
                   formMetaData: {
-                    inputType: "date",
+                    inputType: 'date',
                     componentParams: {
                       disableFuture: true,
                     },
@@ -99,53 +95,53 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   },
                 },
                 {
-                  name: "spoken_languages",
-                  icon: "BsTranslate",
-                  formMetaData: { inputType: "chipPicker" },
+                  name: 'spoken_languages',
+                  icon: 'BsTranslate',
+                  formMetaData: { inputType: 'chipPicker' },
                 },
               ],
             },
           },
           {
             componentName: ProfileComponentTypes.MAP,
-            data: { lat: "latitude", lng: "longitude" },
+            data: { lat: 'latitude', lng: 'longitude' },
           },
         ],
       },
       {
-        name: "genres",
+        name: 'genres',
         components: [
           {
             componentName: ProfileComponentTypes.ARTS_GENRES,
             data: {
-              genres: "genres",
+              genres: 'genres',
             },
 
-            formMetaData: { inputType: "chipPicker", fieldName: "genres" },
+            formMetaData: { inputType: 'chipPicker', fieldName: 'genres' },
           },
         ],
       },
       {
-        name: "contact",
+        name: 'contact',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "website",
+                  name: 'website',
                 },
                 {
-                  name: "email",
+                  name: 'email',
                 },
                 {
-                  name: "phone",
+                  name: 'phone',
                 },
                 {
-                  name: "mobile_phone",
+                  name: 'mobile_phone',
                 },
                 {
-                  name: "whatsapp",
+                  name: 'whatsapp',
                 },
               ],
             },
@@ -153,29 +149,29 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "social_networks",
+        name: 'social_networks',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "facebook",
+                  name: 'facebook',
                 },
                 {
-                  name: "twitter",
+                  name: 'twitter',
                 },
                 {
-                  name: "instagram",
+                  name: 'instagram',
                 },
                 {
-                  name: "spotify",
+                  name: 'spotify',
                 },
                 {
-                  name: "youtube",
+                  name: 'youtube',
                 },
                 {
-                  name: "wikipedia",
+                  name: 'wikipedia',
                 },
               ],
             },
@@ -185,160 +181,125 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     ],
   },
   {
-    name: "stats",
+    name: 'stats',
     // requireSession: true,
     sections: [
       {
-        name: "social_network_presence",
+        name: 'social_network_presence',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "facebook",
+                  name: 'facebook',
                   hidden: (place: PlaceModel) => {
                     return !place.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "facebook"
+                      (socialNetworkStats) => socialNetworkStats.name === 'facebook'
                     );
                   },
                   value: (place: PlaceModel) => {
                     const socialNetworkData = place.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "facebook"
+                      (socialNetworkStats) => socialNetworkStats.name === 'facebook'
                     );
                     return (
-                      <SocialNetworkStats
-                        followers={socialNetworkData?.followers}
-                        extraData={socialNetworkData}
-                      />
+                      <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
                     );
                   },
                 },
                 {
-                  name: "instagram",
+                  name: 'instagram',
                   hidden: (place: PlaceModel) => {
                     return !place.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "instagram"
+                      (socialNetworkStats) => socialNetworkStats.name === 'instagram'
                     );
                   },
                   value: (place: PlaceModel) => {
                     const socialNetworkData = place.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "instagram"
+                      (socialNetworkStats) => socialNetworkStats.name === 'instagram'
                     );
                     return (
-                      <SocialNetworkStats
-                        followers={socialNetworkData?.followers}
-                        extraData={socialNetworkData}
-                      />
+                      <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
                     );
                   },
                 },
                 {
-                  name: "twitter",
+                  name: 'twitter',
                   hidden: (place: PlaceModel) => {
                     return !place.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "twitter"
+                      (socialNetworkStats) => socialNetworkStats.name === 'twitter'
                     );
                   },
                   value: (place: PlaceModel) => {
                     const socialNetworkData = place.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "twitter"
+                      (socialNetworkStats) => socialNetworkStats.name === 'twitter'
                     );
                     return (
-                      <SocialNetworkStats
-                        followers={socialNetworkData?.followers}
-                        extraData={socialNetworkData}
-                      />
+                      <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
                     );
                   },
                 },
                 {
-                  name: "spotify",
+                  name: 'spotify',
                   hidden: (place: PlaceModel) => {
                     return !place.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "spotify"
+                      (socialNetworkStats) => socialNetworkStats.name === 'spotify'
                     );
                   },
                   value: (place: PlaceModel) => {
                     const socialNetworkData = place.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "spotify"
+                      (socialNetworkStats) => socialNetworkStats.name === 'spotify'
                     );
                     return (
-                      <SocialNetworkStats
-                        followers={socialNetworkData?.followers}
-                        extraData={socialNetworkData}
-                      />
+                      <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
                     );
                   },
                 },
                 {
-                  name: "deezer",
+                  name: 'deezer',
                   hidden: (place: PlaceModel) => {
                     return !place.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "deezer"
+                      (socialNetworkStats) => socialNetworkStats.name === 'deezer'
                     );
                   },
                   value: (place: PlaceModel) => {
                     const socialNetworkData = place.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "deezer"
+                      (socialNetworkStats) => socialNetworkStats.name === 'deezer'
                     );
                     return (
-                      <SocialNetworkStats
-                        followers={socialNetworkData?.followers}
-                        extraData={socialNetworkData}
-                      />
+                      <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
                     );
                   },
                 },
                 {
-                  name: "appleMusic",
+                  name: 'appleMusic',
                   hidden: (place: PlaceModel) => {
                     return !place.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "appleMusic"
+                      (socialNetworkStats) => socialNetworkStats.name === 'appleMusic'
                     );
                   },
                   value: (place: PlaceModel) => {
                     const socialNetworkData = place.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "appleMusic"
+                      (socialNetworkStats) => socialNetworkStats.name === 'appleMusic'
                     );
                     return (
-                      <SocialNetworkStats
-                        followers={socialNetworkData?.followers}
-                        extraData={socialNetworkData}
-                      />
+                      <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
                     );
                   },
                 },
                 {
-                  name: "youtube",
+                  name: 'youtube',
                   hidden: (place: PlaceModel) => {
                     return !place.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "youtube"
+                      (socialNetworkStats) => socialNetworkStats.name === 'youtube'
                     );
                   },
                   value: (place: PlaceModel) => {
                     const socialNetworkData = place.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "youtube"
+                      (socialNetworkStats) => socialNetworkStats.name === 'youtube'
                     );
                     return (
-                      <SocialNetworkStats
-                        followers={socialNetworkData?.followers}
-                        extraData={socialNetworkData}
-                      />
+                      <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
                     );
                   },
                 },
@@ -348,113 +309,85 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "rating",
+        name: 'rating',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
-              data_source: "stats.rating",
+              data_source: 'stats.rating',
               fields: [
                 {
-                  name: "overall",
+                  name: 'overall',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: PlaceRatingTemplate) => (
-                    <RatingStarsView rating={rating.overall} />
-                  ),
+                  value: (rating: PlaceRatingTemplate) => <RatingStarsView rating={rating.overall} />,
                 },
                 {
-                  name: "stage",
+                  name: 'stage',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: PlaceRatingTemplate) => (
-                    <RatingStarsView rating={rating.stage} />
-                  ),
+                  value: (rating: PlaceRatingTemplate) => <RatingStarsView rating={rating.stage} />,
                 },
                 {
-                  name: "sound",
+                  name: 'sound',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: PlaceRatingTemplate) => (
-                    <RatingStarsView rating={rating.sound} />
-                  ),
+                  value: (rating: PlaceRatingTemplate) => <RatingStarsView rating={rating.sound} />,
                 },
                 {
-                  name: "backline",
+                  name: 'backline',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: PlaceRatingTemplate) => (
-                    <RatingStarsView rating={rating.backline} />
-                  ),
+                  value: (rating: PlaceRatingTemplate) => <RatingStarsView rating={rating.backline} />,
                 },
                 {
-                  name: "lights",
+                  name: 'lights',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: PlaceRatingTemplate) => (
-                    <RatingStarsView rating={rating.lights} />
-                  ),
+                  value: (rating: PlaceRatingTemplate) => <RatingStarsView rating={rating.lights} />,
                 },
                 {
-                  name: "dressing_room",
+                  name: 'dressing_room',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: PlaceRatingTemplate) => (
-                    <RatingStarsView rating={rating.dressing_room} />
-                  ),
+                  value: (rating: PlaceRatingTemplate) => <RatingStarsView rating={rating.dressing_room} />,
                 },
                 {
-                  name: "hospitality_food",
+                  name: 'hospitality_food',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: PlaceRatingTemplate) => (
-                    <RatingStarsView rating={rating.hospitality_food} />
-                  ),
+                  value: (rating: PlaceRatingTemplate) => <RatingStarsView rating={rating.hospitality_food} />,
                 },
                 {
-                  name: "hospitality_drinks",
+                  name: 'hospitality_drinks',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: PlaceRatingTemplate) => (
-                    <RatingStarsView rating={rating.hospitality_drinks} />
-                  ),
+                  value: (rating: PlaceRatingTemplate) => <RatingStarsView rating={rating.hospitality_drinks} />,
                 },
                 {
-                  name: "timeliness",
+                  name: 'timeliness',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: PlaceRatingTemplate) => (
-                    <RatingStarsView rating={rating.timeliness} />
-                  ),
+                  value: (rating: PlaceRatingTemplate) => <RatingStarsView rating={rating.timeliness} />,
                 },
                 {
-                  name: "communication",
+                  name: 'communication',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: PlaceRatingTemplate) => (
-                    <RatingStarsView rating={rating.communication} />
-                  ),
+                  value: (rating: PlaceRatingTemplate) => <RatingStarsView rating={rating.communication} />,
                 },
                 {
-                  name: "transportation",
+                  name: 'transportation',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: PlaceRatingTemplate) => (
-                    <RatingStarsView rating={rating.transportation} />
-                  ),
+                  value: (rating: PlaceRatingTemplate) => <RatingStarsView rating={rating.transportation} />,
                 },
                 {
-                  name: "logistic",
+                  name: 'logistic',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: PlaceRatingTemplate) => (
-                    <RatingStarsView rating={rating.logistic} />
-                  ),
+                  value: (rating: PlaceRatingTemplate) => <RatingStarsView rating={rating.logistic} />,
                 },
                 {
-                  name: "location",
+                  name: 'location',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: PlaceRatingTemplate) => (
-                    <RatingStarsView rating={rating.location} />
-                  ),
+                  value: (rating: PlaceRatingTemplate) => <RatingStarsView rating={rating.location} />,
                 },
                 {
-                  name: "seating_capacity",
+                  name: 'seating_capacity',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: PlaceRatingTemplate) => (
-                    <RatingStarsView rating={rating.seating_capacity} />
-                  ),
+                  value: (rating: PlaceRatingTemplate) => <RatingStarsView rating={rating.seating_capacity} />,
                 },
                 {
-                  name: "total_rates",
+                  name: 'total_rates',
                   translationPath: `app.global_dictionary.stats.rating`,
                 },
               ],
@@ -465,66 +398,66 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     ],
   },
   {
-    name: "shows",
+    name: 'shows',
     sections: [
       {
-        name: "next_shows",
+        name: 'next_shows',
         components: [
           {
             componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
             data: {
-              data_source: "nextEvents",
+              data_source: 'nextEvents',
               fields: {
-                date: "timetable__initial_date",
-                time: "timetable__main_artist_time",
-                title: "name",
-                subtitle: "subtitle",
+                date: 'timetable__initial_date',
+                time: 'timetable__main_artist_time',
+                title: 'name',
+                subtitle: 'subtitle',
               },
             },
-            clickHandlerName: "onClickNextEvent",
+            clickHandlerName: 'onClickNextEvent',
           },
         ],
       },
       {
-        name: "past_shows",
+        name: 'past_shows',
         components: [
           {
             componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
             data: {
-              data_source: "pastEvents",
+              data_source: 'pastEvents',
               fields: {
-                date: "timetable__initial_date",
-                title: "name",
-                subtitle: "subtitle",
-                picture: "photo",
+                date: 'timetable__initial_date',
+                title: 'name',
+                subtitle: 'subtitle',
+                picture: 'photo',
               },
             },
-            clickHandlerName: "onClickPastEvent",
+            clickHandlerName: 'onClickPastEvent',
           },
         ],
       },
     ],
   },
   {
-    name: "backline",
+    name: 'backline',
     requireSession: true,
     sections: [
       {
-        name: "sound_backline",
+        name: 'sound_backline',
       },
       {
-        name: "light_backline",
+        name: 'light_backline',
       },
     ],
   },
   {
-    name: "menu",
+    name: 'menu',
     sections: [
       {
-        name: "main_course",
+        name: 'main_course',
       },
       {
-        name: "second_course",
+        name: 'second_course',
       },
     ],
   },

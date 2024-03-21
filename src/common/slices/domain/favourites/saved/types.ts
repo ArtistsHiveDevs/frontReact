@@ -1,4 +1,4 @@
-import { SavedModel } from "~/models/domain/favourites/saved";
+import { SavedModel } from '~/models/domain/favourites/saved';
 
 export enum SavedErrorType {
   RESPONSE_ERROR = 1,

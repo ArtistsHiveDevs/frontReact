@@ -1,22 +1,20 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { usePlacesSlice } from "~/common/slices/places";
-import { selectPlaces } from "~/common/slices/places/selectors";
-import { DynamicTabbedForm } from "~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm";
-import { URL_PARAMETER_NAMES } from "~/constants";
-import { PlaceModel } from "~/models/domain/place/place.model";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { usePlacesSlice } from '~/common/slices/places';
+import { selectPlaces } from '~/common/slices/places/selectors';
+import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
+import { URL_PARAMETER_NAMES } from '~/constants';
+import { PlaceModel } from '~/models/domain/place/place.model';
 import {
   PLACE_DETAIL_SUB_PAGE_CONFIG,
   TRANSLATION_BASE_PLACE_DETAIL_PAGE,
-} from "../PlaceDetailsPage/config-place-detail";
+} from '../PlaceDetailsPage/config-place-detail';
 
 const PlacesCreatePage = () => {
   const urlParameters = useParams();
 
-  const [placeId, setCurrentPlaceId] = useState(
-    urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]
-  );
+  const [placeId, setCurrentPlaceId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
 
   const placesList: PlaceModel[] = useSelector(selectPlaces);
   const { actions: placesActions } = usePlacesSlice();
@@ -46,15 +44,15 @@ const PlacesCreatePage = () => {
 
   useEffect(() => {
     const langsOR = [
-      { label: "ES", value: "es", selected: false },
-      { label: "DE", value: "de" },
-      { label: "FR", value: "fr" },
-      { label: "PT", value: "pt" },
+      { label: 'ES', value: 'es', selected: false },
+      { label: 'DE', value: 'de' },
+      { label: 'FR', value: 'fr' },
+      { label: 'PT', value: 'pt' },
     ];
     let langs = [...langsOR];
 
     Array(20)
-      .fill("x")
+      .fill('x')
       .forEach((valu, number) =>
         langsOR.forEach((lng) =>
           langs.push({
@@ -67,19 +65,19 @@ const PlacesCreatePage = () => {
 
     updateAvailableLanguages(langs);
     updateAvailableGenres([
-      { label: "Cumbia", value: "genre1" },
-      { label: "Reggaetón", value: "genre2" },
-      { label: "Rock", value: "genre3", selected: true },
-      { label: "Jazz", value: "genr4" },
+      { label: 'Cumbia', value: 'genre1' },
+      { label: 'Reggaetón', value: 'genre2' },
+      { label: 'Rock', value: 'genre3', selected: true },
+      { label: 'Jazz', value: 'genr4' },
     ]);
   }, []);
 
   const handlers = {
     onSubmit: (data: any, error?: any) => {
-      console.log("#####----------->>>>  !!! ", data);
+      console.log('#####----------->>>>  !!! ', data);
     },
     onChangecountry: (data: any) => {
-      console.log("#####----------->>>>  !!! ", data);
+      console.log('#####----------->>>>  !!! ', data);
       // const ciudades =
       //   !!data &&
       //   !!data.value &&

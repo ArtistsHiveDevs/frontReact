@@ -1,4 +1,4 @@
-import { PlaceModel } from "~/models/domain/place/place.model";
+import { PlaceModel } from '~/models/domain/place/place.model';
 
 export enum PlaceErrorType {
   RESPONSE_ERROR = 1,

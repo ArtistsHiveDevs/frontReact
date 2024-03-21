@@ -1,26 +1,19 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { call, delay, put, takeLatest } from "redux-saga/effects";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { call, delay, put, takeLatest } from 'redux-saga/effects';
 
-import { request } from "~/common/utils/request";
-import { TermsAndConditionsModel } from "~/models/app/policies/termsAndConditions/TermsAndConditions.model";
+import { request } from '~/common/utils/request';
+import { TermsAndConditionsModel } from '~/models/app/policies/termsAndConditions/TermsAndConditions.model';
 
-import { actions } from ".";
-import { TermsAndConditionsErrorType } from "./types";
+import { actions } from '.';
+import { TermsAndConditionsErrorType } from './types';
 
-export function* getTermsAndConditions(
-  actionParams?: PayloadAction<{ version?: string }>
-) {
+export function* getTermsAndConditions(actionParams?: PayloadAction<{ version?: string }>) {
   yield delay(500);
 
-  const requestURL = `${
-    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/terms?v=1.0`;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/terms?v=1.0`;
 
   try {
-    const termsAndConditions: TermsAndConditionsModel = yield call(
-      request,
-      requestURL
-    );
+    const termsAndConditions: TermsAndConditionsModel = yield call(request, requestURL);
 
     yield put(actions.termsAndConditionsLoaded(termsAndConditions));
   } catch (err) {

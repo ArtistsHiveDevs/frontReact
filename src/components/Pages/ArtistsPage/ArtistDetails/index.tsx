@@ -1,32 +1,27 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { useArtistsSlice } from "~/common/slices/artists";
-import { selectArtists } from "~/common/slices/artists/selectors";
-import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useArtistsSlice } from '~/common/slices/artists';
+import { selectArtists } from '~/common/slices/artists/selectors';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import {
   ARTIST_DETAIL_SUB_PAGE_CONFIG,
   TRANSLATION_BASE_ARTIST_DETAIL_PAGE,
-} from "~/components/Pages/ArtistsPage/ArtistDetails/config-artist-detail";
+} from '~/components/Pages/ArtistsPage/ArtistDetails/config-artist-detail';
 
-import {
-  GalleryImageParams,
-  ImageGallery,
-} from "~/components/shared/atoms/ImageGallery/ImageGallery";
-import { ProfileTabsPage } from "~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage";
-import { URL_PARAMETER_NAMES } from "~/constants";
-import { ArtistModel } from "~/models/domain/artist/artist.model";
-import { EventModel } from "~/models/domain/event/event.model";
-import "./index.scss";
+import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
+import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
+import { URL_PARAMETER_NAMES } from '~/constants';
+import { ArtistModel } from '~/models/domain/artist/artist.model';
+import { EventModel } from '~/models/domain/event/event.model';
+import './index.scss';
 
 const ArtistDetailPage = () => {
   const { navigateToEntity } = useNavigation();
 
   const urlParameters = useParams();
 
-  const [artistId, setCurrentArtistId] = useState(
-    urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]
-  );
+  const [artistId, setCurrentArtistId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
 
   const artistList: ArtistModel[] = useSelector(selectArtists);
   const { actions: artistsActions } = useArtistsSlice();
@@ -63,10 +58,7 @@ const ArtistDetailPage = () => {
   };
 
   const handlers = {
-    onClickGalleryImage: (
-      source: GalleryImageParams,
-      images: GalleryImageParams[]
-    ) => {
+    onClickGalleryImage: (source: GalleryImageParams, images: GalleryImageParams[]) => {
       const image = <ImageGallery images={images} imageSize="fs" />;
       setGalleryImage(image);
     },

@@ -1,4 +1,4 @@
-import { DynamicIcons } from "~/components/shared/DynamicIcons";
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
 
 export const RatingStarsView = (props: { rating: number }) => {
   const { rating } = props;
@@ -9,33 +9,21 @@ export const RatingStarsView = (props: { rating: number }) => {
   const halfStar = !!decimalPart ? 1 : 0;
   const emptyRate = 5 - fullStars - halfStar;
 
-  const fullStarColor = "#d3ab0a";
-  const emptyStarColor = "#ddd";
+  const fullStarColor = '#d3ab0a';
+  const emptyStarColor = '#ddd';
 
   return (
     <div>
       {[...Array(fullStars)].map((e, i) => (
-        <DynamicIcons
-          key={`fullstar_${i}`}
-          color={fullStarColor}
-          iconName="IoIosStar"
-        />
+        <DynamicIcons key={`fullstar_${i}`} color={fullStarColor} iconName="IoIosStar" />
       ))}
       {[...Array(halfStar)].map((e, i) => (
-        <DynamicIcons
-          key={`halfstar_${i}`}
-          color={fullStarColor}
-          iconName="IoIosStarHalf"
-        />
+        <DynamicIcons key={`halfstar_${i}`} color={fullStarColor} iconName="IoIosStarHalf" />
       ))}
       {[...Array(emptyRate)].map((e, i) => (
-        <DynamicIcons
-          key={`emptystar_${i}`}
-          color={emptyStarColor}
-          iconName="IoIosStarOutline"
-        />
+        <DynamicIcons key={`emptystar_${i}`} color={emptyStarColor} iconName="IoIosStarOutline" />
       ))}
-      {` (${fullStars}.${!!decimalPart ? "5" : "0"})`}
+      {` (${fullStars}.${!!decimalPart ? '5' : '0'})`}
     </div>
   );
 };

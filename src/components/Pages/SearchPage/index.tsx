@@ -1,26 +1,23 @@
-import { useEffect, useState } from "react";
-import "./search.scss";
+import { useEffect, useState } from 'react';
+import './search.scss';
 
-import { Collapse, Form, Image, InputGroup, Modal } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { useSearchSlice } from "~/common/slices/search";
-import {
-  selectSearch,
-  selectSearchLoading,
-} from "~/common/slices/search/selectors";
-import { useI18n } from "~/common/utils";
-import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
-import { DynamicIcons } from "~/components/shared/DynamicIcons";
-import MapContainer from "~/components/shared/mapPrinter/mapContainer";
-import { ResultElement } from "~/components/shared/search/result-element";
-import consts from "~/components/shared/search/search-constants";
-import { LocatableTemplate, SearchableTemplate } from "~/models/base";
-import { SearchModel } from "~/models/domain/search/search.model";
+import { Collapse, Form, Image, InputGroup, Modal } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSearchSlice } from '~/common/slices/search';
+import { selectSearch, selectSearchLoading } from '~/common/slices/search/selectors';
+import { useI18n } from '~/common/utils';
+import { GMapsSvgMaker } from '~/common/utils/object-utils/object-utils-index';
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import MapContainer from '~/components/shared/mapPrinter/mapContainer';
+import { ResultElement } from '~/components/shared/search/result-element';
+import consts from '~/components/shared/search/search-constants';
+import { LocatableTemplate, SearchableTemplate } from '~/models/base';
+import { SearchModel } from '~/models/domain/search/search.model';
 
-import { faHome } from "@fortawesome/free-solid-svg-icons";
-import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 
-const TRANSLATION_BASE_SEARCH = "app.appbase.search";
+const TRANSLATION_BASE_SEARCH = 'app.appbase.search';
 const MAX_RESULTS_PER_PAGE = 40;
 
 export default function SearchPage() {
@@ -35,10 +32,10 @@ export default function SearchPage() {
   const { actions: searchActions } = useSearchSlice();
 
   const [open, setOpen] = useState([]);
-  const [resultViewType, setResultViewType] = useState<"list" | "map">("list");
+  const [resultViewType, setResultViewType] = useState<'list' | 'map'>('list');
   const [results, setResults] = useState<SearchModel>(undefined);
 
-  const [queryTextFieldValue, setQueryTextFieldValue] = useState("");
+  const [queryTextFieldValue, setQueryTextFieldValue] = useState('');
 
   useEffect(() => {
     if (!!queryTextFieldValue) {
@@ -56,9 +53,7 @@ export default function SearchPage() {
 
   useEffect(() => {
     if (results) {
-      setOpen(
-        results?.foundEntities?.map((entityName, index) => index === 0) || []
-      );
+      setOpen(results?.foundEntities?.map((entityName, index) => index === 0) || []);
     }
   }, [results]);
 
@@ -72,7 +67,7 @@ export default function SearchPage() {
   // Effects
 
   const handleText = (event: any) => {
-    setQueryTextFieldValue(event.target.value || "");
+    setQueryTextFieldValue(event.target.value || '');
   };
 
   const emptyResults = () => {
@@ -92,12 +87,12 @@ export default function SearchPage() {
     } else if (results && results.totalResults === 0) {
       emptyContent = (
         <article>
-          <h3>{translate("empty_results.title")}</h3>
-          <p>{translate("empty_results.suggestions.statement")}</p>
+          <h3>{translate('empty_results.title')}</h3>
+          <p>{translate('empty_results.suggestions.statement')}</p>
           <ul>
-            <li>{translate("empty_results.suggestions.spelling")}</li>
-            <li>{translate("empty_results.suggestions.less_words")}</li>
-            <li>{translate("empty_results.suggestions.related_things")}</li>
+            <li>{translate('empty_results.suggestions.spelling')}</li>
+            <li>{translate('empty_results.suggestions.less_words')}</li>
+            <li>{translate('empty_results.suggestions.related_things')}</li>
           </ul>
         </article>
       );
@@ -116,9 +111,7 @@ export default function SearchPage() {
         aria-labelledby="example-custom-modal-styling-title"
       >
         <Modal.Header closeButton>
-          <Modal.Title id="example-custom-modal-styling-title">
-            More filters
-          </Modal.Title>
+          <Modal.Title id="example-custom-modal-styling-title">More filters</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <h4>Arte</h4>
@@ -135,8 +128,8 @@ export default function SearchPage() {
   };
 
   const RESULT_VIEW_TYPES = [
-    { name: "list", icon: "IoIosList" },
-    { name: "map", icon: "GrMapLocation" },
+    { name: 'list', icon: 'IoIosList' },
+    { name: 'map', icon: 'GrMapLocation' },
   ];
 
   let mapData;
@@ -155,39 +148,33 @@ export default function SearchPage() {
     mapData = {
       zoom: 6,
       center: {
-        lat:
-          (results.location_boundaries.max_lat +
-            results.location_boundaries.min_lat) /
-          2,
-        lng:
-          (results.location_boundaries.max_lng +
-            results.location_boundaries.min_lng) /
-          2,
+        lat: (results.location_boundaries.max_lat + results.location_boundaries.min_lat) / 2,
+        lng: (results.location_boundaries.max_lng + results.location_boundaries.min_lng) / 2,
       },
       marksLocation: markers,
       anotherOpts: {},
     };
   }
 
-  const googleApiKey = "AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs";
+  const googleApiKey = 'AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs';
 
   const mapContainerStyles = {
-    width: "100%",
-    height: "400px",
+    width: '100%',
+    height: '400px',
   };
 
   return (
     <>
-      <h1>{translate("what_are_you_looking_for")}</h1>
+      <h1>{translate('what_are_you_looking_for')}</h1>
       <div className="search-controls">
         <InputGroup>
           <Form.Control
             aria-describedby="basic-addon2"
-            aria-label={translate("search_placeholder")}
+            aria-label={translate('search_placeholder')}
             autoComplete="off"
             className="ah-nav-search__input"
             name="search"
-            placeholder={translate("search_placeholder")}
+            placeholder={translate('search_placeholder')}
             value={queryTextFieldValue}
             onChange={handleText}
             // onClick={() => handleOnBlur()}
@@ -204,22 +191,18 @@ export default function SearchPage() {
             {RESULT_VIEW_TYPES.map((type) => (
               <div
                 key={type.name}
-                className={`result-view-type ${
-                  resultViewType === type.name ? "active" : ""
-                }`}
-                onClick={() => setResultViewType(type.name as "list" | "map")}
+                className={`result-view-type ${resultViewType === type.name ? 'active' : ''}`}
+                onClick={() => setResultViewType(type.name as 'list' | 'map')}
               >
                 <DynamicIcons iconName={type.icon} size={20} />
                 {translate(`result_view_types.${type.name}`)}
               </div>
             ))}
           </div>
-          {resultViewType === "list" &&
+          {resultViewType === 'list' &&
             results.foundEntities.map((entityName, entityIndex) => {
               const entityColorIndex =
-                consts.defaultTypes.findIndex(
-                  (type) => type.toLowerCase() === entityName.toLowerCase()
-                ) + 1;
+                consts.defaultTypes.findIndex((type) => type.toLowerCase() === entityName.toLowerCase()) + 1;
 
               return (
                 <section key={`section-${entityIndex}-${entityName}`}>
@@ -227,57 +210,37 @@ export default function SearchPage() {
                     className={`group-title-icon  entity-${entityColorIndex}-item`}
                     onClick={() => {
                       const newObjectValues = [...open];
-                      newObjectValues[entityIndex] =
-                        !newObjectValues[entityIndex];
+                      newObjectValues[entityIndex] = !newObjectValues[entityIndex];
                       setOpen(newObjectValues);
                     }}
                   >
                     <h3 className="main-section-title">
                       {translate(`types.${entityName.toUpperCase()}`)} (
-                      {
-                        results.pagination[
-                          `total_${entityName}` as keyof typeof results.pagination
-                        ]
-                      }
-                      )
+                      {results.pagination[`total_${entityName}` as keyof typeof results.pagination]})
                     </h3>
-                    <DynamicIcons
-                      color="#7a260a"
-                      iconName="AiOutlineDown"
-                      size="20"
-                    />
+                    <DynamicIcons color="#7a260a" iconName="AiOutlineDown" size="20" />
                   </div>
                   <Collapse in={open[entityIndex]}>
                     <div id="example-collapse-text-2">
                       <article className="day-forecast">
                         {(results[entityName as keyof typeof results] || [])
                           .slice(0, MAX_RESULTS_PER_PAGE)
-                          .map(
-                            (
-                              entityObject: SearchableTemplate,
-                              objectIndex: number
-                            ) => (
-                              <div
-                                className="result-element-container"
-                                key={`result-${entityName}-${objectIndex}-${entityObject.id}`}
-                                onClick={() =>
-                                  handleResultOnClick(entityObject)
-                                }
-                              >
-                                <ResultElement
-                                  element={entityObject}
-                                  elementType={entityName}
-                                />
-                              </div>
-                            )
-                          )}
+                          .map((entityObject: SearchableTemplate, objectIndex: number) => (
+                            <div
+                              className="result-element-container"
+                              key={`result-${entityName}-${objectIndex}-${entityObject.id}`}
+                              onClick={() => handleResultOnClick(entityObject)}
+                            >
+                              <ResultElement element={entityObject} elementType={entityName} />
+                            </div>
+                          ))}
                       </article>
                     </div>
                   </Collapse>
                 </section>
               );
             })}
-          {resultViewType === "map" && (
+          {resultViewType === 'map' && (
             <>
               {!results.location_boundaries && emptyResults()}
 
@@ -296,7 +259,7 @@ export default function SearchPage() {
 
       {emptyResults()}
       {(!results || results.totalResults === 0) && (
-        <div style={{ maxWidth: "10rem" }}>
+        <div style={{ maxWidth: '10rem' }}>
           <Image src="https://npcarlos.co/artistsHive_mocks/search.png" fluid />
         </div>
       )}

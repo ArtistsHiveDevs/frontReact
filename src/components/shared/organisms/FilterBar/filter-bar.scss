@@ -1,40 +1,38 @@
-@import "~/variables.module.scss";
+@import '~/variables.module.scss';
 
-.filter-bar-container{
-    padding: 20px 0 20px 0;
-    width: 95%;
-    .filter-bar-general {
-        box-shadow: 0px 0px 5px 1px $gray-medium;
-        padding: 10px;
-        border: 1px solid $entity-3;
-        border-radius: 10px;
+.filter-bar-container {
+  padding: 20px 0 20px 0;
+  width: 95%;
+  .filter-bar-general {
+    box-shadow: 0px 0px 5px 1px $gray-medium;
+    padding: 10px;
+    border: 1px solid $entity-3;
+    border-radius: 10px;
 
-        .label-filter-opt {
-            margin: 5px 10px 10px 0;
-        }
-        .filter-opt-container {
-            margin: 10px 0 10px 0;
-        }
-
-        .bar-restart-button{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-
-            .button-styles {
-                background-color: $entity-3;
-                border: 1px solid $entity-3;
-                transition: transform .2s;
-            }
-
-            .button-styles:hover {
-                cursor: pointer;
-                transform: scale(1.1);
-                background-color: $main-title-color;
-            }
-        }
+    .label-filter-opt {
+      margin: 5px 10px 10px 0;
+    }
+    .filter-opt-container {
+      margin: 10px 0 10px 0;
     }
 
-}
+    .bar-restart-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
 
+      .button-styles {
+        background-color: $entity-3;
+        border: 1px solid $entity-3;
+        transition: transform 0.2s;
+      }
+
+      .button-styles:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+        background-color: $main-title-color;
+      }
+    }
+  }
+}

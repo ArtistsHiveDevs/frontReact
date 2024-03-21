@@ -1,4 +1,4 @@
-@import "~/variables.module.scss";
+@import '~/variables.module.scss';
 
 .profile-header {
   display: flex;
@@ -14,7 +14,7 @@
   .header-title {
     margin: 1.2rem;
     h2 {
-      font-family: Roboto, "Helvetica Neue", sans-serif;
+      font-family: Roboto, 'Helvetica Neue', sans-serif;
       color: #333;
     }
 

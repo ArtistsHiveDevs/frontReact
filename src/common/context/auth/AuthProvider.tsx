@@ -1,11 +1,11 @@
-import { createContext, ReactNode, useState } from "react";
-import { AppUserModel, UNLOGGED_USER } from "~/models/app/user/user.model";
-import { EntityModel, EntityTemplate } from "~/models/base";
+import { createContext, ReactNode, useState } from 'react';
+import { AppUserModel, UNLOGGED_USER } from '~/models/app/user/user.model';
+import { EntityModel, EntityTemplate } from '~/models/base';
 
 export enum LoggedUserEntity {
-  USER = "User",
-  ARTIST = "Artist",
-  PLACE = "Place",
+  USER = 'User',
+  ARTIST = 'Artist',
+  PLACE = 'Place',
 }
 export interface LoggedUserProfile {
   entityName: LoggedUserEntity;
@@ -30,10 +30,8 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loggedUser, setLoggedUser] = useState<AppUserModel>(UNLOGGED_USER);
-  const [currentUserProfile, setCurrentUserProfile] =
-    useState<LoggedUserProfile>(undefined);
-  const [loggedUserProfile] =
-    useState<EntityModel<EntityTemplate>>(UNLOGGED_USER);
+  const [currentUserProfile, setCurrentUserProfile] = useState<LoggedUserProfile>(undefined);
+  const [loggedUserProfile] = useState<EntityModel<EntityTemplate>>(UNLOGGED_USER);
 
   return (
     <AuthContext.Provider

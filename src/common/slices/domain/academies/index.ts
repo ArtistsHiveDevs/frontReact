@@ -1,14 +1,11 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction } from '@reduxjs/toolkit';
 
-import { createSlice } from "~/common/utils/@reduxjs/toolkit";
-import {
-  useInjectReducer,
-  useInjectSaga,
-} from "~/common/utils/redux-injectors";
-import { AcademyModel } from "~/models/domain/academy/academy.model";
+import { createSlice } from '~/common/utils/@reduxjs/toolkit';
+import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
+import { AcademyModel } from '~/models/domain/academy/academy.model';
 
-import { academySaga } from "./saga";
-import { AcademyErrorType, AcademyState } from "./types";
+import { academySaga } from './saga';
+import { AcademyErrorType, AcademyState } from './types';
 
 export const academiesInitialState: AcademyState = {
   academies: [],
@@ -19,7 +16,7 @@ export const academiesInitialState: AcademyState = {
 };
 
 const slice = createSlice({
-  name: "AcademiesReducer",
+  name: 'AcademiesReducer',
   initialState: academiesInitialState,
   reducers: {
     loadAcademies(state) {
@@ -28,9 +25,7 @@ const slice = createSlice({
       state.academies = [];
     },
     academiesLoaded(state, action: PayloadAction<AcademyModel[]>) {
-      const academies = action.payload.map(
-        (template) => new AcademyModel(template)
-      );
+      const academies = action.payload.map((template) => new AcademyModel(template));
 
       state.academies = academies;
       state.loading = false;
@@ -42,9 +37,7 @@ const slice = createSlice({
       state.academiesQueryParams = action?.payload;
     },
     queriedAcademies(state, action: PayloadAction<AcademyModel[] | []>) {
-      const artistsQuery = action.payload.map(
-        (template) => new AcademyModel(template)
-      );
+      const artistsQuery = action.payload.map((template) => new AcademyModel(template));
 
       state.queriedAcademies = artistsQuery;
       state.loading = false;

@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { URL_PARAMETER_NAMES } from "~/constants";
+import { useParams } from 'react-router-dom';
+import { URL_PARAMETER_NAMES } from '~/constants';
 
 const RiderDetailPage = () => {
   const urlParameters = useParams();

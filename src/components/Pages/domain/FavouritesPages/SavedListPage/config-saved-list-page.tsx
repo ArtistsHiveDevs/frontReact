@@ -1,16 +1,16 @@
-import { ProfileDetailsSubpage } from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
+import { ProfileDetailsSubpage } from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
 
 export const SAVED_LIST_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
-    name: "artists",
+    name: 'artists',
     sections: [],
   },
   {
-    name: "places",
+    name: 'places',
     sections: [],
   },
   {
-    name: "events",
+    name: 'events',
     sections: [],
   },
 ];

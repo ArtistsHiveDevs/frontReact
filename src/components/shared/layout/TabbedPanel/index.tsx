@@ -1,9 +1,6 @@
-import { useEffect, useState } from "react";
-import {
-  AllowedEntityRole,
-  RequireAuthComponent,
-} from "~/components/shared/atoms/app/auth/RequiredAuth";
-import "./index.scss";
+import { useEffect, useState } from 'react';
+import { AllowedEntityRole, RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
+import './index.scss';
 
 export interface TabbedPage {
   name: string;
@@ -27,9 +24,9 @@ export const TabbedPanel = (props: any) => {
 
   const tabTitles = () => {
     return tabs.map((subpage: TabbedPage, idx: number) => {
-      const classNames = ["subpage-tab"];
+      const classNames = ['subpage-tab'];
       if (activeSectionIndex === idx) {
-        classNames.push("active-tab-title");
+        classNames.push('active-tab-title');
       }
       return (
         <RequireAuthComponent
@@ -37,10 +34,7 @@ export const TabbedPanel = (props: any) => {
           allowedRoles={subpage.allowedRoles}
           requiredSession={subpage.requireSession}
         >
-          <div
-            className={classNames.join(" ")}
-            onClick={() => changeSection(idx)}
-          >
+          <div className={classNames.join(' ')} onClick={() => changeSection(idx)}>
             <h5>{subpage.name}</h5>
           </div>
         </RequireAuthComponent>

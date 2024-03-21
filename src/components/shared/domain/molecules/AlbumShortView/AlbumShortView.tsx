@@ -1,6 +1,6 @@
-import moment from "moment";
-import { Image } from "react-bootstrap";
-import "./AlbumShortView.scss";
+import moment from 'moment';
+import { Image } from 'react-bootstrap';
+import './AlbumShortView.scss';
 
 export const AlbumShortView = (props: any) => {
   const { album } = props;

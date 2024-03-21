@@ -1,8 +1,8 @@
-import React from "react";
-import EntityCard from "~/components/shared/Cards/EntityCard";
-import NewEntityCard from "~/components/shared/Cards/NewEntityCard/NewEntityCard";
-import { EntityModel, EntityTemplate } from "~/models/base";
-import "./MainSection.scss";
+import React from 'react';
+import EntityCard from '~/components/shared/Cards/EntityCard';
+import NewEntityCard from '~/components/shared/Cards/NewEntityCard/NewEntityCard';
+import { EntityModel, EntityTemplate } from '~/models/base';
+import './MainSection.scss';
 
 type MainSectionInputParams = {
   title?: string;
@@ -15,31 +15,17 @@ type MainSectionInputParams = {
   cardOpts?: { printDayOfWeek: boolean };
 };
 
-const MainSection: React.FC<MainSectionInputParams> = (
-  props: MainSectionInputParams
-) => {
-  const {
-    title,
-    description,
-    listView = [],
-    params,
-    callbacks,
-    titleAlign,
-    orientation,
-    cardOpts,
-  } = props;
+const MainSection: React.FC<MainSectionInputParams> = (props: MainSectionInputParams) => {
+  const { title, description, listView = [], params, callbacks, titleAlign, orientation, cardOpts } = props;
 
   return (
     <div className="main-section">
       <>
-        <h3
-          className={`main-section-title`}
-          style={{ textAlign: titleAlign || "left" }}
-        >
+        <h3 className={`main-section-title`} style={{ textAlign: titleAlign || 'left' }}>
           {title}
         </h3>
         <p>{description}</p>
-        <div className={`cards-container-${orientation || "horizontal"}`}>
+        <div className={`cards-container-${orientation || 'horizontal'}`}>
           {!listView.length && (
             <>
               {Array(3)

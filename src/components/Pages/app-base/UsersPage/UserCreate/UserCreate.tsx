@@ -1,12 +1,8 @@
-import { useEffect, useState } from "react";
-import {
-  DynamicForm,
-  SelectOption,
-} from "~/components/shared/organisms/gui/dynamicForms";
-import { AppUserModel } from "~/models/app/user/user.model";
+import { useEffect, useState } from 'react';
+import { DynamicForm, SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
+import { AppUserModel } from '~/models/app/user/user.model';
 
-const TRANSLATION_BASE_USER_DETAIL_PAGE =
-  "app.pages.app_base.UsersPages.UsersDetailsPage";
+const TRANSLATION_BASE_USER_DETAIL_PAGE = 'app.pages.app_base.UsersPages.UsersDetailsPage';
 
 const PlacesCreatePage = () => {
   const [fieldsForm, updateFields] = useState([]);
@@ -21,15 +17,15 @@ const PlacesCreatePage = () => {
 
   useEffect(() => {
     const langsOR = [
-      { label: "ES", value: "es", selected: true },
-      { label: "DE", value: "de" },
-      { label: "FR", value: "fr" },
-      { label: "PT", value: "pt" },
+      { label: 'ES', value: 'es', selected: true },
+      { label: 'DE', value: 'de' },
+      { label: 'FR', value: 'fr' },
+      { label: 'PT', value: 'pt' },
     ];
     let langs = [...langsOR];
 
     Array(20)
-      .fill("x")
+      .fill('x')
       .forEach((valu, number) =>
         langsOR.forEach((lng) =>
           langs.push({
@@ -41,24 +37,24 @@ const PlacesCreatePage = () => {
 
     updateAvailableLanguages(langs);
     updateAvailableGenres([
-      { label: "Cumbia", value: "cumbia" },
-      { label: "Reggaetón", value: "reggaetón" },
-      { label: "Rock", value: "rock", selected: true },
-      { label: "Jazz", value: "jazz" },
+      { label: 'Cumbia', value: 'cumbia' },
+      { label: 'Reggaetón', value: 'reggaetón' },
+      { label: 'Rock', value: 'rock', selected: true },
+      { label: 'Jazz', value: 'jazz' },
     ]);
   }, [fieldsForm]);
 
   useEffect(() => {
     if (availableLanguages && availableLanguages.length) {
-      setOptionsToField("spoken_languages", availableLanguages, fieldsForm);
-      setOptionsToField("stage_languages", availableLanguages, fieldsForm);
-      setOptionsToField("arts_languages", availableLanguages, fieldsForm);
+      setOptionsToField('spoken_languages', availableLanguages, fieldsForm);
+      setOptionsToField('stage_languages', availableLanguages, fieldsForm);
+      setOptionsToField('arts_languages', availableLanguages, fieldsForm);
     }
   }, [availableLanguages]);
 
   useEffect(() => {
     if (availableGenres && availableGenres.length) {
-      const genresField = findFieldMetadata("genres", fieldsForm);
+      const genresField = findFieldMetadata('genres', fieldsForm);
 
       if (genresField) {
         genresField.options = availableGenres;
@@ -68,10 +64,10 @@ const PlacesCreatePage = () => {
 
   const handlers = {
     onSubmit: (data: any, error?: any) => {
-      console.log("#####----------->>>>  !!! ", data);
+      console.log('#####----------->>>>  !!! ', data);
     },
     onChangecountry: (data: any) => {
-      console.log("#####----------->>>>  !!! ", data);
+      console.log('#####----------->>>>  !!! ', data);
       // const ciudades =
       //   !!data &&
       //   !!data.value &&
@@ -108,20 +104,14 @@ const findFieldMetadata = (fieldName: string, fieldsForm: any) => {
   fieldsForm.forEach((tabInfo: any) => {
     tabInfo.sections.forEach((section: any) => {
       if (!searchedField) {
-        searchedField = section.fields.find(
-          (fieldData: any) => fieldData.fieldName === fieldName
-        );
+        searchedField = section.fields.find((fieldData: any) => fieldData.fieldName === fieldName);
       }
     });
   });
   return searchedField;
 };
 
-const setOptionsToField = (
-  fieldName: string,
-  options: SelectOption[],
-  fieldsForm: any
-) => {
+const setOptionsToField = (fieldName: string, options: SelectOption[], fieldsForm: any) => {
   const field = findFieldMetadata(fieldName, fieldsForm);
   if (field) {
     field.options = options;

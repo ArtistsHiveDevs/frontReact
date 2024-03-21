@@ -1,8 +1,8 @@
-import { Moment } from "moment";
-import { Image } from "react-bootstrap";
-import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
-import { PlaceModel } from "~/models/domain/place/place.model";
-import "./CalendarSimpleEvent.scss";
+import { Moment } from 'moment';
+import { Image } from 'react-bootstrap';
+import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
+import { PlaceModel } from '~/models/domain/place/place.model';
+import './CalendarSimpleEvent.scss';
 
 export interface EventParams {
   name: string;
@@ -26,20 +26,13 @@ export const CalendarSimpleEvent = (props: {
   }
 
   return (
-    <RequireAuthComponent
-      key={`calendar-${eventInfo.name}`}
-      requiredSession={requireSession}
-    >
-      <div
-        className="calendar-event-container"
-        onClick={() => clickHandler(eventInfo)}
-      >
+    <RequireAuthComponent key={`calendar-${eventInfo.name}`} requiredSession={requireSession}>
+      <div className="calendar-event-container" onClick={() => clickHandler(eventInfo)}>
         <div className="calendar-event-date">
           <span className="day">
-            {eventInfo.datetime.format("dddd").substring(0, 3)}{" "}
-            {eventInfo.datetime.date()}
+            {eventInfo.datetime.format('dddd').substring(0, 3)} {eventInfo.datetime.date()}
           </span>
-          <span className="hour">{eventInfo.datetime.format("HH:mm")}</span>
+          <span className="hour">{eventInfo.datetime.format('HH:mm')}</span>
         </div>
         <div className="calendar-event-content">
           <p className="calendar-event-title">{eventInfo.name}</p>

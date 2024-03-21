@@ -1,25 +1,22 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction } from '@reduxjs/toolkit';
 
-import { createSlice } from "~/common/utils/@reduxjs/toolkit";
-import {
-  useInjectReducer,
-  useInjectSaga,
-} from "~/common/utils/redux-injectors";
-import { PlaceModel } from "~/models/domain/place/place.model";
+import { createSlice } from '~/common/utils/@reduxjs/toolkit';
+import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
+import { PlaceModel } from '~/models/domain/place/place.model';
 
-import { placeSaga } from "./saga";
-import { PlaceErrorType, PlaceState } from "./types";
+import { placeSaga } from './saga';
+import { PlaceErrorType, PlaceState } from './types';
 
 export const placesInitialState: PlaceState = {
   places: [],
   loading: false,
   error: null,
   placesQueryParams: null,
-  queriedPlaces: []
+  queriedPlaces: [],
 };
 
 const slice = createSlice({
-  name: "PlacesReducer",
+  name: 'PlacesReducer',
   initialState: placesInitialState,
   reducers: {
     loadPlaces(state) {
@@ -40,9 +37,7 @@ const slice = createSlice({
       state.placesQueryParams = action?.payload;
     },
     queriedPlaces(state, action: PayloadAction<PlaceModel[] | []>) {
-      const artistsQuery = action.payload.map(
-        (template) => new PlaceModel(template)
-      );
+      const artistsQuery = action.payload.map((template) => new PlaceModel(template));
 
       state.queriedPlaces = artistsQuery;
       state.loading = false;

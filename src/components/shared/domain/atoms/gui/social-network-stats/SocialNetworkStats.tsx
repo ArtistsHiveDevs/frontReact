@@ -1,16 +1,12 @@
-import { numberFormatterThousands } from "~/common/utils/string-utils";
-import { DynamicIcons } from "~/components/shared/DynamicIcons";
-import "./SocialNetworkStats.scss";
+import { numberFormatterThousands } from '~/common/utils/string-utils';
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import './SocialNetworkStats.scss';
 
-export const SocialNetworkStats = (props: {
-  followers?: number;
-  extraData?: { [field: string]: number | string };
-}) => {
+export const SocialNetworkStats = (props: { followers?: number; extraData?: { [field: string]: number | string } }) => {
   const { followers, extraData } = props;
 
-  const variation = extraData ? extraData["variation"] : 0;
-  const timelapse =
-    (extraData ? extraData["timelapse"] : "semanal") || "semanal";
+  const variation = extraData ? extraData['variation'] : 0;
+  const timelapse = (extraData ? extraData['timelapse'] : 'semanal') || 'semanal';
 
   const generateIcon = (variation: number) => {
     let icon = <></>;
@@ -24,9 +20,9 @@ export const SocialNetworkStats = (props: {
     } else {
       icon = (
         <DynamicIcons
-          iconName={Number(variation) >= 0 ? "BiUpArrow" : "BiDownArrow"}
+          iconName={Number(variation) >= 0 ? 'BiUpArrow' : 'BiDownArrow'}
           size={20}
-          color={Number(variation) >= 0 ? "green" : "red"}
+          color={Number(variation) >= 0 ? 'green' : 'red'}
         />
       );
     }

@@ -1,8 +1,8 @@
-import { configureStore, StoreEnhancer } from "@reduxjs/toolkit";
-import { createInjectorsEnhancer } from "@nixjs23n6/redux-injectors";
-import createSagaMiddleware from "redux-saga";
+import { configureStore, StoreEnhancer } from '@reduxjs/toolkit';
+import { createInjectorsEnhancer } from '@nixjs23n6/redux-injectors';
+import createSagaMiddleware from 'redux-saga';
 
-import { createReducer } from "./root-reducer";
+import { createReducer } from './root-reducer';
 
 export function configureAppStore() {
   const reduxSagaMonitorOptions = {};
@@ -22,8 +22,8 @@ export function configureAppStore() {
   const store = configureStore({
     reducer: createReducer(),
     // TODO verify serializable at store
-    middleware: (defaultMiddleware) => [...defaultMiddleware({serializableCheck: false}), ...middlewares],
-    devTools: process.env.NODE_ENV === "development",
+    middleware: (defaultMiddleware) => [...defaultMiddleware({ serializableCheck: false }), ...middlewares],
+    devTools: process.env.NODE_ENV === 'development',
     enhancers,
   });
 

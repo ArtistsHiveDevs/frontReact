@@ -1,8 +1,8 @@
-import moment from "moment";
-import { VerificationStatus } from "~/constants";
-import { SocialNetworkStatsTemplate } from "~/constants/social-networks.const";
-import { EntityModel, EntityTemplate, SearchableTemplate } from "~/models/base";
-import { EventModel, EventTemplate } from "../event/event.model";
+import moment from 'moment';
+import { VerificationStatus } from '~/constants';
+import { SocialNetworkStatsTemplate } from '~/constants/social-networks.const';
+import { EntityModel, EntityTemplate, SearchableTemplate } from '~/models/base';
+import { EventModel, EventTemplate } from '../event/event.model';
 
 export interface ArtistRatingTemplate {
   overall: number;
@@ -50,10 +50,7 @@ export interface ArtistTemplate extends EntityTemplate {
   youtube_widget_id: string;
 }
 
-export class ArtistModel
-  extends EntityModel<ArtistTemplate>
-  implements ArtistTemplate, SearchableTemplate
-{
+export class ArtistModel extends EntityModel<ArtistTemplate> implements ArtistTemplate, SearchableTemplate {
   declare artistType: string;
   declare name: string;
   declare subtitle: string;
@@ -93,9 +90,7 @@ export class ArtistModel
 
   get pastEvents() {
     return this.events
-      .filter((event) =>
-        moment(event.timetable__initial_date).isBefore(moment())
-      )
+      .filter((event) => moment(event.timetable__initial_date).isBefore(moment()))
       .sort((e1, e2) => {
         const date1 = e1.timetable__initial_date.toUpperCase(); // ignore upper and lowercase
         const date2 = e2.timetable__initial_date.toUpperCase(); // ignore upper and lowercase
@@ -112,9 +107,7 @@ export class ArtistModel
 
   get nextEvents() {
     return this.events
-      .filter((event) =>
-        moment(event.timetable__initial_date).isSameOrAfter(moment())
-      )
+      .filter((event) => moment(event.timetable__initial_date).isSameOrAfter(moment()))
       .sort((e1, e2) => {
         const date1 = e1.timetable__initial_date.toUpperCase(); // ignore upper and lowercase
         const date2 = e2.timetable__initial_date.toUpperCase(); // ignore upper and lowercase

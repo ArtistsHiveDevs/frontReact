@@ -1,29 +1,23 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction } from '@reduxjs/toolkit';
 
-import { createSlice } from "~/common/utils/@reduxjs/toolkit";
-import {
-  useInjectReducer,
-  useInjectSaga,
-} from "~/common/utils/redux-injectors";
+import { createSlice } from '~/common/utils/@reduxjs/toolkit';
+import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
 
-import {
-  TourOutlineModel,
-  TourOutlineTemplate,
-} from "~/models/domain/favourites/tourOutline";
-import { tourOutlineSaga } from "./saga";
-import { TourOutlineErrorType, TourOutlineState } from "./types";
+import { TourOutlineModel, TourOutlineTemplate } from '~/models/domain/favourites/tourOutline';
+import { tourOutlineSaga } from './saga';
+import { TourOutlineErrorType, TourOutlineState } from './types';
 
 export const TourOutlineInitialState: TourOutlineState = {
   toursOutlines: null,
   detailedTourOutline: null,
   loading: false,
   error: null,
-  userOwner: "",
-  detailTourOutlineId: "",
+  userOwner: '',
+  detailTourOutlineId: '',
 };
 
 const slice = createSlice({
-  name: "ToursOutlinesReducer",
+  name: 'ToursOutlinesReducer',
   initialState: TourOutlineInitialState,
   reducers: {
     getToursOutlinesByUser(state, action: PayloadAction<string>) {
@@ -32,13 +26,8 @@ const slice = createSlice({
       state.toursOutlines = null;
       state.userOwner = action?.payload;
     },
-    getToursOutlinesByUserResponse(
-      state,
-      action: PayloadAction<TourOutlineTemplate[]>
-    ) {
-      state.toursOutlines = action.payload.map(
-        (tourOutline) => new TourOutlineModel(tourOutline)
-      );
+    getToursOutlinesByUserResponse(state, action: PayloadAction<TourOutlineTemplate[]>) {
+      state.toursOutlines = action.payload.map((tourOutline) => new TourOutlineModel(tourOutline));
       state.loading = false;
     },
     getTourOutlineById(state, action: PayloadAction<string>) {
@@ -47,10 +36,7 @@ const slice = createSlice({
       state.toursOutlines = null;
       state.detailTourOutlineId = action?.payload;
     },
-    getTourOutlineByIdResponse(
-      state,
-      action: PayloadAction<TourOutlineTemplate[]>
-    ) {
+    getTourOutlineByIdResponse(state, action: PayloadAction<TourOutlineTemplate[]>) {
       state.detailedTourOutline = new TourOutlineModel(action.payload);
 
       state.loading = false;

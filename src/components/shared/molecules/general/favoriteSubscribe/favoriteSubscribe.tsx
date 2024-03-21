@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { useI18n } from "~/common/utils";
-import { DynamicIcons } from "~/components/shared/DynamicIcons";
-import "./favoriteSubscribe.scss";
+import { useState } from 'react';
+import { useI18n } from '~/common/utils';
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import './favoriteSubscribe.scss';
 
 type FavoriteSubscribeInputTemplate = {
   callback?: { [nameParam: string]: Function };
@@ -17,35 +17,31 @@ type FavoriteSubscribeInputTemplate = {
 
 export const FavoriteSubscritionIconDefaultTypes = {
   ALARM: {
-    active: "BsAlarmFill",
-    disabled: "BsAlarm",
+    active: 'BsAlarmFill',
+    disabled: 'BsAlarm',
   },
   BELL: {
-    active: "BsBellFill",
-    disabled: "BsBell",
+    active: 'BsBellFill',
+    disabled: 'BsBell',
   },
   HEART: {
-    active: "BsHeartFill",
-    disabled: "BsHeart",
+    active: 'BsHeartFill',
+    disabled: 'BsHeart',
   },
 };
 
-const TRANSLATION_BASE_SUBSCRIPTION =
-  "app.global_dictionary.actions.subscription";
+const TRANSLATION_BASE_SUBSCRIPTION = 'app.global_dictionary.actions.subscription';
 
 export const FavoriteSubscription: React.FC<FavoriteSubscribeInputTemplate> = (
   props: FavoriteSubscribeInputTemplate
 ) => {
   // Hooks
-  const [subscriberTo, setSubscriberTo] = useState(
-    props?.customSubscriberTo || false
-  );
+  const [subscriberTo, setSubscriberTo] = useState(props?.customSubscriberTo || false);
 
   const { translateText } = useI18n();
 
   // Constants
-  const inconRender =
-    props.iconType || FavoriteSubscritionIconDefaultTypes.HEART;
+  const inconRender = props.iconType || FavoriteSubscritionIconDefaultTypes.HEART;
   const defaultText = subscriberTo
     ? translateText(`${TRANSLATION_BASE_SUBSCRIPTION}.unsubscribe`)
     : translateText(`${TRANSLATION_BASE_SUBSCRIPTION}.subscribe`);
@@ -58,13 +54,13 @@ export const FavoriteSubscription: React.FC<FavoriteSubscribeInputTemplate> = (
       callback.onClickIcon(subscriberTo);
     }
   }
-  const buttonState = `fav-subs-${subscriberTo ? "active" : "initial"}`;
-  const classes = ["fav-button", buttonState];
+  const buttonState = `fav-subs-${subscriberTo ? 'active' : 'initial'}`;
+  const classes = ['fav-button', buttonState];
 
   return (
     <span
       onClick={() => onClickIconHandler()}
-      className={classes.join(" ")}
+      className={classes.join(' ')}
       data-toggle="tooltip"
       title={`${props?.tooltipCustomText || defaultText}`}
     >

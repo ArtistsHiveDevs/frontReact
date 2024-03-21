@@ -1,1 +1,1 @@
-export * from "./PrivacyPolicyPage";
+export * from './PrivacyPolicyPage';

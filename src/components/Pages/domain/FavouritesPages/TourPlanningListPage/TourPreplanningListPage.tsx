@@ -1,18 +1,18 @@
-import moment from "moment";
-import { useEffect, useState } from "react";
-import { Button, Collapse } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import Flag from "react-world-flags";
-import { useTourOutlineSlice } from "~/common/slices/domain/favourites/tour-outlines";
-import { selectToursOutlinesByUser } from "~/common/slices/domain/favourites/tour-outlines/selectors";
-import { useI18n } from "~/common/utils";
-import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
-import { DynamicIcons } from "~/components/shared/DynamicIcons";
-import { formatDateInMomentType } from "~/constants";
-import { TourOutlineModel } from "~/models/domain/favourites/tourOutline";
-import "./TourPreplanningListPage.scss";
+import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { Button, Collapse } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import Flag from 'react-world-flags';
+import { useTourOutlineSlice } from '~/common/slices/domain/favourites/tour-outlines';
+import { selectToursOutlinesByUser } from '~/common/slices/domain/favourites/tour-outlines/selectors';
+import { useI18n } from '~/common/utils';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import { formatDateInMomentType } from '~/constants';
+import { TourOutlineModel } from '~/models/domain/favourites/tourOutline';
+import './TourPreplanningListPage.scss';
 
-const TRANSLATION_BASE_SEARCH = "app.appbase.search";
+const TRANSLATION_BASE_SEARCH = 'app.appbase.search';
 
 const TourPreplanningListPage = () => {
   const { translateText, locale } = useI18n();
@@ -20,9 +20,7 @@ const TourPreplanningListPage = () => {
 
   const [open, setOpen] = useState([]);
   // Slices
-  const toursOutlineList: TourOutlineModel[] = useSelector(
-    selectToursOutlinesByUser
-  );
+  const toursOutlineList: TourOutlineModel[] = useSelector(selectToursOutlinesByUser);
 
   const { actions: toursOutlinesList } = useTourOutlineSlice();
 
@@ -33,7 +31,7 @@ const TourPreplanningListPage = () => {
 
   // Effects
   useEffect(() => {
-    dispatch(toursOutlinesList.getToursOutlinesByUser("asdasd"));
+    dispatch(toursOutlinesList.getToursOutlinesByUser('asdasd'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -50,9 +48,9 @@ const TourPreplanningListPage = () => {
   }
 
   const flags = {
-    Colombia: "co",
-    España: "es",
-    Inglaterra: "GB-ENG",
+    Colombia: 'co',
+    España: 'es',
+    Inglaterra: 'GB-ENG',
   };
 
   return (
@@ -64,36 +62,25 @@ const TourPreplanningListPage = () => {
           const budget = tourOutline?.summary?.budget;
 
           const budget_labels = {
-            internal_transportation: "Transporte interno",
-            intercity_transportation: "Transporte entre ciudades",
-            accomodation: "Acomodación",
-            food: "Alimentación",
+            internal_transportation: 'Transporte interno',
+            intercity_transportation: 'Transporte entre ciudades',
+            accomodation: 'Acomodación',
+            food: 'Alimentación',
           };
           const buget_subtotals = {
-            intercity_transportation: Object.keys(
-              budget?.transportation?.intercity_transportation || []
-            )
+            intercity_transportation: Object.keys(budget?.transportation?.intercity_transportation || [])
               .map(
                 (medium) =>
                   budget.transportation?.intercity_transportation[
                     medium as keyof typeof budget.transportation.intercity_transportation
                   ]
               )
-              .reduce(
-                (accumulated, currentValue) => accumulated + currentValue,
-                0
-              ),
+              .reduce((accumulated, currentValue) => accumulated + currentValue, 0),
             accomodation: Object.keys(budget?.accomodation || [])
               .map(
-                (accomodationService) =>
-                  budget.accomodation[
-                    accomodationService as keyof typeof budget.accomodation
-                  ]
+                (accomodationService) => budget.accomodation[accomodationService as keyof typeof budget.accomodation]
               )
-              .reduce(
-                (accumulated, currentValue) => accumulated + currentValue,
-                0
-              ),
+              .reduce((accumulated, currentValue) => accumulated + currentValue, 0),
             food: budget?.food,
           };
 
@@ -104,9 +91,7 @@ const TourPreplanningListPage = () => {
           function formatDate(date: string) {
             const newDate = moment(date);
             const dateFormat =
-              newDate.year() === moment(moment.now()).year()
-                ? "dddd, MMMM DD"
-                : "dddd, MMMM DD (YYYY)";
+              newDate.year() === moment(moment.now()).year() ? 'dddd, MMMM DD' : 'dddd, MMMM DD (YYYY)';
             return formatDateInMomentType(date, dateFormat);
           }
 
@@ -122,21 +107,14 @@ const TourPreplanningListPage = () => {
               >
                 <img
                   className="avatar"
-                  src={
-                    tourOutline.pictures.thumbnail ||
-                    "https://npcarlos.co/artistsHive_mocks/tour_default.png"
-                  }
+                  src={tourOutline.pictures.thumbnail || 'https://npcarlos.co/artistsHive_mocks/tour_default.png'}
                   alt={tourOutline?.name}
                 />
                 <div>
                   <h3 className="main-section-title">{tourOutline.name}</h3>
                   {tourOutline.subtitle && <p>{tourOutline.subtitle}</p>}
                 </div>
-                <DynamicIcons
-                  color="#7a260a"
-                  iconName="AiOutlineDown"
-                  size="20"
-                />
+                <DynamicIcons color="#7a260a" iconName="AiOutlineDown" size="20" />
               </div>
               <Collapse in={open[entityIndex]}>
                 <div id="example-collapse-text-2">
@@ -145,36 +123,28 @@ const TourPreplanningListPage = () => {
                       <>
                         <p>
                           <b>Desde: </b>
-                          {formatDate(
-                            tourOutline.summary.days.initial_date.toString()
-                          )}
+                          {formatDate(tourOutline.summary.days.initial_date.toString())}
                         </p>
                         <p>
                           <b>Hasta: </b>
-                          {formatDate(
-                            tourOutline.summary.days.final_date.toString()
-                          )}
+                          {formatDate(tourOutline.summary.days.final_date.toString())}
                         </p>
                         <p>
                           <b>Countries:</b>
                         </p>
                         <div className="inner-content">
-                          {tourOutline.summary.countries.map(
-                            (country, index, countries) => (
-                              <p key={country.name}>
-                                <Flag
-                                  code={
-                                    flags[country.name as keyof typeof flags]
-                                  }
-                                  height="15"
-                                  style={{ border: "1px solid #999" }}
-                                />{" "}
-                                <b>{country.name}</b>
-                                <br />
-                                {country.cities.join(", ")}
-                              </p>
-                            )
-                          )}
+                          {tourOutline.summary.countries.map((country, index, countries) => (
+                            <p key={country.name}>
+                              <Flag
+                                code={flags[country.name as keyof typeof flags]}
+                                height="15"
+                                style={{ border: '1px solid #999' }}
+                              />{' '}
+                              <b>{country.name}</b>
+                              <br />
+                              {country.cities.join(', ')}
+                            </p>
+                          ))}
                         </div>
                         {/* <p>
                             <b>Presupuesto:</b>

@@ -1,20 +1,16 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { call, delay, put, takeLatest } from "redux-saga/effects";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { call, delay, put, takeLatest } from 'redux-saga/effects';
 
-import { request } from "~/common/utils/request";
+import { request } from '~/common/utils/request';
 
-import { IndustryOfferModel } from "~/models/domain/industryOffer/IndustryOffer.model";
-import { actions } from ".";
-import { IndustryOfferErrorType } from "./types";
+import { IndustryOfferModel } from '~/models/domain/industryOffer/IndustryOffer.model';
+import { actions } from '.';
+import { IndustryOfferErrorType } from './types';
 
-export function* getIndustryOffer(
-  actionParams?: PayloadAction<{ role?: string }>
-) {
+export function* getIndustryOffer(actionParams?: PayloadAction<{ role?: string }>) {
   yield delay(500);
 
-  const requestURL = `${
-    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/industryOffer?role=${actionParams.payload.role}`;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/industryOffer?role=${actionParams.payload.role}`;
 
   try {
     const industryOffer: IndustryOfferModel = yield call(request, requestURL);

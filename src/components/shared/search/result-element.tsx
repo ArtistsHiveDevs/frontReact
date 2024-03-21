@@ -1,10 +1,10 @@
-import ListGroup from "react-bootstrap/ListGroup";
+import ListGroup from 'react-bootstrap/ListGroup';
 
-import Flag from "react-world-flags";
-import VerifiedArtist from "~/components/shared/VerifiedArtist";
-import { SearchableTemplate } from "~/models/base";
-import consts from "./search-constants";
-import "./search.scss";
+import Flag from 'react-world-flags';
+import VerifiedArtist from '~/components/shared/VerifiedArtist';
+import { SearchableTemplate } from '~/models/base';
+import consts from './search-constants';
+import './search.scss';
 
 type QueryTemplate = {
   element: SearchableTemplate;
@@ -12,13 +12,10 @@ type QueryTemplate = {
   onClick?: Function;
 };
 
-export const ResultElement: React.FC<QueryTemplate> = (
-  props: QueryTemplate
-) => {
+export const ResultElement: React.FC<QueryTemplate> = (props: QueryTemplate) => {
   const { element, elementType, onClick } = props;
 
-  const entityIndex =
-    consts.defaultTypes.findIndex((type) => type === elementType) + 1;
+  const entityIndex = consts.defaultTypes.findIndex((type) => type === elementType) + 1;
 
   const handleClick = (element: SearchableTemplate) => {
     if (onClick) {
@@ -28,9 +25,9 @@ export const ResultElement: React.FC<QueryTemplate> = (
   const flag = element?.country || element.place?.country;
 
   const flags = {
-    Colombia: "co",
-    España: "es",
-    Inglaterra: "GB-ENG",
+    Colombia: 'co',
+    España: 'es',
+    Inglaterra: 'GB-ENG',
   };
 
   return (
@@ -48,15 +45,9 @@ export const ResultElement: React.FC<QueryTemplate> = (
           <h5>
             {element?.subtitle || (
               <>
-                <span className="search-item__subtitle">
-                  {element?.cityWithCountry}
-                </span>
-                {"   "}
-                <Flag
-                  code={flags[flag as keyof typeof flags]}
-                  height="15"
-                  style={{ border: "1px solid #999" }}
-                />
+                <span className="search-item__subtitle">{element?.cityWithCountry}</span>
+                {'   '}
+                <Flag code={flags[flag as keyof typeof flags]} height="15" style={{ border: '1px solid #999' }} />
               </>
             )}
           </h5>

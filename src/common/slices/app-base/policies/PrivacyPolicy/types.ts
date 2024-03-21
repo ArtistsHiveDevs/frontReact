@@ -1,4 +1,4 @@
-import { PrivacyPolicyModel } from "~/models/app/policies/privacy/PrivacyPolicy.model";
+import { PrivacyPolicyModel } from '~/models/app/policies/privacy/PrivacyPolicy.model';
 
 export enum PrivacyPolicyErrorType {
   RESPONSE_ERROR = 1,

@@ -1,6 +1,6 @@
-import IconFieldReadOnly from "~/components/shared/atoms/IconField";
-import { RequireAuthComponent } from "~/components/shared/atoms/app/auth/RequiredAuth";
-import "./index.scss";
+import IconFieldReadOnly from '~/components/shared/atoms/IconField';
+import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
+import './index.scss';
 
 export interface IconDetailedAttribute {
   name: string;
@@ -18,10 +18,7 @@ export const AttributesIconFieldReadOnly = (props: any) => {
       {title && <h3>{title}</h3>}
       {attributes?.map((attribute: IconDetailedAttribute, idx: number) => {
         return (
-          <RequireAuthComponent
-            key={`attr-icon-field-${idx}`}
-            requiredSession={attribute.requireSession}
-          >
+          <RequireAuthComponent key={`attr-icon-field-${idx}`} requiredSession={attribute.requireSession}>
             <IconFieldReadOnly
               fieldName={attribute.name}
               fieldTitle={attribute.title}

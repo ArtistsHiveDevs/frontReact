@@ -1,6 +1,6 @@
-import { combineReducers } from "@reduxjs/toolkit";
+import { combineReducers } from '@reduxjs/toolkit';
 
-import { InjectedReducersType } from "~/common/utils/redux-injectors/types";
+import { InjectedReducersType } from '~/common/utils/redux-injectors/types';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers

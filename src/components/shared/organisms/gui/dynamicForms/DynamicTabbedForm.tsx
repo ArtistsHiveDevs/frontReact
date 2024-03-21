@@ -1,26 +1,22 @@
-import { Button, Stack } from "@mui/material";
-import { FormProvider, useForm } from "react-hook-form";
-import { useI18n } from "~/common/utils";
-import { SectionsPanel } from "~/components/shared/layout/SectionPanel";
-import { TabbedPanel } from "~/components/shared/layout/TabbedPanel";
-import { ProfileHeader } from "~/components/shared/molecules/Profile/ProfileHeader";
-import { SocialNetworks } from "~/constants/social-networks.const";
-import { EntityModel, EntityTemplate } from "~/models/base";
+import { Button, Stack } from '@mui/material';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useI18n } from '~/common/utils';
+import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
+import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
+import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
+import { SocialNetworks } from '~/constants/social-networks.const';
+import { EntityModel, EntityTemplate } from '~/models/base';
 import {
   ProfileComponentDescriptor,
   ProfileComponentTypes,
   ProfileDetailAttributeConfiguration,
   ProfileDetailsSubpage,
   ProfileDetailsSubpageSection,
-} from "../../ProfileTabsPage/profile-details.def";
-import { DynamicControl } from "./DynamicControl";
-import {
-  ControlType,
-  DynamicFieldData,
-  SelectOption,
-} from "./dynamic-control-types";
+} from '../../ProfileTabsPage/profile-details.def';
+import { DynamicControl } from './DynamicControl';
+import { ControlType, DynamicFieldData, SelectOption } from './dynamic-control-types';
 
-const TRANSLATION_GLOBAL_DICTIONARY = "app.global_dictionary";
+const TRANSLATION_GLOBAL_DICTIONARY = 'app.global_dictionary';
 
 export interface DynamicTabbedFormParams {
   tabsInfo: ProfileDetailsSubpage[];
@@ -32,51 +28,36 @@ export interface DynamicTabbedFormParams {
   fieldOptions?: { [fieldName: string]: any };
 }
 export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
-  const { tabsInfo, elementData, handlers, translationBasePath, fieldOptions } =
-    params;
+  const { tabsInfo, elementData, handlers, translationBasePath, fieldOptions } = params;
 
   const { translateText } = useI18n();
   const formMethods = useForm();
 
   const onSubmitNotImplemented = () => {
-    console.warn("onSubmit is not implemented yet");
+    console.warn('onSubmit is not implemented yet');
   };
-  const onSubmit: any = handlers["onSubmit"] || onSubmitNotImplemented;
+  const onSubmit: any = handlers['onSubmit'] || onSubmitNotImplemented;
 
   const translateSubpage = (subpage: string) => {
     return translateText(`${translationBasePath}.subpages.${subpage}.name`);
   };
   const translateSection = (subpage: string, section: string) => {
-    return section
-      ? translateText(
-          `${translationBasePath}.subpages.${subpage}.sections.${section}.name`
-        )
-      : undefined;
+    return section ? translateText(`${translationBasePath}.subpages.${subpage}.sections.${section}.name`) : undefined;
   };
-  const translateAttribute = (
-    subpage: string,
-    section: string,
-    attribute: string
-  ) => {
-    return translateText(
-      `${translationBasePath}.subpages.${subpage}.sections.${section}.attributes.${attribute}`
-    );
+  const translateAttribute = (subpage: string, section: string, attribute: string) => {
+    return translateText(`${translationBasePath}.subpages.${subpage}.sections.${section}.attributes.${attribute}`);
   };
   const getAttributeTitle = (
     subpageName: string,
     sectionName: string,
     attribute: ProfileDetailAttributeConfiguration
   ) => {
-    let title: string = "";
+    let title: string = '';
     if (attribute.translationPath) {
       title = translateText(`${attribute.translationPath}.${attribute.name}`);
     } else if (attribute.title) {
       title = attribute.title;
-    } else if (
-      attribute.useTranslation ||
-      attribute.emptyTitle === undefined ||
-      attribute.emptyTitle === false
-    ) {
+    } else if (attribute.useTranslation || attribute.emptyTitle === undefined || attribute.emptyTitle === false) {
       title = translateAttribute(subpageName, sectionName, attribute.name);
     }
     return title;
@@ -97,7 +78,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     } = formMethods;
 
     const componentFieldData: DynamicFieldData = {
-      inputType: "text",
+      inputType: 'text',
       fieldName: componentDescriptor?.formMetaData?.fieldName,
       // label: getAttributeTitle(subpage.name, section.name, attributeInfo),
       componentParams: componentDescriptor?.formMetaData?.componentParams || {},
@@ -107,29 +88,24 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
 
     let addComponentField = false;
 
-    if (
-      componentDescriptor.componentName ===
-      ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS
-    ) {
+    if (componentDescriptor.componentName === ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS) {
       componentDescriptor.data?.attributes?.forEach(
         (attributeInfo: ProfileDetailAttributeConfiguration, index: number) => {
           const { formMetaData } = attributeInfo;
 
-          let inputType: ControlType = formMetaData?.inputType || "text";
+          let inputType: ControlType = formMetaData?.inputType || 'text';
 
           const socialNetwork = SocialNetworks[attributeInfo.name];
-          if (inputType === "text" && !!socialNetwork) {
-            inputType = "socialNetwork";
+          if (inputType === 'text' && !!socialNetwork) {
+            inputType = 'socialNetwork';
           }
 
-          if (attributeInfo.name === "description") {
+          if (attributeInfo.name === 'description') {
             attributeInfo.emptyTitle = false;
           }
 
           const fieldName: string = attributeInfo.name;
-          const currentValue: any = elementData
-            ? elementData[fieldName as keyof typeof elementData]
-            : undefined;
+          const currentValue: any = elementData ? elementData[fieldName as keyof typeof elementData] : undefined;
 
           const fieldData: DynamicFieldData = {
             inputType,
@@ -154,18 +130,14 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
           fields.push(field);
         }
       );
-    } else if (componentDescriptor?.formMetaData?.inputType === "address") {
-      componentFieldData.inputType = "address";
+    } else if (componentDescriptor?.formMetaData?.inputType === 'address') {
+      componentFieldData.inputType = 'address';
       addComponentField = true;
-    } else if (
-      componentDescriptor.componentName === ProfileComponentTypes.ARTS_GENRES
-    ) {
-      componentFieldData.inputType = "chipPicker";
+    } else if (componentDescriptor.componentName === ProfileComponentTypes.ARTS_GENRES) {
+      componentFieldData.inputType = 'chipPicker';
       addComponentField = true;
-    } else if (
-      componentDescriptor.componentName === ProfileComponentTypes.IMAGE_GALLERY
-    ) {
-      componentFieldData.inputType = "file";
+    } else if (componentDescriptor.componentName === ProfileComponentTypes.IMAGE_GALLERY) {
+      componentFieldData.inputType = 'file';
       addComponentField = true;
     }
 
@@ -188,10 +160,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     );
   };
 
-  const transformedConfig = (
-    subpagesConfig: ProfileDetailsSubpage[],
-    elementData?: EntityModel<EntityTemplate>
-  ) => {
+  const transformedConfig = (subpagesConfig: ProfileDetailsSubpage[], elementData?: EntityModel<EntityTemplate>) => {
     return (subpagesConfig || []).map((subpage, subPageIndex) => {
       return {
         name: translateSubpage(subpage.name),
@@ -208,15 +177,8 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
                 let contentComponents: any = <></>;
                 if (section.components) {
                   contentComponents = (section.components || []).map(
-                    (
-                      componentDescriptor: ProfileComponentDescriptor,
-                      componentIndex: number
-                    ) => (
-                      <div
-                        key={`content-comp-${subPageIndex}-${
-                          sectionIndex || ""
-                        }-${componentIndex}`}
-                      >
+                    (componentDescriptor: ProfileComponentDescriptor, componentIndex: number) => (
+                      <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
                         {generateSectionFormFields(
                           subpage,
                           section,
@@ -273,20 +235,14 @@ export const findFieldMetadata = (fieldName: string, fieldsForm: any) => {
   fieldsForm.forEach((tabInfo: any) => {
     tabInfo.sections.forEach((section: any) => {
       if (!searchedField) {
-        searchedField = section.fields.find(
-          (fieldData: any) => fieldData.fieldName === fieldName
-        );
+        searchedField = section.fields.find((fieldData: any) => fieldData.fieldName === fieldName);
       }
     });
   });
   return searchedField;
 };
 
-export const setOptionsToField = (
-  fieldName: string,
-  options: SelectOption[],
-  fieldsForm: any
-) => {
+export const setOptionsToField = (fieldName: string, options: SelectOption[], fieldsForm: any) => {
   const field = findFieldMetadata(fieldName, fieldsForm);
   if (field) {
     field.options = options;

@@ -1,8 +1,8 @@
-import Flag from "react-world-flags";
-import { useI18n } from "~/common/utils";
-import "./CountriesCitiesListView.scss";
+import Flag from 'react-world-flags';
+import { useI18n } from '~/common/utils';
+import './CountriesCitiesListView.scss';
 
-const TRANSLATION_BASE_GLOBAL_DICT_ACTIONS = "app.global_dictionary.actions";
+const TRANSLATION_BASE_GLOBAL_DICT_ACTIONS = 'app.global_dictionary.actions';
 
 export const CountriesCitiesListView = (props: any) => {
   const { cities } = props;
@@ -45,14 +45,10 @@ export const CountriesCitiesListView = (props: any) => {
     return (
       <div>
         <p>
-          <Flag code={"co"} height="15" />
-          <strong>{"  "}Colombia (CO)</strong>
+          <Flag code={'co'} height="15" />
+          <strong>{'  '}Colombia (CO)</strong>
         </p>
-        <p>
-          {cities
-            .map((city: any) => `${city.city} (${city.totalEvents})`)
-            .join(", ")}
-        </p>
+        <p>{cities.map((city: any) => `${city.city} (${city.totalEvents})`).join(', ')}</p>
       </div>
     );
   }

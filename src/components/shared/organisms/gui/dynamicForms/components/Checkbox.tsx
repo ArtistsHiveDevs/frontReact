@@ -1,11 +1,6 @@
-import {
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  FormLabel,
-} from "@mui/material";
-import { useEffect, useState } from "react";
-import { ComponentGeneratorParams } from "../DynamicControl";
+import { Checkbox, FormControlLabel, FormGroup, FormLabel } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { ComponentGeneratorParams } from '../DynamicControl';
 
 export const createCheckbox = (params: ComponentGeneratorParams) => {
   const [mainFieldChecked, setMainFieldChecked] = useState(false);
@@ -71,9 +66,9 @@ export const createCheckbox = (params: ComponentGeneratorParams) => {
   };
 
   config.setValueAs = (value: string | null): boolean | null => {
-    if (value === "true") {
+    if (value === 'true') {
       return true;
-    } else if (value === "false") {
+    } else if (value === 'false') {
       return false;
     } else if (value === null) {
       // Sometimes the radio group can be optional, allow this case
@@ -92,10 +87,8 @@ export const createCheckbox = (params: ComponentGeneratorParams) => {
           <>
             {!required && options.length > 0 && (
               <FormLabel
-                required={required === true || required === "true"}
-                error={
-                  !!Object.keys(errors || {}).find((key) => key === fieldName)
-                }
+                required={required === true || required === 'true'}
+                error={!!Object.keys(errors || {}).find((key) => key === fieldName)}
               >
                 {label}
               </FormLabel>
@@ -113,21 +106,15 @@ export const createCheckbox = (params: ComponentGeneratorParams) => {
                     {...register(fieldName, config)}
                     // checked={mainFieldChecked}
                     // checked={mainFieldChecked}
-                    indeterminate={
-                      !required && !mainFieldChecked && !mainFieldAllSame
-                    }
+                    indeterminate={!required && !mainFieldChecked && !mainFieldAllSame}
                     // value={mainFieldChecked}
                     // onChange={mainFieldChanged}
                   />
                 }
                 label={
                   <FormLabel
-                    required={required === true || required === "true"}
-                    error={
-                      !!Object.keys(errors || {}).find(
-                        (key) => key === fieldName
-                      )
-                    }
+                    required={required === true || required === 'true'}
+                    error={!!Object.keys(errors || {}).find((key) => key === fieldName)}
                   >
                     {label}
                   </FormLabel>
@@ -137,7 +124,7 @@ export const createCheckbox = (params: ComponentGeneratorParams) => {
           </>
         )}
         {!!options && !!options.length && (
-          <div style={labelAsCheck ? { paddingLeft: "1rem" } : {}}>
+          <div style={labelAsCheck ? { paddingLeft: '1rem' } : {}}>
             {options.map((option, index) => {
               return (
                 <FormControlLabel
@@ -145,12 +132,8 @@ export const createCheckbox = (params: ComponentGeneratorParams) => {
                   control={<Checkbox {...register(option.value, config)} />}
                   label={
                     <FormLabel
-                      required={required === true || required === "true"}
-                      error={
-                        !!Object.keys(errors || {}).find(
-                          (key) => key === option.value
-                        )
-                      }
+                      required={required === true || required === 'true'}
+                      error={!!Object.keys(errors || {}).find((key) => key === option.value)}
                     >
                       {option.label}
                     </FormLabel>

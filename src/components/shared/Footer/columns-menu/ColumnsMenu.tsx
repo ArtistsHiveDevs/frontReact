@@ -1,6 +1,6 @@
-import { useI18n } from "~/common/utils";
-import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
-import "./ColumnsMenu.scss";
+import { useI18n } from '~/common/utils';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import './ColumnsMenu.scss';
 
 export interface FooterColumnOption {
   name: string;
@@ -16,7 +16,7 @@ export interface FooterColumnTemplate {
   options?: FooterColumnOption[];
 }
 
-const TRANSLATION_BASE_FOOTER_COLUMNS = "app.appbase.footer.columns";
+const TRANSLATION_BASE_FOOTER_COLUMNS = 'app.appbase.footer.columns';
 
 const FooterColumns = (props: any) => {
   const { footerColumns } = props;
@@ -36,9 +36,7 @@ const FooterColumns = (props: any) => {
         {footerColumns?.map((footerColumn: FooterColumnTemplate, idx: any) => {
           const columnTitle = footerColumn.isLiteralTitle
             ? footerColumn.columnName
-            : translateText(
-                `${TRANSLATION_BASE_FOOTER_COLUMNS}.${footerColumn.columnName}.name`
-              );
+            : translateText(`${TRANSLATION_BASE_FOOTER_COLUMNS}.${footerColumn.columnName}.name`);
           return (
             <div key={footerColumn.columnName} className="footer-column">
               <h2 className="column-title">{columnTitle}</h2>
@@ -49,15 +47,9 @@ const FooterColumns = (props: any) => {
                     : translateText(
                         `${TRANSLATION_BASE_FOOTER_COLUMNS}.${footerColumn.columnName}.options.${option.name}`
                       );
-                  const classNames = !!option.link
-                    ? "option-active"
-                    : "option-disabled";
+                  const classNames = !!option.link ? 'option-active' : 'option-disabled';
                   return (
-                    <li
-                      key={option.name}
-                      onClick={() => handleClick(option)}
-                      className={classNames}
-                    >
+                    <li key={option.name} onClick={() => handleClick(option)} className={classNames}>
                       {optionTitle}
                     </li>
                   );

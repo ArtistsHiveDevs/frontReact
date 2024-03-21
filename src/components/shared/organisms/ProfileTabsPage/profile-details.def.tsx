@@ -1,6 +1,6 @@
-import { RegisterOptions } from "react-hook-form";
-import { AllowedEntityRole } from "~/components/shared/atoms/app/auth/RequiredAuth";
-import { ControlType } from "../gui/dynamicForms";
+import { RegisterOptions } from 'react-hook-form';
+import { AllowedEntityRole } from '~/components/shared/atoms/app/auth/RequiredAuth';
+import { ControlType } from '../gui/dynamicForms';
 
 export enum ProfileComponentTypes {
   ATTRIBUTES_ICON_FIELDS,

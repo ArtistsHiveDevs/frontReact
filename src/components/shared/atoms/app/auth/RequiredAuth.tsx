@@ -1,7 +1,7 @@
-import { Navigate, Outlet, useLocation } from "react-router";
-import useAuth from "~/common/utils/hooks/auth/useAuth";
-import { PATHS } from "~/constants";
-import { AppUserModel } from "~/models/app/user/user.model";
+import { Navigate, Outlet, useLocation } from 'react-router';
+import useAuth from '~/common/utils/hooks/auth/useAuth';
+import { PATHS } from '~/constants';
+import { AppUserModel } from '~/models/app/user/user.model';
 
 export enum AuthorizationStates {
   ALLOWED,
@@ -23,12 +23,11 @@ function validateUserAuthorization(
   user: AppUserModel,
   allowedRoles?: AllowedEntityRole[],
   requiredSession: boolean = false,
-  name: string = ""
+  name: string = ''
 ): AuthorizationStates {
   let authorizationResult = AuthorizationStates.UNAUTHORIZED_AND_UNLOGGED_USER;
 
-  const shouldVerifyUserAuthorization =
-    requiredSession || (allowedRoles && allowedRoles.length);
+  const shouldVerifyUserAuthorization = requiredSession || (allowedRoles && allowedRoles.length);
 
   if (!shouldVerifyUserAuthorization) {
     authorizationResult = AuthorizationStates.ALLOWED;
@@ -39,11 +38,8 @@ function validateUserAuthorization(
         !allowedRoles.length ||
         allowedRoles.find((allowedRole) => {
           let allowedOnlyEntityValidation =
-            (!allowedRole?.allowedEntityInstances ||
-              !allowedRole?.allowedEntityInstances.length) &&
-            user.roles.find(
-              (userRoles) => userRoles.entityName === allowedRole.entityName
-            );
+            (!allowedRole?.allowedEntityInstances || !allowedRole?.allowedEntityInstances.length) &&
+            user.roles.find((userRoles) => userRoles.entityName === allowedRole.entityName);
           return allowedOnlyEntityValidation;
         });
 
@@ -71,12 +67,7 @@ export const RequireAuthComponent = (props: RequireAuthParameters) => {
 
   let nextPage;
 
-  const authResult = validateUserAuthorization(
-    authAppUser,
-    allowedRoles,
-    requiredSession,
-    name
-  );
+  const authResult = validateUserAuthorization(authAppUser, allowedRoles, requiredSession, name);
 
   switch (authResult) {
     case AuthorizationStates.ALLOWED:
@@ -109,24 +100,12 @@ export const RequireAuthPageNavigation = ({ allowedRoles = [] }) => {
 
     case AuthorizationStates.UNAUTHORIZED_AND_LOGGED_USER:
       // User is not allowed by role
-      nextPage = (
-        <Navigate
-          to={PATHS.REDIRECT_UNAUTHORIZED_AND_LOGGED_USER}
-          state={{ from: location }}
-          replace
-        />
-      );
+      nextPage = <Navigate to={PATHS.REDIRECT_UNAUTHORIZED_AND_LOGGED_USER} state={{ from: location }} replace />;
       break;
 
     default:
       // The user is not logged in
-      nextPage = (
-        <Navigate
-          to={PATHS.REDIRECT_UNAUTHORIZED_AND_UNLOGGED_USER}
-          state={{ from: location }}
-          replace
-        />
-      );
+      nextPage = <Navigate to={PATHS.REDIRECT_UNAUTHORIZED_AND_UNLOGGED_USER} state={{ from: location }} replace />;
       break;
   }
   return nextPage;

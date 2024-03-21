@@ -1,10 +1,10 @@
-import { FormLabel } from "@mui/material";
-import { useState } from "react";
-import { useFormContext } from "react-hook-form";
-import { useI18n } from "~/common/utils";
-import { ComponentGeneratorParams } from "../DynamicControl";
-import { DynamicFieldData } from "../dynamic-control-types";
-import { createSelect } from "./Select";
+import { FormLabel } from '@mui/material';
+import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { useI18n } from '~/common/utils';
+import { ComponentGeneratorParams } from '../DynamicControl';
+import { DynamicFieldData } from '../dynamic-control-types';
+import { createSelect } from './Select';
 
 export enum CitySelectionLevel {
   CONTINENT,
@@ -24,153 +24,151 @@ export interface CitySelectorParams extends ComponentGeneratorParams {
 
 const countries: any = [
   {
-    label: "Colombia",
-    value: "CO",
+    label: 'Colombia',
+    value: 'CO',
     states: [
       {
-        label: "Atlántico",
-        value: "Atlántico",
+        label: 'Atlántico',
+        value: 'Atlántico',
         cities: [
-          { label: "Barranquilla", value: "BQ", districts: [] },
-          { label: "Santo Tomás", value: "ST", districts: [] },
+          { label: 'Barranquilla', value: 'BQ', districts: [] },
+          { label: 'Santo Tomás', value: 'ST', districts: [] },
         ],
       },
       {
-        label: "Bolívar",
-        value: "Bolívar",
+        label: 'Bolívar',
+        value: 'Bolívar',
         cities: [
-          { label: "Cartagena", value: "CTG", districts: [] },
-          { label: "Mompox", value: "MP", districts: [] },
+          { label: 'Cartagena', value: 'CTG', districts: [] },
+          { label: 'Mompox', value: 'MP', districts: [] },
         ],
       },
       {
-        label: "Bogotá DC",
-        value: "Bogotá",
+        label: 'Bogotá DC',
+        value: 'Bogotá',
         cities: [
           {
-            label: "Bogotá DC",
-            value: "BOG",
+            label: 'Bogotá DC',
+            value: 'BOG',
             districts: [
-              { label: "La Candelaria", value: "CAND" },
-              { label: "Chapinero", value: "Chapi" },
-              { label: "Usaquén", value: "Usaquén" },
+              { label: 'La Candelaria', value: 'CAND' },
+              { label: 'Chapinero', value: 'Chapi' },
+              { label: 'Usaquén', value: 'Usaquén' },
             ],
           },
         ],
       },
       {
-        label: "Cauca",
-        value: "Cauca",
+        label: 'Cauca',
+        value: 'Cauca',
         cities: [
-          { label: "Popayán", value: "Pop", districts: [] },
-          { label: "Silvia", value: "Sil", districts: [] },
+          { label: 'Popayán', value: 'Pop', districts: [] },
+          { label: 'Silvia', value: 'Sil', districts: [] },
         ],
       },
       {
-        label: "Antioquia",
-        value: "Antioquia",
+        label: 'Antioquia',
+        value: 'Antioquia',
         cities: [
-          { label: "Medellín", value: "Med", districts: [] },
-          { label: "Jardín", value: "JARd", districts: [] },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Argentina",
-    value: "AR",
-    states: [
-      {
-        label: "Buenos Aires",
-        value: "BA",
-        cities: [{ label: "BsAs", value: "BsAs", districts: [] }],
-      },
-      {
-        label: "Córdoba",
-        value: "CB",
-        cities: [{ label: "Córdoba", value: "cb", districts: [] }],
-      },
-      {
-        label: "Salta",
-        value: "SA",
-        cities: [{ label: "Salta", value: "ST", districts: [] }],
-      },
-      {
-        label: "Entre ríos",
-        value: "ER",
-        cities: [{ label: "Paraná", value: "PN", districts: [] }],
-      },
-      {
-        label: "Santa Cruz",
-        value: "SC",
-        cities: [
-          { label: "Río Gallegos", value: "Río Gallegos", districts: [] },
+          { label: 'Medellín', value: 'Med', districts: [] },
+          { label: 'Jardín', value: 'JARd', districts: [] },
         ],
       },
     ],
   },
   {
-    label: "México",
-    value: "MX",
+    label: 'Argentina',
+    value: 'AR',
     states: [
       {
-        label: "Ciudad de México",
-        value: "CDMX",
-        cities: [{ label: "CDMX", value: "CDMX", districts: [] }],
+        label: 'Buenos Aires',
+        value: 'BA',
+        cities: [{ label: 'BsAs', value: 'BsAs', districts: [] }],
       },
       {
-        label: "Morelos",
-        value: "MO",
-        cities: [
-          { label: "Cuernavaca", value: "CV", districts: [] },
-          { label: "Miacatlán", value: "MT", districts: [] },
-        ],
+        label: 'Córdoba',
+        value: 'CB',
+        cities: [{ label: 'Córdoba', value: 'cb', districts: [] }],
       },
       {
-        label: "Chiapas",
-        value: "CS",
-        cities: [{ label: "Tuxla Gutiérrez", value: "TG", districts: [] }],
+        label: 'Salta',
+        value: 'SA',
+        cities: [{ label: 'Salta', value: 'ST', districts: [] }],
       },
       {
-        label: "Oaxaca",
-        value: "OA",
-        cities: [{ label: "Oaxaca de Juárez", value: "OX", districts: [] }],
+        label: 'Entre ríos',
+        value: 'ER',
+        cities: [{ label: 'Paraná', value: 'PN', districts: [] }],
       },
       {
-        label: "Puebla",
-        value: "PU",
-        cities: [{ label: "Puebla de Zaragoza", value: "PZG", districts: [] }],
+        label: 'Santa Cruz',
+        value: 'SC',
+        cities: [{ label: 'Río Gallegos', value: 'Río Gallegos', districts: [] }],
       },
     ],
   },
   {
-    label: "Perú",
-    value: "PE",
+    label: 'México',
+    value: 'MX',
     states: [
       {
-        label: "Arequipa",
-        value: "Arequipa",
-        cities: [{ label: "Arequipa", value: "Arequipa", districts: [] }],
+        label: 'Ciudad de México',
+        value: 'CDMX',
+        cities: [{ label: 'CDMX', value: 'CDMX', districts: [] }],
       },
       {
-        label: "Cuzco",
-        value: "Cuzco",
-        cities: [{ label: "Cuzco", value: "Cuzco", districts: [] }],
+        label: 'Morelos',
+        value: 'MO',
+        cities: [
+          { label: 'Cuernavaca', value: 'CV', districts: [] },
+          { label: 'Miacatlán', value: 'MT', districts: [] },
+        ],
       },
       {
-        label: "Ica",
-        value: "ICA",
-        cities: [{ label: "Ica", value: "Ica", districts: [] }],
+        label: 'Chiapas',
+        value: 'CS',
+        cities: [{ label: 'Tuxla Gutiérrez', value: 'TG', districts: [] }],
       },
       {
-        label: "Lima Metropolitana",
-        value: "Lima",
-        cities: [{ label: "Lima", value: "Lima", districts: [] }],
+        label: 'Oaxaca',
+        value: 'OA',
+        cities: [{ label: 'Oaxaca de Juárez', value: 'OX', districts: [] }],
       },
       {
-        label: "Loreto",
-        value: "Lo",
-        cities: [{ label: "Iquitos", value: "IQ", districts: [] }],
+        label: 'Puebla',
+        value: 'PU',
+        cities: [{ label: 'Puebla de Zaragoza', value: 'PZG', districts: [] }],
+      },
+    ],
+  },
+  {
+    label: 'Perú',
+    value: 'PE',
+    states: [
+      {
+        label: 'Arequipa',
+        value: 'Arequipa',
+        cities: [{ label: 'Arequipa', value: 'Arequipa', districts: [] }],
+      },
+      {
+        label: 'Cuzco',
+        value: 'Cuzco',
+        cities: [{ label: 'Cuzco', value: 'Cuzco', districts: [] }],
+      },
+      {
+        label: 'Ica',
+        value: 'ICA',
+        cities: [{ label: 'Ica', value: 'Ica', districts: [] }],
+      },
+      {
+        label: 'Lima Metropolitana',
+        value: 'Lima',
+        cities: [{ label: 'Lima', value: 'Lima', districts: [] }],
+      },
+      {
+        label: 'Loreto',
+        value: 'Lo',
+        cities: [{ label: 'Iquitos', value: 'IQ', districts: [] }],
       },
     ],
   },
@@ -192,9 +190,7 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
   const customHandlers = {
     onChangecountry: (data: any) => {
       updateSelectedCountry(data.value);
-      updateStateOptions(
-        countries.find((country: any) => country.value === data.value).states
-      );
+      updateStateOptions(countries.find((country: any) => country.value === data.value).states);
     },
     onChangestate: (data: any) => {
       if (selectedCountry) {
@@ -222,8 +218,8 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
 
   const fieldDataCountries: DynamicFieldData = {
     label: translateText(`app.global_dictionary.location.country`),
-    fieldName: "country",
-    inputType: "select",
+    fieldName: 'country',
+    inputType: 'select',
     options: countryOptions,
   };
   if (selectedCountry) {
@@ -231,20 +227,20 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
   }
   const fieldDataStates: DynamicFieldData = {
     label: translateText(`app.global_dictionary.location.state`),
-    fieldName: "state",
-    inputType: "select",
+    fieldName: 'state',
+    inputType: 'select',
     options: stateOptions,
   };
   const fieldDataCities: DynamicFieldData = {
     label: translateText(`app.global_dictionary.location.city`),
-    fieldName: "city",
-    inputType: "select",
+    fieldName: 'city',
+    inputType: 'select',
     options: cityOptions,
   };
   const fieldDataDistricts: DynamicFieldData = {
     label: translateText(`app.global_dictionary.location.district`),
-    fieldName: "district",
-    inputType: "select",
+    fieldName: 'district',
+    inputType: 'select',
     options: districtOptions,
   };
 

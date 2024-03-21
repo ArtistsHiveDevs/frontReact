@@ -1,4 +1,4 @@
-import { IndustryOfferModel } from "~/models/domain/industryOffer/IndustryOffer.model";
+import { IndustryOfferModel } from '~/models/domain/industryOffer/IndustryOffer.model';
 
 export enum IndustryOfferErrorType {
   RESPONSE_ERROR = 1,

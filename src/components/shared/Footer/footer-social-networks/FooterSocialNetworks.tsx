@@ -1,11 +1,11 @@
-import { useI18n } from "~/common/utils";
+import { useI18n } from '~/common/utils';
 import {
   ARTISTS_HIVE_SOCIAL_NETWORKS,
   SocialNetworks,
   buildSocialNetworkLinkData,
-} from "~/constants/social-networks.const";
-import { DynamicIcons } from "../../DynamicIcons";
-import "./FooterSocialNetworks.scss";
+} from '~/constants/social-networks.const';
+import { DynamicIcons } from '../../DynamicIcons';
+import './FooterSocialNetworks.scss';
 
 const FooterSocialNetworks = (props: any) => {
   const { translateText } = useI18n();
@@ -20,21 +20,12 @@ const FooterSocialNetworks = (props: any) => {
 
             if (network) {
               const networkUser =
-                ARTISTS_HIVE_SOCIAL_NETWORKS[
-                  socialNetwork as keyof typeof ARTISTS_HIVE_SOCIAL_NETWORKS
-                ];
+                ARTISTS_HIVE_SOCIAL_NETWORKS[socialNetwork as keyof typeof ARTISTS_HIVE_SOCIAL_NETWORKS];
 
-              const urlSocialNetwork = buildSocialNetworkLinkData(
-                socialNetwork,
-                networkUser
-              );
+              const urlSocialNetwork = buildSocialNetworkLinkData(socialNetwork, networkUser);
 
               return (
-                <a
-                  href={urlSocialNetwork.url}
-                  target={urlSocialNetwork.target}
-                  key={`AH-${socialNetwork}`}
-                >
+                <a href={urlSocialNetwork.url} target={urlSocialNetwork.target} key={`AH-${socialNetwork}`}>
                   <div title={networkUser}>
                     <DynamicIcons iconName={network.icon} size={25} />
                   </div>

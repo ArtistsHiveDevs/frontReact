@@ -1,5 +1,5 @@
-import { MutableRefObject, useImperativeHandle, useState } from "react";
-import { Container, Form } from "react-bootstrap";
+import { MutableRefObject, useImperativeHandle, useState } from 'react';
+import { Container, Form } from 'react-bootstrap';
 
 type ListElementOption = {
   label: string;
@@ -12,10 +12,8 @@ type SelectListTemplate = {
   parentReference?: MutableRefObject<any>;
 };
 
-const SelectListComponent: React.FC<SelectListTemplate> = (
-  props: SelectListTemplate
-) => {
-  const defaultValue = "default";
+const SelectListComponent: React.FC<SelectListTemplate> = (props: SelectListTemplate) => {
+  const defaultValue = 'default';
   const [selectedValue, updateSelectedValue] = useState(defaultValue);
 
   function handleChangeSelect(event: string) {
@@ -39,13 +37,10 @@ const SelectListComponent: React.FC<SelectListTemplate> = (
         value={selectedValue}
         onChange={(event) => handleChangeSelect(event.target.value)}
       >
-        <option value={"default"}>Seleccione una opción</option>
+        <option value={'default'}>Seleccione una opción</option>
         {props.list.map((listElement: ListElementOption, idx: number) => {
           return (
-            <option
-              key={`option-list-${idx}-${listElement.value}`}
-              value={listElement.value}
-            >
+            <option key={`option-list-${idx}-${listElement.value}`} value={listElement.value}>
               {listElement.label}
             </option>
           );

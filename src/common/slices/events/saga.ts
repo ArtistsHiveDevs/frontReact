@@ -1,11 +1,11 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { call, put, takeLatest, delay } from "redux-saga/effects";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { call, put, takeLatest, delay } from 'redux-saga/effects';
 
-import { request } from "~/common/utils/request";
-import { EventModel } from "~/models/domain/event/event.model";
+import { request } from '~/common/utils/request';
+import { EventModel } from '~/models/domain/event/event.model';
 
-import { eventsActions as actions } from ".";
-import { EventErrorType } from "./types";
+import { eventsActions as actions } from '.';
+import { EventErrorType } from './types';
 
 export function* getEvents() {
   yield delay(500);
@@ -20,14 +20,12 @@ export function* getEvents() {
   }
 }
 
-export function* getQueriedEvents(actionParams?:PayloadAction<string>) {
+export function* getQueriedEvents(actionParams?: PayloadAction<string>) {
   yield delay(500);
 
-  const {payload} = actionParams;
+  const { payload } = actionParams;
 
-  const requestURL = `${
-    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/events?q=${payload}`;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/events?q=${payload}`;
 
   try {
     const events: EventModel[] = yield call(request, requestURL);

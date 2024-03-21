@@ -1,1 +1,1 @@
-export * from "./DynamicIcons";
+export * from './DynamicIcons';

@@ -1,12 +1,10 @@
-import { MdOutlineVerifiedUser, MdVerifiedUser } from "react-icons/md";
-import { AligmentVerifiedMark, VerificationStatus } from "~/constants";
-import "./index.scss";
+import { MdOutlineVerifiedUser, MdVerifiedUser } from 'react-icons/md';
+import { AligmentVerifiedMark, VerificationStatus } from '~/constants';
+import './index.scss';
 
 const VerifiedArtist = (props: any) => {
   const { verifiedStatus, aligment } = props;
-  const AlignMark: AligmentVerifiedMark = !!aligment
-    ? aligment
-    : AligmentVerifiedMark.RIGHT;
+  const AlignMark: AligmentVerifiedMark = !!aligment ? aligment : AligmentVerifiedMark.RIGHT;
 
   const switchVerifiedOptions = (status: any) => {
     switch (status) {

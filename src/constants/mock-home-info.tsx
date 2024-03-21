@@ -1,7 +1,7 @@
-import moment from "moment-with-locales-es6";
-import { useI18n } from "~/common/utils";
-import { ArtistModel } from "~/models/domain/artist/artist.model";
-import { EventModel } from "~/models/domain/event/event.model";
+import moment from 'moment-with-locales-es6';
+import { useI18n } from '~/common/utils';
+import { ArtistModel } from '~/models/domain/artist/artist.model';
+import { EventModel } from '~/models/domain/event/event.model';
 
 export enum VerificationStatus {
   NON_VERIFIED,
@@ -16,15 +16,15 @@ export enum UserGender {
 }
 
 export enum AligmentVerifiedMark {
-  LEFT = "left",
-  RIGHT = "right",
-  CENTER = "center",
+  LEFT = 'left',
+  RIGHT = 'right',
+  CENTER = 'center',
 }
 
 export enum FormatDateTime {
-  NARROW = "narrow",
-  SHORT = "short",
-  LONG = "long",
+  NARROW = 'narrow',
+  SHORT = 'short',
+  LONG = 'long',
 }
 
 export function getCustomList(positions: number, list: any) {
@@ -57,7 +57,7 @@ export function sortEventsPerMonth(list: EventModel[]) {
     if (!!countEvents?.length) {
       returnArray.push({
         id: monthQuantity,
-        monthName: formatDateInMomentType(`${monthQuantity + 1}`, "MMMM"),
+        monthName: formatDateInMomentType(`${monthQuantity + 1}`, 'MMMM'),
         data: countEvents,
       });
     }
@@ -73,9 +73,7 @@ export function getEventsPerMonth(month: number, list: EventModel[]) {
 
   if (max > 0) {
     returnList = list.filter((event) => {
-      const listMonth = moment(event?.timetable__initial_date, "YYYY-MM-DD")
-        .toDate()
-        ?.getMonth();
+      const listMonth = moment(event?.timetable__initial_date, 'YYYY-MM-DD').toDate()?.getMonth();
       return month === listMonth;
     });
   }
@@ -83,11 +81,7 @@ export function getEventsPerMonth(month: number, list: EventModel[]) {
   return returnList;
 }
 
-export function formatDateInMomentType(
-  dateInText: string,
-  momentFormat: string,
-  customLocale?: string
-) {
+export function formatDateInMomentType(dateInText: string, momentFormat: string, customLocale?: string) {
   const { locale } = useI18n();
   return moment(dateInText)
     .locale(customLocale || locale)
@@ -100,42 +94,38 @@ export function getMonthName(dateInText: string, monthFormat?: FormatDateTime) {
   const inputDate = moment(dateInText).toDate();
   const validateDate = !isNaN(inputDate?.getTime());
   if (validateDate)
-    monthName = inputDate?.toLocaleString("default", {
+    monthName = inputDate?.toLocaleString('default', {
       month: monthFormatProperty,
     });
   return monthName;
 }
 
 enum findByModel {
-  name = "name",
-  subtitle = "subtitle",
-  description = "description",
+  name = 'name',
+  subtitle = 'subtitle',
+  description = 'description',
 }
 
 export function findCustomList(words: string) {
   const wordFormatted = words.toLowerCase();
 
   // ARTISTS
-  const newArtistsList: ArtistModel[] = [].filter(
-    (data: { [key: string]: any }) => {
-      return Object.keys(findByModel).some((model: string) => {
-        if (data[model].toLowerCase().includes(wordFormatted)) {
-          return true;
-        }
-      });
-    }
-  );
+  const newArtistsList: ArtistModel[] = [].filter((data: { [key: string]: any }) => {
+    return Object.keys(findByModel).some((model: string) => {
+      if (data[model].toLowerCase().includes(wordFormatted)) {
+        return true;
+      }
+    });
+  });
 
   // PLACES
-  const newPlacesList: ArtistModel[] = [].filter(
-    (data: { [key: string]: any }) => {
-      return Object.keys(findByModel).some((model: string) => {
-        if (data[model].toLowerCase().includes(wordFormatted)) {
-          return true;
-        }
-      });
-    }
-  );
+  const newPlacesList: ArtistModel[] = [].filter((data: { [key: string]: any }) => {
+    return Object.keys(findByModel).some((model: string) => {
+      if (data[model].toLowerCase().includes(wordFormatted)) {
+        return true;
+      }
+    });
+  });
 
   return { newArtistsList, newPlacesList };
 }
@@ -144,10 +134,7 @@ export function findOnCustomListInput(query: string, list: any) {
   const querYFormatted = query?.toLowerCase();
   const newList = list?.filter((data: { [key: string]: any }) => {
     return Object.keys(findByModel).some((model: string) => {
-      if (
-        data[model]?.toLowerCase()?.includes(querYFormatted) &&
-        querYFormatted?.length > 0
-      ) {
+      if (data[model]?.toLowerCase()?.includes(querYFormatted) && querYFormatted?.length > 0) {
         return true;
       }
     });

@@ -1,14 +1,7 @@
-import { DatePicker } from "@mui/x-date-pickers";
-import { Dayjs } from "dayjs";
-import {
-  Controller,
-  FieldErrors,
-  FieldValues,
-  UseFormRegister,
-  useForm,
-  useFormContext,
-} from "react-hook-form";
-import { DynamicFieldData } from "../dynamic-control-types";
+import { DatePicker } from '@mui/x-date-pickers';
+import { Dayjs } from 'dayjs';
+import { Controller, FieldErrors, FieldValues, UseFormRegister, useForm, useFormContext } from 'react-hook-form';
+import { DynamicFieldData } from '../dynamic-control-types';
 
 export const createTimeField = (params: {
   register: UseFormRegister<FieldValues>;
@@ -20,7 +13,7 @@ export const createTimeField = (params: {
     inputType,
     fieldName,
     defaultValue,
-    placeholder = "",
+    placeholder = '',
     options = [],
     config = {},
     componentParams = {},

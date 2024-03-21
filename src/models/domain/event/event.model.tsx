@@ -1,21 +1,16 @@
-import { VerificationStatus } from "~/constants";
-import {
-  EntityModel,
-  EntityTemplate,
-  LocatableTemplate,
-  SearchableTemplate,
-} from "~/models/base";
-import { ArtistModel } from "../artist/artist.model";
-import { PlaceModel } from "../place/place.model";
+import { VerificationStatus } from '~/constants';
+import { EntityModel, EntityTemplate, LocatableTemplate, SearchableTemplate } from '~/models/base';
+import { ArtistModel } from '../artist/artist.model';
+import { PlaceModel } from '../place/place.model';
 
 export enum EventConfirmationStatus {
-  DRAFT = "DRAFT",
-  CREATED = "CREATED",
-  UNDER_REVIEW = "UNDER_REVIEW",
-  RETURNED = "RETURNED",
-  APPROVED = "APPROVED",
-  REJECTED = "REJECTED",
-  CANCELLED = "CANCELLED",
+  DRAFT = 'DRAFT',
+  CREATED = 'CREATED',
+  UNDER_REVIEW = 'UNDER_REVIEW',
+  RETURNED = 'RETURNED',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  CANCELLED = 'CANCELLED',
 }
 
 export interface EventTemplate extends EntityTemplate {
@@ -71,12 +66,8 @@ export class EventModel
   constructor(template: EventTemplate) {
     super(template);
 
-    this.main_artist = template.main_artist
-      ? new ArtistModel(template.main_artist)
-      : undefined;
-    this.guest_artist = template.guest_artist
-      ? new ArtistModel(template.guest_artist)
-      : undefined;
+    this.main_artist = template.main_artist ? new ArtistModel(template.main_artist) : undefined;
+    this.guest_artist = template.guest_artist ? new ArtistModel(template.guest_artist) : undefined;
     this.place = template.place ? new PlaceModel(template.place) : undefined;
   }
 

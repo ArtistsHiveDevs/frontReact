@@ -1,20 +1,17 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { call, delay, put, takeLatest } from "redux-saga/effects";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { call, delay, put, takeLatest } from 'redux-saga/effects';
 
-import { request } from "~/common/utils/request";
-import { ArtistModel } from "~/models/domain/artist/artist.model";
+import { request } from '~/common/utils/request';
+import { ArtistModel } from '~/models/domain/artist/artist.model';
 
-import { artistsActions as actions } from ".";
+import { artistsActions as actions } from '.';
 
 export function* getArtists() {
   yield delay(500);
 
-  const queryParams =
-    "f=events,events.main_artist,events.guest_artist,events.place";
+  const queryParams = 'f=events,events.main_artist,events.guest_artist,events.place';
 
-  const requestURL = `${
-    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/artists?${queryParams}`;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/artists?${queryParams}`;
 
   try {
     const artists: ArtistModel[] = yield call(request, requestURL);
@@ -25,16 +22,11 @@ export function* getArtists() {
   }
 }
 
-export function* queriedArtists(actionParams?:PayloadAction<string>) {
+export function* queriedArtists(actionParams?: PayloadAction<string>) {
   yield delay(500);
 
-  const {payload} = actionParams;
-  const requestURL = `${
-    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/artists?q=${payload}`;
-
-  
-
+  const { payload } = actionParams;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/artists?q=${payload}`;
 
   try {
     const artists: ArtistModel[] = yield call(request, requestURL);

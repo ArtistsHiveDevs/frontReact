@@ -1,30 +1,25 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { usePlacesSlice } from "~/common/slices/places";
-import { selectPlaces } from "~/common/slices/places/selectors";
-import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { usePlacesSlice } from '~/common/slices/places';
+import { selectPlaces } from '~/common/slices/places/selectors';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import {
   PLACE_DETAIL_SUB_PAGE_CONFIG,
   TRANSLATION_BASE_PLACE_DETAIL_PAGE,
-} from "~/components/Pages/PlacesPage/PlaceDetailsPage/config-place-detail";
-import {
-  GalleryImageParams,
-  ImageGallery,
-} from "~/components/shared/atoms/ImageGallery/ImageGallery";
-import { ProfileTabsPage } from "~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage";
-import { URL_PARAMETER_NAMES } from "~/constants";
-import { EventModel } from "~/models/domain/event/event.model";
-import { PlaceModel } from "~/models/domain/place/place.model";
+} from '~/components/Pages/PlacesPage/PlaceDetailsPage/config-place-detail';
+import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
+import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
+import { URL_PARAMETER_NAMES } from '~/constants';
+import { EventModel } from '~/models/domain/event/event.model';
+import { PlaceModel } from '~/models/domain/place/place.model';
 
 const PlaceDetailPage = () => {
   const { navigateToEntity } = useNavigation();
 
   const urlParameters = useParams();
 
-  const [placeId, setCurrentPlaceId] = useState(
-    urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]
-  );
+  const [placeId, setCurrentPlaceId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
 
   const placesList: PlaceModel[] = useSelector(selectPlaces);
   const { actions: placesActions } = usePlacesSlice();
@@ -62,10 +57,7 @@ const PlaceDetailPage = () => {
   };
 
   const handlers = {
-    onClickGalleryImage: (
-      source: GalleryImageParams,
-      images: GalleryImageParams[]
-    ) => {
+    onClickGalleryImage: (source: GalleryImageParams, images: GalleryImageParams[]) => {
       const image = <ImageGallery images={images} imageSize="fs" />;
       setGalleryImage(image);
     },

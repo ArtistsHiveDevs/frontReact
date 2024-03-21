@@ -1,4 +1,4 @@
-import { EntityModel, EntityTemplate } from "~/models/base";
+import { EntityModel, EntityTemplate } from '~/models/base';
 
 export interface GeneralMusicalInstrumentTemplate extends EntityTemplate {
   family: string;

@@ -1,84 +1,84 @@
 import {
   ProfileComponentTypes,
   ProfileDetailsSubpage,
-} from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
+} from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
 
 export const ACADEMY_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
-    name: "general",
+    name: 'general',
     sections: [
       {
-        name: "gallery",
+        name: 'gallery',
         components: [
           {
             componentName: ProfileComponentTypes.IMAGE_GALLERY,
-            data: { images: "image_gallery" },
-            clickHandlerName: "onClickGalleryImage",
+            data: { images: 'image_gallery' },
+            clickHandlerName: 'onClickGalleryImage',
           },
         ],
       },
       {
-        name: "general",
+        name: 'general',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "description",
+                  name: 'description',
                   emptyTitle: true,
                 },
                 {
-                  name: "address",
+                  name: 'address',
                   emptyTitle: true,
                 },
                 {
-                  name: "cityWithCountry",
-                  icon: "AiFillHome",
+                  name: 'cityWithCountry',
+                  icon: 'AiFillHome',
                   emptyTitle: true,
                 },
                 {
-                  name: "categories",
-                  icon: "BsInfoCircleFill",
+                  name: 'categories',
+                  icon: 'BsInfoCircleFill',
                 },
                 {
-                  name: "since",
-                  icon: "BsCalendar",
+                  name: 'since',
+                  icon: 'BsCalendar',
                 },
                 {
-                  name: "spoken_languages",
-                  icon: "BsTranslate",
+                  name: 'spoken_languages',
+                  icon: 'BsTranslate',
                 },
               ],
             },
           },
           {
             componentName: ProfileComponentTypes.MAP,
-            data: { lat: "latitude", lng: "longitude" },
+            data: { lat: 'latitude', lng: 'longitude' },
           },
         ],
       },
       {
-        name: "contact",
+        name: 'contact',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "website",
+                  name: 'website',
                 },
                 {
-                  name: "email",
+                  name: 'email',
                 },
                 {
-                  name: "phone",
+                  name: 'phone',
                 },
                 {
-                  name: "mobile_phone",
+                  name: 'mobile_phone',
                 },
                 {
-                  name: "whatsapp",
+                  name: 'whatsapp',
                 },
               ],
             },
@@ -86,29 +86,29 @@ export const ACADEMY_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "social_networks",
+        name: 'social_networks',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "facebook",
+                  name: 'facebook',
                 },
                 {
-                  name: "twitter",
+                  name: 'twitter',
                 },
                 {
-                  name: "instagram",
+                  name: 'instagram',
                 },
                 {
-                  name: "spotify",
+                  name: 'spotify',
                 },
                 {
-                  name: "youtube",
+                  name: 'youtube',
                 },
                 {
-                  name: "wikipedia",
+                  name: 'wikipedia',
                 },
               ],
             },
@@ -118,122 +118,122 @@ export const ACADEMY_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     ],
   },
   {
-    name: "social",
+    name: 'social',
     requireSession: true,
     sections: [
       {
-        name: "social_network_presence",
+        name: 'social_network_presence',
         attributes: [
           {
-            name: "facebook",
+            name: 'facebook',
             emptyTitle: true,
           },
           {
-            name: "instagram",
+            name: 'instagram',
             emptyTitle: true,
           },
           {
-            name: "twitter",
+            name: 'twitter',
             emptyTitle: true,
           },
           {
-            name: "spotify",
+            name: 'spotify',
             emptyTitle: true,
           },
           {
-            name: "deezer",
+            name: 'deezer',
             emptyTitle: true,
           },
           {
-            name: "appleMusic",
+            name: 'appleMusic',
             emptyTitle: true,
           },
           {
-            name: "youtube",
+            name: 'youtube',
             emptyTitle: true,
           },
         ],
       },
       {
-        name: "stats",
+        name: 'stats',
         attributes: [
           {
-            name: "general_rate",
-            icon: "BsStarFill",
+            name: 'general_rate',
+            icon: 'BsStarFill',
           },
           {
-            name: "followers",
-            icon: "FaUserFriends",
+            name: 'followers',
+            icon: 'FaUserFriends',
           },
           {
-            name: "event_followers",
-            icon: "FaUserFriends",
+            name: 'event_followers',
+            icon: 'FaUserFriends',
           },
         ],
       },
     ],
   },
   {
-    name: "shows",
+    name: 'shows',
     sections: [
       {
-        name: "next_shows",
+        name: 'next_shows',
         components: [
           {
             componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
             data: {
-              data_source: "nextEvents",
+              data_source: 'nextEvents',
               fields: {
-                date: "timetable__initial_date",
-                time: "timetable__main_artist_time",
-                title: "name",
-                subtitle: "subtitle",
+                date: 'timetable__initial_date',
+                time: 'timetable__main_artist_time',
+                title: 'name',
+                subtitle: 'subtitle',
               },
             },
-            clickHandlerName: "onClickNextEvent",
+            clickHandlerName: 'onClickNextEvent',
           },
         ],
       },
       {
-        name: "past_shows",
+        name: 'past_shows',
         components: [
           {
             componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
             data: {
-              data_source: "pastEvents",
+              data_source: 'pastEvents',
               fields: {
-                date: "timetable__initial_date",
-                title: "name",
-                subtitle: "subtitle",
-                picture: "photo",
+                date: 'timetable__initial_date',
+                title: 'name',
+                subtitle: 'subtitle',
+                picture: 'photo',
               },
             },
-            clickHandlerName: "onClickPastEvent",
+            clickHandlerName: 'onClickPastEvent',
           },
         ],
       },
     ],
   },
   {
-    name: "backline",
+    name: 'backline',
     requireSession: true,
     sections: [
       {
-        name: "sound_backline",
+        name: 'sound_backline',
       },
       {
-        name: "light_backline",
+        name: 'light_backline',
       },
     ],
   },
   {
-    name: "menu",
+    name: 'menu',
     sections: [
       {
-        name: "main_course",
+        name: 'main_course',
       },
       {
-        name: "second_course",
+        name: 'second_course',
       },
     ],
   },

@@ -1,24 +1,14 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState } from "~/common/utils/redux-injectors/types";
+import { RootState } from '~/common/utils/redux-injectors/types';
 
-import { industryOfferInitialState } from ".";
+import { industryOfferInitialState } from '.';
 
 // First select the relevant part from the state
-const selectDomain = (state: RootState) =>
-  state?.IndustryOfferReducer || industryOfferInitialState;
+const selectDomain = (state: RootState) => state?.IndustryOfferReducer || industryOfferInitialState;
 
-export const selectLoading = createSelector(
-  [selectDomain],
-  (IndustryOfferState) => IndustryOfferState.loading
-);
+export const selectLoading = createSelector([selectDomain], (IndustryOfferState) => IndustryOfferState.loading);
 
-export const selectError = createSelector(
-  [selectDomain],
-  (IndustryOfferState) => IndustryOfferState.error
-);
+export const selectError = createSelector([selectDomain], (IndustryOfferState) => IndustryOfferState.error);
 
-export const selectIndustryOffer = createSelector(
-  [selectDomain],
-  (IndustryOfferState) => IndustryOfferState.offer
-);
+export const selectIndustryOffer = createSelector([selectDomain], (IndustryOfferState) => IndustryOfferState.offer);

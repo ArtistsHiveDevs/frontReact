@@ -1,4 +1,4 @@
-import { SearchModel } from "~/models/domain/search/search.model";
+import { SearchModel } from '~/models/domain/search/search.model';
 
 export enum SearchErrorType {
   RESPONSE_ERROR = 1,

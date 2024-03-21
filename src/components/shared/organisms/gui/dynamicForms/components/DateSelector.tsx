@@ -1,7 +1,7 @@
-import { DatePicker } from "@mui/x-date-pickers";
-import { useState } from "react";
-import { Controller } from "react-hook-form";
-import { ComponentGeneratorParams } from "../DynamicControl";
+import { DatePicker } from '@mui/x-date-pickers';
+import { useState } from 'react';
+import { Controller } from 'react-hook-form';
+import { ComponentGeneratorParams } from '../DynamicControl';
 
 export const createDatePicker = (params: ComponentGeneratorParams) => {
   const { fieldData, formContext } = params;
@@ -11,7 +11,7 @@ export const createDatePicker = (params: ComponentGeneratorParams) => {
     inputType,
     fieldName,
     defaultValue,
-    placeholder = "",
+    placeholder = '',
     options = [],
     config = {},
     componentParams = {},

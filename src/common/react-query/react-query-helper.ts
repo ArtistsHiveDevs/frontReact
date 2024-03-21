@@ -1,9 +1,4 @@
-import {
-  useQuery,
-  QueryClient,
-  useMutation,
-  QueryClientProvider,
-} from "react-query";
+import { useQuery, QueryClient, useMutation, QueryClientProvider } from 'react-query';
 
 // constants
 const defaultConfig = {
@@ -32,27 +27,13 @@ export function ahSetQueryData(queryKey: any, updater: any) {
 }
 
 // https://react-query.tanstack.com/guides/queries#_top
-export function ahUseQuery({
-  key,
-  service,
-  config = defaultConfig,
-}: {
-  key: any;
-  service: any;
-  config: any;
-}) {
+export function ahUseQuery({ key, service, config = defaultConfig }: { key: any; service: any; config: any }) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useQuery(key, service, config);
 }
 
 // https://react-query.tanstack.com/guides/mutations
-export function ahUseMutation({
-  service,
-  config = {},
-}: {
-  service: any;
-  config: {};
-}) {
+export function ahUseMutation({ service, config = {} }: { service: any; config: {} }) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useMutation(service, {
     ...config,

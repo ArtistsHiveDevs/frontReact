@@ -1,18 +1,16 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { call, delay, put, takeLatest } from "redux-saga/effects";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { call, delay, put, takeLatest } from 'redux-saga/effects';
 
-import { request } from "~/common/utils/request";
-import { AcademyModel } from "~/models/domain/academy/academy.model";
+import { request } from '~/common/utils/request';
+import { AcademyModel } from '~/models/domain/academy/academy.model';
 
-import { academiesActions as actions } from ".";
+import { academiesActions as actions } from '.';
 
 export function* getAcademies() {
   yield delay(500);
-  let queryParams = ""; //`f=events,events.main_artist,events.guest_artist`;
+  let queryParams = ''; //`f=events,events.main_artist,events.guest_artist`;
 
-  const requestURL = `${
-    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/academies?${queryParams}`;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/academies?${queryParams}`;
 
   try {
     const academies: AcademyModel[] = yield call(request, requestURL);
@@ -28,9 +26,7 @@ export function* getQueriedAcademies(actionParams?: PayloadAction<string>) {
 
   const { payload } = actionParams;
 
-  const requestURL = `${
-    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/academies?q=${payload}`;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/academies?q=${payload}`;
 
   try {
     const academies: AcademyModel[] = yield call(request, requestURL);

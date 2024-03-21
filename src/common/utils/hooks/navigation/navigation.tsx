@@ -1,6 +1,6 @@
-import { NavigateOptions, useNavigate } from "react-router-dom";
-import { SUB_PATHS } from "~/constants";
-import { resolveNavigateToEntityPath } from "./navigateToEntityResolver";
+import { NavigateOptions, useNavigate } from 'react-router-dom';
+import { SUB_PATHS } from '~/constants';
+import { resolveNavigateToEntityPath } from './navigateToEntityResolver';
 
 export const useNavigation = () => {
   const navigate = useNavigate();
@@ -9,19 +9,12 @@ export const useNavigation = () => {
     navigate(-1);
   };
 
-  const navigateToInnerPath = (params: {
-    path: string;
-    options?: NavigateOptions;
-  }) => {
+  const navigateToInnerPath = (params: { path: string; options?: NavigateOptions }) => {
     window.scrollTo(0, 0);
     navigate(params.path, params.options);
   };
 
-  const navigateToEntity = (params: {
-    entityType: string;
-    id?: string;
-    options?: NavigateOptions;
-  }) => {
+  const navigateToEntity = (params: { entityType: string; id?: string; options?: NavigateOptions }) => {
     let entity = resolveNavigateToEntityPath(params.entityType);
 
     if (entity) {

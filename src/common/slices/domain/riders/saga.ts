@@ -1,18 +1,16 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { call, delay, put, takeLatest } from "redux-saga/effects";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { call, delay, put, takeLatest } from 'redux-saga/effects';
 
-import { request } from "~/common/utils/request";
-import { ArtistRiderModel } from "~/models/domain/rider/rider.model";
+import { request } from '~/common/utils/request';
+import { ArtistRiderModel } from '~/models/domain/rider/rider.model';
 
-import { ridersActions as actions } from ".";
+import { ridersActions as actions } from '.';
 
 export function* getRiders() {
   yield delay(500);
   let queryParams = `f=events,events.main_artist,events.guest_artist`;
 
-  const requestURL = `${
-    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/riders?${queryParams}`;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/riders?${queryParams}`;
 
   try {
     const riders: ArtistRiderModel[] = yield call(request, requestURL);
@@ -28,9 +26,7 @@ export function* getQueriedRiders(actionParams?: PayloadAction<string>) {
 
   const { payload } = actionParams;
 
-  const requestURL = `${
-    import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
-  }/riders?q=${payload}`;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/riders?q=${payload}`;
 
   try {
     const riders: ArtistRiderModel[] = yield call(request, requestURL);

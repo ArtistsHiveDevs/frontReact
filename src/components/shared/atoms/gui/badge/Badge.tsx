@@ -1,4 +1,4 @@
-import "./Badge.scss";
+import './Badge.scss';
 
 export interface BadgeParams {
   text: string;

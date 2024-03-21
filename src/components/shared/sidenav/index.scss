@@ -1,4 +1,4 @@
-@import "~/variables.module.scss";
+@import '~/variables.module.scss';
 @import 'bootstrap';
 
 .hidden {
@@ -36,8 +36,6 @@
       text-decoration: none;
     }
   }
-
-
 }
 
 .img-logotipo {
@@ -97,7 +95,6 @@
   height: 90%;
 }
 
-
 // Media queries zone
 
 @include media-breakpoint-down(sm) {
@@ -105,16 +102,15 @@
     .nav-menu-opt {
       order: 1;
     }
-  
+
     .nav-search-opt {
       order: 3;
       width: 100%;
       margin-top: 5px;
     }
-  
+
     .nav-login-opt {
       order: 2;
     }
   }
 }
-

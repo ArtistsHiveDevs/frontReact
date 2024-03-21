@@ -1,6 +1,6 @@
-import { useI18n } from "~/common/utils";
+import { useI18n } from '~/common/utils';
 
-const BASE_TRANSLATIONS = "app.pages.EventsPage";
+const BASE_TRANSLATIONS = 'app.pages.EventsPage';
 
 const EventsPage = () => {
   const { translateText } = useI18n();

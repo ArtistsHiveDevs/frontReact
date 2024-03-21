@@ -1,44 +1,43 @@
-@import "~/variables.module.scss";
+@import '~/variables.module.scss';
 
 .container-beta {
-    background-color: $gray-light;
+  background-color: $gray-light;
+  width: 100%;
+  max-width: 100% !important;
+
+  .beta-disclaimer {
     width: 100%;
-    max-width: 100%!important;
+    text-align: right;
+    .disclaimer-value:hover {
+      cursor: pointer;
+    }
+  }
 
-    .beta-disclaimer {
-        width: 100%;
-        text-align: right;
-        .disclaimer-value:hover {
-            cursor: pointer;
-        }
+  .beta-text-col {
+    margin: 5px 0 10px 5px;
+    .beta-label-text {
+      font-size: 0.7rem;
+    }
+  }
+
+  .beta-button-col {
+    margin: 5px 0 10px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    .button-styles {
+      font-size: 0.8rem;
+      background-color: $entity-3;
+      border: 1px solid $entity-3;
+      transition: transform 0.2s;
     }
 
-
-    .beta-text-col{
-        margin: 5px 0 10px 5px;
-        .beta-label-text {
-            font-size: 0.7rem;
-        }
+    .button-styles:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+      background-color: $main-title-color;
     }
-
-    .beta-button-col{
-        margin: 5px 0 10px 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        
-        .button-styles {
-            font-size: 0.8rem;
-            background-color: $entity-3;
-            border: 1px solid $entity-3;
-            transition: transform .2s;
-        }
-
-        .button-styles:hover {
-            cursor: pointer;
-            transform: scale(1.1);
-            background-color: $main-title-color;
-        }
-    }
+  }
 }

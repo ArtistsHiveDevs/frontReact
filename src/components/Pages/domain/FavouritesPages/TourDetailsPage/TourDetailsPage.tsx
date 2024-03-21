@@ -1,32 +1,29 @@
-import "./TourDetailsPage.scss";
+import './TourDetailsPage.scss';
 
-import { useEffect, useState } from "react";
-import { Image } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { useTourOutlineSlice } from "~/common/slices/domain/favourites/tour-outlines";
-import { selectTourOutlineById } from "~/common/slices/domain/favourites/tour-outlines/selectors";
-import { useI18n } from "~/common/utils";
-import { useNavigation } from "~/common/utils/hooks/navigation/navigation";
+import { useEffect, useState } from 'react';
+import { Image } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useTourOutlineSlice } from '~/common/slices/domain/favourites/tour-outlines';
+import { selectTourOutlineById } from '~/common/slices/domain/favourites/tour-outlines/selectors';
+import { useI18n } from '~/common/utils';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import {
   FavoriteSubscription,
   FavoriteSubscritionIconDefaultTypes,
-} from "~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe";
-import { ProfileTabsPage } from "~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage";
-import { URL_PARAMETER_NAMES } from "~/constants";
-import { TourOutlineModel } from "~/models/domain/favourites/tourOutline";
-import { TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG } from "./config-tour-detail";
+} from '~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe';
+import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
+import { URL_PARAMETER_NAMES } from '~/constants';
+import { TourOutlineModel } from '~/models/domain/favourites/tourOutline';
+import { TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG } from './config-tour-detail';
 
-const TRANSLATION_BASE_EVENT_DETAILS_PAGE: string =
-  "app.pages.domain.TourPlansPages.TourPlanDetailsPage";
+const TRANSLATION_BASE_EVENT_DETAILS_PAGE: string = 'app.pages.domain.TourPlansPages.TourPlanDetailsPage';
 
 const TourPlanDetailsPage = () => {
   // Component URL Params
   const urlParameters = useParams();
   const navigation = useNavigation();
-  const [tourPlanId, setCurrentTourPlanId] = useState(
-    urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]
-  );
+  const [tourPlanId, setCurrentTourPlanId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
 
   // States
 
@@ -34,9 +31,7 @@ const TourPlanDetailsPage = () => {
 
   const subPagesInfo = [...TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG];
 
-  const tourOutlineDetails: TourOutlineModel = useSelector(
-    selectTourOutlineById
-  );
+  const tourOutlineDetails: TourOutlineModel = useSelector(selectTourOutlineById);
   // Hooks
   const dispatch = useDispatch();
 
@@ -46,11 +41,7 @@ const TourPlanDetailsPage = () => {
 
   // Effects
   useEffect(() => {
-    dispatch(
-      tourPlanActions.getTourOutlineById(
-        urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]
-      )
-    );
+    dispatch(tourPlanActions.getTourOutlineById(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]));
 
     if (tourPlanId !== urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]) {
       setCurrentTourPlanId(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
@@ -72,7 +63,7 @@ const TourPlanDetailsPage = () => {
 
   return (
     <>
-      <a onClick={() => navigation.goBack()}>{"<"} Volver</a>
+      <a onClick={() => navigation.goBack()}>{'<'} Volver</a>
       {tourOutlineDetails && (
         <>
           <ProfileTabsPage
@@ -84,9 +75,9 @@ const TourPlanDetailsPage = () => {
             profileHeaderComponent={
               <>
                 <h1 className="tourPlan-title">
-                  {tourOutlineDetails.name}{" "}
+                  {tourOutlineDetails.name}{' '}
                   <FavoriteSubscription
-                    color={"#7a260a"}
+                    color={'#7a260a'}
                     size={22}
                     iconType={FavoriteSubscritionIconDefaultTypes.BELL}
                   />
@@ -94,10 +85,9 @@ const TourPlanDetailsPage = () => {
                 <Image
                   alt={tourOutlineDetails.name}
                   src={
-                    tourOutlineDetails.pictures.thumbnail ||
-                    "https://npcarlos.co/artistsHive_mocks/tour_default.png"
+                    tourOutlineDetails.pictures.thumbnail || 'https://npcarlos.co/artistsHive_mocks/tour_default.png'
                   }
-                  width={"80rem"}
+                  width={'80rem'}
                   fluid={true}
                 />
               </>
@@ -105,13 +95,7 @@ const TourPlanDetailsPage = () => {
           />
         </>
       )}
-      {!tourOutlineDetails && (
-        <h2>
-          {translateText(
-            `${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.tourPlanNotFound`
-          )}
-        </h2>
-      )}
+      {!tourOutlineDetails && <h2>{translateText(`${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.tourPlanNotFound`)}</h2>}
     </>
   );
 };

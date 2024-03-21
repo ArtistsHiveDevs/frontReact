@@ -1,5 +1,5 @@
-import { Moment } from "moment";
-import { EntityModel, EntityTemplate } from "~/models/base";
+import { Moment } from 'moment';
+import { EntityModel, EntityTemplate } from '~/models/base';
 
 export interface PrivacyPolicyTemplate extends EntityTemplate {
   version: string;

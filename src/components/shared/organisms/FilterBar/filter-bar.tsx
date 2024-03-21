@@ -1,17 +1,17 @@
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import "./filter-bar.scss";
-import { EntityTemplate, SearchableTemplate } from "~/models/base";
-import { SearchComponent } from "../../search";
-import React, { useRef, useState } from "react";
-import SelectListComponent from "../../molecules/domain/SelectList/select-list";
-import CalendarDatePickupComponent from "../../molecules/domain/CalendarDatePicker/calendar-date-picker";
-import { EntityType } from "../../search/search-constants";
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import './filter-bar.scss';
+import { EntityTemplate, SearchableTemplate } from '~/models/base';
+import { SearchComponent } from '../../search';
+import React, { useRef, useState } from 'react';
+import SelectListComponent from '../../molecules/domain/SelectList/select-list';
+import CalendarDatePickupComponent from '../../molecules/domain/CalendarDatePicker/calendar-date-picker';
+import { EntityType } from '../../search/search-constants';
 
 export enum FilterOptions {
-  CATEGORIES = "categories",
-  DATE = "date",
-  RESET = "reset",
-  SEARCH = "search",
+  CATEGORIES = 'categories',
+  DATE = 'date',
+  RESET = 'reset',
+  SEARCH = 'search',
 }
 
 type ListElementOption = {
@@ -31,9 +31,7 @@ type FilterVarTemplate = {
   callbacks?: CallbackOpts;
 };
 
-const FilterBarComponent: React.FC<FilterVarTemplate> = (
-  props: FilterVarTemplate
-) => {
+const FilterBarComponent: React.FC<FilterVarTemplate> = (props: FilterVarTemplate) => {
   const categoriesReference = useRef(null);
   const searchBarReference = useRef(null);
   const calendarReference = useRef(null);
@@ -87,10 +85,7 @@ const FilterBarComponent: React.FC<FilterVarTemplate> = (
         <Col>
           <Row className="label-filter-opt">Fecha</Row>
           <Row className="filter-opt-container">
-            <CalendarDatePickupComponent
-              callback={handleDatePickerSelect}
-              parentReference={calendarReference}
-            />
+            <CalendarDatePickupComponent callback={handleDatePickerSelect} parentReference={calendarReference} />
           </Row>
         </Col>
         <Col sm={4}>
@@ -107,10 +102,7 @@ const FilterBarComponent: React.FC<FilterVarTemplate> = (
         </Col>
         <Col sm={2}>
           <div className="bar-restart-button">
-            <Button
-              onClick={(e) => handleOnRestartClick()}
-              className="button-styles"
-            >
+            <Button onClick={(e) => handleOnRestartClick()} className="button-styles">
               Reiniciar
             </Button>
           </div>

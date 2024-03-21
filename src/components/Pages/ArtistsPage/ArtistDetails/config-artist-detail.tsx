@@ -1,32 +1,28 @@
-import { RatingStarsView } from "~/components/shared/atoms/gui/rating-stars-view/RatingStarsView";
-import { SocialNetworkStats } from "~/components/shared/domain/atoms/gui/social-network-stats/SocialNetworkStats";
+import { RatingStarsView } from '~/components/shared/atoms/gui/rating-stars-view/RatingStarsView';
+import { SocialNetworkStats } from '~/components/shared/domain/atoms/gui/social-network-stats/SocialNetworkStats';
 import {
   ProfileComponentTypes,
   ProfileDetailsSubpage,
-} from "~/components/shared/organisms/ProfileTabsPage/profile-details.def";
-import {
-  ArtistModel,
-  ArtistRatingTemplate,
-} from "~/models/domain/artist/artist.model";
+} from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
+import { ArtistModel, ArtistRatingTemplate } from '~/models/domain/artist/artist.model';
 
-export const TRANSLATION_BASE_ARTIST_DETAIL_PAGE =
-  "app.pages.ArtistsPages.ArtistsDetailsPage";
+export const TRANSLATION_BASE_ARTIST_DETAIL_PAGE = 'app.pages.ArtistsPages.ArtistsDetailsPage';
 export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
-    name: "general",
+    name: 'general',
     sections: [
       {
-        name: "general",
+        name: 'general',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "description",
+                  name: 'description',
                   emptyTitle: true,
                   formMetaData: {
-                    inputType: "textarea",
+                    inputType: 'textarea',
                     config: {
                       required: false,
                     },
@@ -34,10 +30,10 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 },
 
                 {
-                  name: "since",
-                  icon: "BsCalendar",
+                  name: 'since',
+                  icon: 'BsCalendar',
                   formMetaData: {
-                    inputType: "date",
+                    inputType: 'date',
                     componentParams: {
                       disableFuture: true,
                     },
@@ -47,34 +43,34 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   },
                 },
                 {
-                  name: "home_city",
-                  icon: "AiFillHome",
+                  name: 'home_city',
+                  icon: 'AiFillHome',
                   formMetaData: {
-                    inputType: "citySelector",
+                    inputType: 'citySelector',
                   },
                 },
                 {
-                  name: "categories",
-                  icon: "BsInfoCircleFill",
+                  name: 'categories',
+                  icon: 'BsInfoCircleFill',
                 },
                 {
-                  name: "spoken_languages",
-                  icon: "TbWorld",
+                  name: 'spoken_languages',
+                  icon: 'TbWorld',
                   requireSession: true,
-                  formMetaData: { inputType: "chipPicker" },
+                  formMetaData: { inputType: 'chipPicker' },
                 },
                 {
-                  name: "stage_languages",
-                  icon: "BsTranslate",
+                  name: 'stage_languages',
+                  icon: 'BsTranslate',
                   requireSession: true,
-                  formMetaData: { inputType: "chipPicker" },
+                  formMetaData: { inputType: 'chipPicker' },
                 },
                 {
-                  name: "arts_languages",
-                  icon: "BsFillMegaphoneFill",
+                  name: 'arts_languages',
+                  icon: 'BsFillMegaphoneFill',
                   requireSession: true,
                   formMetaData: {
-                    inputType: "chipPicker",
+                    inputType: 'chipPicker',
                     config: { required: true },
                   },
                 },
@@ -84,29 +80,29 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "genres",
+        name: 'genres',
         components: [
           {
             componentName: ProfileComponentTypes.ARTS_GENRES,
             data: {
-              genres: "genres",
+              genres: 'genres',
             },
-            formMetaData: { inputType: "chipPicker", fieldName: "genres" },
+            formMetaData: { inputType: 'chipPicker', fieldName: 'genres' },
           },
         ],
       },
       {
-        name: "contact",
+        name: 'contact',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "website",
+                  name: 'website',
                 },
                 {
-                  name: "email",
+                  name: 'email',
                   requireSession: true,
                   formMetaData: {
                     config: {
@@ -115,11 +111,11 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   },
                 },
                 {
-                  name: "phone",
+                  name: 'phone',
                   requireSession: true,
                 },
                 {
-                  name: "mobile_phone",
+                  name: 'mobile_phone',
                   requireSession: true,
                   formMetaData: {
                     config: {
@@ -128,7 +124,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   },
                 },
                 {
-                  name: "whatsapp",
+                  name: 'whatsapp',
                 },
               ],
             },
@@ -136,32 +132,32 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "social_networks",
+        name: 'social_networks',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "facebook",
+                  name: 'facebook',
                 },
                 {
-                  name: "twitter",
+                  name: 'twitter',
                 },
                 {
-                  name: "instagram",
+                  name: 'instagram',
                 },
                 {
-                  name: "spotify",
+                  name: 'spotify',
                 },
                 {
-                  name: "youtube",
+                  name: 'youtube',
                 },
                 {
-                  name: "wikipedia",
+                  name: 'wikipedia',
                 },
                 {
-                  name: "cd_baby",
+                  name: 'cd_baby',
                 },
               ],
             },
@@ -169,39 +165,38 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "record_label",
+        name: 'record_label',
       },
       {
-        name: "members",
+        name: 'members',
         requireSession: true,
       },
     ],
   },
   {
-    name: "arts",
+    name: 'arts',
     sections: [
       {
-        name: "discography",
+        name: 'discography',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "albums",
-                  icon: "SlDisc",
+                  name: 'albums',
+                  icon: 'SlDisc',
                   components: [
                     {
-                      componentName:
-                        ProfileComponentTypes.DISCOGRAPHY_LIST_VIEW,
-                      data_source: "arts.music.albums",
+                      componentName: ProfileComponentTypes.DISCOGRAPHY_LIST_VIEW,
+                      data_source: 'arts.music.albums',
                       data: {},
                     },
                   ],
                 },
                 {
-                  name: "dvd_video",
-                  icon: "ImVideoCamera",
+                  name: 'dvd_video',
+                  icon: 'ImVideoCamera',
                 },
               ],
             },
@@ -209,42 +204,42 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "media_channels",
+        name: 'media_channels',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "youtube",
+                  name: 'youtube',
+                  emptyTitle: true,
                   components: [
                     {
-                      componentName:
-                        ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
+                      componentName: ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
+
+                      emptyTitle: true,
                       data: {
                         params: {
-                          videoURL: "youtube_widget_id",
+                          videoURL: 'youtube_widget_id',
                         },
                       },
                     },
                   ],
                 },
                 {
-                  name: "spotify",
+                  name: 'spotify',
                   components: [
                     {
-                      componentName:
-                        ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
+                      componentName: ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
                       data: {},
                     },
                   ],
                 },
                 {
-                  name: "sound_cloud",
+                  name: 'sound_cloud',
                   components: [
                     {
-                      componentName:
-                        ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
+                      componentName: ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
                       data: {},
                     },
                   ],
@@ -255,46 +250,43 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "gallery",
+        name: 'gallery',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "photos",
-                  icon: "MdInsertPhoto",
+                  name: 'photos',
+                  icon: 'MdInsertPhoto',
                 },
                 {
-                  name: "video",
-                  icon: "ImVideoCamera",
+                  name: 'video',
+                  icon: 'ImVideoCamera',
                 },
                 {
-                  name: "instagram",
+                  name: 'instagram',
                   components: [
                     {
-                      componentName:
-                        ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
+                      componentName: ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
                       data: {},
                     },
                   ],
                 },
                 {
-                  name: "tiktok",
+                  name: 'tiktok',
                   components: [
                     {
-                      componentName:
-                        ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
+                      componentName: ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
                       data: {},
                     },
                   ],
                 },
                 {
-                  name: "vimeo",
+                  name: 'vimeo',
                   components: [
                     {
-                      componentName:
-                        ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
+                      componentName: ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
                       data: {},
                     },
                   ],
@@ -305,7 +297,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "awards",
+        name: 'awards',
       },
     ],
   },
@@ -352,160 +344,125 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   //   ],
   // },
   {
-    name: "social",
+    name: 'social',
     requireSession: false,
     sections: [
       {
-        name: "social_network_presence",
+        name: 'social_network_presence',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
-                  name: "facebook",
+                  name: 'facebook',
                   hidden: (artist: ArtistModel) => {
                     return !artist.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "facebook"
+                      (socialNetworkStats) => socialNetworkStats.name === 'facebook'
                     );
                   },
                   value: (artist: ArtistModel) => {
                     const socialNetworkData = artist.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "facebook"
+                      (socialNetworkStats) => socialNetworkStats.name === 'facebook'
                     );
                     return (
-                      <SocialNetworkStats
-                        followers={socialNetworkData?.followers}
-                        extraData={socialNetworkData}
-                      />
+                      <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
                     );
                   },
                 },
                 {
-                  name: "instagram",
+                  name: 'instagram',
                   hidden: (artist: ArtistModel) => {
                     return !artist.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "instagram"
+                      (socialNetworkStats) => socialNetworkStats.name === 'instagram'
                     );
                   },
                   value: (artist: ArtistModel) => {
                     const socialNetworkData = artist.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "instagram"
+                      (socialNetworkStats) => socialNetworkStats.name === 'instagram'
                     );
                     return (
-                      <SocialNetworkStats
-                        followers={socialNetworkData?.followers}
-                        extraData={socialNetworkData}
-                      />
+                      <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
                     );
                   },
                 },
                 {
-                  name: "twitter",
+                  name: 'twitter',
                   hidden: (artist: ArtistModel) => {
                     return !artist.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "twitter"
+                      (socialNetworkStats) => socialNetworkStats.name === 'twitter'
                     );
                   },
                   value: (artist: ArtistModel) => {
                     const socialNetworkData = artist.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "twitter"
+                      (socialNetworkStats) => socialNetworkStats.name === 'twitter'
                     );
                     return (
-                      <SocialNetworkStats
-                        followers={socialNetworkData?.followers}
-                        extraData={socialNetworkData}
-                      />
+                      <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
                     );
                   },
                 },
                 {
-                  name: "spotify",
+                  name: 'spotify',
                   hidden: (artist: ArtistModel) => {
                     return !artist.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "spotify"
+                      (socialNetworkStats) => socialNetworkStats.name === 'spotify'
                     );
                   },
                   value: (artist: ArtistModel) => {
                     const socialNetworkData = artist.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "spotify"
+                      (socialNetworkStats) => socialNetworkStats.name === 'spotify'
                     );
                     return (
-                      <SocialNetworkStats
-                        followers={socialNetworkData?.followers}
-                        extraData={socialNetworkData}
-                      />
+                      <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
                     );
                   },
                 },
                 {
-                  name: "deezer",
+                  name: 'deezer',
                   hidden: (artist: ArtistModel) => {
                     return !artist.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "deezer"
+                      (socialNetworkStats) => socialNetworkStats.name === 'deezer'
                     );
                   },
                   value: (artist: ArtistModel) => {
                     const socialNetworkData = artist.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "deezer"
+                      (socialNetworkStats) => socialNetworkStats.name === 'deezer'
                     );
                     return (
-                      <SocialNetworkStats
-                        followers={socialNetworkData?.followers}
-                        extraData={socialNetworkData}
-                      />
+                      <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
                     );
                   },
                 },
                 {
-                  name: "appleMusic",
+                  name: 'appleMusic',
                   hidden: (artist: ArtistModel) => {
                     return !artist.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "appleMusic"
+                      (socialNetworkStats) => socialNetworkStats.name === 'appleMusic'
                     );
                   },
                   value: (artist: ArtistModel) => {
                     const socialNetworkData = artist.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "appleMusic"
+                      (socialNetworkStats) => socialNetworkStats.name === 'appleMusic'
                     );
                     return (
-                      <SocialNetworkStats
-                        followers={socialNetworkData?.followers}
-                        extraData={socialNetworkData}
-                      />
+                      <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
                     );
                   },
                 },
                 {
-                  name: "youtube",
+                  name: 'youtube',
                   hidden: (artist: ArtistModel) => {
                     return !artist.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "youtube"
+                      (socialNetworkStats) => socialNetworkStats.name === 'youtube'
                     );
                   },
                   value: (artist: ArtistModel) => {
                     const socialNetworkData = artist.stats.socialNetworks.find(
-                      (socialNetworkStats) =>
-                        socialNetworkStats.name === "youtube"
+                      (socialNetworkStats) => socialNetworkStats.name === 'youtube'
                     );
                     return (
-                      <SocialNetworkStats
-                        followers={socialNetworkData?.followers}
-                        extraData={socialNetworkData}
-                      />
+                      <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
                     );
                   },
                 },
@@ -515,78 +472,60 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
       {
-        name: "rating",
+        name: 'rating',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
-              data_source: "stats.rating",
+              data_source: 'stats.rating',
               fields: [
                 {
-                  name: "overall",
+                  name: 'overall',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: ArtistRatingTemplate) => (
-                    <RatingStarsView rating={rating.overall} />
-                  ),
+                  value: (rating: ArtistRatingTemplate) => <RatingStarsView rating={rating.overall} />,
                 },
                 {
-                  name: "talent",
+                  name: 'talent',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: ArtistRatingTemplate) => (
-                    <RatingStarsView rating={rating.talent} />
-                  ),
+                  value: (rating: ArtistRatingTemplate) => <RatingStarsView rating={rating.talent} />,
                 },
                 {
-                  name: "performance",
+                  name: 'performance',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: ArtistRatingTemplate) => (
-                    <RatingStarsView rating={rating.performance} />
-                  ),
+                  value: (rating: ArtistRatingTemplate) => <RatingStarsView rating={rating.performance} />,
                 },
                 {
-                  name: "proffesionalism",
+                  name: 'proffesionalism',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: ArtistRatingTemplate) => (
-                    <RatingStarsView rating={rating.proffesionalism} />
-                  ),
+                  value: (rating: ArtistRatingTemplate) => <RatingStarsView rating={rating.proffesionalism} />,
                 },
                 {
-                  name: "stage_presence",
+                  name: 'stage_presence',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: ArtistRatingTemplate) => (
-                    <RatingStarsView rating={rating.stage_presence} />
-                  ),
+                  value: (rating: ArtistRatingTemplate) => <RatingStarsView rating={rating.stage_presence} />,
                 },
                 {
-                  name: "charisma",
+                  name: 'charisma',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: ArtistRatingTemplate) => (
-                    <RatingStarsView rating={rating.charisma} />
-                  ),
+                  value: (rating: ArtistRatingTemplate) => <RatingStarsView rating={rating.charisma} />,
                 },
                 {
-                  name: "timeliness",
+                  name: 'timeliness',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: ArtistRatingTemplate) => (
-                    <RatingStarsView rating={rating.timeliness} />
-                  ),
+                  value: (rating: ArtistRatingTemplate) => <RatingStarsView rating={rating.timeliness} />,
                 },
                 {
-                  name: "communication",
+                  name: 'communication',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: ArtistRatingTemplate) => (
-                    <RatingStarsView rating={rating.communication} />
-                  ),
+                  value: (rating: ArtistRatingTemplate) => <RatingStarsView rating={rating.communication} />,
                 },
                 {
-                  name: "respectfulness",
+                  name: 'respectfulness',
                   translationPath: `app.global_dictionary.stats.rating`,
-                  value: (rating: ArtistRatingTemplate) => (
-                    <RatingStarsView rating={rating.respectfulness} />
-                  ),
+                  value: (rating: ArtistRatingTemplate) => <RatingStarsView rating={rating.respectfulness} />,
                 },
                 {
-                  name: "total_rates",
+                  name: 'total_rates',
                   translationPath: `app.global_dictionary.stats.rating`,
                 },
               ],
@@ -597,55 +536,54 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     ],
   },
   {
-    name: "shows",
+    name: 'shows',
     sections: [
       {
-        name: "summary",
+        name: 'summary',
         components: [
           {
-            componentName:
-              ProfileComponentTypes.VISITED_COUNTRIES_CITIES_LIST_VIEW,
+            componentName: ProfileComponentTypes.VISITED_COUNTRIES_CITIES_LIST_VIEW,
             data: {
-              cities: "cities",
+              cities: 'cities',
             },
           },
         ],
       },
       {
-        name: "next_shows",
+        name: 'next_shows',
         components: [
           {
             componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
             data: {
-              data_source: "nextEvents",
+              data_source: 'nextEvents',
               fields: {
-                date: "timetable__initial_date",
-                time: "timetable__main_artist_time",
-                title: "name",
-                subtitle: "subtitle",
-                place: "place",
+                date: 'timetable__initial_date',
+                time: 'timetable__main_artist_time',
+                title: 'name',
+                subtitle: 'subtitle',
+                place: 'place',
               },
             },
-            clickHandlerName: "onClickEvent",
+            clickHandlerName: 'onClickEvent',
           },
         ],
       },
       {
-        name: "past_shows",
+        name: 'past_shows',
         components: [
           {
             componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
             data: {
-              data_source: "pastEvents",
+              data_source: 'pastEvents',
               fields: {
-                date: "timetable__initial_date",
-                time: "timetable__main_artist_time",
-                title: "name",
-                subtitle: "subtitle",
-                place: "place",
+                date: 'timetable__initial_date',
+                time: 'timetable__main_artist_time',
+                title: 'name',
+                subtitle: 'subtitle',
+                place: 'place',
               },
             },
-            clickHandlerName: "onClickEvent",
+            clickHandlerName: 'onClickEvent',
           },
         ],
       },

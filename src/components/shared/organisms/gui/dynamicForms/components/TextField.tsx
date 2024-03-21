@@ -1,23 +1,23 @@
-import { faMicrophoneLines } from "@fortawesome/free-solid-svg-icons";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
-import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-import { GMapsSvgMaker } from "~/common/utils/object-utils/object-utils-index";
-import { DynamicIcons } from "~/components/shared/DynamicIcons";
-import MapContainer from "~/components/shared/mapPrinter/mapContainer";
-import { SocialNetworks } from "~/constants/social-networks.const";
-import { ComponentGeneratorParams } from "../DynamicControl";
+import { faMicrophoneLines } from '@fortawesome/free-solid-svg-icons';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import { GMapsSvgMaker } from '~/common/utils/object-utils/object-utils-index';
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import MapContainer from '~/components/shared/mapPrinter/mapContainer';
+import { SocialNetworks } from '~/constants/social-networks.const';
+import { ComponentGeneratorParams } from '../DynamicControl';
 
 export const createTextField = (params: ComponentGeneratorParams) => {
   const { errors, fieldData, register, handlers } = params || {};
-  const [isPasswordType] = useState(fieldData.inputType === "password");
+  const [isPasswordType] = useState(fieldData.inputType === 'password');
 
   const {
     label,
     inputType,
     fieldName,
     defaultValue,
-    placeholder = "",
+    placeholder = '',
     options = [],
     config = {},
     componentParams = {},
@@ -37,9 +37,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
     }
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-    const handleMouseDownPassword = (
-      event: React.MouseEvent<HTMLButtonElement>
-    ) => {
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
     };
 
@@ -54,7 +52,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
         </IconButton>
       </InputAdornment>
     );
-    fieldData.inputType = showPassword ? "text" : "password";
+    fieldData.inputType = showPassword ? 'text' : 'password';
   }
 
   const inputProps: {
@@ -67,16 +65,16 @@ export const createTextField = (params: ComponentGeneratorParams) => {
     endAdornment: componentParams?.endAdornment,
   };
 
-  if (inputType === "number") {
+  if (inputType === 'number') {
     if (!!config?.min) {
-      if (typeof config.min === "number") {
+      if (typeof config.min === 'number') {
         inputProps.inputProps.min = config.min;
       } else {
         inputProps.inputProps.min = (config.min as any).value;
       }
     }
     if (!!config?.max) {
-      if (typeof config.max === "number") {
+      if (typeof config.max === 'number') {
         inputProps.inputProps.max = config.max;
       } else {
         inputProps.inputProps.max = (config.max as any).value;
@@ -88,15 +86,16 @@ export const createTextField = (params: ComponentGeneratorParams) => {
   const emptyFunction = (data: any) => {
     // console.log("BLUR ", fieldName, data);
   };
-  const onBlurHandler = (handlers && handlers["onBlur"]) || emptyFunction;
-  const variant = componentParams?.variant || "outlined";
+  const onBlurHandler = (handlers && handlers['onBlur']) || emptyFunction;
+  const variant = componentParams?.variant || 'outlined';
 
   const { required } = config || {};
+  config.value = currentValue;
 
   // console.log("¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿   ¿¿¿¿     ", fieldName, defaultValue);
   return (
     <TextField
-      required={required === true || required === "true"}
+      required={required === true || required === 'true'}
       label={label}
       type={inputType}
       {...register(fieldName, config)}
@@ -116,11 +115,9 @@ export const createTextField = (params: ComponentGeneratorParams) => {
   );
 };
 
-export const createSocialNetworkTextField = (
-  params: ComponentGeneratorParams
-) => {
+export const createSocialNetworkTextField = (params: ComponentGeneratorParams) => {
   const { errors, fieldData, register } = params || {};
-  fieldData.inputType = "text";
+  fieldData.inputType = 'text';
   const socialNetwork = SocialNetworks[fieldData.fieldName];
 
   fieldData.label = socialNetwork.title;
@@ -132,15 +129,14 @@ export const createSocialNetworkTextField = (
 
   fieldData.componentParams.startAdornment = socialNetwork.icon && (
     <InputAdornment position="start">
-      <DynamicIcons iconName={socialNetwork.icon} size={20} color="#7a260a" />{" "}
-      {socialNetwork.user_prefix}
+      <DynamicIcons iconName={socialNetwork.icon} size={20} color="#7a260a" /> {socialNetwork.user_prefix}
     </InputAdornment>
   );
 
   // -------------- VALIDATION -------------
   let wrongPatternErrorMessage = `${socialNetwork.title} user pattern is wrong`;
-  if (fieldData.fieldName === "email") {
-    wrongPatternErrorMessage = "email is not valid";
+  if (fieldData.fieldName === 'email') {
+    wrongPatternErrorMessage = 'email is not valid';
   }
   const pattern = {
     pattern: {
@@ -165,7 +161,7 @@ export const createSocialNetworkTextField = (
 export const createAddressTextField = (params: ComponentGeneratorParams) => {
   const { errors, fieldData, register } = params || {};
 
-  const googleApiKey = "AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs";
+  const googleApiKey = 'AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs';
 
   const lat = 4.6126;
   const lng = -74.0705;
@@ -180,7 +176,7 @@ export const createAddressTextField = (params: ComponentGeneratorParams) => {
       {
         position: { lat, lng },
         iconData: GMapsSvgMaker(faMicrophoneLines.icon, {
-          color: "rgb(94, 90, 90)",
+          color: 'rgb(94, 90, 90)',
           scale: 0.07,
         }),
       },
@@ -189,8 +185,8 @@ export const createAddressTextField = (params: ComponentGeneratorParams) => {
   };
 
   const mapContainerStyles = {
-    width: "100%",
-    height: "400px",
+    width: '100%',
+    height: '400px',
   };
 
   return (

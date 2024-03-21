@@ -1,26 +1,25 @@
-import { Avatar, AvatarGroup, InputLabel } from "@mui/material";
-import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
-import { useState } from "react";
-import { useFormContext } from "react-hook-form";
-import { useI18n } from "~/common/utils";
-import { DynamicIcons } from "~/components/shared/DynamicIcons";
-import { ComponentGeneratorParams } from "../DynamicControl";
+import { Avatar, AvatarGroup, InputLabel } from '@mui/material';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { useI18n } from '~/common/utils';
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import { ComponentGeneratorParams } from '../DynamicControl';
 
-export const TRANSLATION_BASE_GLOBAL_DICT_ACTIONS =
-  "app.global_dictionary.actions";
+export const TRANSLATION_BASE_GLOBAL_DICT_ACTIONS = 'app.global_dictionary.actions';
 export const createFileUpload = (params: ComponentGeneratorParams) => {
   const { translateText } = useI18n();
 
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
+  const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
     height: 1,
-    overflow: "hidden",
-    position: "absolute",
+    overflow: 'hidden',
+    position: 'absolute',
     bottom: 0,
     left: 0,
-    whiteSpace: "nowrap",
+    whiteSpace: 'nowrap',
     width: 1,
   });
 
@@ -28,13 +27,7 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
   const { register, formState } = useFormContext();
   const { errors } = formState || {};
 
-  const {
-    label,
-    fieldName,
-    options = [],
-    config,
-    componentParams,
-  } = fieldData || {};
+  const { label, fieldName, options = [], config, componentParams } = fieldData || {};
 
   const { multipleFiles, accept } = componentParams || {};
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -47,14 +40,11 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
   };
 
   const avatarSize = 70;
+  config.value = selectedFiles;
 
   return (
     <>
-      <InputLabel
-        id={`label_${fieldName}`}
-        required={!!config?.required}
-        error={!!errors[fieldName]}
-      >
+      <InputLabel id={`label_${fieldName}`} required={!!config?.required} error={!!errors[fieldName]}>
         {label}
       </InputLabel>
 
@@ -66,16 +56,12 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
               src={URL.createObjectURL(file)}
               variant="square"
               key={`${fieldName}-file-${index}`}
-              sx={{ width: avatarSize, height: avatarSize, margin: "auto" }}
+              sx={{ width: avatarSize, height: avatarSize, margin: 'auto' }}
             />
           ))}
       </AvatarGroup>
 
-      <Button
-        component="label"
-        variant="contained"
-        startIcon={<DynamicIcons iconName="BsCloudArrowUp" />}
-      >
+      <Button component="label" variant="contained" startIcon={<DynamicIcons iconName="BsCloudArrowUp" />}>
         {translateText(`${TRANSLATION_BASE_GLOBAL_DICT_ACTIONS}.upload`)}
         <VisuallyHiddenInput
           type="file"

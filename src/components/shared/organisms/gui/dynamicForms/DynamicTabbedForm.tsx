@@ -164,8 +164,8 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     return (subpagesConfig || []).map((subpage, subPageIndex) => {
       return {
         name: translateSubpage(subpage.name),
-        allowedRoles: subpage.allowedRoles,
-        requireSession: subpage.requireSession,
+        // allowedRoles: subpage.allowedRoles,
+        // requireSession: subpage.requireSession,
         tabContent: () => {
           //   return <h1>asdasd {subPageIndex}</h1>;
 

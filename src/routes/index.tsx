@@ -20,6 +20,7 @@ const SearchPage = lazy(() => import('~/components/Pages/SearchPage'));
 
 // Load rider pages
 const UserDetailsPage = lazy(() => import('~/components/Pages/app-base/UsersPage/UserDetails'));
+const UserCreatePage = lazy(() => import('~/components/Pages/app-base/UsersPage/UserCreatePage/UserCreatePage'));
 
 const IndustryOfferPage = lazy(() => import('~/components/Pages/domain/industry-offer/template/IndustryOfferTemplate'));
 
@@ -105,6 +106,7 @@ export const RoutesApp: React.FC = () => {
       </Route>
       <Route path={PATHS.PROFILE}>
         <Route element={<UserDetailsPage />} path="" />
+        <Route element={<UserCreatePage />} path={SUB_PATHS.CREATE} />
       </Route>
       <Route element={<HomePage />} path={PATHS.HOME} />
       <Route element={<LoginPage />} path={PATHS.LOGIN} />

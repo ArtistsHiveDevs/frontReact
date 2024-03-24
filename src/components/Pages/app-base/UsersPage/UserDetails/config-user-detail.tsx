@@ -5,6 +5,8 @@ import {
 } from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
 import { AppUserModel } from '~/models/app/user/user.model';
 
+export const TRANSLATION_BASE_USER_DETAIL_PAGE = 'app.pages.app_base.UsersPages.UsersDetailsPage';
+
 export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
     name: 'general',
@@ -27,31 +29,36 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                     const { translateText } = useI18n();
                     return <>{translateText(`app.global_dictionary.genders.${user.genderEnum.value}`)}</>;
                   },
+                  formMetaData: {
+                    inputType: 'select',
+                  },
                 },
                 {
                   name: 'birthdate',
                   icon: 'FaBirthdayCake',
                   emptyTitle: true,
+                  formMetaData: {
+                    inputType: 'date',
+                    componentParams: {
+                      disableFuture: true,
+                    },
+                  },
                 },
                 {
                   name: 'birthplace',
                   icon: 'FaCity',
                   emptyTitle: true,
+                  formMetaData: {
+                    inputType: 'citySelector',
+                  },
                 },
                 {
                   name: 'home_city',
                   icon: 'FaMapMarkerAlt',
                   emptyTitle: true,
-                },
-                {
-                  name: 'user_language',
-                  icon: 'FaGlobeAmericas',
-                  emptyTitle: true,
-                },
-                {
-                  name: 'blood_group',
-                  icon: 'MdBloodtype',
-                  emptyTitle: true,
+                  formMetaData: {
+                    inputType: 'citySelector',
+                  },
                 },
               ],
             },
@@ -98,6 +105,48 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 },
                 { name: 'email' },
                 { name: 'phone_number' },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        name: 'artists_info',
+        components: [
+          {
+            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  name: 'user_language',
+                  icon: 'FaGlobeAmericas',
+                  emptyTitle: true,
+                  formMetaData: { inputType: 'chipPicker' },
+                },
+                {
+                  name: 'blood_group',
+                  icon: 'MdBloodtype',
+                  emptyTitle: true,
+                  formMetaData: {
+                    inputType: 'select',
+                  },
+                },
+                {
+                  name: 'dietary_restrictions',
+                  icon: 'ImSpoonKnife',
+                  emptyTitle: true,
+                  formMetaData: {
+                    inputType: 'select',
+                  },
+                },
+                {
+                  name: 'allergies',
+                  icon: 'MdOutlineSick',
+                  emptyTitle: true,
+                  formMetaData: {
+                    inputType: 'chipPicker',
+                  },
+                },
               ],
             },
           },

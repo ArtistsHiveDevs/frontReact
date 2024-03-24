@@ -29,7 +29,12 @@ export const createSelect = (params: ComponentGeneratorParams) => {
   };
 
   const resetDefaultValue = (data?: { value: string; label?: string }) => {
-    const newValue = data?.value || defaultValue || options[0]?.value || '';
+    const selectedValues = options.filter((option) => option.selected);
+    const bySelectedValue = selectedValues.length === 1 ? selectedValues[0] : undefined;
+
+    const newValue = data?.value || defaultValue || bySelectedValue || options[0]?.value || '';
+    console.log('XXXXX  ', newValue);
+
     setValue(fieldName, newValue);
     langValue = newValue;
   };
@@ -40,13 +45,22 @@ export const createSelect = (params: ComponentGeneratorParams) => {
   };
 
   useEffect(() => {
-    const newValue = defaultValue || options[0]?.value || '';
+    const selectedValues = options.filter((option) => option.selected);
+    const bySelectedValue = selectedValues.length === 1 ? selectedValues[0] : undefined;
 
+    if (fieldName === 'blood_group') console.log('Default value', fieldName, bySelectedValue);
+
+    const newValue = defaultValue || bySelectedValue || options[0]?.value || '';
+
+    if (fieldName === 'blood_group') console.log(newValue);
     handleChange({ value: newValue });
   }, [options]);
 
   useEffect(() => {
-    const newValue = defaultValue || options[0]?.value || '';
+    const selectedValues = options.filter((option) => option.selected);
+    const bySelectedValue = selectedValues.length === 1 ? selectedValues[0] : undefined;
+
+    const newValue = defaultValue || bySelectedValue || options[0]?.value || '';
     handleChange({ value: newValue });
   }, [defaultValue]);
 

@@ -23,5 +23,9 @@ export const useI18n = () => {
     return <FormattedMessage id={messageId} values={messageValues} />;
   };
 
-  return { locale, translateText, getFormattedMessage };
+  const translateGlobalDict = (messageId: string) => {
+    return translateText(`app.global_dictionary.${messageId}`);
+  };
+
+  return { locale, translateText, getFormattedMessage, translateGlobalDict };
 };

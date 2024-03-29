@@ -25,6 +25,7 @@ export interface ProfileDetailsSubpage {
   allowedRoles?: AllowedEntityRole[];
   requireSession?: boolean;
   clickHandlerName?: string;
+  formMetaData?: FormMetadata;
 }
 export interface ProfileDetailsSubpageSection {
   id?: string;
@@ -33,6 +34,7 @@ export interface ProfileDetailsSubpageSection {
   components?: ProfileComponentDescriptor[];
   requireSession?: boolean;
   clickHandlerName?: string;
+  formMetaData?: FormMetadata;
 }
 
 export interface ProfileComponentDescriptor {
@@ -86,4 +88,5 @@ export interface FormMetadata {
   config?: RegisterOptions;
   createForm?: FormMetadata;
   editForm?: FormMetadata;
+  hidden?: boolean;
 }

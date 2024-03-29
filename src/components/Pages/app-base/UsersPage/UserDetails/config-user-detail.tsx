@@ -313,6 +313,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
     ],
+    formMetaData: { hidden: true },
   },
   {
     name: 'my_liked_shows',
@@ -356,5 +357,6 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
     ],
+    formMetaData: { hidden: true },
   },
 ];

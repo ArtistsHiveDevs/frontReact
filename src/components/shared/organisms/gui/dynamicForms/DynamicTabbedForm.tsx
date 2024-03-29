@@ -160,52 +160,56 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
   };
 
   const transformedConfig = (subpagesConfig: ProfileDetailsSubpage[], elementData?: EntityModel<EntityTemplate>) => {
-    return (subpagesConfig || []).map((subpage, subPageIndex) => {
-      return {
-        name: translateSubpage(subpage.name),
-        // allowedRoles: subpage.allowedRoles,
-        // requireSession: subpage.requireSession,
-        tabContent: () => {
-          //   return <h1>asdasd {subPageIndex}</h1>;
+    return (subpagesConfig || [])
+      .filter((subpageConfig) => subpageConfig.formMetaData?.hidden !== true)
+      .map((subpage, subPageIndex) => {
+        return {
+          name: translateSubpage(subpage.name),
+          // allowedRoles: subpage.allowedRoles,
+          // requireSession: subpage.requireSession,
+          tabContent: () => {
+            //   return <h1>asdasd {subPageIndex}</h1>;
 
-          return (
-            <>
-              {(subpage.sections || []).map((section, sectionIndex) => {
-                // Icon Detailed Attributes
+            return (
+              <>
+                {(subpage.sections || [])
+                  .filter((subpage) => subpage.formMetaData?.hidden !== true)
+                  .map((section, sectionIndex) => {
+                    // Icon Detailed Attributes
 
-                let contentComponents: any = <></>;
-                if (section.components) {
-                  contentComponents = (section.components || []).map(
-                    (componentDescriptor: ProfileComponentDescriptor, componentIndex: number) => (
-                      <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
-                        {generateSectionFormFields(
-                          subpage,
-                          section,
-                          componentDescriptor,
-                          componentIndex,
-                          handlers,
-                          formMethods
-                        )}
-                      </div>
-                    )
-                  );
-                }
+                    let contentComponents: any = <></>;
+                    if (section.components) {
+                      contentComponents = (section.components || []).map(
+                        (componentDescriptor: ProfileComponentDescriptor, componentIndex: number) => (
+                          <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
+                            {generateSectionFormFields(
+                              subpage,
+                              section,
+                              componentDescriptor,
+                              componentIndex,
+                              handlers,
+                              formMethods
+                            )}
+                          </div>
+                        )
+                      );
+                    }
 
-                const sectionContent = () => contentComponents;
+                    const sectionContent = () => contentComponents;
 
-                return (
-                  <SectionsPanel
-                    sectionName={translateSection(subpage.name, section?.name)}
-                    sectionContent={sectionContent}
-                    key={`${subpage.name}-${section?.name}`}
-                  />
-                );
-              })}
-            </>
-          );
-        },
-      };
-    });
+                    return (
+                      <SectionsPanel
+                        sectionName={translateSection(subpage.name, section?.name)}
+                        sectionContent={sectionContent}
+                        key={`${subpage.name}-${section?.name}`}
+                      />
+                    );
+                  })}
+              </>
+            );
+          },
+        };
+      });
   };
 
   const {

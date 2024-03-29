@@ -588,5 +588,6 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
     ],
+    formMetaData: { hidden: true },
   },
 ];

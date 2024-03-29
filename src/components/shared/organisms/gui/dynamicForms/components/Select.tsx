@@ -33,7 +33,6 @@ export const createSelect = (params: ComponentGeneratorParams) => {
     const bySelectedValue = selectedValues.length === 1 ? selectedValues[0] : undefined;
 
     const newValue = data?.value || defaultValue || bySelectedValue || options[0]?.value || '';
-    console.log('XXXXX  ', newValue);
 
     setValue(fieldName, newValue);
     langValue = newValue;
@@ -46,13 +45,10 @@ export const createSelect = (params: ComponentGeneratorParams) => {
 
   useEffect(() => {
     const selectedValues = options.filter((option) => option.selected);
-    const bySelectedValue = selectedValues.length === 1 ? selectedValues[0] : undefined;
-
-    if (fieldName === 'blood_group') console.log('Default value', fieldName, bySelectedValue);
+    const bySelectedValue = selectedValues.length === 1 ? selectedValues[0].value : undefined;
 
     const newValue = defaultValue || bySelectedValue || options[0]?.value || '';
 
-    if (fieldName === 'blood_group') console.log(newValue);
     handleChange({ value: newValue });
   }, [options]);
 

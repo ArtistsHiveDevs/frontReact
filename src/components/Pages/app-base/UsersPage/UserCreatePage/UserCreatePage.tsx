@@ -49,7 +49,6 @@ const UserCreatePage = () => {
     const defaultBloodGroup = 'O+';
     updateAvailableBloodGroups(
       fullGroup.flat().map((group) => {
-        console.log(group, defaultBloodGroup, defaultBloodGroup === group);
         let bloodGroup: SelectOption = { label: group, value: group };
         if (group === defaultBloodGroup) {
           bloodGroup = { ...bloodGroup, selected: true };

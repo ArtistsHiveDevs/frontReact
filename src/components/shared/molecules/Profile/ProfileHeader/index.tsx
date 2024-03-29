@@ -38,6 +38,11 @@ export const ProfileHeader = (props: any) => {
       config: { required: false, minLength: 3 },
     },
     { name: 'subtitle', label: 'Subtitle' },
+    {
+      name: 'username',
+      label: 'username',
+      config: { required: false, minLength: 3 },
+    },
   ]);
 
   const { setFocus } = formMethods || {};
@@ -210,6 +215,7 @@ export const ProfileHeader = (props: any) => {
             )}
           </h2>
         </div>
+        <div className="profile-name">@{generateEditableField('username', element, isEditable)}</div>
         <div className="profile-name">{generateEditableField('subtitle', element, isEditable)}</div>
       </div>
     </div>

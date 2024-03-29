@@ -7,12 +7,12 @@ import { DynamicFieldData } from '../dynamic-control-types';
 import { createSelect } from './Select';
 
 export enum CitySelectionLevel {
-  CONTINENT,
-  COUNTRY,
-  STATE,
-  CITY,
-  DISTRICT,
-  BOROUGH,
+  CONTINENT = 6,
+  COUNTRY = 5,
+  STATE = 4,
+  CITY = 3,
+  DISTRICT = 2,
+  BOROUGH = 1,
 }
 
 export interface CitySelectorParams extends ComponentGeneratorParams {
@@ -176,6 +176,8 @@ const countries: any = [
 
 export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
   const { fieldData, handlers } = citySelectorParams;
+  const { componentParams } = fieldData || {};
+  let { highSelectionLevel, minimumSelectionLevel } = componentParams || {};
   const { register, formState } = useFormContext();
 
   const [countryOptions, updateCountryOptions] = useState(countries);
@@ -186,6 +188,14 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
   const [selectedCity, updateSelectedCity] = useState();
   const [districtOptions, updateDistrictOptions] = useState([]);
   const [selectedDistrict, updateSelectedDistrict] = useState();
+
+  if (!highSelectionLevel) {
+    highSelectionLevel = CitySelectionLevel.COUNTRY;
+  }
+
+  if (!minimumSelectionLevel) {
+    minimumSelectionLevel = CitySelectionLevel.CITY;
+  }
 
   const customHandlers = {
     onChangecountry: (data: any) => {
@@ -247,22 +257,30 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
   return (
     <div>
       <FormLabel>{fieldData.label}</FormLabel>
-      {createSelect({
-        fieldData: fieldDataCountries,
-        handlers: customHandlers,
-      })}
-      {createSelect({
-        fieldData: fieldDataStates,
-        handlers: customHandlers,
-      })}
-      {createSelect({
-        fieldData: fieldDataCities,
-        handlers: customHandlers,
-      })}
-      {createSelect({
-        fieldData: fieldDataDistricts,
-        handlers: customHandlers,
-      })}
+      {minimumSelectionLevel <= CitySelectionLevel.COUNTRY &&
+        CitySelectionLevel.COUNTRY <= highSelectionLevel &&
+        createSelect({
+          fieldData: fieldDataCountries,
+          handlers: customHandlers,
+        })}
+      {minimumSelectionLevel <= CitySelectionLevel.STATE &&
+        CitySelectionLevel.STATE <= highSelectionLevel &&
+        createSelect({
+          fieldData: fieldDataStates,
+          handlers: customHandlers,
+        })}
+      {minimumSelectionLevel <= CitySelectionLevel.CITY &&
+        CitySelectionLevel.CITY <= highSelectionLevel &&
+        createSelect({
+          fieldData: fieldDataCities,
+          handlers: customHandlers,
+        })}
+      {minimumSelectionLevel <= CitySelectionLevel.DISTRICT &&
+        CitySelectionLevel.DISTRICT <= highSelectionLevel &&
+        createSelect({
+          fieldData: fieldDataDistricts,
+          handlers: customHandlers,
+        })}
     </div>
   );
 };

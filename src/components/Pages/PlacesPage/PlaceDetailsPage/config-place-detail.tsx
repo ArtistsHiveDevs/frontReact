@@ -5,6 +5,7 @@ import {
   ProfileComponentTypes,
   ProfileDetailsSubpage,
 } from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
+import { CitySelectionLevel } from '~/components/shared/organisms/gui/dynamicForms/components/CitySelector';
 import { PlaceModel, PlaceRatingTemplate } from '~/models/domain/place/place.model';
 
 export const TRANSLATION_BASE_PLACE_DETAIL_PAGE = 'app.pages.PlacesPages.PlacesDetailsPage';
@@ -68,6 +69,9 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   },
                   formMetaData: {
                     inputType: 'citySelector',
+                    componentParams: {
+                      minimumSelectionLevel: CitySelectionLevel.BOROUGH,
+                    },
                   },
                 },
                 {

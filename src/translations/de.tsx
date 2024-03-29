@@ -135,6 +135,10 @@ export const DeMessages = {
                     name: 'Allgemeine Informationen',
                     attributes: {
                       fullname: 'Vollständiger Name',
+                      gender: 'Geschlecht',
+                      birthdate: 'Geburtstag',
+                      birthplace: 'Geburtsort',
+                      home_city: 'Wohnort',
                     },
                   },
                   contact: {
@@ -142,6 +146,15 @@ export const DeMessages = {
                   },
                   emergency_contact: {
                     name: 'Notfallkontakt',
+                  },
+                  artists_info: {
+                    name: 'Künstlerinformationen',
+                    attributes: {
+                      user_language: 'Benutzersprache',
+                      blood_group: 'Blutgruppe',
+                      dietary_restrictions: 'Diätetische Einschränkungen',
+                      allergies: 'Allergien',
+                    },
                   },
                 },
               },

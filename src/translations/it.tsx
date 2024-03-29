@@ -135,6 +135,10 @@ export const ItMessages = {
                     name: 'Informazioni generali',
                     attributes: {
                       fullname: 'Nome e cognome',
+                      gender: 'Genere',
+                      birthdate: 'Data di nascita',
+                      birthplace: 'Luogo di nascita',
+                      home_city: 'Città di residenza',
                     },
                   },
                   contact: {
@@ -142,6 +146,15 @@ export const ItMessages = {
                   },
                   emergency_contact: {
                     name: 'Contatto di emergenza',
+                  },
+                  artists_info: {
+                    name: "Informazioni sull'artista",
+                    attributes: {
+                      user_language: "Lingua dell'utente",
+                      blood_group: 'Gruppo sanguigno',
+                      dietary_restrictions: 'Restrizioni dietetiche',
+                      allergies: 'Allergie',
+                    },
                   },
                 },
               },

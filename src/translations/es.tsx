@@ -135,6 +135,10 @@ export const EsMessages = {
                     name: 'Info General',
                     attributes: {
                       fullname: 'Nombre completo',
+                      gender: 'Género',
+                      birthdate: 'Fecha de nacimiento',
+                      birthplace: 'Lugar de nacimiento',
+                      home_city: 'Ciudad de residencia',
                     },
                   },
                   contact: {
@@ -142,6 +146,15 @@ export const EsMessages = {
                   },
                   emergency_contact: {
                     name: 'Contacto de emergencia',
+                  },
+                  artists_info: {
+                    name: 'Información del artista',
+                    attributes: {
+                      user_language: 'Idioma del usuario',
+                      blood_group: 'Grupo sanguíneo',
+                      dietary_restrictions: 'Restricciones dietéticas',
+                      allergies: 'Alergias',
+                    },
                   },
                 },
               },

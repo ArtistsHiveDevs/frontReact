@@ -134,6 +134,10 @@ export const PtMessages = {
                     name: 'Informações Gerais',
                     attributes: {
                       fullname: 'Nome Completo',
+                      gender: 'Gênero',
+                      birthdate: 'Data de nascimento',
+                      birthplace: 'Local de nascimento',
+                      home_city: 'Cidade de residência',
                     },
                   },
                   contact: {
@@ -141,6 +145,15 @@ export const PtMessages = {
                   },
                   emergency_contact: {
                     name: 'Contato de Emergência',
+                  },
+                  artists_info: {
+                    name: 'Informações do artista',
+                    attributes: {
+                      user_language: 'Idioma do usuário',
+                      blood_group: 'Grupo sanguíneo',
+                      dietary_restrictions: 'Restrições alimentares',
+                      allergies: 'Alergias',
+                    },
                   },
                 },
               },

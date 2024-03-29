@@ -134,6 +134,10 @@ export const FrMessages = {
                     name: 'Info Générale',
                     attributes: {
                       fullname: 'Nom et prénom',
+                      gender: 'Genre',
+                      birthdate: 'Date de naissance',
+                      birthplace: 'Lieu de naissance',
+                      home_city: 'Ville de résidence',
                     },
                   },
                   contact: {
@@ -141,6 +145,15 @@ export const FrMessages = {
                   },
                   emergency_contact: {
                     name: "Contact en cas d'urgence",
+                  },
+                  artists_info: {
+                    name: "Informations sur l'artiste",
+                    attributes: {
+                      user_language: "Langue de l'utilisateur",
+                      blood_group: 'Groupe sanguin',
+                      dietary_restrictions: 'Restrictions alimentaires',
+                      allergies: 'Allergies',
+                    },
                   },
                 },
               },

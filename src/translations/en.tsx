@@ -134,6 +134,10 @@ export const EnMessages = {
                     name: 'General Info',
                     attributes: {
                       fullname: 'Full name',
+                      gender: 'Gender',
+                      birthdate: 'Birthday',
+                      birthplace: 'Birthplace',
+                      home_city: 'Place of residence',
                     },
                   },
                   contact: {
@@ -141,6 +145,15 @@ export const EnMessages = {
                   },
                   emergency_contact: {
                     name: 'Emergency Contact',
+                  },
+                  artists_info: {
+                    name: 'Artist Information',
+                    attributes: {
+                      user_language: 'User language',
+                      blood_group: 'Blood Group',
+                      dietary_restrictions: 'Dietary restrictions',
+                      allergies: 'Allergies',
+                    },
                   },
                 },
               },

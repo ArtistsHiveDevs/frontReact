@@ -57,9 +57,11 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       title = translateText(`${attribute.translationPath}.${attribute.name}`);
     } else if (attribute.title) {
       title = attribute.title;
-    } else if (attribute.useTranslation || attribute.emptyTitle === undefined || attribute.emptyTitle === false) {
+    } else {
+      // if (attribute.useTranslation || attribute.emptyTitle === undefined || attribute.emptyTitle === false) {
       title = translateAttribute(subpageName, sectionName, attribute.name);
     }
+
     return title;
   };
 

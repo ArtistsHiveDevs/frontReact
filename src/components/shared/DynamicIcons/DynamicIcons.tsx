@@ -56,7 +56,7 @@ export function DynamicIcons({ iconName, size, color, propsIcon }: typesPropsIco
         import('react-icons/im/index').then(loadIcon);
         break;
       case 'io':
-        import('react-icons/io/index').then(loadIcon);
+        import('react-icons/io5/index').then(loadIcon);
         break;
       case 'io5':
         import('react-icons/io5/index').then(loadIcon);

@@ -611,6 +611,7 @@ export const FrMessages = {
                     minimumAge: 'Âge minimum',
                     timetable__openning_doors: 'Ouverture de porte',
                     promoter: 'Promoteur',
+                    tickets_website: 'Site de billetterie',
                   },
                 },
                 description: {
@@ -842,6 +843,7 @@ export const FrMessages = {
               my_bands: 'Mes bands',
               'my_bands.nested': { create: 'Créer une Band' },
               my_events: 'Mes événements',
+              'my_events.nested': { create: 'Créer un événement' },
               my_riders: 'Mes riders',
               my_places: 'Mes lieux',
               'my_places.nested': { create: 'Créer un lieu' },

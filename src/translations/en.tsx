@@ -595,6 +595,7 @@ export const EnMessages = {
                     minimumAge: 'Minimum age',
                     timetable__openning_doors: 'Doors opening',
                     promoter: 'Promoter',
+                    tickets_website: 'Tickets Website',
                   },
                 },
                 description: {
@@ -821,6 +822,7 @@ export const EnMessages = {
               my_bands: 'My Bands',
               'my_bands.nested': { create: 'Create Band' },
               my_events: 'My Events',
+              'my_events.nested': { create: 'Create event' },
               my_riders: 'My Riders',
               my_places: 'My Places',
               'my_places.nested': { create: 'Create Place' },

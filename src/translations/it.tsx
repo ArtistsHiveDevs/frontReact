@@ -610,6 +610,7 @@ export const ItMessages = {
                     minimumAge: 'Età minima',
                     timetable__openning_doors: 'Apertura porte',
                     promoter: 'Promoter',
+                    tickets_website: 'Sito dei biglietti',
                   },
                 },
                 description: {
@@ -836,6 +837,7 @@ export const ItMessages = {
               my_bands: 'Le mie band',
               'my_bands.nested': { create: 'Crea una band' },
               my_events: 'I miei eventi',
+              'my_events.nested': { create: 'Crea un evento' },
               my_riders: 'I miei rider',
               my_places: 'I miei luoghi',
               'my_places.nested': { create: 'Crea luogo' },

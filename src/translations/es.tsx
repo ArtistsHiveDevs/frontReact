@@ -602,6 +602,7 @@ export const EsMessages = {
                     minimumAge: 'Edad mínima',
                     timetable__openning_doors: 'Apertura de puertas',
                     promoter: 'Responsable',
+                    tickets_website: 'Sitio web de entradas',
                   },
                 },
                 description: {
@@ -828,6 +829,7 @@ export const EsMessages = {
               my_bands: 'Mis bandas',
               'my_bands.nested': { create: 'Crear Banda' },
               my_events: 'Mis eventos',
+              'my_events.nested': { create: 'Crear Evento' },
               my_riders: 'Mis riders',
               my_places: 'Mis lugares',
               'my_places.nested': { create: 'Crear lugar' },

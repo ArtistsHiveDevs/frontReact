@@ -609,6 +609,7 @@ export const DeMessages = {
                     minimumAge: 'Mindestalter',
                     timetable__openning_doors: 'Tür öffnen',
                     promoter: 'Promoter',
+                    tickets_website: 'Tickets-Website',
                   },
                 },
                 description: {
@@ -835,6 +836,7 @@ export const DeMessages = {
               my_bands: 'Meine Bands',
               'my_bands.nested': { create: 'Band erstellen' },
               my_events: 'Meine Veranstaltungen',
+              'my_events.nested': { create: 'Veranstaltungen erstellen' },
               my_riders: 'Meine Rider',
               my_places: 'Meine Orte',
               'my_places.nested': { create: 'Ort erstellen' },

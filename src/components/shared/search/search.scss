@@ -50,10 +50,13 @@ a.search-item__link:hover {
   height: 2.5rem;
   object-fit: cover;
 }
-.search-item__title,
+.search-item__title {
+  margin-bottom: 0;
+  font-size: 1.1rem;
+}
 .search-item__subtitle {
   margin-bottom: 0;
-  font-size: 14px;
+  font-size: 0.8rem;
 }
 
 .search-item__subtitle {

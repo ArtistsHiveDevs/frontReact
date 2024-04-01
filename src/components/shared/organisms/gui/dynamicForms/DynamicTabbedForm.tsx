@@ -31,7 +31,7 @@ export interface DynamicTabbedFormParams {
 }
 export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
   const { tabsInfo, elementData, handlers, translationBasePath, fieldOptions, externalData } = params;
-  const [relationshipsValues, setRelationshipsValues] = useState({});
+  const [relationshipsValues, setRelationshipsValues] = useState<{ [relationship: string]: any[] }>({});
 
   const { translateText } = useI18n();
   const formMethods = useForm();
@@ -76,6 +76,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     handlers: any,
     formMethods: any
   ) => {
+    // console.log('Generando secciones', relationshipsValues);
     const fields: JSX.Element[] = [];
     const {
       handleSubmit,
@@ -159,10 +160,15 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       addComponentField = true;
     } else if (componentDescriptor.componentName === ProfileComponentTypes.PROFILE_THUMBNAIL_CARD) {
       componentFieldData.inputType = 'relationship';
-      // setRelationshipsValues({ ...relationshipsValues, fieldNameComponent: [] });
-      // handlers[`${fieldNameComponent}_selection_changed`] = (selectedValues: any) => {
-      //   console.log('NEW VALUES ', fieldNameComponent, selectedValues);
-      // };
+      if (!!relationshipsValues && !Object.keys(relationshipsValues).find((key) => key === fieldNameComponent)) {
+        relationshipsValues[fieldNameComponent] = [];
+      }
+      componentFieldData.externalData['relationshipSelectedOptions'] = relationshipsValues[fieldNameComponent];
+      handlers[`${fieldNameComponent}_selection_changed`] = (selectedValues: any) => {
+        relationshipsValues[fieldNameComponent] = selectedValues;
+        componentFieldData.externalData['relationshipSelectedOptions'] = relationshipsValues[fieldNameComponent];
+        componentFieldData.componentParams = { ...componentParamsComponent, ...fieldExternalData[fieldNameComponent] };
+      };
       addComponentField = true;
     } else if (componentDescriptor.componentName === ProfileComponentTypes.HTML_CONTENT) {
       componentFieldData.inputType = 'textarea';
@@ -280,36 +286,3 @@ export const setOptionsToField = (fieldName: string, options: SelectOption[], fi
     field.options = options;
   }
 };
-
-// export const convertTabbedProfileDetailIntoTabbedForm = (
-//   subPageInfo: ProfileDetailsSubpage[]
-// ) => {
-//   // const fieldsData: DynamicFieldData[] = [];
-//   // subPageInfo.forEach((subPageInfo) => {
-//   //   // const label;
-//   //   // const inputType
-//   //   // const fieldName sub
-//   //   // const defaultValue?: any;
-//   //   // const placeholder?: string;
-//   //   // const options?: SelectOption[];
-//   //   // const config?: RegisterOptions;
-//   //   // const componentParams?: any;
-//   //   // const handlersNames?: string[];
-//   //   // const error
-//   //   // const inputType = ControlType.
-//   //   // return {
-//   //   //   label;
-//   //   //   inputType: ControlType;
-//   //   //   fieldName: string;
-//   //   //   defaultValue?: any;
-//   //   //   placeholder?: string;
-//   //   //   options?: SelectOption[];
-//   //   //   config?: RegisterOptions;
-//   //   //   componentParams?: any;
-//   //   //   handlersNames?: string[];
-//   //   //   error
-//   //   // }
-//   // });
-//   // return fieldsData;
-//   return
-// };

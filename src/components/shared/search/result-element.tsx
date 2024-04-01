@@ -42,15 +42,15 @@ export const ResultElement: React.FC<QueryTemplate> = (props: QueryTemplate) => 
             {element.name}
             <VerifiedArtist verifiedStatus={element?.verified_status} />
           </h4>
-          <h5>
+          <span className="search-item__subtitle">
             {element?.subtitle || (
               <>
-                <span className="search-item__subtitle">{element?.cityWithCountry}</span>
+                <span>{element?.cityWithCountry}</span>
                 {'   '}
                 <Flag code={flags[flag as keyof typeof flags]} height="15" style={{ border: '1px solid #999' }} />
               </>
             )}
-          </h5>
+          </span>
         </div>
       </div>
     </ListGroup.Item>

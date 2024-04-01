@@ -16,9 +16,7 @@ import {
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import { URL_PARAMETER_NAMES } from '~/constants';
 import { EventModel } from '~/models/domain/event/event.model';
-import { EVENT_DETAIL_SUB_PAGE_CONFIG } from './config-event-detail';
-
-const TRANSLATION_BASE_EVENT_DETAILS_PAGE: string = 'app.pages.EventsPages.EventDetailsPage';
+import { EVENT_DETAIL_SUB_PAGE_CONFIG, TRANSLATION_BASE_EVENT_DETAILS_PAGE } from './config-event-detail';
 
 const EventDetailsPage = () => {
   // Component URL Params

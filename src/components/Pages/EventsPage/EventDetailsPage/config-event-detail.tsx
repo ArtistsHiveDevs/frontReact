@@ -5,10 +5,23 @@ import {
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
 
+export const TRANSLATION_BASE_EVENT_DETAILS_PAGE: string = 'app.pages.EventsPages.EventDetailsPage';
+
 export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   {
     name: 'general',
     sections: [
+      {
+        name: 'description',
+        components: [
+          {
+            componentName: ProfileComponentTypes.HTML_CONTENT,
+            data: {
+              attribute_content: 'description',
+            },
+          },
+        ],
+      },
       {
         name: 'general',
         components: [
@@ -19,14 +32,17 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   icon: 'FaRegCalendarAlt',
                   name: 'timetable__initial_date',
+                  formMetaData: { inputType: 'date' },
                 },
                 {
                   icon: 'TbDoorEnter',
                   name: 'timetable__openning_doors',
+                  formMetaData: { inputType: 'time' },
                 },
                 {
                   icon: 'IoTimeOutline',
                   name: 'initial_time',
+                  formMetaData: { inputType: 'time' },
                 },
                 {
                   icon: 'FaMapMarkerAlt',
@@ -42,6 +58,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                       </>
                     );
                   },
+                  formMetaData: { hidden: true },
                 },
                 {
                   icon: 'IoTicketOutline',
@@ -51,6 +68,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   icon: 'IoTimeOutline',
                   name: 'minimumAge',
+                  formMetaData: { inputType: 'number', config: { min: 0 } },
                 },
                 {
                   icon: 'BsInfoCircleFill',
@@ -65,17 +83,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           },
         ],
       },
-      {
-        name: 'description',
-        components: [
-          {
-            componentName: ProfileComponentTypes.HTML_CONTENT,
-            data: {
-              attribute_content: 'description',
-            },
-          },
-        ],
-      },
+
       {
         name: 'genres',
         components: [
@@ -86,6 +94,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             },
           },
         ],
+        formMetaData: { hidden: true },
       },
     ],
   },
@@ -101,6 +110,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
               data_source: 'main_artists',
             },
             clickHandlerName: 'onNavigateToEntity',
+            formMetaData: { fieldName: 'main_artists' },
           },
         ],
       },
@@ -162,6 +172,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
               },
             },
             clickHandlerName: 'onNavigateToEntity',
+            formMetaData: { fieldName: 'place', componentParams: { maximumRelations: 1 } },
           },
         ],
       },
@@ -177,6 +188,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             },
           },
         ],
+        formMetaData: { hidden: true },
       },
     ],
   },

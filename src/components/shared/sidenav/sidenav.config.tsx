@@ -107,6 +107,15 @@ const miInfo: SideMenuItem[] = [
     updated: new Date('1/18/16'),
     randomId: true,
     allowedRoles: [{ entityName: 'Artist' }],
+    nestedMenuOptions: [
+      {
+        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_events.nested.create'),
+        path: `${PATHS.EVENTS}/${SUB_PATHS.CREATE}`,
+        icon: 'FaRegCalendarPlus',
+        updated: new Date('2/20/16'),
+        requireSession: true,
+      },
+    ],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),

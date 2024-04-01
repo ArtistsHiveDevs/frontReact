@@ -42,4 +42,5 @@ export interface DynamicFieldData {
   handlersNames?: string[];
   error?: FieldErrors<FieldValues>;
   focused?: boolean;
+  externalData?: any;
 }

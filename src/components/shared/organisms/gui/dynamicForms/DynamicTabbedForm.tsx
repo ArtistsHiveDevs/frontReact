@@ -26,9 +26,10 @@ export interface DynamicTabbedFormParams {
   profileHeaderComponent?: any;
   elementData?: EntityModel<EntityTemplate>;
   fieldOptions?: { [fieldName: string]: any };
+  externalData?: { [fieldName: string]: any };
 }
 export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
-  const { tabsInfo, elementData, handlers, translationBasePath, fieldOptions } = params;
+  const { tabsInfo, elementData, handlers, translationBasePath, fieldOptions, externalData } = params;
 
   const { translateText } = useI18n();
   const formMethods = useForm();
@@ -79,20 +80,28 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       formState: { errors },
     } = formMethods;
 
+    const fieldNameComponent = section.name || componentDescriptor?.formMetaData?.fieldName;
+    let componentParamsComponent = componentDescriptor?.formMetaData?.componentParams || {};
+    let fieldExternalData = externalData || {};
+    if (fieldExternalData && fieldExternalData[fieldNameComponent]) {
+      componentParamsComponent = { ...componentParamsComponent, ...fieldExternalData[fieldNameComponent] };
+    }
     const componentFieldData: DynamicFieldData = {
       inputType: 'text',
-      fieldName: componentDescriptor?.formMetaData?.fieldName,
+      fieldName: fieldNameComponent,
       // label: getAttributeTitle(subpage.name, section.name, attributeInfo),
-      componentParams: componentDescriptor?.formMetaData?.componentParams || {},
+      componentParams: componentParamsComponent,
       config: componentDescriptor?.formMetaData?.config || {},
       options: fieldOptions[componentDescriptor?.formMetaData?.fieldName] || [],
+      externalData: fieldExternalData[componentDescriptor?.formMetaData?.fieldName] || {},
     };
 
     let addComponentField = false;
 
     if (componentDescriptor.componentName === ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS) {
-      componentDescriptor.data?.attributes?.forEach(
-        (attributeInfo: ProfileDetailAttributeConfiguration, index: number) => {
+      (componentDescriptor.data?.attributes || [])
+        .filter((attributeInfo: ProfileDetailAttributeConfiguration) => attributeInfo.formMetaData?.hidden !== true)
+        .forEach((attributeInfo: ProfileDetailAttributeConfiguration, index: number) => {
           const { formMetaData } = attributeInfo;
 
           let inputType: ControlType = formMetaData?.inputType || 'text';
@@ -109,14 +118,21 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
           const fieldName: string = attributeInfo.name;
           const currentValue: any = elementData ? elementData[fieldName as keyof typeof elementData] : undefined;
 
+          let componentParams = formMetaData?.componentParams || {};
+          let fieldExternalData = externalData || {};
+          if (fieldExternalData && fieldExternalData[fieldName]) {
+            componentParams = { ...componentParams, ...fieldExternalData[fieldName] };
+          }
+
           const fieldData: DynamicFieldData = {
             inputType,
             fieldName: attributeInfo.name,
             label: getAttributeTitle(subpage.name, section.name, attributeInfo),
-            componentParams: formMetaData?.componentParams || {},
+            componentParams,
             config: formMetaData?.config || {},
             options: fieldOptions[attributeInfo.name] || [],
             defaultValue: currentValue,
+            externalData: fieldExternalData,
           };
 
           const field = (
@@ -129,8 +145,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
           );
 
           fields.push(field);
-        }
-      );
+        });
     } else if (componentDescriptor?.formMetaData?.inputType === 'address') {
       componentFieldData.inputType = 'address';
       addComponentField = true;

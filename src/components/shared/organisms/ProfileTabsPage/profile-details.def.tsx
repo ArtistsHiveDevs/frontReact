@@ -89,4 +89,5 @@ export interface FormMetadata {
   createForm?: FormMetadata;
   editForm?: FormMetadata;
   hidden?: boolean;
+  externalData?: any;
 }

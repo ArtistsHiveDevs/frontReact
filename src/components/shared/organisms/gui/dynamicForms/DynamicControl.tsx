@@ -12,7 +12,7 @@ import { createCitySelect } from './components/CitySelector';
 import { createDatePicker } from './components/DateSelector';
 import { createFileUpload } from './components/FileUpload';
 import { createRadio } from './components/Radio';
-import { createRelationShipSelector } from './components/RelationshipSelector';
+import { createRelationshipSelector } from './components/RelationshipSelector';
 import { createSelect } from './components/Select';
 import { createSlider } from './components/Slider';
 import { createTextArea } from './components/TextArea';
@@ -97,7 +97,7 @@ export const DynamicControl = (params: {
       return createFileUpload({ register, fieldData, errors });
 
     case 'relationship':
-      return createRelationShipSelector({ register, fieldData, errors, handlers });
+      return createRelationshipSelector({ register, fieldData, errors, handlers });
 
     default:
       fieldData.inputType = 'text';

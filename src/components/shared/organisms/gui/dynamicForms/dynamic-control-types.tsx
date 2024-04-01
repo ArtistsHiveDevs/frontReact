@@ -21,7 +21,8 @@ export type ControlType =
   | 'socialNetwork'
   | 'file'
   | 'citySelector'
-  | 'chipPicker';
+  | 'chipPicker'
+  | 'relationship';
 
 export interface SelectOption {
   label: string;

@@ -1,4 +1,5 @@
 import { Button, Stack } from '@mui/material';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useI18n } from '~/common/utils';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
@@ -30,6 +31,7 @@ export interface DynamicTabbedFormParams {
 }
 export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
   const { tabsInfo, elementData, handlers, translationBasePath, fieldOptions, externalData } = params;
+  const [relationshipsValues, setRelationshipsValues] = useState({});
 
   const { translateText } = useI18n();
   const formMethods = useForm();
@@ -154,6 +156,16 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       addComponentField = true;
     } else if (componentDescriptor.componentName === ProfileComponentTypes.IMAGE_GALLERY) {
       componentFieldData.inputType = 'file';
+      addComponentField = true;
+    } else if (componentDescriptor.componentName === ProfileComponentTypes.PROFILE_THUMBNAIL_CARD) {
+      componentFieldData.inputType = 'relationship';
+      // setRelationshipsValues({ ...relationshipsValues, fieldNameComponent: [] });
+      // handlers[`${fieldNameComponent}_selection_changed`] = (selectedValues: any) => {
+      //   console.log('NEW VALUES ', fieldNameComponent, selectedValues);
+      // };
+      addComponentField = true;
+    } else if (componentDescriptor.componentName === ProfileComponentTypes.HTML_CONTENT) {
+      componentFieldData.inputType = 'textarea';
       addComponentField = true;
     }
 

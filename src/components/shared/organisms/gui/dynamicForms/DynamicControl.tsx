@@ -40,6 +40,14 @@ export const DynamicControl = (params: {
   const { register, getValues, watch } = useFormContext() || {};
 
   const { inputType }: DynamicFieldData = fieldData;
+  const fieldParams = {
+    register,
+    getValues,
+    watch,
+    fieldData,
+    errors,
+    handlers,
+  };
 
   switch (inputType) {
     // Campos de texto
@@ -48,59 +56,52 @@ export const DynamicControl = (params: {
     case 'tel':
     case 'number':
     case 'url':
-      return createTextField({ register, fieldData, errors, handlers });
+      return createTextField(fieldParams);
     case 'address':
-      return createAddressTextField({ register, fieldData, errors });
+      return createAddressTextField(fieldParams);
     case 'socialNetwork':
-      return createSocialNetworkTextField({ register, fieldData, errors });
+      return createSocialNetworkTextField(fieldParams);
 
     // Área de texto
     case 'textarea':
-      return createTextArea({ register, fieldData, errors });
+      return createTextArea(fieldParams);
 
     // Ubicación
     case 'citySelector':
-      return createCitySelect({ fieldData, handlers });
+      return createCitySelect(fieldParams);
 
     // Opciones y selección múltiple
     case 'chipPicker':
-      return createChipPicker({ register, fieldData, errors, handlers });
+      return createChipPicker(fieldParams);
     case 'select':
-      return createSelect({ register, fieldData, errors, handlers });
+      return createSelect(fieldParams);
     case 'checkbox':
-      return createCheckbox({
-        register,
-        getValues,
-        watch,
-        fieldData,
-        errors,
-        handlers,
-      });
+      return createCheckbox(fieldParams);
     case 'radio':
-      return createRadio({ register, fieldData, errors });
+      return createRadio(fieldParams);
 
     // Rangos
     case 'range':
-      return createSlider({ register, fieldData, errors });
+      return createSlider(fieldParams);
 
     // Fechas y horas
     case 'date':
-      return createDatePicker({ register, fieldData, errors });
+      return createDatePicker(fieldParams);
     case 'time':
-      return createTimeField({ register, fieldData, errors });
+      return createTimeField(fieldParams);
     // case 'datetime':
     // case 'month':
     // case 'week':
 
     // Carga de archivos
     case 'file':
-      return createFileUpload({ register, fieldData, errors });
+      return createFileUpload(fieldParams);
 
     case 'relationship':
-      return createRelationshipSelector({ register, fieldData, errors, handlers });
+      return createRelationshipSelector(fieldParams);
 
     default:
       fieldData.inputType = 'text';
-      return createTextField({ register, fieldData, errors });
+      return createTextField(fieldParams);
   }
 };

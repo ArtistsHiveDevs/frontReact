@@ -1,4 +1,4 @@
-import { DatePicker } from '@mui/x-date-pickers';
+import { MobileTimePicker } from '@mui/x-date-pickers';
 import { Dayjs } from 'dayjs';
 import { Controller, FieldErrors, FieldValues, UseFormRegister, useForm, useFormContext } from 'react-hook-form';
 import { DynamicFieldData } from '../dynamic-control-types';
@@ -28,9 +28,6 @@ export const createTimeField = (params: {
 
   const { register, formState } = useFormContext();
   const { errors } = formState || {};
-  if (register) {
-    register(fieldName, config);
-  }
 
   return (
     <>
@@ -39,27 +36,7 @@ export const createTimeField = (params: {
         name="date"
         rules={{ required: true }}
         render={({ field }) => {
-          return (
-            <DatePicker
-              label="Date"
-              value={field.value}
-              inputRef={field.ref}
-              onChange={(date) => {
-                field.onChange(date);
-                config.value = date;
-                register(fieldName, config);
-              }}
-              disablePast={disablePast}
-              disableFuture={disableFuture}
-              displayWeekNumber={componentParams?.displayWeekNumber}
-              slotProps={{
-                textField: {
-                  required: !!config?.required,
-                  error: !!errors[fieldName],
-                },
-              }}
-            />
-          );
+          return <MobileTimePicker label={label} minutesStep={5} {...register(fieldName, config)} />;
         }}
       />
     </>

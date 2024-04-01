@@ -9,6 +9,7 @@ import {
 import { createCheckbox } from './components/Checkbox';
 import { createChipPicker } from './components/ChipPicker';
 import { createCitySelect } from './components/CitySelector';
+import { createDatePicker } from './components/DateSelector';
 import { createFileUpload } from './components/FileUpload';
 import { createRadio } from './components/Radio';
 import { createSelect } from './components/Select';
@@ -82,12 +83,13 @@ export const DynamicControl = (params: {
       return createSlider({ register, fieldData, errors });
 
     // Fechas y horas
-    case 'datetime':
     case 'date':
+      return createDatePicker({ register, fieldData, errors });
     case 'time':
-    case 'month':
-    case 'week':
       return createTimeField({ register, fieldData, errors });
+    // case 'datetime':
+    // case 'month':
+    // case 'week':
 
     // Carga de archivos
     case 'file':

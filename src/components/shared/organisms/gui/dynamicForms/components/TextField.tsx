@@ -81,6 +81,9 @@ export const createTextField = (params: ComponentGeneratorParams) => {
       }
     }
     config.valueAsNumber = true;
+    if (config.value) {
+      config.value = Number(config.value);
+    }
   }
 
   const emptyFunction = (data: any) => {
@@ -91,7 +94,11 @@ export const createTextField = (params: ComponentGeneratorParams) => {
 
   const { required } = config || {};
   config.value = currentValue;
-
+  if (inputType === 'number') {
+    if (config.value) {
+      config.value = Number(config.value);
+    }
+  }
   // console.log("¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿   ¿¿¿¿     ", fieldName, defaultValue);
   return (
     <TextField

@@ -48,7 +48,7 @@ export const createDatePicker = (params: {
               inputRef={field.ref}
               onChange={(date) => {
                 field.onChange(date);
-                config.value = date;
+                config.value = date?.toISOString();
                 register(fieldName, config);
               }}
               disablePast={disablePast}
@@ -108,7 +108,7 @@ export const createDatePickerAnterior = (params: ComponentGeneratorParams) => {
   const [selectedDate, setSelectedDate] = useState(defaultDate?.toISOString());
   //   console.log(fieldData);
 
-  register(fieldName, { ...config, value: selectedDate });
+  register(fieldName, { ...config, value: selectedDate?.toISOString() });
   return (
     <Controller
       control={control}
@@ -123,7 +123,8 @@ export const createDatePickerAnterior = (params: ComponentGeneratorParams) => {
             inputRef={field.ref}
             onChange={(date) => {
               setSelectedDate(date.toISOString());
-              register(fieldName, { ...config, value: selectedDate });
+              register(fieldName, { ...config, value: selectedDate?.toISOString() });
+              console.log(selectedDate?.toISOString(), { ...config, value: selectedDate?.toISOString() });
               field.onChange(date);
             }}
             disableFuture={disableFuture}

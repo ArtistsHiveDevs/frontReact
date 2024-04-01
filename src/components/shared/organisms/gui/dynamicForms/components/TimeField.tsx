@@ -36,7 +36,16 @@ export const createTimeField = (params: {
         name="date"
         rules={{ required: true }}
         render={({ field }) => {
-          return <MobileTimePicker label={label} minutesStep={5} {...register(fieldName, config)} />;
+          return (
+            <MobileTimePicker
+              label={label}
+              minutesStep={5}
+              onChange={(value: any) => {
+                config.value = `${value.hour()}:${value.minute()}`;
+                register(fieldName, config);
+              }}
+            />
+          );
         }}
       />
     </>

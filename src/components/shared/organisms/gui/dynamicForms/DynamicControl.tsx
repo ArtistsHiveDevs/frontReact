@@ -11,6 +11,7 @@ import { createChipPicker } from './components/ChipPicker';
 import { createCitySelect } from './components/CitySelector';
 import { createDatePicker } from './components/DateSelector';
 import { createFileUpload } from './components/FileUpload';
+import { createHiddenField } from './components/HiddenField';
 import { createRadio } from './components/Radio';
 import { createRelationshipSelector } from './components/RelationshipSelector';
 import { createSelect } from './components/Select';
@@ -97,8 +98,13 @@ export const DynamicControl = (params: {
     case 'file':
       return createFileUpload(fieldParams);
 
+    // Relaciones a otras entidades
     case 'relationship':
       return createRelationshipSelector(fieldParams);
+
+    // Campos ocultos
+    case 'hidden':
+      return createHiddenField(fieldParams);
 
     default:
       fieldData.inputType = 'text';

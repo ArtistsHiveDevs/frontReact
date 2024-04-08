@@ -22,7 +22,8 @@ export type ControlType =
   | 'file'
   | 'citySelector'
   | 'chipPicker'
-  | 'relationship';
+  | 'relationship'
+  | 'hidden';
 
 export interface SelectOption {
   label: string;

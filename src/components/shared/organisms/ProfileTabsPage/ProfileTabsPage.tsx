@@ -289,7 +289,13 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           return {
             title,
             attributes: (componentDescriptor.data?.attributes || componentDescriptor.data?.fields)
-              .filter((attribute: any) => !attribute.hidden || !attribute.hidden(dataSourceElement))
+              .filter(
+                (attribute: any) =>
+                  attribute.hidden === undefined ||
+                  (typeof attribute.hidden === 'boolean' && !attribute.hidden) ||
+                  (typeof attribute.hidden === 'string' && attribute.hidden !== 'true') ||
+                  (attribute.hidden instanceof Function && attribute.hidden(dataSourceElement))
+              )
               .map((attribute: any, componentIndex: number) =>
                 processAttribute(attribute, componentIndex, dataSourceElement)
               ),
@@ -300,7 +306,13 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           {
             title: componentDescriptor.data?.title,
             attributes: componentDescriptor.data?.attributes
-              .filter((attribute: any) => !attribute.hidden || !attribute.hidden(dataSourceElement))
+              .filter(
+                (attribute: any) =>
+                  attribute.hidden === undefined ||
+                  (typeof attribute.hidden === 'boolean' && !attribute.hidden) ||
+                  (typeof attribute.hidden === 'string' && attribute.hidden !== 'true') ||
+                  (attribute.hidden instanceof Function && attribute.hidden(dataSourceElement))
+              )
               .map((attribute: any, componentIndex: number) => processAttribute(attribute, componentIndex)),
           },
         ];

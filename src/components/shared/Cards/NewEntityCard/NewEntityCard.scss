@@ -56,7 +56,8 @@
     .card-title-label {
       font-weight: bolder;
       font-size: 13px;
-      height: 64px;
+      height: 40px;
+      min-height: 40px;
       overflow-y: hidden;
 
       .title-card-span {
@@ -158,4 +159,8 @@
     text-decoration: none;
     color: $black;
   }
+}
+
+.username {
+  font-size: x-small;
 }

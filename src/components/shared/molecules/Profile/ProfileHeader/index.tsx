@@ -126,16 +126,18 @@ export const ProfileHeader = (props: any) => {
   };
 
   const clickOnField = (fieldName: string) => {
-    const targetFieldIndex = fields.findIndex((item) => item.name === fieldName);
-    const targetField = fields[targetFieldIndex];
+    if (isEditable) {
+      const targetFieldIndex = fields.findIndex((item) => item.name === fieldName);
+      const targetField = fields[targetFieldIndex];
 
-    targetField.showEditableField = !!!targetField.showEditableField;
+      targetField.showEditableField = !!!targetField.showEditableField;
 
-    const newData = [...fields];
-    newData[targetFieldIndex] = targetField;
+      const newData = [...fields];
+      newData[targetFieldIndex] = targetField;
 
-    setFieldData(newData);
-    setFocus(fieldName);
+      setFieldData(newData);
+      setFocus(fieldName);
+    }
   };
 
   const [image, _setImage] = useState(null);
@@ -198,14 +200,18 @@ export const ProfileHeader = (props: any) => {
       )}
 
       <div className="header-title d-grid align-items-bottom">
+        <div className="username">
+          <span>
+            @{generateEditableField('username', element, isEditable)}{' '}
+            <VerifiedArtist verifiedStatus={element?.verified_status} />
+          </span>
+        </div>
         <div className="profile-name">
           <h2>
             {generateEditableField('name', element, isEditable)}
 
             {element && (
               <>
-                <VerifiedArtist verifiedStatus={element?.verified_status} />
-
                 <FavoriteSubscription
                   color={'#7a260a'}
                   size={24}
@@ -215,7 +221,7 @@ export const ProfileHeader = (props: any) => {
             )}
           </h2>
         </div>
-        <div className="profile-name">@{generateEditableField('username', element, isEditable)}</div>
+
         <div className="profile-name">{generateEditableField('subtitle', element, isEditable)}</div>
       </div>
     </div>

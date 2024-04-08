@@ -4,7 +4,7 @@ import { Card } from 'react-bootstrap';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import GenericModal from '~/components/shared/molecules/general/Modals/ModalCardInfo/GenericModal';
-import { AligmentVerifiedMark, formatDateInMomentType } from '~/constants';
+import { formatDateInMomentType } from '~/constants';
 import './NewEntityCard.scss';
 
 const NewEntityCard = (props: any) => {
@@ -58,14 +58,16 @@ const NewEntityCard = (props: any) => {
                           </div>
                         )}
                         <div className="card-name-section">
-                          <p className="card-title-label">
-                            <span className="verified-comp">
-                              <VerifiedArtist
-                                aligment={AligmentVerifiedMark.LEFT}
-                                verifiedStatus={data?.verified_status}
-                              />
+                          {data?.username && (
+                            <span className="username">
+                              @{data?.username} <VerifiedArtist verifiedStatus={data?.verified_status} />
                             </span>
-                            <span className="title-card-span">{elementCardInfo?.title || data?.name}</span>
+                          )}
+                          <p className="card-title-label">
+                            <span className="title-card-span">
+                              {elementCardInfo?.title || data?.name}{' '}
+                              {!data?.username && <VerifiedArtist verifiedStatus={data?.verified_status} />}
+                            </span>
                           </p>
                         </div>
                       </Card.ImgOverlay>

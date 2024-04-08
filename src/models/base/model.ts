@@ -112,6 +112,7 @@ abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
  */
 export class EntityModel<T extends EntityTemplate> extends Model<T> {
   declare id: string;
+  declare username?: string;
 }
 
 /**

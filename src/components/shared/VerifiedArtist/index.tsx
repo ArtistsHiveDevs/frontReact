@@ -3,15 +3,17 @@ import { AligmentVerifiedMark, VerificationStatus } from '~/constants';
 import './index.scss';
 
 const VerifiedArtist = (props: any) => {
-  const { verifiedStatus, aligment } = props;
+  let { verifiedStatus, aligment, size } = props;
   const AlignMark: AligmentVerifiedMark = !!aligment ? aligment : AligmentVerifiedMark.RIGHT;
+
+  size = size || 16;
 
   const switchVerifiedOptions = (status: any) => {
     switch (status) {
       case VerificationStatus.VERIFIED:
-        return <MdOutlineVerifiedUser size={25} />;
+        return <MdOutlineVerifiedUser size={size} />;
       case VerificationStatus.VERIFIED_AND_APPROVED:
-        return <MdVerifiedUser size={25} className="full-verified" />;
+        return <MdVerifiedUser size={size} className="full-verified" />;
       default:
         return null;
     }

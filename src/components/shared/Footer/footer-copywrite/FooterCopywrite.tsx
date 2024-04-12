@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { appName, foundationYear, trademarkSymbol } from '~/app.config.json';
 import { HvAppContext } from '~/common';
 import { useI18n } from '~/common/utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
@@ -13,9 +14,13 @@ const FooterCopywrite = (props: any) => {
   return (
     <>
       <div className="copyright">
-        <p>Artists Hive ©</p>
+        <p>
+          {appName} {trademarkSymbol}
+        </p>
         <p>{translateText(`${TRANSLATION_BASE_COPYWRITE}.allRightsReserved`)}</p>
-        <p>2022 - {new Date().getFullYear()}</p>
+        <p>
+          {foundationYear} - {new Date().getFullYear()}
+        </p>
         <p>
           <DynamicIcons iconName="FaGlobeAmericas" size={20} color={'#7a260a'} />{' '}
           {AVAILABLE_I18N_LANGUAGES.map((newLang, index, newLangArr) => {

@@ -320,6 +320,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
 
       const useColon = componentDescriptor.data?.useColon;
       const useDivInValue = componentDescriptor.data?.useDivInValue;
+      const direction = componentDescriptor.data?.iconDirection;
 
       renderedComponent = (
         <>
@@ -330,6 +331,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
               title={sectionAttributes?.title}
               useDivInValue={useDivInValue}
               useColon={useColon}
+              direction={direction}
             />
           ))}
         </>

@@ -4,7 +4,13 @@
   gap: 0.4rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+  align-items: baseline;
 }
+
+.vertical {
+  flex-direction: column;
+}
+
 .field-content {
   width: 100%;
   overflow-wrap: anywhere;

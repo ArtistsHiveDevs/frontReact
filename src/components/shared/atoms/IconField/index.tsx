@@ -3,7 +3,7 @@ import { buildSocialNetworkLinkData, SocialNetworks } from '~/constants/social-n
 import './index.scss';
 
 const IconFieldReadOnly = (props: any) => {
-  let { fieldName, fieldTitle, icon, fieldValue, customTitle, emptyTitle, useDivInValue, useColon } = props;
+  let { fieldName, fieldTitle, icon, fieldValue, customTitle, emptyTitle, useDivInValue, useColon, direction } = props;
 
   useColon = useColon === undefined || useColon;
 
@@ -34,11 +34,15 @@ const IconFieldReadOnly = (props: any) => {
     }
   }
 
+  if (direction !== 'vertical') {
+    direction = '';
+  }
+
   return (
-    <div className="icon-field-container">
+    <div className={`icon-field-container ${direction}`}>
       {icon && (
         <span>
-          <DynamicIcons iconName={icon} size={20} color="#7a260a" />
+          <DynamicIcons iconName={icon} size={20} />
         </span>
       )}
       {useDivInValue && (

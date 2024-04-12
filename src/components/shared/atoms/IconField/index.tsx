@@ -38,27 +38,30 @@ const IconFieldReadOnly = (props: any) => {
     direction = '';
   }
 
+  const generateTitle = () =>
+    fieldTitle && (
+      <strong>
+        {fieldTitle}
+        {useColon ? ':' : ''}{' '}
+      </strong>
+    );
   return (
     <div className={`icon-field-container ${direction}`}>
       {icon && (
         <span>
           <DynamicIcons iconName={icon} size={20} />
+          {direction === 'vertical' && generateTitle()}
         </span>
       )}
       {useDivInValue && (
         <div className="field-content">
-          {fieldTitle && (
-            <strong>
-              {fieldTitle}
-              {useColon ? ':' : ''}{' '}
-            </strong>
-          )}
+          {direction !== 'vertical' && generateTitle()}
           {renderFieldValue}
         </div>
       )}
       {!useDivInValue && (
         <span className="field-content">
-          {fieldTitle && <strong>{fieldTitle}: </strong>}
+          {direction !== 'vertical' && generateTitle()}
           {renderFieldValue}
         </span>
       )}

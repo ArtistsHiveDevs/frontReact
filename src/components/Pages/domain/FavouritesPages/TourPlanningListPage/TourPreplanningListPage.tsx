@@ -114,7 +114,7 @@ const TourPreplanningListPage = () => {
                   <h3 className="main-section-title">{tourOutline.name}</h3>
                   {tourOutline.subtitle && <p>{tourOutline.subtitle}</p>}
                 </div>
-                <DynamicIcons color="#7a260a" iconName="AiOutlineDown" size="20" />
+                <DynamicIcons iconName="AiOutlineDown" size="20" />
               </div>
               <Collapse in={open[entityIndex]}>
                 <div id="example-collapse-text-2">

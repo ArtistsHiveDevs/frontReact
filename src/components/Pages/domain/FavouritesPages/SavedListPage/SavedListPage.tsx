@@ -127,7 +127,7 @@ const SavedListPage = () => {
                   {translate(`types.${entityName.toUpperCase()}`)} (
                   {favouritesList.pagination[`total_${entityName}` as keyof typeof favouritesList.pagination]})
                 </h3>
-                <DynamicIcons color="#7a260a" iconName="AiOutlineDown" size="20" />
+                <DynamicIcons iconName="AiOutlineDown" size="20" />
               </div>
               <Collapse in={open[entityIndex]}>
                 <div id="example-collapse-text-2">

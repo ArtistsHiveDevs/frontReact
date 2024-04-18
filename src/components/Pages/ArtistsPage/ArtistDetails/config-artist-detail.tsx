@@ -213,12 +213,12 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
               attributes: [
                 {
                   name: 'youtube',
-                  emptyTitle: true,
+                  // emptyTitle: true,
                   components: [
                     {
                       componentName: ProfileComponentTypes.SOCIAL_NETWORK_WIDGET,
 
-                      emptyTitle: true,
+                      // emptyTitle: true,
                       data: {
                         params: {
                           videoURL: 'youtube_widget_id',

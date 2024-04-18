@@ -136,7 +136,7 @@ export const createSocialNetworkTextField = (params: ComponentGeneratorParams) =
 
   fieldData.componentParams.startAdornment = socialNetwork.icon && (
     <InputAdornment position="start">
-      <DynamicIcons iconName={socialNetwork.icon} size={20} color="#7a260a" /> {socialNetwork.user_prefix}
+      <DynamicIcons iconName={socialNetwork.icon} size={20} /> {socialNetwork.user_prefix}
     </InputAdornment>
   );
 

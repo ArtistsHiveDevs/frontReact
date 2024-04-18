@@ -21,6 +21,7 @@ import { AuthProvider, HvAppContext, HvAppContextProvider } from './common';
 
 import { deDE, enUS, esES, frFR, itIT, ptBR } from '@mui/x-date-pickers';
 
+import { ThemeProvider, createTheme } from '@mui/material';
 import { AppFooter } from '~/components/shared/organisms/app/Footer/AppFooter';
 import SideNav from '~/components/shared/sidenav';
 import { RoutesApp } from '~/routes';
@@ -35,39 +36,46 @@ const App = () => {
   const onError = (error: any) => console.log(`Error Messages: ${error}`);
 
   const guii18nData = geti18nGUILanguage(appLang.lang);
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
 
   return (
-    <HelmetProvider>
-      <HvAppContextProvider appMessages={appMessages} lang={appLang} setLang={setAppLang}>
-        <Router>
-          <AuthProvider>
-            <IntlProvider
-              defaultLocale={appLang.lang || 'en'}
-              locale={appLang.lang}
-              messages={appLang.messages}
-              onError={onError}
-            >
-              <LocalizationProvider
-                dateAdapter={AdapterDayjs}
-                adapterLocale={appLang.lang || 'en'}
-                localeText={guii18nData.components.MuiLocalizationProvider.defaultProps.localeText}
+    <ThemeProvider theme={darkTheme}>
+      <HelmetProvider>
+        <HvAppContextProvider appMessages={appMessages} lang={appLang} setLang={setAppLang}>
+          <Router>
+            <AuthProvider>
+              <IntlProvider
+                defaultLocale={appLang.lang || 'en'}
+                locale={appLang.lang}
+                messages={appLang.messages}
+                onError={onError}
               >
-                <div className="wrapper">
-                  <SideNav />
+                <LocalizationProvider
+                  dateAdapter={AdapterDayjs}
+                  adapterLocale={appLang.lang || 'en'}
+                  localeText={guii18nData.components.MuiLocalizationProvider.defaultProps.localeText}
+                >
+                  <div>
+                    <SideNav />
 
-                  <Suspense fallback={<div>Loading...</div>}>
-                    <div className="content">
-                      <RoutesApp />
-                    </div>
-                    <AppFooter />
-                  </Suspense>
-                </div>
-              </LocalizationProvider>
-            </IntlProvider>
-          </AuthProvider>
-        </Router>
-      </HvAppContextProvider>
-    </HelmetProvider>
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <div className="content">
+                        <RoutesApp />
+                      </div>
+                      <AppFooter />
+                    </Suspense>
+                  </div>
+                </LocalizationProvider>
+              </IntlProvider>
+            </AuthProvider>
+          </Router>
+        </HvAppContextProvider>
+      </HelmetProvider>
+    </ThemeProvider>
   );
 };
 

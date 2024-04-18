@@ -5,6 +5,17 @@
 }
 .ah-nav-search {
   position: relative;
+  z-index: 100;
+  &__input {
+    background-color: $form-fields-background !important;
+    //color: $form-fields-font-color !important;
+    color: $form-fields-font-color !important;
+  }
+
+  &__input::placeholder {
+    color: $form-fields-placeholder-color !important;
+  }
+
   &__input:active {
     background-color: rgb(255, 236, 213);
   }
@@ -19,6 +30,15 @@
   overflow-x: hidden;
   overflow-y: auto;
   z-index: 2;
+}
+
+.search-list {
+  // border: $form-fields-border-color solid 2px !important;
+}
+.search-item {
+  background-color: $form-fields-background !important;
+  border-bottom: $form-fields-separator solid 2px !important;
+  border-right: $form-fields-border-color solid 2px !important;
 }
 
 .search-item__link {
@@ -38,9 +58,9 @@ a.search-item__link:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  &:hover {
-    color: #7a260a;
-  }
+  // &:hover {
+  color: $main-title-color;
+  // }
 }
 
 .search-item__img {
@@ -90,6 +110,9 @@ a.search-item__link:hover {
   min-height: 44px;
 }
 .search-item-head {
+  border-top: $form-fields-border-color solid 2px !important;
+  border-right: $form-fields-border-color solid 2px !important;
+  border-left: $form-fields-border-color solid 2px !important;
   &__title,
   &__subtitle {
     margin-bottom: 0;
@@ -113,11 +136,13 @@ a.search-item__link:hover {
     }
     .bg-ah-border-secundary {
       border: 1px solid rgba($entity-1, 0.5);
-      color: currentColor;
+      background-color: rgba($entity-1, 0.25);
+      // color: currentColor;
     }
     .bg-ah-border-third {
       border: 1px solid rgba($entity-2, 0.5);
-      color: currentColor;
+      background-color: rgba($entity-2, 0.25);
+      // color: currentColor;
     }
     .bg-ah-third {
       background-color: $entity-2;
@@ -127,13 +152,24 @@ a.search-item__link:hover {
     }
     .bg-ah-border-fourth {
       border: 1px solid rgba($entity-3, 0.5);
-      color: currentColor;
+      background-color: rgba($entity-3, 0.25);
+      // color: currentColor;
     }
     .bg-ah-border-disabled {
       border: 1px solid rgba(#919090, 0.5);
       color: darkgray;
     }
+    .bg-ah-filter {
+      background-color: $secondary-background-light;
+      width: auto;
+    }
   }
+}
+
+.search-item-footer {
+  border-bottom: $form-fields-border-color solid 2px !important;
+  border-left: $form-fields-border-color solid 2px !important;
+  border-right: $form-fields-border-color solid 2px !important;
 }
 .disable-select {
   user-select: none; /* supported by Chrome and Opera */
@@ -145,6 +181,7 @@ a.search-item__link:hover {
 
 .label-search-waiting {
   font-weight: lighter;
+  color: $main-font-color;
 }
 
 // Animations

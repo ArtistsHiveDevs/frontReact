@@ -2,10 +2,10 @@
 
 .profile-thumbnail-card {
   border-radius: 10px;
-  border: 1px solid #f2f2f2;
+  // border: 1px solid #f2f2f2;
   margin-bottom: 1rem;
-  box-shadow: 3px 3px #c5c5c5;
-  background: #fff6eb;
+  // box-shadow: 3px 3px #c5c5c5;
+  background: $card-background-color;
   padding: 0.3rem;
 
   &.draft {
@@ -58,11 +58,6 @@
   }
   .header-title {
     margin: 1rem;
-    h2 {
-      font-family: Roboto, 'Helvetica Neue', sans-serif;
-      color: #333;
-      margin: 0px;
-    }
 
     .artist-name {
       display: flex;
@@ -85,7 +80,7 @@
     object-fit: scale-down;
     border-radius: 50%;
     background: transparent;
-    filter: drop-shadow(4px 4px 4px $gray-medium);
+    // filter: drop-shadow(4px 4px 4px $gray-medium);
   }
 
   .card-name-section {
@@ -139,12 +134,12 @@
   }
   .card-date-hour {
     font-size: 1.2rem;
-    padding-top: 0.1rem;
+    // padding-top: 2rem;
   }
   .card-date-number {
     font-weight: bolder;
     font-size: 2.2rem;
-    margin: -0.5rem;
+    // margin: -0.5rem;
   }
 }
 

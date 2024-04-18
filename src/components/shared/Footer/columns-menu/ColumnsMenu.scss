@@ -1,7 +1,7 @@
 @import '~/variables.module.scss';
 
 .footer-columns {
-  background-color: #faf2c3;
+  background-color: $footer-columns-background;
   margin-top: 2rem;
   // margin-bottom: 2rem;
   display: flex;

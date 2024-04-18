@@ -78,7 +78,7 @@ export const SearchComponent = (props: any) => {
             onClick={() => handleOnBlur()}
           />
         </InputGroup>
-        {focused && (
+        {focused && text && (
           <div className="ah-combobox-search">
             <ResultsList
               q={text}

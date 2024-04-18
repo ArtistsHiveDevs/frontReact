@@ -56,7 +56,7 @@ export function DynamicIcons({ iconName, size, color, propsIcon }: typesPropsIco
         import('react-icons/im/index').then(loadIcon);
         break;
       case 'io':
-        import('react-icons/io5/index').then(loadIcon);
+        import('react-icons/io/index').then(loadIcon);
         break;
       case 'io5':
         import('react-icons/io5/index').then(loadIcon);
@@ -76,6 +76,9 @@ export function DynamicIcons({ iconName, size, color, propsIcon }: typesPropsIco
       case 'si':
         import('react-icons/si/index').then(loadIcon);
         break;
+      case 'sl':
+        import('react-icons/sl/index').then(loadIcon);
+        break;
       case 'tb':
         import('react-icons/tb/index').then(loadIcon);
         break;
@@ -84,8 +87,17 @@ export function DynamicIcons({ iconName, size, color, propsIcon }: typesPropsIco
     }
   }, []);
 
+  const customStyle: { [property: string]: any } = {};
+
+  if (!!size) {
+    customStyle['font-size'] = size;
+  }
+  if (!!color) {
+    customStyle['color'] = color;
+  }
+
   return (
-    <span className="icon-container" style={{ fontSize: size, color: color }}>
+    <span className="icon-container" style={customStyle}>
       <Icon color={propsIcon?.color} size={propsIcon?.size} />
     </span>
   );

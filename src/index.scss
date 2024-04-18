@@ -5,11 +5,12 @@
   /* Colors */
   --app-tint: #ff9500;
   --destructive-red: #ff3b30;
-  --white: #fff;
+  --white: #aa0e0e;
   --dark-black: #212121;
   --black: #4a4a4a;
   --grey: #888b90;
-  --silver: rgb(216, 216, 216);
+  --silver: rgb(169, 32, 32);
+  --background-color: #00ff00;
 
   --alpha-005: rgba(0, 0, 0, 0.05);
   --alpha-01: rgba(0, 0, 0, 0.1);
@@ -47,13 +48,18 @@
 
 html,
 body {
-  background-color: var(--white);
-  color: var(--dark-black);
+  background-color: $app-background !important;
+  color: $main-font-color !important;
   display: block;
   font-family: var(--main-font);
   font-size: 16px;
   line-height: var(--line-height);
   position: relative;
+
+  a {
+    color: $links-color;
+    text-decoration: none;
+  }
 }
 
 h1,
@@ -63,12 +69,11 @@ h4,
 h5,
 h6 {
   font-weight: 500;
+  color: $main-title-color;
 }
 
 h1,
 h2 {
-  font-family: 'Euphoria Script', cursive;
-  color: $main-title-color;
 }
 
 input,
@@ -85,4 +90,5 @@ select {
   flex-direction: column;
   align-items: center;
   width: 95%;
+  min-height: 30rem;
 }

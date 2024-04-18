@@ -10,8 +10,10 @@ import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import { SearchModel } from '~/models/domain/search/search.model';
+import { DynamicIcons } from '../DynamicIcons';
 import { ResultElement } from './result-element';
 import consts, { EntityType } from './search-constants';
+import './search.scss';
 
 type SearchProperties = {
   q: string;
@@ -120,7 +122,7 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
     q?.length > 0 && (
       <ListGroup className="search-list">
         {!hideResultHeader && (
-          <ListGroup.Item className="search-item-head">
+          <ListGroup.Item className="search-item search-item-head">
             <h4 className="search-item-head__title">
               {hasQueryTerms ? translate('results') : translate('recommendations')}
             </h4>
@@ -142,18 +144,24 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
                     {badge.title}
                   </Badge>
                 ))}
+              <Badge
+                bg={`ah-filter`}
+                // onClick={() => (badge.data?.length > 0 ? handleChecked(badge.type) : {})}
+              >
+                <DynamicIcons iconName="BsSliders" />
+              </Badge>
             </div>
           </ListGroup.Item>
         )}
 
         {querySearchLoading && (
-          <ListGroup.Item>
+          <ListGroup.Item className="search-item search-item-footer">
             <p className="label-search-waiting line-up-an">{translate('type_your_search')}...</p>
           </ListGroup.Item>
         )}
 
         {!querySearchLoading && totalElements === 0 && (
-          <ListGroup.Item>
+          <ListGroup.Item className="search-item search-item-footer">
             <p className="label-search-waiting line-up-an">{translate('not_found_results')}</p>
           </ListGroup.Item>
         )}
@@ -180,7 +188,7 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
         })}
 
         {totalElements > foundElements.length && (
-          <ListGroup.Item>
+          <ListGroup.Item className="search-item search-item-footer">
             <p className="label-search-waiting line-up-an">{translate('see_more')}</p>
           </ListGroup.Item>
         )}

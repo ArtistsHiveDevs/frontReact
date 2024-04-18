@@ -22,7 +22,7 @@ const FooterCopywrite = (props: any) => {
           {foundationYear} - {new Date().getFullYear()}
         </p>
         <p>
-          <DynamicIcons iconName="FaGlobeAmericas" size={20} color={'#7a260a'} />{' '}
+          <DynamicIcons iconName="FaGlobeAmericas" size={20} />{' '}
           {AVAILABLE_I18N_LANGUAGES.map((newLang, index, newLangArr) => {
             const styles = [];
             if (newLang === lang) {

@@ -12,14 +12,14 @@
   height: 60px;
   display: flex;
   align-items: center;
-  background-color: #efe5b0;
-  color: white;
+  background-color: $nav-bar-background-color;
+  color: $nav-bar-background-color;
   font-weight: 600;
 
   .nav-menu-opt {
     order: 1;
     .icon-burger {
-      background-color: white;
+      background-color: $nav-bar-burguer-background-color;
     }
   }
 

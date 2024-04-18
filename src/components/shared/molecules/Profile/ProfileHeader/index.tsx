@@ -2,11 +2,11 @@ import { Avatar, IconButton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { RegisterOptions } from 'react-hook-form';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
+import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
 import {
   FavoriteSubscription,
   FavoriteSubscritionIconDefaultTypes,
-} from '~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe';
-import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
+} from '../../general/favoriteSubscribe/favoriteSubscribe';
 import './index.scss';
 
 export interface ProfileHeaderElement {
@@ -110,7 +110,10 @@ export const ProfileHeader = (props: any) => {
     return (
       <>
         {!showEditableField && (
-          <span onClick={() => clickOnField(fieldName)} className={errors && errors[fieldName] && 'error-field'}>
+          <span
+            onClick={() => clickOnField(fieldName)}
+            className={`${errors && errors[fieldName] ? 'error-field' : ''}`}
+          >
             {element && newField?.config?.value}
             {!element && (
               <>
@@ -186,7 +189,7 @@ export const ProfileHeader = (props: any) => {
               <Avatar
                 src={image}
                 alt={element?.name}
-                sx={{ width: avatarSize, height: avatarSize }}
+                sx={{ width: avatarSize, height: avatarSize, border: '2px solid white' }}
                 className={errors && errors['profile_pic'] && 'error-profile-pic'}
               />
             </IconButton>
@@ -195,7 +198,11 @@ export const ProfileHeader = (props: any) => {
       )}
       {!isEditable && (
         <>
-          <Avatar src={image} alt={element?.name} sx={{ width: avatarSize, height: avatarSize }} />
+          <Avatar
+            src={image}
+            alt={element?.name}
+            sx={{ width: avatarSize, height: avatarSize, border: '2px solid white' }}
+          />
         </>
       )}
 
@@ -212,11 +219,7 @@ export const ProfileHeader = (props: any) => {
 
             {element && (
               <>
-                <FavoriteSubscription
-                  color={'#7a260a'}
-                  size={24}
-                  iconType={FavoriteSubscritionIconDefaultTypes.HEART}
-                />
+                <FavoriteSubscription size={24} iconType={FavoriteSubscritionIconDefaultTypes.HEART} />
               </>
             )}
           </h2>

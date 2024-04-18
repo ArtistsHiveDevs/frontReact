@@ -75,7 +75,7 @@ const NewEntityCard = (props: any) => {
                         <div className="card-footer-place">
                           <p>
                             <span>
-                              <DynamicIcons iconName="FaMapMarkerAlt" size={20} color="#7a260a" />
+                              <DynamicIcons iconName="FaMapMarkerAlt" size={20} />
                             </span>
                             <span>
                               <>

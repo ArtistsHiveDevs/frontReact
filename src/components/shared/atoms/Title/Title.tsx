@@ -14,6 +14,6 @@ export const Title = (props: { title: string; size: '1' | '2' | '3' | '4' | '5' 
     case '5':
       return <h5>{title}</h5>;
     default:
-      return <></>;
+      return <>{title}</>;
   }
 };

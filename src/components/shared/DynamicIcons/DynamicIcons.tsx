@@ -90,7 +90,7 @@ export function DynamicIcons({ iconName, size, color, propsIcon }: typesPropsIco
   const customStyle: { [property: string]: any } = {};
 
   if (!!size) {
-    customStyle['font-size'] = size;
+    customStyle['fontSize'] = size;
   }
   if (!!color) {
     customStyle['color'] = color;

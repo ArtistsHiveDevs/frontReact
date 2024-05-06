@@ -115,6 +115,8 @@
 
     .nav-login-opt {
       order: 2;
+      display: flex;
+      flex-direction: row;
     }
   }
 }

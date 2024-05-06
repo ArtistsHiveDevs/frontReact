@@ -92,7 +92,13 @@ const SideNav = () => {
             <span onClick={showHideSearchField}>
               <DynamicIcons iconName={searchIcon} size={30} />
             </span>
-            {loggedUser && <ProfilePicture src={loggedUser.profile_pic} size="xs" />}
+            {loggedUser && (
+              <ProfilePicture
+                src={loggedUser.profile_pic}
+                onClickHandler={(param: any) => navigateTo(PATHS.PROFILE)}
+                size="xs"
+              />
+            )}
             {!loggedUser && (
               <a className="brand-text" onClick={() => navigateToInnerPath({ path: PATHS.LOGIN })}>
                 Log in

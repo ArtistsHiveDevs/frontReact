@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import ScrollToTop from '~/components/shared/atoms/app/ScrollToTop';
 
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 
@@ -63,76 +64,82 @@ const SavedListPage = lazy(() => import('~/components/Pages/domain/FavouritesPag
 
 export const RoutesApp: React.FC = () => {
   return (
-    <Routes>
-      <Route path={PATHS.ACADEMIES}>
-        <Route element={<AcademiesListPage />} path="" />
-        <Route
-          element={<AcademyDetailsPage />}
-          path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
-        />
-      </Route>
-      <Route path={PATHS.ARTISTS}>
-        <Route element={<ArtistsListPage />} path="" />
-        <Route
-          element={<ArtistDetailsPage />}
-          path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
-        />
-        <Route element={<ArtistCreatePage />} path={SUB_PATHS.CREATE} />
-      </Route>
-      <Route path={PATHS.CULTURAL_AGENDA}>
-        <Route element={<CulturalAgendaPage />} path="" />
-      </Route>
-      <Route path={PATHS.RIDERS}>
-        <Route element={<RiderListPage />} path="" />
-        <Route
-          element={<RiderDetailsPage />}
-          path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
-        />
-      </Route>
-      <Route path={PATHS.EVENTS}>
-        <Route element={<EventsListPage />} path="" />
-        <Route
-          element={<EventDetailsPage />}
-          path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
-        />
-        <Route element={<EventCreatePage />} path={SUB_PATHS.CREATE} />
-      </Route>
-      <Route path={PATHS.PLACES}>
-        <Route element={<PlacesListPage />} path="" />
-        <Route
-          element={<PlaceDetailsPage />}
-          path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
-        />
-        <Route element={<PlaceCreatePage />} path={SUB_PATHS.CREATE} />
-        <Route element={<PlaceCreatePage />} path={SUB_PATHS.EDIT + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`} />
-      </Route>
-      <Route path={PATHS.PROFILE}>
-        <Route element={<UserDetailsPage />} path="" />
-        <Route element={<UserCreatePage />} path={SUB_PATHS.CREATE} />
-      </Route>
-      <Route element={<HomePage />} path={PATHS.HOME} />
-      <Route element={<LoginPage />} path={PATHS.LOGIN} />
-      <Route element={<SignUpPage />} path={PATHS.SIGN_UP} />
-      <Route element={<Navigate to={PATHS.HOME} />} path={PATHS.MAIN} />
-      <Route element={<SearchPage />} path={PATHS.SEARCH} />
-      <Route element={<PrivacyPolicyPage />} path={PATHS.PRIVACY_POLICY} />
-      <Route element={<ContactUsPage />} path={PATHS.CONTACT_US} />
-      <Route element={<TermsAndConditionsPage />} path={PATHS.TERMS_AND_CONDITIONS} />
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path={PATHS.ACADEMIES}>
+          <Route element={<AcademiesListPage />} path="" />
+          <Route
+            element={<AcademyDetailsPage />}
+            path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
+          />
+        </Route>
+        <Route path={PATHS.ARTISTS}>
+          <Route element={<ArtistsListPage />} path="" />
+          <Route
+            element={<ArtistDetailsPage />}
+            path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
+          />
+          <Route element={<ArtistCreatePage />} path={SUB_PATHS.CREATE} />
+        </Route>
+        <Route path={PATHS.CULTURAL_AGENDA}>
+          <Route element={<CulturalAgendaPage />} path="" />
+        </Route>
+        <Route path={PATHS.RIDERS}>
+          <Route element={<RiderListPage />} path="" />
+          <Route
+            element={<RiderDetailsPage />}
+            path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
+          />
+        </Route>
+        <Route path={PATHS.EVENTS}>
+          <Route element={<EventsListPage />} path="" />
+          <Route
+            element={<EventDetailsPage />}
+            path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
+          />
+          <Route element={<EventCreatePage />} path={SUB_PATHS.CREATE} />
+        </Route>
+        <Route path={PATHS.PLACES}>
+          <Route element={<PlacesListPage />} path="" />
+          <Route
+            element={<PlaceDetailsPage />}
+            path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
+          />
+          <Route element={<PlaceCreatePage />} path={SUB_PATHS.CREATE} />
+          <Route element={<PlaceCreatePage />} path={SUB_PATHS.EDIT + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`} />
+        </Route>
+        <Route path={PATHS.PROFILE}>
+          <Route element={<UserDetailsPage />} path="" />
+          <Route element={<UserCreatePage />} path={SUB_PATHS.CREATE} />
+        </Route>
+        <Route element={<HomePage />} path={PATHS.HOME} />
+        <Route element={<LoginPage />} path={PATHS.LOGIN} />
+        <Route element={<SignUpPage />} path={PATHS.SIGN_UP} />
+        <Route element={<Navigate to={PATHS.HOME} />} path={PATHS.MAIN} />
+        <Route element={<SearchPage />} path={PATHS.SEARCH} />
+        <Route element={<PrivacyPolicyPage />} path={PATHS.PRIVACY_POLICY} />
+        <Route element={<ContactUsPage />} path={PATHS.CONTACT_US} />
+        <Route element={<TermsAndConditionsPage />} path={PATHS.TERMS_AND_CONDITIONS} />
 
-      <Route element={<NotFoundPage />} path={PATHS.NOT_FOUND} />
-      <Route path={PATHS.SETTINGS}>
-        <Route element={<AppSettingsPage />} path="" />
-      </Route>
-      <Route path={PATHS.INDUSTRY_OFFER}>
-        <Route element={<IndustryOfferPage />} path={`:${URL_PARAMETER_NAMES.ROLE}`} />
-      </Route>
-      <Route path={PATHS.MY_FAVOURITES}>
-        <Route element={<SavedListPage />} path="" />
-      </Route>
-      <Route path={PATHS.TOURS_OUTLINE}>
-        <Route element={<TourPreplanningListPage />} path="" />
-        <Route element={<TourDetailsPage />} path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`} />
-      </Route>
-    </Routes>
+        <Route element={<NotFoundPage />} path={PATHS.NOT_FOUND} />
+        <Route path={PATHS.SETTINGS}>
+          <Route element={<AppSettingsPage />} path="" />
+        </Route>
+        <Route path={PATHS.INDUSTRY_OFFER}>
+          <Route element={<IndustryOfferPage />} path={`:${URL_PARAMETER_NAMES.ROLE}`} />
+        </Route>
+        <Route path={PATHS.MY_FAVOURITES}>
+          <Route element={<SavedListPage />} path="" />
+        </Route>
+        <Route path={PATHS.TOURS_OUTLINE}>
+          <Route element={<TourPreplanningListPage />} path="" />
+          <Route
+            element={<TourDetailsPage />}
+            path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
+          />
+        </Route>
+      </Routes>
+    </>
   );
 };

@@ -17,7 +17,6 @@ import {
 } from './profile-details.def';
 
 import { faMicrophoneLines } from '@fortawesome/free-solid-svg-icons';
-import { Table } from 'react-bootstrap';
 import { GMapsSvgMaker } from '~/common/utils/object-utils/object-utils-index';
 import { EVENT_DETAIL_SUB_PAGE_CONFIG } from '~/components/Pages/EventsPage/EventDetailsPage/config-event-detail';
 import { Title } from '~/components/shared/atoms/Title/Title';
@@ -35,6 +34,7 @@ import { ProfileThumbnailCard } from '~/components/shared/molecules/Profile/Prof
 import { formatDateInMomentType } from '~/constants';
 import { SocialNetworks } from '~/constants/social-networks.const';
 import { EventModel } from '~/models/domain/event/event.model';
+import { TableView } from '../../atoms/Table/TableView';
 import { EventParams } from '../../atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent';
 import { EventThumbnailCard } from '../../molecules/Profile/EventThumbnailCard/EventThumbnailCard';
 
@@ -563,26 +563,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
         : undefined;
 
       console.log('Table', componentDescriptor.data?.crewList, tableConfig);
-      renderedComponent = (tableConfig && (
-        <Table responsive>
-          <thead>
-            <tr>
-              {tableConfig.columns.map((column: any) => (
-                <th>{column}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {tableConfig.rows.map((row: any) => (
-              <tr>
-                {tableConfig.columns.map((column: any) => (
-                  <td>{row[column]}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      )) || <></>;
+      renderedComponent = (tableConfig && <TableView config={tableConfig} />) || <></>;
     } else if (componentDescriptor.componentName === ProfileComponentTypes.DISCOGRAPHY_LIST_VIEW) {
       const discography = getData(componentDescriptor.data_source);
 

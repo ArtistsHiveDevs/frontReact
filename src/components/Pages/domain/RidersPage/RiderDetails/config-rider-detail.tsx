@@ -251,6 +251,9 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   config = {
                     columns: Object.keys(rider.requirements.audio.inputList[0]),
                     rows: rider.requirements.audio.inputList,
+                    dense: true,
+                    translationBasePath:
+                      'app.pages.domain.RidersPages.RidersDetailsPage.subpages.technical_requirements.sections.audio_requirements.attributes',
                   };
                 }
                 return config;
@@ -273,6 +276,9 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   config = {
                     columns: Object.keys(rider.requirements.audio.mixesList[0]),
                     rows: rider.requirements.audio.mixesList,
+                    dense: true,
+                    translationBasePath:
+                      'app.pages.domain.RidersPages.RidersDetailsPage.subpages.technical_requirements.sections.audio_requirements.attributes',
                   };
                 }
                 return config;

@@ -378,6 +378,15 @@ export const PtMessages = {
                   },
                   audio_requirements: {
                     name: 'Requisitos de áudio',
+                    attributes: {
+                      channelNumber: 'Número do canal',
+                      instrumentName: 'Nome do instrumento',
+                      microphone: 'Microfone',
+                      inserts: 'Insertos',
+                      mixNumber: 'Número de mixagem',
+                      description: 'Descrição',
+                      monitor: 'Monitor',
+                    },
                   },
                   video_requirements: {
                     name: 'Requisitos de vídeo',

@@ -380,6 +380,15 @@ export const EnMessages = {
                   },
                   audio_requirements: {
                     name: 'Audio Requirements',
+                    attributes: {
+                      channelNumber: 'Channel number',
+                      instrumentName: 'Instrument name',
+                      microphone: 'Microphone',
+                      inserts: 'Inserts',
+                      mixNumber: 'Mix number',
+                      description: 'Description',
+                      monitor: 'Monitor',
+                    },
                   },
                   video_requirements: {
                     name: 'Video Requirements',

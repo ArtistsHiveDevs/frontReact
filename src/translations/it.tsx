@@ -380,6 +380,15 @@ export const ItMessages = {
                   },
                   audio_requirements: {
                     name: 'Requisiti audio',
+                    attributes: {
+                      channelNumber: 'Numero di canale',
+                      instrumentName: 'Nome dello strumento',
+                      microphone: 'Microfono',
+                      inserts: 'Inserti',
+                      mixNumber: 'Numero di mixaggio',
+                      description: 'Descrizione',
+                      monitor: 'Monitor',
+                    },
                   },
                   video_requirements: {
                     name: 'Requisiti video',

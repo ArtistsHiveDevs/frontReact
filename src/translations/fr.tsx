@@ -382,6 +382,15 @@ export const FrMessages = {
                   },
                   audio_requirements: {
                     name: 'Exigences audio',
+                    attributes: {
+                      channelNumber: 'Numéro de canal',
+                      instrumentName: "Nom de l'instrument",
+                      microphone: 'Microphone',
+                      inserts: 'Inserts',
+                      mixNumber: 'Numéro de mixage',
+                      description: 'Description',
+                      monitor: 'Moniteur',
+                    },
                   },
                   video_requirements: {
                     name: 'Exigences vidéo',

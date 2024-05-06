@@ -380,6 +380,15 @@ export const EsMessages = {
                   },
                   audio_requirements: {
                     name: 'Requisitos de audio',
+                    attributes: {
+                      channelNumber: 'Número de canal',
+                      instrumentName: 'Nombre del instrumento',
+                      microphone: 'Micrófono',
+                      inserts: 'Insertos',
+                      mixNumber: 'Número de mezcla',
+                      description: 'Descripción',
+                      monitor: 'Monitor',
+                    },
                   },
                   video_requirements: {
                     name: 'Requisitos de video',

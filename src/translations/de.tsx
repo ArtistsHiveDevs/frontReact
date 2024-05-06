@@ -380,6 +380,15 @@ export const DeMessages = {
                   },
                   audio_requirements: {
                     name: 'Audioanforderungen',
+                    attributes: {
+                      channelNumber: 'Kanalnummer',
+                      instrumentName: 'Instrumentenname',
+                      microphone: 'Mikrofon',
+                      inserts: 'Einschübe',
+                      mixNumber: 'Mischnummer',
+                      description: 'Beschreibung',
+                      monitor: 'Monitor',
+                    },
                   },
                   video_requirements: {
                     name: 'Videoanforderungen',

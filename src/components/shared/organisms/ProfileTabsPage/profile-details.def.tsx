@@ -11,6 +11,7 @@ export enum ProfileComponentTypes {
   HTML_CONTENT,
   IMAGE,
   IMAGE_GALLERY,
+  HORIZONTAL_IMAGE_GALLERY,
   MAP,
   SOCIAL_NETWORK_WIDGET,
   TABLE,

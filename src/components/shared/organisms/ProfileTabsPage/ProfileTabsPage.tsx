@@ -34,6 +34,7 @@ import { ProfileThumbnailCard } from '~/components/shared/molecules/Profile/Prof
 import { formatDateInMomentType } from '~/constants';
 import { SocialNetworks } from '~/constants/social-networks.const';
 import { EventModel } from '~/models/domain/event/event.model';
+import { HorizontalImageGallery } from '../../atoms/ImageGallery/HorizontalImageGallery';
 import { TableView } from '../../atoms/Table/TableView';
 import { EventParams } from '../../atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent';
 import { EventThumbnailCard } from '../../molecules/Profile/EventThumbnailCard/EventThumbnailCard';
@@ -473,6 +474,16 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           </>
         );
       });
+    } else if (componentDescriptor.componentName === ProfileComponentTypes.HORIZONTAL_IMAGE_GALLERY) {
+      let images: GalleryImageParams[] = [];
+
+      if (componentDescriptor.data?.images) {
+        images = getData(componentDescriptor.data?.images);
+      }
+      if (componentDescriptor.data?.image) {
+        images = [{ src: getData(componentDescriptor.data?.image) }];
+      }
+      renderedComponent = <HorizontalImageGallery imagesInfo={images} />;
     } else if (componentDescriptor.componentName === ProfileComponentTypes.IMAGE_GALLERY) {
       let clickHandler: (source: GalleryImageParams, images: any) => void = undefined;
 

@@ -13,6 +13,7 @@ export interface GalleryImageParams {
   id?: string;
   src: string;
   alt?: string;
+  description?: string;
 }
 
 export const ImageGallery = (props: ImageGalleryContainerParams) => {

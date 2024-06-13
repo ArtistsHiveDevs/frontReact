@@ -53,29 +53,6 @@ const general: SideMenuItem[] = [
 ];
 const miInfo: SideMenuItem[] = [
   {
-    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox'),
-    path: '',
-    icon: 'FaRegEnvelope',
-    updated: new Date('2/20/16'),
-    requireSession: true,
-    nestedMenuOptions: [
-      {
-        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox.nested.incoming'),
-        path: '',
-        icon: 'HiInboxIn',
-        updated: new Date('2/20/16'),
-        requireSession: true,
-      },
-      {
-        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox.nested.sent'),
-        path: '',
-        icon: 'RiMailSendLine',
-        updated: new Date('2/20/16'),
-        requireSession: true,
-      },
-    ],
-  },
-  {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_profile'),
     path: `${PATHS.PROFILE}`,
     icon: 'FaUser',
@@ -95,6 +72,30 @@ const miInfo: SideMenuItem[] = [
         name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_bands.nested.create'),
         path: `${PATHS.ARTISTS}/${SUB_PATHS.CREATE}`,
         icon: 'MdGroupAdd',
+        updated: new Date('2/20/16'),
+        requireSession: true,
+      },
+    ],
+  },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox'),
+    path: '',
+    icon: 'FaRegEnvelope',
+    updated: new Date('2/20/16'),
+    requireSession: true,
+    allowedRoles: [{ entityName: 'Artist' }, { entityName: 'Place' }],
+    nestedMenuOptions: [
+      {
+        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox.nested.incoming'),
+        path: '',
+        icon: 'HiInboxIn',
+        updated: new Date('2/20/16'),
+        requireSession: true,
+      },
+      {
+        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox.nested.sent'),
+        path: '',
+        icon: 'RiMailSendLine',
         updated: new Date('2/20/16'),
         requireSession: true,
       },
@@ -159,6 +160,7 @@ const miInfo: SideMenuItem[] = [
         path: `${PATHS.TOURS_OUTLINE}`,
         icon: 'BsFillJournalBookmarkFill',
         updated: new Date('2/20/16'),
+        allowedRoles: [{ entityName: 'Artist' }],
         requireSession: true,
       },
     ],

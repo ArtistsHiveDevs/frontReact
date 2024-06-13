@@ -18,7 +18,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'gallery',
         components: [
           {
-            componentName: ProfileComponentTypes.IMAGE_GALLERY,
+            componentName: ProfileComponentTypes.HORIZONTAL_IMAGE_GALLERY,
             data: { images: 'image_gallery' },
             clickHandlerName: 'onClickGalleryImage',
             formMetaData: {

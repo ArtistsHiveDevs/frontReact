@@ -6,6 +6,8 @@ const MapViewer = (props: any) => {
   const { data } = props;
 
   useEffect(() => {
+    const bounds = new window.google.maps.LatLngBounds();
+
     let map = new window.google.maps.Map(ref.current, {
       zoom: data?.zoom,
       center: data?.center,
@@ -24,7 +26,10 @@ const MapViewer = (props: any) => {
         }),
         map: map,
       });
+      bounds.extend(new google.maps.LatLng(position.lat, position.lng));
     });
+
+    map.fitBounds(bounds);
   });
 
   return <div ref={ref} id="map-viewer"></div>;

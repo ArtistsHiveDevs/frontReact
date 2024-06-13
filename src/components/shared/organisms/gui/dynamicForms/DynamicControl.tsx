@@ -83,10 +83,12 @@ export const DynamicControl = (params: {
 
     // Rangos
     case 'range':
+    case 'interval':
       return createSlider(fieldParams);
 
     // Fechas y horas
     case 'date':
+    case 'dateInterval':
       return createDatePicker(fieldParams);
     case 'time':
       return createTimeField(fieldParams);

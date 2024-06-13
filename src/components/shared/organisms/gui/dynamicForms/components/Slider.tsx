@@ -48,9 +48,9 @@ export const createSlider = (params: ComponentGeneratorParams) => {
         valueLabelDisplay="auto"
         // getAriaValueText={valuetext}
         defaultValue={defaultValue}
-        max={rangeLimits.max | 10}
-        min={rangeLimits.min | 0}
-        step={rangeLimits.step | 2}
+        max={rangeLimits.max || 10}
+        min={rangeLimits.min || 0}
+        step={rangeLimits.step || 2}
       />
     </>
   );

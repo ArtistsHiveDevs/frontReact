@@ -12,9 +12,11 @@ export type ControlType =
   | 'radio'
   | 'switch'
   | 'range'
+  | 'interval'
   | 'url'
   | 'time'
   | 'date'
+  | 'dateInterval'
   | 'datetime'
   | 'month'
   | 'week'
@@ -28,6 +30,7 @@ export type ControlType =
 export interface SelectOption {
   label: string;
   value: string;
+  icon?: string;
   required?: boolean;
   selected?: boolean;
 }

@@ -23,14 +23,14 @@ export interface DynamicTabbedFormParams {
   tabsInfo: ProfileDetailsSubpage[];
   handlers: { onSubmit: Function; [handlerName: string]: Function };
   translationBasePath: string;
-  entityType: string;
+  entityType?: string;
   profileHeaderComponent?: any;
   elementData?: EntityModel<EntityTemplate>;
   fieldOptions?: { [fieldName: string]: any };
   externalData?: { [fieldName: string]: any };
 }
 export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
-  const { tabsInfo, elementData, handlers, translationBasePath, fieldOptions, externalData } = params;
+  const { tabsInfo, elementData, handlers, translationBasePath, fieldOptions, externalData, entityType } = params;
   const [relationshipsValues, setRelationshipsValues] = useState<{ [relationship: string]: any[] }>({});
 
   const { translateText } = useI18n();
@@ -257,7 +257,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       <FormProvider {...formMethods}>
         <div className="place-container">
           {/* {profileHeaderComponent || <ProfileHeader element={entityData} />} */}
-          <ProfileHeader element={elementData} formMethods={formMethods} />
+          {entityType && <ProfileHeader element={elementData} formMethods={formMethods} />}
           <TabbedPanel tabs={transformedConfig(tabsInfo, elementData)} />
         </div>
       </FormProvider>

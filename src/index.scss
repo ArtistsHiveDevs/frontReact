@@ -39,6 +39,8 @@
     0 8px 32px 0 var(--alpha-015);
 
   --with-shadow--alert: 0 24px 38px 0 var(--alpha-015);
+
+  --bs-card-bg: $app-background;
 }
 
 * {
@@ -91,4 +93,8 @@ select {
   align-items: center;
   width: 95%;
   min-height: 30rem;
+}
+
+.card {
+  background-color: $app-background !important;
 }

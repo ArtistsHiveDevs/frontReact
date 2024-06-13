@@ -2,6 +2,7 @@ import { Backdrop, Box, Chip, Fade, FormLabel, Modal, Stack } from '@mui/materia
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useI18n } from '~/common/utils';
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { ComponentGeneratorParams } from '../DynamicControl';
 import { DynamicFieldData } from '../dynamic-control-types';
 
@@ -84,6 +85,7 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
           <Chip
             key={`option-${fieldName}-${option.value}`}
             label={option.label}
+            icon={(option?.icon && <DynamicIcons iconName={option?.icon} />) || <></>}
             color="primary"
             variant={selectedOptions.find((selectedValue) => selectedValue === option.value) ? 'filled' : 'outlined'}
             onClick={() => handleClickInChip(option)}
@@ -123,6 +125,7 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
                   <Chip
                     key={`option-${fieldName}-${option.value}`}
                     label={option.label}
+                    icon={(option?.icon && <DynamicIcons iconName={option?.icon} />) || <></>}
                     color="primary"
                     variant={
                       selectedOptions.find((selectedValue) => selectedValue === option.value) ? 'filled' : 'outlined'

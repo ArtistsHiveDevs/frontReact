@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { lazy, useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import ScrollToTop from '~/components/shared/atoms/app/ScrollToTop';
 
@@ -63,6 +63,13 @@ const TourDetailsPage = lazy(() => import('~/components/Pages/domain/FavouritesP
 const SavedListPage = lazy(() => import('~/components/Pages/domain/FavouritesPages/SavedListPage/SavedListPage'));
 
 export const RoutesApp: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, []);
   return (
     <>
       <ScrollToTop />

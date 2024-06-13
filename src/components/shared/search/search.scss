@@ -36,6 +36,7 @@
   // border: $form-fields-border-color solid 2px !important;
 }
 .search-item {
+  width: 100%;
   background-color: $form-fields-background !important;
   border-bottom: $form-fields-separator solid 2px !important;
   border-right: $form-fields-border-color solid 2px !important;
@@ -54,7 +55,7 @@ a.search-item__link:hover {
 }
 
 .search-item-box {
-  width: 100%;
+  width: 100% !important;
   display: flex;
   flex-direction: column;
   justify-content: center;

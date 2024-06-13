@@ -14,8 +14,8 @@ import './index.scss';
 import { SIDENAV_MENU_CONFIG, SideMenuItem } from './sidenav.config';
 
 const TRANSLATION_BASE_SIDENAV = 'app.appbase.sidenav';
-// const LOGO_URL = 'https://npcarlos.co/artistsHive_mocks/logo.png';
-const LOGO_URL = 'https://npcarlos.co/artistsHive_mocks/logo5.png';
+const LOGO_URL = 'https://npcarlos.co/artistsHive_mocks/logo.png';
+// const LOGO_URL = 'https://npcarlos.co/artistsHive_mocks/logo7.png';
 
 const SideNav = () => {
   const { loggedUser, setLoggedUser } = useAuth();
@@ -64,10 +64,6 @@ const SideNav = () => {
     );
   };
 
-  let searchIcon = 'AiOutlineSearch';
-  if (openStatusSearchInputText) {
-    searchIcon = 'MdSearchOff';
-  }
   const handleResultOnClick = (element: SearchableTemplate) => {
     setOpenStatusSearchInputText(false);
     navigateToEntity({ entityType: element.constructor.name, id: element.id });
@@ -90,7 +86,8 @@ const SideNav = () => {
 
           <div className="nav-login-opt">
             <span onClick={showHideSearchField}>
-              <DynamicIcons iconName={searchIcon} size={30} />
+              {openStatusSearchInputText && <DynamicIcons iconName={'MdSearchOff'} size={32} />}
+              {!openStatusSearchInputText && <DynamicIcons iconName={'AiOutlineSearch'} size={32} />}
             </span>
             {loggedUser && (
               <ProfilePicture

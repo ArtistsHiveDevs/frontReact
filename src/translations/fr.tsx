@@ -811,6 +811,88 @@ export const FrMessages = {
             related_things: 'Parcourir les catégories pour trouver des éléments similaires',
           },
         },
+        filters: {
+          title: 'Filtres',
+          subpages: {
+            general: {
+              name: 'Général',
+              sections: {
+                general: {
+                  name: 'Général',
+                  attributes: {
+                    genres: 'Genres',
+                    cityWithCountry: 'Où?',
+                  },
+                },
+                dates: {
+                  name: 'Dates',
+                  attributes: {
+                    date: 'Quand?',
+                  },
+                },
+                languages: {
+                  name: 'Langues',
+                  attributes: {
+                    spoken_languages: 'Langues parlées',
+                    stage_languages: 'Langues de scène',
+                    arts_languages: 'Langues artistiques',
+                  },
+                },
+              },
+            },
+            artists: {
+              name: 'Artistes',
+              sections: {
+                general: {
+                  name: 'Général',
+                  attributes: {
+                    is_available_at: 'Disponible à?',
+                    has_albums: 'A des albums?',
+                    music_awards: 'Récompenses musicales',
+                  },
+                },
+                rating: {
+                  name: 'Évaluation',
+                  attributes: {
+                    overall: 'Global',
+                    talent: 'Talent',
+                    performance: 'Performance',
+                  },
+                },
+              },
+            },
+            places: {
+              name: 'Lieux',
+              sections: {
+                stage: {
+                  name: 'Scène',
+                  attributes: {
+                    stage_width: 'Largeur',
+                    stage_length: 'Longueur',
+                    stage_height: 'Hauteur',
+                  },
+                },
+                backline: {
+                  name: 'Backline',
+                  attributes: {
+                    mics: 'Micros',
+                  },
+                },
+              },
+            },
+            social_networks: {
+              name: 'Réseaux sociaux',
+              sections: {
+                presence: {
+                  name: 'Présence',
+                  attributes: {
+                    has_social_networks: 'Possède ces réseaux?',
+                  },
+                },
+              },
+            },
+          },
+        },
         not_found_results: 'Aucun résultat trouvé',
         recommendations: 'Recommandations',
         result_view_types: {

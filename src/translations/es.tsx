@@ -797,6 +797,88 @@ export const EsMessages = {
             related_things: 'Navega por las categorías para encontrar elementos similares',
           },
         },
+        filters: {
+          title: 'Filtros',
+          subpages: {
+            general: {
+              name: 'General',
+              sections: {
+                general: {
+                  name: 'General',
+                  attributes: {
+                    genres: 'Géneros',
+                    cityWithCountry: '¿Dónde?',
+                  },
+                },
+                dates: {
+                  name: 'Fechas',
+                  attributes: {
+                    date: '¿Cuándo?',
+                  },
+                },
+                languages: {
+                  name: 'Idiomas',
+                  attributes: {
+                    spoken_languages: 'Idiomas hablados',
+                    stage_languages: 'Idiomas de escenario',
+                    arts_languages: 'Idiomas artísticos',
+                  },
+                },
+              },
+            },
+            artists: {
+              name: 'Artistas',
+              sections: {
+                general: {
+                  name: 'General',
+                  attributes: {
+                    is_available_at: 'Disponible en',
+                    has_albums: '¿Tiene álbumes?',
+                    music_awards: 'Premios musicales',
+                  },
+                },
+                rating: {
+                  name: 'Valoración',
+                  attributes: {
+                    overall: 'En general',
+                    talent: 'Talento',
+                    performance: 'Rendimiento',
+                  },
+                },
+              },
+            },
+            places: {
+              name: 'Lugares',
+              sections: {
+                stage: {
+                  name: 'Escenario',
+                  attributes: {
+                    stage_width: 'Ancho',
+                    stage_length: 'Largo',
+                    stage_height: 'Alto',
+                  },
+                },
+                backline: {
+                  name: 'Backline',
+                  attributes: {
+                    mics: 'Micrófonos',
+                  },
+                },
+              },
+            },
+            social_networks: {
+              name: 'Redes Sociales',
+              sections: {
+                presence: {
+                  name: 'Presencia',
+                  attributes: {
+                    has_social_networks: '¿Tiene estas redes?',
+                  },
+                },
+              },
+            },
+          },
+        },
         not_found_results: 'No se encontraron resultados',
         recommendations: 'Recomendaciones',
         result_view_types: {

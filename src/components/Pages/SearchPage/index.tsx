@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './search.scss';
 
-import { Collapse, Form, Image, InputGroup, Modal } from 'react-bootstrap';
+import { Collapse, Form, Image, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchSlice } from '~/common/slices/search';
 import { selectSearch, selectSearchLoading } from '~/common/slices/search/selectors';
@@ -11,14 +11,32 @@ import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import MapContainer from '~/components/shared/mapPrinter/mapContainer';
 import { ResultElement } from '~/components/shared/search/result-element';
 import consts from '~/components/shared/search/search-constants';
-import { LocatableTemplate, SearchableTemplate } from '~/models/base';
+import { EntityModel, EntityTemplate, LocatableTemplate, SearchableTemplate } from '~/models/base';
 import { SearchModel } from '~/models/domain/search/search.model';
 
 import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
+import { SocialNetworks } from '~/constants/social-networks.const';
+import { SEARCH_FILTERS_CONFIG } from './config-search';
 
 const TRANSLATION_BASE_SEARCH = 'app.appbase.search';
+const TRANSLATION_BASE_FILTERS = `${TRANSLATION_BASE_SEARCH}.filters`;
 const MAX_RESULTS_PER_PAGE = 40;
+
+interface FilterTemplate extends EntityTemplate {
+  country: string;
+  city: string;
+  genres: string[];
+  has_social_networks: string[];
+}
+class FilterModel extends EntityModel<FilterTemplate> {
+  declare country: string;
+  declare city: string;
+  declare genres: string[];
+  declare has_social_networks: string[];
+}
 
 export default function SearchPage() {
   const { translateText, locale } = useI18n();
@@ -100,30 +118,165 @@ export default function SearchPage() {
     return emptyContent;
   };
 
-  const [showFiltersModal, setShowFiltersModal] = useState(false);
+  // =====================================================================================================================================================================
 
+  const [showFiltersModal, setShowFiltersModal] = useState(false);
+  const [filtersObject, setFiltersObject] = useState<FilterModel>(undefined);
+
+  const handleCloseFiltersModal = (params?: any) => setShowFiltersModal(false);
+
+  const [availableLanguages, updateAvailableLanguages] = useState([]);
+  const [availableGenres, updateAvailableGenres] = useState([]);
+  const [availableGenders, updateAvailableGenders] = useState([]);
+  const [availableSocialNetworks, updateAvailableSocialNetworks] = useState([]);
+  const [availableAllergies, updateAvailableAllergies] = useState([]);
+  const [availableBloodGroups, updateAvailableBloodGroups] = useState([]);
+  const [availableDietaryRestritions, updateAvailableDietaryRestrictions] = useState([]);
+  const [availableArtists, updateAvailableArtists] = useState([]);
+  const [availablePlaces, updateAvailablePlaces] = useState([]);
+
+  useEffect(() => {
+    console.log('showFiltersModal: ', showFiltersModal, filtersObject);
+  }, [showFiltersModal]);
+
+  useEffect(() => {
+    const langsOR = [
+      { label: 'ES', value: 'es', selected: false },
+      { label: 'DE', value: 'de' },
+      { label: 'FR', value: 'fr' },
+      { label: 'PT', value: 'pt' },
+    ];
+    let langs = [...langsOR];
+
+    Array(20)
+      .fill('x')
+      .forEach((valu, number) =>
+        langsOR.forEach((lng) =>
+          langs.push({
+            label: `${lng.label}${number}`,
+            value: `${lng.value}${number}`,
+            selected: Math.random() > 1 - 10 / 100,
+          })
+        )
+      );
+
+    updateAvailableLanguages(langs);
+    updateAvailableGenres([
+      { label: 'Cumbia', value: 'genre1' },
+      { label: 'Reggaetón', value: 'genre2' },
+      { label: 'Rock', value: 'genre3', selected: true },
+      { label: 'Jazz', value: 'genr4' },
+    ]);
+
+    //
+    const groupList = ['A', 'B', 'AB', 'O'];
+    const fullGroup = groupList.map((group) => {
+      return [`${group}+`, `${group}-`];
+    });
+    const defaultBloodGroup = 'O+';
+    // updateAvailableBloodGroups(
+    //   fullGroup.flat().map((group) => {
+    //     let bloodGroup: SelectOption = { label: group, value: group };
+    //     if (group === defaultBloodGroup) {
+    //       bloodGroup = { ...bloodGroup, selected: true };
+    //     }
+    //     return bloodGroup;
+    //   })
+    // );
+
+    updateAvailableAllergies([
+      { label: 'Polen', value: 'Polen' },
+      { label: 'Polvo', value: 'Polvo' },
+      { label: 'Leche', value: 'Leche' },
+      { label: 'Maní', value: 'Maní' },
+      { label: 'Gluten', value: 'Gluten' },
+      { label: 'Ibuprofeno', value: 'Ibuprofeno' },
+      { label: 'Perros', value: 'Perros' },
+      { label: 'Gatos', value: 'Gatos' },
+    ]);
+
+    updateAvailableGenders([
+      { label: 'Man', value: 'male' },
+      { label: 'Woman', value: 'female' },
+      { label: 'Non binary', value: 'non_binary' },
+      { label: 'Non specified', value: 'non_specified' },
+    ]);
+
+    updateAvailableDietaryRestrictions([
+      { label: 'None', value: 'none' },
+      { label: 'Vegetarian', value: 'vegetarian' },
+      { label: 'Vegan', value: 'vegan' },
+      { label: 'Celiac', value: 'celiac' },
+    ]);
+
+    updateAvailableSocialNetworks(
+      Object.keys(SocialNetworks)
+        .filter((socialNetworkKey) => !!SocialNetworks[socialNetworkKey].title)
+        .map((socialNetworkKey) => {
+          return {
+            icon: SocialNetworks[socialNetworkKey].icon,
+            label: SocialNetworks[socialNetworkKey].title,
+            value: socialNetworkKey,
+          };
+        })
+    );
+
+    // if (availableArtistsComplete.length === 0) {
+    //   dispatch(artistsActions.loadArtists());
+    // }
+    // if (availablePlacesComplete.length === 0) {
+    //   dispatch(placesActions.loadPlaces());
+    // }
+  }, []);
+
+  const handlers = {
+    onSubmit: (params?: any) => {
+      console.error(params);
+      const newFilters = { ...params };
+      setFiltersObject(newFilters);
+      console.warn('>>> ', newFilters);
+
+      setShowFiltersModal(false);
+    },
+  };
   const openModal = () => {
     return (
-      <Modal
-        show={showFiltersModal}
-        onHide={() => setShowFiltersModal(false)}
-        dialogClassName="modal-90w"
-        aria-labelledby="example-custom-modal-styling-title"
+      <Dialog
+        onClose={() => {
+          console.log('CERRAAAAAAAAARR--------');
+          handlers['onSubmit']();
+        }}
+        open={showFiltersModal}
+        fullWidth={true}
+        disableEscapeKeyDown={false}
+        keepMounted={true}
       >
-        <Modal.Header closeButton>
-          <Modal.Title id="example-custom-modal-styling-title">More filters</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h4>Arte</h4>
-          <p>Ipsum molestiae natus adipisci modi eligendi?.</p>
-          <h4>Género</h4>
-          <p>Ipsum molestiae natus adipisci modi eligendi?.</p>
-          <h4>Instrumentos</h4>
-          <p>Ipsum molestiae natus adipisci modi eligendi?.</p>
-          <h4>Ubicación</h4>
-          <p>Ipsum molestiae natus adipisci modi eligendi?.</p>
-        </Modal.Body>
-      </Modal>
+        <DialogTitle>{translateText(`${TRANSLATION_BASE_FILTERS}.title`)}</DialogTitle>
+        <DialogContent dividers={true}>
+          <DynamicTabbedForm
+            tabsInfo={SEARCH_FILTERS_CONFIG}
+            handlers={handlers}
+            translationBasePath={TRANSLATION_BASE_FILTERS}
+            fieldOptions={{
+              gender: availableGenders,
+              genres: availableGenres,
+              user_language: availableLanguages,
+              spoken_languages: availableLanguages,
+              stage_languages: availableLanguages,
+              art_languages: availableLanguages,
+              has_social_networks: availableSocialNetworks,
+            }}
+            elementData={filtersObject}
+            externalData={{}}
+          />
+        </DialogContent>
+        {/* <DialogActions>
+          <Button onClick={handleCloseFiltersModal}>Disagree</Button>
+          <Button onClick={handleCloseFiltersModal} autoFocus>
+            Agree
+          </Button>
+        </DialogActions> */}
+      </Dialog>
     );
   };
 

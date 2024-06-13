@@ -790,6 +790,88 @@ export const EnMessages = {
             related_things: 'Browse categories to find similar elements',
           },
         },
+        filters: {
+          title: 'Filters',
+          subpages: {
+            general: {
+              name: 'General',
+              sections: {
+                general: {
+                  name: 'General',
+                  attributes: {
+                    genres: 'Genres',
+                    cityWithCountry: 'Where?',
+                  },
+                },
+                dates: {
+                  name: 'Dates',
+                  attributes: {
+                    date: 'When?',
+                  },
+                },
+                languages: {
+                  name: 'Languages',
+                  attributes: {
+                    spoken_languages: 'Spoken Languages',
+                    stage_languages: 'Stage Languages',
+                    arts_languages: 'Arts Languages',
+                  },
+                },
+              },
+            },
+            artists: {
+              name: 'Artists',
+              sections: {
+                general: {
+                  name: 'General',
+                  attributes: {
+                    is_available_at: 'Is available at?',
+                    has_albums: 'Has albums?',
+                    music_awards: 'Music Awards',
+                  },
+                },
+                rating: {
+                  name: 'Rating',
+                  attributes: {
+                    overall: 'Overall',
+                    talent: 'Talent',
+                    performance: 'Performance',
+                  },
+                },
+              },
+            },
+            places: {
+              name: 'Places',
+              sections: {
+                stage: {
+                  name: 'Stage',
+                  attributes: {
+                    stage_width: 'Width',
+                    stage_length: 'Length',
+                    stage_height: 'Height',
+                  },
+                },
+                backline: {
+                  name: 'Backline',
+                  attributes: {
+                    mics: 'Mics',
+                  },
+                },
+              },
+            },
+            social_networks: {
+              name: 'Social Networks',
+              sections: {
+                presence: {
+                  name: 'Presence',
+                  attributes: {
+                    has_social_networks: 'Has these networks?',
+                  },
+                },
+              },
+            },
+          },
+        },
         not_found_results: 'No results found',
         recommendations: 'Recommendations',
         result_view_types: {

@@ -1,5 +1,9 @@
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SocialNetworks } from '~/constants/social-networks.const';
+export enum I18nPaths {
+  TRANSLATION_GLOBAL_DICTIONARY = 'app.global_dictionary',
+  TRANSLATION_GLOBAL_DICTIONARY_ACTIONS = 'app.global_dictionary.actions',
+}
 
 export const useI18n = () => {
   let { locale, formatMessage } = useIntl();

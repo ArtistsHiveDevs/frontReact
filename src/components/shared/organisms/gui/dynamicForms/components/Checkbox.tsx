@@ -3,147 +3,113 @@ import { useEffect, useState } from 'react';
 import { ComponentGeneratorParams } from '../DynamicControl';
 
 export const createCheckbox = (params: ComponentGeneratorParams) => {
-  const [mainFieldChecked, setMainFieldChecked] = useState(false);
-  const [optionsChecked, setOptionsChecked] = useState([]);
+  const { register, errors, fieldData } = params;
+  const { label, fieldName, options = [], config = {}, componentParams = {} } = fieldData;
 
-  const [mainFieldAllSame, setMainFieldAllSame] = useState(false);
+  const { labelAsCheck } = componentParams;
 
-  const { errors, register, watch, fieldData } = params;
-  const { label, fieldName, options = [], config, componentParams } = fieldData;
+  const labelAsSingleOption = labelAsCheck === undefined && !!label && options.length === 0;
 
-  const required = config?.required || false;
-  const { labelAsCheck } = componentParams || {};
+  const [mainFieldChecked, setMainFieldChecked] = useState<boolean>(false);
+  const [optionsChecked, setOptionsChecked] = useState<boolean[]>(new Array(options.length).fill(false));
+  const [indeterminate, setIndeterminate] = useState(false);
 
-  const values = options.map((option) => option.value);
-  useEffect(() => {
-    setOptionsChecked(new Array(values.length).fill(false));
-  }, []);
+  const required = config.required === true || config.required === 'true';
 
-  // useEffect(() => {
-  //   const subscription = watch((value, { name, type }) => {
-  //     // const optionsValues = Object.keys(value).filter((option) =>
-  //     //   values.find((optionV) => optionV === option)
-  //     // );
+  const handleMainFieldChange = () => {
+    const newMainFieldChecked = !mainFieldChecked;
+    const newOptionsChecked = new Array(options.length).fill(newMainFieldChecked);
+    setMainFieldChecked(newMainFieldChecked);
 
-  //     const allChecked = optionsChecked.every((optionValue) => !!optionValue);
-
-  //     // setMainFieldChecked(allChecked);
-
-  //     const allSame = optionsChecked.every(
-  //       (optionValue, index, array) => optionValue === array[0]
-  //     );
-
-  //     setMainFieldAllSame(allSame);
-  //     console.log(
-  //       "###  ",
-  //       // optionsValues.map((key) => `${key} - ${value[key]}`),
-  //       "ALL [",
-  //       allChecked,
-  //       mainFieldChecked,
-  //       "ALL-same",
-  //       allSame,
-  //       mainFieldAllSame
-  //     );
-  //     console.log(
-  //       "*******************    ",
-  //       mainFieldChecked,
-  //       mainFieldAllSame
-  //     );
-  //   });
-  //   return () => subscription.unsubscribe();
-  // }, [watch]);
-
-  const mainFieldChanged = (event: any, checked: boolean) => {
-    setMainFieldChecked(checked);
-    setOptionsChecked(new Array(values.length).fill(checked));
-    console.log(checked, optionsChecked);
+    updateOptionsState(newOptionsChecked);
   };
 
-  const optionsChanged = (index: number, event: any, checked: boolean) => {
-    const newOptions = [...optionsChecked];
-    newOptions[index] = !newOptions[index];
-    setOptionsChecked(newOptions);
+  const handleOptionChange = (index: number) => {
+    const newOptionsChecked = [...optionsChecked];
+    newOptionsChecked[index] = !newOptionsChecked[index];
+    updateOptionsState(newOptionsChecked);
   };
 
-  config.setValueAs = (value: string | null): boolean | null => {
-    if (value === 'true') {
-      return true;
-    } else if (value === 'false') {
-      return false;
-    } else if (value === null) {
-      // Sometimes the radio group can be optional, allow this case
-      return null;
-    } else {
-      throw new Error(
-        `this radio group is supposed to only manage string boolean values ("true", "false"), or can optionally be null.`
-      );
+  const updateOptionsState = (newOptionsChecked: boolean[]) => {
+    if (options.length > 0) {
+      setOptionsChecked(newOptionsChecked);
+
+      const allChecked = newOptionsChecked.every((checked) => checked);
+      const noneChecked = newOptionsChecked.every((checked) => !checked);
+
+      setIndeterminate(!allChecked && !noneChecked);
+      if (allChecked) {
+        setMainFieldChecked(true);
+      } else if (noneChecked) {
+        setMainFieldChecked(false);
+      }
+
+      options.forEach((option, index) => register(`${fieldName}_${option.label}`, { value: newOptionsChecked[index] }));
     }
   };
 
-  return (
-    <>
-      <FormGroup>
-        {!!label && (
-          <>
-            {!required && options.length > 0 && (
-              <FormLabel
-                required={required === true || required === 'true'}
-                error={!!Object.keys(errors || {}).find((key) => key === fieldName)}
-              >
-                {label}
-              </FormLabel>
-            )}
-            {(required || labelAsCheck) && (
-              <FormControlLabel
-                // error={
-                //   !!Object.keys(errors || {}).find((key) => key === fieldName)
-                //     ? "true"
-                //     : undefined
-                // }
+  useEffect(() => {
+    register(fieldName, { value: indeterminate ? false : mainFieldChecked });
+  }, [mainFieldChecked]);
 
-                control={
-                  <Checkbox
-                    {...register(fieldName, config)}
-                    // checked={mainFieldChecked}
-                    // checked={mainFieldChecked}
-                    indeterminate={!required && !mainFieldChecked && !mainFieldAllSame}
-                    // value={mainFieldChecked}
-                    // onChange={mainFieldChanged}
-                  />
-                }
+  useEffect(() => {
+    setMainFieldChecked(!indeterminate ? mainFieldChecked : false);
+  }, [indeterminate]);
+
+  return (
+    <FormGroup>
+      {label && (
+        <>
+          {labelAsSingleOption ? (
+            <>
+              <FormControlLabel
+                control={<Checkbox checked={mainFieldChecked} onChange={handleMainFieldChange} />}
                 label={
-                  <FormLabel
-                    required={required === true || required === 'true'}
-                    error={!!Object.keys(errors || {}).find((key) => key === fieldName)}
-                  >
+                  <FormLabel required={required} onClick={handleMainFieldChange}>
                     {label}
                   </FormLabel>
                 }
               />
-            )}
-          </>
-        )}
-        {!!options && !!options.length && (
-          <div style={labelAsCheck ? { paddingLeft: '1rem' } : {}}>
-            {options.map((option, index) => {
-              return (
-                <FormControlLabel
-                  key={`${fieldName}-check-${index}`}
-                  control={<Checkbox {...register(option.value, config)} />}
-                  label={
-                    <FormLabel
-                      required={required === true || required === 'true'}
-                      error={!!Object.keys(errors || {}).find((key) => key === option.value)}
-                    >
-                      {option.label}
-                    </FormLabel>
-                  }
-                />
-              );
-            })}
-          </div>
-        )}
-      </FormGroup>
-    </>
+            </>
+          ) : (
+            <>
+              {options.length > 0 &&
+                ((labelAsCheck && (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={mainFieldChecked}
+                        indeterminate={indeterminate}
+                        onChange={handleMainFieldChange}
+                      />
+                    }
+                    label={
+                      <FormLabel required={required} onClick={handleMainFieldChange}>
+                        {label}
+                      </FormLabel>
+                    }
+                  />
+                )) ||
+                  (!labelAsCheck && <FormLabel required={required}>{label}</FormLabel>))}
+            </>
+          )}
+        </>
+      )}
+      {options.length > 0 && (
+        <div style={{ paddingLeft: labelAsSingleOption ? '1rem' : 0 }}>
+          {options.map((option, index) => (
+            <FormControlLabel
+              key={`${fieldName}-check-${index}`}
+              control={<Checkbox checked={optionsChecked[index]} onChange={() => handleOptionChange(index)} />}
+              label={
+                <FormLabel required={required} onClick={() => handleOptionChange(index)}>
+                  {option.label}
+                </FormLabel>
+              }
+            />
+          ))}
+        </div>
+      )}
+    </FormGroup>
   );
 };

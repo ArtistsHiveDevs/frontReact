@@ -1,7 +1,7 @@
 import { Button, Stack } from '@mui/material';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { useI18n } from '~/common/utils';
+import { I18nPaths, useI18n } from '~/common/utils';
 import { DynamicControl } from './DynamicControl';
 import { DynamicFieldData } from './dynamic-control-types';
 import './dynamic-form.scss';
@@ -11,12 +11,11 @@ interface FormProps {
   handlers: { onSubmit: Function; [handlerName: string]: Function };
   translationBasePath: string;
   entityType: string;
+  submitLabel?: string;
 }
 
-const TRANSLATION_GLOBAL_DICTIONARY = 'app.global_dictionary';
-
 export const DynamicForm = (props: FormProps) => {
-  const { fields, handlers } = props;
+  const { fields, handlers, submitLabel } = props;
   const formMethods = useForm();
   const { translateText } = useI18n();
   const {
@@ -36,7 +35,7 @@ export const DynamicForm = (props: FormProps) => {
             </div>
           ))}
           <Button type="submit" variant="contained">
-            {translateText(`${TRANSLATION_GLOBAL_DICTIONARY}.actions.submit`)}
+            {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.${submitLabel || 'submit'}`)}
           </Button>
         </Stack>
       </FormProvider>

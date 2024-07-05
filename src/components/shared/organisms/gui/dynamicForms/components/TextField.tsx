@@ -208,3 +208,58 @@ export const createAddressTextField = (params: ComponentGeneratorParams) => {
     </div>
   );
 };
+
+// ===========================================================================================================
+// import React, { useEffect, useState } from 'react';
+// import { IconButton, InputAdornment, TextField } from '@mui/material';
+// import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
+
+// export const createTextField = ({ register, fieldData, errors }: ComponentGeneratorParams) => {
+//   const { label, inputType, fieldName, defaultValue, placeholder = '', config = {}, componentParams = {}, focused = false } = fieldData;
+
+//   // State para manejar el valor actual del input
+//   const [currentValue, setCurrentValue] = useState(defaultValue || '');
+
+//   // Manejar cambios en defaultValue usando useEffect
+//   useEffect(() => {
+//     setCurrentValue(defaultValue || '');
+//   }, [defaultValue]);
+
+//   // Manejar visibilidad de contraseña si es inputType === 'password'
+//   const [showPassword, setShowPassword] = useState(false);
+//   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+
+//   // Configurar adornos del input
+//   const inputProps = {
+//     startAdornment: componentParams?.startAdornment,
+//     endAdornment: componentParams?.endAdornment || (
+//       inputType === 'password' && (
+//         <InputAdornment position="end">
+//           <IconButton aria-label="toggle password visibility" onClick={togglePasswordVisibility} edge="end">
+//             {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
+//           </IconButton>
+//         </InputAdornment>
+//       )
+//     ),
+//   };
+
+//   // Configurar props del TextField
+//   const textFieldProps = {
+//     required: !!config.required,
+//     label: label || '',
+//     type: showPassword ? 'text' : inputType,
+//     ...register(fieldName, config), // Registrar con react-hook-form
+//     value: currentValue,
+//     placeholder,
+//     error: !!errors[fieldName],
+//     helperText: errors[fieldName]?.message?.toString(),
+//     InputProps: inputProps,
+//     onBlur: () => {}, // Función de onBlur
+//     onChange: (e: React.ChangeEvent<HTMLInputElement>) => setCurrentValue(e.target.value), // Manejar cambio de valor
+//     focused,
+//     variant: componentParams?.variant || 'outlined',
+//     fullWidth: true,
+//   };
+
+//   return <TextField {...textFieldProps} />;
+// };

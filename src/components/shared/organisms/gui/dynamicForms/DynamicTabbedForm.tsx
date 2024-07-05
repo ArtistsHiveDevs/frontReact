@@ -1,7 +1,7 @@
 import { Button, Stack } from '@mui/material';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useI18n } from '~/common/utils';
+import { I18nPaths, useI18n } from '~/common/utils';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
@@ -17,8 +17,6 @@ import {
 import { DynamicControl } from './DynamicControl';
 import { ControlType, DynamicFieldData, SelectOption } from './dynamic-control-types';
 
-const TRANSLATION_GLOBAL_DICTIONARY = 'app.global_dictionary';
-
 export interface DynamicTabbedFormParams {
   tabsInfo: ProfileDetailsSubpage[];
   handlers: { onSubmit: Function; [handlerName: string]: Function };
@@ -28,9 +26,12 @@ export interface DynamicTabbedFormParams {
   elementData?: EntityModel<EntityTemplate>;
   fieldOptions?: { [fieldName: string]: any };
   externalData?: { [fieldName: string]: any };
+  submitLabel?: string;
 }
 export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
-  const { tabsInfo, elementData, handlers, translationBasePath, fieldOptions, externalData, entityType } = params;
+  const { tabsInfo, elementData, handlers, translationBasePath, fieldOptions, externalData, entityType, submitLabel } =
+    params;
+
   const [relationshipsValues, setRelationshipsValues] = useState<{ [relationship: string]: any[] }>({});
 
   const { translateText } = useI18n();
@@ -262,7 +263,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
         </div>
       </FormProvider>
       <Button type="submit" variant="contained" fullWidth>
-        {translateText(`${TRANSLATION_GLOBAL_DICTIONARY}.actions.submit`)}
+        {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.${submitLabel || 'submit'}`)}
       </Button>
     </form>
   );

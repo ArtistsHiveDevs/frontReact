@@ -6,6 +6,7 @@ export enum UserErrorType {
 
 export interface UserState {
   users: AppUserModel[] | [];
+  currentUser: AppUserModel;
   loading: boolean;
   error: UserErrorType | null;
 }

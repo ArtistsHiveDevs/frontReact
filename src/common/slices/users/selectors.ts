@@ -12,3 +12,5 @@ export const selectLoading = createSelector([selectDomain], (UserState) => UserS
 export const selectError = createSelector([selectDomain], (UserState) => UserState.error);
 
 export const selectUsers = createSelector([selectDomain], (UserState) => UserState.users);
+
+export const selectCurrentUser = createSelector([selectDomain], (UserState) => UserState.currentUser);

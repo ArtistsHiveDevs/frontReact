@@ -1,22 +1,52 @@
-import { call, delay, put, takeLatest } from 'redux-saga/effects';
+import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 
 import { request } from '~/common/utils/request';
-import { AppUserModel } from '~/models/app/user/user.model';
+import { AppUserTemplate } from '~/models/app/user/user.model';
 
-import { usersActions as actions } from '.';
+import { LocalStorageVariables } from '~/constants/localstorage';
+import { usersActions } from '.';
+import { actions as apiKeyActions } from '../app-base/APIKey';
+import { selectApiKey } from '../app-base/APIKey/selectors';
 
 export function* getUsers() {
   yield delay(500);
 
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users`;
 
   try {
-    const users: AppUserModel[] = yield call(request, requestURL);
+    const users: AppUserTemplate[] = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
 
-    yield put(actions.userLoaded(users));
+    yield put(usersActions.userLoaded(users));
   } catch (err) {
     console.log(err);
   }
+}
+
+export function* getCurrentUserInfo() {
+  yield delay(500);
+
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/me`;
+
+  try {
+    const currentUser: AppUserTemplate = yield call(request, requestURL, {
+      headers: { 'x-api-key': authInfo?.apiKey },
+    });
+
+    yield put(usersActions.currentUserLoaded(currentUser));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export function* logout() {
+  yield delay(500);
+  localStorage.removeItem(LocalStorageVariables.TOKEN_API_KEY);
+  yield put(usersActions.currentUserLoaded(null));
+  yield put(apiKeyActions.loadApiKey({}));
 }
 
 /**
@@ -27,5 +57,7 @@ export function* userSaga() {
   // By using `takeLatest` only the result of the latest API call is applied.
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
-  yield takeLatest(actions.loadUsers.type, getUsers);
+  yield takeLatest(usersActions.loadUsers.type, getUsers);
+  yield takeLatest(usersActions.loadCurrentUser.type, getCurrentUserInfo);
+  yield takeLatest(usersActions.logout.type, logout);
 }

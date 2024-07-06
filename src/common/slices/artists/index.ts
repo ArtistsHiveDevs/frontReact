@@ -13,6 +13,8 @@ export const artistsInitialState: ArtistState = {
   error: null,
   artistsQueryParams: '',
   queriedArtists: [],
+  queriedId: '',
+  detailedArtists: {},
 };
 
 const slice = createSlice({
@@ -40,6 +42,23 @@ const slice = createSlice({
       const artistsQuery = action.payload.map((template) => new ArtistModel(template));
 
       state.queriedArtists = artistsQuery;
+      state.loading = false;
+    },
+    getArtistById(state, action: PayloadAction<string>) {
+      state.loading = true;
+      state.error = null;
+      state.queriedId = action?.payload;
+    },
+    artistByIdLoaded(state, action: PayloadAction<ArtistModel>) {
+      const foundArtist = new ArtistModel(action.payload);
+
+      state.detailedArtists[foundArtist.id] = foundArtist;
+      const previousIndex = state.artists.findIndex((artist) => artist.id === foundArtist.id);
+      if (previousIndex >= 0) {
+        state.artists[previousIndex] = foundArtist;
+      } else {
+        state.artists = [...state.artists, foundArtist];
+      }
       state.loading = false;
     },
     repoError(state, action: PayloadAction<ArtistErrorType>) {

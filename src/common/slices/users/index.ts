@@ -2,13 +2,14 @@ import { PayloadAction } from '@reduxjs/toolkit';
 
 import { createSlice } from '~/common/utils/@reduxjs/toolkit';
 import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
-import { AppUserModel } from '~/models/app/user/user.model';
+import { AppUserModel, AppUserTemplate, UNLOGGED_USER } from '~/models/app/user/user.model';
 
 import { userSaga } from './saga';
 import { UserErrorType, UserState } from './types';
 
 export const usersInitialState: UserState = {
   users: [],
+  currentUser: undefined,
   loading: false,
   error: null,
 };
@@ -22,15 +23,27 @@ const slice = createSlice({
       state.error = null;
       state.users = [];
     },
-    userLoaded(state, action: PayloadAction<AppUserModel[]>) {
+    userLoaded(state, action: PayloadAction<AppUserTemplate[]>) {
       const users = action.payload.map((template) => new AppUserModel(template));
 
       state.users = users;
       state.loading = false;
     },
+    loadCurrentUser(state) {
+      state.loading = true;
+      state.error = null;
+      state.currentUser = UNLOGGED_USER;
+    },
+    currentUserLoaded(state, action: PayloadAction<AppUserTemplate>) {
+      state.currentUser = action?.payload ? new AppUserModel(action.payload) : UNLOGGED_USER;
+      state.loading = false;
+    },
     repoError(state, action: PayloadAction<UserErrorType>) {
       state.error = action.payload;
       state.loading = false;
+    },
+    logout(state) {
+      state = usersInitialState;
     },
   },
 });

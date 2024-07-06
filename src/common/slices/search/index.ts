@@ -4,6 +4,7 @@ import { createSlice } from '~/common/utils/@reduxjs/toolkit';
 import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
 import { SearchModel } from '~/models/domain/search/search.model';
 
+import { logEvent } from '~/common/utils/analytics/analytics';
 import { searchSaga } from './saga';
 import { SearchErrorType, SearchState } from './types';
 
@@ -23,6 +24,10 @@ const slice = createSlice({
       state.error = null;
       state.search = null;
       state.searchQueryParam = action?.payload;
+
+      if (action?.payload?.length >= 3) {
+        logEvent('search', 'Search', `Search term: ${action?.payload}`);
+      }
     },
     searchQueried(state, action: PayloadAction<SearchModel>) {
       state.search = new SearchModel(action.payload);

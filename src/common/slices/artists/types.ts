@@ -10,4 +10,6 @@ export interface ArtistState {
   error: ArtistErrorType | null;
   artistsQueryParams?: string;
   queriedArtists?: ArtistModel[] | [];
+  queriedId?: string;
+  detailedArtists?: { [artistId: string]: ArtistModel };
 }

@@ -6,19 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Euphoria+Script&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Ms+Madi&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Euphoria+Script&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Ms+Madi&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
     <title>Artist Hive</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script type="module">
+      // Configurar algo usando la variable de entorno antes de cargar la aplicación
+      const e = import.meta.env.PROD;
+      if (e) {
+        const ga_code = import.meta.env.VITE_GA_CODE;
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        window.gtag = gtag;
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga_code;
+        script.onload = function () {
+          gtag('js', new Date());
+          gtag('config', ga_code);
+        };
+        script.onerror = function () {
+          console.error('Error al cargar Google Tag Manager');
+        };
+        document.head.appendChild(script);
+      } else {
+        console.log('Modo de desarrollo - No se carga Google Tag Manager');
+      }
+    </script>
+
+    <script></script>
   </head>
   <body>
     <div id="root"></div>

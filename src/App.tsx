@@ -1,6 +1,6 @@
 // vendor
 
-import { Suspense, useContext, useState } from 'react';
+import { Suspense, useContext, useEffect, useState } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { IntlProvider } from 'react-intl';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -22,9 +22,14 @@ import { AuthProvider, HvAppContext, HvAppContextProvider } from './common';
 import { deDE, enUS, esES, frFR, itIT, ptBR } from '@mui/x-date-pickers';
 
 import { ThemeProvider, createTheme } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppFooter } from '~/components/shared/organisms/app/Footer/AppFooter';
 import SideNav from '~/components/shared/sidenav';
 import { RoutesApp } from '~/routes';
+import { useApiKeySlice } from './common/slices/app-base/APIKey';
+import { getStoredUserIdToken } from './common/slices/app-base/APIKey/saga';
+import { selectApiKey } from './common/slices/app-base/APIKey/selectors';
+import { initGA } from './common/utils/analytics/analytics';
 
 const App = () => {
   let { lang, messages, setLocale: setLang } = useContext(HvAppContext);
@@ -41,6 +46,25 @@ const App = () => {
       mode: 'dark',
     },
   });
+
+  if (import.meta.env.PROD) {
+    const trackingID = import.meta.env.VITE_GA_CODE; // Reemplaza con tu ID de seguimiento de Google Analytics
+    initGA(trackingID);
+  }
+
+  const dispatch = useDispatch();
+  const { actions: apiKeyActions } = useApiKeySlice();
+
+  const apiKeyInfo = useSelector(selectApiKey);
+
+  useEffect(() => {
+    if (!apiKeyInfo?.apiKey) {
+      const existingSessionID = getStoredUserIdToken();
+      if (existingSessionID) {
+        dispatch(apiKeyActions.loadApiKey({ userId: existingSessionID }));
+      }
+    }
+  }, []);
 
   return (
     <ThemeProvider theme={darkTheme}>

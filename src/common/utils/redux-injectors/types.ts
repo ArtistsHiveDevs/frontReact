@@ -2,6 +2,7 @@
 import { SagaInjectionModes } from '@nixjs23n6/redux-injectors';
 import { AnyAction, Reducer } from '@reduxjs/toolkit';
 import { Saga } from 'redux-saga';
+import { ApiKeyState } from '~/common/slices/app-base/APIKey/types';
 import { IndustryOfferState } from '~/common/slices/app-base/IndustryOffer/types';
 import { PrivacyPolicyState } from '~/common/slices/app-base/policies/PrivacyPolicy/types';
 
@@ -19,6 +20,7 @@ import { UserState } from '~/common/slices/users/types';
 
 export interface RootState {
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
+  ApiKeyReducer?: ApiKeyState;
   AcademiesReducer?: AcademyState;
   ArtistsReducer?: ArtistState;
   RidersReducer?: RiderState;

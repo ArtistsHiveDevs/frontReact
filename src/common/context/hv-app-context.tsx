@@ -2,19 +2,22 @@ import { createContext, useEffect } from 'react';
 
 import { appMessages } from '~/translations';
 
+import { LocalStorageVariables } from '~/constants/localstorage';
 import { IHvAppContext, IHvAppContextProvider } from './models/hv-app-context.model';
 
 const DEFAULT_LANG_BY_ENV = import.meta.env.VITE_DEFAULT_LANGUAGE;
 
 const defaultLang = () => {
-  return localStorage?.currentLang || navigator.language || DEFAULT_LANG_BY_ENV || 'en';
+  return (
+    localStorage?.getItem(LocalStorageVariables.CURRENT_LANGUAGE) || navigator.language || DEFAULT_LANG_BY_ENV || 'en'
+  );
 };
 
 export const HvAppContext = createContext<IHvAppContext>({
   lang: defaultLang(),
   messages: appMessages[getAvailableLang(defaultLang()) as keyof typeof appMessages],
   setLocale: (newLang: string) => {
-    localStorage.currentLang = getAvailableLang(newLang);
+    localStorage.setItem(LocalStorageVariables.CURRENT_LANGUAGE, getAvailableLang(newLang));
   },
 });
 
@@ -41,7 +44,7 @@ function getAvailableLang(lang: string) {
 
 export const HvAppContextProvider = ({ children, appMessages, setLang, lang }: IHvAppContextProvider) => {
   function onSetLang(nextLang: string) {
-    localStorage.currentLang = nextLang;
+    localStorage.setItem(LocalStorageVariables.CURRENT_LANGUAGE, nextLang);
     setLang({ lang: nextLang, messages: appMessages[nextLang] });
   }
 
@@ -49,7 +52,7 @@ export const HvAppContextProvider = ({ children, appMessages, setLang, lang }: I
     if (!lang) {
       const nextLang = defaultLang();
 
-      localStorage.currentLang = nextLang;
+      localStorage.setItem(LocalStorageVariables.CURRENT_LANGUAGE, nextLang);
       setLang({ lang: nextLang, messages: appMessages[nextLang] });
     }
   }, [lang]);

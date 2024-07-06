@@ -10,6 +10,7 @@ export interface SocialNetworkTemplate {
   useSimpleWidget?: boolean;
   widget?: any;
   usernamePattern?: RegExp;
+  loginWidget?: any;
 }
 
 export const SocialNetworks: {
@@ -17,6 +18,12 @@ export const SocialNetworks: {
 } = {
   address: {
     icon: 'FaMapMarkerAlt',
+  },
+
+  apple: {
+    icon: 'BsApple',
+    title: 'Apple',
+    loginWidget: true,
   },
   appleMusic: {
     url: 'https://music.apple.com',
@@ -50,6 +57,12 @@ export const SocialNetworks: {
     emptyTitle: true,
     title: 'Facebook',
     usernamePattern: /^(?<=^|[^\/])([A-Za-z0-9_.]{2,24})$/,
+    loginWidget: true,
+  },
+  google: {
+    icon: 'BsGoogle',
+    title: 'Google',
+    loginWidget: true,
   },
   instagram: {
     url: 'https://www.instagram.com',
@@ -57,6 +70,7 @@ export const SocialNetworks: {
     user_prefix: '@',
     emptyTitle: true,
     title: 'Instagram',
+    loginWidget: true,
   },
   linkedin: {
     url: 'https://www.linkedin.com',
@@ -64,6 +78,7 @@ export const SocialNetworks: {
     user_prefix: '',
     emptyTitle: true,
     title: 'LinkedIn',
+    loginWidget: true,
   },
   mobile_phone: {
     url: 'tel',
@@ -126,6 +141,7 @@ export const SocialNetworks: {
         )
       );
     },
+    loginWidget: true,
   },
   threads: {
     url: 'https://www.threads.net',
@@ -164,6 +180,7 @@ export const SocialNetworks: {
     icon: 'TbWorld',
     emptyTitle: true,
     title: 'Web',
+    usernamePattern: /^((https?:\/\/)?(www\.)?|[a-zA-Z0-9\-\.]+)\.[a-zA-Z]{2,}(:[0-9]{1,5})?(\/\S*)?$/,
   },
   whatsapp: {
     url: 'https://wa.me',
@@ -223,8 +240,8 @@ export function buildSocialNetworkLinkData(socialNetworkName: string, mainValue:
 
 export const ARTISTS_HIVE_SOCIAL_NETWORKS = {
   facebook: 'artistshive',
-  instagram: 'artistshive',
-  tiktok: 'artistshive',
+  instagram: 'artist_hive_',
+  tiktok: 'artist.hive',
   twitch: 'artistshive',
   twitter: 'artistshivecom',
   youtube: 'ArtistsHive',

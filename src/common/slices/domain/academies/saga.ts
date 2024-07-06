@@ -1,19 +1,22 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { call, delay, put, takeLatest } from 'redux-saga/effects';
+import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 
 import { request } from '~/common/utils/request';
 import { AcademyModel } from '~/models/domain/academy/academy.model';
 
 import { academiesActions as actions } from '.';
+import { selectApiKey } from '../../app-base/APIKey/selectors';
 
 export function* getAcademies() {
   yield delay(500);
-  let queryParams = ''; //`f=events,events.main_artist,events.guest_artist`;
 
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
+  let queryParams = ''; //`f=events,events.main_artist,events.guest_artist`;
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/academies?${queryParams}`;
 
   try {
-    const academies: AcademyModel[] = yield call(request, requestURL);
+    const academies: AcademyModel[] = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
 
     yield put(actions.academiesLoaded(academies));
   } catch (err) {
@@ -24,12 +27,14 @@ export function* getAcademies() {
 export function* getQueriedAcademies(actionParams?: PayloadAction<string>) {
   yield delay(500);
 
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
   const { payload } = actionParams;
 
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/academies?q=${payload}`;
 
   try {
-    const academies: AcademyModel[] = yield call(request, requestURL);
+    const academies: AcademyModel[] = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
 
     yield put(actions.queriedAcademies(academies));
   } catch (err) {

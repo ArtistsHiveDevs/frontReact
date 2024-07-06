@@ -8,12 +8,14 @@ import { ridersActions as actions } from '.';
 
 export function* getRiders() {
   yield delay(500);
+
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
   let queryParams = `f=events,events.main_artist,events.guest_artist`;
 
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/riders?${queryParams}`;
 
   try {
-    const riders: ArtistRiderModel[] = yield call(request, requestURL);
+    const riders: ArtistRiderModel[] = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
 
     yield put(actions.ridersLoaded(riders));
   } catch (err) {
@@ -24,12 +26,14 @@ export function* getRiders() {
 export function* getQueriedRiders(actionParams?: PayloadAction<string>) {
   yield delay(500);
 
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
   const { payload } = actionParams;
 
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/riders?q=${payload}`;
 
   try {
-    const riders: ArtistRiderModel[] = yield call(request, requestURL);
+    const riders: ArtistRiderModel[] = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
 
     yield put(actions.queriedRiders(riders));
   } catch (err) {

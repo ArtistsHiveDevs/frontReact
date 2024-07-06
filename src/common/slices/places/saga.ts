@@ -1,19 +1,22 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { call, put, takeLatest, delay } from 'redux-saga/effects';
+import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 
 import { request } from '~/common/utils/request';
 import { PlaceModel } from '~/models/domain/place/place.model';
 
 import { placesActions as actions } from '.';
+import { selectApiKey } from '../app-base/APIKey/selectors';
 
 export function* getPlaces() {
   yield delay(500);
+
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
   let queryParams = `f=events,events.main_artist,events.guest_artist`;
 
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/places?${queryParams}`;
 
   try {
-    const places: PlaceModel[] = yield call(request, requestURL);
+    const places: PlaceModel[] = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
 
     yield put(actions.placesLoaded(places));
   } catch (err) {
@@ -24,12 +27,14 @@ export function* getPlaces() {
 export function* getQueriedPlaces(actionParams?: PayloadAction<string>) {
   yield delay(500);
 
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
   const { payload } = actionParams;
 
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/places?q=${payload}`;
 
   try {
-    const places: PlaceModel[] = yield call(request, requestURL);
+    const places: PlaceModel[] = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
 
     yield put(actions.queriedPlaces(places));
   } catch (err) {

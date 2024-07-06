@@ -1,18 +1,20 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { call, put, takeLatest, delay } from 'redux-saga/effects';
+import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 
 import { request } from '~/common/utils/request';
 import { EventModel } from '~/models/domain/event/event.model';
 
 import { eventsActions as actions } from '.';
-import { EventErrorType } from './types';
+import { selectApiKey } from '../app-base/APIKey/selectors';
 
 export function* getEvents() {
   yield delay(500);
+
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/events`;
 
   try {
-    const events: EventModel[] = yield call(request, requestURL);
+    const events: EventModel[] = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
 
     yield put(actions.eventLoaded(events));
   } catch (err) {
@@ -23,12 +25,14 @@ export function* getEvents() {
 export function* getQueriedEvents(actionParams?: PayloadAction<string>) {
   yield delay(500);
 
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
   const { payload } = actionParams;
 
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/events?q=${payload}`;
 
   try {
-    const events: EventModel[] = yield call(request, requestURL);
+    const events: EventModel[] = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
 
     yield put(actions.queriedEvents(events));
   } catch (err) {

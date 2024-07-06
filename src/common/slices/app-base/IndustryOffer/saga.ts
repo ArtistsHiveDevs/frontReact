@@ -1,19 +1,24 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { call, delay, put, takeLatest } from 'redux-saga/effects';
+import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 
 import { request } from '~/common/utils/request';
 
 import { IndustryOfferModel } from '~/models/domain/industryOffer/IndustryOffer.model';
 import { actions } from '.';
+import { selectApiKey } from '../APIKey/selectors';
 import { IndustryOfferErrorType } from './types';
 
 export function* getIndustryOffer(actionParams?: PayloadAction<{ role?: string }>) {
   yield delay(500);
 
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/industryOffer?role=${actionParams.payload.role}`;
 
   try {
-    const industryOffer: IndustryOfferModel = yield call(request, requestURL);
+    const industryOffer: IndustryOfferModel = yield call(request, requestURL, {
+      headers: { 'x-api-key': authInfo?.apiKey },
+    });
 
     yield put(actions.industryOfferLoaded(industryOffer));
   } catch (err) {

@@ -1,19 +1,24 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { call, delay, put, takeLatest } from 'redux-saga/effects';
+import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 
 import { request } from '~/common/utils/request';
 import { PrivacyPolicyModel } from '~/models/app/policies/privacy/PrivacyPolicy.model';
 
 import { actions } from '.';
+import { selectApiKey } from '../../APIKey/selectors';
 import { PrivacyPolicyErrorType } from './types';
 
 export function* getPrivacyPolicy(actionParams?: PayloadAction<{ version?: string }>) {
   yield delay(500);
 
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/privacy?v=1.0`;
 
   try {
-    const privacyPolicy: PrivacyPolicyModel = yield call(request, requestURL);
+    const privacyPolicy: PrivacyPolicyModel = yield call(request, requestURL, {
+      headers: { 'x-api-key': authInfo?.apiKey },
+    });
 
     yield put(actions.privacyPolicyLoaded(privacyPolicy));
   } catch (err) {

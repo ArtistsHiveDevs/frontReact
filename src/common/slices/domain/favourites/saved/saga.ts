@@ -1,13 +1,16 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { call, delay, put, takeLatest } from 'redux-saga/effects';
+import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 
 import { request } from '~/common/utils/request';
 
+import { selectApiKey } from '~/common/slices/app-base/APIKey/selectors';
 import { SavedModel } from '~/models/domain/favourites/saved';
 import { savedActions as actions } from '.';
 
 export function* queriedSaved(actionParams?: PayloadAction<string>) {
   yield delay(500);
+
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
 
   const { payload } = actionParams;
   const params = {
@@ -25,7 +28,7 @@ export function* queriedSaved(actionParams?: PayloadAction<string>) {
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/34/favourites?${urlParams}`;
 
   try {
-    const saved: SavedModel = yield call(request, requestURL);
+    const saved: SavedModel = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
 
     yield put(actions.savedQueried(saved));
   } catch (err) {

@@ -1,19 +1,24 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { call, delay, put, takeLatest } from 'redux-saga/effects';
+import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 
 import { request } from '~/common/utils/request';
 import { TermsAndConditionsModel } from '~/models/app/policies/termsAndConditions/TermsAndConditions.model';
 
 import { actions } from '.';
+import { selectApiKey } from '../../APIKey/selectors';
 import { TermsAndConditionsErrorType } from './types';
 
 export function* getTermsAndConditions(actionParams?: PayloadAction<{ version?: string }>) {
   yield delay(500);
 
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/terms?v=1.0`;
 
   try {
-    const termsAndConditions: TermsAndConditionsModel = yield call(request, requestURL);
+    const termsAndConditions: TermsAndConditionsModel = yield call(request, requestURL, {
+      headers: { 'x-api-key': apiKey },
+    });
 
     yield put(actions.termsAndConditionsLoaded(termsAndConditions));
   } catch (err) {

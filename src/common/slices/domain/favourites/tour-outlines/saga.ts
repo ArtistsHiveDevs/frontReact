@@ -9,12 +9,16 @@ import { tourOutlineActions as actions } from '.';
 export function* getToursOutlinesByUser(actionParams?: PayloadAction<string>) {
   yield delay(500);
 
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
   const { payload: userId } = actionParams;
 
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/${userId}/tours_outlines`;
 
   try {
-    const toursOutlines: TourOutlineModel[] = yield call(request, requestURL);
+    const toursOutlines: TourOutlineModel[] = yield call(request, requestURL, {
+      headers: { 'x-api-key': authInfo?.apiKey },
+    });
 
     yield put(actions.getToursOutlinesByUserResponse(toursOutlines));
   } catch (err) {
@@ -26,12 +30,16 @@ export function* getToursOutlinesByUser(actionParams?: PayloadAction<string>) {
 export function* getTourOutlineById(actionParams?: PayloadAction<string>) {
   yield delay(500);
 
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
   const { payload: outlineId } = actionParams;
 
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/tours_outlines/${outlineId}`;
 
   try {
-    const toursOutlines: TourOutlineModel[] = yield call(request, requestURL);
+    const toursOutlines: TourOutlineModel[] = yield call(request, requestURL, {
+      headers: { 'x-api-key': authInfo?.apiKey },
+    });
 
     yield put(actions.getTourOutlineByIdResponse(toursOutlines));
   } catch (err) {

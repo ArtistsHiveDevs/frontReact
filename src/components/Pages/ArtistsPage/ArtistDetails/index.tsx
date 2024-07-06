@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useArtistsSlice } from '~/common/slices/artists';
-import { selectArtists } from '~/common/slices/artists/selectors';
+import { makeSelectArtistById, selectArtists } from '~/common/slices/artists/selectors';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import {
   ARTIST_DETAIL_SUB_PAGE_CONFIG,
   TRANSLATION_BASE_ARTIST_DETAIL_PAGE,
 } from '~/components/Pages/ArtistsPage/ArtistDetails/config-artist-detail';
 
+import { logPageViewEvent } from '~/common/utils/analytics/analytics';
+import { RootState } from '~/common/utils/redux-injectors/types';
 import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import { URL_PARAMETER_NAMES } from '~/constants';
@@ -28,30 +30,47 @@ const ArtistDetailPage = () => {
 
   const subPagesInfo = [...ARTIST_DETAIL_SUB_PAGE_CONFIG];
 
-  const [currentArtist, setCurrentArtist] = useState<ArtistModel>(undefined);
   const [currentGalleryImage, setGalleryImage] = useState(undefined);
+
+  const selectArtistById = makeSelectArtistById();
+  const currentArtist = useSelector((state: RootState) => {
+    if (artistId) {
+      return selectArtistById(state, artistId);
+    } else {
+      return undefined;
+    }
+  });
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (artistList.length === 0) {
-      dispatch(artistsActions.loadArtists());
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (!!artistList.length) {
-      setCurrentArtist(getArtistInfo(artistId));
-    }
-  }, [artistList]);
+  // useEffect(() => {
+  //   if (!!artistList.length) {
+  //     setCurrentArtist(getArtistInfo(artistId));
+  //   }
+  // }, [artistList]);
 
   useEffect(() => {
-    setCurrentArtist(getArtistInfo(artistId));
+    // setCurrentArtist(getArtistInfo(artistId));
 
+    dispatch(artistsActions.getArtistById(artistId));
+    // console.log('  ***  ***  ***  ***  *** \n *** *** ***   NUEVO RQ Artista');
+  }, [artistId]);
+
+  useEffect(() => {
     if (artistId !== urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]) {
       setCurrentArtistId(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
     }
-  }, [artistId, urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]]);
+  }, [urlParameters]);
+
+  useEffect(() => {
+    if (currentArtist) {
+      document.title = `${currentArtist.name}  ◃⬡▹  Artist Hive`;
+      logPageViewEvent({ page_title: `Artist - ${currentArtist.name}` });
+    }
+  }, [currentArtist]);
 
   const getArtistInfo = (id: string) => {
     return artistList.find((artist) => artist.id === id);

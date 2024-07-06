@@ -25,6 +25,7 @@ export interface SideMenuItem {
   updated: Date;
   path?: string;
   icon?: string;
+  handler?: string;
   randomId?: boolean;
   allowedRoles?: AllowedEntityRole[];
   requireSession?: boolean;
@@ -195,7 +196,7 @@ const config: SideMenuItem[] = [
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'logout'),
-    path: '',
+    handler: 'logout',
     icon: 'HiOutlineLogout',
     updated: new Date('2/20/16'),
     requireSession: true,

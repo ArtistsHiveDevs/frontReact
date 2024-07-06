@@ -110,6 +110,7 @@ const PlacesCreatePage = () => {
           spoken_languages: availableLanguages,
           stage_languages: availableLanguages,
         }}
+        submitLabel={!currentPlace ? 'create' : 'save'}
       />
     </>
   );

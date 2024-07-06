@@ -59,6 +59,13 @@ const EventDetailsPage = () => {
     }
   }, [eventsList]);
 
+  useEffect(() => {
+    if (currentEvent) {
+      document.title = `${currentEvent.name}  ◃⬡▹  Artist Hive`;
+      // logPageViewEvent({ page_title: `Place - ${currentPlace.name}` });
+    }
+  }, [currentEvent]);
+
   // function navigateTo(newEntity: PATHS, id: string = null) {
   //   navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
   // }

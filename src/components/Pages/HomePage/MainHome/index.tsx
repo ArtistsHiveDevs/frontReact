@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useArtistsSlice } from '~/common/slices/artists';
@@ -7,19 +7,15 @@ import { useEventsSlice } from '~/common/slices/events';
 import { selectEvents } from '~/common/slices/events/selectors';
 import { usePlacesSlice } from '~/common/slices/places';
 import { selectPlaces } from '~/common/slices/places/selectors';
-import { useUsersSlice } from '~/common/slices/users';
-import { selectUsers } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { PATHS, getCustomList } from '~/constants';
-import { AppUserModel } from '~/models/app/user/user.model';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import MainSection from '../MainSection/MainSection';
 import WelcomeSection from '../WelcomeSection/WelcomeSection';
-import { fields } from './data';
 import './index.scss';
 
 const TRANSLATION_BASE_HOME_PAGE = 'app.pages.HomePage';
@@ -35,18 +31,7 @@ const HomePage = () => {
   const placesList: PlaceModel[] = useSelector(selectPlaces);
   const { actions: placesActions } = usePlacesSlice();
 
-  const usersList: AppUserModel[] = useSelector(selectUsers);
-  const { actions: usersActions } = useUsersSlice();
-  const { loggedUser, setLoggedUser } = useAuth();
-
-  useEffect(() => {
-    dispatch(usersActions.loadUsers());
-  }, []);
-
-  useEffect(() => {
-    const pos = Math.floor(Math.random() * usersList.length);
-    setLoggedUser(usersList[pos]);
-  }, [usersList]);
+  const { loggedUser } = useAuth();
 
   // Hooks
   const dispatch = useDispatch();
@@ -55,17 +40,14 @@ const HomePage = () => {
 
   // Effects
   useEffect(() => {
-    if (artistList.length === 0) {
-      dispatch(artistsActions.loadArtists());
-    }
-    if (eventsList.length === 0) {
-      dispatch(eventActions.loadEvents());
-    }
-    if (placesList.length === 0) {
-      dispatch(placesActions.loadPlaces());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    loadData();
+  }, [loggedUser]);
+
+  const loadData = () => {
+    dispatch(artistsActions.loadArtists());
+    dispatch(eventActions.loadEvents());
+    dispatch(placesActions.loadPlaces());
+  };
 
   function onClickCardArtist(data: any) {
     navigateToEntity({ entityType: ArtistModel.name, id: data.id });
@@ -103,47 +85,47 @@ const HomePage = () => {
     },
   ];
 
-  const provincias = {
-    AR: [
-      { value: 'BsAs', label: 'Buenos Aires' },
-      { value: 'neu', label: 'Neuquén' },
-      { value: 'bar', label: 'Bariloche' },
-      { value: 'cor', label: 'Córdoba' },
-    ],
-    CO: [
-      { value: 'bog', label: 'Bogotá' },
-      { value: 'med', label: 'Medellín' },
-      { value: 'cal', label: 'Cali' },
-      { value: 'barr', label: 'Barranquilla' },
-    ],
-    PE: [
-      { value: 'Lim', label: 'Lima' },
-      { value: 'Cuz', label: 'Cuzco' },
-      { value: 'Iqui', label: 'Iquitos' },
-      { value: 'CHI', label: 'Chiclayo' },
-    ],
-  };
+  // const provincias = {
+  //   AR: [
+  //     { value: 'BsAs', label: 'Buenos Aires' },
+  //     { value: 'neu', label: 'Neuquén' },
+  //     { value: 'bar', label: 'Bariloche' },
+  //     { value: 'cor', label: 'Córdoba' },
+  //   ],
+  //   CO: [
+  //     { value: 'bog', label: 'Bogotá' },
+  //     { value: 'med', label: 'Medellín' },
+  //     { value: 'cal', label: 'Cali' },
+  //     { value: 'barr', label: 'Barranquilla' },
+  //   ],
+  //   PE: [
+  //     { value: 'Lim', label: 'Lima' },
+  //     { value: 'Cuz', label: 'Cuzco' },
+  //     { value: 'Iqui', label: 'Iquitos' },
+  //     { value: 'CHI', label: 'Chiclayo' },
+  //   ],
+  // };
 
-  const [fieldsForm, updateFields] = useState(fields);
-  const [ciudadesForm, updateCiudades] = useState([]);
-  const handlers = {
-    onSubmit: (data: any, error?: any) => {
-      console.log('#####----------->>>>  !!! ', data);
-    },
-    onChangecountry: (data: any) => {
-      const ciudades =
-        !!data && !!data.value && Object.keys(provincias).indexOf(data?.value) >= 0
-          ? provincias[data.value as keyof typeof provincias]
-          : [];
-      const provinceField = fields.find((fieldData) => fieldData.fieldName === 'province');
-      provinceField.options = ciudades;
-      // provinceField.defaultValue =
-      //   (ciudades && ciudades.length && ciudades[1].value) || "";
+  // const [fieldsForm, updateFields] = useState(fields);
+  // const [ciudadesForm, updateCiudades] = useState([]);
+  // const handlers = {
+  //   onSubmit: (data: any, error?: any) => {
+  //     console.log('#####----------->>>>  !!! ', data);
+  //   },
+  //   onChangecountry: (data: any) => {
+  //     const ciudades =
+  //       !!data && !!data.value && Object.keys(provincias).indexOf(data?.value) >= 0
+  //         ? provincias[data.value as keyof typeof provincias]
+  //         : [];
+  //     const provinceField = fields.find((fieldData) => fieldData.fieldName === 'province');
+  //     provinceField.options = ciudades;
+  //     // provinceField.defaultValue =
+  //     //   (ciudades && ciudades.length && ciudades[1].value) || "";
 
-      updateFields(fields);
-      updateCiudades(ciudades);
-    },
-  };
+  //     updateFields(fields);
+  //     updateCiudades(ciudades);
+  //   },
+  // };
 
   return (
     <>

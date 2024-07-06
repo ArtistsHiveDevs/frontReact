@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { usePlacesSlice } from '~/common/slices/places';
 import { selectPlaces } from '~/common/slices/places/selectors';
+import { logPageViewEvent } from '~/common/utils/analytics/analytics';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import {
   PLACE_DETAIL_SUB_PAGE_CONFIG,
@@ -42,6 +43,13 @@ const PlaceDetailPage = () => {
       setCurrentPlace(getPlaceInfo(placeId));
     }
   }, [placesList]);
+
+  useEffect(() => {
+    if (currentPlace) {
+      document.title = `${currentPlace.name}  ◃ ⬡ ▹  Artist Hive`;
+      logPageViewEvent({ page_title: `Place - ${currentPlace.name}` });
+    }
+  }, [currentPlace]);
 
   useEffect(() => {
     getPlaceInfo(placeId);

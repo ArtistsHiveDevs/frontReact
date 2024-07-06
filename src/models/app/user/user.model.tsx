@@ -152,12 +152,16 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
     // Events
     const eventSubscriptions = ['events_as_artist', 'subscribed_events'];
     eventSubscriptions.forEach((subscription) => {
-      const subscriptionTemplate = template[subscription as keyof AppUserTemplate];
-      Object.keys(subscriptionTemplate).forEach((eventsType) => {
-        const events: any[] = subscriptionTemplate[eventsType as keyof typeof subscriptionTemplate] || [];
-        this[subscription as keyof AppUserModel][eventsType] =
-          events?.map((event: EventTemplate) => new EventModel(event)) || [];
-      });
+      if (subscription) {
+        const subscriptionTemplate = template[subscription as keyof AppUserTemplate];
+        if (subscriptionTemplate) {
+          Object.keys(subscriptionTemplate).forEach((eventsType) => {
+            const events: any[] = subscriptionTemplate[eventsType as keyof typeof subscriptionTemplate] || [];
+            this[subscription as keyof AppUserModel][eventsType] =
+              events?.map((event: EventTemplate) => new EventModel(event)) || [];
+          });
+        }
+      }
     });
   }
 

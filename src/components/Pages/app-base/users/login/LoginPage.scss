@@ -25,3 +25,29 @@
 p {
   text-align: justify;
 }
+
+.login-form-container {
+  // max-width: 500px;
+  border: 1px solid $app-background-border;
+  border-radius: 5px;
+  background-color: $app-background-50;
+  height: 100%;
+  // width: 100%;
+}
+
+.login-form-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.login-form-footer button {
+  background: none;
+  border: none;
+  color: $app-links-color;
+  cursor: pointer;
+}
+
+.login-form-footer button:hover {
+  text-decoration: underline;
+}

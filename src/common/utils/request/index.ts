@@ -52,3 +52,75 @@ export async function request(url: string, options?: RequestInit): Promise<{} | 
 
   return parseJSON(response);
 }
+
+/**
+ * Requests a URL, returning a promise
+ *
+ * @param  {string} url       The URL we want to request
+ * @param  {object} [options] The options we want to pass to "fetch"
+ *
+ * @return {object}           The response data
+ */
+export async function postRequest(url: string, options?: RequestInit): Promise<{} | { err: ResponseError }> {
+  options.method = 'POST';
+  options.headers = { ...options.headers, 'Content-Type': 'application/json' };
+
+  const fetchResponse = await fetch(url, options);
+  const response = checkStatus(fetchResponse);
+
+  return parseJSON(response);
+}
+
+/**
+ * Requests a URL, returning a promise
+ *
+ * @param  {string} url       The URL we want to request
+ * @param  {object} [options] The options we want to pass to "fetch"
+ *
+ * @return {object}           The response data
+ */
+export async function putRequest(url: string, options?: RequestInit): Promise<{} | { err: ResponseError }> {
+  options.method = 'PUT';
+  options.headers = { ...options.headers, 'Content-Type': 'application/json' };
+
+  const fetchResponse = await fetch(url, options);
+  const response = checkStatus(fetchResponse);
+
+  return parseJSON(response);
+}
+
+/**
+ * Requests a URL, returning a promise
+ *
+ * @param  {string} url       The URL we want to request
+ * @param  {object} [options] The options we want to pass to "fetch"
+ *
+ * @return {object}           The response data
+ */
+export async function patchRequest(url: string, options?: RequestInit): Promise<{} | { err: ResponseError }> {
+  options.method = 'PATCH';
+  options.headers = { ...options.headers, 'Content-Type': 'application/json' };
+
+  const fetchResponse = await fetch(url, options);
+  const response = checkStatus(fetchResponse);
+
+  return parseJSON(response);
+}
+
+/**
+ * Requests a URL, returning a promise
+ *
+ * @param  {string} url       The URL we want to request
+ * @param  {object} [options] The options we want to pass to "fetch"
+ *
+ * @return {object}           The response data
+ */
+export async function deleteRequest(url: string, options?: RequestInit): Promise<{} | { err: ResponseError }> {
+  options.method = 'DELETE';
+  options.headers = { ...options.headers, 'Content-Type': 'application/json' };
+
+  const fetchResponse = await fetch(url, options);
+  const response = checkStatus(fetchResponse);
+
+  return parseJSON(response);
+}

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Artists Hive</string>
-    <string name="title_activity_main">Artists Hive</string>
-    <string name="package_name">com.arkhe.artistshive</string>
-    <string name="custom_url_scheme">com.arkhe.artistshive</string>
+    <string name="app_name">Artist Hive</string>
+    <string name="title_activity_main">Artist Hive</string>
+    <string name="package_name">com.arkhe.artisthive</string>
+    <string name="custom_url_scheme">com.arkhe.artisthive</string>
 </resources>

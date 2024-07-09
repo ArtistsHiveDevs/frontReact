@@ -1,10 +1,10 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.arkhe.artistshive',
-  appName: 'Artists Hive',
+  appId: 'com.arkhe.artisthive',
+  appName: 'Artist Hive',
   webDir: 'dist',
-  bundledWebRuntime: false
+  bundledWebRuntime: false,
 };
 
 export default config;

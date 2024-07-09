@@ -1,4 +1,4 @@
-package com.arkhe.artistshive;
+package com.arkhe.artisthive;
 
 import com.getcapacitor.BridgeActivity;
 

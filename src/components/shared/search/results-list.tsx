@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSearchSlice } from '~/common/slices/search';
 import { selectSearch, selectSearchLoading } from '~/common/slices/search/selectors';
 import { useI18n } from '~/common/utils';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { PATHS } from '~/constants';
 import { SearchableTemplate } from '~/models/base';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
@@ -28,6 +30,7 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
   const { q, onClick, typeOfSearch, hideResultHeader } = params;
 
   const { translateText, locale } = useI18n();
+  const { navigateToInnerPath } = useNavigation();
 
   function translate(text: string) {
     return translateText(`${TRANSLATION_BASE_SEARCH}.${text}`);
@@ -66,6 +69,10 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
     if (onClick) {
       onClick(target);
     }
+  };
+
+  const handleClickSeeMore = (event: any) => {
+    navigateToInnerPath({ path: PATHS.SEARCH });
   };
 
   const entityBadgesAndResults: {
@@ -127,29 +134,33 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
               {hasQueryTerms ? translate('results') : translate('recommendations')}
             </h4>
             <div className="search-item-head__subtitle disable-select">
-              {entityBadgesAndResults
-                .filter((badge) => (typeOfSearch || consts.defaultTypes).find((type) => type === badge.type))
-                .map((badge) => (
-                  <Badge
-                    key={`badge-${badge.title}`}
-                    bg={
-                      badge.data?.length === 0
-                        ? `ah-border-disabled`
-                        : checkedFilterEntities.find((check) => check === badge.type)
-                        ? `ah-${badge.color} color-hor-an`
-                        : `ah-border-${badge.color}`
-                    }
-                    onClick={() => (badge.data?.length > 0 ? handleChecked(badge.type) : {})}
-                  >
-                    {badge.title}
-                  </Badge>
-                ))}
-              <Badge
-                bg={`ah-filter`}
-                // onClick={() => (badge.data?.length > 0 ? handleChecked(badge.type) : {})}
-              >
-                <DynamicIcons iconName="BsSliders" />
-              </Badge>
+              <div>
+                <Badge
+                  bg={`ah-filter`}
+                  // onClick={() => (badge.data?.length > 0 ? handleChecked(badge.type) : {})}
+                >
+                  <DynamicIcons iconName="BsSliders" />
+                </Badge>
+              </div>
+              <div>
+                {entityBadgesAndResults
+                  .filter((badge) => (typeOfSearch || consts.defaultTypes).find((type) => type === badge.type))
+                  .map((badge) => (
+                    <Badge
+                      key={`badge-${badge.title}`}
+                      bg={
+                        badge.data?.length === 0
+                          ? `ah-border-disabled`
+                          : checkedFilterEntities.find((check) => check === badge.type)
+                          ? `ah-${badge.color} color-hor-an`
+                          : `ah-border-${badge.color}`
+                      }
+                      onClick={() => (badge.data?.length > 0 ? handleChecked(badge.type) : {})}
+                    >
+                      {badge.title}
+                    </Badge>
+                  ))}
+              </div>
             </div>
           </ListGroup.Item>
         )}
@@ -188,7 +199,7 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
         })}
 
         {totalElements > foundElements.length && (
-          <ListGroup.Item className="search-item search-item-footer">
+          <ListGroup.Item className="search-item search-item-footer" onClick={handleClickSeeMore}>
             <p className="label-search-waiting line-up-an">{translate('see_more')}</p>
           </ListGroup.Item>
         )}

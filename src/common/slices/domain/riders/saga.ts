@@ -1,10 +1,11 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { call, delay, put, takeLatest } from 'redux-saga/effects';
+import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 
 import { request } from '~/common/utils/request';
 import { ArtistRiderModel } from '~/models/domain/rider/rider.model';
 
 import { ridersActions as actions } from '.';
+import { selectApiKey } from '../../app-base/APIKey/selectors';
 
 export function* getRiders() {
   yield delay(500);

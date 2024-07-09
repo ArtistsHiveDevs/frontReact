@@ -1,8 +1,9 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { call, delay, put, takeLatest } from 'redux-saga/effects';
+import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 
 import { request } from '~/common/utils/request';
 
+import { selectApiKey } from '~/common/slices/app-base/APIKey/selectors';
 import { TourOutlineModel } from '~/models/domain/favourites/tourOutline';
 import { tourOutlineActions as actions } from '.';
 

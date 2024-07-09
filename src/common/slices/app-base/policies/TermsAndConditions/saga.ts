@@ -17,7 +17,7 @@ export function* getTermsAndConditions(actionParams?: PayloadAction<{ version?: 
 
   try {
     const termsAndConditions: TermsAndConditionsModel = yield call(request, requestURL, {
-      headers: { 'x-api-key': apiKey },
+      headers: { 'x-api-key': authInfo?.apiKey },
     });
 
     yield put(actions.termsAndConditionsLoaded(termsAndConditions));

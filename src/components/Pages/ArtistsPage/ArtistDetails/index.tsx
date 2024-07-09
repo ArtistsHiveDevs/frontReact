@@ -72,10 +72,6 @@ const ArtistDetailPage = () => {
     }
   }, [currentArtist]);
 
-  const getArtistInfo = (id: string) => {
-    return artistList.find((artist) => artist.id === id);
-  };
-
   const handlers = {
     onClickGalleryImage: (source: GalleryImageParams, images: GalleryImageParams[]) => {
       const image = <ImageGallery images={images} imageSize="fs" />;
@@ -100,6 +96,7 @@ const ArtistDetailPage = () => {
           handlers={handlers}
         />
       )}
+      {!currentArtist && 'Artist not found'}
     </>
   );
 };

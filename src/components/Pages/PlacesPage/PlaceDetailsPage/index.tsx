@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { usePlacesSlice } from '~/common/slices/places';
-import { selectPlaces } from '~/common/slices/places/selectors';
+import { makeSelectPlaceById } from '~/common/slices/places/selectors';
 import { logPageViewEvent } from '~/common/utils/analytics/analytics';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { RootState } from '~/common/utils/redux-injectors/types';
 import {
   PLACE_DETAIL_SUB_PAGE_CONFIG,
   TRANSLATION_BASE_PLACE_DETAIL_PAGE,
@@ -13,7 +14,6 @@ import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/Imag
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import { URL_PARAMETER_NAMES } from '~/constants';
 import { EventModel } from '~/models/domain/event/event.model';
-import { PlaceModel } from '~/models/domain/place/place.model';
 
 const PlaceDetailPage = () => {
   const { navigateToEntity } = useNavigation();
@@ -22,47 +22,39 @@ const PlaceDetailPage = () => {
 
   const [placeId, setCurrentPlaceId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
 
-  const placesList: PlaceModel[] = useSelector(selectPlaces);
   const { actions: placesActions } = usePlacesSlice();
 
   const subPagesInfo = [...PLACE_DETAIL_SUB_PAGE_CONFIG];
 
-  const [currentPlace, setCurrentPlace] = useState<PlaceModel>(undefined);
   const [currentGalleryImage, setGalleryImage] = useState(undefined);
 
+  const selectPlaceById = makeSelectPlaceById();
+  const currentPlace = useSelector((state: RootState) => {
+    if (placeId) {
+      return selectPlaceById(state, placeId);
+    } else {
+      return undefined;
+    }
+  });
+
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (placesList.length === 0) {
-      dispatch(placesActions.loadPlaces());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
-    if (!!placesList.length) {
-      setCurrentPlace(getPlaceInfo(placeId));
-    }
-  }, [placesList]);
+    dispatch(placesActions.getPlaceById(placeId));
+  }, [placeId]);
 
   useEffect(() => {
-    if (currentPlace) {
-      document.title = `${currentPlace.name}  ◃ ⬡ ▹  Artist Hive`;
-      logPageViewEvent({ page_title: `Place - ${currentPlace.name}` });
-    }
-  }, [currentPlace]);
-
-  useEffect(() => {
-    getPlaceInfo(placeId);
-    setCurrentPlace(getPlaceInfo(placeId));
-
     if (placeId !== urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]) {
       setCurrentPlaceId(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
     }
-  }, [placeId, urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]]);
+  }, [urlParameters]);
 
-  const getPlaceInfo = (id: string) => {
-    return placesList.find((place) => place.id === id);
-  };
+  useEffect(() => {
+    if (currentPlace) {
+      document.title = `${currentPlace.name}  ◃ ⬡ ▹  Place Hive`;
+      logPageViewEvent({ page_title: `Place - ${currentPlace.name}` });
+    }
+  }, [currentPlace]);
 
   const handlers = {
     onClickGalleryImage: (source: GalleryImageParams, images: GalleryImageParams[]) => {
@@ -94,6 +86,7 @@ const PlaceDetailPage = () => {
           handlers={handlers}
         />
       )}
+      {!currentPlace && 'Place not found'}
     </>
   );
 };

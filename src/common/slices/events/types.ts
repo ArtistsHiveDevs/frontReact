@@ -10,4 +10,6 @@ export interface EventState {
   error: EventErrorType | null;
   eventQueryParams: string;
   queriedEvents: EventModel[] | [];
+  queriedId?: string;
+  detailedEvents?: { [artistId: string]: EventModel };
 }

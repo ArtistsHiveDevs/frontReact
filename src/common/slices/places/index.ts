@@ -13,6 +13,8 @@ export const placesInitialState: PlaceState = {
   error: null,
   placesQueryParams: null,
   queriedPlaces: [],
+  queriedId: null,
+  detailedPlaces: {},
 };
 
 const slice = createSlice({
@@ -40,6 +42,23 @@ const slice = createSlice({
       const artistsQuery = action.payload.map((template) => new PlaceModel(template));
 
       state.queriedPlaces = artistsQuery;
+      state.loading = false;
+    },
+    getPlaceById(state, action: PayloadAction<string>) {
+      state.loading = true;
+      state.error = null;
+      state.queriedId = action?.payload;
+    },
+    placeByIdLoaded(state, action: PayloadAction<PlaceModel>) {
+      const foundPlace = new PlaceModel(action.payload);
+
+      state.detailedPlaces[foundPlace.id] = foundPlace;
+      const previousIndex = state.places.findIndex((place) => place.id === foundPlace.id);
+      if (previousIndex >= 0) {
+        state.places[previousIndex] = foundPlace;
+      } else {
+        state.places = [...state.places, foundPlace];
+      }
       state.loading = false;
     },
     repoError(state, action: PayloadAction<PlaceErrorType>) {

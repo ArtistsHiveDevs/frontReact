@@ -13,6 +13,8 @@ export const eventsInitialState: EventState = {
   error: null,
   eventQueryParams: null,
   queriedEvents: [],
+  queriedId: null,
+  detailedEvents: {},
 };
 
 const slice = createSlice({
@@ -39,6 +41,24 @@ const slice = createSlice({
     queriedEvents(state, action: PayloadAction<EventModel[]>) {
       const queriedEventsList = action.payload.map((template) => new EventModel(template));
       state.queriedEvents = queriedEventsList;
+      state.loading = false;
+    },
+
+    getEventById(state, action: PayloadAction<string>) {
+      state.loading = true;
+      state.error = null;
+      state.queriedId = action?.payload;
+    },
+    eventByIdLoaded(state, action: PayloadAction<EventModel>) {
+      const foundEvent = new EventModel(action.payload);
+
+      state.detailedEvents[foundEvent.id] = foundEvent;
+      const previousIndex = state.events.findIndex((event) => event.id === foundEvent.id);
+      if (previousIndex >= 0) {
+        state.events[previousIndex] = foundEvent;
+      } else {
+        state.events = [...state.events, foundEvent];
+      }
       state.loading = false;
     },
     repoError(state, action: PayloadAction<EventErrorType>) {

@@ -6,6 +6,7 @@ import { EventModel } from '~/models/domain/event/event.model';
 
 import { eventsActions as actions } from '.';
 import { selectApiKey } from '../app-base/APIKey/selectors';
+import { selectEvents } from './selectors';
 
 export function* getEvents() {
   yield delay(500);
@@ -19,6 +20,32 @@ export function* getEvents() {
     yield put(actions.eventLoaded(events));
   } catch (err) {
     console.log(err);
+  }
+}
+
+export function* getEventById(actionParams?: PayloadAction<string>) {
+  yield delay(500);
+
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
+  const { payload: requestedEventID } = actionParams;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/events/${requestedEventID}`;
+
+  try {
+    const previousEvents: EventModel[] = yield select(selectEvents);
+    const previousEvent = previousEvents.find((event) => event.id === requestedEventID);
+
+    let eventById: EventModel = undefined;
+    if (previousEvent) {
+      eventById = previousEvent;
+    } else {
+      eventById = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
+    }
+
+    yield put(actions.eventByIdLoaded(eventById));
+  } catch (err) {
+    console.log(err);
+    yield put(actions.repoError(1));
   }
 }
 
@@ -51,4 +78,5 @@ export function* eventSaga() {
   // It will be cancelled automatically on component unmount
   yield takeLatest(actions.loadEvents.type, getEvents);
   yield takeLatest(actions.queryEvents.type, getQueriedEvents);
+  yield takeLatest(actions.getEventById.type, getEventById);
 }

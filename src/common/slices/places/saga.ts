@@ -6,12 +6,13 @@ import { PlaceModel } from '~/models/domain/place/place.model';
 
 import { placesActions as actions } from '.';
 import { selectApiKey } from '../app-base/APIKey/selectors';
+import { selectPlaces } from './selectors';
 
 export function* getPlaces() {
   yield delay(500);
 
   const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
-  let queryParams = `f=events,events.main_artist,events.guest_artist`;
+  let queryParams = `f=events,events.main_place,events.guest_place`;
 
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/places?${queryParams}`;
 
@@ -21,6 +22,32 @@ export function* getPlaces() {
     yield put(actions.placesLoaded(places));
   } catch (err) {
     console.log(err);
+  }
+}
+
+export function* getPlaceById(actionParams?: PayloadAction<string>) {
+  yield delay(500);
+
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
+  const { payload: requestedPlaceID } = actionParams;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/places/${requestedPlaceID}`;
+
+  try {
+    const previousPlaces: PlaceModel[] = yield select(selectPlaces);
+    const previousPlace = previousPlaces.find((place) => place.id === requestedPlaceID);
+
+    let placeById: PlaceModel = undefined;
+    if (previousPlace) {
+      placeById = previousPlace;
+    } else {
+      placeById = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
+    }
+
+    yield put(actions.placeByIdLoaded(placeById));
+  } catch (err) {
+    console.log(err);
+    yield put(actions.repoError(1));
   }
 }
 
@@ -53,4 +80,5 @@ export function* placeSaga() {
   // It will be cancelled automatically on component unmount
   yield takeLatest(actions.loadPlaces.type, getPlaces);
   yield takeLatest(actions.queryPlaces.type, getQueriedPlaces);
+  yield takeLatest(actions.getPlaceById.type, getPlaceById);
 }

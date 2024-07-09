@@ -5,9 +5,10 @@ import { Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useEventsSlice } from '~/common/slices/events';
-import { selectEvents } from '~/common/slices/events/selectors';
+import { makeSelectEventById } from '~/common/slices/events/selectors';
 import { useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { RootState } from '~/common/utils/redux-injectors/types';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import {
   FavoriteSubscription,
@@ -15,7 +16,6 @@ import {
 } from '~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import { URL_PARAMETER_NAMES } from '~/constants';
-import { EventModel } from '~/models/domain/event/event.model';
 import { EVENT_DETAIL_SUB_PAGE_CONFIG, TRANSLATION_BASE_EVENT_DETAILS_PAGE } from './config-event-detail';
 
 const EventDetailsPage = () => {
@@ -24,10 +24,8 @@ const EventDetailsPage = () => {
   const [eventId, setCurrentEventId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
 
   // States
-  const [currentEvent, setCurrentEvent] = useState<EventModel>(undefined);
   const [requestsAreReady, setRequestesAreReady] = useState(false);
 
-  const eventsList: EventModel[] = useSelector(selectEvents);
   const { actions: eventActions } = useEventsSlice();
 
   const subPagesInfo = [...EVENT_DETAIL_SUB_PAGE_CONFIG];
@@ -40,31 +38,26 @@ const EventDetailsPage = () => {
   const { navigateToEntity } = useNavigation();
 
   // Effects
-  useEffect(() => {
-    if (eventsList.length === 0) {
-      dispatch(eventActions.loadEvents());
+
+  const selectEventById = makeSelectEventById();
+  const currentEvent = useSelector((state: RootState) => {
+    if (eventId) {
+      return selectEventById(state, eventId);
     } else {
-      setCurrentEvent(eventsList?.find((event) => `${event.id}` === `${eventId}`));
+      return undefined;
     }
-
-    if (eventId !== urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]) {
-      setCurrentEventId(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
-    }
-  }, [urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]]);
-
-  useEffect(() => {
-    if (!!eventsList.length) {
-      setRequestesAreReady(true);
-      setCurrentEvent(eventsList?.find((event) => `${event.id}` === `${eventId}`));
-    }
-  }, [eventsList]);
+  });
 
   useEffect(() => {
     if (currentEvent) {
       document.title = `${currentEvent.name}  ◃⬡▹  Artist Hive`;
-      // logPageViewEvent({ page_title: `Place - ${currentPlace.name}` });
+      // logPageViewEvent({ page_title: `Event - ${currentEvent.name}` });
     }
   }, [currentEvent]);
+
+  useEffect(() => {
+    dispatch(eventActions.getEventById(eventId));
+  }, [eventId]);
 
   // function navigateTo(newEntity: PATHS, id: string = null) {
   //   navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);

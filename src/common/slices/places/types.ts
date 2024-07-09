@@ -10,4 +10,6 @@ export interface PlaceState {
   error: PlaceErrorType | null;
   placesQueryParams: string;
   queriedPlaces: PlaceModel[] | [];
+  queriedId?: string;
+  detailedPlaces?: { [placeId: string]: PlaceModel };
 }

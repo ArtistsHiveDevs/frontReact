@@ -94,7 +94,7 @@ export const LoginPage = () => {
 
   return (
     <>
-      <h1>Artists Hive</h1>
+      <h1>Artist Hive</h1>
       <div className="login-content">
         <p>{translate(`${TRANSLATION_BASE_LOGIN_PAGE}.paragraph1`)}</p>
         <p>{translate(`${TRANSLATION_BASE_LOGIN_PAGE}.paragraph2`)}</p>

@@ -359,12 +359,12 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: 'facebook',
                   hidden: (artist: ArtistModel) => {
-                    return !artist.stats.socialNetworks.find(
+                    return !artist.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'facebook'
                     );
                   },
                   value: (artist: ArtistModel) => {
-                    const socialNetworkData = artist.stats.socialNetworks.find(
+                    const socialNetworkData = artist.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'facebook'
                     );
                     return (
@@ -375,12 +375,12 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: 'instagram',
                   hidden: (artist: ArtistModel) => {
-                    return !artist.stats.socialNetworks.find(
+                    return !artist.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'instagram'
                     );
                   },
                   value: (artist: ArtistModel) => {
-                    const socialNetworkData = artist.stats.socialNetworks.find(
+                    const socialNetworkData = artist.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'instagram'
                     );
                     return (
@@ -391,12 +391,12 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: 'twitter',
                   hidden: (artist: ArtistModel) => {
-                    return !artist.stats.socialNetworks.find(
+                    return !artist.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'twitter'
                     );
                   },
                   value: (artist: ArtistModel) => {
-                    const socialNetworkData = artist.stats.socialNetworks.find(
+                    const socialNetworkData = artist.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'twitter'
                     );
                     return (
@@ -407,12 +407,12 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: 'spotify',
                   hidden: (artist: ArtistModel) => {
-                    return !artist.stats.socialNetworks.find(
+                    return !artist.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'spotify'
                     );
                   },
                   value: (artist: ArtistModel) => {
-                    const socialNetworkData = artist.stats.socialNetworks.find(
+                    const socialNetworkData = artist.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'spotify'
                     );
                     return (
@@ -423,12 +423,12 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: 'deezer',
                   hidden: (artist: ArtistModel) => {
-                    return !artist.stats.socialNetworks.find(
+                    return !artist.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'deezer'
                     );
                   },
                   value: (artist: ArtistModel) => {
-                    const socialNetworkData = artist.stats.socialNetworks.find(
+                    const socialNetworkData = artist.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'deezer'
                     );
                     return (
@@ -439,12 +439,12 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: 'appleMusic',
                   hidden: (artist: ArtistModel) => {
-                    return !artist.stats.socialNetworks.find(
+                    return !artist.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'appleMusic'
                     );
                   },
                   value: (artist: ArtistModel) => {
-                    const socialNetworkData = artist.stats.socialNetworks.find(
+                    const socialNetworkData = artist.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'appleMusic'
                     );
                     return (
@@ -455,12 +455,12 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: 'youtube',
                   hidden: (artist: ArtistModel) => {
-                    return !artist.stats.socialNetworks.find(
+                    return !artist.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'youtube'
                     );
                   },
                   value: (artist: ArtistModel) => {
-                    const socialNetworkData = artist.stats.socialNetworks.find(
+                    const socialNetworkData = artist.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'youtube'
                     );
                     return (

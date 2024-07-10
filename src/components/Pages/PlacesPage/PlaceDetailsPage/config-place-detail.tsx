@@ -198,12 +198,12 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: 'facebook',
                   hidden: (place: PlaceModel) => {
-                    return !place.stats.socialNetworks.find(
+                    return !place.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'facebook'
                     );
                   },
                   value: (place: PlaceModel) => {
-                    const socialNetworkData = place.stats.socialNetworks.find(
+                    const socialNetworkData = place.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'facebook'
                     );
                     return (
@@ -214,12 +214,12 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: 'instagram',
                   hidden: (place: PlaceModel) => {
-                    return !place.stats.socialNetworks.find(
+                    return !place.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'instagram'
                     );
                   },
                   value: (place: PlaceModel) => {
-                    const socialNetworkData = place.stats.socialNetworks.find(
+                    const socialNetworkData = place.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'instagram'
                     );
                     return (
@@ -230,12 +230,12 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: 'twitter',
                   hidden: (place: PlaceModel) => {
-                    return !place.stats.socialNetworks.find(
+                    return !place.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'twitter'
                     );
                   },
                   value: (place: PlaceModel) => {
-                    const socialNetworkData = place.stats.socialNetworks.find(
+                    const socialNetworkData = place.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'twitter'
                     );
                     return (
@@ -246,12 +246,12 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: 'spotify',
                   hidden: (place: PlaceModel) => {
-                    return !place.stats.socialNetworks.find(
+                    return !place.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'spotify'
                     );
                   },
                   value: (place: PlaceModel) => {
-                    const socialNetworkData = place.stats.socialNetworks.find(
+                    const socialNetworkData = place.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'spotify'
                     );
                     return (
@@ -262,12 +262,12 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: 'deezer',
                   hidden: (place: PlaceModel) => {
-                    return !place.stats.socialNetworks.find(
+                    return !place.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'deezer'
                     );
                   },
                   value: (place: PlaceModel) => {
-                    const socialNetworkData = place.stats.socialNetworks.find(
+                    const socialNetworkData = place.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'deezer'
                     );
                     return (
@@ -278,12 +278,12 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: 'appleMusic',
                   hidden: (place: PlaceModel) => {
-                    return !place.stats.socialNetworks.find(
+                    return !place.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'appleMusic'
                     );
                   },
                   value: (place: PlaceModel) => {
-                    const socialNetworkData = place.stats.socialNetworks.find(
+                    const socialNetworkData = place.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'appleMusic'
                     );
                     return (
@@ -294,12 +294,12 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: 'youtube',
                   hidden: (place: PlaceModel) => {
-                    return !place.stats.socialNetworks.find(
+                    return !place.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'youtube'
                     );
                   },
                   value: (place: PlaceModel) => {
-                    const socialNetworkData = place.stats.socialNetworks.find(
+                    const socialNetworkData = place.stats?.socialNetworks?.find(
                       (socialNetworkStats) => socialNetworkStats.name === 'youtube'
                     );
                     return (

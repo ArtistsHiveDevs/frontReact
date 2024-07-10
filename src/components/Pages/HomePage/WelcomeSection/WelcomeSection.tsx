@@ -9,7 +9,7 @@ const WelcomeSection = (props: any) => {
   return (
     <section className="welcome-section">
       <>
-        <h1 className="welcome-title">{translateText(`${TRANSLATION_BASE_HOME_PAGE}.welcome`)} a Artists Hive!</h1>
+        <h1 className="welcome-title">{translateText(`${TRANSLATION_BASE_HOME_PAGE}.welcome`)} a Artist Hive!</h1>
         <p>
           La comunidad más grande que conecta artistas independientes con los sitios. Encuentra tu lugar favorito.
           Disfruta de las mejores expresiones artísticas en tu lugar.

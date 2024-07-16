@@ -5,6 +5,7 @@ import { Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { useApiKeySlice } from '~/common/slices/app-base/APIKey';
+import { selectError } from '~/common/slices/app-base/APIKey/selectors';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { I18nPaths, useI18n } from '~/common/utils';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
@@ -61,6 +62,7 @@ export const LoginPage = () => {
   const { actions: apiKeyActions } = useApiKeySlice();
 
   const currentUser: AppUserModel = useSelector(selectCurrentUser);
+  const errores = useSelector(selectError);
 
   useEffect(() => {
     if (currentUser) {
@@ -141,7 +143,9 @@ export const LoginPage = () => {
               translationBasePath="login"
               entityType="login"
               submitLabel="accounts.login"
+              errors={errores}
             />
+
             <div className="login-form-footer">
               <button onClick={handlers.onForgotPassword}>
                 {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.forgot_password`)}

@@ -89,6 +89,8 @@ const SideNav = () => {
     navigateToEntity({ entityType: element.constructor.name, id: element.id });
   };
 
+  const goToHome = () => navigateTo(PATHS.HOME);
+
   return (
     <>
       {/* <BetaBarComponent /> */}
@@ -96,7 +98,7 @@ const SideNav = () => {
         <Container fluid>
           <div className="nav-menu-opt">
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand`} className="icon-burger" onClick={handleShow} />
-            <a href="/">
+            <a onClick={goToHome}>
               <img alt="Artist Hive" className="img-logotipo" src={LOGO_URL} width="100" />
             </a>
           </div>
@@ -127,7 +129,7 @@ const SideNav = () => {
           {!!show && (
             <Navbar.Offcanvas placement="start" show={show} onHide={handleClose}>
               <Offcanvas.Header closeButton className="sidebar-header" closeVariant="white">
-                <a href="/">
+                <a onClick={goToHome}>
                   <img alt="Artist Hive" className="img-logotipo" src={LOGO_URL} width="100" />
                 </a>
                 <h4 className="menu-title">{translateText(`${TRANSLATION_BASE_SIDENAV}.name`)}</h4>

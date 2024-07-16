@@ -1,9 +1,11 @@
 export class ResponseError extends Error {
   public response: Response;
+  public content: Promise<any>;
 
-  constructor(response: Response) {
+  constructor(response: Response, content: Promise<any>) {
     super(response.statusText);
     this.response = response;
+    this.content = content;
   }
 }
 /**
@@ -13,12 +15,17 @@ export class ResponseError extends Error {
  *
  * @return {object}          The parsed JSON from the request
  */
-function parseJSON(response: Response) {
-  if (response.status === 204 || response.status === 205) {
-    return null;
+
+async function parseJSON(response: Response) {
+  const json = await response.json();
+
+  if (response.ok) {
+    return json;
   }
 
-  return response.json();
+  const error = new ResponseError(response, json);
+  error.response = response;
+  throw error;
 }
 
 /**
@@ -32,7 +39,7 @@ function checkStatus(response: Response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
-  const error = new ResponseError(response);
+  const error = new ResponseError(response, null);
 
   error.response = response;
   throw error;
@@ -48,9 +55,8 @@ function checkStatus(response: Response) {
  */
 export async function request(url: string, options?: RequestInit): Promise<{} | { err: ResponseError }> {
   const fetchResponse = await fetch(url, options);
-  const response = checkStatus(fetchResponse);
 
-  return parseJSON(response);
+  return parseJSON(fetchResponse);
 }
 
 /**
@@ -66,9 +72,8 @@ export async function postRequest(url: string, options?: RequestInit): Promise<{
   options.headers = { ...options.headers, 'Content-Type': 'application/json' };
 
   const fetchResponse = await fetch(url, options);
-  const response = checkStatus(fetchResponse);
 
-  return parseJSON(response);
+  return parseJSON(fetchResponse);
 }
 
 /**
@@ -84,9 +89,8 @@ export async function putRequest(url: string, options?: RequestInit): Promise<{}
   options.headers = { ...options.headers, 'Content-Type': 'application/json' };
 
   const fetchResponse = await fetch(url, options);
-  const response = checkStatus(fetchResponse);
 
-  return parseJSON(response);
+  return parseJSON(fetchResponse);
 }
 
 /**
@@ -102,9 +106,8 @@ export async function patchRequest(url: string, options?: RequestInit): Promise<
   options.headers = { ...options.headers, 'Content-Type': 'application/json' };
 
   const fetchResponse = await fetch(url, options);
-  const response = checkStatus(fetchResponse);
 
-  return parseJSON(response);
+  return parseJSON(fetchResponse);
 }
 
 /**
@@ -120,7 +123,6 @@ export async function deleteRequest(url: string, options?: RequestInit): Promise
   options.headers = { ...options.headers, 'Content-Type': 'application/json' };
 
   const fetchResponse = await fetch(url, options);
-  const response = checkStatus(fetchResponse);
 
-  return parseJSON(response);
+  return parseJSON(fetchResponse);
 }

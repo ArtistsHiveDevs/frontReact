@@ -14,6 +14,7 @@ export const apiKeyInitialState: ApiKeyState = {
   remember_me: undefined,
   loading: false,
   error: null,
+  errorContent: null,
 };
 
 const slice = createSlice({
@@ -23,6 +24,7 @@ const slice = createSlice({
     loadApiKey(state, action?: PayloadAction<{ userId?: string; password?: string; remember_me?: boolean }>) {
       state.loading = true;
       state.error = null;
+      state.errorContent = null;
       state.apiKey = undefined;
       state.userId = action?.payload?.userId;
       state.password = action?.payload?.password;
@@ -35,8 +37,9 @@ const slice = createSlice({
 
       localStorage.setItem(LocalStorageVariables.TOKEN_API_KEY, state.apiKey);
     },
-    repoError(state, action: PayloadAction<ApiKeyErrorType>) {
-      state.error = action.payload;
+    repoError(state, action: PayloadAction<{ errorType: ApiKeyErrorType; error: any }>) {
+      state.error = action.payload.errorType;
+      state.errorContent = action.payload.error;
       state.userId = undefined;
       state.password = undefined;
       state.loading = false;

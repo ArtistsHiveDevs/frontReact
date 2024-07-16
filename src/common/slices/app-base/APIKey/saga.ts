@@ -1,14 +1,15 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { call, delay, put, takeLatest } from 'redux-saga/effects';
 
-import { postRequest } from '~/common/utils/request';
+import { ResponseError, postRequest } from '~/common/utils/request';
 
 import { jwtDecode } from 'jwt-decode';
 import { LocalStorageVariables } from '~/constants/localstorage';
 import { actions } from '.';
 
+import { AppErrorCodes } from '~/constants/app.errors';
 import { usersActions } from '../../users';
-import { ApiKeyErrorType, ApiKeyVeficationStatus } from './types';
+import { ApiKeyErrorType, ApiKeyPayload, ApiKeyResponse, ApiKeyVeficationStatus } from './types';
 
 function verifyToken(token: string) {
   if (token) {
@@ -42,7 +43,7 @@ export function getStoredUserIdToken() {
   return userId;
 }
 
-export function* getApiKey(actionParams?: PayloadAction<{ userId?: string; password: string; remember_me: boolean }>) {
+export function* getApiKey(actionParams?: PayloadAction<ApiKeyPayload>): Generator<any, void, any> {
   yield delay(500);
   const { payload } = actionParams || {};
   const { userId, password, remember_me } = payload || {};
@@ -51,18 +52,32 @@ export function* getApiKey(actionParams?: PayloadAction<{ userId?: string; passw
 
   let hasToRequestToken = verifyToken(existingAPIKey) !== ApiKeyVeficationStatus.VALID;
 
+  let response: ApiKeyResponse = undefined;
   try {
-    let response: { apiKey: string } = undefined;
     if (hasToRequestToken) {
-      if (!!userId && !!password) {
+      if (!userId) {
+        yield put(
+          actions.repoError({
+            errorType: ApiKeyErrorType.RESPONSE_ERROR,
+            error: { message: 'UserId is required', errorCode: AppErrorCodes.AUTH_NO_USER_PROVIDED },
+          })
+        );
+        return;
+      } else if (!password) {
+        yield put(
+          actions.repoError({
+            errorType: ApiKeyErrorType.RESPONSE_ERROR,
+            error: { message: 'Password is required', errorCode: AppErrorCodes.AUTH_NO_PASSWORD_PROVIDED },
+          })
+        );
+        return;
+      } else {
         const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/api/generate-key`;
 
         const body = { userId, password, remember_me };
         response = yield call(postRequest, requestURL, {
           body: JSON.stringify(body),
         });
-      } else {
-        yield put(actions.repoError(ApiKeyErrorType.RESPONSE_ERROR));
       }
     } else {
       response = { apiKey: existingAPIKey };
@@ -73,8 +88,9 @@ export function* getApiKey(actionParams?: PayloadAction<{ userId?: string; passw
     }
     yield put(actions.apiKeyLoaded(response));
   } catch (err) {
-    console.log(err);
-    yield put(actions.repoError(ApiKeyErrorType.RESPONSE_ERROR));
+    const error: ResponseError = <ResponseError>err;
+    const errorContent = yield call(() => error.content);
+    yield put(actions.repoError({ errorType: ApiKeyErrorType.RESPONSE_ERROR, error: errorContent }));
   }
 }
 

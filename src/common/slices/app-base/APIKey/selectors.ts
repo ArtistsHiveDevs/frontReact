@@ -9,7 +9,9 @@ const selectDomain = (state: RootState) => state?.ApiKeyReducer || apiKeyInitial
 
 export const selectLoading = createSelector([selectDomain], (ApiKeyState) => ApiKeyState.loading);
 
-export const selectError = createSelector([selectDomain], (ApiKeyState) => ApiKeyState.error);
+export const selectError = createSelector([selectDomain], (ApiKeyState) => {
+  return { errorType: ApiKeyState.error, error: ApiKeyState.errorContent };
+});
 
 export const selectApiKey = createSelector([selectDomain], (ApiKeyState) => {
   return { apiKey: ApiKeyState.apiKey, userId: ApiKeyState.userId };

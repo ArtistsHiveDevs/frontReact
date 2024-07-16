@@ -7,6 +7,7 @@ export const EsMessages = {
         title: 'Ups! No encontramos lo que buscas',
       },
     },
+    domain_global_dictionary: { errors: {} },
     global_dictionary: {
       artists_hive: {
         slogan: 'Crea, Conecta, Vuela...',
@@ -55,6 +56,69 @@ export const EsMessages = {
         events: { plural: 'Eventos', singular: 'Evento' },
         places: { plural: 'Lugares', singular: 'Lugar' },
         promoters: { plural: 'Promotores', singular: 'Promotor' },
+      },
+      errors: {
+        // Errores de Autenticación y Autorización
+        AUTH_INVALID_CREDENTIALS: 'Credenciales inválidas',
+        AUTH_USER_NOT_FOUND: 'Usuario no encontrado',
+        AUTH_NO_USER_PROVIDED: 'No se proporcionó usuario',
+        AUTH_NO_PASSWORD_PROVIDED: 'No se proporcionó contraseña',
+        AUTH_NO_TOKEN_PROVIDED: 'No se proporcionó token',
+        AUTH_WRONG_PASSWORD: 'Contraseña incorrecta',
+        AUTH_TOKEN_EXPIRED: 'Token expirado',
+        AUTH_TOKEN_INVALID: 'Token inválido',
+        AUTH_PERMISSION_DENIED: 'Permiso denegado',
+
+        // Errores de Red
+        NETWORK_ERROR: 'Error de red',
+        NETWORK_TIMEOUT: 'Tiempo de espera de red agotado',
+        NETWORK_NOT_CONNECTED: 'No conectado a la red',
+
+        // Errores de Validación
+        VALIDATION_EMAIL_INVALID: 'Correo electrónico inválido',
+        VALIDATION_PASSWORD_WEAK: 'Contraseña débil',
+        VALIDATION_FIELD_REQUIRED: 'Campo requerido',
+        VALIDATION_USERNAME_TAKEN: 'Nombre de usuario ya tomado',
+
+        // Errores de Usuario
+        USER_PROFILE_NOT_FOUND: 'Perfil de usuario no encontrado',
+        USER_PROFILE_UPDATE_FAILED: 'Actualización del perfil de usuario fallida',
+        USER_ACCOUNT_SUSPENDED: 'Cuenta de usuario suspendida',
+        USER_ACCOUNT_DELETED: 'Cuenta de usuario eliminada',
+
+        // Errores de Contenido
+        CONTENT_NOT_FOUND: 'Contenido no encontrado',
+        CONTENT_UPLOAD_FAILED: 'Carga de contenido fallida',
+        CONTENT_TOO_LARGE: 'Contenido demasiado grande',
+        CONTENT_TYPE_NOT_SUPPORTED: 'Tipo de contenido no soportado',
+
+        // Errores de Amistad/Conexión
+        CONNECTION_REQUEST_FAILED: 'Solicitud de conexión fallida',
+        CONNECTION_ALREADY_EXISTS: 'Conexión ya existente',
+        CONNECTION_NOT_FOUND: 'Conexión no encontrada',
+
+        // Errores de Mensajes
+        MESSAGE_SEND_FAILED: 'Envío de mensaje fallido',
+        MESSAGE_NOT_FOUND: 'Mensaje no encontrado',
+        MESSAGE_CONTENT_INVALID: 'Contenido del mensaje inválido',
+
+        // Errores de Publicación
+        POST_CREATE_FAILED: 'Creación de la publicación fallida',
+        POST_NOT_FOUND: 'Publicación no encontrada',
+        POST_UPDATE_FAILED: 'Actualización de la publicación fallida',
+        POST_DELETE_FAILED: 'Eliminación de la publicación fallida',
+
+        // Errores de Pago
+        PAYMENT_FAILED: 'Pago fallido',
+        PAYMENT_METHOD_INVALID: 'Método de pago inválido',
+        PAYMENT_INSUFFICIENT_FUNDS: 'Fondos insuficientes',
+
+        // Errores del Servidor
+        SERVER_ERROR: 'Error del servidor',
+        SERVER_MAINTENANCE: 'Mantenimiento del servidor',
+
+        // Errores Desconocidos
+        UNKNOWN_ERROR: 'Error desconocido',
       },
       location: {
         borough: 'Barrio',

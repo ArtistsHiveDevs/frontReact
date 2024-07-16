@@ -7,6 +7,7 @@ export const DeMessages = {
         title: 'Hoppla! Wir konnten nicht finden, wonach Sie suchen',
       },
     },
+    domain_global_dictionary: { errors: {} },
     global_dictionary: {
       artists_hive: {
         slogan: 'Kreiere, Vernetze dich, Fliege....',
@@ -55,6 +56,69 @@ export const DeMessages = {
         events: { plural: 'Veranstaltungen', singular: 'Veranstaltung' },
         places: { plural: 'Orte', singular: 'Ort' },
         promoters: { plural: 'Veranstalter', singular: 'Veranstalter' },
+      },
+      errors: {
+        // Errores de Autenticación y Autorización
+        AUTH_INVALID_CREDENTIALS: 'Ungültige Anmeldedaten',
+        AUTH_USER_NOT_FOUND: 'Benutzer nicht gefunden',
+        AUTH_NO_USER_PROVIDED: 'Kein Benutzer angegeben',
+        AUTH_NO_PASSWORD_PROVIDED: 'Kein Passwort angegeben',
+        AUTH_NO_TOKEN_PROVIDED: 'Kein Token angegeben',
+        AUTH_WRONG_PASSWORD: 'Falsches Passwort',
+        AUTH_TOKEN_EXPIRED: 'Token abgelaufen',
+        AUTH_TOKEN_INVALID: 'Ungültiger Token',
+        AUTH_PERMISSION_DENIED: 'Zugriff verweigert',
+
+        // Errores de Red
+        NETWORK_ERROR: 'Netzwerkfehler',
+        NETWORK_TIMEOUT: 'Netzwerk-Zeitüberschreitung',
+        NETWORK_NOT_CONNECTED: 'Keine Netzwerkverbindung',
+
+        // Errores de Validación
+        VALIDATION_EMAIL_INVALID: 'Ungültige E-Mail-Adresse',
+        VALIDATION_PASSWORD_WEAK: 'Schwaches Passwort',
+        VALIDATION_FIELD_REQUIRED: 'Feld erforderlich',
+        VALIDATION_USERNAME_TAKEN: 'Benutzername bereits vergeben',
+
+        // Errores de Usuario
+        USER_PROFILE_NOT_FOUND: 'Benutzerprofil nicht gefunden',
+        USER_PROFILE_UPDATE_FAILED: 'Aktualisierung des Benutzerprofils fehlgeschlagen',
+        USER_ACCOUNT_SUSPENDED: 'Benutzerkonto gesperrt',
+        USER_ACCOUNT_DELETED: 'Benutzerkonto gelöscht',
+
+        // Errores de Contenido
+        CONTENT_NOT_FOUND: 'Inhalt nicht gefunden',
+        CONTENT_UPLOAD_FAILED: 'Hochladen des Inhalts fehlgeschlagen',
+        CONTENT_TOO_LARGE: 'Inhalt zu groß',
+        CONTENT_TYPE_NOT_SUPPORTED: 'Inhaltstyp nicht unterstützt',
+
+        // Errores de Amistad/Conexión
+        CONNECTION_REQUEST_FAILED: 'Verbindungsanfrage fehlgeschlagen',
+        CONNECTION_ALREADY_EXISTS: 'Verbindung besteht bereits',
+        CONNECTION_NOT_FOUND: 'Verbindung nicht gefunden',
+
+        // Errores de Mensajes
+        MESSAGE_SEND_FAILED: 'Nachricht senden fehlgeschlagen',
+        MESSAGE_NOT_FOUND: 'Nachricht nicht gefunden',
+        MESSAGE_CONTENT_INVALID: 'Ungültiger Nachrichteninhalt',
+
+        // Errores de Publicación
+        POST_CREATE_FAILED: 'Erstellung des Beitrags fehlgeschlagen',
+        POST_NOT_FOUND: 'Beitrag nicht gefunden',
+        POST_UPDATE_FAILED: 'Aktualisierung des Beitrags fehlgeschlagen',
+        POST_DELETE_FAILED: 'Löschen des Beitrags fehlgeschlagen',
+
+        // Errores de Pago
+        PAYMENT_FAILED: 'Zahlung fehlgeschlagen',
+        PAYMENT_METHOD_INVALID: 'Ungültige Zahlungsmethode',
+        PAYMENT_INSUFFICIENT_FUNDS: 'Unzureichende Mittel',
+
+        // Errores del Servidor
+        SERVER_ERROR: 'Serverfehler',
+        SERVER_MAINTENANCE: 'Serverwartung',
+
+        // Errores Desconocidos
+        UNKNOWN_ERROR: 'Unbekannter Fehler',
       },
       location: {
         borough: 'Stadtteil',

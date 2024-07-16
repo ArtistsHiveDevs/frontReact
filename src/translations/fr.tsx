@@ -7,6 +7,7 @@ export const FrMessages = {
         title: "Oups ! Nous n'avons pas trouvé ce que vous cherchez",
       },
     },
+    domain_global_dictionary: { errors: {} },
     global_dictionary: {
       artists_hive: {
         slogan: 'Crée, Connecte-toi, Envole-toi...',
@@ -55,6 +56,69 @@ export const FrMessages = {
         events: { plural: 'Événements', singular: 'Événement' },
         places: { plural: 'Lieux', singular: 'Lieu' },
         promoters: { plural: 'Promoteurs', singular: 'Promoteur' },
+      },
+      errors: {
+        // Errores de Autenticación y Autorización
+        AUTH_INVALID_CREDENTIALS: 'Identifiants invalides',
+        AUTH_USER_NOT_FOUND: 'Utilisateur non trouvé',
+        AUTH_NO_USER_PROVIDED: 'Aucun utilisateur fourni',
+        AUTH_NO_PASSWORD_PROVIDED: 'Aucun mot de passe fourni',
+        AUTH_NO_TOKEN_PROVIDED: 'Aucun jeton fourni',
+        AUTH_WRONG_PASSWORD: 'Mot de passe incorrect',
+        AUTH_TOKEN_EXPIRED: 'Jeton expiré',
+        AUTH_TOKEN_INVALID: 'Jeton invalide',
+        AUTH_PERMISSION_DENIED: 'Permission refusée',
+
+        // Errores de Red
+        NETWORK_ERROR: 'Erreur réseau',
+        NETWORK_TIMEOUT: "Délai d'attente réseau dépassé",
+        NETWORK_NOT_CONNECTED: 'Non connecté au réseau',
+
+        // Errores de Validación
+        VALIDATION_EMAIL_INVALID: 'Adresse e-mail invalide',
+        VALIDATION_PASSWORD_WEAK: 'Mot de passe faible',
+        VALIDATION_FIELD_REQUIRED: 'Champ requis',
+        VALIDATION_USERNAME_TAKEN: "Nom d'utilisateur déjà pris",
+
+        // Errores de Usuario
+        USER_PROFILE_NOT_FOUND: 'Profil utilisateur non trouvé',
+        USER_PROFILE_UPDATE_FAILED: 'Échec de la mise à jour du profil utilisateur',
+        USER_ACCOUNT_SUSPENDED: 'Compte utilisateur suspendu',
+        USER_ACCOUNT_DELETED: 'Compte utilisateur supprimé',
+
+        // Errores de Contenido
+        CONTENT_NOT_FOUND: 'Contenu non trouvé',
+        CONTENT_UPLOAD_FAILED: 'Échec du téléchargement du contenu',
+        CONTENT_TOO_LARGE: 'Contenu trop volumineux',
+        CONTENT_TYPE_NOT_SUPPORTED: 'Type de contenu non pris en charge',
+
+        // Errores de Amistad/Conexión
+        CONNECTION_REQUEST_FAILED: 'Échec de la demande de connexion',
+        CONNECTION_ALREADY_EXISTS: 'Connexion déjà existante',
+        CONNECTION_NOT_FOUND: 'Connexion non trouvée',
+
+        // Errores de Mensajes
+        MESSAGE_SEND_FAILED: "Échec de l'envoi du message",
+        MESSAGE_NOT_FOUND: 'Message non trouvé',
+        MESSAGE_CONTENT_INVALID: 'Contenu du message invalide',
+
+        // Errores de Publicación
+        POST_CREATE_FAILED: 'Échec de la création du post',
+        POST_NOT_FOUND: 'Post non trouvé',
+        POST_UPDATE_FAILED: 'Échec de la mise à jour du post',
+        POST_DELETE_FAILED: 'Échec de la suppression du post',
+
+        // Errores de Pago
+        PAYMENT_FAILED: 'Échec du paiement',
+        PAYMENT_METHOD_INVALID: 'Méthode de paiement invalide',
+        PAYMENT_INSUFFICIENT_FUNDS: 'Fonds insuffisants',
+
+        // Errores del Servidor
+        SERVER_ERROR: 'Erreur serveur',
+        SERVER_MAINTENANCE: 'Maintenance du serveur',
+
+        // Errores Desconocidos
+        UNKNOWN_ERROR: 'Erreur inconnue',
       },
       location: {
         borough: 'Arrondissement',

@@ -1,8 +1,11 @@
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SocialNetworks } from '~/constants/social-networks.const';
+import { EnMessages } from '~/translations/en';
 export enum I18nPaths {
   TRANSLATION_GLOBAL_DICTIONARY = 'app.global_dictionary',
   TRANSLATION_GLOBAL_DICTIONARY_ACTIONS = 'app.global_dictionary.actions',
+  TRANSLATION_GLOBAL_DICTIONARY_ERROR_CODES = 'app.global_dictionary.errors',
+  TRANSLATION_DOMAIN_GLOBAL_DICTIONARY_ERROR_CODES = 'app.domain_global_dictionary.errors',
 }
 
 export const useI18n = () => {
@@ -31,5 +34,18 @@ export const useI18n = () => {
     return translateText(`app.global_dictionary.${messageId}`);
   };
 
-  return { locale, translateText, getFormattedMessage, translateGlobalDict };
+  const translateError = (messageId: string) => {
+    const inGlobalDictionary = Object.keys(EnMessages.app.global_dictionary.errors).includes(messageId);
+    const inDomainGlobalDictionary = Object.keys(EnMessages.app.domain_global_dictionary.errors).includes(messageId);
+
+    const path = inGlobalDictionary
+      ? `${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ERROR_CODES}.`
+      : inDomainGlobalDictionary
+      ? `${I18nPaths.TRANSLATION_DOMAIN_GLOBAL_DICTIONARY_ERROR_CODES}.`
+      : '';
+
+    return translateText(`${path}${messageId}`);
+  };
+
+  return { locale, translateText, getFormattedMessage, translateGlobalDict, translateError };
 };

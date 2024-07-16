@@ -7,6 +7,7 @@ export const PtMessages = {
         title: 'Oops! Não conseguimos encontrar o que está a procurar',
       },
     },
+    domain_global_dictionary: { errors: {} },
     global_dictionary: {
       artists_hive: {
         slogan: 'Crie, Conecte-se, Voe...',
@@ -55,6 +56,69 @@ export const PtMessages = {
         events: { plural: 'Eventos', singular: 'Evento' },
         places: { plural: 'Locais', singular: 'Local' },
         promoters: { plural: 'Promotores', singular: 'Promotor' },
+      },
+      errors: {
+        // Errores de Autenticación y Autorización
+        AUTH_INVALID_CREDENTIALS: 'Credenciais inválidas',
+        AUTH_USER_NOT_FOUND: 'Usuário não encontrado',
+        AUTH_NO_USER_PROVIDED: 'Nenhum usuário fornecido',
+        AUTH_NO_PASSWORD_PROVIDED: 'Nenhuma senha fornecida',
+        AUTH_NO_TOKEN_PROVIDED: 'Nenhum token fornecido',
+        AUTH_WRONG_PASSWORD: 'Senha incorreta',
+        AUTH_TOKEN_EXPIRED: 'Token expirado',
+        AUTH_TOKEN_INVALID: 'Token inválido',
+        AUTH_PERMISSION_DENIED: 'Permissão negada',
+
+        // Errores de Red
+        NETWORK_ERROR: 'Erro de rede',
+        NETWORK_TIMEOUT: 'Tempo limite da rede esgotado',
+        NETWORK_NOT_CONNECTED: 'Sem conexão de rede',
+
+        // Errores de Validación
+        VALIDATION_EMAIL_INVALID: 'E-mail inválido',
+        VALIDATION_PASSWORD_WEAK: 'Senha fraca',
+        VALIDATION_FIELD_REQUIRED: 'Campo obrigatório',
+        VALIDATION_USERNAME_TAKEN: 'Nome de usuário já em uso',
+
+        // Errores de Usuario
+        USER_PROFILE_NOT_FOUND: 'Perfil do usuário não encontrado',
+        USER_PROFILE_UPDATE_FAILED: 'Falha na atualização do perfil do usuário',
+        USER_ACCOUNT_SUSPENDED: 'Conta do usuário suspensa',
+        USER_ACCOUNT_DELETED: 'Conta do usuário excluída',
+
+        // Errores de Contenido
+        CONTENT_NOT_FOUND: 'Conteúdo não encontrado',
+        CONTENT_UPLOAD_FAILED: 'Falha no upload do conteúdo',
+        CONTENT_TOO_LARGE: 'Conteúdo muito grande',
+        CONTENT_TYPE_NOT_SUPPORTED: 'Tipo de conteúdo não suportado',
+
+        // Errores de Amistad/Conexión
+        CONNECTION_REQUEST_FAILED: 'Falha na solicitação de conexão',
+        CONNECTION_ALREADY_EXISTS: 'Conexão já existe',
+        CONNECTION_NOT_FOUND: 'Conexão não encontrada',
+
+        // Errores de Mensajes
+        MESSAGE_SEND_FAILED: 'Falha no envio da mensagem',
+        MESSAGE_NOT_FOUND: 'Mensagem não encontrada',
+        MESSAGE_CONTENT_INVALID: 'Conteúdo da mensagem inválido',
+
+        // Errores de Publicación
+        POST_CREATE_FAILED: 'Falha na criação do post',
+        POST_NOT_FOUND: 'Post não encontrado',
+        POST_UPDATE_FAILED: 'Falha na atualização do post',
+        POST_DELETE_FAILED: 'Falha na exclusão do post',
+
+        // Errores de Pago
+        PAYMENT_FAILED: 'Pagamento falhou',
+        PAYMENT_METHOD_INVALID: 'Método de pagamento inválido',
+        PAYMENT_INSUFFICIENT_FUNDS: 'Fundos insuficientes',
+
+        // Errores del Servidor
+        SERVER_ERROR: 'Erro no servidor',
+        SERVER_MAINTENANCE: 'Manutenção do servidor',
+
+        // Errores Desconocidos
+        UNKNOWN_ERROR: 'Erro desconhecido',
       },
       location: {
         borough: 'Bairro',

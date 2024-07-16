@@ -7,6 +7,7 @@ export const EnMessages = {
         title: "Oops! We couldn't find what you're looking for",
       },
     },
+    domain_global_dictionary: { errors: {} },
     global_dictionary: {
       artists_hive: {
         slogan: 'Create, Connect, Fly...',
@@ -55,6 +56,69 @@ export const EnMessages = {
         events: { plural: 'Events', singular: 'Event' },
         places: { plural: 'Places', singular: 'Place' },
         promoters: { plural: 'Promoters', singular: 'Promoter' },
+      },
+      errors: {
+        // Errores de Autenticación y Autorización
+        AUTH_INVALID_CREDENTIALS: 'Invalid credentials',
+        AUTH_USER_NOT_FOUND: 'User not found',
+        AUTH_NO_USER_PROVIDED: 'No user provided',
+        AUTH_NO_PASSWORD_PROVIDED: 'No password provided',
+        AUTH_NO_TOKEN_PROVIDED: 'No token provided',
+        AUTH_WRONG_PASSWORD: 'Wrong password',
+        AUTH_TOKEN_EXPIRED: 'Token expired',
+        AUTH_TOKEN_INVALID: 'Invalid token',
+        AUTH_PERMISSION_DENIED: 'Permission denied',
+
+        // Errores de Red
+        NETWORK_ERROR: 'Network error',
+        NETWORK_TIMEOUT: 'Network timeout',
+        NETWORK_NOT_CONNECTED: 'Not connected to the network',
+
+        // Errores de Validación
+        VALIDATION_EMAIL_INVALID: 'Invalid email',
+        VALIDATION_PASSWORD_WEAK: 'Weak password',
+        VALIDATION_FIELD_REQUIRED: 'Field required',
+        VALIDATION_USERNAME_TAKEN: 'Username already taken',
+
+        // Errores de Usuario
+        USER_PROFILE_NOT_FOUND: 'User profile not found',
+        USER_PROFILE_UPDATE_FAILED: 'User profile update failed',
+        USER_ACCOUNT_SUSPENDED: 'User account suspended',
+        USER_ACCOUNT_DELETED: 'User account deleted',
+
+        // Errores de Contenido
+        CONTENT_NOT_FOUND: 'Content not found',
+        CONTENT_UPLOAD_FAILED: 'Content upload failed',
+        CONTENT_TOO_LARGE: 'Content too large',
+        CONTENT_TYPE_NOT_SUPPORTED: 'Content type not supported',
+
+        // Errores de Amistad/Conexión
+        CONNECTION_REQUEST_FAILED: 'Connection request failed',
+        CONNECTION_ALREADY_EXISTS: 'Connection already exists',
+        CONNECTION_NOT_FOUND: 'Connection not found',
+
+        // Errores de Mensajes
+        MESSAGE_SEND_FAILED: 'Message send failed',
+        MESSAGE_NOT_FOUND: 'Message not found',
+        MESSAGE_CONTENT_INVALID: 'Invalid message content',
+
+        // Errores de Publicación
+        POST_CREATE_FAILED: 'Post creation failed',
+        POST_NOT_FOUND: 'Post not found',
+        POST_UPDATE_FAILED: 'Post update failed',
+        POST_DELETE_FAILED: 'Post deletion failed',
+
+        // Errores de Pago
+        PAYMENT_FAILED: 'Payment failed',
+        PAYMENT_METHOD_INVALID: 'Invalid payment method',
+        PAYMENT_INSUFFICIENT_FUNDS: 'Insufficient funds',
+
+        // Errores del Servidor
+        SERVER_ERROR: 'Server error',
+        SERVER_MAINTENANCE: 'Server maintenance',
+
+        // Errores Desconocidos
+        UNKNOWN_ERROR: 'Unknown error',
       },
       location: {
         borough: 'Borough',

@@ -46,7 +46,7 @@ export function* logout() {
   yield delay(500);
   localStorage.removeItem(LocalStorageVariables.TOKEN_API_KEY);
   yield put(usersActions.currentUserLoaded(null));
-  yield put(apiKeyActions.loadApiKey({}));
+  yield put(apiKeyActions.loadApiKey({ isLogout: true }));
 }
 
 /**

@@ -46,7 +46,7 @@ export function getStoredUserIdToken() {
 export function* getApiKey(actionParams?: PayloadAction<ApiKeyPayload>): Generator<any, void, any> {
   yield delay(500);
   const { payload } = actionParams || {};
-  const { userId, password, remember_me } = payload || {};
+  const { userId, password, remember_me, isLogout } = payload || {};
 
   const existingAPIKey = localStorage.getItem(LocalStorageVariables.TOKEN_API_KEY);
 
@@ -55,29 +55,32 @@ export function* getApiKey(actionParams?: PayloadAction<ApiKeyPayload>): Generat
   let response: ApiKeyResponse = undefined;
   try {
     if (hasToRequestToken) {
-      if (!userId) {
-        yield put(
-          actions.repoError({
-            errorType: ApiKeyErrorType.RESPONSE_ERROR,
-            error: { message: 'UserId is required', errorCode: AppErrorCodes.AUTH_NO_USER_PROVIDED },
-          })
-        );
-        return;
-      } else if (!password) {
-        yield put(
-          actions.repoError({
-            errorType: ApiKeyErrorType.RESPONSE_ERROR,
-            error: { message: 'Password is required', errorCode: AppErrorCodes.AUTH_NO_PASSWORD_PROVIDED },
-          })
-        );
-        return;
-      } else {
-        const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/api/generate-key`;
+      if (!isLogout) {
+        if (!userId) {
+          console.log(hasToRequestToken, userId, isLogout);
+          yield put(
+            actions.repoError({
+              errorType: ApiKeyErrorType.RESPONSE_ERROR,
+              error: { message: 'UserId is required', errorCode: AppErrorCodes.AUTH_NO_USER_PROVIDED },
+            })
+          );
+          return;
+        } else if (!password) {
+          yield put(
+            actions.repoError({
+              errorType: ApiKeyErrorType.RESPONSE_ERROR,
+              error: { message: 'Password is required', errorCode: AppErrorCodes.AUTH_NO_PASSWORD_PROVIDED },
+            })
+          );
+          return;
+        } else {
+          const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/api/generate-key`;
 
-        const body = { userId, password, remember_me };
-        response = yield call(postRequest, requestURL, {
-          body: JSON.stringify(body),
-        });
+          const body = { userId, password, remember_me };
+          response = yield call(postRequest, requestURL, {
+            body: JSON.stringify(body),
+          });
+        }
       }
     } else {
       response = { apiKey: existingAPIKey };

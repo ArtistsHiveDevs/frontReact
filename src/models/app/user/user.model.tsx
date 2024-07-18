@@ -1,6 +1,8 @@
 import { VerificationStatus } from '~/constants';
 import { EntityModel, EntityTemplate, SearchableTemplate } from '~/models/base';
+import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel, EventTemplate } from '~/models/domain/event/event.model';
+import { PlaceModel } from '~/models/domain/place/place.model';
 
 export interface DomainRole {
   entityName: string;
@@ -10,6 +12,7 @@ export interface DomainRole {
 
 export interface UserEntityRoleMap {
   id: string;
+  entity?: string;
   roles: string[];
 }
 export interface UserAvailableEntityRole {
@@ -128,14 +131,19 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
     super(template);
 
     const membershipEntities = ['Artist', 'Place'];
+    //TODO
+    const membershipEntitiesClassName = [ArtistModel.name, PlaceModel.name];
 
-    membershipEntities.forEach((entityName: string) => {
+    membershipEntities.forEach((entityName: string, index: number) => {
       const roleMap =
         (this.roles &&
           this.roles.length &&
           this.roles.find((role: UserAvailableEntityRole) => role.entityName === entityName)?.entityRoleMap) ||
         [];
 
+      roleMap.forEach((role) => {
+        role.entity = membershipEntitiesClassName[index];
+      });
       const getRoleMap = () => [...roleMap];
 
       // TODO camelCase

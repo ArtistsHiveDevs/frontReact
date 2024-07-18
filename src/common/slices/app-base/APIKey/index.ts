@@ -15,13 +15,17 @@ export const apiKeyInitialState: ApiKeyState = {
   loading: false,
   error: null,
   errorContent: null,
+  isLogout: false,
 };
 
 const slice = createSlice({
   name: 'ApiKeyReducer',
   initialState: apiKeyInitialState,
   reducers: {
-    loadApiKey(state, action?: PayloadAction<{ userId?: string; password?: string; remember_me?: boolean }>) {
+    loadApiKey(
+      state,
+      action?: PayloadAction<{ userId?: string; password?: string; remember_me?: boolean; isLogout?: boolean }>
+    ) {
       state.loading = true;
       state.error = null;
       state.errorContent = null;
@@ -29,6 +33,7 @@ const slice = createSlice({
       state.userId = action?.payload?.userId;
       state.password = action?.payload?.password;
       state.remember_me = action?.payload?.remember_me;
+      state.isLogout = action?.payload?.isLogout;
     },
     apiKeyLoaded(state, action: PayloadAction<{ apiKey: string }>) {
       state.apiKey = action.payload.apiKey;

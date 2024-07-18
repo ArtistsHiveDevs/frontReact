@@ -55,7 +55,7 @@ const UserDetailPage = () => {
       navigateToEntity({ entityType: EventModel.name, id: value.id });
     },
     onNavigateToEntity: (value: any) => {
-      const entityType = value.constructor.name;
+      const entityType = value.constructor.name !== 'Object' ? value.constructor.name : value.entity;
       navigateToEntity({ entityType, id: value.id });
     },
   };

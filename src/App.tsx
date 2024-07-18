@@ -30,6 +30,7 @@ import { useApiKeySlice } from './common/slices/app-base/APIKey';
 import { getStoredUserIdToken } from './common/slices/app-base/APIKey/saga';
 import { selectApiKey } from './common/slices/app-base/APIKey/selectors';
 import { initGA } from './common/utils/analytics/analytics';
+import AppLoader from './components/shared/organisms/app/loader/loader';
 
 const App = () => {
   let { lang, messages, setLocale: setLang } = useContext(HvAppContext);
@@ -86,7 +87,7 @@ const App = () => {
                   <div>
                     <SideNav />
 
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<AppLoader />}>
                       <div className="content">
                         <RoutesApp />
                       </div>

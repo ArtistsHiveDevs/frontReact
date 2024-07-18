@@ -25,7 +25,7 @@ const slice = createSlice({
     },
     userLoaded(state, action: PayloadAction<AppUserTemplate[]>) {
       const users = action.payload.map((template) => new AppUserModel(template));
-
+      state.error = null;
       state.users = users;
       state.loading = false;
     },
@@ -37,6 +37,7 @@ const slice = createSlice({
     currentUserLoaded(state, action: PayloadAction<AppUserTemplate>) {
       state.currentUser = action?.payload ? new AppUserModel(action.payload) : UNLOGGED_USER;
       state.loading = false;
+      state.error = null;
     },
     repoError(state, action: PayloadAction<UserErrorType>) {
       state.error = action.payload;

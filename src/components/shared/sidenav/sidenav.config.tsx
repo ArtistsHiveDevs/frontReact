@@ -35,7 +35,7 @@ export interface SideMenuItem {
 const general: SideMenuItem[] = [
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, 'home'),
-    path: '',
+    path: `${PATHS.HOME}`,
     icon: 'FaHome',
     updated: new Date('2/20/16'),
   },

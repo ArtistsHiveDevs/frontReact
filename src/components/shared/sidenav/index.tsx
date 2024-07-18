@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Container, Navbar, Offcanvas } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import { useUsersSlice } from '~/common/slices/users';
 import { useI18n } from '~/common/utils';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
@@ -91,6 +92,8 @@ const SideNav = () => {
 
   const goToHome = () => navigateTo(PATHS.HOME);
 
+  const userID = getStoredUserIdToken();
+
   return (
     <>
       {/* <BetaBarComponent /> */}
@@ -112,14 +115,14 @@ const SideNav = () => {
               {openStatusSearchInputText && <DynamicIcons iconName={'MdSearchOff'} size={32} />}
               {!openStatusSearchInputText && <DynamicIcons iconName={'AiOutlineSearch'} size={32} />}
             </span>
-            {loggedUser && (
+            {userID && (
               <ProfilePicture
-                src={loggedUser.profile_pic}
+                src={loggedUser?.profile_pic}
                 onClickHandler={(param: any) => navigateTo(PATHS.PROFILE)}
                 size="xs"
               />
             )}
-            {!loggedUser && (
+            {!userID && (
               <a className="brand-text" onClick={() => navigateToInnerPath({ path: PATHS.LOGIN })}>
                 Log in
               </a>

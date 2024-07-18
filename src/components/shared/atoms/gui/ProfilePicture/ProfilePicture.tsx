@@ -7,17 +7,15 @@ export const ProfilePicture = (props: any) => {
   size = size || 'm';
 
   return (
-    src && (
-      <Avatar
-        src={src}
-        onClick={(params: any) => {
-          if (onClickHandler) {
-            onClickHandler(params);
-          } else {
-            console.warn('Click is not implemented');
-          }
-        }}
-      />
-    )
+    <Avatar
+      src={src}
+      onClick={(params: any) => {
+        if (onClickHandler) {
+          onClickHandler(params);
+        } else {
+          console.warn('Click is not implemented');
+        }
+      }}
+    />
   );
 };

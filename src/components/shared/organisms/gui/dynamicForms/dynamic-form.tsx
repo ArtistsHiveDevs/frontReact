@@ -39,7 +39,6 @@ export const DynamicForm = (props: FormProps) => {
           setResponseErrorsRender([responseErrors]);
         }
       }
-      console.log(responseErrorsRender);
     } else {
       setResponseErrorsRender([]);
     }

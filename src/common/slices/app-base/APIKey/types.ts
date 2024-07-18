@@ -15,6 +15,7 @@ export interface ApiKeyState {
   loading: boolean;
   error: ApiKeyErrorType | null;
   errorContent: any;
+  isLogout?: boolean;
 }
 
 export enum ApiKeyVeficationStatus {
@@ -27,6 +28,7 @@ export interface ApiKeyPayload {
   userId?: string;
   password: string;
   remember_me: boolean;
+  isLogout?: boolean;
 }
 
 export interface ApiKeyResponse {

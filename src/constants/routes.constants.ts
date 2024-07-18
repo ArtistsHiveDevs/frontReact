@@ -35,5 +35,6 @@ export enum SUB_PATHS {
 
 export enum URL_PARAMETER_NAMES {
   ELEMENT_ID = 'id',
+  NEXT = 'next',
   ROLE = 'role',
 }

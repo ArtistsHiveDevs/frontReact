@@ -1,152 +1,156 @@
-import { lazy, useEffect } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import ScrollToTop from '~/components/shared/atoms/app/ScrollToTop';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
+import { Navigate, Route, Routes, useLocation, useSearchParams } from 'react-router-dom';
+import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
+import useAuth from '~/common/utils/hooks/auth/useAuth';
+import AppLoader from '~/components/shared/organisms/app/loader/loader';
+import { PATHS, URL_PARAMETER_NAMES } from '~/constants';
+import ScrollToTop from '../components/shared/atoms/app/ScrollToTop';
+import { ROUTES_CONFIG } from './routes.config';
 
-import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
+export interface PathConfig {
+  object?: string;
+  componentPath?: string;
+  path?: string;
+  redirectToIfLoggedUser?: string;
+  redirectToIfNotLoggedUser?: string;
+  subpaths?: PathConfigMap;
+}
 
-// Lazy loading
-const HomePage = lazy(() => import('~/components/Pages/HomePage/MainHome'));
-const NotFoundPage = lazy(() => import('~/components/Pages/NotFoundPage'));
-const LoginPage = lazy(() => import('~/components/Pages/app-base/users/login/LoginPage'));
-const SignUpPage = lazy(() => import('~/components/Pages/app-base/users/sign-up/SignUpPage'));
-const ContactUsPage = lazy(() => import('~/components/Pages/app-base/ContactUs/ContactUsPage'));
-const TermsAndConditionsPage = lazy(
-  () => import('~/components/Pages/app-base/TermsAndConditions/TermsAndConditionsPage')
-);
-const PrivacyPolicyPage = lazy(() => import('~/components/Pages/app-base/PrivacyPolicy/PrivacyPolicyPage'));
+export interface PathConfigMap {
+  [key: string]: PathConfig | PathConfigMap;
+}
 
-const AppSettingsPage = lazy(() => import('~/components/Pages/app-base/SettingsPage'));
+const flattenPaths = (paths: PathConfigMap, parentPath = '', parentObject = ''): PathConfig[] => {
+  return Object.entries(paths).reduce<PathConfig[]>((acc, [key, value]) => {
+    const currentObject = parentObject ? `${parentObject}.${key}` : key;
+    const config = value as PathConfig;
+    const currentPath = `${parentPath}${config.path || ''}`;
 
-const SearchPage = lazy(() => import('~/components/Pages/SearchPage'));
+    if (config.componentPath || config.path || config.redirectToIfLoggedUser || config.redirectToIfNotLoggedUser) {
+      acc.push({
+        object: currentObject,
+        componentPath: config.componentPath,
+        path: currentPath,
+        redirectToIfLoggedUser: config.redirectToIfLoggedUser,
+        redirectToIfNotLoggedUser: config.redirectToIfNotLoggedUser,
+      });
+    } else {
+      acc.push({ object: currentObject });
+      acc = acc.concat(flattenPaths(value as PathConfigMap, currentPath, currentObject));
+    }
 
-// Load rider pages
-const UserDetailsPage = lazy(() => import('~/components/Pages/app-base/UsersPage/UserDetails'));
-const UserCreatePage = lazy(() => import('~/components/Pages/app-base/UsersPage/UserCreatePage/UserCreatePage'));
+    if (config.subpaths) {
+      acc = acc.concat(flattenPaths(config.subpaths as PathConfigMap, `${currentPath}/`, currentObject));
+    }
 
-const IndustryOfferPage = lazy(() => import('~/components/Pages/domain/industry-offer/template/IndustryOfferTemplate'));
+    return acc;
+  }, []);
+};
 
-// Load rider pages
-const RiderListPage = lazy(() => import('~/components/Pages/domain/RidersPage/RidersList'));
+const loadComponent = (componentPath: string) => {
+  // Usa la función import sin plantilla de cadena
+  return lazy(() => import(/* @vite-ignore */ `${componentPath}`));
+};
 
-const RiderDetailsPage = lazy(() => import('~/components/Pages/domain/RidersPage/RiderDetails/rider-details-page'));
+const generateRoutes = (userIsLoggedIn: boolean, possibleForcedNextPath: string, location: any) => {
+  const routes: JSX.Element[] = [];
 
-// Load events/shows pages
-const EventsListPage = lazy(() => import('~/components/Pages/EventsPage/EventsListPage'));
+  const flatPaths = flattenPaths(ROUTES_CONFIG as unknown as PathConfigMap);
+  const finalRoutes = flatPaths.filter((possiblePath) => !!possiblePath.componentPath);
 
-const EventDetailsPage = lazy(() => import('~/components/Pages/EventsPage/EventDetailsPage'));
-const EventCreatePage = lazy(() => import('~/components/Pages/EventsPage/EventCreatePage/EventCreatePage'));
+  finalRoutes.forEach((route) => {
+    const Component = loadComponent(route.componentPath as string);
 
-// Load Academies pages
-const AcademiesListPage = lazy(() => import('~/components/Pages/domain/AcademiesPage/AcademiesListPage'));
-const AcademyDetailsPage = lazy(() => import('~/components/Pages/domain/AcademiesPage/AcademyDetailsPage'));
+    const loggedForbidenNextPaths = [`${PATHS.LOGIN}`, `${PATHS.SIGN_UP}`];
+    const notLoggedForbidenNextPaths = [`${PATHS.HOME}`];
+    const forbiddenRedirect = [`${PATHS.HOME}`];
 
-// Load Artists pages
-const ArtistsListPage = lazy(() => import('~/components/Pages/ArtistsPage/ArtistsList'));
-const ArtistDetailsPage = lazy(() => import('~/components/Pages/ArtistsPage/ArtistDetails'));
-const ArtistCreatePage = lazy(() => import('~/components/Pages/ArtistsPage/ArtistCreatePage/ArtistCreatePage'));
+    const currentPath = location.pathname;
 
-// Load Places pages
-const PlacesListPage = lazy(() => import('~/components/Pages/PlacesPage/PlacesListPage'));
+    let redirectPath = undefined;
+    let next = undefined;
+    let forcedNextPath = undefined;
 
-const PlaceDetailsPage = lazy(() => import('~/components/Pages/PlacesPage/PlaceDetailsPage'));
+    if (route.redirectToIfLoggedUser && userIsLoggedIn) {
+      if (!forbiddenRedirect.includes(possibleForcedNextPath)) {
+        forcedNextPath = possibleForcedNextPath;
+      }
 
-const PlaceCreatePage = lazy(() => import('~/components/Pages/PlacesPage/PlacesCreatePage/PlacesCreatePage'));
+      redirectPath = forcedNextPath || route.redirectToIfLoggedUser;
 
-// Load CulturalAgenda page
-const CulturalAgendaPage = lazy(() => import('~/components/Pages/domain/CulturalAgenda/home/cultural-agenda-page'));
+      if (!loggedForbidenNextPaths.includes(route.path)) {
+        next = route.path;
+      }
+    } else if (route.redirectToIfNotLoggedUser && !userIsLoggedIn) {
+      if (!forbiddenRedirect.includes(possibleForcedNextPath)) {
+        forcedNextPath = possibleForcedNextPath;
+      }
 
-// Load Favourites page
-const TourPreplanningListPage = lazy(
-  () => import('~/components/Pages/domain/FavouritesPages/TourPlanningListPage/TourPreplanningListPage')
-);
-const TourDetailsPage = lazy(() => import('~/components/Pages/domain/FavouritesPages/TourDetailsPage/TourDetailsPage'));
-const SavedListPage = lazy(() => import('~/components/Pages/domain/FavouritesPages/SavedListPage/SavedListPage'));
+      redirectPath = forcedNextPath || route.redirectToIfNotLoggedUser;
+
+      if (!notLoggedForbidenNextPaths.includes(route.path)) {
+        next = route.path;
+      }
+    } else {
+      routes.push(<Route key={route.path} path={route.path} element={<Component />} />);
+    }
+
+    if (redirectPath) {
+      // No debe incluir parámetros en la URL y se debe codificar
+      const nextPathParam = !!next && !next.includes('/:') ? `?next=${encodeURIComponent(next)}` : '';
+
+      routes.push(
+        <Route key={route.path} path={route.path} element={<Navigate to={`${redirectPath}${nextPathParam}`} />} />
+      );
+    }
+  });
+
+  return routes;
+};
 
 export const RoutesApp: React.FC = () => {
+  const [generatedRoutes, setGeneratedRoutes] = useState<JSX.Element[] | null>(null);
+
+  const { loggedUser } = useAuth();
+
+  const [searchParams] = useSearchParams();
+  const location = useLocation();
+
+  const [nextPath, setNextPath] = useState<string | null>(null);
+
+  useEffect(() => {
+    setNextPath(searchParams.get(URL_PARAMETER_NAMES.NEXT) || PATHS.HOME);
+  }, [searchParams]);
+
+  // Cargar el componente y obtener el token
   useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: 'smooth',
     });
+    generate();
   }, []);
+
+  useEffect(() => {
+    generate();
+  }, [loggedUser]);
+
+  const generate = () => {
+    const userID = getStoredUserIdToken();
+    const datosCompletos = !!userID === !!loggedUser;
+
+    if (datosCompletos) {
+      setGeneratedRoutes(generateRoutes(!!userID, nextPath, location) || []);
+    }
+  };
+
   return (
     <>
       <ScrollToTop />
-      <Routes>
-        <Route path={PATHS.ACADEMIES}>
-          <Route element={<AcademiesListPage />} path="" />
-          <Route
-            element={<AcademyDetailsPage />}
-            path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
-          />
-        </Route>
-        <Route path={PATHS.ARTISTS}>
-          <Route element={<ArtistsListPage />} path="" />
-          <Route
-            element={<ArtistDetailsPage />}
-            path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
-          />
-          <Route element={<ArtistCreatePage />} path={SUB_PATHS.CREATE} />
-        </Route>
-        <Route path={PATHS.CULTURAL_AGENDA}>
-          <Route element={<CulturalAgendaPage />} path="" />
-        </Route>
-        <Route path={PATHS.RIDERS}>
-          <Route element={<RiderListPage />} path="" />
-          <Route
-            element={<RiderDetailsPage />}
-            path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
-          />
-        </Route>
-        <Route path={PATHS.EVENTS}>
-          <Route element={<EventsListPage />} path="" />
-          <Route
-            element={<EventDetailsPage />}
-            path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
-          />
-          <Route element={<EventCreatePage />} path={SUB_PATHS.CREATE} />
-        </Route>
-        <Route path={PATHS.PLACES}>
-          <Route element={<PlacesListPage />} path="" />
-          <Route
-            element={<PlaceDetailsPage />}
-            path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
-          />
-          <Route element={<PlaceCreatePage />} path={SUB_PATHS.CREATE} />
-          <Route element={<PlaceCreatePage />} path={SUB_PATHS.EDIT + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`} />
-        </Route>
-        <Route path={PATHS.PROFILE}>
-          <Route element={<UserDetailsPage />} path="" />
-          <Route element={<UserCreatePage />} path={SUB_PATHS.CREATE} />
-        </Route>
-        <Route element={<HomePage />} path={PATHS.HOME} />
-        <Route element={<LoginPage />} path={PATHS.LOGIN} />
-        <Route element={<SignUpPage />} path={PATHS.SIGN_UP} />
-        <Route element={<Navigate to={PATHS.HOME} />} path={PATHS.MAIN} />
-        <Route element={<SearchPage />} path={PATHS.SEARCH} />
-        <Route element={<PrivacyPolicyPage />} path={PATHS.PRIVACY_POLICY} />
-        <Route element={<ContactUsPage />} path={PATHS.CONTACT_US} />
-        <Route element={<TermsAndConditionsPage />} path={PATHS.TERMS_AND_CONDITIONS} />
-
-        <Route element={<NotFoundPage />} path={PATHS.NOT_FOUND} />
-        <Route path={PATHS.SETTINGS}>
-          <Route element={<AppSettingsPage />} path="" />
-        </Route>
-        <Route path={PATHS.INDUSTRY_OFFER}>
-          <Route element={<IndustryOfferPage />} path={`:${URL_PARAMETER_NAMES.ROLE}`} />
-        </Route>
-        <Route path={PATHS.MY_FAVOURITES}>
-          <Route element={<SavedListPage />} path="" />
-        </Route>
-        <Route path={PATHS.TOURS_OUTLINE}>
-          <Route element={<TourPreplanningListPage />} path="" />
-          <Route
-            element={<TourDetailsPage />}
-            path={SUB_PATHS.ELEMENT_DETAILS + `/:${URL_PARAMETER_NAMES.ELEMENT_ID}`}
-          />
-        </Route>
-      </Routes>
+      <Suspense fallback={<AppLoader />}>
+        <Routes>{generatedRoutes}</Routes>
+      </Suspense>
     </>
   );
 };

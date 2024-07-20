@@ -1,4 +1,5 @@
 import { PATHS } from '~/constants';
+import { AppUserModel } from '~/models/app/user/user.model';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import { TourOutlineModel } from '~/models/domain/favourites/tourOutline';
@@ -7,6 +8,9 @@ import { PlaceModel } from '~/models/domain/place/place.model';
 export const resolveNavigateToEntityPath = (entityType: string) => {
   let entity = undefined;
   switch (entityType) {
+    case AppUserModel.name:
+      entity = PATHS.PROFILE;
+      break;
     case ArtistModel.name:
       entity = PATHS.ARTISTS;
       break;

@@ -214,6 +214,11 @@ export const DeMessages = {
                   contact: {
                     name: 'Kontakt',
                   },
+                },
+              },
+              artist_info: {
+                name: 'Info Pro',
+                sections: {
                   emergency_contact: {
                     name: 'Notfallkontakt',
                   },

@@ -213,6 +213,11 @@ export const FrMessages = {
                   contact: {
                     name: 'Contact',
                   },
+                },
+              },
+              artist_info: {
+                name: 'Info Pro',
+                sections: {
                   emergency_contact: {
                     name: "Contact en cas d'urgence",
                   },

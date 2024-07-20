@@ -214,6 +214,11 @@ export const EsMessages = {
                   contact: {
                     name: 'Contacto',
                   },
+                },
+              },
+              artist_info: {
+                name: 'Info Pro',
+                sections: {
                   emergency_contact: {
                     name: 'Contacto de emergencia',
                   },

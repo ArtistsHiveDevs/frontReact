@@ -214,6 +214,11 @@ export const ItMessages = {
                   contact: {
                     name: 'Contatto',
                   },
+                },
+              },
+              artist_info: {
+                name: 'Info Pro',
+                sections: {
                   emergency_contact: {
                     name: 'Contatto di emergenza',
                   },

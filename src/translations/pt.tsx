@@ -213,6 +213,11 @@ export const PtMessages = {
                   contact: {
                     name: 'Contato',
                   },
+                },
+              },
+              artist_info: {
+                name: 'Info Pro',
+                sections: {
                   emergency_contact: {
                     name: 'Contato de Emergência',
                   },

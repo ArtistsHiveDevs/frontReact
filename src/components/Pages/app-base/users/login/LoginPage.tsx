@@ -1,26 +1,32 @@
 import { Box, Grid, Paper, Typography } from '@mui/material';
 
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useApiKeySlice } from '~/common/slices/app-base/APIKey';
 import { selectError } from '~/common/slices/app-base/APIKey/selectors';
+import { useUsersSlice } from '~/common/slices/users';
+import { selectUsers } from '~/common/slices/users/selectors';
 import { I18nPaths, useI18n } from '~/common/utils';
-import useAuth from '~/common/utils/hooks/auth/useAuth';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { DynamicFieldData, DynamicForm } from '~/components/shared/organisms/gui/dynamicForms';
 import { PATHS } from '~/constants';
 import { SocialNetworkTemplate, SocialNetworks } from '~/constants/social-networks.const';
+import { AppUserModel } from '~/models/app/user/user.model';
 import './LoginPage.scss';
 
 const TRANSLATION_BASE_LOGIN_PAGE = 'app.pages.app_base.LoginPage';
 
-export const LoginPage = () => {
-  const { translateText } = useI18n();
-  const { setLoggedUser } = useAuth();
+const LIMITE_CLICKS = 3;
 
-  const translate = (text: string) => {
-    return translateText(text);
-  };
+export const LoginPage = () => {
+  const [clicksEnLogo, setClicksEnLogo] = useState(0);
+  const [defaultUserValue, setDefaultUser] = useState('');
+
+  const { translateText } = useI18n();
+
+  const usersList: AppUserModel[] = useSelector(selectUsers);
+  const { actions: usersActions } = useUsersSlice();
 
   const fields: DynamicFieldData[] = [
     {
@@ -29,7 +35,7 @@ export const LoginPage = () => {
       fieldName: 'email',
       placeholder: translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.username_or_email`),
       config: { required: true },
-      defaultValue: 'dmejia',
+      defaultValue: defaultUserValue,
     },
     {
       label: translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.password`),
@@ -81,6 +87,15 @@ export const LoginPage = () => {
     console.log('Iniciar sesión con ', selectedSocialNetwork.title);
   };
 
+  const setCurrentUser = (user: AppUserModel) => {
+    setDefaultUser(user.username);
+  };
+
+  useEffect(() => {
+    if (clicksEnLogo === LIMITE_CLICKS - 1) {
+      dispatch(usersActions.loadUsers());
+    }
+  }, [clicksEnLogo]);
   return (
     <>
       {/* <h1>Artist Hive</h1> */}
@@ -101,6 +116,15 @@ export const LoginPage = () => {
         Iniciar Sesión
       </Typography> */}
       <Grid container justifyContent="center" spacing={6}>
+        <Grid item>
+          <img
+            alt="Artist Hive"
+            className="img-logotipo"
+            src={import.meta.env.VITE_LOGO_URL}
+            width="200"
+            onClick={() => setClicksEnLogo(clicksEnLogo + 1)}
+          />
+        </Grid>
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: 2 }} className={'login-form-container'}>
             <Typography variant="h4" gutterBottom padding={'1rem'}>
@@ -143,6 +167,34 @@ export const LoginPage = () => {
             </div>
           </Paper>
         </Grid>
+        {clicksEnLogo > 3 && (
+          <Grid item xs={12} md={6}>
+            <Paper elevation={3} sx={{ padding: 2 }} className={'login-form-container'}>
+              <h3>
+                <DynamicIcons iconName="FaUserAstronaut" size={20} />
+                USERS{' '}
+              </h3>
+              <p>
+                {usersList.map((user) => {
+                  const styles: string[] = [];
+
+                  const artistMemberships: any[] = user['artistMemberships'] || [];
+                  const placeMemberships: any[] = user['placeMemberships'] || [];
+                  return (
+                    <span key={`user_${user.id}`}>
+                      <span className={styles.join(' ')} onClick={() => setCurrentUser(user)}>
+                        {user.name} {'\t ('}Artistas: {artistMemberships.length} - Lugares: {placeMemberships.length}
+                        {')  |  '} {user.user_language}
+                      </span>
+                      <br />
+                      <br />
+                    </span>
+                  );
+                })}
+              </p>
+            </Paper>
+          </Grid>
+        )}
       </Grid>
     </>
   );

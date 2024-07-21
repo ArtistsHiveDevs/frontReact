@@ -13,7 +13,7 @@ import { logPageViewEvent } from '~/common/utils/analytics/analytics';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
-import { URL_PARAMETER_NAMES } from '~/constants';
+import { SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import './index.scss';
@@ -82,6 +82,10 @@ const ArtistDetailPage = () => {
     },
     onClickEvent: (value: any) => {
       navigateToEntity({ entityType: EventModel.name, id: value.id });
+    },
+    onEditProfile: (value: any) => {
+      const entityType = value.constructor.name !== 'Object' ? value.constructor.name : value.entity;
+      navigateToEntity({ entityType, id: value.id, action: SUB_PATHS.EDIT });
     },
   };
 

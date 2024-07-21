@@ -6,6 +6,7 @@ import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/P
 import { USER_DETAIL_SUB_PAGE_CONFIG } from './config-user-detail';
 
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { SUB_PATHS } from '~/constants';
 import { EventModel } from '~/models/domain/event/event.model';
 import './index.scss';
 
@@ -57,6 +58,10 @@ const UserDetailPage = () => {
     onNavigateToEntity: (value: any) => {
       const entityType = value.constructor.name !== 'Object' ? value.constructor.name : value.entity;
       navigateToEntity({ entityType, id: value.id });
+    },
+    onEditProfile: (value: any) => {
+      const entityType = value.constructor.name !== 'Object' ? value.constructor.name : value.entity;
+      navigateToEntity({ entityType, id: value.id, action: SUB_PATHS.EDIT });
     },
   };
 

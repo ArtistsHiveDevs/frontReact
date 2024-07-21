@@ -1,5 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { artistsActions } from '~/common/slices';
+import { makeSelectArtistById } from '~/common/slices/artists/selectors';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { RootState } from '~/common/utils/redux-injectors/types';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
+import { URL_PARAMETER_NAMES } from '~/constants';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import {
   ARTIST_DETAIL_SUB_PAGE_CONFIG,
@@ -7,8 +14,32 @@ import {
 } from '../ArtistDetails/config-artist-detail';
 
 const ArtistsCreatePage = () => {
+  const { navigateToEntity } = useNavigation();
+  const dispatch = useDispatch();
+  const urlParameters = useParams();
+
+  const [artistId, setCurrentArtistId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
   const [availableLanguages, updateAvailableLanguages] = useState([]);
   const [availableGenres, updateAvailableGenres] = useState([]);
+
+  const selectArtistById = makeSelectArtistById();
+  const currentArtist = useSelector((state: RootState) => {
+    if (artistId) {
+      return selectArtistById(state, artistId);
+    } else {
+      return undefined;
+    }
+  });
+
+  useEffect(() => {
+    dispatch(artistsActions.getArtistById(artistId));
+  }, [artistId]);
+
+  useEffect(() => {
+    if (artistId !== urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]) {
+      setCurrentArtistId(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
+    }
+  }, [urlParameters]);
 
   useEffect(() => {
     const langsOR = [
@@ -43,6 +74,7 @@ const ArtistsCreatePage = () => {
   const handlers = {
     onSubmit: (data: any, error?: any) => {
       console.log('#####----------->>>>  !!! ', data);
+      navigateToEntity({ entityType: ArtistModel.name, id: currentArtist?.id || 'nuevo-elemento' });
     },
     onChangecountry: (data: any) => {
       console.log('#####----------->>>>  !!! ', data);
@@ -71,12 +103,14 @@ const ArtistsCreatePage = () => {
         handlers={handlers}
         translationBasePath={TRANSLATION_BASE_ARTIST_DETAIL_PAGE}
         entityType={ArtistModel.name}
+        elementData={currentArtist}
         fieldOptions={{
           genres: availableGenres,
           arts_languages: availableLanguages,
           spoken_languages: availableLanguages,
           stage_languages: availableLanguages,
         }}
+        submitLabel={!currentArtist ? 'create' : 'save'}
       />
     </>
   );

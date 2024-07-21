@@ -12,7 +12,7 @@ import {
 } from '~/components/Pages/PlacesPage/PlaceDetailsPage/config-place-detail';
 import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
-import { URL_PARAMETER_NAMES } from '~/constants';
+import { SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { EventModel } from '~/models/domain/event/event.model';
 
 const PlaceDetailPage = () => {
@@ -69,6 +69,10 @@ const PlaceDetailPage = () => {
     },
     onClickPastEvent: (value: any) => {
       navigateToEntity({ entityType: EventModel.name, id: value.id });
+    },
+    onEditProfile: (value: any) => {
+      const entityType = value.constructor.name !== 'Object' ? value.constructor.name : value.entity;
+      navigateToEntity({ entityType, id: value.id, action: SUB_PATHS.EDIT });
     },
   };
 

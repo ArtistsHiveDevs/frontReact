@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import useAuth from '~/common/utils/hooks/auth/useAuth';
 import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { AppUserModel } from '~/models/app/user/user.model';
 import { TRANSLATION_BASE_USER_DETAIL_PAGE, USER_DETAIL_SUB_PAGE_CONFIG } from '../UserDetails/config-user-detail';
 
 const UserCreatePage = () => {
+  const { loggedUser } = useAuth();
   const [availableLanguages, updateAvailableLanguages] = useState([]);
   const [availableGenres, updateAvailableGenres] = useState([]);
   const [availableGenders, updateAvailableGenders] = useState([]);
@@ -114,6 +116,7 @@ const UserCreatePage = () => {
         handlers={handlers}
         translationBasePath={TRANSLATION_BASE_USER_DETAIL_PAGE}
         entityType={AppUserModel.name}
+        elementData={loggedUser}
         fieldOptions={{
           allergies: availableAllergies,
           blood_group: availableBloodGroups,

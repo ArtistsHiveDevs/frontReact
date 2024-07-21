@@ -83,75 +83,6 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           },
         ],
       },
-      {
-        name: 'emergency_contact',
-        components: [
-          {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              data_element_title: {
-                prefix: 'contact',
-                isConsecutive: true,
-                consecutiveBase: 1,
-              },
-              data_source: 'emergency_contact',
-              fields: [
-                {
-                  name: 'name',
-                  value: (emergencyContactData: any) => (
-                    <>{`${emergencyContactData.given_names} ${emergencyContactData.surnames}`}</>
-                  ),
-                  emptyTitle: true,
-                },
-                { name: 'email' },
-                { name: 'phone_number' },
-              ],
-            },
-          },
-        ],
-      },
-      {
-        name: 'artists_info',
-        components: [
-          {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [
-                {
-                  name: 'user_language',
-                  icon: 'FaGlobeAmericas',
-                  emptyTitle: true,
-                  formMetaData: { inputType: 'chipPicker' },
-                },
-                {
-                  name: 'blood_group',
-                  icon: 'MdBloodtype',
-                  emptyTitle: true,
-                  formMetaData: {
-                    inputType: 'select',
-                  },
-                },
-                {
-                  name: 'dietary_restrictions',
-                  icon: 'ImSpoonKnife',
-                  emptyTitle: true,
-                  formMetaData: {
-                    inputType: 'select',
-                  },
-                },
-                {
-                  name: 'allergies',
-                  icon: 'MdOutlineSick',
-                  emptyTitle: true,
-                  formMetaData: {
-                    inputType: 'chipPicker',
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
     ],
   },
   {
@@ -237,6 +168,82 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       },
       {
         name: 'awards',
+      },
+    ],
+  },
+
+  {
+    name: 'artist_info',
+    allowedRoles: [{ entityName: 'Artist' }],
+    sections: [
+      {
+        name: 'artists_info',
+        components: [
+          {
+            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  name: 'user_language',
+                  icon: 'FaGlobeAmericas',
+                  emptyTitle: true,
+                  formMetaData: { inputType: 'chipPicker' },
+                },
+                {
+                  name: 'blood_group',
+                  icon: 'MdBloodtype',
+                  emptyTitle: true,
+                  formMetaData: {
+                    inputType: 'select',
+                  },
+                },
+                {
+                  name: 'dietary_restrictions',
+                  icon: 'ImSpoonKnife',
+                  emptyTitle: true,
+                  formMetaData: {
+                    inputType: 'select',
+                  },
+                },
+                {
+                  name: 'allergies',
+                  icon: 'MdOutlineSick',
+                  emptyTitle: true,
+                  formMetaData: {
+                    inputType: 'chipPicker',
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        name: 'emergency_contact',
+        components: [
+          {
+            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              data_element_title: {
+                prefix: 'contact',
+                isConsecutive: true,
+                consecutiveBase: 1,
+              },
+              data_source: 'emergency_contact',
+              fields: [
+                {
+                  name: 'name',
+                  value: (emergencyContactData: any) => (
+                    <>{`${emergencyContactData.given_names} ${emergencyContactData.surnames}`}</>
+                  ),
+                  emptyTitle: true,
+                },
+                { name: 'email' },
+                { name: 'phone_number' },
+              ],
+            },
+          },
+        ],
       },
     ],
   },

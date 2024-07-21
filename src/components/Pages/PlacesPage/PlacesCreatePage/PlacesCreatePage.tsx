@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { usePlacesSlice } from '~/common/slices/places';
-import { selectPlaces } from '~/common/slices/places/selectors';
+import { placesActions } from '~/common/slices/places';
+import { makeSelectPlaceById } from '~/common/slices/places/selectors';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { RootState } from '~/common/utils/redux-injectors/types';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { URL_PARAMETER_NAMES } from '~/constants';
 import { PlaceModel } from '~/models/domain/place/place.model';
@@ -12,35 +14,33 @@ import {
 } from '../PlaceDetailsPage/config-place-detail';
 
 const PlacesCreatePage = () => {
+  const { navigateToEntity } = useNavigation();
   const urlParameters = useParams();
+  const dispatch = useDispatch();
 
   const [placeId, setCurrentPlaceId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
-
-  const placesList: PlaceModel[] = useSelector(selectPlaces);
-  const { actions: placesActions } = usePlacesSlice();
-  const [currentPlace, setCurrentPlace] = useState<PlaceModel>(undefined);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (!!placeId) {
-      if (placesList.length === 0) {
-        dispatch(placesActions.loadPlaces());
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (!!placesList.length) {
-      setCurrentPlace(getPlaceInfo(placeId));
-    }
-  }, [placesList]);
-
-  const getPlaceInfo = (id: string) => {
-    return placesList.find((place) => place.id === id);
-  };
-
   const [availableLanguages, updateAvailableLanguages] = useState([]);
   const [availableGenres, updateAvailableGenres] = useState([]);
+
+  const selectPlaceById = makeSelectPlaceById();
+  const currentPlace = useSelector((state: RootState) => {
+    if (placeId) {
+      return selectPlaceById(state, placeId);
+      1;
+    } else {
+      return undefined;
+    }
+  });
+
+  useEffect(() => {
+    dispatch(placesActions.getPlaceById(placeId));
+  }, [placeId]);
+
+  useEffect(() => {
+    if (placeId !== urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]) {
+      setCurrentPlaceId(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
+    }
+  }, [urlParameters]);
 
   useEffect(() => {
     const langsOR = [
@@ -75,6 +75,8 @@ const PlacesCreatePage = () => {
   const handlers = {
     onSubmit: (data: any, error?: any) => {
       console.log('#####----------->>>>  !!! ', data);
+
+      navigateToEntity({ entityType: PlaceModel.name, id: currentPlace?.id || 'nuevo-elemento' });
     },
     onChangecountry: (data: any) => {
       console.log('#####----------->>>>  !!! ', data);

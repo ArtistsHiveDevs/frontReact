@@ -16,7 +16,6 @@ import './index.scss';
 import { SIDENAV_MENU_CONFIG, SideMenuItem } from './sidenav.config';
 
 const TRANSLATION_BASE_SIDENAV = 'app.appbase.sidenav';
-const LOGO_URL = 'https://npcarlos.co/artistsHive_mocks/logo.png';
 
 const SideNav = () => {
   const { loggedUser } = useAuth();
@@ -102,7 +101,7 @@ const SideNav = () => {
           <div className="nav-menu-opt">
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand`} className="icon-burger" onClick={handleShow} />
             <a onClick={goToHome}>
-              <img alt="Artist Hive" className="img-logotipo" src={LOGO_URL} width="100" />
+              <img alt="Artist Hive" className="img-logotipo" src={import.meta.env.VITE_LOGO_URL} width="100" />
             </a>
           </div>
 
@@ -133,7 +132,7 @@ const SideNav = () => {
             <Navbar.Offcanvas placement="start" show={show} onHide={handleClose}>
               <Offcanvas.Header closeButton className="sidebar-header" closeVariant="white">
                 <a onClick={goToHome}>
-                  <img alt="Artist Hive" className="img-logotipo" src={LOGO_URL} width="100" />
+                  <img alt="Artist Hive" className="img-logotipo" src={import.meta.env.VITE_LOGO_URL} width="100" />
                 </a>
                 <h4 className="menu-title">{translateText(`${TRANSLATION_BASE_SIDENAV}.name`)}</h4>
               </Offcanvas.Header>

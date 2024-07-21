@@ -127,6 +127,9 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
     past_events: EventTemplate[];
   };
 
+  artistMemberships: ArtistModel[];
+  placeMemberships: PlaceModel[];
+
   constructor(template: AppUserTemplate) {
     super(template);
 
@@ -224,6 +227,17 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
         }
       }
     }
+  }
+
+  checkPermisions(idResourse: string) {
+    const flattenIds = (roles: any[]): string[] => {
+      return roles.flatMap((role) => role.entityRoleMap.map((entityRole: any) => entityRole.id));
+    };
+
+    const ids = flattenIds(this.roles || []);
+    ids.push(this.id);
+
+    return ids.findIndex((id) => id === idResourse) >= 0;
   }
 }
 

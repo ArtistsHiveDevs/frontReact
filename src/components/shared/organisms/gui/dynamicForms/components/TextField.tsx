@@ -172,8 +172,6 @@ export const createSocialNetworkTextField = (params: ComponentGeneratorParams) =
 export const createAddressTextField = (params: ComponentGeneratorParams) => {
   const { errors, fieldData, register } = params || {};
 
-  const googleApiKey = 'AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs';
-
   const lat = 4.6126;
   const lng = -74.0705;
 
@@ -205,7 +203,7 @@ export const createAddressTextField = (params: ComponentGeneratorParams) => {
       {createTextField({ register, fieldData, errors })}
       <MapContainer
         //   key={`section-${section.name}-${index}-${componentIndex}`}
-        apiKey={googleApiKey}
+        apiKey={import.meta.env.VITE_GMAPS_KEY}
         stylesc={mapContainerStyles}
         mapData={mapData}
       />

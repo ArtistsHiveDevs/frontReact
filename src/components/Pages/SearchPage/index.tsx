@@ -309,8 +309,6 @@ export default function SearchPage() {
     };
   }
 
-  const googleApiKey = 'AIzaSyBzyzf0hnuMJBdOB9sR0kBbBTtqYs-XECs';
-
   const mapContainerStyles = {
     width: '100%',
     height: '400px',
@@ -400,7 +398,7 @@ export default function SearchPage() {
               {results.location_boundaries && (
                 <MapContainer
                   //   key={`section-${section.name}-${index}-${componentIndex}`}
-                  apiKey={googleApiKey}
+                  apiKey={import.meta.env.VITE_GMAPS_KEY}
                   stylesc={mapContainerStyles}
                   mapData={mapData}
                 />

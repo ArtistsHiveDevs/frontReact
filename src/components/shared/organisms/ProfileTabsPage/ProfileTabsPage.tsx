@@ -594,7 +594,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     <>
       {!!entityData && (
         <div className="place-container">
-          {profileHeaderComponent || <ProfileHeader element={entityData} />}
+          {profileHeaderComponent || <ProfileHeader element={entityData} handlers={handlers} />}
           <TabbedPanel tabs={transformedConfig()} />
         </div>
       )}

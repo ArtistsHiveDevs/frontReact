@@ -1,6 +1,8 @@
-import { Avatar, IconButton } from '@mui/material';
+import { Avatar, Button, IconButton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { RegisterOptions } from 'react-hook-form';
+import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
+import useAuth from '~/common/utils/hooks/auth/useAuth';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
 import {
@@ -23,7 +25,7 @@ interface FieldInfo {
   config?: RegisterOptions;
 }
 export const ProfileHeader = (props: any) => {
-  const { element, formMethods } = props;
+  const { element, formMethods, handlers: parentHandlers } = props;
 
   const isEditable = !!formMethods;
   const { register, formState } = formMethods || {};
@@ -45,11 +47,15 @@ export const ProfileHeader = (props: any) => {
     },
   ]);
 
+  const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
+
   const { setFocus } = formMethods || {};
 
   const [profilePictureConfig, setProfilePictureConfig] = useState({
     value: undefined,
   });
+
+  const { loggedUser } = useAuth();
 
   useEffect(() => {
     if (element) {
@@ -67,7 +73,21 @@ export const ProfileHeader = (props: any) => {
     }
   }, [element]);
 
-  const generateEditableField = (fieldName: string, element: any, isEditable?: boolean) => {
+  const setEditableMode = (element: any) => {
+    if (loggedUser && parentHandlers && parentHandlers['onEditProfile']) {
+      parentHandlers['onEditProfile'](element);
+    }
+  };
+
+  useEffect(() => {
+    const userID = getStoredUserIdToken();
+    if (userID && loggedUser && element && parentHandlers && parentHandlers['onEditProfile']) {
+      const edit = loggedUser.checkPermisions(element.id);
+      setCurrentUserCanEdit(edit);
+    }
+  }, [element, loggedUser]);
+
+  const generateEditableField = (fieldName: string, element: any, isEditable?: boolean, prefix?: any) => {
     const newField = fields.find((item) => item.name === fieldName);
 
     const showEditableField = isEditable && newField.showEditableField;
@@ -77,14 +97,13 @@ export const ProfileHeader = (props: any) => {
     const fieldData: DynamicFieldData = {
       inputType: 'text',
       fieldName,
-      label: newField.label,
       placeholder,
       focused: true,
       componentParams: {
         variant: 'standard',
+        startAdornment: prefix,
       },
       config: newField.config || {},
-      // label: getAttributeTitle(subpage.name, section.name, attributeInfo),
     };
     const handlers = {
       onBlur: (data: any) => {
@@ -114,7 +133,7 @@ export const ProfileHeader = (props: any) => {
             onClick={() => clickOnField(fieldName)}
             className={`${errors && errors[fieldName] ? 'error-field' : ''}`}
           >
-            {element && newField?.config?.value}
+            {prefix} {element && newField?.config?.value}
             {!element && (
               <>
                 {newField?.config?.value || placeholder}
@@ -180,53 +199,59 @@ export const ProfileHeader = (props: any) => {
   }
 
   return (
-    <div className="profile-header">
-      {isEditable && (
-        <>
-          <input accept="image/*" id="profile-pic-button-file" type="file" hidden onChange={handleOnChange} />
-          <label htmlFor="profile-pic-button-file">
-            <IconButton color="primary" component="span">
-              <Avatar
-                src={image}
-                alt={element?.name}
-                sx={{ width: avatarSize, height: avatarSize, border: '2px solid white' }}
-                className={errors && errors['profile_pic'] && 'error-profile-pic'}
-              />
-            </IconButton>
-          </label>
-        </>
-      )}
-      {!isEditable && (
-        <>
-          <Avatar
-            src={image}
-            alt={element?.name}
-            sx={{ width: avatarSize, height: avatarSize, border: '2px solid white' }}
-          />
-        </>
-      )}
+    <>
+      <div className="profile-header">
+        {isEditable && (
+          <>
+            <input accept="image/*" id="profile-pic-button-file" type="file" hidden onChange={handleOnChange} />
+            <label htmlFor="profile-pic-button-file">
+              <IconButton color="primary" component="span">
+                <Avatar
+                  src={image}
+                  alt={element?.name}
+                  sx={{ width: avatarSize, height: avatarSize, border: '2px solid white' }}
+                  className={errors && errors['profile_pic'] && 'error-profile-pic'}
+                />
+              </IconButton>
+            </label>
+          </>
+        )}
+        {!isEditable && (
+          <>
+            <Avatar
+              src={image}
+              alt={element?.name}
+              sx={{ width: avatarSize, height: avatarSize, border: '2px solid white' }}
+            />
+          </>
+        )}
+        <div className="header-title d-grid align-items-bottom">
+          <div className="username">
+            <span>
+              {generateEditableField('username', element, isEditable, '@')}{' '}
+              <VerifiedArtist verifiedStatus={element?.verified_status} />
+            </span>
+          </div>
+          <div className="profile-name">
+            <h2>
+              {generateEditableField('name', element, isEditable)}
 
-      <div className="header-title d-grid align-items-bottom">
-        <div className="username">
-          <span>
-            @{generateEditableField('username', element, isEditable)}{' '}
-            <VerifiedArtist verifiedStatus={element?.verified_status} />
-          </span>
+              {element && (
+                <>
+                  <FavoriteSubscription size={24} iconType={FavoriteSubscritionIconDefaultTypes.HEART} />
+                </>
+              )}
+            </h2>
+          </div>
+
+          <div className="profile-name">{generateEditableField('subtitle', element, isEditable)}</div>
         </div>
-        <div className="profile-name">
-          <h2>
-            {generateEditableField('name', element, isEditable)}
-
-            {element && (
-              <>
-                <FavoriteSubscription size={24} iconType={FavoriteSubscritionIconDefaultTypes.HEART} />
-              </>
-            )}
-          </h2>
-        </div>
-
-        <div className="profile-name">{generateEditableField('subtitle', element, isEditable)}</div>
       </div>
-    </div>
+      {currentUserCanEdit && (
+        <div className="profile-header actions" onClick={() => setEditableMode(element)}>
+          <Button variant="contained">Edit</Button>
+        </div>
+      )}
+    </>
   );
 };

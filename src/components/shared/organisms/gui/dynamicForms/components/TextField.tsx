@@ -55,13 +55,17 @@ export const createTextField = (params: ComponentGeneratorParams) => {
     fieldData.inputType = showPassword ? 'text' : 'password';
   }
 
+  let startAdornment = undefined;
+  if (componentParams?.startAdornment) {
+    startAdornment = <InputAdornment position="start">{componentParams?.startAdornment}</InputAdornment>;
+  }
   const inputProps: {
     inputProps: { max?: number; min?: number };
     startAdornment?: any;
     endAdornment?: any;
   } = {
     inputProps: {},
-    startAdornment: componentParams?.startAdornment,
+    startAdornment,
     endAdornment: componentParams?.endAdornment,
   };
 

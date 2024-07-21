@@ -15,7 +15,7 @@ const IconFieldReadOnly = (props: any) => {
       if (fieldValue && socialNetwork.url !== undefined) {
         const urlSocialNetwork = buildSocialNetworkLinkData(fieldName, fieldValue);
         renderFieldValue = (
-          <a href={urlSocialNetwork.url} target={urlSocialNetwork.target}>
+          <a href={urlSocialNetwork.url} target={urlSocialNetwork.target || '_blank'}>
             {`${socialNetwork.user_prefix || ''}${fieldValue}`}
           </a>
         );

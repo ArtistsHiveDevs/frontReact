@@ -25,7 +25,7 @@ const FooterSocialNetworks = (props: any) => {
               const urlSocialNetwork = buildSocialNetworkLinkData(socialNetwork, networkUser);
 
               return (
-                <a href={urlSocialNetwork.url} target={urlSocialNetwork.target} key={`AH-${socialNetwork}`}>
+                <a href={urlSocialNetwork.url} target={urlSocialNetwork.target || '_blank'} key={`AH-${socialNetwork}`}>
                   <div title={networkUser}>
                     <DynamicIcons iconName={network.icon} size={25} />
                   </div>

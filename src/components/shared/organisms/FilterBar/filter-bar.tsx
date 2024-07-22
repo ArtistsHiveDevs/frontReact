@@ -1,11 +1,12 @@
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-import './filter-bar.scss';
-import { EntityTemplate, SearchableTemplate } from '~/models/base';
-import { SearchComponent } from '../../search';
-import React, { useRef, useState } from 'react';
-import SelectListComponent from '../../molecules/domain/SelectList/select-list';
+import { Button } from '@mui/material';
+import React, { useRef } from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
+import { SearchableTemplate } from '~/models/base';
 import CalendarDatePickupComponent from '../../molecules/domain/CalendarDatePicker/calendar-date-picker';
+import SelectListComponent from '../../molecules/domain/SelectList/select-list';
+import { SearchComponent } from '../../search';
 import { EntityType } from '../../search/search-constants';
+import './filter-bar.scss';
 
 export enum FilterOptions {
   CATEGORIES = 'categories',

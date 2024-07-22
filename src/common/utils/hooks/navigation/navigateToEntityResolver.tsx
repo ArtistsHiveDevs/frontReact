@@ -23,6 +23,9 @@ export const resolveNavigateToEntityPath = (entityType: string) => {
     case TourOutlineModel.name:
       entity = PATHS.TOURS_OUTLINE;
       break;
+    case 'StagePlot':
+      entity = PATHS.STAGE_PLOT;
+      break;
 
     default:
       break;

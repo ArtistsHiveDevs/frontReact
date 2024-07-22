@@ -555,8 +555,18 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           ...paramsValues,
         });
     } else if (componentDescriptor.componentName === ProfileComponentTypes.TITLE) {
+      let clickHandler: (source: GalleryImageParams, images: any) => void = undefined;
+
+      if (!!componentDescriptor.clickHandlerName) {
+        clickHandler = handlers[componentDescriptor.clickHandlerName as keyof typeof handlers];
+      }
+
       renderedComponent = (
-        <Title title={componentDescriptor.data?.title} size={componentDescriptor.data?.size || '2'} />
+        <Title
+          title={componentDescriptor.data?.title}
+          size={componentDescriptor.data?.size || '2'}
+          onClickHandler={clickHandler}
+        />
       );
     } else if (componentDescriptor.componentName === ProfileComponentTypes.ARTS_GENRES) {
       const content = getData(componentDescriptor.data?.genres) || {};

@@ -1,5 +1,5 @@
+import { Button } from '@mui/material';
 import { useEffect } from 'react';
-import { Button } from 'react-bootstrap';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';

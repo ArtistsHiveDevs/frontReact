@@ -203,7 +203,7 @@ const config: SideMenuItem[] = [
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),
-    path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/2`,
+    path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/rid_2`,
     icon: 'FaFileAlt',
     updated: new Date('2/20/16'),
   },

@@ -150,6 +150,16 @@ export const ROUTES_CONFIG: PathConfigMap = {
           },
         },
       },
+      stagePlot: {
+        path: PATHS.STAGE_PLOT,
+        subpaths: {
+          creator: {
+            component: lazy(() => import('~/components/Pages/domain/RidersPage/StagePlot/StagePlotEditor')),
+            path: `${SUB_PATHS.EDITOR}/:${URL_PARAMETER_NAMES.ELEMENT_ID}`,
+            // redirectToIfNotLoggedUser: PATHS.LOGIN,
+          },
+        },
+      },
       tour: {
         path: PATHS.TOURS_OUTLINE,
         subpaths: {

@@ -230,6 +230,14 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
               size: '5',
             },
           },
+          {
+            componentName: ProfileComponentTypes.TITLE,
+            data: {
+              title: 'Edit',
+              size: '5',
+            },
+            clickHandlerName: 'onClickEditStagePlot',
+          },
         ],
       },
       {

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRidersSlice } from '~/common/slices/domain/riders';
 import { selectRiders } from '~/common/slices/domain/riders/selectors';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
@@ -14,6 +15,7 @@ const TRANSLATION_BASE_ARTIST_DETAIL_PAGE = 'app.pages.domain.RidersPages.Riders
 
 const RiderDetailPage = () => {
   const navigate = useNavigate();
+  const { navigateToEntity } = useNavigation();
 
   const urlParameters = useParams();
 
@@ -63,6 +65,9 @@ const RiderDetailPage = () => {
     },
     onClickEvent: (value: any) => {
       navigateTo(PATHS.EVENTS, value.id);
+    },
+    onClickEditStagePlot: (value: any) => {
+      navigateToEntity({ entityType: 'StagePlot', action: 'editor', id: 'jkkdhas' });
     },
   };
 

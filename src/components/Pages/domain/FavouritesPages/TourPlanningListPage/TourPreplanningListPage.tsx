@@ -1,6 +1,6 @@
+import { Button, Collapse } from '@mui/material';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { Button, Collapse } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Flag from 'react-world-flags';
 import { useTourOutlineSlice } from '~/common/slices/domain/favourites/tour-outlines';

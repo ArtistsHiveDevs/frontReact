@@ -1,4 +1,5 @@
-import { Button, Modal } from 'react-bootstrap';
+import { Button } from '@mui/material';
+import { Modal } from 'react-bootstrap';
 import './GenericModal.scss';
 
 const GenericModal = (props: any) => {
@@ -17,9 +18,10 @@ const GenericModal = (props: any) => {
         <Modal.Footer className="card-buttons-container">
           {buttons?.map((button: any, idx: number) => {
             return (
-              <Button key={`button-modal-${idx}`} onClick={() => props.onHide(`b${button.label}`)}>
-                {button.label}
-              </Button>
+              // <Button key={`button-modal-${idx}`} onClick={() => props.onHide(`b${button.label}`)}>
+              //   {button.label}
+              // </Button>
+              <Button>{button.label}</Button>
             );
           })}
 

@@ -1,5 +1,6 @@
+import { Button } from '@mui/material';
 import { useState } from 'react';
-import { Button, Col, Container, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import { Col, Container, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import { useI18n } from '~/common/utils';
 import './beta-bar.scss';
 

@@ -21,6 +21,7 @@ export enum PATHS {
   BASENAME = '/artistsHive',
   SETTINGS = '/settings',
   MY_FAVOURITES = '/favourites',
+  STAGE_PLOT = '/stagePlot',
   TOURS_OUTLINE = '/toursOutline',
   REDIRECT_UNAUTHORIZED_AND_UNLOGGED_USER = '/home',
   REDIRECT_UNAUTHORIZED_AND_LOGGED_USER = '/home',
@@ -29,6 +30,7 @@ export enum PATHS {
 export enum SUB_PATHS {
   CREATE = 'new',
   EDIT = 'edit',
+  EDITOR = 'editor',
   ELEMENT_DETAILS = 'details',
   AGENDA = 'agenda',
 }

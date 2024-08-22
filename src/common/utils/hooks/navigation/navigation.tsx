@@ -24,7 +24,8 @@ export const useNavigation = () => {
 
     if (entity) {
       let path = `${entity}`;
-      if (params.id) {
+
+      if (entity === PATHS.PROFILE || params.id) {
         const idParam = entity === PATHS.PROFILE ? '' : `/${params.id}`;
         path += `/${params.action || SUB_PATHS.ELEMENT_DETAILS}${idParam}`;
       }

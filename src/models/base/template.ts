@@ -1,7 +1,7 @@
 import { VerificationStatus } from '~/constants';
 import { PlaceModel } from '../domain/place/place.model';
 
-interface Template {}
+export interface Template {}
 
 export interface EntityTemplate extends Template {
   id?: string;

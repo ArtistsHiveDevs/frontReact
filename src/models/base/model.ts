@@ -1,12 +1,16 @@
 import { toCamelCase } from '~/common/utils/string-utils';
 import { EntityTemplate, ObjectValueTemplate } from './template';
 
+const DEFAULT_MAX_CACHE_TIME_TO_LIVE = 3 * 60 * 1000;
+
 /**
  *
  */
 abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
   protected _data: any = {};
   private _template: any;
+  protected fetchTimestamp: number;
+  protected maxCacheTimeToLive: number;
 
   /**
    *
@@ -14,6 +18,8 @@ abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
    */
   constructor(template: T | any = {}) {
     this._template = template;
+    this.fetchTimestamp = Date.now();
+    this.maxCacheTimeToLive = DEFAULT_MAX_CACHE_TIME_TO_LIVE;
 
     Object.keys(template)
       .filter((templateKey) => templateKey !== '_data')
@@ -105,20 +111,35 @@ abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
   public toJSON(): any {
     return this;
   }
+
+  public expireCache(): void {
+    this.fetchTimestamp = 0;
+  }
+
+  abstract get hasFetchAllData(): boolean;
+
+  public isExpiredCache(): boolean {
+    return Date.now() - this.fetchTimestamp >= this.maxCacheTimeToLive;
+  }
 }
 
 /**
  *
  */
-export class EntityModel<T extends EntityTemplate> extends Model<T> {
+export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
   declare id: string;
   declare username?: string;
+
+  constructor(template: T | any = {}) {
+    super(template);
+    this.id = template.id || template._id;
+  }
 }
 
 /**
  *
  */
-export class ObjectValueModel<T extends ObjectValueTemplate> extends Model<T> {
+export abstract class ObjectValueModel<T extends ObjectValueTemplate> extends Model<T> {
   public toJSON(): T {
     throw new Error('Method not implemented.');
   }

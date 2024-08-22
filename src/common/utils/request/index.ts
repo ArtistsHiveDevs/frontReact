@@ -1,3 +1,5 @@
+import { Template } from '~/models/base';
+
 export class ResponseError extends Error {
   public response: Response;
   public content: Promise<any>;
@@ -7,6 +9,19 @@ export class ResponseError extends Error {
     this.response = response;
     this.content = content;
   }
+}
+
+export interface APIResponse {
+  currentPage: number;
+  totalPages: number;
+  data?: Template | Template[];
+  error?: APIError;
+}
+
+export interface APIError {
+  message?: string;
+  errorCode?: string;
+  errorNumber?: number;
 }
 /**
  * Parses the JSON returned by a network request
@@ -67,7 +82,7 @@ export async function request(url: string, options?: RequestInit): Promise<{} | 
  *
  * @return {object}           The response data
  */
-export async function postRequest(url: string, options?: RequestInit): Promise<{} | { err: ResponseError }> {
+export async function postRequest(url: string, options?: RequestInit): Promise<Response | { err: ResponseError }> {
   options.method = 'POST';
   options.headers = { ...options.headers, 'Content-Type': 'application/json' };
 

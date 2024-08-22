@@ -38,6 +38,10 @@ export class SearchModel extends EntityModel<SearchTemplate> implements SearchTe
     this.places = template?.places?.map((places) => new PlaceModel(places)) || [];
   }
 
+  get hasFetchAllData(): boolean {
+    return false;
+  }
+
   get totalResults() {
     return this.artists.length + this.events.length + this.places.length;
   }

@@ -90,6 +90,10 @@ export class PlaceModel
     this.events = template.events?.map((event) => new EventModel(event)) || [];
   }
 
+  get hasFetchAllData(): boolean {
+    return !!this.id && !!this.name && !!this.location;
+  }
+
   public get photo() {
     return this.profile_pic;
   }

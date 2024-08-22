@@ -70,6 +70,10 @@ export class ArtistRiderModel extends EntityModel<ArtistRiderTemplate> implement
   declare created_at: Date;
   declare updated_at: Date;
 
+  get hasFetchAllData(): boolean {
+    return !!this.id && !!this.name && !!this.artistId;
+  }
+
   get crewMembersByRole(): { role: string; people: CrewMemberTemplate[] }[] {
     const crewMembers: { role: string; people: CrewMemberTemplate[] }[] = [];
 

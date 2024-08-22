@@ -77,6 +77,10 @@ export class TourOutlineModel
   declare likedArtists: ArtistTemplate[];
   declare events: EventTemplate[];
 
+  get hasFetchAllData(): boolean {
+    return !!this.id && !!this.name;
+  }
+
   get totalDays() {
     return moment(this.summary.days.final_date).diff(moment(this.summary.days.initial_date), 'days');
   }

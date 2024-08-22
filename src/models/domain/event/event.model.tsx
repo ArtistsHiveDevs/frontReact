@@ -71,6 +71,10 @@ export class EventModel
     this.place = template.place ? new PlaceModel(template.place) : undefined;
   }
 
+  get hasFetchAllData(): boolean {
+    return !!this.id && !!this.name && !!this.description;
+  }
+
   get cardInfo() {
     return { title: this.name, subtitle: this.timetable__initial_date };
   }

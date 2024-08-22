@@ -13,4 +13,8 @@ export class SavedFavouritesModel extends EntityModel<SavedFavouritesTemplate> i
   declare artists: ArtistTemplate[];
   declare events: EventTemplate[];
   declare places: PlaceTemplate[];
+
+  get hasFetchAllData(): boolean {
+    return !!this.id;
+  }
 }

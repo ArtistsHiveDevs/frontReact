@@ -17,4 +17,8 @@ export class TermsAndConditionsModel extends EntityModel<TermsAndConditionsTempl
   declare current: boolean;
   declare draft: boolean;
   declare terms: string;
+
+  get hasFetchAllData(): boolean {
+    return !!this.id && !!this.version && !!this.terms;
+  }
 }

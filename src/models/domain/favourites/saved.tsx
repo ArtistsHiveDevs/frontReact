@@ -28,6 +28,11 @@ export class SavedModel extends EntityModel<SavedTemplate> implements SavedTempl
     this.events = template?.events?.map((events) => new EventModel(events)) || [];
     this.places = template?.places?.map((places) => new PlaceModel(places)) || [];
   }
+
+  get hasFetchAllData(): boolean {
+    return !!this.id && !!this.name && !!this.description;
+  }
+
   profile_pic?: string;
   name: string;
   subtitle?: string;

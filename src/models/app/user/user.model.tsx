@@ -176,6 +176,10 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
     });
   }
 
+  get hasFetchAllData(): boolean {
+    return !!this.id && !!this.username && !!this.name && !!this.email;
+  }
+
   get fullname() {
     return `${this.given_names} ${this.surnames}`;
   }

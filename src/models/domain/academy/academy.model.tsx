@@ -61,6 +61,10 @@ export class AcademyModel
     this.events = template.events?.map((event) => new EventModel(event)) || [];
   }
 
+  get hasFetchAllData(): boolean {
+    return !!this.id && !!this.name;
+  }
+
   public get photo() {
     return this.profile_pic;
   }

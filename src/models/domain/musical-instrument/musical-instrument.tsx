@@ -16,4 +16,8 @@ export class GeneralMusicalInstrumentModel
   declare abbreviation?: string;
   declare description: string;
   declare photo: string;
+
+  get hasFetchAllData(): boolean {
+    return !!this.id && !!this.name && !!this.description;
+  }
 }

@@ -88,6 +88,10 @@ export class ArtistModel extends EntityModel<ArtistTemplate> implements ArtistTe
     this.events = template?.events?.map((event) => new EventModel(event)) || [];
   }
 
+  get hasFetchAllData(): boolean {
+    return !this.isExpiredCache() && !!this.id && !!this.name && !!this.description;
+  }
+
   get pastEvents() {
     return this.events
       .filter((event) => moment(event.timetable__initial_date).isBefore(moment()))

@@ -17,4 +17,8 @@ export class PrivacyPolicyModel extends EntityModel<PrivacyPolicyTemplate> {
   declare current: boolean;
   declare draft: boolean;
   declare policy: string;
+
+  get hasFetchAllData(): boolean {
+    return !!this.id && !!this.version && !!this.policy;
+  }
 }

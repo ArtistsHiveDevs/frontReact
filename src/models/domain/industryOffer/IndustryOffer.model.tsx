@@ -6,4 +6,8 @@ export interface IndustryOfferTemplate extends EntityTemplate {
 
 export class IndustryOfferModel extends EntityModel<IndustryOfferTemplate> {
   declare offer: string;
+
+  get hasFetchAllData(): boolean {
+    return !!this.id && !!this.offer;
+  }
 }

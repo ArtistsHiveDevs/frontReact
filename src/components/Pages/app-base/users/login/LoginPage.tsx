@@ -43,7 +43,7 @@ export const LoginPage = () => {
       fieldName: 'password',
       placeholder: translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.password`),
       config: { required: true },
-      defaultValue: 'A1B2',
+      defaultValue: '1234556768',
     },
     {
       label: translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.remember_me`),

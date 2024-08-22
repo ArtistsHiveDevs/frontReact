@@ -21,3 +21,5 @@ export const makeSelectArtistById = () =>
     [selectDomain, (state: RootState, artistId: string) => artistId],
     (artistsState: ArtistState, artistId: string) => artistsState.detailedArtists[artistId]
   );
+
+export const selectCreatedArtist = createSelector([selectDomain], (ArtistState) => ArtistState.createdArtist);

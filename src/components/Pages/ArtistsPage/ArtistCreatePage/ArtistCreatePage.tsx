@@ -5,8 +5,9 @@ import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists
 import useAuth from '~/common/utils/hooks/auth/useAuth';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
+import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
-import { URL_PARAMETER_NAMES } from '~/constants';
+import { PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import {
   ARTIST_DETAIL_SUB_PAGE_CONFIG,
@@ -14,13 +15,15 @@ import {
 } from '../ArtistDetails/config-artist-detail';
 
 const ArtistsCreatePage = () => {
-  const { navigateToEntity } = useNavigation();
+  const { navigateToEntity, navigateToInnerPath } = useNavigation();
+  const { loggedUser } = useAuth();
   const dispatch = useDispatch();
   const urlParameters = useParams();
 
   const [artistId, setCurrentArtistId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
   const [availableLanguages, updateAvailableLanguages] = useState([]);
   const [availableGenres, updateAvailableGenres] = useState([]);
+  const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
 
   const { actions: artistsActions } = useArtistsSlice();
 
@@ -34,7 +37,13 @@ const ArtistsCreatePage = () => {
   });
 
   useEffect(() => {
-    dispatch(artistsActions.getArtistById(artistId));
+    const currentUserIsAwolled = loggedUser && (!artistId || loggedUser.checkPermisions(artistId));
+    setCurrentUserCanEdit(currentUserIsAwolled);
+    if (currentUserIsAwolled) {
+      dispatch(artistsActions.getItemById({ id: artistId }));
+    } else if (!loggedUser) {
+      navigateToInnerPath({ path: PATHS.LOGIN });
+    }
   }, [artistId]);
 
   useEffect(() => {
@@ -100,20 +109,25 @@ const ArtistsCreatePage = () => {
 
   return (
     <>
-      <DynamicTabbedForm
-        tabsInfo={ARTIST_DETAIL_SUB_PAGE_CONFIG}
-        handlers={handlers}
-        translationBasePath={TRANSLATION_BASE_ARTIST_DETAIL_PAGE}
-        entityType={ArtistModel.name}
-        elementData={currentArtist}
-        fieldOptions={{
-          genres: availableGenres,
-          arts_languages: availableLanguages,
-          spoken_languages: availableLanguages,
-          stage_languages: availableLanguages,
-        }}
-        submitLabel={!currentArtist ? 'create' : 'save'}
-      />
+      <RequireAuthComponent requiredSession={true}>
+        {currentUserCanEdit && (
+          <DynamicTabbedForm
+            tabsInfo={ARTIST_DETAIL_SUB_PAGE_CONFIG}
+            handlers={handlers}
+            translationBasePath={TRANSLATION_BASE_ARTIST_DETAIL_PAGE}
+            entityType={ArtistModel.name}
+            elementData={currentArtist}
+            fieldOptions={{
+              genres: availableGenres,
+              arts_languages: availableLanguages,
+              spoken_languages: availableLanguages,
+              stage_languages: availableLanguages,
+            }}
+            submitLabel={!currentArtist ? 'create' : 'save'}
+          />
+        )}
+        {!currentUserCanEdit && 'No existe o no tiene permisos suficientes'}
+      </RequireAuthComponent>
     </>
   );
 };

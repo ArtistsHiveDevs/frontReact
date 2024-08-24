@@ -19,6 +19,7 @@ import { SearchState } from '~/common/slices/search/types';
 import { UserState } from '~/common/slices/users/types';
 
 export interface RootState {
+  [key: string]: any;
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
   ApiKeyReducer?: ApiKeyState;
   AcademiesReducer?: AcademyState;

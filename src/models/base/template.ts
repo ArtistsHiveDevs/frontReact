@@ -1,7 +1,9 @@
 import { VerificationStatus } from '~/constants';
 import { PlaceModel } from '../domain/place/place.model';
 
-export interface Template {}
+export interface Template {
+  fetchTimestamp?: number;
+}
 
 export interface EntityTemplate extends Template {
   id?: string;

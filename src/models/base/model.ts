@@ -9,7 +9,7 @@ const DEFAULT_MAX_CACHE_TIME_TO_LIVE = 3 * 60 * 1000;
 abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
   protected _data: any = {};
   private _template: any;
-  protected fetchTimestamp: number;
+  public fetchTimestamp: number;
   protected maxCacheTimeToLive: number;
 
   /**
@@ -19,6 +19,7 @@ abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
   constructor(template: T | any = {}) {
     this._template = template;
     this.fetchTimestamp = Date.now();
+    this._template.fetchTimestamp = this.fetchTimestamp;
     this.maxCacheTimeToLive = DEFAULT_MAX_CACHE_TIME_TO_LIVE;
 
     Object.keys(template)

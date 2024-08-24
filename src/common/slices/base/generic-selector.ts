@@ -9,7 +9,7 @@ export function createEntitySelectors<K extends keyof RootState>({ sliceName }: 
   return {
     selectLoading: createSelector([selectDomain], (state) => state?.loading),
     selectError: createSelector([selectDomain], (state) => state?.error),
-    selectItems: createSelector([selectDomain], (state) => state?.items),
+    selectItems: createSelector([selectDomain], (state) => state?.items || []),
     makeSelectItemById: () =>
       createSelector(
         [selectDomain, (_: RootState, itemId: string) => itemId],

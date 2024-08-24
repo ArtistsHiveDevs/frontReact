@@ -86,7 +86,7 @@ const SideNav = () => {
   const handleResultOnClick = (element: SearchableTemplate) => {
     setOpenStatusSearchInputText(false);
     handleClose();
-    navigateToEntity({ entityType: element.constructor.name, id: element.id });
+    navigateToEntity({ entityType: element.constructor.name, id: element.identifier });
   };
 
   const goToHome = () => navigateTo(PATHS.HOME);

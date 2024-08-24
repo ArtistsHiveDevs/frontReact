@@ -34,7 +34,7 @@ const CulturalAgendaPage: React.FC = () => {
 
   // Functions
   function onClickCardEventos(data: any) {
-    navigateToEntity({ entityType: EventModel.name, id: data.id });
+    navigateToEntity({ entityType: EventModel.name, id: data.identifier });
   }
 
   function onFilterCategoriesAction(categorie: string) {

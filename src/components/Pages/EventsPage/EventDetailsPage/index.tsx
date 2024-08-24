@@ -66,7 +66,7 @@ const EventDetailsPage = () => {
   const handlers = {
     onNavigateToEntity: (value: any) => {
       const entityType = value.constructor.name;
-      navigateToEntity({ entityType, id: value.id });
+      navigateToEntity({ entityType, id: value.identifier });
     },
   };
 

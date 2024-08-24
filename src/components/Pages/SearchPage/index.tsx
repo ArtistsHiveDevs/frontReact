@@ -80,7 +80,7 @@ export default function SearchPage() {
   const { navigateToEntity } = useNavigation();
 
   const handleResultOnClick = (element: SearchableTemplate) => {
-    navigateToEntity({ entityType: element.constructor.name, id: element.id });
+    navigateToEntity({ entityType: element.constructor.name, id: element.identifier });
   };
   // Effects
 

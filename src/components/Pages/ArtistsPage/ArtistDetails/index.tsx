@@ -81,11 +81,11 @@ const ArtistDetailPage = () => {
       setGalleryImage(undefined);
     },
     onClickEvent: (value: any) => {
-      navigateToEntity({ entityType: EventModel.name, id: value.id });
+      navigateToEntity({ entityType: EventModel.name, id: value.identifier });
     },
     onEditProfile: (value: any) => {
       const entityType = value.constructor.name !== 'Object' ? value.constructor.name : value.entity;
-      navigateToEntity({ entityType, id: value.id, action: SUB_PATHS.EDIT });
+      navigateToEntity({ entityType, id: value.identifier, action: SUB_PATHS.EDIT });
     },
   };
 

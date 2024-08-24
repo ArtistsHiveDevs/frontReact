@@ -76,7 +76,7 @@ const PlacesCreatePage = () => {
     onSubmit: (data: any, error?: any) => {
       console.log('#####----------->>>>  !!! ', data);
 
-      navigateToEntity({ entityType: PlaceModel.name, id: currentPlace?.id || 'nuevo-elemento' });
+      navigateToEntity({ entityType: PlaceModel.name, id: currentPlace?.identifier || 'nuevo-elemento' });
     },
     onChangecountry: (data: any) => {
       console.log('#####----------->>>>  !!! ', data);

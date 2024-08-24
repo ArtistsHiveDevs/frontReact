@@ -174,7 +174,7 @@ const TourPreplanningListPage = () => {
                         <Button
                           className="button-styles"
                           // href={``}
-                          onClick={() => seeMore(tourOutline.id)}
+                          onClick={() => seeMore(tourOutline.identifier)}
                         >
                           Ver más
                         </Button>

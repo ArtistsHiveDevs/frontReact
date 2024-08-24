@@ -74,7 +74,7 @@ const ArtistsCreatePage = () => {
   const handlers = {
     onSubmit: (data: any, error?: any) => {
       console.log('#####----------->>>>  !!! ', data);
-      navigateToEntity({ entityType: ArtistModel.name, id: currentArtist?.id || 'nuevo-elemento' });
+      navigateToEntity({ entityType: ArtistModel.name, id: currentArtist?.identifier || 'nuevo-elemento' });
     },
     onChangecountry: (data: any) => {
       console.log('#####----------->>>>  !!! ', data);

@@ -50,15 +50,15 @@ const HomePage = () => {
   };
 
   function onClickCardArtist(data: any) {
-    navigateToEntity({ entityType: ArtistModel.name, id: data.id });
+    navigateToEntity({ entityType: ArtistModel.name, id: data.identifier });
   }
 
   function onClickCardEventos(data: any) {
-    navigateToEntity({ entityType: EventModel.name, id: data.id });
+    navigateToEntity({ entityType: EventModel.name, id: data.identifier });
   }
 
   function onClickCardPlaces(data: any) {
-    navigateToEntity({ entityType: PlaceModel.name, id: data.id });
+    navigateToEntity({ entityType: PlaceModel.name, id: data.identifier });
   }
 
   const openOfferIndustry = (actorRole: string) => {

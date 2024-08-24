@@ -13,7 +13,7 @@ export function createEntitySelectors<K extends keyof RootState>({ sliceName }: 
     makeSelectItemById: () =>
       createSelector(
         [selectDomain, (_: RootState, itemId: string) => itemId],
-        (state, itemId) => state?.detailedItems[itemId]
+        (state, itemId) => state?.detailedItems && state?.detailedItems[itemId]
       ),
     selectCreatedItem: createSelector([selectDomain], (state) => state?.createdItem),
   };

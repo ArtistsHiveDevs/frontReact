@@ -46,8 +46,8 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
       itemByIdLoaded(state, action: PayloadAction<{ id: string; item: T }>) {
         if (action.payload.item) {
           let foundItem = new Model(action.payload.item);
-          state.detailedItems[foundItem.id] = foundItem;
-          const previousIndex = state.items.findIndex((item: any) => item.id === foundItem.id);
+          state.detailedItems[foundItem.identifier] = foundItem;
+          const previousIndex = state.items.findIndex((item: any) => item.identifier === foundItem.identifier);
           if (previousIndex >= 0) {
             state.items[previousIndex] = foundItem;
           } else {
@@ -111,33 +111,37 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
     });
 
     // ==================================   GET By ID ==============================================================
-    yield takeLatest(slice.actions.getItemById.type, function* getItemById(actionParams?: PayloadAction<string>) {
-      yield delay(500);
+    yield takeLatest(
+      slice.actions.getItemById.type,
+      function* getItemById(actionParams?: PayloadAction<{ id: string; queryParams?: { [param: string]: any } }>) {
+        yield delay(500);
 
-      const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+        const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
 
-      const { payload: requestedItemID } = actionParams;
-      const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}${resourceEndpoint}/${requestedItemID}`;
+        const { id: requestedItemID, queryParams } = actionParams?.payload || {};
+        const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}${resourceEndpoint}/${requestedItemID}`;
 
-      try {
-        const cacheItems: M[] = yield select(selectors.selectItems);
-        const cacheItem = cacheItems.find((item) => item.id === requestedItemID);
+        try {
+          const cacheItems: M[] = yield select(selectors.selectItems);
+          const cacheItem = cacheItems.find((item) => item.id === requestedItemID);
 
-        let itemById: T = undefined;
-        if (cacheItem && cacheItem.hasFetchAllData) {
-          itemById = cacheItem.template;
-        } else {
-          const response: any = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
-          if (response.data) {
-            itemById = response.data;
+          let itemById: T = undefined;
+          if (cacheItem && cacheItem.hasFetchAllData) {
+            itemById = cacheItem.template;
+          } else {
+            const response: any = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
+            if (response.data) {
+              itemById = response.data;
+            }
           }
-        }
 
-        yield put(slice.actions.itemByIdLoaded({ id: requestedItemID, item: itemById }));
-      } catch (err) {
-        yield put(slice.actions.repoError(1));
+          yield put(slice.actions.itemByIdLoaded({ id: requestedItemID, item: itemById }));
+        } catch (err) {
+          console.log(JSON.stringify(err));
+          yield put(slice.actions.repoError(1));
+        }
       }
-    });
+    );
 
     // ==================================   CREATE ==============================================================
     yield takeLatest(slice.actions.createItem.type, function* createItem(actionParams?: PayloadAction<M>) {

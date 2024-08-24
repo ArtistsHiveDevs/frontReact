@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { usePlacesSlice } from '~/common/slices/places';
-import { makeSelectPlaceById, placesSelectLoading, selectPlaces } from '~/common/slices/places/selectors';
+import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
 import { logPageViewEvent } from '~/common/utils/analytics/analytics';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
@@ -23,13 +22,14 @@ const PlaceDetailPage = () => {
   const [finishedRequest, setFinishedRequest] = useState(false);
   const [currentGalleryImage, setGalleryImage] = useState(undefined);
 
-  const placeList: PlaceModel[] = useSelector(selectPlaces);
-  const requestIsLoading = useSelector(placesSelectLoading);
+  const placeList: PlaceModel[] = useSelector(selectorPlaces.selectItems);
+  const requestIsLoading = useSelector(selectorPlaces.selectLoading);
   const { actions: placesActions } = usePlacesSlice();
 
   const subPagesInfo = [...PLACE_DETAIL_SUB_PAGE_CONFIG];
-  const selectPlaceById = makeSelectPlaceById();
-  const currentPlace = useSelector((state: RootState) => {
+
+  const selectPlaceById = selectorPlaces.makeSelectItemById();
+  const currentPlace: PlaceModel = useSelector((state: RootState) => {
     if (placeId) {
       return selectPlaceById(state, placeId);
     } else {
@@ -47,7 +47,7 @@ const PlaceDetailPage = () => {
   useEffect(() => {
     setStartedRequest(true);
     setFinishedRequest(false);
-    dispatch(placesActions.getPlaceById(placeId));
+    dispatch(placesActions.getItemById({ id: placeId }));
   }, [placeId]);
 
   useEffect(() => {

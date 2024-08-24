@@ -3,8 +3,10 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Flag from 'react-world-flags';
-import { useTourOutlineSlice } from '~/common/slices/domain/favourites/tour-outlines';
-import { selectToursOutlinesByUser } from '~/common/slices/domain/favourites/tour-outlines/selectors';
+import {
+  selectorTourOutlines,
+  useTourOutlinesSlice,
+} from '~/common/slices/domain/favourites/tour-outlines/tour-outlines.redux';
 import { useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
@@ -20,9 +22,9 @@ const TourPreplanningListPage = () => {
 
   const [open, setOpen] = useState([]);
   // Slices
-  const toursOutlineList: TourOutlineModel[] = useSelector(selectToursOutlinesByUser);
+  const toursOutlineList: TourOutlineModel[] = useSelector(selectorTourOutlines.selectItems);
 
-  const { actions: toursOutlinesList } = useTourOutlineSlice();
+  const { actions: toursOutlinesList } = useTourOutlinesSlice();
 
   // Hooks
   const dispatch = useDispatch();
@@ -31,7 +33,7 @@ const TourPreplanningListPage = () => {
 
   // Effects
   useEffect(() => {
-    dispatch(toursOutlinesList.getToursOutlinesByUser('asdasd'));
+    dispatch(toursOutlinesList.loadItems({}));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

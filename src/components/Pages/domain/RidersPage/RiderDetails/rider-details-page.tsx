@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useRidersSlice } from '~/common/slices/domain/riders';
-import { selectRiders } from '~/common/slices/domain/riders/selectors';
+import { selectorRiders, useRidersSlice } from '~/common/slices/domain/riders/riders.redux';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
@@ -21,7 +20,7 @@ const RiderDetailPage = () => {
 
   const [riderId, setCurrentRiderId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
 
-  const riderList: ArtistRiderModel[] = useSelector(selectRiders);
+  const riderList: ArtistRiderModel[] = useSelector(selectorRiders.selectItems);
   const { actions: ridersActions } = useRidersSlice();
 
   const subPagesInfo = [...RIDER_DETAILS_SUB_PAGE_CONFIG];
@@ -32,7 +31,7 @@ const RiderDetailPage = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     if (riderList.length === 0) {
-      dispatch(ridersActions.loadRiders());
+      dispatch(ridersActions.loadItems({}));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

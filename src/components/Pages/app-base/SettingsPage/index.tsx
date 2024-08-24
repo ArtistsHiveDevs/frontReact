@@ -1,9 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useArtistsSlice } from '~/common/slices';
-import { selectArtists } from '~/common/slices/artists/selectors';
-import { usePlacesSlice } from '~/common/slices/places';
-import { selectPlaces } from '~/common/slices/places/selectors';
+
 import useAuth from '~/common/utils/hooks/auth/useAuth';
 import {
   APP_DOMAIN_ROLES,
@@ -20,6 +17,8 @@ import './index.scss';
 import { FloatingLabel } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { HvAppContext } from '~/common';
+import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
+import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectUsers } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
@@ -41,10 +40,10 @@ const AppSettingsPage = () => {
   const [selectedArtistsId, setSelectedArtistId] = useState('');
   const [selectedPlaceId, setSelectedPlaceId] = useState('');
 
-  const artistList: ArtistModel[] = useSelector(selectArtists);
+  const artistList: ArtistModel[] = useSelector(selectorArtists.selectItems);
   const { actions: artistsActions } = useArtistsSlice();
 
-  const placesList: PlaceModel[] = useSelector(selectPlaces);
+  const placesList: PlaceModel[] = useSelector(selectorPlaces.selectItems);
   const { actions: placesActions } = usePlacesSlice();
 
   const usersList: AppUserModel[] = useSelector(selectUsers);
@@ -62,11 +61,11 @@ const AppSettingsPage = () => {
   // Effects
   useEffect(() => {
     if (artistList.length === 0) {
-      dispatch(artistsActions.loadArtists());
+      dispatch(artistsActions.loadItems({}));
     }
 
     if (placesList.length === 0) {
-      dispatch(placesActions.loadPlaces());
+      dispatch(placesActions.loadItems({}));
     }
 
     dispatch(usersActions.loadUsers());

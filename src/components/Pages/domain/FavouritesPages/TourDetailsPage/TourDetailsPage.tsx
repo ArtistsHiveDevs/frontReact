@@ -4,10 +4,13 @@ import { useEffect, useState } from 'react';
 import { Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { useTourOutlineSlice } from '~/common/slices/domain/favourites/tour-outlines';
-import { selectTourOutlineById } from '~/common/slices/domain/favourites/tour-outlines/selectors';
+import {
+  selectorTourOutlines,
+  useTourOutlinesSlice,
+} from '~/common/slices/domain/favourites/tour-outlines/tour-outlines.redux';
 import { useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { RootState } from '~/common/utils/redux-injectors/types';
 import {
   FavoriteSubscription,
   FavoriteSubscritionIconDefaultTypes,
@@ -27,11 +30,19 @@ const TourPlanDetailsPage = () => {
 
   // States
 
-  const { actions: tourPlanActions } = useTourOutlineSlice();
+  const { actions: tourPlanActions } = useTourOutlinesSlice();
 
   const subPagesInfo = [...TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG];
 
-  const tourOutlineDetails: TourOutlineModel = useSelector(selectTourOutlineById);
+  const selectTourOutlineById = selectorTourOutlines.makeSelectItemById();
+  const currentTourOutline: TourOutlineModel = useSelector((state: RootState) => {
+    if (tourPlanId) {
+      return selectTourOutlineById(state, tourPlanId);
+    } else {
+      return undefined;
+    }
+  });
+
   // Hooks
   const dispatch = useDispatch();
 
@@ -41,14 +52,14 @@ const TourPlanDetailsPage = () => {
 
   // Effects
   useEffect(() => {
-    dispatch(tourPlanActions.getTourOutlineById(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]));
+    dispatch(tourPlanActions.getItemById({ id: urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID] }));
 
     if (tourPlanId !== urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]) {
       setCurrentTourPlanId(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
     }
   }, [urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]]);
 
-  useEffect(() => {}, [tourOutlineDetails]);
+  useEffect(() => {}, [currentTourOutline]);
 
   // function navigateTo(newEntity: PATHS, id: string = null) {
   //   navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
@@ -64,18 +75,18 @@ const TourPlanDetailsPage = () => {
   return (
     <>
       <a onClick={() => navigation.goBack()}>{'<'} Volver</a>
-      {tourOutlineDetails && (
+      {currentTourOutline && (
         <>
           <ProfileTabsPage
             entityName="TourPlan"
-            entityData={tourOutlineDetails}
+            entityData={currentTourOutline}
             translation_base_path={TRANSLATION_BASE_EVENT_DETAILS_PAGE}
             subpagesConfig={subPagesInfo}
             handlers={handlers}
             profileHeaderComponent={
               <>
                 <h1 className="tourPlan-title">
-                  {tourOutlineDetails.name}{' '}
+                  {currentTourOutline.name}{' '}
                   <FavoriteSubscription
                     color={'#7a260a'}
                     size={22}
@@ -83,9 +94,9 @@ const TourPlanDetailsPage = () => {
                   />
                 </h1>
                 <Image
-                  alt={tourOutlineDetails.name}
+                  alt={currentTourOutline.name}
                   src={
-                    tourOutlineDetails.pictures.thumbnail || 'https://npcarlos.co/artistsHive_mocks/tour_default.png'
+                    currentTourOutline.pictures.thumbnail || 'https://npcarlos.co/artistsHive_mocks/tour_default.png'
                   }
                   width={'80rem'}
                   fluid={true}
@@ -95,7 +106,7 @@ const TourPlanDetailsPage = () => {
           />
         </>
       )}
-      {!tourOutlineDetails && <h2>{translateText(`${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.tourPlanNotFound`)}</h2>}
+      {!currentTourOutline && <h2>{translateText(`${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.tourPlanNotFound`)}</h2>}
     </>
   );
 };

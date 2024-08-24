@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { Collapse } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useSavedSlice } from '~/common/slices/domain/favourites/saved';
-import { selectSaved } from '~/common/slices/domain/favourites/saved/selectors';
+import {
+  selectorSavedFavourites,
+  useSavedFavouritesSlice,
+} from '~/common/slices/domain/favourites/saved/saved-favourites.redux';
 import { useSearchSlice } from '~/common/slices/search';
 import { useI18n } from '~/common/utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
@@ -30,16 +32,16 @@ const SavedListPage = () => {
   const subPagesInfo = [...SAVED_LIST_PAGE_CONFIG];
 
   // Slices
-  const favouritesList: SavedModel = useSelector(selectSaved);
+  const favouritesList: SavedModel = useSelector(selectorSavedFavourites.selectItems);
   const { actions: searchActions } = useSearchSlice();
-  const { actions: savedActions } = useSavedSlice();
+  const { actions: savedActions } = useSavedFavouritesSlice();
 
   // Hooks
   const dispatch = useDispatch();
 
   // Effects
   useEffect(() => {
-    dispatch(savedActions.querySaved('asdasd'));
+    // dispatch(savedActions.querySaved('asdasd'));
     console.log('### % % consultando');
     dispatch(searchActions.querySearch('Club'));
     console.log('saved....');

@@ -1,12 +1,9 @@
 import { useEffect } from 'react';
 import { Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { useArtistsSlice } from '~/common/slices/artists';
-import { selectArtists } from '~/common/slices/artists/selectors';
-import { useEventsSlice } from '~/common/slices/events';
-import { selectEvents } from '~/common/slices/events/selectors';
-import { usePlacesSlice } from '~/common/slices/places';
-import { selectPlaces } from '~/common/slices/places/selectors';
+import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
+import { selectorEvents, useEventsSlice } from '~/common/slices/domain/events/events.redux';
+import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
 import { useI18n } from '~/common/utils';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
@@ -22,13 +19,13 @@ const TRANSLATION_BASE_HOME_PAGE = 'app.pages.HomePage';
 const TRANSLATION_BASE_GLOBAL_DICTONARY = 'app.global_dictionary';
 
 const HomePage = () => {
-  const artistList: ArtistModel[] = useSelector(selectArtists);
+  const artistList: ArtistModel[] = useSelector(selectorArtists.selectItems);
   const { actions: artistsActions } = useArtistsSlice();
 
-  const eventsList: EventModel[] = useSelector(selectEvents);
+  const eventsList: EventModel[] = useSelector(selectorEvents.selectItems);
   const { actions: eventActions } = useEventsSlice();
 
-  const placesList: PlaceModel[] = useSelector(selectPlaces);
+  const placesList: PlaceModel[] = useSelector(selectorPlaces.selectItems);
   const { actions: placesActions } = usePlacesSlice();
 
   const { loggedUser } = useAuth();
@@ -44,9 +41,9 @@ const HomePage = () => {
   }, [loggedUser]);
 
   const loadData = () => {
-    dispatch(artistsActions.loadArtists());
-    dispatch(eventActions.loadEvents());
-    dispatch(placesActions.loadPlaces());
+    dispatch(artistsActions.loadItems({}));
+    dispatch(eventActions.loadItems({}));
+    dispatch(placesActions.loadItems({}));
   };
 
   function onClickCardArtist(data: any) {

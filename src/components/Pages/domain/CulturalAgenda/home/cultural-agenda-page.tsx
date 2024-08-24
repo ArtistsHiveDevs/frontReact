@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEventsSlice } from '~/common/slices/events';
-import { selectEvents } from '~/common/slices/events/selectors';
+import { selectorEvents, useEventsSlice } from '~/common/slices/domain/events/events.redux';
 import { useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import {
@@ -22,7 +21,7 @@ const TRANSLATION_BASE_AGENDA_CULTURAL_PAGE = 'app.pages.domain.CulturalAgenda';
 
 const CulturalAgendaPage: React.FC = () => {
   // Slices
-  const eventsList: EventModel[] = useSelector(selectEvents);
+  const eventsList: EventModel[] = useSelector(selectorEvents.selectItems);
   const { actions: eventActions } = useEventsSlice();
 
   // Hooks
@@ -64,7 +63,7 @@ const CulturalAgendaPage: React.FC = () => {
   // Effects
   useEffect(() => {
     if (eventsList.length === 0) {
-      dispatch(eventActions.loadEvents());
+      dispatch(eventActions.loadItems({}));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

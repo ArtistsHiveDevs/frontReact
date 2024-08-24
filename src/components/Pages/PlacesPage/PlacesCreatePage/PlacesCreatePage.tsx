@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { placesActions } from '~/common/slices/places';
-import { makeSelectPlaceById } from '~/common/slices/places/selectors';
+import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
@@ -22,18 +21,19 @@ const PlacesCreatePage = () => {
   const [availableLanguages, updateAvailableLanguages] = useState([]);
   const [availableGenres, updateAvailableGenres] = useState([]);
 
-  const selectPlaceById = makeSelectPlaceById();
-  const currentPlace = useSelector((state: RootState) => {
+  const { actions: placesActions } = usePlacesSlice();
+
+  const selectPlaceById = selectorPlaces.makeSelectItemById();
+  const currentPlace: PlaceModel = useSelector((state: RootState) => {
     if (placeId) {
       return selectPlaceById(state, placeId);
-      1;
     } else {
       return undefined;
     }
   });
 
   useEffect(() => {
-    dispatch(placesActions.getPlaceById(placeId));
+    dispatch(placesActions.getItemById({ id: placeId }));
   }, [placeId]);
 
   useEffect(() => {

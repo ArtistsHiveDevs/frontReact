@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import { Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { useEventsSlice } from '~/common/slices/events';
-import { makeSelectEventById } from '~/common/slices/events/selectors';
+import { selectorEvents, useEventsSlice } from '~/common/slices/domain/events/events.redux';
 import { useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
@@ -16,6 +15,7 @@ import {
 } from '~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import { URL_PARAMETER_NAMES } from '~/constants';
+import { EventModel } from '~/models/domain/event/event.model';
 import { EVENT_DETAIL_SUB_PAGE_CONFIG, TRANSLATION_BASE_EVENT_DETAILS_PAGE } from './config-event-detail';
 
 const EventDetailsPage = () => {
@@ -39,8 +39,8 @@ const EventDetailsPage = () => {
 
   // Effects
 
-  const selectEventById = makeSelectEventById();
-  const currentEvent = useSelector((state: RootState) => {
+  const selectEventById = selectorEvents.makeSelectItemById();
+  const currentEvent: EventModel = useSelector((state: RootState) => {
     if (eventId) {
       return selectEventById(state, eventId);
     } else {
@@ -56,7 +56,7 @@ const EventDetailsPage = () => {
   }, [currentEvent]);
 
   useEffect(() => {
-    dispatch(eventActions.getEventById(eventId));
+    dispatch(eventActions.getItemById({ id: eventId }));
   }, [eventId]);
 
   // function navigateTo(newEntity: PATHS, id: string = null) {

@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { useArtistsSlice } from '~/common/slices/artists';
-import { artistsSelectLoading, makeSelectArtistById, selectArtists } from '~/common/slices/artists/selectors';
+import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
 import { logPageViewEvent } from '~/common/utils/analytics/analytics';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
@@ -14,7 +13,6 @@ import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/Imag
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import AppLoader from '~/components/shared/organisms/app/loader/loader';
 import { SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
-import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import './index.scss';
 
@@ -27,12 +25,12 @@ const ArtistDetailPage = () => {
   const [finishedRequest, setFinishedRequest] = useState(false);
   const [currentGalleryImage, setGalleryImage] = useState(undefined);
 
-  const artistList: ArtistModel[] = useSelector(selectArtists);
-  const requestIsLoading = useSelector(artistsSelectLoading);
+  const requestIsLoading = useSelector(selectorArtists.selectLoading);
+  const requestError = useSelector(selectorArtists.selectError);
   const { actions: artistsActions } = useArtistsSlice();
 
   const subPagesInfo = [...ARTIST_DETAIL_SUB_PAGE_CONFIG];
-  const selectArtistById = makeSelectArtistById();
+  const selectArtistById = selectorArtists.makeSelectItemById();
   const currentArtist = useSelector((state: RootState) => {
     if (artistId) {
       return selectArtistById(state, artistId);
@@ -51,7 +49,7 @@ const ArtistDetailPage = () => {
   useEffect(() => {
     setStartedRequest(true);
     setFinishedRequest(false);
-    dispatch(artistsActions.getArtistById(artistId));
+    dispatch(artistsActions.getItemById({ id: artistId }));
   }, [artistId]);
 
   useEffect(() => {

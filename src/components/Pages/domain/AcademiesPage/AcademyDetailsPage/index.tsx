@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAcademiesSlice } from '~/common/slices/domain/academies';
-import { selectAcademies } from '~/common/slices/domain/academies/selectors';
 
+import { selectorAcademies, useAcademiesSlice } from '~/common/slices/domain/academies/academies.redux';
 import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
@@ -20,7 +19,7 @@ const AcademyDetailPage = () => {
 
   const [academyId, setCurrentAcademyId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
 
-  const academiesList: AcademyModel[] = useSelector(selectAcademies);
+  const academiesList: AcademyModel[] = useSelector(selectorAcademies.selectItems);
   const { actions: academiesActions } = useAcademiesSlice();
 
   const subPagesInfo = [...ACADEMY_DETAIL_SUB_PAGE_CONFIG];
@@ -31,7 +30,7 @@ const AcademyDetailPage = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     if (academiesList.length === 0) {
-      dispatch(academiesActions.loadAcademies());
+      dispatch(academiesActions.loadItems({}));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

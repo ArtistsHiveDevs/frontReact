@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useArtistsSlice } from '~/common/slices';
-import { selectArtists } from '~/common/slices/artists/selectors';
-import { usePlacesSlice } from '~/common/slices/places';
-import { selectPlaces } from '~/common/slices/places/selectors';
+import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
+import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
 import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { AppUserModel } from '~/models/app/user/user.model';
@@ -32,8 +30,8 @@ const EventCreatePage = () => {
   const [availableArtists, updateAvailableArtists] = useState([]);
   const [availablePlaces, updateAvailablePlaces] = useState([]);
 
-  const availableArtistsComplete: ArtistModel[] = useSelector(selectArtists);
-  const availablePlacesComplete: PlaceModel[] = useSelector(selectPlaces);
+  const availableArtistsComplete: ArtistModel[] = useSelector(selectorArtists.selectItems);
+  const availablePlacesComplete: PlaceModel[] = useSelector(selectorPlaces.selectItems);
 
   const [selectedArtists, updateSelectedArtists] = useState([]);
   const [selectedPlaces, updateSelectedPlaces] = useState([]);
@@ -114,10 +112,10 @@ const EventCreatePage = () => {
     ]);
 
     if (availableArtistsComplete.length === 0) {
-      dispatch(artistsActions.loadArtists());
+      dispatch(artistsActions.loadItems({}));
     }
     if (availablePlacesComplete.length === 0) {
-      dispatch(placesActions.loadPlaces());
+      dispatch(placesActions.loadItems({}));
     }
   }, []);
 

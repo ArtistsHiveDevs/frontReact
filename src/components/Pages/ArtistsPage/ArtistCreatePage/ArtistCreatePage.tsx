@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { artistsActions } from '~/common/slices';
-import { makeSelectArtistById } from '~/common/slices/artists/selectors';
+import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
+import useAuth from '~/common/utils/hooks/auth/useAuth';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
@@ -22,8 +22,10 @@ const ArtistsCreatePage = () => {
   const [availableLanguages, updateAvailableLanguages] = useState([]);
   const [availableGenres, updateAvailableGenres] = useState([]);
 
-  const selectArtistById = makeSelectArtistById();
-  const currentArtist = useSelector((state: RootState) => {
+  const { actions: artistsActions } = useArtistsSlice();
+
+  const selectArtistById = selectorArtists.makeSelectItemById();
+  const currentArtist: ArtistModel = useSelector((state: RootState) => {
     if (artistId) {
       return selectArtistById(state, artistId);
     } else {

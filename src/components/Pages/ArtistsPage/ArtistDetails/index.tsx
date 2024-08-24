@@ -99,7 +99,7 @@ const ArtistDetailPage = () => {
             handlers={handlers}
           />
         ) : (
-          'Artist not found'
+          <>Artist not found {JSON.stringify(requestError, null, 4)}</>
         )
       ) : (
         <AppLoader />

@@ -7,7 +7,7 @@ import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/pl
 import { useI18n } from '~/common/utils';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
-import { PATHS, getCustomList } from '~/constants';
+import { PATHS } from '~/constants';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
@@ -133,7 +133,7 @@ const HomePage = () => {
 
       <MainSection
         description={'Estos son los artistas nuevos más solicitados'}
-        listView={getCustomList(18, artistList)}
+        listView={artistList}
         params={{ useNewCard: true }}
         title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)}
         callbacks={{ onClickCard: onClickCardArtist }}
@@ -141,7 +141,7 @@ const HomePage = () => {
 
       <MainSection
         description={'Próximos eventos cercanos a ti'}
-        listView={getCustomList(30, eventsList)}
+        listView={eventsList}
         params={{ useNewCard: true }}
         title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.events`)}
         callbacks={{ onClickCard: onClickCardEventos }}
@@ -149,7 +149,7 @@ const HomePage = () => {
 
       <MainSection
         description={'Estos son los lugares más cercanos a tu ubicación que están buscando artistas'}
-        listView={getCustomList(22, placesList)}
+        listView={placesList}
         params={{ useNewCard: true }}
         title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.places`)}
         callbacks={{ onClickCard: onClickCardPlaces }}

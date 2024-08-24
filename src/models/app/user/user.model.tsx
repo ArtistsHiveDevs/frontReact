@@ -14,6 +14,10 @@ export interface UserEntityRoleMap {
   id: string;
   entity?: string;
   roles: string[];
+  profile_pic?: string;
+  name?: string;
+  username?: string;
+  subtitle?: string;
 }
 export interface UserAvailableEntityRole {
   entityName: string;

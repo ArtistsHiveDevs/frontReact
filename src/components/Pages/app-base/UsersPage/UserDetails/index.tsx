@@ -57,7 +57,8 @@ const UserDetailPage = () => {
     },
     onNavigateToEntity: (value: any) => {
       const entityType = value.constructor.name !== 'Object' ? value.constructor.name : value.entity;
-      navigateToEntity({ entityType, id: value.identifier });
+      console.log(entityType, value);
+      navigateToEntity({ entityType, id: value.username || value.id });
     },
     onEditProfile: (value: any) => {
       const entityType = value.constructor.name !== 'Object' ? value.constructor.name : value.entity;

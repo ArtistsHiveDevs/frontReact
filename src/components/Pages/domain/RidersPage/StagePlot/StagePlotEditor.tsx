@@ -234,11 +234,10 @@ const StagePlotEditor: React.FC = () => {
             // enablePan={camaraHabilitada}
             // enableRotate={!dragging}
             ref={controlsRef}
-
             // enableZoom={!dragging}
             // enabled={camaraHabilitada}
-            // autoRotate={true}
-            // autoRotateSpeed={6}
+            autoRotate={true}
+            autoRotateSpeed={8}
             // maxPolarAngle={}
           />{' '}
           {/* Inhabilitar el movimiento de la cámara mientras se arrastra */}

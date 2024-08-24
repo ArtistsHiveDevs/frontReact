@@ -55,7 +55,7 @@ export const EventThumbnailCard = (props: any) => {
   return (
     <div className={['profile-thumbnail-card', eventConfirmStatusColor].join(' ')} onClick={onClickCardHandler}>
       <div className="profile-header">
-        <div className="container-img-card">
+        <div className="container-img-card-ev">
           <div className="card-date-section">
             <p className="card-date-month">{formatDateInMomentType(event.timetable__initial_date, 'ddd')}</p>
             <p className="card-date-number">{formatDateInMomentType(event.timetable__initial_date, 'DD')}</p>

@@ -111,7 +111,7 @@ const SavedListPage = () => {
       <h1>My favourites</h1>
 
       {favouritesList &&
-        favouritesList.likedEntities.map((entityName, entityIndex) => {
+        (favouritesList.likedEntities || []).map((entityName, entityIndex) => {
           const entityColorIndex =
             consts.defaultTypes.findIndex((type) => type.toLowerCase() === entityName.toLowerCase()) + 1;
 

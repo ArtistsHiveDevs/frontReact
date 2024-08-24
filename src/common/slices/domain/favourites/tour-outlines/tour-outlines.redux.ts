@@ -4,7 +4,7 @@ import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors'
 import { TourOutlineModel } from '~/models/domain/favourites/tourOutline';
 
 const sliceName = 'tourOutlines';
-const resourceEndpoint = `/${sliceName}`;
+const resourceEndpoint = `/tours_outlines`;
 
 export const selectorTourOutlines = createEntitySelectors({ sliceName });
 

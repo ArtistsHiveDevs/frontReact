@@ -36,6 +36,10 @@ class FilterModel extends EntityModel<FilterTemplate> {
   declare city: string;
   declare genres: string[];
   declare has_social_networks: string[];
+
+  get hasFetchAllData(): boolean {
+    return false;
+  }
 }
 
 export default function SearchPage() {

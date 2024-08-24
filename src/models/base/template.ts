@@ -16,6 +16,7 @@ export interface LocatableTemplate extends Template {
 }
 
 export interface SearchableTemplate extends EntityTemplate {
+  identifier?: string;
   profile_pic?: string;
   name: string;
   subtitle?: string;

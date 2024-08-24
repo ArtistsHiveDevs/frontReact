@@ -233,15 +233,21 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
     }
   }
 
-  checkPermisions(idResourse: string) {
+  checkPermisions(idResource: string) {
     const flattenIds = (roles: any[]): string[] => {
-      return roles.flatMap((role) => role.entityRoleMap.map((entityRole: any) => entityRole.id));
+      return roles.flatMap(
+        (role) =>
+          role.entityRoleMap
+            .flatMap((entityRole: any) => [entityRole.id, entityRole.username])
+            .filter((value: any) => value !== undefined && value !== null) // Filtra valores no definidos o nulos
+      );
     };
 
     const ids = flattenIds(this.roles || []);
     ids.push(this.id);
+    ids.push(this.username);
 
-    return ids.findIndex((id) => id === idResourse) >= 0;
+    return ids.includes(idResource);
   }
 }
 

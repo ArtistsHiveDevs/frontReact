@@ -135,6 +135,10 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
     super(template);
     this.id = template.id || template._id;
   }
+
+  get identifier() {
+    return this.username || this.id;
+  }
 }
 
 /**

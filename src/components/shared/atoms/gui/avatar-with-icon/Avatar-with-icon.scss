@@ -1,0 +1,11 @@
+@import '~/variables.module.scss';
+
+.icon-button-avatar {
+  position: relative;
+  bottom: 1.3rem;
+  right: -5.3rem;
+  background-color: $secondary-background-light; /* Color de fondo */
+  border-radius: 50%; /* Hace que el contenedor sea circular */
+  width: 35px; /* Anchura del contenedor circular */
+  height: 35px; /* Altura del contenedor circular */
+}

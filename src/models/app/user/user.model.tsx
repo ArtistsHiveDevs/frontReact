@@ -24,6 +24,11 @@ export interface UserAvailableEntityRole {
   entityRoleMap: UserEntityRoleMap[];
 }
 
+export interface UserPermissionsTemplate {
+  canEdit: boolean;
+  isInProfile: boolean;
+}
+
 export interface UserGenderTemplate {
   index: number;
   value: string;
@@ -86,6 +91,8 @@ export interface AppUserTemplate extends EntityTemplate {
   updated_at?: string;
 
   roles: UserAvailableEntityRole[];
+  currentProfileIdentifier: string;
+
   events_as_artist: {
     next_events: EventTemplate[];
     past_events: EventTemplate[];
@@ -122,6 +129,8 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
   declare updated_at: string;
 
   declare roles: UserAvailableEntityRole[];
+  declare currentProfileIdentifier: string;
+
   declare events_as_artist: {
     next_events: EventTemplate[];
     past_events: EventTemplate[];
@@ -163,6 +172,7 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
         getRoleMap
       );
     });
+    this.currentProfileIdentifier = template.currentProfileIdentifier || this.identifier;
 
     // Events
     const eventSubscriptions = ['events_as_artist', 'subscribed_events'];
@@ -237,7 +247,7 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
     }
   }
 
-  checkPermisions(idResource: string) {
+  checkPermissions(idResource: string): UserPermissionsTemplate {
     const flattenIds = (roles: any[]): string[] => {
       return roles.flatMap(
         (role) =>
@@ -251,7 +261,7 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
     ids.push(this.id);
     ids.push(this.username);
 
-    return ids.includes(idResource);
+    return { canEdit: ids.includes(idResource), isInProfile: idResource === this.currentProfileIdentifier };
   }
 }
 

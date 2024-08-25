@@ -3,6 +3,7 @@
 .profile-header {
   display: flex;
   text-align: left;
+  align-items: flex-start;
 
   .avatar {
     object-fit: cover;

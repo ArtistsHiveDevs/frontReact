@@ -4,6 +4,7 @@ import { RegisterOptions } from 'react-hook-form';
 import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
+import AvatarWithIcon from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
 import {
   FavoriteSubscription,
@@ -48,6 +49,7 @@ export const ProfileHeader = (props: any) => {
   ]);
 
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
+  const [currentUserIsInProfile, setCurrentUserIsInProfile] = useState(false);
 
   const { setFocus } = formMethods || {};
 
@@ -81,10 +83,13 @@ export const ProfileHeader = (props: any) => {
 
   useEffect(() => {
     const userID = getStoredUserIdToken();
+    let permissions = { canEdit: false, isInProfile: false };
     if (userID && loggedUser && element && parentHandlers && parentHandlers['onEditProfile']) {
-      const edit = loggedUser.checkPermisions(element.id);
-      setCurrentUserCanEdit(edit);
+      const userPermissions = loggedUser.checkPermissions(element.identifier);
+      permissions = userPermissions;
     }
+    setCurrentUserCanEdit(permissions.canEdit);
+    setCurrentUserIsInProfile(permissions.isInProfile);
   }, [element, loggedUser]);
 
   const generateEditableField = (fieldName: string, element: any, isEditable?: boolean, prefix?: any) => {
@@ -193,6 +198,10 @@ export const ProfileHeader = (props: any) => {
     }
   };
 
+  const switchProfile = () => {
+    console.log('Cambiar a ', element.identifier);
+  };
+
   if (isEditable) {
     register('profile_pic', profilePictureConfig);
     fields.forEach((field) => register(field.name, field.config));
@@ -217,13 +226,13 @@ export const ProfileHeader = (props: any) => {
           </>
         )}
         {!isEditable && (
-          <>
-            <Avatar
-              src={image}
-              alt={element?.name}
-              sx={{ width: avatarSize, height: avatarSize, border: '2px solid white' }}
-            />
-          </>
+          <AvatarWithIcon
+            image={image}
+            name={element?.name}
+            avatarSize={avatarSize}
+            buttonIcon={currentUserCanEdit && !currentUserIsInProfile && 'PiUserSwitch'}
+            onClick={() => switchProfile()}
+          ></AvatarWithIcon>
         )}
         <div className="header-title d-grid align-items-bottom">
           <div className="username">
@@ -247,7 +256,7 @@ export const ProfileHeader = (props: any) => {
           <div className="profile-name">{generateEditableField('subtitle', element, isEditable)}</div>
         </div>
       </div>
-      {currentUserCanEdit && (
+      {currentUserIsInProfile && (
         <div className="profile-header actions" onClick={() => setEditableMode(element)}>
           <Button variant="contained">Edit</Button>
         </div>

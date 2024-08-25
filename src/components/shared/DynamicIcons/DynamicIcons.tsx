@@ -8,9 +8,11 @@ interface typesPropsIcon {
   size?: any;
   color?: any;
   propsIcon?: IconBaseProps;
+  customStyle?: { [property: string]: any };
 }
 
-export function DynamicIcons({ iconName, size, color, propsIcon }: typesPropsIcon): JSX.Element {
+export function DynamicIcons(params: typesPropsIcon): JSX.Element {
+  let { iconName, size, color, propsIcon, customStyle = {} } = params;
   const props = { ...propsIcon };
   const specificLib = iconName.indexOf(' ') >= 0 ? iconName.split(' ')[0] : undefined;
   const name = iconName.indexOf(' ') >= 0 ? iconName.split(' ')[1] : iconName;
@@ -70,6 +72,9 @@ export function DynamicIcons({ iconName, size, color, propsIcon }: typesPropsIco
       case 'md':
         import('react-icons/md/index').then(loadIcon);
         break;
+      case 'pi':
+        import('react-icons/pi/index').then(loadIcon);
+        break;
       case 'ri':
         import('react-icons/ri/index').then(loadIcon);
         break;
@@ -87,17 +92,17 @@ export function DynamicIcons({ iconName, size, color, propsIcon }: typesPropsIco
     }
   }, []);
 
-  const customStyle: { [property: string]: any } = {};
+  const customStyleParam: { [property: string]: any } = { ...customStyle };
 
   if (!!size) {
-    customStyle['fontSize'] = size;
+    customStyleParam['fontSize'] = size;
   }
   if (!!color) {
-    customStyle['color'] = color;
+    customStyleParam['color'] = color;
   }
 
   return (
-    <span className="icon-container" style={customStyle}>
+    <span className="icon-container" style={customStyleParam}>
       <Icon color={propsIcon?.color} size={propsIcon?.size} />
     </span>
   );

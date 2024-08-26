@@ -210,6 +210,28 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
     return null;
   }
 
+  get currentProfileInfo() {
+    if (this.currentProfileIdentifier === this.identifier) {
+      return {
+        entity: AppUserModel.name,
+        id: this.identifier,
+        name: this.name,
+        username: this.username,
+        profile_pic: this.profile_pic,
+        subtitle: this.subtitle,
+        verified_status: this.verified_status,
+      };
+    } else {
+      const profiles = this.roles.find((role) =>
+        role.entityRoleMap.find((roleMap) => [roleMap.id, roleMap.username].includes(this.currentProfileIdentifier))
+      );
+
+      return profiles.entityRoleMap.find((roleMap) =>
+        [roleMap.id, roleMap.username].includes(this.currentProfileIdentifier)
+      );
+    }
+  }
+
   modifyDummyRole(entity: string, idEntity: string, roleName: string, action: 'add' | 'del') {
     // Busca la entidad en la que se va modificar el rol
     if (!this.roles.find((role) => role.entityName === entity)) {
@@ -252,14 +274,21 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
       return roles.flatMap(
         (role) =>
           role.entityRoleMap
-            .flatMap((entityRole: any) => [entityRole.id, entityRole.username])
+            .flatMap((entityRole: any) => [entityRole.id, entityRole.username, entityRole.shortId])
             .filter((value: any) => value !== undefined && value !== null) // Filtra valores no definidos o nulos
       );
     };
 
     const ids = flattenIds(this.roles || []);
-    ids.push(this.id);
-    ids.push(this.username);
+    if (this.id) {
+      ids.push(this.id);
+    }
+    if (this.username) {
+      ids.push(this.username);
+    }
+    if (this.shortId) {
+      ids.push(this.shortId);
+    }
 
     return { canEdit: ids.includes(idResource), isInProfile: idResource === this.currentProfileIdentifier };
   }

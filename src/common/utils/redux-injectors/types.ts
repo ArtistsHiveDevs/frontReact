@@ -10,6 +10,7 @@ import { TermsAndConditionsState } from '~/common/slices/app-base/policies/Terms
 
 import { SearchState } from '~/common/slices/search/types';
 import { UserState } from '~/common/slices/users/types';
+import { EntityModel, EntityTemplate } from '~/models/base';
 
 export interface RootState {
   [key: string]: any;
@@ -40,4 +41,29 @@ export interface InjectSagaParams {
   key: RootStateKeyType | string;
   saga: Saga;
   mode?: SagaInjectionModes;
+}
+
+export interface EntityStateTemplate<T extends EntityTemplate, M extends EntityModel<T>> {
+  loading: boolean;
+  error: any;
+  items: string[];
+  detailedItems: { [identifier: string]: M };
+  queriedId?: string;
+  queryParams?: { [param: string]: any };
+  newItemRQ?: T;
+  createdItem?: M;
+}
+
+// Definición de la función para crear el estado inicial
+export function createInitialState<T extends EntityTemplate, M extends EntityModel<T>>(): EntityStateTemplate<T, M> {
+  return {
+    loading: false,
+    error: null,
+    items: [],
+    detailedItems: {},
+    queriedId: undefined,
+    queryParams: undefined,
+    newItemRQ: undefined,
+    createdItem: undefined,
+  };
 }

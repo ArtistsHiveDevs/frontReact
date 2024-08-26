@@ -1,8 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
+import { EntityStateTemplate } from '~/common/utils/redux-injectors/types';
 import { APIResponse, deleteRequest, postRequest, putRequest, request } from '~/common/utils/request';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import { selectApiKey } from '../app-base/APIKey/selectors';
+import { usersActions } from '../users';
+
+export interface CustomOperations<S> {
+  reducers?: {
+    [key: string]: (state: S, action: PayloadAction<any>) => void;
+  };
+  sagas?: {
+    [key: string]: (action: PayloadAction<any>) => Generator<any, void, unknown>;
+  };
+}
 
 export function createEntitySlice<T extends EntityTemplate, M extends EntityModel<T>>({
   name,
@@ -18,77 +29,91 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
   resourceEndpoint: string;
   selectors: any;
   options?: {
-    [param: string]: any;
-    customPaths?: { getAll?: string; getByID?: string; create?: string; update?: string; delete?: string };
+    customPaths?: { getAll?: string; getByID?: string };
+    disableOperations?: {
+      create?: boolean;
+      update?: boolean;
+      delete?: boolean;
+    };
+    customOperations?: CustomOperations<typeof initialState>;
   };
 }) {
   const slice = createSlice({
     name,
     initialState,
     reducers: {
-      loadItems(state, action?: PayloadAction<{ queryParams?: { [param: string]: any } }>) {
+      loadItems(state: EntityStateTemplate<T, M>, action?: PayloadAction<{ queryParams?: { [param: string]: any } }>) {
         state.loading = true;
         state.error = null;
-        state.items = [];
         state.queryParams = action?.payload?.queryParams;
       },
-      itemsLoaded(state, action: PayloadAction<T[]>) {
-        state.items = (action.payload || []).map((template) => new Model(template));
+      itemsLoaded(state: EntityStateTemplate<T, M>, action: PayloadAction<T[]>) {
+        const response: M[] = (action.payload || []).map((template) => new Model(template));
+        state.items = response.map((element) => element.identifier);
+        state.detailedItems = response.reduce((dict, item) => {
+          dict[item.identifier] = item;
+          return dict;
+        }, {} as { [id: string]: M });
         state.loading = false;
         state.queryParams = undefined;
       },
-      getItemById(state, action: PayloadAction<{ id: string; queryParams?: { [param: string]: any } }>) {
+      getItemById(
+        state: EntityStateTemplate<T, M>,
+        action: PayloadAction<{ id: string; queryParams?: { [param: string]: any } }>
+      ) {
         state.loading = true;
         state.error = null;
         state.queriedId = action.payload.id;
         state.queryParams = action.payload.queryParams;
       },
-      itemByIdLoaded(state, action: PayloadAction<{ id: string; item: T }>) {
+      itemByIdLoaded(state: EntityStateTemplate<T, M>, action: PayloadAction<{ id: string; item: T }>) {
         if (action.payload.item) {
           let foundItem = new Model(action.payload.item);
           state.detailedItems[foundItem.identifier] = foundItem;
-          const previousIndex = state.items.findIndex((item: any) => item.identifier === foundItem.identifier);
-          if (previousIndex >= 0) {
-            state.items[previousIndex] = foundItem;
-          } else {
-            state.items = [...state.items, foundItem];
-          }
         }
         state.loading = false;
         state.queryParams = undefined;
       },
-      createItem(state, action: PayloadAction<T>) {
-        state.loading = true;
-        state.newItemRQ = action.payload;
-        state.createdItem = undefined;
-      },
-      itemCreated(state, action: PayloadAction<T>) {
-        const newItem = new Model(action.payload);
-        state.detailedItems[newItem.id] = newItem;
-        const previousIndex = state.items.findIndex((item: M) => item.id === newItem.id);
-        if (previousIndex >= 0) {
-          state.items[previousIndex] = newItem;
-        } else {
-          state.items = [...state.items, newItem];
-        }
-        state.createdItem = newItem;
-        state.newItemRQ = undefined;
-        state.loading = false;
-      },
-      updateItem(state, action: PayloadAction<{ id: string; newItem: T }>) {
-        state.loading = true;
-      },
-      deleteItem(state, action: PayloadAction<string>) {
-        state.loading = true;
-      },
-      repoError(state, action: PayloadAction<number>) {
+      ...(options?.disableOperations?.create
+        ? {}
+        : {
+            createItem(state: EntityStateTemplate<T, M>, action: PayloadAction<{ data: T }>) {
+              state.loading = true;
+              state.newItemRQ = action.payload.data;
+              state.createdItem = undefined;
+            },
+            itemCreated(state: EntityStateTemplate<T, M>, action: PayloadAction<T>) {
+              const newItem = new Model(action.payload);
+              state.detailedItems[newItem.id] = newItem;
+              state.items.push(newItem.id);
+              state.createdItem = newItem;
+              state.newItemRQ = undefined;
+              state.loading = false;
+            },
+          }),
+      ...(options?.disableOperations?.update
+        ? {}
+        : {
+            updateItem(state: EntityStateTemplate<T, M>, action: PayloadAction<{ id: string; newItem: Partial<T> }>) {
+              state.loading = true;
+            },
+          }),
+      ...(options?.disableOperations?.delete
+        ? {}
+        : {
+            deleteItem(state: EntityStateTemplate<T, M>, action: PayloadAction<{ id: string }>) {
+              state.loading = true;
+            },
+          }),
+      repoError(state: EntityStateTemplate<T, M>, action: PayloadAction<number>) {
         state.error = action.payload;
         state.loading = false;
       },
+      ...(options?.customOperations?.reducers || {}),
     },
   });
 
-  const entitySaga = function* () {
+  function* entitySaga() {
     // ==================================   GET ALL ==============================================================
     yield takeLatest(slice.actions.loadItems.type, function* getItems() {
       yield delay(500);
@@ -143,84 +168,95 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
       }
     );
 
-    // ==================================   CREATE ==============================================================
-    yield takeLatest(slice.actions.createItem.type, function* createItem(actionParams?: PayloadAction<M>) {
-      yield delay(500);
-
-      const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
-
-      const { payload } = actionParams;
-      const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}${resourceEndpoint}`;
-
-      try {
-        const response: any = yield call(postRequest, requestURL, {
-          body: JSON.stringify(payload.template),
-          headers: { 'x-api-key': authInfo?.apiKey },
-        });
-
-        if (response.data) {
-          yield put(slice.actions.itemCreated(response.data));
-        }
-      } catch (err) {
-        yield put(slice.actions.repoError(1));
-      }
-    });
-
-    // ==================================   UPDATE ==============================================================
-    yield takeLatest(
-      slice.actions.updateItem.type,
-      function* updateItem(actionParams?: PayloadAction<{ id: string; newItem: M }>) {
+    if (!options?.disableOperations?.create) {
+      // ==================================   CREATE ==============================================================
+      yield takeLatest(slice.actions.createItem.type, function* createItem(actionParams?: PayloadAction<{ data: T }>) {
         yield delay(500);
 
         const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
-
-        const { id: requestedItemID, newItem } = actionParams?.payload || {};
-        const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}${resourceEndpoint}/${requestedItemID}`;
+        const { payload } = actionParams;
+        const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}${resourceEndpoint}`;
 
         try {
-          if (newItem) {
-            const response: any = yield call(putRequest, requestURL, {
-              body: JSON.stringify(newItem),
+          const response: any = yield call(postRequest, requestURL, {
+            body: JSON.stringify(payload.data),
+            headers: { 'x-api-key': authInfo?.apiKey, sadasda: 'asdasd' },
+          });
+
+          if (response.data) {
+            yield put(usersActions.loadCurrentUser());
+            yield put(slice.actions.itemCreated(response.data));
+          }
+        } catch (err) {
+          yield put(slice.actions.repoError(1));
+        }
+      });
+    }
+
+    if (!options?.disableOperations?.update) {
+      // ==================================   UPDATE ==============================================================
+      yield takeLatest(
+        slice.actions.updateItem.type,
+        function* updateItem(actionParams?: PayloadAction<{ id: string; newItem: M }>) {
+          yield delay(500);
+
+          const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+          const { id: requestedItemID, newItem } = actionParams?.payload || {};
+          const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}${resourceEndpoint}/${requestedItemID}`;
+
+          try {
+            if (newItem) {
+              const response: any = yield call(putRequest, requestURL, {
+                body: JSON.stringify(newItem),
+                headers: { 'x-api-key': authInfo?.apiKey },
+              });
+
+              if (response.data) {
+                yield put(usersActions.loadCurrentUser());
+                yield put(slice.actions.itemByIdLoaded({ id: requestedItemID, item: response.data }));
+              }
+            }
+          } catch (err) {
+            yield put(slice.actions.repoError(1));
+          }
+        }
+      );
+    }
+
+    if (!options?.disableOperations?.delete) {
+      // ==================================   DELETE  ==============================================================
+      yield takeLatest(slice.actions.deleteItem.type, function* deleteItem(actionParams?: PayloadAction<string>) {
+        yield delay(500);
+
+        const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+        const id = actionParams?.payload;
+        const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}${resourceEndpoint}/${id}`;
+
+        try {
+          if (id) {
+            const response: any = yield call(deleteRequest, requestURL, {
               headers: { 'x-api-key': authInfo?.apiKey },
             });
 
             if (response.data) {
-              yield put(slice.actions.itemByIdLoaded({ id: requestedItemID, item: response.data }));
+              yield put(slice.actions.itemByIdLoaded({ id, item: undefined }));
             }
           }
         } catch (err) {
           yield put(slice.actions.repoError(1));
         }
+      });
+    }
+
+    if (options?.customOperations?.sagas) {
+      for (const [operationName, saga] of Object.entries(options.customOperations.sagas)) {
+        yield takeLatest(slice.actions[operationName as keyof typeof slice.actions].type, saga);
       }
-    );
-
-    // ==================================   DELETE  ==============================================================
-    yield takeLatest(slice.actions.deleteItem.type, function* deleteItem(actionParams?: PayloadAction<string>) {
-      yield delay(500);
-
-      const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
-
-      const id = actionParams?.payload;
-      const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}${resourceEndpoint}/${id}`;
-
-      try {
-        if (id) {
-          const response: any = yield call(deleteRequest, requestURL, {
-            headers: { 'x-api-key': authInfo?.apiKey },
-          });
-
-          if (response.data) {
-            yield put(slice.actions.itemByIdLoaded({ id, item: undefined }));
-          }
-        }
-      } catch (err) {
-        yield put(slice.actions.repoError(1));
-      }
-    });
-  };
+    }
+  }
 
   return {
     slice,
-    saga: entitySaga, // Asegúrate de exportar el saga
+    saga: entitySaga,
   };
 }

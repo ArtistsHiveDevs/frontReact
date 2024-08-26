@@ -10,18 +10,21 @@ export interface DomainRole {
   roles: string[];
 }
 
-export interface UserEntityRoleMap {
+export interface EntityInstanceRoleMapTemplate {
   id: string;
+  _id?: string;
   entity?: string;
   roles: string[];
   profile_pic?: string;
   name?: string;
   username?: string;
+  shortId?: string;
   subtitle?: string;
+  verified_status: VerificationStatus;
 }
 export interface UserAvailableEntityRole {
   entityName: string;
-  entityRoleMap: UserEntityRoleMap[];
+  entityRoleMap: EntityInstanceRoleMapTemplate[];
 }
 
 export interface UserPermissionsTemplate {
@@ -151,16 +154,14 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
     const membershipEntitiesClassName = [ArtistModel.name, PlaceModel.name];
 
     membershipEntities.forEach((entityName: string, index: number) => {
-      const roleMap =
-        (this.roles &&
-          this.roles.length &&
-          this.roles.find((role: UserAvailableEntityRole) => role.entityName === entityName)?.entityRoleMap) ||
-        [];
-
-      roleMap.forEach((role) => {
-        role.entity = membershipEntitiesClassName[index];
-      });
-      const getRoleMap = () => [...roleMap];
+      const availableEntity = this.roles?.find((role: UserAvailableEntityRole) => role.entityName === entityName);
+      if (availableEntity) {
+        availableEntity.entityRoleMap = availableEntity?.entityRoleMap.map(
+          (roleMapInstance) =>
+            new CurrentProfileInfoModel({ ...roleMapInstance, entity: membershipEntitiesClassName[index] })
+        );
+      }
+      const getRoleMap = () => [...availableEntity.entityRoleMap];
 
       // TODO camelCase
       this.buildAttribute(
@@ -210,9 +211,10 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
     return null;
   }
 
-  get currentProfileInfo() {
+  get currentProfileInfo(): CurrentProfileInfoModel {
+    let template;
     if (this.currentProfileIdentifier === this.identifier) {
-      return {
+      template = {
         entity: AppUserModel.name,
         id: this.identifier,
         name: this.name,
@@ -220,16 +222,18 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
         profile_pic: this.profile_pic,
         subtitle: this.subtitle,
         verified_status: this.verified_status,
+        roles: ['OWNER'],
       };
     } else {
       const profiles = this.roles.find((role) =>
         role.entityRoleMap.find((roleMap) => [roleMap.id, roleMap.username].includes(this.currentProfileIdentifier))
       );
 
-      return profiles.entityRoleMap.find((roleMap) =>
+      template = profiles.entityRoleMap.find((roleMap) =>
         [roleMap.id, roleMap.username].includes(this.currentProfileIdentifier)
       );
     }
+    return new CurrentProfileInfoModel(template);
   }
 
   modifyDummyRole(entity: string, idEntity: string, roleName: string, action: 'add' | 'del') {
@@ -241,7 +245,7 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
 
     // Busca la instancia de la entidad
     if (!role.entityRoleMap.find((roleMap) => roleMap.id === idEntity)) {
-      role.entityRoleMap.push({ id: idEntity, roles: [] });
+      // role.entityRoleMap.push(new CurrentProfileInfoModel({ id: idEntity, roles: [] }));
     }
     const roleMap = role.entityRoleMap.find((roleMap) => roleMap.id === idEntity);
 
@@ -291,6 +295,34 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
     }
 
     return { canEdit: ids.includes(idResource), isInProfile: idResource === this.currentProfileIdentifier };
+  }
+}
+
+export class CurrentProfileInfoModel implements EntityInstanceRoleMapTemplate {
+  entity: string;
+  id: string;
+  name: string;
+  username?: string;
+  shortId?: string;
+  profile_pic?: string;
+  subtitle?: string;
+  verified_status: VerificationStatus;
+  roles: string[];
+
+  constructor(template: EntityInstanceRoleMapTemplate) {
+    this.entity = template.entity;
+    this.id = template.id || template._id;
+    this.name = template.name;
+    this.username = template.username;
+    this.shortId = template.shortId;
+    this.profile_pic = template.profile_pic;
+    this.subtitle = template.subtitle;
+    this.verified_status = template.verified_status;
+    this.roles = template.roles;
+  }
+
+  get identifier() {
+    return this.username || this.shortId || this.id;
   }
 }
 

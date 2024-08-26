@@ -204,7 +204,7 @@ export const ProfileHeader = (props: any) => {
   };
 
   const switchProfile = () => {
-    dispatch(userActions.switchProfile(element.identifier));
+    dispatch(userActions.switchProfile({ id: element.identifier }));
   };
 
   if (isEditable) {

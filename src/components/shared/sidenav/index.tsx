@@ -121,7 +121,7 @@ const SideNav = () => {
                   if (loggedUser?.currentProfileInfo?.entity && loggedUser?.currentProfileInfo?.id) {
                     navigateToEntity({
                       entityType: loggedUser?.currentProfileInfo?.entity,
-                      id: loggedUser?.currentProfileInfo?.username,
+                      id: loggedUser?.currentProfileInfo?.identifier,
                     });
                   }
                 }}

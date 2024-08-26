@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
+import { useUsersSlice } from '~/common/slices/users';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
@@ -18,15 +19,19 @@ const ArtistsCreatePage = () => {
   const { navigateToEntity, navigateToInnerPath } = useNavigation();
   const { loggedUser } = useAuth();
   const dispatch = useDispatch();
+  const { actions: userActions } = useUsersSlice();
   const urlParameters = useParams();
 
   const [artistId, setCurrentArtistId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
   const [availableLanguages, updateAvailableLanguages] = useState([]);
   const [availableGenres, updateAvailableGenres] = useState([]);
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
+  const [requestHasBeenSended, setRequestHasBeenSended] = useState(false);
+  const [hasSwitchedProfile, setHasSwitchedProfile] = useState(false);
 
   const { actions: artistsActions } = useArtistsSlice();
 
+  const createdItem = useSelector(selectorArtists.selectCreatedItem);
   const selectArtistById = selectorArtists.makeSelectItemById();
   const currentArtist: ArtistModel = useSelector((state: RootState) => {
     if (artistId) {
@@ -37,9 +42,9 @@ const ArtistsCreatePage = () => {
   });
 
   useEffect(() => {
-    const currentUserIsAwolled = loggedUser && (!artistId || loggedUser.checkPermisions(artistId));
+    const currentUserIsAwolled = loggedUser && (!artistId || loggedUser.checkPermissions(artistId).canEdit);
     setCurrentUserCanEdit(currentUserIsAwolled);
-    if (currentUserIsAwolled) {
+    if (currentUserIsAwolled && artistId) {
       dispatch(artistsActions.getItemById({ id: artistId }));
     } else if (!loggedUser) {
       navigateToInnerPath({ path: PATHS.LOGIN });
@@ -51,6 +56,20 @@ const ArtistsCreatePage = () => {
       setCurrentArtistId(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
     }
   }, [urlParameters]);
+
+  // useEffect(() => {
+  //   if (requestHasBeenSended && !!createdItem) {
+  //     console.log()
+  //     dispatch(userActions.switchProfile({ id: createdItem.identifier }));
+  //     setHasSwitchedProfile(true);
+  //   }
+  // }, [createdItem]);
+
+  useEffect(() => {
+    if (requestHasBeenSended && loggedUser?.currentProfileIdentifier) {
+      navigateToEntity({ entityType: ArtistModel.name, id: loggedUser?.currentProfileIdentifier });
+    }
+  }, [loggedUser]);
 
   useEffect(() => {
     const langsOR = [
@@ -85,7 +104,23 @@ const ArtistsCreatePage = () => {
   const handlers = {
     onSubmit: (data: any, error?: any) => {
       console.log('#####----------->>>>  !!! ', data);
-      navigateToEntity({ entityType: ArtistModel.name, id: currentArtist?.identifier || 'nuevo-elemento' });
+      if (!requestHasBeenSended) {
+        if (!currentArtist) {
+          dispatch(artistsActions.createItem({ data }));
+        } else {
+          console.log('Actualizando  un nuevo artista ', currentArtist.identifier, data);
+          dispatch(
+            artistsActions.updateItem({
+              id: currentArtist.identifier,
+              newItem: {
+                ...data,
+              },
+              // newItem: { spotify: 'InstagramActualizado' },
+            })
+          );
+        }
+      }
+      setRequestHasBeenSended(true);
     },
     onChangecountry: (data: any) => {
       console.log('#####----------->>>>  !!! ', data);

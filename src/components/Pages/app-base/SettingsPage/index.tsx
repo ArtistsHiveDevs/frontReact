@@ -6,9 +6,9 @@ import {
   APP_DOMAIN_ROLES,
   AppUserModel,
   DomainRole,
+  EntityInstanceRoleMapTemplate,
   UNLOGGED_USER,
   UserAvailableEntityRole,
-  UserEntityRoleMap,
 } from '~/models/app/user/user.model';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
@@ -199,7 +199,7 @@ const AppSettingsPage = () => {
             return roles
               .filter((userRoleEntity) => userRoleEntity.entityName === roleConfig.entityName)
               .map((availableEntity: UserAvailableEntityRole) => {
-                const instances: UserEntityRoleMap[] = availableEntity.entityRoleMap;
+                const instances: EntityInstanceRoleMapTemplate[] = availableEntity.entityRoleMap;
 
                 return (
                   <EntityRoles
@@ -229,8 +229,8 @@ export const EntityRoles = (props: any) => {
     <div>
       <h6>{translate(roleConfig.label)}</h6>
       {instances
-        .filter((instance: UserEntityRoleMap) => !!instance.roles.length)
-        .map((instance: UserEntityRoleMap, instanceIndex: number) => {
+        .filter((instance: EntityInstanceRoleMapTemplate) => !!instance.roles.length)
+        .map((instance: EntityInstanceRoleMapTemplate, instanceIndex: number) => {
           const userRoles = instance.roles;
           return (
             <EntityInstanceRole

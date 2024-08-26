@@ -7,6 +7,7 @@ import { USER_DETAIL_SUB_PAGE_CONFIG } from './config-user-detail';
 
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { SUB_PATHS } from '~/constants';
+import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import './index.scss';
 
@@ -56,7 +57,7 @@ const UserDetailPage = () => {
       navigateToEntity({ entityType: EventModel.name, id: value.identifier });
     },
     onNavigateToEntity: (value: any) => {
-      let entityType = ['Object', 'CurrentProfileInfoModel'].includes(value.constructor.name)
+      let entityType = ['Object', CurrentProfileInfoModel.name].includes(value.constructor.name)
         ? value.entity
         : value.constructor.name;
       navigateToEntity({ entityType, id: value.username || value.identifier });

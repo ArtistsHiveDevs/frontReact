@@ -1,116 +1,99 @@
-import { useEffect, useState } from 'react';
-import { Collapse } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import {
-  selectorSavedFavourites,
-  useSavedFavouritesSlice,
-} from '~/common/slices/domain/favourites/saved/saved-favourites.redux';
-import { useSearchSlice } from '~/common/slices/search';
-import { useI18n } from '~/common/utils';
-import { DynamicIcons } from '~/components/shared/DynamicIcons';
-import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
-import { TabbedPage } from '~/components/shared/layout/TabbedPanel';
-import { ProfileDetailsSubpage } from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
-import { ResultElement } from '~/components/shared/search/result-element';
-import consts from '~/components/shared/search/search-constants';
-import { PATHS, SUB_PATHS } from '~/constants';
-import { SavedModel, SavedTemplate } from '~/models/domain/favourites/saved';
-import { SAVED_LIST_PAGE_CONFIG } from './config-saved-list-page';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import './saved-list-page.scss';
 
 const TRANSLATION_BASE_ARTIST_DETAIL_PAGE = 'app.pages.domain.AcademiesPages.AcademiesDetailsPage';
 const TRANSLATION_BASE_SEARCH = 'app.appbase.search';
 
 const SavedListPage = () => {
-  const { translateText, locale } = useI18n();
-  const navigate = useNavigate();
+  // const { translateText, locale } = useI18n();
+  // const navigate = useNavigate();
 
-  const [open, setOpen] = useState([]);
-  const MAX_RESULTS_PER_PAGE = 40;
+  // const [open, setOpen] = useState([]);
+  // const MAX_RESULTS_PER_PAGE = 40;
 
-  const subPagesInfo = [...SAVED_LIST_PAGE_CONFIG];
+  // const subPagesInfo = [...SAVED_LIST_PAGE_CONFIG];
 
-  // Slices
-  const favouritesList: SavedModel = useSelector(selectorSavedFavourites.selectItems);
-  const { actions: searchActions } = useSearchSlice();
-  const { actions: savedActions } = useSavedFavouritesSlice();
+  // // Slices
+  // const favouritesList: SavedModel[] = useSelector(selectorSavedFavourites.selectItems);
+  // const { actions: searchActions } = useSearchSlice();
+  // const { actions: savedActions } = useSavedFavouritesSlice();
 
-  // Hooks
+  // // Hooks
   const dispatch = useDispatch();
 
   // Effects
   useEffect(() => {
-    // dispatch(savedActions.querySaved('asdasd'));
-    console.log('### % % consultando');
-    dispatch(searchActions.querySearch('Club'));
-    console.log('saved....');
-    if (favouritesList) {
-      console.log('pidiendo favoritos');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // // dispatch(savedActions.querySaved('asdasd'));
+    // console.log('### % % consultando');
+    // dispatch(searchActions.querySearch('Club'));
+    // console.log('saved....');
+    // if (favouritesList) {
+    //   console.log('pidiendo favoritos');
+    // }
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    console.log('#### ', favouritesList);
-    setOpen(favouritesList?.likedEntities?.map((entityName, index) => index === 0) || []);
-  }, [favouritesList]);
+  // useEffect(() => {
+  //   console.log('#### ', favouritesList);
+  //   setOpen(favouritesList?.likedEntities?.map((entityName, index) => index === 0) || []);
+  // }, [favouritesList]);
 
-  const handlers = {
-    onClickGalleryImage: (source: GalleryImageParams, images: GalleryImageParams[]) => {
-      const image = <ImageGallery images={images} imageSize="fs" />;
-    },
-    onCloseGalleryImage: (value: any) => {},
-    onClickNextEvent: (value: any) => {
-      navigateTo(PATHS.EVENTS, value.id);
-    },
-    onClickPastEvent: (value: any) => {
-      navigateTo(PATHS.EVENTS, value.id);
-    },
-  };
+  // const handlers = {
+  //   onClickGalleryImage: (source: GalleryImageParams, images: GalleryImageParams[]) => {
+  //     const image = <ImageGallery images={images} imageSize="fs" />;
+  //   },
+  //   onCloseGalleryImage: (value: any) => {},
+  //   onClickNextEvent: (value: any) => {
+  //     navigateTo(PATHS.EVENTS, value.id);
+  //   },
+  //   onClickPastEvent: (value: any) => {
+  //     navigateTo(PATHS.EVENTS, value.id);
+  //   },
+  // };
 
-  function navigateTo(newEntity: PATHS, id: string = null) {
-    navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
-  }
+  // function navigateTo(newEntity: PATHS, id: string = null) {
+  //   navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
+  // }
 
-  function translate(text: string) {
-    return translateText(`${TRANSLATION_BASE_SEARCH}.${text}`);
-  }
+  // function translate(text: string) {
+  //   return translateText(`${TRANSLATION_BASE_SEARCH}.${text}`);
+  // }
 
-  // Data config
-  const tabs: TabbedPage[] = subPagesInfo.map((subpage: ProfileDetailsSubpage) => {
-    return {
-      name: subpage.name,
-      tabContent: () => {
-        return <h2>subpage: {subpage.name}</h2>;
-      },
-    };
-  });
+  // // Data config
+  // const tabs: TabbedPage[] = subPagesInfo.map((subpage: ProfileDetailsSubpage) => {
+  //   return {
+  //     name: subpage.name,
+  //     tabContent: () => {
+  //       return <h2>subpage: {subpage.name}</h2>;
+  //     },
+  //   };
+  // });
 
-  console.log('>>>  ####   ', favouritesList, 'DDñ');
-  const emptyResults = () => {
-    let emptyContent = <></>;
-    if (favouritesList?.totalResults === 0) {
-      emptyContent = (
-        <article>
-          <h3>{translate('empty_results.title')}</h3>
-          <p>{translate('empty_results.suggestions.statement')}</p>
-          <ul>
-            <li>{translate('empty_results.suggestions.spelling')}</li>
-            <li>{translate('empty_results.suggestions.less_words')}</li>
-            <li>{translate('empty_results.suggestions.related_things')}</li>
-          </ul>
-        </article>
-      );
-    }
-    return emptyContent;
-  };
+  // console.log('>>>  ####   ', favouritesList, 'DDñ');
+  // const emptyResults = () => {
+  //   let emptyContent = <></>;
+  //   if (favouritesList?.totalResults === 0) {
+  //     emptyContent = (
+  //       <article>
+  //         <h3>{translate('empty_results.title')}</h3>
+  //         <p>{translate('empty_results.suggestions.statement')}</p>
+  //         <ul>
+  //           <li>{translate('empty_results.suggestions.spelling')}</li>
+  //           <li>{translate('empty_results.suggestions.less_words')}</li>
+  //           <li>{translate('empty_results.suggestions.related_things')}</li>
+  //         </ul>
+  //       </article>
+  //     );
+  //   }
+  //   return emptyContent;
+  // };
 
   return (
     <>
       <h1>My favourites</h1>
 
-      {favouritesList &&
+      {/* {favouritesList &&
         (favouritesList.likedEntities || []).map((entityName, entityIndex) => {
           const entityColorIndex =
             consts.defaultTypes.findIndex((type) => type.toLowerCase() === entityName.toLowerCase()) + 1;
@@ -150,7 +133,7 @@ const SavedListPage = () => {
               </Collapse>
             </section>
           );
-        })}
+        })} */}
     </>
   );
 };

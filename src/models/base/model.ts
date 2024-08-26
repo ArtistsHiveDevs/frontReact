@@ -130,6 +130,7 @@ abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
 export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
   declare id: string;
   declare username?: string;
+  declare shortId?: string;
 
   constructor(template: T | any = {}) {
     super(template);
@@ -137,7 +138,7 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
   }
 
   get identifier() {
-    return this.username || this.id;
+    return this.username || this.shortId || this.id;
   }
 }
 

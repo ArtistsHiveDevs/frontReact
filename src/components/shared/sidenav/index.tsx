@@ -116,8 +116,15 @@ const SideNav = () => {
             </span>
             {userID && (
               <ProfilePicture
-                src={loggedUser?.profile_pic}
-                onClickHandler={(param: any) => navigateTo(PATHS.PROFILE)}
+                src={loggedUser?.currentProfileInfo?.profile_pic}
+                onClickHandler={(param: any) => {
+                  if (loggedUser?.currentProfileInfo?.entity && loggedUser?.currentProfileInfo?.id) {
+                    navigateToEntity({
+                      entityType: loggedUser?.currentProfileInfo?.entity,
+                      id: loggedUser?.currentProfileInfo?.username,
+                    });
+                  }
+                }}
                 size="xs"
               />
             )}

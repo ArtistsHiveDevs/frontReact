@@ -1,7 +1,9 @@
 import { Avatar, Button, IconButton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { RegisterOptions } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
+import { useUsersSlice } from '~/common/slices/users';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import AvatarWithIcon from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
@@ -50,6 +52,9 @@ export const ProfileHeader = (props: any) => {
 
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
   const [currentUserIsInProfile, setCurrentUserIsInProfile] = useState(false);
+  const { actions: userActions } = useUsersSlice();
+
+  const dispatch = useDispatch();
 
   const { setFocus } = formMethods || {};
 
@@ -199,7 +204,7 @@ export const ProfileHeader = (props: any) => {
   };
 
   const switchProfile = () => {
-    console.log('Cambiar a ', element.identifier);
+    dispatch(userActions.switchProfile(element.identifier));
   };
 
   if (isEditable) {

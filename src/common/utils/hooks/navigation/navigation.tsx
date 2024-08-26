@@ -25,13 +25,16 @@ export const useNavigation = () => {
     if (entity) {
       let path = `${entity}`;
 
-      if (entity === PATHS.PROFILE || params.id) {
-        const idParam = entity === PATHS.PROFILE ? '' : `/${params.id}`;
-        path += `/${params.action || SUB_PATHS.ELEMENT_DETAILS}${idParam}`;
+      if (entity === PATHS.PROFILE) {
+        path += `/${params.action || ''}`;
+      } else {
+        path += `/${params.action || SUB_PATHS.ELEMENT_DETAILS}/${params.id}`;
       }
 
       window.scrollTo(0, 0);
       navigate(path, params.options);
+    } else {
+      console.error('Navigate to entity error: Entity type was not found', params);
     }
   };
 

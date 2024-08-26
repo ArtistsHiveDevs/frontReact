@@ -52,7 +52,7 @@ export function* switchProfile(actionParams?: PayloadAction<{ id: string }>) {
 
   try {
     const response: APIResponse = yield call(putRequest, requestURL, {
-      body: JSON.stringify({ currentProfileIdentifier: actionParams.payload }),
+      body: JSON.stringify({ currentProfileIdentifier: actionParams.payload.id }),
       headers: { 'x-api-key': authInfo?.apiKey },
     });
 

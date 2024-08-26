@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 import { EntityStateTemplate } from '~/common/utils/redux-injectors/types';
 import { APIResponse, deleteRequest, postRequest, putRequest, request } from '~/common/utils/request';
+import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import { selectApiKey } from '../app-base/APIKey/selectors';
 import { usersActions } from '../users';
@@ -180,12 +181,13 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
         try {
           const response: any = yield call(postRequest, requestURL, {
             body: JSON.stringify(payload.data),
-            headers: { 'x-api-key': authInfo?.apiKey, sadasda: 'asdasd' },
+            headers: { 'x-api-key': authInfo?.apiKey },
           });
 
           if (response.data) {
-            yield put(usersActions.loadCurrentUser());
-            yield put(slice.actions.itemCreated(response.data));
+            const newProfileInfo = new CurrentProfileInfoModel(response.data);
+            yield put(usersActions.switchProfile({ id: newProfileInfo.identifier }));
+            // yield put(slice.actions.itemCreated(response.data));
           }
         } catch (err) {
           yield put(slice.actions.repoError(1));

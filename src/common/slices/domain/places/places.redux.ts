@@ -1,4 +1,4 @@
-import { PlaceModel } from '~/models/domain/place/place.model';
+import { PlaceModel, PlaceTemplate } from '~/models/domain/place/place.model';
 
 import { createEntitySelectors } from '~/common/slices/base/generic-selector';
 import { createEntitySlice } from '~/common/slices/base/generic-slice';
@@ -7,7 +7,7 @@ import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors'
 const sliceName = 'places';
 const resourceEndpoint = `/${sliceName}`;
 
-export const selectorPlaces = createEntitySelectors({ sliceName });
+export const selectorPlaces = createEntitySelectors<typeof sliceName, PlaceModel, PlaceTemplate>({ sliceName });
 
 const { slice: placeSlice, saga: sagaPlaces } = createEntitySlice({
   name: sliceName,

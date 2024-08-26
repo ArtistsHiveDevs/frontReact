@@ -1,4 +1,4 @@
-import { ArtistModel } from '~/models/domain/artist/artist.model';
+import { ArtistModel, ArtistTemplate } from '~/models/domain/artist/artist.model';
 
 import { createEntitySelectors } from '~/common/slices/base/generic-selector';
 import { createEntitySlice } from '~/common/slices/base/generic-slice';
@@ -7,7 +7,7 @@ import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors'
 const sliceName = 'artists';
 const resourceEndpoint = `/${sliceName}`;
 
-export const selectorArtists = createEntitySelectors({ sliceName });
+export const selectorArtists = createEntitySelectors<typeof sliceName, ArtistModel, ArtistTemplate>({ sliceName });
 
 const { slice: artistSlice, saga: sagaArtists } = createEntitySlice({
   name: sliceName,
@@ -23,6 +23,9 @@ const { slice: artistSlice, saga: sagaArtists } = createEntitySlice({
   resourceEndpoint,
   selectors: {
     ...selectorArtists,
+  },
+  options: {
+    disableOperations: {},
   },
 });
 

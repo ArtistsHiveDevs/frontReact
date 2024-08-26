@@ -1,12 +1,14 @@
 import { createEntitySelectors } from '~/common/slices/base/generic-selector';
 import { createEntitySlice } from '~/common/slices/base/generic-slice';
 import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
-import { ArtistRiderModel } from '~/models/domain/rider/rider.model';
+import { ArtistRiderModel, ArtistRiderTemplate } from '~/models/domain/rider/rider.model';
 
 const sliceName = 'riders';
 const resourceEndpoint = `/${sliceName}`;
 
-export const selectorRiders = createEntitySelectors({ sliceName });
+export const selectorRiders = createEntitySelectors<typeof sliceName, ArtistRiderModel, ArtistRiderTemplate>({
+  sliceName,
+});
 
 const { slice: riderSlice, saga: sagaRiders } = createEntitySlice({
   name: sliceName,

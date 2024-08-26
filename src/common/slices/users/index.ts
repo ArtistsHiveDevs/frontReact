@@ -39,6 +39,9 @@ const slice = createSlice({
       state.loading = false;
       state.error = null;
     },
+    switchProfile(state, action: PayloadAction<{ id: string }>) {
+      state.loading = true;
+    },
     repoError(state, action: PayloadAction<UserErrorType>) {
       state.error = action.payload;
       state.loading = false;

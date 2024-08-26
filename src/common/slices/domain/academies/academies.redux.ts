@@ -1,4 +1,4 @@
-import { AcademyModel } from '~/models/domain/academy/academy.model';
+import { AcademyModel, AcademyTemplate } from '~/models/domain/academy/academy.model';
 
 import { createEntitySelectors } from '~/common/slices/base/generic-selector';
 import { createEntitySlice } from '~/common/slices/base/generic-slice';
@@ -7,7 +7,7 @@ import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors'
 const sliceName = 'academies';
 const resourceEndpoint = `/${sliceName}`;
 
-export const selectorAcademies = createEntitySelectors({ sliceName });
+export const selectorAcademies = createEntitySelectors<typeof sliceName, AcademyModel, AcademyTemplate>({ sliceName });
 
 const { slice: academySlice, saga: sagaAcademies } = createEntitySlice({
   name: sliceName,

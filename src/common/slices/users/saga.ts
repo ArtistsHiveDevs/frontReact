@@ -1,8 +1,9 @@
 import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 
-import { request } from '~/common/utils/request';
+import { APIResponse, putRequest, request } from '~/common/utils/request';
 import { AppUserTemplate } from '~/models/app/user/user.model';
 
+import { PayloadAction } from '@reduxjs/toolkit';
 import { LocalStorageVariables } from '~/constants/localstorage';
 import { usersActions } from '.';
 import { actions as apiKeyActions } from '../app-base/APIKey';
@@ -42,6 +43,31 @@ export function* getCurrentUserInfo() {
   }
 }
 
+export function* switchProfile(actionParams?: PayloadAction<{ id: string }>) {
+  yield delay(500);
+
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/${authInfo.userId}`;
+
+  try {
+    const response: APIResponse = yield call(putRequest, requestURL, {
+      body: JSON.stringify({ currentProfileIdentifier: actionParams.payload }),
+      headers: { 'x-api-key': authInfo?.apiKey },
+    });
+
+    if (response?.data) {
+      yield put(usersActions.loadCurrentUser());
+    }
+    // const currentUser: AppUserTemplate = yield call(putRequest, requestURL, {
+    //   headers: { 'x-api-key': authInfo?.apiKey },
+    //   body: { currentProfileIdentifier: actionParams?.payload.id },
+    // });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export function* logout() {
   yield delay(500);
   localStorage.removeItem(LocalStorageVariables.TOKEN_API_KEY);
@@ -60,4 +86,5 @@ export function* userSaga() {
   yield takeLatest(usersActions.loadUsers.type, getUsers);
   yield takeLatest(usersActions.loadCurrentUser.type, getCurrentUserInfo);
   yield takeLatest(usersActions.logout.type, logout);
+  yield takeLatest(usersActions.switchProfile.type, switchProfile);
 }

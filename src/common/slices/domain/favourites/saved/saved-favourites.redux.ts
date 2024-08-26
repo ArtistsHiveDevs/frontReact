@@ -1,12 +1,14 @@
 import { createEntitySelectors } from '~/common/slices/base/generic-selector';
 import { createEntitySlice } from '~/common/slices/base/generic-slice';
 import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
-import { SavedModel } from '~/models/domain/favourites/saved';
+import { SavedModel, SavedTemplate } from '~/models/domain/favourites/saved';
 
 const sliceName = 'savedFavourites';
 const resourceEndpoint = `/${sliceName}`;
 
-export const selectorSavedFavourites = createEntitySelectors({ sliceName });
+export const selectorSavedFavourites = createEntitySelectors<typeof sliceName, SavedModel, SavedTemplate>({
+  sliceName,
+});
 
 const { slice: savedFavouritesSlice, saga: sagaSavedFavourites } = createEntitySlice({
   name: sliceName,

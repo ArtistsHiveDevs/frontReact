@@ -1,12 +1,14 @@
 import { createEntitySelectors } from '~/common/slices/base/generic-selector';
 import { createEntitySlice } from '~/common/slices/base/generic-slice';
 import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
-import { TourOutlineModel } from '~/models/domain/favourites/tourOutline';
+import { TourOutlineModel, TourOutlineTemplate } from '~/models/domain/favourites/tourOutline';
 
 const sliceName = 'tourOutlines';
 const resourceEndpoint = `/tours_outlines`;
 
-export const selectorTourOutlines = createEntitySelectors({ sliceName });
+export const selectorTourOutlines = createEntitySelectors<typeof sliceName, TourOutlineModel, TourOutlineTemplate>({
+  sliceName,
+});
 
 const { slice: tourOutlineSlice, saga: sagaTourOutlines } = createEntitySlice({
   name: sliceName,

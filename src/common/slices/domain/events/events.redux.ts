@@ -1,4 +1,4 @@
-import { EventModel } from '~/models/domain/event/event.model';
+import { EventModel, EventTemplate } from '~/models/domain/event/event.model';
 
 import { createEntitySelectors } from '~/common/slices/base/generic-selector';
 import { createEntitySlice } from '~/common/slices/base/generic-slice';
@@ -7,7 +7,7 @@ import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors'
 const sliceName = 'events';
 const resourceEndpoint = `/${sliceName}`;
 
-export const selectorEvents = createEntitySelectors({ sliceName });
+export const selectorEvents = createEntitySelectors<typeof sliceName, EventModel, EventTemplate>({ sliceName });
 
 const { slice: eventSlice, saga: sagaEvents } = createEntitySlice({
   name: sliceName,

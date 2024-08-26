@@ -42,7 +42,7 @@ const NewEntityCard = (props: any) => {
           <Card key={idx} className="new-entity-card" onClick={() => onClickCardHandler()}>
             {!params?.hidePhoto && (
               <>
-                {photoURL && (
+                {
                   <>
                     <div className="container-img-card">
                       <Card.Img className="img-card" src={photoURL} variant="top"></Card.Img>
@@ -88,7 +88,7 @@ const NewEntityCard = (props: any) => {
                       )}
                     </div>
                   </>
-                )}
+                }
               </>
             )}
           </Card>

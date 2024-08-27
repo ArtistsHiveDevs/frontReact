@@ -39,7 +39,9 @@ export function* getCurrentUserInfo() {
 
     yield put(usersActions.currentUserLoaded(currentUser));
   } catch (err) {
-    console.log(err);
+    yield put(usersActions.logout());
+    // yield delay(500);
+    // window.location.reload();
   }
 }
 
@@ -64,7 +66,9 @@ export function* switchProfile(actionParams?: PayloadAction<{ id: string }>) {
     //   body: { currentProfileIdentifier: actionParams?.payload.id },
     // });
   } catch (err) {
-    console.log(err);
+    yield put(usersActions.logout());
+    // yield delay(500);
+    // window.location.reload();
   }
 }
 
@@ -73,6 +77,8 @@ export function* logout() {
   localStorage.removeItem(LocalStorageVariables.TOKEN_API_KEY);
   yield put(usersActions.currentUserLoaded(null));
   yield put(apiKeyActions.loadApiKey({ isLogout: true }));
+  yield delay(500);
+  window.location.reload();
 }
 
 /**

@@ -161,7 +161,7 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
             new CurrentProfileInfoModel({ ...roleMapInstance, entity: membershipEntitiesClassName[index] })
         );
       }
-      const getRoleMap = () => [...availableEntity.entityRoleMap];
+      const getRoleMap = () => (availableEntity ? [...availableEntity.entityRoleMap] : []);
 
       // TODO camelCase
       this.buildAttribute(

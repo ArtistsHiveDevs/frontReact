@@ -49,7 +49,7 @@ export const HorizontalImageGallery: React.FC<HorizontalImageGalleryProps> = ({ 
   return (
     <Box>
       <Grid container spacing={2} direction="row" wrap="nowrap" style={{ overflowX: 'auto' }}>
-        {imageUrls.map((image, index) => {
+        {(imageUrls || []).map((image, index) => {
           const { src, alt } = image;
           return (
             <Grid item key={index}>

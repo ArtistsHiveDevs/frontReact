@@ -37,13 +37,16 @@ $black: #000000de;
 $full-verified-color: rgb(74, 136, 77);
 $only-verified-color: rgb(200, 195, 50);
 
-$main-background-color: #212121;
+$main-background-color: #1c1c1c;
 $main-title-color: white;
-$main-font-color: #ccc;
+$main-font-color: #d0d0d0;
 $main-title-color-light: #803922;
 $secondary-background-light: #228963;
-$links-color: burlywood;
-$icons-color: white;
+$links-color: #d2a679;
+// $icons-color: white;
+$icons-color: #a4c6b9;
+$icons-color-secondary: #c3dad1;
+$icons-color-brands: white;
 
 $app-background: #202828;
 $app-background-75: #273131;
@@ -63,7 +66,7 @@ $form-fields-placeholder-color: #777;
 
 $card-background-color: #06496f;
 
-$footer-columns-background: #150062;
+$footer-columns-background: #2e3a44;
 $footer-app-social-networks: $nav-bar-background-color;
 
 $entity-1: #f58f1a;

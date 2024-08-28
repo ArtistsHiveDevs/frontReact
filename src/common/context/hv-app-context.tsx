@@ -2,7 +2,9 @@ import { createContext, useEffect } from 'react';
 
 import { appMessages } from '~/translations';
 
+import { useDispatch } from 'react-redux';
 import { LocalStorageVariables } from '~/constants/localstorage';
+import { useUsersSlice } from '../slices/users';
 import { IHvAppContext, IHvAppContextProvider } from './models/hv-app-context.model';
 
 const DEFAULT_LANG_BY_ENV = import.meta.env.VITE_DEFAULT_LANGUAGE;
@@ -43,8 +45,11 @@ function getAvailableLang(lang: string) {
 }
 
 export const HvAppContextProvider = ({ children, appMessages, setLang, lang }: IHvAppContextProvider) => {
+  const dispatch = useDispatch();
+  const { actions: usersActions } = useUsersSlice();
   function onSetLang(nextLang: string) {
     localStorage.setItem(LocalStorageVariables.CURRENT_LANGUAGE, nextLang);
+    dispatch(usersActions.switchLang({ newLang: nextLang }));
     setLang({ lang: nextLang, messages: appMessages[nextLang] });
   }
 

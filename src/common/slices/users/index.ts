@@ -42,6 +42,9 @@ const slice = createSlice({
     switchProfile(state, action: PayloadAction<{ id: string }>) {
       state.loading = true;
     },
+    switchLang(state, action: PayloadAction<{ newLang: string }>) {
+      state.loading = true;
+    },
     repoError(state, action: PayloadAction<UserErrorType>) {
       state.error = action.payload;
       state.loading = false;

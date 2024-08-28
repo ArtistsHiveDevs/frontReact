@@ -72,6 +72,34 @@ export function* switchProfile(actionParams?: PayloadAction<{ id: string }>) {
   }
 }
 
+export function* switchLanguage(actionParams?: PayloadAction<{ newLang: string }>) {
+  yield delay(500);
+
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/${authInfo.userId}`;
+
+  try {
+    const response: APIResponse = yield call(putRequest, requestURL, {
+      body: JSON.stringify({ user_language: actionParams.payload.newLang }),
+      headers: { 'x-api-key': authInfo?.apiKey },
+    });
+
+    if (response?.data) {
+      //TODO pedir paramétricos
+      yield put(usersActions.loadCurrentUser());
+    }
+    // const currentUser: AppUserTemplate = yield call(putRequest, requestURL, {
+    //   headers: { 'x-api-key': authInfo?.apiKey },
+    //   body: { currentProfileIdentifier: actionParams?.payload.id },
+    // });
+  } catch (err) {
+    yield put(usersActions.logout());
+    // yield delay(500);
+    // window.location.reload();
+  }
+}
+
 export function* logout() {
   yield delay(500);
   localStorage.removeItem(LocalStorageVariables.TOKEN_API_KEY);
@@ -93,4 +121,5 @@ export function* userSaga() {
   yield takeLatest(usersActions.loadCurrentUser.type, getCurrentUserInfo);
   yield takeLatest(usersActions.logout.type, logout);
   yield takeLatest(usersActions.switchProfile.type, switchProfile);
+  yield takeLatest(usersActions.switchLang.type, switchLanguage);
 }

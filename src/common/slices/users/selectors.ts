@@ -2,6 +2,7 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from '~/common/utils/redux-injectors/types';
 
+import { LocalStorageVariables } from '~/constants/localstorage';
 import { usersInitialState } from '.';
 
 // First select the relevant part from the state
@@ -14,3 +15,12 @@ export const selectError = createSelector([selectDomain], (UserState) => UserSta
 export const selectUsers = createSelector([selectDomain], (UserState) => UserState.users);
 
 export const selectCurrentUser = createSelector([selectDomain], (UserState) => UserState.currentUser);
+
+export const selectCurrentLang = createSelector([selectDomain], (UserState): string => {
+  return (
+    localStorage.getItem(LocalStorageVariables.CURRENT_LANGUAGE) ||
+    UserState.currentUser?.user_language ||
+    import.meta.env.VITE_DEFAULT_LANGUAGE ||
+    'en'
+  );
+});

@@ -54,12 +54,21 @@ section {
   margin-bottom: 2rem;
 }
 
+.result-box {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .select-result-view-types {
   display: flex;
   flex-direction: row;
   gap: 1rem;
   margin-top: 0.7rem;
   margin-bottom: 1.5rem;
+  justify-content: center;
 }
 
 .result-view-type {

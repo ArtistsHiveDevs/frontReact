@@ -16,6 +16,7 @@ import { SearchModel } from '~/models/domain/search/search.model';
 
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { useSwipeable } from 'react-swipeable';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { SocialNetworks } from '~/constants/social-networks.const';
@@ -289,6 +290,24 @@ export default function SearchPage() {
     { name: 'map', icon: 'GrMapLocation' },
   ];
 
+  const handlePrev = () => {
+    setResultViewType('list');
+  };
+
+  const handleNext = () => {
+    setResultViewType('map');
+  };
+
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: handleNext,
+    onSwipedRight: handlePrev,
+    // preventDefaultTouchmoveEvent: true,
+    trackMouse: true, // Enable swipe with mouse for testing on desktop
+  });
+
+  const clickHandlerMap = useSwipeable({
+    onTouchStartOrOnMouseDown: (a) => console.log('TOUCH', a.event.target),
+  });
   let mapData;
   if (results?.location_boundaries) {
     const markers = Object.keys(results.locatedResults)
@@ -319,7 +338,7 @@ export default function SearchPage() {
   };
 
   return (
-    <>
+    <div className="result-box" {...clickHandlerMap}>
       <h1>{translate('what_are_you_looking_for')}</h1>
       <div className="search-controls">
         <InputGroup>
@@ -341,7 +360,7 @@ export default function SearchPage() {
       </div>
 
       {!!results && !!open.length && (
-        <>
+        <div className="result-box" {...swipeHandlers}>
           <div className="select-result-view-types">
             {RESULT_VIEW_TYPES.map((type) => (
               <div
@@ -400,16 +419,19 @@ export default function SearchPage() {
               {!results.location_boundaries && emptyResults()}
 
               {results.location_boundaries && (
-                <MapContainer
-                  //   key={`section-${section.name}-${index}-${componentIndex}`}
-                  apiKey={import.meta.env.VITE_GMAPS_KEY}
-                  stylesc={mapContainerStyles}
-                  mapData={mapData}
-                />
+                <div id="map-container" {...clickHandlerMap}>
+                  <MapContainer
+                    id="MAPA"
+                    //   key={`section-${section.name}-${index}-${componentIndex}`}
+                    apiKey={import.meta.env.VITE_GMAPS_KEY}
+                    stylesc={mapContainerStyles}
+                    mapData={mapData}
+                  />
+                </div>
               )}
             </>
           )}
-        </>
+        </div>
       )}
 
       {emptyResults()}
@@ -419,6 +441,6 @@ export default function SearchPage() {
         </div>
       )}
       {openModal()}
-    </>
+    </div>
   );
 }

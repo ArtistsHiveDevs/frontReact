@@ -339,7 +339,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       const content =
         getData(componentDescriptor.data?.attribute_content) ||
         componentDescriptor.data?.content ||
-        componentDescriptor.data?.render(parentDataSource || dataSourceElement);
+        (componentDescriptor.data?.render && componentDescriptor.data?.render(parentDataSource || dataSourceElement));
       return <>{content}</>;
     } else if (componentDescriptor.componentName === ProfileComponentTypes.PROFILE_THUMBNAIL_CARD) {
       // Data source

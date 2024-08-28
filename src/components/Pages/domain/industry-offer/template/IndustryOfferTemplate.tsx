@@ -20,7 +20,7 @@ const IndustryOfferTemplate = () => {
   const urlParameters = useParams();
 
   const { loggedUser, setLoggedUser } = useAuth();
-  const { translateText } = useI18n();
+  const { translateText, translateGlobalDict } = useI18n();
   const { navigateToInnerPath } = useNavigation();
 
   const { role } = urlParameters;
@@ -33,13 +33,16 @@ const IndustryOfferTemplate = () => {
   const dispatch = useDispatch();
 
   // Effects
-  useEffect(() => {
-    dispatch(industryOfferActions.loadIndustryOffer({ role }));
-  }, []);
 
   useEffect(() => {
-    dispatch(industryOfferActions.loadIndustryOffer({ role }));
+    if (urlParameters?.role) {
+      dispatch(industryOfferActions.loadIndustryOffer({ role: urlParameters.role }));
+    }
   }, [urlParameters]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [offer]);
 
   const bannerCreateAccount = () => {
     return (
@@ -57,15 +60,19 @@ const IndustryOfferTemplate = () => {
     );
   };
 
+  const goToHome = () => navigateToInnerPath({ path: PATHS.HOME });
+
   return (
     offer && (
-      <>
-        {bannerCreateAccount()}
-
-        <ReactMarkdown children={offer.offer} remarkPlugins={[remarkGfm]} className="md-render" />
-
-        {bannerCreateAccount()}
-      </>
+      <div className="offer-container">
+        {offer && <ReactMarkdown children={offer.offer} remarkPlugins={[remarkGfm]} className="md-render" />}
+        <div className="logo-end">
+          <a onClick={goToHome}>
+            <img alt="Artist Hive" className="img-logotipo" src={import.meta.env.VITE_LOGO_URL} width="80%" />
+            <h2>{translateGlobalDict('artists_hive.slogan')}</h2>
+          </a>
+        </div>
+      </div>
     )
   );
 };

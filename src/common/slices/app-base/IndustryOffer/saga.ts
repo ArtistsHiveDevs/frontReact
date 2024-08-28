@@ -5,6 +5,7 @@ import { request } from '~/common/utils/request';
 
 import { IndustryOfferModel } from '~/models/domain/industryOffer/IndustryOffer.model';
 import { actions } from '.';
+import { selectCurrentLang } from '../../users/selectors';
 import { selectApiKey } from '../APIKey/selectors';
 import { IndustryOfferErrorType } from './types';
 
@@ -15,9 +16,11 @@ export function* getIndustryOffer(actionParams?: PayloadAction<{ role?: string }
 
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/industryOffer?role=${actionParams.payload.role}`;
 
+  const currentLang: string = yield select(selectCurrentLang);
+
   try {
     const industryOffer: IndustryOfferModel = yield call(request, requestURL, {
-      headers: { 'x-api-key': authInfo?.apiKey },
+      headers: { 'x-api-key': authInfo?.apiKey, lang: currentLang },
     });
 
     yield put(actions.industryOfferLoaded(industryOffer));

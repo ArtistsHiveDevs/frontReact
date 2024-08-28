@@ -44,6 +44,13 @@
   padding-left: 20px;
 }
 
+.icon-color-primary {
+  color: $icons-color;
+}
+
+.icon-color-secondary {
+  color: red; //$icons-color-secondary;
+}
 .menu-brand {
   color: $main-title-color;
   text-align: center;

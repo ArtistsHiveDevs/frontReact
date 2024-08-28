@@ -67,19 +67,19 @@ const HomePage = () => {
       role: 'artists',
       image: 'https://c1.wallpaperflare.com/preview/516/564/13/band-music-performance-perform.jpg',
     },
-    {
-      role: 'promoters',
-      image: 'https://c1.wallpaperflare.com/preview/105/913/190/audio-audio-mixer-bass-blur.jpg',
-    },
+    // {
+    //   role: 'promoters',
+    //   image: 'https://c1.wallpaperflare.com/preview/105/913/190/audio-audio-mixer-bass-blur.jpg',
+    // },
     {
       role: 'places',
       image:
         'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/d0beebe8-2760-4784-a929-15d40d310a61/dcqsobn-d17166c2-92e4-42b9-92dd-e4b5060fff7a.jpg/v1/fill/w_1088,h_734,q_70,strp/bar_concert_room_by_goliatgashi_dcqsobn-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTI5NiIsInBhdGgiOiJcL2ZcL2QwYmVlYmU4LTI3NjAtNDc4NC1hOTI5LTE1ZDQwZDMxMGE2MVwvZGNxc29ibi1kMTcxNjZjMi05MmU0LTQyYjktOTJkZC1lNGI1MDYwZmZmN2EuanBnIiwid2lkdGgiOiI8PTE5MjAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.ecRdf5oG2RVLEbQNBpZgZh1U5wt6iz7W3CKYOdeYnCU',
     },
-    {
-      role: 'academies',
-      image: 'https://artsedcollab.org/wp-content/uploads/2018/12/20180118_121442_24968897657_o-600x450.jpg',
-    },
+    // {
+    //   role: 'academies',
+    //   image: 'https://artsedcollab.org/wp-content/uploads/2018/12/20180118_121442_24968897657_o-600x450.jpg',
+    // },
   ];
 
   // const provincias = {

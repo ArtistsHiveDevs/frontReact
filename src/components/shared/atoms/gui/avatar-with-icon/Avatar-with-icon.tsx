@@ -29,6 +29,7 @@ const AvatarWithIcon: React.FC<Props> = ({ image, name, avatarSize, buttonIcon, 
             iconName={buttonIcon || ''}
             size={30}
             customStyle={{ position: 'absolute', top: '-1rem', left: '-0.35rem' }}
+            color={'white'}
           />
         </div>
       )}

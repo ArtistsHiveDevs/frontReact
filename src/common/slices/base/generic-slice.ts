@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 import { EntityStateTemplate } from '~/common/utils/redux-injectors/types';
-import { APIResponse, deleteRequest, postRequest, putRequest, request } from '~/common/utils/request';
+import { APIResponse, buildQueryString, deleteRequest, postRequest, putRequest, request } from '~/common/utils/request';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import { selectApiKey } from '../app-base/APIKey/selectors';
@@ -116,25 +116,35 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
 
   function* entitySaga() {
     // ==================================   GET ALL ==============================================================
-    yield takeLatest(slice.actions.loadItems.type, function* getItems() {
-      yield delay(500);
+    yield takeLatest(
+      slice.actions.loadItems.type,
+      function* getItems(actionParams?: PayloadAction<{ queryParams?: { [param: string]: any } }>) {
+        yield delay(500);
 
-      const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+        const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+        const queryString = buildQueryString(actionParams?.payload?.queryParams);
 
-      const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}${resourceEndpoint}`;
+        const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}${resourceEndpoint}${queryString}`;
 
-      try {
-        const response: APIResponse = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
+        console.log(requestURL, ' **** ', actionParams.payload.queryParams);
+        try {
+          const response: APIResponse = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
 
-        if (response.error) {
+          if (response.error) {
+            yield put(slice.actions.repoError(1));
+          } else if (response.data) {
+            let resultInfo = response.data;
+            if (!Array.isArray(resultInfo)) {
+              resultInfo = [resultInfo];
+            }
+            yield put(slice.actions.itemsLoaded(<T[]>resultInfo));
+          }
+        } catch (err) {
+          console.log(err);
           yield put(slice.actions.repoError(1));
-        } else if (response.data) {
-          yield put(slice.actions.itemsLoaded(<T[]>response.data));
         }
-      } catch (err) {
-        yield put(slice.actions.repoError(1));
       }
-    });
+    );
 
     // ==================================   GET By ID ==============================================================
     yield takeLatest(
@@ -145,7 +155,11 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
         const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
 
         const { id: requestedItemID, queryParams } = actionParams?.payload || {};
-        const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}${resourceEndpoint}/${requestedItemID}`;
+        const queryString = buildQueryString(actionParams?.payload?.queryParams);
+
+        const requestURL = `${
+          import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
+        }${resourceEndpoint}/${requestedItemID}${queryString}`;
 
         try {
           const cacheItems: M[] = yield select(selectors.selectItems);

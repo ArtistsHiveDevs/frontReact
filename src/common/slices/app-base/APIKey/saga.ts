@@ -57,7 +57,6 @@ export function* getApiKey(actionParams?: PayloadAction<ApiKeyPayload>): Generat
     if (hasToRequestToken) {
       if (!isLogout) {
         if (!userId) {
-          console.log(hasToRequestToken, userId, isLogout);
           yield put(
             actions.repoError({
               errorType: ApiKeyErrorType.RESPONSE_ERROR,

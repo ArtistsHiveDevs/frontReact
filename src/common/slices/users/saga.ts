@@ -4,6 +4,7 @@ import { APIResponse, putRequest, request } from '~/common/utils/request';
 import { AppUserTemplate } from '~/models/app/user/user.model';
 
 import { PayloadAction } from '@reduxjs/toolkit';
+import { defaultLang } from '~/common/context';
 import { LocalStorageVariables } from '~/constants/localstorage';
 import { usersActions } from '.';
 import { actions as apiKeyActions } from '../app-base/APIKey';
@@ -34,7 +35,7 @@ export function* getCurrentUserInfo() {
 
   try {
     const currentUser: AppUserTemplate = yield call(request, requestURL, {
-      headers: { 'x-api-key': authInfo?.apiKey },
+      headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
     });
 
     yield put(usersActions.currentUserLoaded(currentUser));
@@ -55,14 +56,14 @@ export function* switchProfile(actionParams?: PayloadAction<{ id: string }>) {
   try {
     const response: APIResponse = yield call(putRequest, requestURL, {
       body: JSON.stringify({ currentProfileIdentifier: actionParams.payload.id }),
-      headers: { 'x-api-key': authInfo?.apiKey },
+      headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
     });
 
     if (response?.data) {
       yield put(usersActions.loadCurrentUser());
     }
     // const currentUser: AppUserTemplate = yield call(putRequest, requestURL, {
-    //   headers: { 'x-api-key': authInfo?.apiKey },
+    //   headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false)  },
     //   body: { currentProfileIdentifier: actionParams?.payload.id },
     // });
   } catch (err) {
@@ -76,27 +77,31 @@ export function* switchLanguage(actionParams?: PayloadAction<{ newLang: string }
   yield delay(500);
 
   const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+  if (authInfo?.userId) {
+    const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/${authInfo.userId}`;
 
-  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/${authInfo.userId}`;
+    try {
+      const response: APIResponse = yield call(putRequest, requestURL, {
+        body: JSON.stringify({ user_language: actionParams.payload.newLang }),
+        headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
+      });
 
-  try {
-    const response: APIResponse = yield call(putRequest, requestURL, {
-      body: JSON.stringify({ user_language: actionParams.payload.newLang }),
-      headers: { 'x-api-key': authInfo?.apiKey },
-    });
-
-    if (response?.data) {
-      //TODO pedir paramétricos
-      yield put(usersActions.loadCurrentUser());
+      if (response?.data) {
+        //TODO pedir paramétricos
+        yield put(usersActions.loadCurrentUser());
+        window.location.reload();
+      }
+      // const currentUser: AppUserTemplate = yield call(putRequest, requestURL, {
+      //   headers: { 'x-api-key': authInfo?.apiKey , lang: defaultLang(false) },
+      //   body: { currentProfileIdentifier: actionParams?.payload.id },
+      // });
+    } catch (err) {
+      yield put(usersActions.logout());
+      // yield delay(500);
+      // window.location.reload();
     }
-    // const currentUser: AppUserTemplate = yield call(putRequest, requestURL, {
-    //   headers: { 'x-api-key': authInfo?.apiKey },
-    //   body: { currentProfileIdentifier: actionParams?.payload.id },
-    // });
-  } catch (err) {
-    yield put(usersActions.logout());
-    // yield delay(500);
-    // window.location.reload();
+  } else {
+    window.location.reload();
   }
 }
 

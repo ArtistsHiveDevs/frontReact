@@ -4,6 +4,7 @@ import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 import { request } from '~/common/utils/request';
 import { SearchModel } from '~/models/domain/search/search.model';
 
+import { defaultLang } from '~/common/context';
 import { searchActions as actions } from '.';
 import { selectApiKey } from '../app-base/APIKey/selectors';
 
@@ -28,7 +29,9 @@ export function* queriedSearch(actionParams?: PayloadAction<string>) {
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/search?${urlParams}`;
 
   try {
-    const search: SearchModel = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
+    const search: SearchModel = yield call(request, requestURL, {
+      headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
+    });
 
     yield put(actions.searchQueried(search));
   } catch (err) {

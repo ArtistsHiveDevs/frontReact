@@ -2,17 +2,24 @@ import { createContext, useEffect } from 'react';
 
 import { appMessages } from '~/translations';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LocalStorageVariables } from '~/constants/localstorage';
 import { useUsersSlice } from '../slices/users';
+import { selectCurrentUser } from '../slices/users/selectors';
 import { IHvAppContext, IHvAppContextProvider } from './models/hv-app-context.model';
 
 const DEFAULT_LANG_BY_ENV = import.meta.env.VITE_DEFAULT_LANGUAGE;
 
-const defaultLang = () => {
-  return (
-    localStorage?.getItem(LocalStorageVariables.CURRENT_LANGUAGE) || navigator.language || DEFAULT_LANG_BY_ENV || 'en'
-  );
+export const defaultLang = (setValue = true) => {
+  const possibleLang =
+    localStorage?.getItem(LocalStorageVariables.CURRENT_LANGUAGE) || navigator.language || DEFAULT_LANG_BY_ENV || 'en';
+
+  const nextLang = getAvailableLang(possibleLang);
+  if (setValue) {
+    localStorage.setItem(LocalStorageVariables.CURRENT_LANGUAGE, nextLang);
+  }
+
+  return nextLang;
 };
 
 export const HvAppContext = createContext<IHvAppContext>({
@@ -47,9 +54,13 @@ function getAvailableLang(lang: string) {
 export const HvAppContextProvider = ({ children, appMessages, setLang, lang }: IHvAppContextProvider) => {
   const dispatch = useDispatch();
   const { actions: usersActions } = useUsersSlice();
+
+  const currentUser = useSelector(selectCurrentUser);
+
   function onSetLang(nextLang: string) {
     localStorage.setItem(LocalStorageVariables.CURRENT_LANGUAGE, nextLang);
     dispatch(usersActions.switchLang({ newLang: nextLang }));
+    window.scrollTo(0, 0);
     setLang({ lang: nextLang, messages: appMessages[nextLang] });
   }
 
@@ -57,10 +68,15 @@ export const HvAppContextProvider = ({ children, appMessages, setLang, lang }: I
     if (!lang) {
       const nextLang = defaultLang();
 
-      localStorage.setItem(LocalStorageVariables.CURRENT_LANGUAGE, nextLang);
       setLang({ lang: nextLang, messages: appMessages[nextLang] });
     }
-  }, [lang]);
+  }, []);
+
+  useEffect(() => {
+    if (currentUser && currentUser.user_language !== lang.lang) {
+      onSetLang(currentUser.user_language);
+    }
+  }, [currentUser]);
 
   return (
     <HvAppContext.Provider

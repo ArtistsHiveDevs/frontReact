@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
+import { defaultLang } from '~/common/context';
 import { EntityStateTemplate } from '~/common/utils/redux-injectors/types';
 import { APIResponse, buildQueryString, deleteRequest, postRequest, putRequest, request } from '~/common/utils/request';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
@@ -126,9 +127,10 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
 
         const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}${resourceEndpoint}${queryString}`;
 
-        console.log(requestURL, ' **** ', actionParams.payload.queryParams);
         try {
-          const response: APIResponse = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
+          const response: APIResponse = yield call(request, requestURL, {
+            headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
+          });
 
           if (response.error) {
             yield put(slice.actions.repoError(1));
@@ -169,7 +171,9 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
           if (cacheItem && cacheItem.hasFetchAllData) {
             itemById = cacheItem.template;
           } else {
-            const response: any = yield call(request, requestURL, { headers: { 'x-api-key': authInfo?.apiKey } });
+            const response: any = yield call(request, requestURL, {
+              headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
+            });
             if (response.data) {
               itemById = response.data;
             }
@@ -195,7 +199,7 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
         try {
           const response: any = yield call(postRequest, requestURL, {
             body: JSON.stringify(payload.data),
-            headers: { 'x-api-key': authInfo?.apiKey },
+            headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
           });
 
           if (response.data) {
@@ -224,7 +228,7 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
             if (newItem) {
               const response: any = yield call(putRequest, requestURL, {
                 body: JSON.stringify(newItem),
-                headers: { 'x-api-key': authInfo?.apiKey },
+                headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
               });
 
               if (response.data) {
@@ -251,7 +255,7 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
         try {
           if (id) {
             const response: any = yield call(deleteRequest, requestURL, {
-              headers: { 'x-api-key': authInfo?.apiKey },
+              headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
             });
 
             if (response.data) {

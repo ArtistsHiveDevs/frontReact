@@ -23,6 +23,11 @@ export interface APIError {
   errorCode?: string;
   errorNumber?: number;
 }
+
+export interface QueryParams {
+  [param: string]: any;
+}
+
 /**
  * Parses the JSON returned by a network request
  *
@@ -42,6 +47,17 @@ async function parseJSON(response: Response) {
   error.response = response;
   throw error;
 }
+
+export const buildQueryString = (queryParams: QueryParams | undefined): string => {
+  if (!queryParams) {
+    return '';
+  }
+
+  const params = Object.entries(queryParams)
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+    .join('&');
+  return !!params ? `?${params}` : '';
+};
 
 /**
  * Checks if a network request came back fine, and throws an error if not

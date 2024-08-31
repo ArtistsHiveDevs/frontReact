@@ -853,12 +853,13 @@ export const DeMessages = {
               press: 'Presse',
               career: 'Werdegang',
               download: 'App herunterladen',
-              data_policy: 'Datenrichtlinie',
             },
           },
           help: {
             name: 'Hilfe',
             options: {
+              data_policy: 'Datenrichtlinie',
+              terms: 'Nutzungsbedingungen',
               help_center: 'Hilfezentrum',
               contact_us: 'Kontaktiere uns',
               report: 'Bericht',

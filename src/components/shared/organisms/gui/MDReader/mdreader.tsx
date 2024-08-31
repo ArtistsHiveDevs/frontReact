@@ -5,7 +5,7 @@ import { useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { PATHS } from '~/constants';
 import { MDDocumentModel } from '~/models/app/md-model/md-model';
-import './MDReader.scss';
+import './mdreader.scss';
 
 interface MDReaderProps {
   mdDocument: MDDocumentModel;

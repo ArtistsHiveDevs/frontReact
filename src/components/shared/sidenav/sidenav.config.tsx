@@ -176,7 +176,7 @@ const config: SideMenuItem[] = [
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'help_center'),
-    path: '',
+    path: `${PATHS.FAQ}`,
     icon: 'FaQuestionCircle',
     updated: new Date('2/20/16'),
   },

@@ -1,1 +1,81 @@
 @import '~/variables.module.scss';
+
+.offer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.md-render {
+  img {
+    max-width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-align: center;
+    padding-top: 1.7rem;
+  }
+  p {
+    text-align: justify;
+  }
+}
+
+.logo-end {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+
+  .img-logotipo {
+    max-width: 100%;
+    height: auto; // Mantiene la proporción de la imagen
+    padding-left: 0px; // Ajusta el padding solo para las imágenes dentro de .logo-end
+  }
+
+  h2 {
+    margin: 0; // Quita el margen por defecto
+  }
+}
+
+.banner-create-account {
+  width: 90%;
+  border: solid 1px $gray-light;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.banner-create-account-text {
+  width: 70%;
+  text-align: center;
+  font-weight: 700;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-styles {
+  font-size: 0.8rem;
+  background-color: $entity-3;
+  border: 1px solid $entity-3;
+  transition: transform 0.2s;
+}
+
+.button-styles:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  background-color: $main-title-color;
+}

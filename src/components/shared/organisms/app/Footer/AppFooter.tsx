@@ -34,13 +34,7 @@ export const AppFooter = () => {
     },
     {
       columnName: 'about_us',
-      options: [
-        { name: 'history' },
-        { name: 'press' },
-        { name: 'career' },
-        { name: 'download' },
-        { name: 'data_policy', link: PATHS.PRIVACY_POLICY },
-      ],
+      options: [{ name: 'history' }, { name: 'press' }, { name: 'career' }, { name: 'download' }],
     },
     // {
     //   columnTitle: "Proyectos",
@@ -48,7 +42,13 @@ export const AppFooter = () => {
     // },
     {
       columnName: 'help',
-      options: [{ name: 'help_center' }, { name: 'contact_us', link: PATHS.CONTACT_US }, { name: 'report' }],
+      options: [
+        { name: 'help_center', link: PATHS.FAQ },
+        { name: 'data_policy', link: PATHS.PRIVACY_POLICY },
+        { name: 'terms', link: PATHS.TERMS_OF_SERVICE },
+        { name: 'report' },
+        { name: 'contact_us', link: PATHS.CONTACT_US },
+      ],
     },
   ];
   return (

@@ -4,7 +4,7 @@ export enum PATHS {
   LOGIN = '/login',
   CONTACT_US = '/contact',
   PRIVACY_POLICY = '/privacy',
-  TERMS_AND_CONDITIONS = '/terms',
+  TERMS_OF_SERVICE = '/terms',
   ACADEMIES = '/academies',
   ARTISTS = '/artists',
   CULTURAL_AGENDA = '/agenda',
@@ -23,6 +23,7 @@ export enum PATHS {
   MY_FAVOURITES = '/favourites',
   STAGE_PLOT = '/stagePlot',
   TOURS_OUTLINE = '/toursOutline',
+  FAQ = '/faq',
   REDIRECT_UNAUTHORIZED_AND_UNLOGGED_USER = '/home',
   REDIRECT_UNAUTHORIZED_AND_LOGGED_USER = '/home',
 }

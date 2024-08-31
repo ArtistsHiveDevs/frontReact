@@ -839,13 +839,14 @@ export const EnMessages = {
               press: 'Press',
               career: 'Career',
               download: 'Download the app',
-              data_policy: 'Data Policy',
             },
           },
           help: {
             name: 'Help',
             options: {
               help_center: 'Help center',
+              data_policy: 'Data Policy',
+              terms: 'Terms of Service',
               contact_us: 'Contact us',
               report: 'Report',
             },

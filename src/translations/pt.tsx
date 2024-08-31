@@ -856,12 +856,13 @@ export const PtMessages = {
               press: 'Imprensa',
               career: 'Carreira',
               download: 'Baixe o aplicativo',
-              data_policy: 'Política de dados',
             },
           },
           help: {
             name: 'Ajuda',
             options: {
+              data_policy: 'Política de dados',
+              terms: 'Termos de Serviço',
               help_center: 'Central de ajuda',
               contact_us: 'Contate-nos',
               report: 'Reportar',

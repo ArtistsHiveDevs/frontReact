@@ -18,8 +18,8 @@ export const selectCurrentUser = createSelector([selectDomain], (UserState) => U
 
 export const selectCurrentLang = createSelector([selectDomain], (UserState): string => {
   return (
-    localStorage.getItem(LocalStorageVariables.CURRENT_LANGUAGE) ||
     UserState.currentUser?.user_language ||
+    localStorage.getItem(LocalStorageVariables.CURRENT_LANGUAGE) ||
     import.meta.env.VITE_DEFAULT_LANGUAGE ||
     'en'
   );

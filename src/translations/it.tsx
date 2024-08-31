@@ -854,15 +854,16 @@ export const ItMessages = {
               press: 'Premere',
               career: 'Carriera',
               download: 'Scarica app',
-              data_policy: 'Informativa sui dati',
             },
           },
           help: {
             name: 'Aiuta',
             options: {
+              data_policy: 'Informativa sui dati',
               help_center: 'Centro assistenza',
               contact_us: 'Contattaci',
               report: 'Rapporto',
+              terms: 'Termini di servizio',
             },
           },
         },

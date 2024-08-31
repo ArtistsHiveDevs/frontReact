@@ -34,11 +34,15 @@ export const ROUTES_CONFIG: PathConfigMap = {
     },
     TermsAndConditionsPage: {
       component: lazy(() => import('~/components/Pages/app-base/TermsAndConditions/TermsAndConditionsPage')),
-      path: PATHS.TERMS_AND_CONDITIONS,
+      path: PATHS.TERMS_OF_SERVICE,
     },
     PrivacyPolicyPage: {
       component: lazy(() => import('~/components/Pages/app-base/PrivacyPolicy/PrivacyPolicyPage')),
       path: PATHS.PRIVACY_POLICY,
+    },
+    FAQPage: {
+      component: lazy(() => import('~/components/Pages/app-base/faq/faq')),
+      path: PATHS.FAQ,
     },
 
     AppSettingsPage: {

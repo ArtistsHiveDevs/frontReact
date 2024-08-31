@@ -846,15 +846,16 @@ export const EsMessages = {
               press: 'Prensa',
               career: 'Carrera',
               download: 'Descarga',
-              data_policy: 'Política de datos',
             },
           },
           help: {
             name: '¿Ayuda?',
             options: {
+              data_policy: 'Política de datos',
               help_center: 'Centro de ayuda',
               contact_us: 'Contáctanos',
               report: 'Reporta',
+              terms: 'Términos de Servicio',
             },
           },
         },

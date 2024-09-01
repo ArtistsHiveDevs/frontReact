@@ -19,7 +19,7 @@ export interface AllowedEntityInstanceRole {
   allowedRoles?: string[];
 }
 
-function validateUserAuthorization(
+export function validateUserAuthorization(
   user: AppUserModel,
   allowedRoles?: AllowedEntityRole[],
   requiredSession: boolean = false,

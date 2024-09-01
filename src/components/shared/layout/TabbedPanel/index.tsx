@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useSwipeable } from 'react-swipeable';
-import { AllowedEntityRole, RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
+import { selectCurrentUser } from '~/common/slices/users/selectors';
+import {
+  AllowedEntityRole,
+  AuthorizationStates,
+  RequireAuthComponent,
+  validateUserAuthorization,
+} from '~/components/shared/atoms/app/auth/RequiredAuth';
 import './index.scss';
 
 export interface TabbedPage {
@@ -13,6 +20,8 @@ export interface TabbedPage {
 export const TabbedPanel = (props: any) => {
   const { tabs, allowedSections } = props;
 
+  const currentUser = useSelector(selectCurrentUser);
+
   const [activeSectionIndex, setSection] = useState(0);
 
   useEffect(() => {
@@ -24,14 +33,46 @@ export const TabbedPanel = (props: any) => {
   };
 
   const handlePrev = () => {
-    if (activeSectionIndex > 0) {
-      setSection(activeSectionIndex - 1);
+    let nextSection = activeSectionIndex - 1;
+    let authState = AuthorizationStates.UNAUTHORIZED_AND_LOGGED_USER;
+
+    // Recorre hacia atrás hasta que se encuentre una sección permitida o se llegue al principio
+    while (nextSection >= 0) {
+      const subpage = tabs[nextSection];
+      authState = validateUserAuthorization(currentUser, subpage.allowedRoles, subpage.requireSession);
+
+      if (AuthorizationStates.ALLOWED === authState) {
+        break; // Sal del loop si se encuentra una sección permitida
+      }
+
+      nextSection--; // Decrementa nextSection para seguir buscando hacia atrás
+    }
+
+    // Solo cambia de sección si se encontró una que esté permitida
+    if (nextSection >= 0 && AuthorizationStates.ALLOWED === authState) {
+      setSection(nextSection);
     }
   };
 
   const handleNext = () => {
-    if (activeSectionIndex < tabs?.length - 1) {
-      setSection(activeSectionIndex + 1);
+    let nextSection = activeSectionIndex + 1;
+    let authState = AuthorizationStates.UNAUTHORIZED_AND_LOGGED_USER;
+
+    // Recorre hacia adelante hasta que se encuentre una sección permitida o se llegue al final
+    while (nextSection < tabs?.length) {
+      const subpage = tabs[nextSection];
+      authState = validateUserAuthorization(currentUser, subpage.allowedRoles, subpage.requireSession);
+
+      if (AuthorizationStates.ALLOWED === authState) {
+        break; // Sal del loop si se encuentra una sección permitida
+      }
+
+      nextSection++; // Aumenta nextSection para seguir buscando hacia adelante
+    }
+
+    // Solo cambia de sección si se encontró una que esté permitida
+    if (nextSection < tabs?.length && AuthorizationStates.ALLOWED === authState) {
+      setSection(nextSection);
     }
   };
 

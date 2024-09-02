@@ -744,7 +744,7 @@ export const EsMessages = {
                   name: 'Galería',
                 },
                 general: {
-                  name: 'Info general',
+                  name: 'Información General',
                   attributes: {
                     description: 'Descripción',
                     address: 'Dirección',
@@ -754,7 +754,7 @@ export const EsMessages = {
                     since: 'Desde',
                     spoken_languages: 'Idiomas hablados',
                     stage_languages: 'Idiomas en escena',
-                    arts_languages: 'Idiomas de las artes',
+                    arts_languages: 'Idiomas en artes',
                   },
                 },
                 genres: {
@@ -763,10 +763,10 @@ export const EsMessages = {
                 contact: {
                   name: 'Contacto',
                   attributes: {
-                    website: 'Website',
-                    email: 'e-mail',
+                    website: 'Sitio web',
+                    email: 'Correo electrónico',
                     phone: 'Teléfono',
-                    mobile_phone: 'Móvil',
+                    mobile_phone: 'Teléfono móvil',
                     whatsapp: 'WhatsApp',
                   },
                 },
@@ -782,18 +782,18 @@ export const EsMessages = {
                   name: 'Presencia en redes sociales',
                 },
                 rating: {
-                  name: 'Calificaciones',
+                  name: 'Calificación',
                 },
               },
             },
             shows: {
-              name: 'Shows',
+              name: 'Espectáculos',
               sections: {
                 next_shows: {
-                  name: 'Próximos eventos',
+                  name: 'Próximos espectáculos',
                 },
                 past_shows: {
-                  name: 'Eventos pasados',
+                  name: 'Espectáculos pasados',
                 },
               },
             },
@@ -801,7 +801,7 @@ export const EsMessages = {
               name: 'Backline',
               sections: {
                 sound_backline: {
-                  name: 'Backline sonoro',
+                  name: 'Backline de sonido',
                 },
                 light_backline: {
                   name: 'Backline de luces',
@@ -809,10 +809,14 @@ export const EsMessages = {
               },
             },
             menu: {
-              name: 'Menu',
+              name: 'Menú',
               sections: {
-                main_course: { name: 'Plato principal' },
-                second_course: { name: 'Segundo plato' },
+                main_course: {
+                  name: 'Plato principal',
+                },
+                second_course: {
+                  name: 'Segundo plato',
+                },
               },
             },
           },

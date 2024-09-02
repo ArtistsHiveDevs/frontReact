@@ -752,7 +752,7 @@ export const ItMessages = {
                   name: 'Galleria',
                 },
                 general: {
-                  name: 'Info generale',
+                  name: 'Informazioni Generali',
                   attributes: {
                     description: 'Descrizione',
                     address: 'Indirizzo',
@@ -761,8 +761,8 @@ export const ItMessages = {
                     categories: 'Categorie',
                     since: 'Dal',
                     spoken_languages: 'Lingue parlate',
-                    stage_languages: 'Lingue in scena',
-                    arts_languages: 'Lingue delle arti',
+                    stage_languages: 'Lingue di scena',
+                    arts_languages: 'Lingue nelle arti',
                   },
                 },
                 genres: {
@@ -771,15 +771,15 @@ export const ItMessages = {
                 contact: {
                   name: 'Contatto',
                   attributes: {
-                    website: 'Website',
-                    email: 'e-mail',
+                    website: 'Sito web',
+                    email: 'E-mail',
                     phone: 'Telefono',
                     mobile_phone: 'Cellulare',
                     whatsapp: 'WhatsApp',
                   },
                 },
                 social_networks: {
-                  name: 'Reti Sociali',
+                  name: 'Reti sociali',
                 },
               },
             },
@@ -790,18 +790,18 @@ export const ItMessages = {
                   name: 'Presenza sui social network',
                 },
                 rating: {
-                  name: 'Qualificazione',
+                  name: 'Valutazione',
                 },
               },
             },
             shows: {
-              name: 'Shows',
+              name: 'Spettacoli',
               sections: {
                 next_shows: {
-                  name: 'Prossimi spettacoli',
+                  name: 'Prossimi Spettacoli',
                 },
                 past_shows: {
-                  name: 'Spettacoli passati',
+                  name: 'Spettacoli Passati',
                 },
               },
             },
@@ -809,18 +809,22 @@ export const ItMessages = {
               name: 'Backline',
               sections: {
                 sound_backline: {
-                  name: 'Backline suono',
+                  name: 'Backline del Suono',
                 },
                 light_backline: {
-                  name: 'Backline luce',
+                  name: 'Backline delle Luci',
                 },
               },
             },
             menu: {
               name: 'Menu',
               sections: {
-                main_course: { name: 'Piatto principale' },
-                second_course: { name: 'Secundo Piatto' },
+                main_course: {
+                  name: 'Piatto principale',
+                },
+                second_course: {
+                  name: 'Secondo piatto',
+                },
               },
             },
           },

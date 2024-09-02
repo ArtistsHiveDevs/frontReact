@@ -743,13 +743,13 @@ export const PtMessages = {
         PlacesDetailsPage: {
           subpages: {
             general: {
-              name: 'Generale',
+              name: 'Geral',
               sections: {
                 gallery: {
                   name: 'Galeria',
                 },
                 general: {
-                  name: 'Informações gerais',
+                  name: 'Informações Gerais',
                   attributes: {
                     description: 'Descrição',
                     address: 'Endereço',
@@ -758,8 +758,8 @@ export const PtMessages = {
                     categories: 'Categorias',
                     since: 'Desde',
                     spoken_languages: 'Idiomas falados',
-                    stage_languages: 'Idiomas de palco',
-                    arts_languages: 'Idiomas das artes',
+                    stage_languages: 'Idiomas no palco',
+                    arts_languages: 'Idiomas nas artes',
                   },
                 },
                 genres: {
@@ -787,12 +787,7 @@ export const PtMessages = {
                   name: 'Presença nas redes sociais',
                 },
                 rating: {
-                  name: 'Avaliação',
-                  attributes: {
-                    general_rate: 'Avaliação geral',
-                    followers: 'Seguidores',
-                    event_followers: 'Seguidores de eventos',
-                  },
+                  name: 'Classificação',
                 },
               },
             },
@@ -800,10 +795,10 @@ export const PtMessages = {
               name: 'Shows',
               sections: {
                 next_shows: {
-                  name: 'Próximos shows',
+                  name: 'Próximos Shows',
                 },
                 past_shows: {
-                  name: 'Shows passados',
+                  name: 'Shows Passados',
                 },
               },
             },
@@ -811,18 +806,22 @@ export const PtMessages = {
               name: 'Backline',
               sections: {
                 sound_backline: {
-                  name: 'Backline de som',
+                  name: 'Backline de Som',
                 },
                 light_backline: {
-                  name: 'Backline de iluminação',
+                  name: 'Backline de Luz',
                 },
               },
             },
             menu: {
-              name: 'Menu',
+              name: 'Cardápio',
               sections: {
-                main_course: { name: 'Prato principal' },
-                second_course: { name: 'Segundo prato' },
+                main_course: {
+                  name: 'Prato Principal',
+                },
+                second_course: {
+                  name: 'Segundo Prato',
+                },
               },
             },
           },

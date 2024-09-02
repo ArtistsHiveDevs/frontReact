@@ -745,13 +745,13 @@ export const DeMessages = {
         PlacesDetailsPage: {
           subpages: {
             general: {
-              name: 'Generale',
+              name: 'Allgemein',
               sections: {
                 gallery: {
-                  name: 'Galleria',
+                  name: 'Galerie',
                 },
                 general: {
-                  name: 'Info generale',
+                  name: 'Allgemeine Informationen',
                   attributes: {
                     description: 'Beschreibung',
                     address: 'Adresse',
@@ -761,35 +761,35 @@ export const DeMessages = {
                     since: 'Seit',
                     spoken_languages: 'Gesprochene Sprachen',
                     stage_languages: 'Bühnensprachen',
-                    arts_languages: 'Sprachen der Kunst',
+                    arts_languages: 'Kunstsprachen',
                   },
                 },
                 genres: {
                   name: 'Genres',
                 },
                 contact: {
-                  name: 'Contatto',
+                  name: 'Kontakt',
                   attributes: {
-                    website: 'Website',
-                    email: 'e-mail',
-                    phone: 'Telefono',
-                    mobile_phone: 'Cellulare',
+                    website: 'Webseite',
+                    email: 'E-Mail',
+                    phone: 'Telefon',
+                    mobile_phone: 'Mobiltelefon',
                     whatsapp: 'WhatsApp',
                   },
                 },
                 social_networks: {
-                  name: 'Reti Sociali',
+                  name: 'Soziale Netzwerke',
                 },
               },
             },
             stats: {
-              name: 'Statistics',
+              name: 'Statistiken',
               sections: {
                 social_network_presence: {
-                  name: 'Presenza sui social network',
+                  name: 'Präsenz in sozialen Netzwerken',
                 },
                 rating: {
-                  name: 'Rating',
+                  name: 'Bewertung',
                 },
               },
             },
@@ -797,10 +797,10 @@ export const DeMessages = {
               name: 'Shows',
               sections: {
                 next_shows: {
-                  name: 'Prossimi spettacoli',
+                  name: 'Kommende Shows',
                 },
                 past_shows: {
-                  name: 'Spettacoli passati',
+                  name: 'Vergangene Shows',
                 },
               },
             },
@@ -808,18 +808,22 @@ export const DeMessages = {
               name: 'Backline',
               sections: {
                 sound_backline: {
-                  name: 'Sound Backline',
+                  name: 'Sound-Backline',
                 },
                 light_backline: {
-                  name: 'Light Backline',
+                  name: 'Licht-Backline',
                 },
               },
             },
             menu: {
-              name: 'Menu',
+              name: 'Menü',
               sections: {
-                main_course: { name: 'Main course' },
-                second_course: { name: 'Second course' },
+                main_course: {
+                  name: 'Hauptgericht',
+                },
+                second_course: {
+                  name: 'Zweites Gericht',
+                },
               },
             },
           },

@@ -731,13 +731,13 @@ export const EnMessages = {
         PlacesDetailsPage: {
           subpages: {
             general: {
-              name: 'Generale',
+              name: 'General',
               sections: {
                 gallery: {
                   name: 'Gallery',
                 },
                 general: {
-                  name: 'Info generale',
+                  name: 'General Info',
                   attributes: {
                     description: 'Description',
                     address: 'Address',
@@ -757,9 +757,9 @@ export const EnMessages = {
                   name: 'Contact',
                   attributes: {
                     website: 'Website',
-                    email: 'e-mail',
+                    email: 'Email',
                     phone: 'Phone',
-                    mobile_phone: 'Mobile phone',
+                    mobile_phone: 'Mobile Phone',
                     whatsapp: 'WhatsApp',
                   },
                 },
@@ -772,7 +772,7 @@ export const EnMessages = {
               name: 'Statistics',
               sections: {
                 social_network_presence: {
-                  name: 'Presenza sui social network',
+                  name: 'Social Network Presence',
                 },
                 rating: {
                   name: 'Rating',
@@ -783,10 +783,10 @@ export const EnMessages = {
               name: 'Shows',
               sections: {
                 next_shows: {
-                  name: 'Prossimi spettacoli',
+                  name: 'Next Shows',
                 },
                 past_shows: {
-                  name: 'Spettacoli passati',
+                  name: 'Past Shows',
                 },
               },
             },
@@ -794,7 +794,7 @@ export const EnMessages = {
               name: 'Backline',
               sections: {
                 sound_backline: {
-                  name: 'Sound backline',
+                  name: 'Sound Backline',
                 },
                 light_backline: {
                   name: 'Light Backline',
@@ -804,8 +804,12 @@ export const EnMessages = {
             menu: {
               name: 'Menu',
               sections: {
-                main_course: { name: 'Main course' },
-                second_course: { name: 'Second course' },
+                main_course: {
+                  name: 'Main Course',
+                },
+                second_course: {
+                  name: 'Second Course',
+                },
               },
             },
           },

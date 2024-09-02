@@ -747,67 +747,62 @@ export const FrMessages = {
         PlacesDetailsPage: {
           subpages: {
             general: {
-              name: 'Generale',
+              name: 'Général',
               sections: {
                 gallery: {
-                  name: 'Galleria',
+                  name: 'Galerie',
                 },
                 general: {
-                  name: 'Info generale',
+                  name: 'Infos Générales',
                   attributes: {
                     description: 'Description',
                     address: 'Adresse',
                     city: 'Ville',
-                    cityWithCountry: 'Lieu',
+                    cityWithCountry: 'Localisation',
                     categories: 'Catégories',
                     since: 'Depuis',
                     spoken_languages: 'Langues parlées',
                     stage_languages: 'Langues de scène',
-                    arts_languages: 'Langues des arts',
+                    arts_languages: 'Langues artistiques',
                   },
                 },
                 genres: {
                   name: 'Genres',
                 },
                 contact: {
-                  name: 'Contatto',
+                  name: 'Contact',
                   attributes: {
-                    website: 'Website',
-                    email: 'e-mail',
-                    phone: 'Telefono',
-                    mobile_phone: 'Cellulare',
+                    website: 'Site Web',
+                    email: 'E-mail',
+                    phone: 'Téléphone',
+                    mobile_phone: 'Téléphone portable',
                     whatsapp: 'WhatsApp',
                   },
                 },
                 social_networks: {
-                  name: 'Reti Sociali',
+                  name: 'Réseaux sociaux',
                 },
               },
             },
             stats: {
-              name: 'Statistiche',
+              name: 'Statistiques',
               sections: {
                 social_network_presence: {
-                  name: 'Presenza sui social network',
+                  name: 'Présence sur les réseaux sociaux',
                 },
                 rating: {
-                  name: 'Notation',
-                  attributes: {
-                    general_rate: 'Qualificazione generale',
-                    followers: 'Followers',
-                    event_followers: 'Eventi followers',
-                  },
+                  name: 'Évaluation',
                 },
               },
             },
             shows: {
-              name: 'Shows',
+              name: 'Spectacles',
               sections: {
                 next_shows: {
-                  name: 'Prossimi spettacoli',
+                  name: 'Prochains spectacles',
                 },
                 past_shows: {
-                  name: 'Spettacoli passati',
+                  name: 'Spectacles passés',
                 },
               },
             },
@@ -815,18 +810,22 @@ export const FrMessages = {
               name: 'Backline',
               sections: {
                 sound_backline: {
-                  name: 'sound backline',
+                  name: 'Backline sonore',
                 },
                 light_backline: {
-                  name: 'light backline',
+                  name: 'Backline lumière',
                 },
               },
             },
             menu: {
               name: 'Menu',
               sections: {
-                main_course: { name: 'Plato principal' },
-                second_course: { name: 'Plato secundario' },
+                main_course: {
+                  name: 'Plat principal',
+                },
+                second_course: {
+                  name: 'Second plat',
+                },
               },
             },
           },

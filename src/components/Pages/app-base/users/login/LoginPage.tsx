@@ -135,7 +135,7 @@ export const LoginPage = () => {
                 <Grid item key={index} xs={6} sm={4} md={3} lg={2} textAlign="center">
                   <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                     <div onClick={() => loginWithSocialNetwork(socialNetwork)}>
-                      <DynamicIcons iconName={socialNetwork.icon} size={40} />
+                      <DynamicIcons iconName={socialNetwork.icon} size={40} color={'white'} />
                     </div>
                   </Box>
                 </Grid>
@@ -146,7 +146,7 @@ export const LoginPage = () => {
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: 2 }} className={'login-form-container'}>
             <Typography variant="h4" gutterBottom padding={'1rem'}>
-              Usuario o email:
+              {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.username_or_email`)}:
             </Typography>
             <DynamicForm
               fields={fields}

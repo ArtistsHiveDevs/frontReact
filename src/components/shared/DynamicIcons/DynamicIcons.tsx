@@ -7,12 +7,13 @@ interface typesPropsIcon {
   iconName: string;
   size?: any;
   color?: any;
+  background?: string;
   propsIcon?: IconBaseProps;
   customStyle?: { [property: string]: any };
 }
 
 export function DynamicIcons(params: typesPropsIcon): JSX.Element {
-  let { iconName, size, color, propsIcon, customStyle = {} } = params;
+  let { iconName, size, color, background, propsIcon, customStyle = {} } = params;
   const props = { ...propsIcon };
   const specificLib = iconName.indexOf(' ') >= 0 ? iconName.split(' ')[0] : undefined;
   const name = iconName.indexOf(' ') >= 0 ? iconName.split(' ')[1] : iconName;
@@ -103,7 +104,13 @@ export function DynamicIcons(params: typesPropsIcon): JSX.Element {
 
   return (
     <span className="icon-container" style={customStyleParam}>
-      <Icon color={propsIcon?.color} size={propsIcon?.size} />
+      <Icon
+        className={'icon'}
+        color={propsIcon?.color}
+        size={propsIcon?.size}
+        // fill="red"
+        style={{ background: background, padding: background ? `0.1rem` : '', borderRadius: background ? '50%' : '' }}
+      />
     </span>
   );
 }

@@ -235,8 +235,9 @@ export const ProfileHeader = (props: any) => {
             image={image}
             name={element?.name}
             avatarSize={avatarSize}
+            bottomBadgeSize={avatarSize / 3}
             buttonIcon={currentUserCanEdit && !currentUserIsInProfile && 'PiUserSwitch'}
-            onClick={() => switchProfile()}
+            onBadgeClick={() => switchProfile()}
           ></AvatarWithIcon>
         )}
         <div className="header-title d-grid align-items-bottom">

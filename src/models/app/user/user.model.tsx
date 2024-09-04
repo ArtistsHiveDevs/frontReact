@@ -143,8 +143,8 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
     past_events: EventTemplate[];
   };
 
-  artistMemberships: ArtistModel[];
-  placeMemberships: PlaceModel[];
+  artistMemberships: CurrentProfileInfoModel[];
+  placeMemberships: CurrentProfileInfoModel[];
 
   constructor(template: AppUserTemplate) {
     super(template);
@@ -298,7 +298,7 @@ export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUse
   }
 }
 
-export class CurrentProfileInfoModel implements EntityInstanceRoleMapTemplate {
+export class CurrentProfileInfoModel implements EntityInstanceRoleMapTemplate, SearchableTemplate {
   entity: string;
   id: string;
   name: string;

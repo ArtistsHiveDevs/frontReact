@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
+import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
 import { useUsersSlice } from '~/common/slices/users';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
@@ -10,6 +11,7 @@ import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/Require
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
+import { LanguageModel } from '~/models/parametrics/geo/language.model';
 import {
   ARTIST_DETAIL_SUB_PAGE_CONFIG,
   TRANSLATION_BASE_ARTIST_DETAIL_PAGE,
@@ -20,16 +22,19 @@ const ArtistsCreatePage = () => {
   const { loggedUser } = useAuth();
   const dispatch = useDispatch();
   const { actions: userActions } = useUsersSlice();
+  const { actions: languageActions } = useLanguagesSlice();
   const urlParameters = useParams();
 
   const [artistId, setCurrentArtistId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
-  const [availableLanguages, updateAvailableLanguages] = useState([]);
+  // const [availableLanguages, updateAvailableLanguages] = useState([]);
   const [availableGenres, updateAvailableGenres] = useState([]);
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
   const [requestHasBeenSended, setRequestHasBeenSended] = useState(false);
   const [hasSwitchedProfile, setHasSwitchedProfile] = useState(false);
 
   const { actions: artistsActions } = useArtistsSlice();
+
+  const availableLanguages: LanguageModel[] = useSelector(selectorLanguages.selectItems);
 
   const createdItem = useSelector(selectorArtists.selectCreatedItem);
   const selectArtistById = selectorArtists.makeSelectItemById();
@@ -72,27 +77,30 @@ const ArtistsCreatePage = () => {
   }, [loggedUser]);
 
   useEffect(() => {
-    const langsOR = [
-      { label: 'ES', value: 'es', selected: false },
-      { label: 'DE', value: 'de' },
-      { label: 'FR', value: 'fr' },
-      { label: 'PT', value: 'pt' },
-    ];
-    let langs = [...langsOR];
+    if (!availableLanguages || availableLanguages.length === 0) {
+      dispatch(languageActions.loadItems({}));
+    }
+    // const langsOR = [
+    //   { label: 'ES', value: 'es', selected: false },
+    //   { label: 'DE', value: 'de' },
+    //   { label: 'FR', value: 'fr' },
+    //   { label: 'PT', value: 'pt' },
+    // ];
+    // let langs = [...langsOR];
 
-    Array(20)
-      .fill('x')
-      .forEach((valu, number) =>
-        langsOR.forEach((lng) =>
-          langs.push({
-            label: `${lng.label}${number}`,
-            value: `${lng.value}${number}`,
-            selected: Math.random() > 1 - 90 / 100,
-          })
-        )
-      );
+    // Array(20)
+    //   .fill('x')
+    //   .forEach((valu, number) =>
+    //     langsOR.forEach((lng) =>
+    //       langs.push({
+    //         label: `${lng.label}${number}`,
+    //         value: `${lng.value}${number}`,
+    //         selected: Math.random() > 1 - 90 / 100,
+    //       })
+    //     )
+    //   );
 
-    updateAvailableLanguages(langs);
+    // updateAvailableLanguages(langs);
     updateAvailableGenres([
       { label: 'Cumbia', value: 'genre1' },
       { label: 'Reggaetón', value: 'genre2' },

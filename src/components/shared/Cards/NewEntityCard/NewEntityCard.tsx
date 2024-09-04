@@ -1,15 +1,27 @@
 import { Skeleton } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
+import { useUsersSlice } from '~/common/slices/users';
+import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import GenericModal from '~/components/shared/molecules/general/Modals/ModalCardInfo/GenericModal';
 import { formatDateInMomentType } from '~/constants';
+import AvatarWithIcon from '../../atoms/gui/avatar-with-icon/Avatar-with-icon';
 import './NewEntityCard.scss';
 
 const NewEntityCard = (props: any) => {
   const { data, idx, params, callbacks, printDayOfWeek } = props;
   const [modalDetailShow, setModalDetailShow] = useState(false);
+  const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
+  const [currentUserIsInProfile, setCurrentUserIsInProfile] = useState(false);
+
+  const currentUser = useSelector(selectCurrentUser);
+  const dispatch = useDispatch();
+
+  const { actions: userActions } = useUsersSlice();
 
   function onClickCardHandler() {
     if (callbacks?.onClickCard) {
@@ -30,6 +42,23 @@ const NewEntityCard = (props: any) => {
 
   const photoURL = data?.profile_pic || data?.photo;
 
+  useEffect(() => {
+    if (currentUser) {
+      const userID = getStoredUserIdToken();
+      let permissions = { canEdit: false, isInProfile: false };
+      if (userID && data) {
+        const userPermissions = currentUser.checkPermissions(data.identifier);
+        permissions = userPermissions;
+      }
+      setCurrentUserCanEdit(permissions.canEdit);
+      setCurrentUserIsInProfile(permissions.isInProfile);
+    }
+  }, [currentUser]);
+
+  const switchProfile = () => {
+    dispatch(userActions.switchProfile({ id: data.identifier }));
+  };
+
   return (
     <>
       {!data && (
@@ -39,14 +68,24 @@ const NewEntityCard = (props: any) => {
       )}
       {!!data && (
         <>
-          <Card key={idx} className="new-entity-card" onClick={() => onClickCardHandler()}>
+          <Card key={idx} className="new-entity-card">
             {!params?.hidePhoto && (
               <>
                 {
                   <>
                     <div className="container-img-card">
-                      <Card.Img className="img-card" src={photoURL} variant="top"></Card.Img>
-                      <Card.ImgOverlay>
+                      <AvatarWithIcon
+                        name=""
+                        image={photoURL}
+                        variant={'rounded'}
+                        avatarSize={'11.5rem'}
+                        bottomBadgeSize={'2.5rem'}
+                        buttonIcon={currentUserCanEdit && !currentUserIsInProfile && 'PiUserSwitch'}
+                        onClick={() => onClickCardHandler()}
+                        onBadgeClick={() => switchProfile()}
+                      />
+                      {/* <Card.Img className="img-card" src={photoURL} variant="top"></Card.Img> */}
+                      <Card.ImgOverlay onClick={() => onClickCardHandler()}>
                         {data.timetable__initial_date && (
                           <div className="card-date-section">
                             <p className="card-date-number">

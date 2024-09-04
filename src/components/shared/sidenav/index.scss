@@ -75,6 +75,7 @@
 
   .option-menu-list {
     display: grid;
+    align-items: center;
   }
 
   .menu-option {
@@ -97,6 +98,41 @@
 
   .menu-option-label {
     padding-left: 10px;
+  }
+
+  .menu-option-membership {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 0.7rem;
+    p {
+      margin-bottom: 0rem;
+      padding-left: 1rem;
+    }
+  }
+
+  .current-profile {
+    padding-left: 0.7rem;
+    border-left: 4px solid $secondary-background-light;
+    margin-left: 0px;
+    color: white !important;
+  }
+  .menu-option-membership-label {
+    padding-left: 10px;
+    font-weight: normal;
+  }
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.profile-header-name {
+  padding-left: 1.5rem;
+  h4 {
+    margin-bottom: 0rem;
   }
 }
 

@@ -1,6 +1,8 @@
 import { FormLabel } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { useCountriesSlice } from '~/common/slices/parametrics/geo/country.redux';
 import { useI18n } from '~/common/utils';
 import { ComponentGeneratorParams } from '../DynamicControl';
 import { DynamicFieldData } from '../dynamic-control-types';
@@ -1445,6 +1447,9 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
   const { componentParams } = fieldData || {};
   let { highSelectionLevel, minimumSelectionLevel } = componentParams || {};
   const { register, formState } = useFormContext();
+  const dispatch = useDispatch();
+
+  const { actions: countryActions } = useCountriesSlice();
 
   const [countryOptions, updateCountryOptions] = useState(countries);
   const [selectedCountry, updateSelectedCountry] = useState();
@@ -1462,6 +1467,10 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
   if (!minimumSelectionLevel) {
     minimumSelectionLevel = CitySelectionLevel.CITY;
   }
+
+  useEffect(() => {
+    dispatch(countryActions.loadItems({}));
+  }, []);
 
   const customHandlers = {
     onChangecountry: (data: any) => {

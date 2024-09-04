@@ -103,7 +103,7 @@ const FilterBarComponent: React.FC<FilterVarTemplate> = (props: FilterVarTemplat
         </Col>
         <Col sm={2}>
           <div className="bar-restart-button">
-            <Button onClick={(e) => handleOnRestartClick()} className="button-styles">
+            <Button onClick={(e: any) => handleOnRestartClick()} className="button-styles">
               Reiniciar
             </Button>
           </div>

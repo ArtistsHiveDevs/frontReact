@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectorAllergies, useAllergiesSlice } from '~/common/slices/parametrics/demographics/allergies.redux';
+import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
 import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
@@ -7,35 +10,45 @@ import { TRANSLATION_BASE_USER_DETAIL_PAGE, USER_DETAIL_SUB_PAGE_CONFIG } from '
 
 const UserCreatePage = () => {
   const { loggedUser } = useAuth();
-  const [availableLanguages, updateAvailableLanguages] = useState([]);
+  const dispatch = useDispatch();
+
+  const { actions: languageActions } = useLanguagesSlice();
+  const { actions: allergyActions } = useAllergiesSlice();
+
+  const availableAllergies = useSelector(selectorAllergies.selectItems);
+  const availableLanguages = useSelector(selectorLanguages.selectItems);
+
+  // const [availableLanguages, updateAvailableLanguages] = useState([]);
   const [availableGenres, updateAvailableGenres] = useState([]);
   const [availableGenders, updateAvailableGenders] = useState([]);
-  const [availableAllergies, updateAvailableAllergies] = useState([]);
+  // const [availableAllergies, updateAvailableAllergies] = useState([]);
   const [availableBloodGroups, updateAvailableBloodGroups] = useState([]);
   const [availableDietaryRestritions, updateAvailableDietaryRestrictions] = useState([]);
 
   useEffect(() => {
-    const langsOR = [
-      { label: 'ES', value: 'es', selected: false },
-      { label: 'DE', value: 'de' },
-      { label: 'FR', value: 'fr' },
-      { label: 'PT', value: 'pt' },
-    ];
-    let langs = [...langsOR];
+    dispatch(languageActions.loadItems({}));
+    dispatch(allergyActions.loadItems({}));
+    // const langsOR = [
+    //   { label: 'ES', value: 'es', selected: false },
+    //   { label: 'DE', value: 'de' },
+    //   { label: 'FR', value: 'fr' },
+    //   { label: 'PT', value: 'pt' },
+    // ];
+    // let langs = [...langsOR];
 
-    Array(20)
-      .fill('x')
-      .forEach((valu, number) =>
-        langsOR.forEach((lng) =>
-          langs.push({
-            label: `${lng.label}${number}`,
-            value: `${lng.value}${number}`,
-            selected: Math.random() > 1 - 10 / 100,
-          })
-        )
-      );
+    // Array(20)
+    //   .fill('x')
+    //   .forEach((valu, number) =>
+    //     langsOR.forEach((lng) =>
+    //       langs.push({
+    //         label: `${lng.label}${number}`,
+    //         value: `${lng.value}${number}`,
+    //         selected: Math.random() > 1 - 10 / 100,
+    //       })
+    //     )
+    //   );
 
-    updateAvailableLanguages(langs);
+    // updateAvailableLanguages(langs);
     updateAvailableGenres([
       { label: 'Cumbia', value: 'genre1' },
       { label: 'Reggaetón', value: 'genre2' },
@@ -59,16 +72,16 @@ const UserCreatePage = () => {
       })
     );
 
-    updateAvailableAllergies([
-      { label: 'Polen', value: 'Polen' },
-      { label: 'Polvo', value: 'Polvo' },
-      { label: 'Leche', value: 'Leche' },
-      { label: 'Maní', value: 'Maní' },
-      { label: 'Gluten', value: 'Gluten' },
-      { label: 'Ibuprofeno', value: 'Ibuprofeno' },
-      { label: 'Perros', value: 'Perros' },
-      { label: 'Gatos', value: 'Gatos' },
-    ]);
+    // updateAvailableAllergies([
+    //   { label: 'Polen', value: 'Polen' },
+    //   { label: 'Polvo', value: 'Polvo' },
+    //   { label: 'Leche', value: 'Leche' },
+    //   { label: 'Maní', value: 'Maní' },
+    //   { label: 'Gluten', value: 'Gluten' },
+    //   { label: 'Ibuprofeno', value: 'Ibuprofeno' },
+    //   { label: 'Perros', value: 'Perros' },
+    //   { label: 'Gatos', value: 'Gatos' },
+    // ]);
 
     updateAvailableGenders([
       { label: 'Man', value: 'male' },

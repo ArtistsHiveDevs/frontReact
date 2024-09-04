@@ -10,8 +10,10 @@ import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
 import { SearchComponent } from '~/components/shared/search';
 import { PATHS } from '~/constants';
+import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { SearchableTemplate } from '~/models/base';
 import { ProfilePicture } from '../atoms/gui/ProfilePicture/ProfilePicture';
+import AvatarWithIcon from '../atoms/gui/avatar-with-icon/Avatar-with-icon';
 import './index.scss';
 import { SIDENAV_MENU_CONFIG, SideMenuItem } from './sidenav.config';
 
@@ -21,18 +23,22 @@ const SideNav = () => {
   const { loggedUser } = useAuth();
 
   const [show, setShow] = useState(false);
+  const [showRight, setShowRight] = useState(false);
   const [openStatusSearchInputText, setOpenStatusSearchInputText] = useState(false);
   const { navigateToEntity, navigateToInnerPath } = useNavigation();
-  const { translateText } = useI18n();
+  const { translateText, translateGlobalDict } = useI18n();
   const dispatch = useDispatch();
 
   const { actions: usersActions } = useUsersSlice();
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setShowRight(false); // Asegurarte de cerrar ambos Offcanvas
+  };
   const handleShow = () => setShow(true);
   const showHideSearchField = (event: any) => {
     setOpenStatusSearchInputText(!openStatusSearchInputText);
   };
-  const navigateTo = (path: string | undefined, useRandomId: boolean = false) => {
+  const navigateTo = (path: string, useRandomId = false) => {
     let paramId = '';
     if (useRandomId) {
       paramId = `${Math.floor(Math.random() * 18) + 1}`;
@@ -43,9 +49,10 @@ const SideNav = () => {
       navigateToInnerPath({ path: `` });
     }
     setShow(false);
+    setShowRight(false);
   };
 
-  const liMenuElement = (section: string, note: SideMenuItem, idx: number, level = 0) => {
+  const liMenuElement = (section: any, note: any, idx: number, level = 0) => {
     return (
       <RequireAuthComponent
         allowedRoles={note.allowedRoles}
@@ -60,7 +67,7 @@ const SideNav = () => {
             if (note?.path) {
               navigateTo(note?.path, note.randomId);
             } else if (note?.handler && Object.keys(handlers).includes(note?.handler)) {
-              handlers[note?.handler as keyof typeof handlers]();
+              handlers[note?.handler]();
             }
           }}
           style={{ paddingLeft: `${level * 3}rem` }}
@@ -70,12 +77,14 @@ const SideNav = () => {
         </a>
         {note.nestedMenuOptions &&
           note.nestedMenuOptions.length &&
-          note.nestedMenuOptions.map((childOption, index) => liMenuElement(section, childOption, index, level + 1))}
+          note.nestedMenuOptions.map((childOption: any, index: number) =>
+            liMenuElement(section, childOption, index, level + 1)
+          )}
       </RequireAuthComponent>
     );
   };
 
-  const handlers = {
+  const handlers: { [handler: string]: Function } = {
     logout: () => {
       dispatch(usersActions.logout());
       setOpenStatusSearchInputText(false);
@@ -86,16 +95,23 @@ const SideNav = () => {
   const handleResultOnClick = (element: SearchableTemplate) => {
     setOpenStatusSearchInputText(false);
     handleClose();
-    navigateToEntity({ entityType: element.constructor.name, id: element.identifier });
+    let entityName = element.constructor.name;
+    if (element instanceof CurrentProfileInfoModel) {
+      entityName = element.entity;
+    }
+    navigateToEntity({ entityType: entityName, id: element.identifier });
   };
 
   const goToHome = () => navigateTo(PATHS.HOME);
 
   const userID = getStoredUserIdToken();
 
+  const switchProfile = (element: SearchableTemplate) => {
+    dispatch(usersActions.switchProfile({ id: element.identifier }));
+  };
+
   return (
     <>
-      {/* <BetaBarComponent /> */}
       <Navbar className="toolbar-header mb-3" expand="true">
         <Container fluid>
           <div className="nav-menu-opt">
@@ -117,13 +133,8 @@ const SideNav = () => {
             {userID && (
               <ProfilePicture
                 src={loggedUser?.currentProfileInfo?.profile_pic}
-                onClickHandler={(param: any) => {
-                  if (loggedUser?.currentProfileInfo?.entity && loggedUser?.currentProfileInfo?.id) {
-                    navigateToEntity({
-                      entityType: loggedUser?.currentProfileInfo?.entity,
-                      id: loggedUser?.currentProfileInfo?.identifier,
-                    });
-                  }
+                onClickHandler={() => {
+                  setShowRight(true); // Mostrar el Offcanvas derecho
                 }}
                 size="xs"
               />
@@ -171,9 +182,107 @@ const SideNav = () => {
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           )}
+          {!!showRight && (
+            <Navbar.Offcanvas placement="end" show={showRight} onHide={handleClose} className={'w-75 mb-5'}>
+              <Offcanvas.Header closeButton className="sidebar-header" closeVariant="white">
+                <div className="profile-header">
+                  <AvatarWithIcon
+                    name=""
+                    image={loggedUser?.profile_pic}
+                    avatarSize={'3.5rem'}
+                    buttonIcon={!loggedUser?.checkPermissions(loggedUser?.identifier).isInProfile && 'PiUserSwitch'}
+                    onClick={() => handleResultOnClick(loggedUser)}
+                    onBadgeClick={() => switchProfile(loggedUser)}
+                  />
+                  <div className="profile-header-name">
+                    <h4>{loggedUser?.artistic_name || loggedUser?.given_names}</h4>
+                    <p>@{loggedUser?.username}</p>
+                  </div>
+                </div>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <hr />
+                <div>
+                  <section className="general-sec">
+                    <h5 className="sec-general-label">{translateGlobalDict('entities.artists.plural')}</h5>
+                    <div className="option-menu-list">
+                      {loggedUser?.artistMemberships.map((profileInfo: CurrentProfileInfoModel, index: number) => {
+                        return (
+                          <div
+                            className={[
+                              'menu-option',
+                              'menu-option-membership',
+                              loggedUser?.checkPermissions(profileInfo.identifier).isInProfile ? 'current-profile' : '',
+                            ].join(' ')}
+                            key={`artist-${index}`}
+                          >
+                            <AvatarWithIcon
+                              name=""
+                              image={profileInfo.profile_pic}
+                              avatarSize={'3rem'}
+                              buttonIcon={
+                                !loggedUser?.checkPermissions(profileInfo.identifier).isInProfile && 'PiUserSwitch'
+                              }
+                              onClick={() => handleResultOnClick(profileInfo)}
+                              onBadgeClick={() => switchProfile(profileInfo)}
+                            />
+                            <div onClick={() => handleResultOnClick(profileInfo)}>
+                              <p className="menu-option-label">{profileInfo.name}</p>
+                              {profileInfo.username && (
+                                <p className="menu-option-membership-label ">@{profileInfo.username}</p>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </section>
+                  <hr />
+                </div>
+                <div>
+                  <section className="general-sec">
+                    <h5 className="sec-general-label">{translateGlobalDict('entities.places.plural')}</h5>
+                    <div className="option-menu-list">
+                      {loggedUser?.placeMemberships.map((profileInfo: CurrentProfileInfoModel, index: number) => {
+                        return (
+                          <div
+                            className={[
+                              'menu-option',
+                              'menu-option-membership',
+                              loggedUser?.checkPermissions(profileInfo.identifier).isInProfile ? 'current-profile' : '',
+                            ].join(' ')}
+                            key={`artist-${index}`}
+                          >
+                            <AvatarWithIcon
+                              name=""
+                              image={profileInfo.profile_pic}
+                              avatarSize={'3rem'}
+                              buttonIcon={
+                                !loggedUser?.checkPermissions(profileInfo.identifier).isInProfile && 'PiUserSwitch'
+                              }
+                              onClick={() => handleResultOnClick(profileInfo)}
+                              onBadgeClick={() => switchProfile(profileInfo)}
+                            />
+                            <div onClick={() => handleResultOnClick(profileInfo)}>
+                              <p className="menu-option-label">{profileInfo.name}</p>
+                              {profileInfo.username && (
+                                <p className="menu-option-membership-label ">@{profileInfo.username}</p>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </section>
+                  <hr />
+                </div>
+              </Offcanvas.Body>
+            </Navbar.Offcanvas>
+          )}
         </Container>
       </Navbar>
     </>
   );
 };
+
 export default SideNav;

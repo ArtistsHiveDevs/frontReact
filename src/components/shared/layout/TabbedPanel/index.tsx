@@ -25,10 +25,11 @@ export const TabbedPanel = (props: any) => {
   const [activeSectionIndex, setSection] = useState(0);
 
   useEffect(() => {
-    setSection(0);
+    changeSection(0);
   }, []);
 
   const changeSection = (activeSection: number) => {
+    window.scroll(0, 0);
     setSection(activeSection);
   };
 
@@ -50,7 +51,7 @@ export const TabbedPanel = (props: any) => {
 
     // Solo cambia de sección si se encontró una que esté permitida
     if (nextSection >= 0 && AuthorizationStates.ALLOWED === authState) {
-      setSection(nextSection);
+      changeSection(nextSection);
     }
   };
 
@@ -72,7 +73,7 @@ export const TabbedPanel = (props: any) => {
 
     // Solo cambia de sección si se encontró una que esté permitida
     if (nextSection < tabs?.length && AuthorizationStates.ALLOWED === authState) {
-      setSection(nextSection);
+      changeSection(nextSection);
     }
   };
 

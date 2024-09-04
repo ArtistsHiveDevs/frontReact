@@ -78,30 +78,30 @@ const miInfo: SideMenuItem[] = [
       },
     ],
   },
-  {
-    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox'),
-    path: '',
-    icon: 'FaRegEnvelope',
-    updated: new Date('2/20/16'),
-    requireSession: true,
-    allowedRoles: [{ entityName: 'Artist' }, { entityName: 'Place' }],
-    nestedMenuOptions: [
-      {
-        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox.nested.incoming'),
-        path: '',
-        icon: 'HiInboxIn',
-        updated: new Date('2/20/16'),
-        requireSession: true,
-      },
-      {
-        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox.nested.sent'),
-        path: '',
-        icon: 'RiMailSendLine',
-        updated: new Date('2/20/16'),
-        requireSession: true,
-      },
-    ],
-  },
+  // {
+  //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox'),
+  //   path: '',
+  //   icon: 'FaRegEnvelope',
+  //   updated: new Date('2/20/16'),
+  //   requireSession: true,
+  //   allowedRoles: [{ entityName: 'Artist' }, { entityName: 'Place' }],
+  //   nestedMenuOptions: [
+  //     {
+  //       name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox.nested.incoming'),
+  //       path: '',
+  //       icon: 'HiInboxIn',
+  //       updated: new Date('2/20/16'),
+  //       requireSession: true,
+  //     },
+  //     {
+  //       name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox.nested.sent'),
+  //       path: '',
+  //       icon: 'RiMailSendLine',
+  //       updated: new Date('2/20/16'),
+  //       requireSession: true,
+  //     },
+  //   ],
+  // },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_events'),
     path: `${PATHS.EVENTS}/${SUB_PATHS.ELEMENT_DETAILS}`,
@@ -119,13 +119,13 @@ const miInfo: SideMenuItem[] = [
       },
     ],
   },
-  {
-    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),
-    path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/2`,
-    icon: 'FaFileAlt',
-    updated: new Date('2/20/16'),
-    allowedRoles: [{ entityName: 'Artist' }],
-  },
+  // {
+  //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),
+  //   path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/2`,
+  //   icon: 'FaFileAlt',
+  //   updated: new Date('2/20/16'),
+  //   allowedRoles: [{ entityName: 'Artist' }],
+  // },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_places'),
     path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}`,
@@ -142,30 +142,30 @@ const miInfo: SideMenuItem[] = [
       },
     ],
   },
-  {
-    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites'),
-    path: '',
-    icon: 'BsFillBookmarksFill',
-    updated: new Date('2/20/16'),
-    requireSession: true,
-    nestedMenuOptions: [
-      {
-        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.saved'),
-        path: `${PATHS.MY_FAVOURITES}`,
-        icon: 'AiFillHeart',
-        updated: new Date('2/20/16'),
-        requireSession: true,
-      },
-      {
-        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.tour_planning'),
-        path: `${PATHS.TOURS_OUTLINE}`,
-        icon: 'BsFillJournalBookmarkFill',
-        updated: new Date('2/20/16'),
-        allowedRoles: [{ entityName: 'Artist' }],
-        requireSession: true,
-      },
-    ],
-  },
+  // {
+  //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites'),
+  //   path: '',
+  //   icon: 'BsFillBookmarksFill',
+  //   updated: new Date('2/20/16'),
+  //   requireSession: true,
+  //   nestedMenuOptions: [
+  //     {
+  //       name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.saved'),
+  //       path: `${PATHS.MY_FAVOURITES}`,
+  //       icon: 'AiFillHeart',
+  //       updated: new Date('2/20/16'),
+  //       requireSession: true,
+  //     },
+  //     {
+  //       name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.tour_planning'),
+  //       path: `${PATHS.TOURS_OUTLINE}`,
+  //       icon: 'BsFillJournalBookmarkFill',
+  //       updated: new Date('2/20/16'),
+  //       allowedRoles: [{ entityName: 'Artist' }],
+  //       requireSession: true,
+  //     },
+  //   ],
+  // },
 ];
 const config: SideMenuItem[] = [
   {
@@ -173,6 +173,7 @@ const config: SideMenuItem[] = [
     path: `${PATHS.SETTINGS}`,
     icon: 'FaCogs',
     updated: new Date('2/20/16'),
+    requireSession: true,
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'help_center'),
@@ -201,12 +202,12 @@ const config: SideMenuItem[] = [
     updated: new Date('2/20/16'),
     requireSession: true,
   },
-  {
-    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),
-    path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/rid_2`,
-    icon: 'FaFileAlt',
-    updated: new Date('2/20/16'),
-  },
+  // {
+  //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),
+  //   path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/rid_2`,
+  //   icon: 'FaFileAlt',
+  //   updated: new Date('2/20/16'),
+  // },
 ];
 
 export const SIDENAV_MENU_CONFIG: SideMenuSection[] = [

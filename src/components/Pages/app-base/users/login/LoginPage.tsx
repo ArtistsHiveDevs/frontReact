@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Typography } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
 
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -115,8 +115,8 @@ export const LoginPage = () => {
       {/* <Typography variant="h3" gutterBottom padding={'1rem'}>
         Iniciar Sesión
       </Typography> */}
-      <Grid container justifyContent="center" spacing={6}>
-        <Grid item>
+      <Grid alignItems="center" justifyContent="center" spacing={10} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid item justifyContent="center">
           <img
             alt="Artist Hive"
             className="img-logotipo"
@@ -125,7 +125,7 @@ export const LoginPage = () => {
             onClick={() => setClicksEnLogo(clicksEnLogo + 1)}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        {/* <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: 2 }} className={'login-form-container'}>
             <Typography variant="h4" gutterBottom padding={'1rem'}>
               Continuar con:
@@ -142,7 +142,7 @@ export const LoginPage = () => {
               ))}
             </Grid>
           </Paper>
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: 2 }} className={'login-form-container'}>
             <Typography variant="h4" gutterBottom padding={'1rem'}>

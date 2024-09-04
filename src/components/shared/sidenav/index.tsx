@@ -264,9 +264,16 @@ const SideNav = () => {
                               onBadgeClick={() => switchProfile(profileInfo)}
                             />
                             <div onClick={() => handleResultOnClick(profileInfo)}>
-                              <p className="menu-option-label">{profileInfo.name}</p>
+                              <p className="menu-option-label" onClick={() => handleResultOnClick(profileInfo)}>
+                                {profileInfo.name}
+                              </p>
                               {profileInfo.username && (
-                                <p className="menu-option-membership-label ">@{profileInfo.username}</p>
+                                <p
+                                  className="menu-option-membership-label "
+                                  onClick={() => handleResultOnClick(profileInfo)}
+                                >
+                                  @{profileInfo.username}
+                                </p>
                               )}
                             </div>
                           </div>

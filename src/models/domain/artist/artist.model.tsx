@@ -1,9 +1,69 @@
 import moment from 'moment';
 import { VerificationStatus } from '~/constants';
 import { SocialNetworkStatsTemplate } from '~/constants/social-networks.const';
-import { EntityModel, EntityTemplate, SearchableTemplate } from '~/models/base';
+import { EntityModel, EntityTemplate, ProfileModel, ProfileTemplate, SearchableTemplate } from '~/models/base';
 import { EventModel, EventTemplate } from '../event/event.model';
 
+export interface ArtistInTrack {
+  id: string;
+  name: string;
+}
+
+export interface TrackTemplate {
+  artists: ArtistInTrack[];
+  disc_number: number;
+  duration_ms: number;
+  explicit: boolean;
+  id: string;
+  name: string;
+  track_number: number;
+}
+
+export interface AlbumTemplate extends EntityTemplate {
+  name: string;
+  images: [
+    {
+      height: number | string;
+      url: string;
+      width: number | string;
+    }
+  ];
+  release_date: string;
+  release_date_precision: string;
+  spotify: {
+    id: string;
+    url: string;
+  };
+  total_tracks: number;
+  tracks: TrackTemplate[];
+}
+
+export class AlbumModel extends EntityModel<AlbumTemplate> {
+  declare name: string;
+  declare images: [
+    {
+      height: number | string;
+      url: string;
+      width: number | string;
+    }
+  ];
+  declare release_date: string;
+  declare release_date_precision: string;
+  declare spotify: {
+    id: string;
+    url: string;
+  };
+  declare total_tracks: number;
+  declare tracks: TrackTemplate[];
+
+  get hasFetchAllData(): boolean {
+    return !this.isExpiredCache() && !!this.id && !!this.name && !!this.images && !!this.total_tracks;
+  }
+
+  get totalDurationMs(): number {
+    return this.tracks.reduce((accumulator, track) => accumulator + track.duration_ms, 0);
+  }
+}
 export interface ArtistRatingTemplate {
   overall: number;
   talent: number;
@@ -17,7 +77,7 @@ export interface ArtistRatingTemplate {
   total_rates: number;
 }
 
-export interface ArtistTemplate extends EntityTemplate {
+export interface ArtistTemplate extends ProfileTemplate {
   artistType: string;
   name: string;
   subtitle: string;
@@ -48,9 +108,11 @@ export interface ArtistTemplate extends EntityTemplate {
   spotify: string;
   youtube: string;
   youtube_widget_id: string;
+
+  arts?: { music: { albums: AlbumTemplate[] } };
 }
 
-export class ArtistModel extends EntityModel<ArtistTemplate> implements ArtistTemplate, SearchableTemplate {
+export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistTemplate, SearchableTemplate {
   declare artistType: string;
   declare name: string;
   declare subtitle: string;
@@ -83,9 +145,15 @@ export class ArtistModel extends EntityModel<ArtistTemplate> implements ArtistTe
   declare youtube: string;
   declare youtube_widget_id: string;
 
+  declare arts?: { music: { albums: AlbumModel[] } };
+
   constructor(template: ArtistTemplate) {
     super(template);
     this.events = template?.events?.map((event) => new EventModel(event)) || [];
+
+    if (!!template.arts?.music?.albums?.length) {
+      this.arts.music.albums = template?.arts?.music?.albums?.map((album) => new AlbumModel(album)) || [];
+    }
   }
 
   get hasFetchAllData(): boolean {

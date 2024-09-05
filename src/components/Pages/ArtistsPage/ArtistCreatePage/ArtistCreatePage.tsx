@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
 import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
 import { useUsersSlice } from '~/common/slices/users';
-import useAuth from '~/common/utils/hooks/auth/useAuth';
+import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
@@ -19,7 +19,7 @@ import {
 
 const ArtistsCreatePage = () => {
   const { navigateToEntity, navigateToInnerPath } = useNavigation();
-  const { loggedUser } = useAuth();
+  const loggedUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
   const { actions: userActions } = useUsersSlice();
   const { actions: languageActions } = useLanguagesSlice();

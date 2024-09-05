@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectorAllergies, useAllergiesSlice } from '~/common/slices/parametrics/demographics/allergies.redux';
 import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
-import useAuth from '~/common/utils/hooks/auth/useAuth';
+import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { AppUserModel } from '~/models/app/user/user.model';
 import { TRANSLATION_BASE_USER_DETAIL_PAGE, USER_DETAIL_SUB_PAGE_CONFIG } from '../UserDetails/config-user-detail';
 
 const UserCreatePage = () => {
-  const { loggedUser } = useAuth();
+  const loggedUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
 
   const { actions: languageActions } = useLanguagesSlice();

@@ -1,5 +1,6 @@
+import { useSelector } from 'react-redux';
 import { Navigate, Outlet, useLocation } from 'react-router';
-import useAuth from '~/common/utils/hooks/auth/useAuth';
+import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { PATHS } from '~/constants';
 import { AppUserModel } from '~/models/app/user/user.model';
 
@@ -62,7 +63,7 @@ export interface RequireAuthParameters {
 
 export const RequireAuthComponent = (props: RequireAuthParameters) => {
   const { children, allowedRoles, requiredSession, name } = props;
-  const { loggedUser } = useAuth();
+  const loggedUser = useSelector(selectCurrentUser);
   const authAppUser: AppUserModel = loggedUser;
 
   let nextPage;
@@ -84,7 +85,7 @@ export const RequireAuthComponent = (props: RequireAuthParameters) => {
 };
 
 export const RequireAuthPageNavigation = ({ allowedRoles = [] }) => {
-  const { loggedUser } = useAuth();
+  const loggedUser = useSelector(selectCurrentUser);
   const authAppUser: AppUserModel = loggedUser;
   const location = useLocation();
 

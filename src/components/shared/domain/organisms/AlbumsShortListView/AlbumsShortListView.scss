@@ -6,3 +6,166 @@
   font-weight: 700;
   padding-bottom: 2rem;
 }
+
+.dialog-title {
+  text-align: center;
+  padding-left: 3rem !important;
+  padding-right: 3rem !important;
+  position: relative;
+
+  .close-icon {
+    position: absolute;
+    top: 0.3rem;
+    right: 0.3rem;
+  }
+}
+
+.dialog-content {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.7rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+
+  .avatar-container {
+    // width: 25% !important;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  }
+
+  .avatar {
+    width: 5rem;
+    height: 5rem;
+    max-width: 10rem;
+  }
+
+  #album-info {
+    // flex-grow: 1 !important;
+    // width: 75% !important;
+    text-align: center;
+    overflow-y: auto;
+    margin-top: 1rem;
+    padding-left: 1rem;
+  }
+
+  // @media (min-width: 768px) {
+  flex-direction: row !important;
+  // align-items: flex-start !important;
+
+  #album-info {
+    text-align: left !important;
+    margin-top: 0 !important;
+  }
+  // }
+}
+
+#tracks-viewer-header {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
+
+  div {
+    width: 20%;
+    text-align: center;
+  }
+
+  div:nth-child(2) {
+    flex-grow: 1;
+    text-align: left;
+  }
+
+  div:nth-child(3) {
+    width: 15%;
+    text-align: right;
+  }
+}
+
+#tracks-viewer {
+  max-height: 40vh;
+  overflow-y: auto;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  width: 90%;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  .track-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
+
+    div {
+      width: 20%;
+      text-align: center;
+    }
+
+    div:nth-child(2) {
+      flex-grow: 1;
+      text-align: left;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    div:nth-child(3) {
+      width: 15%;
+      text-align: right;
+    }
+
+    .track-name {
+      border-bottom: 1px solid $gray-dark;
+    }
+  }
+}
+
+.arrow {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+
+  &.left {
+    left: 0 !important;
+  }
+
+  &.right {
+    right: 0 !important;
+  }
+}
+
+#zoomAlbumImg {
+  .zoom-dialog {
+    text-align: center;
+    position: relative;
+    padding: 0;
+    max-width: 100%;
+
+    .close-icon {
+      position: absolute;
+      top: 0.5%;
+      right: 0.5%;
+    }
+
+    .zoom-image {
+      max-width: 100%;
+      max-height: 80vh;
+      width: auto;
+      height: auto;
+    }
+  }
+}

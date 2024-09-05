@@ -1,5 +1,5 @@
 import { VerificationStatus } from '~/constants';
-import { EntityModel, EntityTemplate, SearchableTemplate } from '~/models/base';
+import { ProfileModel, ProfileTemplate, SearchableTemplate } from '~/models/base';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel, EventTemplate } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
@@ -71,7 +71,7 @@ export const APP_DOMAIN_ROLES: { [entityName: string]: DomainRole } = {
   },
 };
 
-export interface AppUserTemplate extends EntityTemplate {
+export interface AppUserTemplate extends ProfileTemplate {
   given_names: string;
   surnames: string;
   artistic_name: string;
@@ -106,7 +106,7 @@ export interface AppUserTemplate extends EntityTemplate {
   };
 }
 
-export class AppUserModel extends EntityModel<AppUserTemplate> implements AppUserTemplate, SearchableTemplate {
+export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUserTemplate, SearchableTemplate {
   declare given_names: string;
   declare surnames: string;
   declare artistic_name: string;

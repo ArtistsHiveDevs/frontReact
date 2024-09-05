@@ -1,5 +1,5 @@
 import { toCamelCase } from '~/common/utils/string-utils';
-import { EntityTemplate, ObjectValueTemplate } from './template';
+import { EntityTemplate, ObjectValueTemplate, ProfileTemplate } from './template';
 
 const DEFAULT_MAX_CACHE_TIME_TO_LIVE = 3 * 60 * 1000;
 
@@ -129,7 +129,6 @@ abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
  */
 export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
   declare id: string;
-  declare username?: string;
   declare shortId?: string;
 
   constructor(template: T | any = {}) {
@@ -137,8 +136,8 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
     this.id = template.id || template._id;
   }
 
-  get identifier() {
-    return this.username || this.shortId || this.id;
+  get identifier(): string {
+    return this.shortId || this.id;
   }
 }
 
@@ -148,5 +147,27 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
 export abstract class ObjectValueModel<T extends ObjectValueTemplate> extends Model<T> {
   public toJSON(): T {
     throw new Error('Method not implemented.');
+  }
+}
+
+/**
+ *
+ */
+export abstract class ProfileModel<T extends ProfileTemplate> extends EntityModel<T> {
+  declare id: string;
+  declare username?: string;
+  declare shortId?: string;
+
+  constructor(template: T | any = {}) {
+    super(template);
+    this.id = template.id || template._id;
+  }
+
+  get identifier(): string {
+    return this.username || this.identifier;
+  }
+
+  get fullUserName() {
+    return !!this.username ? `@${this.username}` : undefined;
   }
 }

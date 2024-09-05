@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { VerificationStatus } from '~/constants';
 import { SocialNetworkStatsTemplate } from '~/constants/social-networks.const';
-import { EntityModel, EntityTemplate, LocatableTemplate, SearchableTemplate } from '~/models/base';
+import { LocatableTemplate, ProfileModel, ProfileTemplate, SearchableTemplate } from '~/models/base';
 import { EventModel, EventTemplate } from '../event/event.model';
 
 export interface PlaceRatingTemplate {
@@ -21,7 +21,7 @@ export interface PlaceRatingTemplate {
   seating_capacity: number;
   total_rates: number;
 }
-export interface PlaceTemplate extends EntityTemplate {
+export interface PlaceTemplate extends ProfileTemplate {
   name: string;
   place_type: string;
   music_genre: string;
@@ -54,7 +54,7 @@ export interface PlaceTemplate extends EntityTemplate {
 }
 
 export class PlaceModel
-  extends EntityModel<PlaceTemplate>
+  extends ProfileModel<PlaceTemplate>
   implements PlaceTemplate, SearchableTemplate, LocatableTemplate
 {
   declare name: string;

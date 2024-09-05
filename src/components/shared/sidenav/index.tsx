@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Container, Navbar, Offcanvas } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import { useUsersSlice } from '~/common/slices/users';
+import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
-import useAuth from '~/common/utils/hooks/auth/useAuth';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
@@ -20,7 +20,7 @@ import { SIDENAV_MENU_CONFIG, SideMenuItem } from './sidenav.config';
 const TRANSLATION_BASE_SIDENAV = 'app.appbase.sidenav';
 
 const SideNav = () => {
-  const { loggedUser } = useAuth();
+  const loggedUser = useSelector(selectCurrentUser);
 
   const [show, setShow] = useState(false);
   const [showRight, setShowRight] = useState(false);
@@ -107,6 +107,7 @@ const SideNav = () => {
   const userID = getStoredUserIdToken();
 
   const switchProfile = (element: SearchableTemplate) => {
+    handleClose();
     dispatch(usersActions.switchProfile({ id: element.identifier }));
   };
 
@@ -201,40 +202,82 @@ const SideNav = () => {
                 </div>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                <hr />
+                <div>
+                  <section className="general-sec">
+                    <h5 className="sec-general-label">Logged as: </h5>
+                    <div className="option-menu-list">
+                      <div
+                        className={[
+                          'menu-option',
+                          'menu-option-membership',
+                          loggedUser?.checkPermissions(loggedUser?.currentProfileInfo.identifier).isInProfile
+                            ? 'current-profile'
+                            : '',
+                        ].join(' ')}
+                        key={`artist-current-profile`}
+                      >
+                        <AvatarWithIcon
+                          name=""
+                          image={loggedUser?.currentProfileInfo.profile_pic}
+                          avatarSize={'3rem'}
+                          buttonIcon={
+                            !loggedUser?.checkPermissions(loggedUser?.currentProfileInfo.identifier).isInProfile &&
+                            'PiUserSwitch'
+                          }
+                          onClick={() => handleResultOnClick(loggedUser?.currentProfileInfo)}
+                          onBadgeClick={() => switchProfile(loggedUser?.currentProfileInfo)}
+                        />
+                        <div onClick={() => handleResultOnClick(loggedUser?.currentProfileInfo)}>
+                          <p className="menu-option-label">{loggedUser?.currentProfileInfo.name}</p>
+                          {loggedUser?.currentProfileInfo.username && (
+                            <p className="menu-option-membership-label ">@{loggedUser?.currentProfileInfo.username}</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <hr />
+                </div>
                 <div>
                   <section className="general-sec">
                     <h5 className="sec-general-label">{translateGlobalDict('entities.artists.plural')}</h5>
                     <div className="option-menu-list">
-                      {loggedUser?.artistMemberships.map((profileInfo: CurrentProfileInfoModel, index: number) => {
-                        return (
-                          <div
-                            className={[
-                              'menu-option',
-                              'menu-option-membership',
-                              loggedUser?.checkPermissions(profileInfo.identifier).isInProfile ? 'current-profile' : '',
-                            ].join(' ')}
-                            key={`artist-${index}`}
-                          >
-                            <AvatarWithIcon
-                              name=""
-                              image={profileInfo.profile_pic}
-                              avatarSize={'3rem'}
-                              buttonIcon={
-                                !loggedUser?.checkPermissions(profileInfo.identifier).isInProfile && 'PiUserSwitch'
-                              }
-                              onClick={() => handleResultOnClick(profileInfo)}
-                              onBadgeClick={() => switchProfile(profileInfo)}
-                            />
-                            <div onClick={() => handleResultOnClick(profileInfo)}>
-                              <p className="menu-option-label">{profileInfo.name}</p>
-                              {profileInfo.username && (
-                                <p className="menu-option-membership-label ">@{profileInfo.username}</p>
-                              )}
+                      {loggedUser?.artistMemberships
+                        .filter(
+                          (profileInfo: CurrentProfileInfoModel) =>
+                            profileInfo.identifier !== loggedUser.currentProfileInfo.identifier
+                        )
+                        .map((profileInfo: CurrentProfileInfoModel, index: number) => {
+                          return (
+                            <div
+                              className={[
+                                'menu-option',
+                                'menu-option-membership',
+                                loggedUser?.checkPermissions(profileInfo.identifier).isInProfile
+                                  ? 'current-profile'
+                                  : '',
+                              ].join(' ')}
+                              key={`artist-${index}`}
+                            >
+                              <AvatarWithIcon
+                                name=""
+                                image={profileInfo.profile_pic}
+                                avatarSize={'3rem'}
+                                buttonIcon={
+                                  !loggedUser?.checkPermissions(profileInfo.identifier).isInProfile && 'PiUserSwitch'
+                                }
+                                onClick={() => handleResultOnClick(profileInfo)}
+                                onBadgeClick={() => switchProfile(profileInfo)}
+                              />
+                              <div onClick={() => handleResultOnClick(profileInfo)}>
+                                <p className="menu-option-label">{profileInfo.name}</p>
+                                {profileInfo.username && (
+                                  <p className="menu-option-membership-label ">@{profileInfo.username}</p>
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
                     </div>
                   </section>
                   <hr />
@@ -243,42 +286,49 @@ const SideNav = () => {
                   <section className="general-sec">
                     <h5 className="sec-general-label">{translateGlobalDict('entities.places.plural')}</h5>
                     <div className="option-menu-list">
-                      {loggedUser?.placeMemberships.map((profileInfo: CurrentProfileInfoModel, index: number) => {
-                        return (
-                          <div
-                            className={[
-                              'menu-option',
-                              'menu-option-membership',
-                              loggedUser?.checkPermissions(profileInfo.identifier).isInProfile ? 'current-profile' : '',
-                            ].join(' ')}
-                            key={`artist-${index}`}
-                          >
-                            <AvatarWithIcon
-                              name=""
-                              image={profileInfo.profile_pic}
-                              avatarSize={'3rem'}
-                              buttonIcon={
-                                !loggedUser?.checkPermissions(profileInfo.identifier).isInProfile && 'PiUserSwitch'
-                              }
-                              onClick={() => handleResultOnClick(profileInfo)}
-                              onBadgeClick={() => switchProfile(profileInfo)}
-                            />
-                            <div onClick={() => handleResultOnClick(profileInfo)}>
-                              <p className="menu-option-label" onClick={() => handleResultOnClick(profileInfo)}>
-                                {profileInfo.name}
-                              </p>
-                              {profileInfo.username && (
-                                <p
-                                  className="menu-option-membership-label "
-                                  onClick={() => handleResultOnClick(profileInfo)}
-                                >
-                                  @{profileInfo.username}
+                      {loggedUser?.placeMemberships
+                        .filter(
+                          (profileInfo: CurrentProfileInfoModel) =>
+                            profileInfo.identifier !== loggedUser.currentProfileInfo.identifier
+                        )
+                        .map((profileInfo: CurrentProfileInfoModel, index: number) => {
+                          return (
+                            <div
+                              className={[
+                                'menu-option',
+                                'menu-option-membership',
+                                loggedUser?.checkPermissions(profileInfo.identifier).isInProfile
+                                  ? 'current-profile'
+                                  : '',
+                              ].join(' ')}
+                              key={`artist-${index}`}
+                            >
+                              <AvatarWithIcon
+                                name=""
+                                image={profileInfo.profile_pic}
+                                avatarSize={'3rem'}
+                                buttonIcon={
+                                  !loggedUser?.checkPermissions(profileInfo.identifier).isInProfile && 'PiUserSwitch'
+                                }
+                                onClick={() => handleResultOnClick(profileInfo)}
+                                onBadgeClick={() => switchProfile(profileInfo)}
+                              />
+                              <div onClick={() => handleResultOnClick(profileInfo)}>
+                                <p className="menu-option-label" onClick={() => handleResultOnClick(profileInfo)}>
+                                  {profileInfo.name}
                                 </p>
-                              )}
+                                {profileInfo.username && (
+                                  <p
+                                    className="menu-option-membership-label "
+                                    onClick={() => handleResultOnClick(profileInfo)}
+                                  >
+                                    @{profileInfo.username}
+                                  </p>
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
                     </div>
                   </section>
                   <hr />

@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
 import { selectorEvents, useEventsSlice } from '~/common/slices/domain/events/events.redux';
 import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
+import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
-import useAuth from '~/common/utils/hooks/auth/useAuth';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { PATHS } from '~/constants';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
@@ -28,7 +28,7 @@ const HomePage = () => {
   const placesList: PlaceModel[] = useSelector(selectorPlaces.selectItems);
   const { actions: placesActions } = usePlacesSlice();
 
-  const { loggedUser } = useAuth();
+  const loggedUser = useSelector(selectCurrentUser);
 
   // Hooks
   const dispatch = useDispatch();

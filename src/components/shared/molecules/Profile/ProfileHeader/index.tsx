@@ -1,10 +1,11 @@
-import { Avatar, Button, IconButton } from '@mui/material';
+import { Avatar, Button, Dialog, DialogContent, IconButton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { RegisterOptions } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import { useUsersSlice } from '~/common/slices/users';
-import useAuth from '~/common/utils/hooks/auth/useAuth';
+import { selectCurrentUser } from '~/common/slices/users/selectors';
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import AvatarWithIcon from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
@@ -50,6 +51,7 @@ export const ProfileHeader = (props: any) => {
     },
   ]);
 
+  const [zoomProfilePic, setZoomProfilePic] = useState(false);
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
   const [currentUserIsInProfile, setCurrentUserIsInProfile] = useState(false);
   const { actions: userActions } = useUsersSlice();
@@ -62,7 +64,7 @@ export const ProfileHeader = (props: any) => {
     value: undefined,
   });
 
-  const { loggedUser } = useAuth();
+  const loggedUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
     if (element) {
@@ -212,6 +214,10 @@ export const ProfileHeader = (props: any) => {
     fields.forEach((field) => register(field.name, field.config));
   }
 
+  const handleCloseZoomDialog = () => {
+    setZoomProfilePic(false);
+  };
+
   return (
     <>
       <div className="profile-header">
@@ -237,6 +243,7 @@ export const ProfileHeader = (props: any) => {
             avatarSize={avatarSize}
             bottomBadgeSize={avatarSize / 3}
             buttonIcon={currentUserCanEdit && !currentUserIsInProfile && 'PiUserSwitch'}
+            onClick={() => setZoomProfilePic(true)}
             onBadgeClick={() => switchProfile()}
           ></AvatarWithIcon>
         )}
@@ -267,6 +274,14 @@ export const ProfileHeader = (props: any) => {
           <Button variant="contained">Edit</Button>
         </div>
       )}
+      <Dialog open={zoomProfilePic} onClose={handleCloseZoomDialog} fullWidth>
+        <DialogContent style={{ textAlign: 'center', position: 'relative', padding: 0 }}>
+          <IconButton onClick={handleCloseZoomDialog} style={{ position: 'absolute', top: '0.5%', right: '0.5%' }}>
+            <DynamicIcons iconName="MdClose" />
+          </IconButton>
+          {zoomProfilePic && <img src={element?.profile_pic} alt={element?.name} style={{ maxWidth: '100%' }} />}
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

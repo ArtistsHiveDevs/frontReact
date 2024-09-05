@@ -11,6 +11,10 @@ export interface EntityTemplate extends Template {
   id?: string;
 }
 
+export interface ProfileTemplate extends EntityTemplate {
+  username?: string;
+}
+
 export interface ObjectValueTemplate extends Template {}
 
 export interface LocatableTemplate extends Template {

@@ -257,7 +257,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
         ...(numSelected > 0 && {
-          bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+          bgcolor: (theme: any) => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
         }),
       }}
     >
@@ -378,7 +378,7 @@ export const TableView = (props: { config: TableViewConfig }) => {
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => console.log(event)} //handleClick(event, row.id)}
+                    onClick={(event: any) => console.log(event)} //handleClick(event, row.id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}

@@ -15,6 +15,9 @@ import { SocialNetworkTemplate, SocialNetworks } from '~/constants/social-networ
 import { AppUserModel } from '~/models/app/user/user.model';
 import './LoginPage.scss';
 
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
 const TRANSLATION_BASE_LOGIN_PAGE = 'app.pages.app_base.LoginPage';
 
 const LIMITE_CLICKS = 3;
@@ -165,6 +168,22 @@ export const LoginPage = () => {
                 {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.create_account`)}
               </button>
             </div>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Paper elevation={3} sx={{ padding: 2 }} className={'login-form-container'}>
+            <Typography variant="h4" gutterBottom padding={'1rem'}>
+              Usuario o email - AWS:
+            </Typography>
+            <Authenticator>
+              {({ signOut, user }) => (
+                <main>
+                  <h1>Hello {user?.username}</h1>
+                  <button onClick={signOut}>Sign out</button>
+                </main>
+              )}
+            </Authenticator>
+            {/* <Button onClick={() => crearAlgo()}> POR FIN </Button> */}
           </Paper>
         </Grid>
         {clicksEnLogo > 3 && (

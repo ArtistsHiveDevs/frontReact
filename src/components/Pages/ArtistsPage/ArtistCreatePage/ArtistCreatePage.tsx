@@ -5,6 +5,7 @@ import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists
 import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
+import { uploadImage } from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
@@ -110,11 +111,14 @@ const ArtistsCreatePage = () => {
   }, []);
 
   const handlers = {
-    onSubmit: (data: any, error?: any) => {
+    onSubmit: async (data: any, error?: any) => {
       console.log('#####----------->>>>  !!! ', data);
       if (!requestHasBeenSended) {
         if (!currentArtist) {
-          dispatch(artistsActions.createItem({ data }));
+          console.log(data);
+          const response = await uploadImage({ file: data.profile_pic });
+          console.log(response);
+          // dispatch(artistsActions.createItem({ data }));
         } else {
           console.log('Actualizando  un nuevo artista ', currentArtist.identifier, data);
           dispatch(
@@ -128,7 +132,7 @@ const ArtistsCreatePage = () => {
           );
         }
       }
-      setRequestHasBeenSended(true);
+      // setRequestHasBeenSended(true);
     },
     onChangecountry: (data: any) => {
       console.log('#####----------->>>>  !!! ', data);

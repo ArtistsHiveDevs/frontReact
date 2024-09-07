@@ -7,6 +7,11 @@ import App from './App';
 import './index.scss';
 import { configureAppStore } from './store/configureStore';
 
+import { Amplify } from 'aws-amplify';
+import awsconfig from './aws-exports'; // Ajusta la ruta si es necesario
+
+Amplify.configure(awsconfig);
+
 const store = configureAppStore();
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 

@@ -41,13 +41,13 @@ export const ProfileHeader = (props: any) => {
     {
       name: 'name',
       label: 'Nombre',
-      config: { required: false, minLength: 3 },
+      config: { required: true, minLength: 3 },
     },
     { name: 'subtitle', label: 'Subtitle' },
     {
       name: 'username',
       label: 'username',
-      config: { required: false, minLength: 3 },
+      config: { required: true, minLength: 3 },
     },
   ]);
 

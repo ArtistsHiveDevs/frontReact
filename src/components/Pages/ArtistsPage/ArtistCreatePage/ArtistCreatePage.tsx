@@ -8,7 +8,7 @@ import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists
 import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
-import { getImageURL } from '~/common/utils/amplify/storage/storage.helpers';
+import { getImageURL, uploadImage } from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
@@ -119,9 +119,10 @@ const ArtistsCreatePage = () => {
       console.log('#####----------->>>>  !!! ', data);
       if (!requestHasBeenSended) {
         if (!currentArtist) {
-          console.log(data);
-          // const response = await uploadImage({ file: data.profile_pic });
-          // console.log(response);
+          console.log('ANTES DE SUBIR FOTO', data);
+
+          const response = await uploadImage({ file: data.profile_pic });
+          console.log('DESPUÉS de SUBIR FOTO, ', response);
           // dispatch(artistsActions.createItem({ data }));
         } else {
           console.log('Actualizando  un nuevo artista ', currentArtist.identifier, data);
@@ -176,7 +177,7 @@ const ArtistsCreatePage = () => {
         {currentUserCanEdit && (
           <>
             <h1>IMAGEN 2</h1>
-            <FileUploader acceptedFileTypes={['image/*']} path="public/" maxFileCount={500} isResumable />
+            <FileUploader acceptedFileTypes={['image/*']} path="galeria/" maxFileCount={500} isResumable />
             <h2>FIN</h2>
             {/* {url?.url?.href} */}
             <Avatar src={url?.url?.href} sx={{ width: '5rem', height: '5rem' }}></Avatar>

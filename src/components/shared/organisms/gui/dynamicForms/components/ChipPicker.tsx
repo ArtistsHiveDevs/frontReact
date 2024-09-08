@@ -34,6 +34,7 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
   const { register, formState } = useFormContext();
   const { errors } = formState || {};
 
+  const [selectedGroupByTerms, updateGroupByTerms] = useState([]);
   const [selectedOptions, updateSelectedOptions] = useState([]);
   const [displayAllOptions, setDisplayAllOptions] = useState(false);
 
@@ -69,8 +70,20 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
 
   register(fieldName, config);
 
-  console.log('componentParams chippicker ', fieldName, componentParams);
+  const groupbyValues = componentParams?.groupby
+    ? [...new Set(options.map((option) => option[componentParams?.groupby as keyof typeof option] as string))]
+    : [];
 
+  const handleGroupbySelection = (value: any) => {
+    const exists = !!selectedGroupByTerms.find((term) => term === value);
+    if (exists) {
+      updateGroupByTerms(selectedGroupByTerms.filter((term) => term !== value));
+    } else {
+      const newValues = [...selectedGroupByTerms];
+      newValues.push(value);
+      updateGroupByTerms(newValues);
+    }
+  };
   return (
     <>
       {!hideLabel && (
@@ -121,20 +134,50 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
         >
           <Fade in={displayAllOptions}>
             <Box sx={style}>
+              {componentParams?.groupby && (
+                <div>
+                  <FormLabel style={{ wordBreak: 'break-word', wordWrap: 'break-word' }}>
+                    Filter by: {componentParams?.groupby}
+                  </FormLabel>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    sx={{ flexWrap: 'wrap', gap: 1, alignItems: 'center', padding: '2rem' }}
+                  >
+                    {groupbyValues.map((option, index) => (
+                      <Chip
+                        key={`option-${fieldName}-filter-${option}`}
+                        label={option}
+                        color="primary"
+                        variant={
+                          selectedGroupByTerms.find((selectedValue) => selectedValue === option) ? 'filled' : 'outlined'
+                        }
+                        onClick={() => handleGroupbySelection(option)}
+                      />
+                    ))}
+                  </Stack>
+                </div>
+              )}
               <FormLabel style={{ wordBreak: 'break-word', wordWrap: 'break-word' }}>{fieldData.label}</FormLabel>
               <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1, alignItems: 'center' }}>
-                {options.map((option, index) => (
-                  <Chip
-                    key={`option-${fieldName}-${option.value}`}
-                    label={option.label}
-                    icon={(option?.icon && <DynamicIcons iconName={option?.icon} />) || <></>}
-                    color="primary"
-                    variant={
-                      selectedOptions.find((selectedValue) => selectedValue === option.value) ? 'filled' : 'outlined'
-                    }
-                    onClick={() => handleClickInChip(option)}
-                  />
-                ))}
+                {options
+                  .filter((option) =>
+                    componentParams?.groupby && !!selectedGroupByTerms?.length
+                      ? selectedGroupByTerms.includes(option[componentParams?.groupby as keyof typeof option])
+                      : true
+                  )
+                  .map((option, index) => (
+                    <Chip
+                      key={`option-${fieldName}-${option.value}`}
+                      label={option.label}
+                      icon={(option?.icon && <DynamicIcons iconName={option?.icon} />) || <></>}
+                      color="primary"
+                      variant={
+                        selectedOptions.find((selectedValue) => selectedValue === option.value) ? 'filled' : 'outlined'
+                      }
+                      onClick={() => handleClickInChip(option)}
+                    />
+                  ))}
               </Stack>
             </Box>
           </Fade>

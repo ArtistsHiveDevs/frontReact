@@ -69,6 +69,8 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
 
   register(fieldName, config);
 
+  console.log('componentParams chippicker ', fieldName, componentParams);
+
   return (
     <>
       {!hideLabel && (

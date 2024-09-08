@@ -1,3 +1,6 @@
+import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
+import { FileUploader } from '@aws-amplify/ui-react-storage';
+import { Avatar } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -5,7 +8,7 @@ import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists
 import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
-import { uploadImage } from '~/common/utils/amplify/storage/storage.helpers';
+import { getImageURL } from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
@@ -61,6 +64,7 @@ const ArtistsCreatePage = () => {
     if (artistId !== urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]) {
       setCurrentArtistId(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
     }
+    getURL();
   }, [urlParameters]);
 
   // useEffect(() => {
@@ -116,8 +120,8 @@ const ArtistsCreatePage = () => {
       if (!requestHasBeenSended) {
         if (!currentArtist) {
           console.log(data);
-          const response = await uploadImage({ file: data.profile_pic });
-          console.log(response);
+          // const response = await uploadImage({ file: data.profile_pic });
+          // console.log(response);
           // dispatch(artistsActions.createItem({ data }));
         } else {
           console.log('Actualizando  un nuevo artista ', currentArtist.identifier, data);
@@ -154,24 +158,45 @@ const ArtistsCreatePage = () => {
     },
   };
 
+  const getURL = async () => {
+    const linkToStorageFile = await getImageURL({ path: 'public', fileName: '1725765544035-Carlos Navarrete.jpg' });
+
+    // await getUrl({
+    //   path: 'picture-submissions/',
+    //   // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+    // });
+    console.log(linkToStorageFile);
+    setURL(linkToStorageFile);
+  };
+  const [url, setURL] = useState<StorageGetUrlOutput>();
+
   return (
     <>
       <RequireAuthComponent requiredSession={true}>
         {currentUserCanEdit && (
-          <DynamicTabbedForm
-            tabsInfo={ARTIST_DETAIL_SUB_PAGE_CONFIG}
-            handlers={handlers}
-            translationBasePath={TRANSLATION_BASE_ARTIST_DETAIL_PAGE}
-            entityType={ArtistModel.name}
-            elementData={currentArtist}
-            fieldOptions={{
-              genres: availableGenres,
-              arts_languages: availableLanguages,
-              spoken_languages: availableLanguages,
-              stage_languages: availableLanguages,
-            }}
-            submitLabel={!currentArtist ? 'create' : 'save'}
-          />
+          <>
+            <h1>IMAGEN 2</h1>
+            <FileUploader acceptedFileTypes={['image/*']} path="public/" maxFileCount={500} isResumable />
+            <h2>FIN</h2>
+            {/* {url?.url?.href} */}
+            <Avatar src={url?.url?.href} sx={{ width: '5rem', height: '5rem' }}></Avatar>
+            <br />
+            {/* {url?.expiresAt} */}
+            <DynamicTabbedForm
+              tabsInfo={ARTIST_DETAIL_SUB_PAGE_CONFIG}
+              handlers={handlers}
+              translationBasePath={TRANSLATION_BASE_ARTIST_DETAIL_PAGE}
+              entityType={ArtistModel.name}
+              elementData={currentArtist}
+              fieldOptions={{
+                genres: availableGenres,
+                arts_languages: availableLanguages,
+                spoken_languages: availableLanguages,
+                stage_languages: availableLanguages,
+              }}
+              submitLabel={!currentArtist ? 'create' : 'save'}
+            />
+          </>
         )}
         {!currentUserCanEdit && 'No existe o no tiene permisos suficientes'}
       </RequireAuthComponent>

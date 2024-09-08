@@ -211,6 +211,9 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   emptyTitle: true,
                   formMetaData: {
                     inputType: 'chipPicker',
+                    componentParams: {
+                      groupby: 'type',
+                    },
                   },
                 },
               ],

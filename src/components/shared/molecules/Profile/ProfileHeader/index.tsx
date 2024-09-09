@@ -27,6 +27,7 @@ interface FieldInfo {
   label?: string;
   showEditableField?: boolean;
   config?: RegisterOptions;
+  renderField?: string;
 }
 export const ProfileHeader = (props: any) => {
   const { element, formMethods, handlers: parentHandlers } = props;
@@ -42,6 +43,7 @@ export const ProfileHeader = (props: any) => {
       name: 'name',
       label: 'Nombre',
       config: { required: true, minLength: 3 },
+      renderField: 'nameKnownAs',
     },
     { name: 'subtitle', label: 'Subtitle' },
     {
@@ -145,6 +147,12 @@ export const ProfileHeader = (props: any) => {
 
     const field = <DynamicControl fieldData={fieldData} errors={errors} handlers={handlers} />;
 
+    const value =
+      element &&
+      (newField?.renderField && newField?.renderField in element
+        ? element[newField?.renderField]
+        : newField?.config?.value);
+
     return (
       <>
         {!showEditableField && (
@@ -152,7 +160,7 @@ export const ProfileHeader = (props: any) => {
             onClick={() => clickOnField(fieldName)}
             className={`${errors && errors[fieldName] ? 'error-field' : ''}`}
           >
-            {prefix} {element && newField?.config?.value}
+            {prefix} {value}
             {!element && (
               <>
                 {newField?.config?.value || placeholder}

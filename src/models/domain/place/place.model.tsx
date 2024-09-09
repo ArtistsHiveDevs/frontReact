@@ -156,4 +156,5 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
 export interface Image {
   src: string;
   alt?: string;
+  getURL(): string | Promise<string>;
 }

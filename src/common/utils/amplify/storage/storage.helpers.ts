@@ -42,6 +42,14 @@ export const getImageURL = async (params: { fileName: string; path?: string }): 
   });
 };
 
+export const getUrlS3 = async (params: { path: string }) => {
+  let urlDB = params.path;
+  if (urlDB.startsWith('s3://')) {
+    urlDB = (await getUrl({ path: urlDB.replace('s3://', '') })).url.href;
+  }
+  return urlDB;
+};
+
 export const getImagesURL = async (params: { fileNames: string[]; path?: string }): Promise<StorageGetUrlOutput[]> => {
   const { fileNames: fileName, path } = params || {};
 

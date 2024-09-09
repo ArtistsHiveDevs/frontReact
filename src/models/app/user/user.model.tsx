@@ -1,4 +1,4 @@
-import { getUrl } from 'aws-amplify/storage';
+import { getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
 import { VerificationStatus } from '~/constants';
 import { ProfileModel, ProfileTemplate, SearchableTemplate } from '~/models/base';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
@@ -327,11 +327,7 @@ export class CurrentProfileInfoModel implements EntityInstanceRoleMapTemplate, S
   }
 
   async avatarURL(): Promise<string> {
-    let urlDB = this.profile_pic;
-    if (urlDB.startsWith('s3://')) {
-      urlDB = (await getUrl({ path: urlDB.replace('s3://', '') })).url.href;
-    }
-    return urlDB;
+    return await getUrlS3({ path: this.profile_pic });
   }
 }
 

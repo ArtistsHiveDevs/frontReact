@@ -82,6 +82,7 @@ export const TabbedPanel = (props: any) => {
     onSwipedRight: handlePrev,
     // preventDefaultTouchmoveEvent: true,
     trackMouse: true, // Enable swipe with mouse for testing on desktop
+    delta: (5 * window.screen.width) / 11,
   });
 
   const tabTitles = () => {

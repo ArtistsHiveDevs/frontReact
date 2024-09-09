@@ -111,16 +111,17 @@
     }
   }
 
-  .current-profile {
-    padding-left: 0.7rem;
-    border-left: 4px solid $secondary-background-light;
-    margin-left: 1rem;
-    color: white !important;
-  }
   .menu-option-membership-label {
     padding-left: 10px;
     font-weight: normal;
   }
+}
+
+.current-profile {
+  padding-left: 0.7rem;
+  border-left: 4px solid $secondary-background-light;
+  margin-left: 1rem;
+  color: white !important;
 }
 
 .profile-header {

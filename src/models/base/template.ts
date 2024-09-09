@@ -32,8 +32,13 @@ export interface SearchableTemplate extends EntityTemplate {
   country?: string;
   place?: PlaceModel;
   verified_status?: VerificationStatus;
+}
+
+export interface ThumbnailableTemplate {
   avatarURL(): string | Promise<string>;
 }
+
+export interface SearchableProfileTemplate extends SearchableTemplate, ThumbnailableTemplate {}
 
 export function isSearchableEntity(object: any): object is SearchableTemplate {
   return 'name' in object && 'profile_pic' in object;

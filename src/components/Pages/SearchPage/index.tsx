@@ -11,7 +11,7 @@ import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import MapContainer from '~/components/shared/mapPrinter/mapContainer';
 import { ResultElement } from '~/components/shared/search/result-element';
 import consts from '~/components/shared/search/search-constants';
-import { EntityModel, EntityTemplate, LocatableTemplate, SearchableTemplate } from '~/models/base';
+import { EntityModel, EntityTemplate, LocatableTemplate, SearchableProfileTemplate } from '~/models/base';
 import { SearchModel } from '~/models/domain/search/search.model';
 
 import { faHome } from '@fortawesome/free-solid-svg-icons';
@@ -84,7 +84,7 @@ export default function SearchPage() {
 
   const { navigateToEntity } = useNavigation();
 
-  const handleResultOnClick = (element: SearchableTemplate) => {
+  const handleResultOnClick = (element: SearchableProfileTemplate) => {
     navigateToEntity({ entityType: element.constructor.name, id: element.identifier });
   };
   // Effects
@@ -399,7 +399,7 @@ export default function SearchPage() {
                       <article className="day-forecast">
                         {(results[entityName as keyof typeof results] || [])
                           .slice(0, MAX_RESULTS_PER_PAGE)
-                          .map((entityObject: SearchableTemplate, objectIndex: number) => (
+                          .map((entityObject: SearchableProfileTemplate, objectIndex: number) => (
                             <div
                               className="result-element-container"
                               key={`result-${entityName}-${objectIndex}-${entityObject.id}`}

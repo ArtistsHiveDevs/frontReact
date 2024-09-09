@@ -7,7 +7,7 @@ import { selectSearch, selectSearchLoading } from '~/common/slices/search/select
 import { useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { PATHS } from '~/constants';
-import { SearchableTemplate } from '~/models/base';
+import { SearchableTemplate, ThumbnailableTemplate } from '~/models/base';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
@@ -79,7 +79,7 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
     type: EntityType;
     color: string;
     title: string;
-    data: SearchableTemplate[];
+    data: (SearchableTemplate & ThumbnailableTemplate)[];
   }[] = [
     {
       type: EntityType.ARTISTS,

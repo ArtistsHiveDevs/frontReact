@@ -66,9 +66,16 @@ export const ProfileHeader = (props: any) => {
 
   const loggedUser = useSelector(selectCurrentUser);
 
+  const getProfilePicURL = async () => {
+    const photoURL =
+      element && !!element?.avatarURL ? await element.avatarURL() : element?.profile_pic || element?.photo;
+
+    setImage(photoURL);
+  };
+
   useEffect(() => {
     if (element) {
-      setImage(element?.profile_pic);
+      getProfilePicURL();
 
       const newData = [...fields];
       newData.forEach((field) => {
@@ -279,7 +286,7 @@ export const ProfileHeader = (props: any) => {
           <IconButton onClick={handleCloseZoomDialog} style={{ position: 'absolute', top: '0.5%', right: '0.5%' }}>
             <DynamicIcons iconName="MdClose" />
           </IconButton>
-          {zoomProfilePic && <img src={element?.profile_pic} alt={element?.name} style={{ maxWidth: '100%' }} />}
+          {zoomProfilePic && <img src={image} alt={element?.name} style={{ maxWidth: '100%' }} />}
         </DialogContent>
       </Dialog>
     </>

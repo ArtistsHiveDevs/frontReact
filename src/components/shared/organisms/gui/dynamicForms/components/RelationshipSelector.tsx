@@ -7,7 +7,7 @@ import * as React from 'react';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { ProfileThumbnailCard } from '~/components/shared/molecules/Profile/ProfileThumbnailCard';
 import { ResultElement } from '~/components/shared/search/result-element';
-import { SearchableTemplate } from '~/models/base';
+import { SearchableProfileTemplate } from '~/models/base';
 
 enum InRangeValidation {
   BELOW_LOWER_LIMIT,
@@ -25,7 +25,7 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
   if (componentParams && componentParams['relationshipSelectedOptions']) {
     initialSelectedValues = componentParams['relationshipSelectedOptions'];
   }
-  const [selectedValues, setSelectedValues] = React.useState<SearchableTemplate[]>(initialSelectedValues);
+  const [selectedValues, setSelectedValues] = React.useState<SearchableProfileTemplate[]>(initialSelectedValues);
 
   const [openList, setOpenedList] = React.useState<boolean>(false);
 
@@ -124,7 +124,7 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
           clearIcon={false}
           renderTags={() => null}
           noOptionsText="No labels"
-          renderOption={(props, option, { selected }) => (
+          renderOption={(props, option: SearchableProfileTemplate, { selected }) => (
             <li {...props}>
               <ResultElement
                 key={`full-${option.name}-${option.id}`}
@@ -138,7 +138,7 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
           )}
           inputValue={inputValue}
           options={options}
-          getOptionLabel={(option) => (option as SearchableTemplate).id}
+          getOptionLabel={(option) => (option as SearchableProfileTemplate).id}
           renderInput={(params) =>
             isInSelectableRange() !== InRangeValidation.ON_UPPER_LIMIT && (
               <TextField

@@ -14,6 +14,7 @@ import './NewEntityCard.scss';
 
 const NewEntityCard = (props: any) => {
   const { data, idx, params, callbacks, printDayOfWeek } = props;
+  const [photoURL, setPhotoURL] = useState();
   const [modalDetailShow, setModalDetailShow] = useState(false);
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
   const [currentUserIsInProfile, setCurrentUserIsInProfile] = useState(false);
@@ -40,8 +41,6 @@ const NewEntityCard = (props: any) => {
 
   const elementCardInfo = data?.cardInfo;
 
-  const photoURL = data?.profile_pic || data?.photo;
-
   useEffect(() => {
     if (currentUser) {
       const userID = getStoredUserIdToken();
@@ -54,6 +53,18 @@ const NewEntityCard = (props: any) => {
       setCurrentUserIsInProfile(permissions.isInProfile);
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    if (data) {
+      getProfilePicURL();
+    }
+  }, [data]);
+
+  const getProfilePicURL = async () => {
+    const photoURL = data && !!data?.avatarURL ? await data.avatarURL() : data?.profile_pic || data?.photo;
+
+    setPhotoURL(photoURL);
+  };
 
   const switchProfile = () => {
     dispatch(userActions.switchProfile({ id: data.identifier }));

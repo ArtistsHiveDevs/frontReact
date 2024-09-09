@@ -1,7 +1,7 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
 import { getUrl } from 'aws-amplify/storage';
 import { toCamelCase } from '~/common/utils/string-utils';
-import { EntityTemplate, ObjectValueTemplate, ProfileTemplate, SearchableTemplate } from './template';
+import { EntityTemplate, ObjectValueTemplate, ProfileTemplate, SearchableProfileTemplate } from './template';
 
 const DEFAULT_MAX_CACHE_TIME_TO_LIVE = 3 * 60 * 1000;
 
@@ -155,7 +155,10 @@ export abstract class ObjectValueModel<T extends ObjectValueTemplate> extends Mo
 /**
  *
  */
-export abstract class ProfileModel<T extends ProfileTemplate> extends EntityModel<T> implements SearchableTemplate {
+export abstract class ProfileModel<T extends ProfileTemplate>
+  extends EntityModel<T>
+  implements SearchableProfileTemplate
+{
   declare id: string;
   declare name: string;
   declare username?: string;

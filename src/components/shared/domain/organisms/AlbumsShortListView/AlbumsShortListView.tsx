@@ -1,8 +1,9 @@
-import { Avatar, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
 import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import { useI18n } from '~/common/utils';
+import AvatarWithIcon from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import { AlbumShortView } from '~/components/shared/domain/molecules/AlbumShortView/AlbumShortView';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { TrackTemplate } from '~/models/domain/artist/artist.model';
@@ -116,7 +117,6 @@ export const AlbumsShortListView = (props: any) => {
     const discographyShortList =
       seeMoreVisible && !seeMoreOpened ? discography.slice(0, DISCOGRAPHY_PAGINATION_LIMIT) : discography;
 
-    console.log(discography);
     return (
       <div>
         {discographyShortList.map((album: any, index: number) => {
@@ -159,13 +159,16 @@ export const AlbumsShortListView = (props: any) => {
               <>
                 <div id="header">
                   <div className="avatar-container">
-                    <Avatar
-                      src={currentAlbum.images[0].url}
-                      alt={currentAlbum.name}
-                      className="avatar"
+                    <AvatarWithIcon
+                      image={currentAlbum.images[0].url}
+                      name={currentAlbum.name}
+                      avatarSize={'5rem'}
+                      // className="avatar"
                       variant="rounded"
                       {...swipeHandlers}
                       onClick={() => setZoomProfilePic(true)}
+                      onBadgeClick={() => setZoomProfilePic(true)}
+                      buttonIcon="AiOutlineZoomIn"
                     />
                   </div>
 

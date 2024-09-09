@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container, Navbar, Offcanvas } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
@@ -25,6 +25,7 @@ const SideNav = () => {
   const [show, setShow] = useState(false);
   const [showRight, setShowRight] = useState(false);
   const [openStatusSearchInputText, setOpenStatusSearchInputText] = useState(false);
+  const [profilePicturesURLs, setProfilePicturesURLs] = useState<{ [profileIdentifier: string]: string }>({});
   const { navigateToEntity, navigateToInnerPath } = useNavigation();
   const { translateText, translateGlobalDict } = useI18n();
   const dispatch = useDispatch();
@@ -111,6 +112,26 @@ const SideNav = () => {
     dispatch(usersActions.switchProfile({ id: element.identifier }));
   };
 
+  const getProfilePicURLs = async () => {
+    if (!!loggedUser) {
+      const urlsObject: { [identifier: string]: string } = {};
+      urlsObject[loggedUser.identifier] = await loggedUser.avatarURL();
+      loggedUser.artistMemberships.forEach(
+        async (artistProfile) => (urlsObject[artistProfile.identifier] = await artistProfile.avatarURL())
+      );
+      loggedUser.placeMemberships.forEach(
+        async (placeProfile) => (urlsObject[placeProfile.identifier] = await placeProfile.avatarURL())
+      );
+      setProfilePicturesURLs(urlsObject);
+    }
+  };
+
+  useEffect(() => {
+    if (!!loggedUser) {
+      getProfilePicURLs();
+    }
+  }, [loggedUser]);
+
   return (
     <>
       <Navbar className="toolbar-header mb-3" expand="true">
@@ -133,7 +154,7 @@ const SideNav = () => {
             </span>
             {userID && (
               <ProfilePicture
-                src={loggedUser?.currentProfileInfo?.profile_pic}
+                src={profilePicturesURLs[loggedUser?.currentProfileInfo?.identifier]}
                 onClickHandler={() => {
                   setShowRight(true); // Mostrar el Offcanvas derecho
                 }}
@@ -186,10 +207,17 @@ const SideNav = () => {
           {!!showRight && (
             <Navbar.Offcanvas placement="end" show={showRight} onHide={handleClose} className={'w-75 mb-5'}>
               <Offcanvas.Header closeButton className="sidebar-header" closeVariant="white">
-                <div className="profile-header">
+                <div
+                  className={[
+                    'profile-header',
+                    // loggedUser?.checkPermissions(loggedUser?.currentProfileInfo.identifier).isInProfile
+                    //   ? 'current-profile'
+                    //   : '',
+                  ].join(' ')}
+                >
                   <AvatarWithIcon
                     name=""
-                    image={loggedUser?.profile_pic}
+                    image={profilePicturesURLs[loggedUser?.identifier]}
                     avatarSize={'3.5rem'}
                     buttonIcon={!loggedUser?.checkPermissions(loggedUser?.identifier).isInProfile && 'PiUserSwitch'}
                     onClick={() => handleResultOnClick(loggedUser)}
@@ -202,42 +230,46 @@ const SideNav = () => {
                 </div>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                <div>
-                  <section className="general-sec">
-                    <h5 className="sec-general-label">Logged as: </h5>
-                    <div className="option-menu-list">
-                      <div
-                        className={[
-                          'menu-option',
-                          'menu-option-membership',
-                          loggedUser?.checkPermissions(loggedUser?.currentProfileInfo.identifier).isInProfile
-                            ? 'current-profile'
-                            : '',
-                        ].join(' ')}
-                        key={`artist-current-profile`}
-                      >
-                        <AvatarWithIcon
-                          name=""
-                          image={loggedUser?.currentProfileInfo.profile_pic}
-                          avatarSize={'3rem'}
-                          buttonIcon={
-                            !loggedUser?.checkPermissions(loggedUser?.currentProfileInfo.identifier).isInProfile &&
-                            'PiUserSwitch'
-                          }
-                          onClick={() => handleResultOnClick(loggedUser?.currentProfileInfo)}
-                          onBadgeClick={() => switchProfile(loggedUser?.currentProfileInfo)}
-                        />
-                        <div onClick={() => handleResultOnClick(loggedUser?.currentProfileInfo)}>
-                          <p className="menu-option-label">{loggedUser?.currentProfileInfo.name}</p>
-                          {loggedUser?.currentProfileInfo.username && (
-                            <p className="menu-option-membership-label ">@{loggedUser?.currentProfileInfo.username}</p>
-                          )}
+                {loggedUser?.currentProfileInfo.identifier !== loggedUser?.identifier && (
+                  <div>
+                    <section className="general-sec">
+                      <h5 className="sec-general-label">Logged as: </h5>
+                      <div className="option-menu-list">
+                        <div
+                          className={[
+                            'menu-option',
+                            'menu-option-membership',
+                            loggedUser?.checkPermissions(loggedUser?.currentProfileInfo.identifier).isInProfile
+                              ? 'current-profile'
+                              : '',
+                          ].join(' ')}
+                          key={`artist-current-profile`}
+                        >
+                          <AvatarWithIcon
+                            name=""
+                            image={profilePicturesURLs[loggedUser?.currentProfileInfo?.identifier]}
+                            avatarSize={'3rem'}
+                            buttonIcon={
+                              !loggedUser?.checkPermissions(loggedUser?.currentProfileInfo.identifier).isInProfile &&
+                              'PiUserSwitch'
+                            }
+                            onClick={() => handleResultOnClick(loggedUser?.currentProfileInfo)}
+                            onBadgeClick={() => switchProfile(loggedUser?.currentProfileInfo)}
+                          />
+                          <div onClick={() => handleResultOnClick(loggedUser?.currentProfileInfo)}>
+                            <p className="menu-option-label">{loggedUser?.currentProfileInfo.name}</p>
+                            {loggedUser?.currentProfileInfo.username && (
+                              <p className="menu-option-membership-label ">
+                                @{loggedUser?.currentProfileInfo.username}
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </section>
-                  <hr />
-                </div>
+                    </section>
+                    <hr />
+                  </div>
+                )}
                 <div>
                   <section className="general-sec">
                     <h5 className="sec-general-label">{translateGlobalDict('entities.artists.plural')}</h5>
@@ -261,7 +293,7 @@ const SideNav = () => {
                             >
                               <AvatarWithIcon
                                 name=""
-                                image={profileInfo.profile_pic}
+                                image={profilePicturesURLs[profileInfo.identifier]}
                                 avatarSize={'3rem'}
                                 buttonIcon={
                                   !loggedUser?.checkPermissions(profileInfo.identifier).isInProfile && 'PiUserSwitch'
@@ -305,7 +337,7 @@ const SideNav = () => {
                             >
                               <AvatarWithIcon
                                 name=""
-                                image={profileInfo.profile_pic}
+                                image={profilePicturesURLs[profileInfo?.identifier]}
                                 avatarSize={'3rem'}
                                 buttonIcon={
                                   !loggedUser?.checkPermissions(profileInfo.identifier).isInProfile && 'PiUserSwitch'

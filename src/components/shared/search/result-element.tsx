@@ -1,13 +1,14 @@
 import ListGroup from 'react-bootstrap/ListGroup';
 
+import { useEffect, useState } from 'react';
 import Flag from 'react-world-flags';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
-import { SearchableTemplate } from '~/models/base';
+import { SearchableProfileTemplate } from '~/models/base';
 import consts from './search-constants';
 import './search.scss';
 
 type QueryTemplate = {
-  element: SearchableTemplate;
+  element: SearchableProfileTemplate;
   elementType: string;
   onClick?: Function;
 };
@@ -15,9 +16,11 @@ type QueryTemplate = {
 export const ResultElement: React.FC<QueryTemplate> = (props: QueryTemplate) => {
   const { element, elementType, onClick } = props;
 
+  const [imageURL, setImageURL] = useState<string>(undefined);
+
   const entityIndex = consts.defaultTypes.findIndex((type) => type === elementType) + 1;
 
-  const handleClick = (element: SearchableTemplate) => {
+  const handleClick = (element: SearchableProfileTemplate) => {
     if (onClick) {
       onClick(element);
     }
@@ -30,13 +33,25 @@ export const ResultElement: React.FC<QueryTemplate> = (props: QueryTemplate) => 
     Inglaterra: 'GB-ENG',
   };
 
+  const getProfilePicURL = async () => {
+    const photoURL = element && !!element?.avatarURL ? await element.avatarURL() : element?.profile_pic;
+
+    setImageURL(photoURL);
+  };
+
+  useEffect(() => {
+    if (!!element) {
+      getProfilePicURL();
+    }
+  }, [element]);
+
   return (
     <ListGroup.Item
       className={`search-item line-up-an entity-${entityIndex}-item`}
       onClick={() => handleClick(element)}
     >
       <div className="search-item__link">
-        <img className="search-item__img" src={element?.profile_pic} />
+        <img className="search-item__img" src={imageURL} />
         <div className="search-item-box">
           <h4 className="search-item__title">
             {element.name}

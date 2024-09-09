@@ -25,6 +25,7 @@ const EventDetailsPage = () => {
 
   // States
   const [requestsAreReady, setRequestesAreReady] = useState(false);
+  const [imageURL, setImageURL] = useState<string>(undefined);
 
   const { actions: eventActions } = useEventsSlice();
 
@@ -70,6 +71,19 @@ const EventDetailsPage = () => {
     },
   };
 
+  const getProfilePicURL = async () => {
+    const photoURL =
+      currentEvent && !!currentEvent?.avatarURL ? await currentEvent.avatarURL() : currentEvent?.profile_pic;
+
+    setImageURL(photoURL);
+  };
+
+  useEffect(() => {
+    if (!!currentEvent) {
+      getProfilePicURL();
+    }
+  }, [currentEvent]);
+
   return (
     <>
       {currentEvent && (
@@ -90,7 +104,7 @@ const EventDetailsPage = () => {
                     iconType={FavoriteSubscritionIconDefaultTypes.BELL}
                   />
                 </h1>
-                <Image alt={currentEvent.name} src={currentEvent.profile_pic} fluid={true} />
+                <Image alt={currentEvent.name} src={imageURL} fluid={true} />
               </>
             }
           />

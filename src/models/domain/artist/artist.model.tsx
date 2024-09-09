@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { VerificationStatus } from '~/constants';
 import { SocialNetworkStatsTemplate } from '~/constants/social-networks.const';
-import { EntityModel, EntityTemplate, ProfileModel, ProfileTemplate, SearchableTemplate } from '~/models/base';
+import { EntityModel, EntityTemplate, ProfileModel, ProfileTemplate } from '~/models/base';
 import { EventModel, EventTemplate } from '../event/event.model';
 
 export interface ArtistInTrack {
@@ -112,7 +112,7 @@ export interface ArtistTemplate extends ProfileTemplate {
   arts?: { music: { albums: AlbumTemplate[] } };
 }
 
-export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistTemplate, SearchableTemplate {
+export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistTemplate {
   declare artistType: string;
   declare name: string;
   declare subtitle: string;

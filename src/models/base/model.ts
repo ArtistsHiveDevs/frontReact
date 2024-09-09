@@ -1,5 +1,7 @@
+import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
+import { getUrl } from 'aws-amplify/storage';
 import { toCamelCase } from '~/common/utils/string-utils';
-import { EntityTemplate, ObjectValueTemplate, ProfileTemplate } from './template';
+import { EntityTemplate, ObjectValueTemplate, ProfileTemplate, SearchableTemplate } from './template';
 
 const DEFAULT_MAX_CACHE_TIME_TO_LIVE = 3 * 60 * 1000;
 
@@ -153,14 +155,18 @@ export abstract class ObjectValueModel<T extends ObjectValueTemplate> extends Mo
 /**
  *
  */
-export abstract class ProfileModel<T extends ProfileTemplate> extends EntityModel<T> {
+export abstract class ProfileModel<T extends ProfileTemplate> extends EntityModel<T> implements SearchableTemplate {
   declare id: string;
+  declare name: string;
   declare username?: string;
+  declare profile_pic?: string;
   declare shortId?: string;
+  protected _profile_pic_aws?: StorageGetUrlOutput;
 
   constructor(template: T | any = {}) {
     super(template);
     this.id = template.id || template._id;
+    this.setAWSURL();
   }
 
   get identifier(): string {
@@ -169,5 +175,25 @@ export abstract class ProfileModel<T extends ProfileTemplate> extends EntityMode
 
   get fullUserName() {
     return !!this.username ? `@${this.username}` : undefined;
+  }
+
+  async avatarURL(): Promise<string> {
+    let urlDB = this.profile_pic;
+    if (urlDB?.startsWith('s3://')) {
+      await this.setAWSURL();
+      urlDB = this._profile_pic_aws?.url.href;
+    }
+    return urlDB;
+  }
+
+  private async setAWSURL() {
+    let urlDB = this.profile_pic;
+    if (urlDB?.startsWith('s3://')) {
+      if (!this._profile_pic_aws || this._profile_pic_aws.expiresAt.getTime() < Date.now()) {
+        this._profile_pic_aws = await getUrl({ path: urlDB.replace('s3://', '') });
+      }
+    } else {
+      this._profile_pic_aws = undefined;
+    }
   }
 }

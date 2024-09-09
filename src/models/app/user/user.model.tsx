@@ -1,3 +1,4 @@
+import { getUrl } from 'aws-amplify/storage';
 import { VerificationStatus } from '~/constants';
 import { ProfileModel, ProfileTemplate, SearchableTemplate } from '~/models/base';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
@@ -203,7 +204,7 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
     return UserGenders.find((gender) => gender.index === this.gender);
   }
 
-  get name() {
+  get nameKnownAs() {
     return this.artistic_name || this.fullname;
   }
 
@@ -323,6 +324,14 @@ export class CurrentProfileInfoModel implements EntityInstanceRoleMapTemplate, S
 
   get identifier() {
     return this.username || this.shortId || this.id;
+  }
+
+  async avatarURL(): Promise<string> {
+    let urlDB = this.profile_pic;
+    if (urlDB.startsWith('s3://')) {
+      urlDB = (await getUrl({ path: urlDB.replace('s3://', '') })).url.href;
+    }
+    return urlDB;
   }
 }
 

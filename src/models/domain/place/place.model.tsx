@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { VerificationStatus } from '~/constants';
 import { SocialNetworkStatsTemplate } from '~/constants/social-networks.const';
-import { LocatableTemplate, ProfileModel, ProfileTemplate, SearchableTemplate } from '~/models/base';
+import { LocatableTemplate, ProfileModel, ProfileTemplate } from '~/models/base';
 import { EventModel, EventTemplate } from '../event/event.model';
 
 export interface PlaceRatingTemplate {
@@ -53,10 +53,7 @@ export interface PlaceTemplate extends ProfileTemplate {
   };
 }
 
-export class PlaceModel
-  extends ProfileModel<PlaceTemplate>
-  implements PlaceTemplate, SearchableTemplate, LocatableTemplate
-{
+export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemplate, LocatableTemplate {
   declare name: string;
   declare place_type: string;
   declare music_genre: string;

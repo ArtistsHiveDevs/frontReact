@@ -13,6 +13,7 @@ export interface EntityTemplate extends Template {
 
 export interface ProfileTemplate extends EntityTemplate {
   username?: string;
+  profile_pic?: string;
 }
 
 export interface ObjectValueTemplate extends Template {}
@@ -31,6 +32,7 @@ export interface SearchableTemplate extends EntityTemplate {
   country?: string;
   place?: PlaceModel;
   verified_status?: VerificationStatus;
+  avatarURL(): string | Promise<string>;
 }
 
 export function isSearchableEntity(object: any): object is SearchableTemplate {

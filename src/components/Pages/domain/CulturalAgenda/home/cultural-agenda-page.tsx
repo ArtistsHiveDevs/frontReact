@@ -6,13 +6,10 @@ import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import {
   findEventsPerArtist,
   findEventsPerDate,
-  findEventsPerGenre,
-  mapStringArrayForListType,
-  searchGenresFromEvents,
+  findEventsPerGenre
 } from '~/common/utils/object-utils/object-utils-index';
 import MainSection from '~/components/Pages/HomePage/MainSection/MainSection';
-import FilterBarComponent from '~/components/shared/organisms/FilterBar/filter-bar';
-import { getCustomList, sortEventsPerMonth } from '~/constants';
+import { getCustomList } from '~/constants';
 import { SearchableTemplate } from '~/models/base';
 import { EventModel } from '~/models/domain/event/event.model';
 import './cultural-agenda-page.scss';

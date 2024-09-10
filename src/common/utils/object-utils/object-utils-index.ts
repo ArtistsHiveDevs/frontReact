@@ -22,17 +22,18 @@ export function GMapsSvgMaker(icon: any, data?: any) {
 }
 
 export function findEventsPerGenre(eventList: EventModel[], parentGenre: string) {
-  return eventList.filter((singleEvent) => {
-    const genreMainArtistMatch = !!Object.values(singleEvent.main_artist?.genres || {})
-      ?.reduce((result, current) => result?.concat(current), [])
-      ?.find((genre) => genre?.toUpperCase() === parentGenre?.toUpperCase());
+  // return eventList.filter((singleEvent) => {
+  //   const genreMainArtistMatch = !!Object.values(singleEvent.main_artist?.genres || {})
+  //     ?.reduce((result, current) => result?.concat(current), [])
+  //     ?.find((genre) => genre?.toUpperCase() === parentGenre?.toUpperCase());
 
-    const genreGuestArtistMatch = !!Object.values(singleEvent.guest_artist?.genres || {})
-      ?.reduce((result, current) => result?.concat(current), [])
-      ?.find((genre) => genre?.toUpperCase() === parentGenre?.toUpperCase());
+  //   const genreGuestArtistMatch = !!Object.values(singleEvent.guest_artist?.genres || {})
+  //     ?.reduce((result, current) => result?.concat(current), [])
+  //     ?.find((genre) => genre?.toUpperCase() === parentGenre?.toUpperCase());
 
-    return genreMainArtistMatch || genreGuestArtistMatch;
-  });
+  //   return genreMainArtistMatch || genreGuestArtistMatch;
+  // });
+  return eventList;
 }
 
 export function findEventsPerDate(eventList: EventModel[], endDate: string, startDate?: string) {
@@ -47,32 +48,34 @@ export function findEventsPerDate(eventList: EventModel[], endDate: string, star
 }
 
 export function findEventsPerArtist(eventList: EventModel[], search: SearchableTemplate) {
-  return eventList.filter((singleEvent) => {
-    const matchMainArtist = singleEvent?.main_artist_id?.toString() === search?.id?.toString();
-    const matchGuestArtist = singleEvent?.guest_artist_id?.toString() === search?.id?.toString();
+  // return eventList.filter((singleEvent) => {
+  //   const matchMainArtist = singleEvent?.main_artist_id?.toString() === search?.id?.toString();
+  //   const matchGuestArtist = singleEvent?.guest_artist_id?.toString() === search?.id?.toString();
 
-    return matchGuestArtist || matchMainArtist;
-  });
+  //   return matchGuestArtist || matchMainArtist;
+  // });
+  return eventList
 }
 
 export function searchGenresFromEvents(eventList: EventModel[]) {
-  const all_genres: string[] = [];
-  eventList.forEach((evento) => {
-    const main_artist_genres = Object.values(evento.main_artist?.genres || {})?.reduce(
-      (result, current) => result?.concat(current),
-      []
-    );
+  // const all_genres: string[] = [];
+  // eventList.forEach((evento) => {
+  //   const main_artist_genres = Object.values(evento.main_artist?.genres || {})?.reduce(
+  //     (result, current) => result?.concat(current),
+  //     []
+  //   );
 
-    const guest_artist_genres = Object.values(evento.guest_artist?.genres || {})?.reduce(
-      (result, current) => result?.concat(current),
-      []
-    );
+  //   const guest_artist_genres = Object.values(evento.guest_artist?.genres || {})?.reduce(
+  //     (result, current) => result?.concat(current),
+  //     []
+  //   );
 
-    const artistGenres = main_artist_genres?.concat(guest_artist_genres)?.map((genre) => genre.toUpperCase());
-    all_genres.push(...artistGenres);
-  });
+  //   const artistGenres = main_artist_genres?.concat(guest_artist_genres)?.map((genre) => genre.toUpperCase());
+  //   all_genres.push(...artistGenres);
+  // });
 
-  return [...new Set(all_genres)].sort();
+  // return [...new Set(all_genres)].sort();
+  return [];
 }
 
 export function mapStringArrayForListType(list: string[]) {

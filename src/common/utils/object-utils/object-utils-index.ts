@@ -57,26 +57,26 @@ export function findEventsPerArtist(eventList: EventModel[], search: SearchableT
   return eventList
 }
 
-export function searchGenresFromEvents(eventList: EventModel[]) {
-  // const all_genres: string[] = [];
-  // eventList.forEach((evento) => {
-  //   const main_artist_genres = Object.values(evento.main_artist?.genres || {})?.reduce(
-  //     (result, current) => result?.concat(current),
-  //     []
-  //   );
+// export function searchGenresFromEvents(eventList: EventModel[]) {
+//   // const all_genres: string[] = [];
+//   // eventList.forEach((evento) => {
+//   //   const main_artist_genres = Object.values(evento.main_artist?.genres || {})?.reduce(
+//   //     (result, current) => result?.concat(current),
+//   //     []
+//   //   );
 
-  //   const guest_artist_genres = Object.values(evento.guest_artist?.genres || {})?.reduce(
-  //     (result, current) => result?.concat(current),
-  //     []
-  //   );
+//   //   const guest_artist_genres = Object.values(evento.guest_artist?.genres || {})?.reduce(
+//   //     (result, current) => result?.concat(current),
+//   //     []
+//   //   );
 
-  //   const artistGenres = main_artist_genres?.concat(guest_artist_genres)?.map((genre) => genre.toUpperCase());
-  //   all_genres.push(...artistGenres);
-  // });
+//   //   const artistGenres = main_artist_genres?.concat(guest_artist_genres)?.map((genre) => genre.toUpperCase());
+//   //   all_genres.push(...artistGenres);
+//   // });
 
-  // return [...new Set(all_genres)].sort();
-  return [];
-}
+//   // return [...new Set(all_genres)].sort();
+//   return [];
+// }
 
 export function mapStringArrayForListType(list: string[]) {
   return list?.map((element) => {

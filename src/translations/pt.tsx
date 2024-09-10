@@ -705,7 +705,8 @@ export const PtMessages = {
             artists: {
               name: 'Artistas',
               sections: {
-                main_artists: { name: 'Principais artistas' },
+                main_artists: { name: 'Artistas principais' },
+                other_artists: { name: 'Outros artistas' },
               },
             },
             place: {

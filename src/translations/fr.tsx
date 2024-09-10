@@ -710,6 +710,7 @@ export const FrMessages = {
               name: 'Artistes',
               sections: {
                 main_artists: { name: 'Artistes principaux' },
+                other_artists: { name: 'Autres artistes' },
               },
             },
             place: {

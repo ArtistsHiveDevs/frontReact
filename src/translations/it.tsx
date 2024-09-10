@@ -708,7 +708,8 @@ export const ItMessages = {
             artists: {
               name: 'Artisti',
               sections: {
-                main_artists: { name: 'Principali artisti' },
+                main_artists: { name: 'Headliner' },
+                other_artists: { name: 'Altri artisti' },
               },
             },
             place: {

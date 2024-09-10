@@ -701,6 +701,7 @@ export const EsMessages = {
               name: 'Artistas',
               sections: {
                 main_artists: { name: 'Artistas principales' },
+                other_artists: { name: 'Otros artistas' },
               },
             },
             place: {

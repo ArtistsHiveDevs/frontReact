@@ -708,6 +708,7 @@ export const DeMessages = {
               name: 'Künstler',
               sections: {
                 main_artists: { name: 'Hauptkünstler' },
+                other_artists: { name: 'Andere Künstler' },
               },
             },
             place: {

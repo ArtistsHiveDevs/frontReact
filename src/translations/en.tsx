@@ -693,7 +693,8 @@ export const EnMessages = {
             artists: {
               name: 'Artists',
               sections: {
-                main_artists: { name: 'Main Artists' },
+                main_artists: { name: 'Headliners' },
+                other_artists: { name: 'Other artists' },
               },
             },
             place: {

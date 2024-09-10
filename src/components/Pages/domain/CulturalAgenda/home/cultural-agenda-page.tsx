@@ -69,8 +69,8 @@ const CulturalAgendaPage: React.FC = () => {
   }, []);
 
   // Constants and variables
-  const genresList = searchGenresFromEvents(eventsList);
-  const formattedCategoriesList = mapStringArrayForListType(genresList);
+  // const genresList = []; //searchGenresFromEvents(eventsList);
+  // const formattedCategoriesList = mapStringArrayForListType(genresList);
 
   return (
     <>
@@ -84,7 +84,7 @@ const CulturalAgendaPage: React.FC = () => {
         />
       )}
 
-      <FilterBarComponent
+      {/* <FilterBarComponent
         categories={formattedCategoriesList}
         callbacks={{
           categories: onFilterCategoriesAction,
@@ -107,7 +107,7 @@ const CulturalAgendaPage: React.FC = () => {
             callbacks={{ onClickCard: onClickCardEventos }}
           />
         );
-      })}
+      })} */}
     </>
   );
 };

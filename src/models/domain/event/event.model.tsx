@@ -20,10 +20,11 @@ export interface EventTemplate extends EntityTemplate {
   name: string;
   subtitle: string;
   profile_pic: string;
-  main_artist_id: string;
-  main_artist: ArtistModel;
-  guest_artist_id: string;
-  guest_artist: ArtistModel;
+  // main_artist_id: string;
+  // main_artist: ArtistModel;
+  // guest_artist_id: string;
+  // guest_artist: ArtistModel;
+  artists: ArtistModel[];
   place_id: string;
   place?: PlaceModel;
   timetable__initial_date: string;
@@ -47,10 +48,11 @@ export class EventModel
   declare confirmation_status: EventConfirmationStatus;
   declare subtitle: string;
   declare profile_pic: string;
-  declare main_artist_id: string;
-  declare main_artist: ArtistModel;
-  declare guest_artist_id: string;
-  declare guest_artist: ArtistModel;
+  // declare main_artist_id: string;
+  // declare main_artist: ArtistModel;
+  // declare guest_artist_id: string;
+  // declare guest_artist: ArtistModel;
+  declare artists: ArtistModel[];
   declare place_id: string;
   declare place?: PlaceModel;
   declare timetable__initial_date: string;
@@ -67,8 +69,9 @@ export class EventModel
   constructor(template: EventTemplate) {
     super(template);
 
-    this.main_artist = template.main_artist ? new ArtistModel(template.main_artist) : undefined;
-    this.guest_artist = template.guest_artist ? new ArtistModel(template.guest_artist) : undefined;
+    // this.main_artist = template.main_artist ? new ArtistModel(template.main_artist) : undefined;
+    // this.guest_artist = template.guest_artist ? new ArtistModel(template.guest_artist) : undefined;
+    this.artists = template.artists ? template.artists.map((artist) => new ArtistModel(artist)) : [];
     this.place = template.place ? new PlaceModel(template.place) : undefined;
   }
 
@@ -84,8 +87,12 @@ export class EventModel
     return `${this.place?.city}, ${this.place?.country}`;
   }
 
-  get main_artists() {
-    return [this.main_artist, this.guest_artist];
+  get main_artists(): ArtistModel[] {
+    return [...this.artists];
+  }
+
+  get other_artists(): ArtistModel[] {
+    return [];
   }
 
   get initial_time() {

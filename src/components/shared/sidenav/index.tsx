@@ -8,12 +8,12 @@ import { useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
+import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import { SearchComponent } from '~/components/shared/search';
 import { PATHS } from '~/constants';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { SearchableTemplate } from '~/models/base';
 import { ProfilePicture } from '../atoms/gui/ProfilePicture/ProfilePicture';
-import AvatarWithIcon from '../atoms/gui/avatar-with-icon/Avatar-with-icon';
 import './index.scss';
 import { SIDENAV_MENU_CONFIG, SideMenuItem } from './sidenav.config';
 

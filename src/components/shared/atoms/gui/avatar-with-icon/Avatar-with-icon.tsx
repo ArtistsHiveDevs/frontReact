@@ -1,5 +1,5 @@
 import { Avatar, Badge } from '@mui/material';
-import React from 'react';
+import { forwardRef } from 'react';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import './Avatar-with-icon.scss';
 
@@ -14,18 +14,11 @@ interface Props {
   variant?: 'circular' | 'rounded' | 'square';
 }
 
-const AvatarWithIcon: React.FC<Props> = ({
-  image,
-  name,
-  avatarSize,
-  bottomBadgeSize,
-  buttonIcon,
-  onClick,
-  onBadgeClick,
-  variant,
-}) => {
+export const AvatarWithIcon = forwardRef<HTMLDivElement, Props>((params, ref) => {
+  const { image, name, avatarSize, bottomBadgeSize, buttonIcon, onClick, onBadgeClick, variant } = params || {};
+
   return (
-    <div style={{ position: 'relative', display: 'inline-block' }}>
+    <div ref={ref} style={{ position: 'relative', display: 'inline-block' }}>
       <Badge
         overlap="circular"
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -56,6 +49,6 @@ const AvatarWithIcon: React.FC<Props> = ({
       </Badge>
     </div>
   );
-};
+});
 
-export default AvatarWithIcon;
+// export default AvatarWithIcon;

@@ -33,6 +33,7 @@ export interface ProfileDetailsSubpageSection {
   name?: string;
   attributes?: ProfileDetailAttributeConfiguration[];
   components?: ProfileComponentDescriptor[];
+  hidden?: boolean | Function;
   requireSession?: boolean;
   clickHandlerName?: string;
   formMetaData?: FormMetadata;

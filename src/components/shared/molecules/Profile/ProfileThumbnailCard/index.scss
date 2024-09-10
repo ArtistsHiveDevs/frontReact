@@ -3,13 +3,19 @@
 .profile-thumbnail-card {
   border-radius: 10px;
   border: 1px solid $app-background-border;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   // box-shadow: 3px 3px #c5c5c5;
   background: $app-background-50;
-}
-.profile-header {
   display: flex;
-  text-align: left;
+  flex-direction: column;
+  justify-content: start;
+}
+.profile-thumbnail-header {
+  display: flex;
+  padding: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
 
   .avatar {
     object-fit: cover;
@@ -26,10 +32,11 @@
     margin: 0.5rem;
   }
   .header-title {
-    margin: 1rem;
-
-    .artist-name {
-      display: flex;
+    // margin: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    > h2 {
+      margin-bottom: 0px;
     }
   }
 }

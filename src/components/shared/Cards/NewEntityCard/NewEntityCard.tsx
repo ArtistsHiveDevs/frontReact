@@ -7,9 +7,9 @@ import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
+import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import GenericModal from '~/components/shared/molecules/general/Modals/ModalCardInfo/GenericModal';
 import { formatDateInMomentType } from '~/constants';
-import AvatarWithIcon from '../../atoms/gui/avatar-with-icon/Avatar-with-icon';
 import './NewEntityCard.scss';
 
 const NewEntityCard = (props: any) => {

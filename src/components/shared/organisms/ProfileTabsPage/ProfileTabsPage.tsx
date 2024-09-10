@@ -103,34 +103,42 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
               requiredSession={subpage.requireSession}
               key={`section_${subPageIndex}_${subpage.name}`}
             >
-              {(subpage.sections || []).map((section, sectionIndex) => {
-                // Icon Detailed Attributes
+              {(subpage.sections || [])
+                .filter(
+                  (section) =>
+                    section.hidden === undefined ||
+                    (typeof section.hidden === 'boolean' && !section.hidden) ||
+                    (typeof section.hidden === 'string' && section.hidden !== 'true') ||
+                    (section.hidden instanceof Function && !section.hidden(entityData))
+                )
+                .map((section, sectionIndex) => {
+                  // Icon Detailed Attributes
 
-                let contentComponents: any = <></>;
-                if (section.components) {
-                  contentComponents = (section.components || []).map(
-                    (componentDescriptor: ProfileComponentDescriptor, componentIndex: number) => (
-                      <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
-                        {buildComponent(subpage, section, componentDescriptor, componentIndex)}
-                      </div>
-                    )
+                  let contentComponents: any = <></>;
+                  if (section.components) {
+                    contentComponents = (section.components || []).map(
+                      (componentDescriptor: ProfileComponentDescriptor, componentIndex: number) => (
+                        <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
+                          {buildComponent(subpage, section, componentDescriptor, componentIndex)}
+                        </div>
+                      )
+                    );
+                  }
+
+                  const sectionContent = () => contentComponents;
+
+                  return (
+                    <RequireAuthComponent
+                      key={`section-${section.name}-${sectionIndex}`}
+                      requiredSession={section.requireSession}
+                    >
+                      <SectionsPanel
+                        sectionName={translateSection(subpage.name, section?.name)}
+                        sectionContent={sectionContent}
+                      />
+                    </RequireAuthComponent>
                   );
-                }
-
-                const sectionContent = () => contentComponents;
-
-                return (
-                  <RequireAuthComponent
-                    key={`section-${section.name}-${sectionIndex}`}
-                    requiredSession={section.requireSession}
-                  >
-                    <SectionsPanel
-                      sectionName={translateSection(subpage.name, section?.name)}
-                      sectionContent={sectionContent}
-                    />
-                  </RequireAuthComponent>
-                );
-              })}
+                })}
             </RequireAuthComponent>
           );
         },
@@ -293,7 +301,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
                   attribute.hidden === undefined ||
                   (typeof attribute.hidden === 'boolean' && !attribute.hidden) ||
                   (typeof attribute.hidden === 'string' && attribute.hidden !== 'true') ||
-                  (attribute.hidden instanceof Function && attribute.hidden(dataSourceElement))
+                  (attribute.hidden instanceof Function && !attribute.hidden(dataSourceElement))
               )
               .map((attribute: any, componentIndex: number) =>
                 processAttribute(attribute, componentIndex, dataSourceElement)
@@ -310,7 +318,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
                   attribute.hidden === undefined ||
                   (typeof attribute.hidden === 'boolean' && !attribute.hidden) ||
                   (typeof attribute.hidden === 'string' && attribute.hidden !== 'true') ||
-                  (attribute.hidden instanceof Function && attribute.hidden(dataSourceElement))
+                  (attribute.hidden instanceof Function && !attribute.hidden(dataSourceElement))
               )
               .map((attribute: any, componentIndex: number) => processAttribute(attribute, componentIndex)),
           },
@@ -353,7 +361,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       }
 
       // Footers
-      let footer: any = () => <></>;
+      let footer: any = undefined;
       const footerDescriptor = componentDescriptor.data?.footer;
       if (footerDescriptor) {
         footer = () => {
@@ -385,7 +393,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       }
       return (elements || []).map((element, index) => (
         <ProfileThumbnailCard
-          key={`profile-thumbnail-${index}`}
+          key={`${section.name}-profile-thumbnail-${index}`}
           elementData={element}
           footer={footer}
           callbacks={{

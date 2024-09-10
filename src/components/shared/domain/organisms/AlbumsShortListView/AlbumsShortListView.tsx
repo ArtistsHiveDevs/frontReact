@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import { useI18n } from '~/common/utils';
-import AvatarWithIcon from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
+import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import { AlbumShortView } from '~/components/shared/domain/molecules/AlbumShortView/AlbumShortView';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { TrackTemplate } from '~/models/domain/artist/artist.model';

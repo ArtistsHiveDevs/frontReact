@@ -114,6 +114,23 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           },
         ],
       },
+      {
+        name: 'other_artists',
+        components: [
+          {
+            componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
+            data: {
+              data_source: 'other_artists',
+            },
+            clickHandlerName: 'onNavigateToEntity',
+            formMetaData: { fieldName: 'other_artists' },
+          },
+        ],
+        hidden: (event: EventModel) => {
+          console.log(event, event?.other_artists.length === 0);
+          return event?.other_artists.length === 0;
+        },
+      },
     ],
   },
   {

@@ -169,7 +169,7 @@ export abstract class ProfileModel<T extends ProfileTemplate>
   constructor(template: T | any = {}) {
     super(template);
     this.id = template.id || template._id;
-    this.setAWSURL();
+    // this.setAWSURL();
   }
 
   get identifier(): string {

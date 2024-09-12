@@ -1,5 +1,5 @@
-import { Grid, Paper, Typography } from '@mui/material';
-
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { Grid, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useApiKeySlice } from '~/common/slices/app-base/APIKey';
@@ -9,7 +9,7 @@ import { selectUsers } from '~/common/slices/users/selectors';
 import { I18nPaths, useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
-import { DynamicFieldData, DynamicForm } from '~/components/shared/organisms/gui/dynamicForms';
+import { DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
 import { PATHS } from '~/constants';
 import { SocialNetworkTemplate, SocialNetworks } from '~/constants/social-networks.const';
 import { AppUserModel } from '~/models/app/user/user.model';
@@ -17,6 +17,7 @@ import './LoginPage.scss';
 
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+import { AuthUser } from 'aws-amplify/auth';
 
 const TRANSLATION_BASE_LOGIN_PAGE = 'app.pages.app_base.LoginPage';
 
@@ -99,6 +100,23 @@ export const LoginPage = () => {
       dispatch(usersActions.loadUsers());
     }
   }, [clicksEnLogo]);
+
+  // const { user } = useAuthenticator();
+
+  // useEffect(() => {
+  //   console.log('AWS USER ', user);
+  // }, [user]);
+
+  const [user, setUser] = useState<AuthUser>();
+
+  useEffect(() => {
+    if (user) {
+      // Aquí puedes ejecutar cualquier lógica una vez que el usuario esté cargado
+      console.log('Usuario cargado:', user);
+      navigateToInnerPath({ path: PATHS.HOME });
+    }
+  }, [user]);
+
   return (
     <>
       {/* <h1>Artist Hive</h1> */}
@@ -146,7 +164,7 @@ export const LoginPage = () => {
             </Grid>
           </Paper>
         </Grid> */}
-        <Grid item xs={12} md={6}>
+        {/* <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: 2 }} className={'login-form-container'}>
             <Typography variant="h4" gutterBottom padding={'1rem'}>
               {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.username_or_email`)}:
@@ -169,19 +187,68 @@ export const LoginPage = () => {
               </button>
             </div>
           </Paper>
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: 2 }} className={'login-form-container'}>
-            <Typography variant="h4" gutterBottom padding={'1rem'}>
-              Usuario o email - AWS:
-            </Typography>
-            <Authenticator>
-              {({ signOut, user }) => (
-                <main>
-                  <h1>Hello {user?.username}</h1>
-                  <button onClick={signOut}>Sign out</button>
-                </main>
-              )}
+            {/* <Typography variant="h4" gutterBottom padding={'1rem'}>
+              Usuario o email:
+            </Typography> */}
+            <Authenticator
+              // socialProviders={['amazon', 'apple', 'facebook', 'google']}
+              signUpAttributes={[
+                'email',
+                // 'address',
+                // 'birthdate',
+                // 'family_name',
+                // 'given_name',
+                // 'gender',
+                // 'locale',
+                // 'middle_name',
+                // 'name',
+                // 'nickname',
+                // 'phone_number',
+                // 'picture',
+                // 'preferred_username',
+                // 'profile',
+                // 'updated_at',
+                // 'website',
+                // 'zoneinfo',
+              ]}
+              components={{
+                SignUp: {
+                  FormFields() {
+                    const { validationErrors } = useAuthenticator();
+
+                    return (
+                      <>
+                        {/* Re-use default `Authenticator.SignUp.FormFields` */}
+                        <Authenticator.SignUp.FormFields />
+                        {/* 
+                {/* Append & require Terms and Conditions field to sign up  *}
+                <CheckboxField
+                  errorMessage={validationErrors.acknowledgement as string}
+                  hasError={!!validationErrors.acknowledgement}
+                  name="acknowledgement"
+                  value="yes"
+                  label="I agree with the Terms and Conditions"
+                /> */}
+                      </>
+                    );
+                  },
+                },
+              }}
+            >
+              {({ signOut, user }) => {
+                setUser(user);
+
+                console.log('usuario logggeado aws  ', user);
+                return (
+                  <main>
+                    <h1>Hello {user?.username}</h1>
+                    <button onClick={signOut}>Sign out</button>
+                  </main>
+                );
+              }}
             </Authenticator>
             {/* <Button onClick={() => crearAlgo()}> POR FIN </Button> */}
           </Paper>

@@ -24,3 +24,5 @@ export const selectCurrentLang = createSelector([selectDomain], (UserState): str
     'en'
   );
 });
+
+export const selectUsernameValidation = createSelector([selectDomain], (UserState) => UserState.usernameAvailabilityResult);

@@ -1,7 +1,7 @@
-export enum UserNameAvailabilityStatus{
-  AVAILABLE,
-  IDENTIFIED,
-  TAKEN,
+export enum UsernameAvailabilityStatus{
+  AVAILABLE = 'AVAILABLE',
+  IDENTIFIED = 'IDENTIFIED',
+  TAKEN = 'TAKEN',
 }
 
 export enum AppErrorCodes {

@@ -6,7 +6,7 @@ import { AppUserModel, AppUserTemplate, UNLOGGED_USER } from '~/models/app/user/
 
 import { userSaga } from './saga';
 import { UserErrorType, UserState } from './types';
-import { UserNameAvailabilityStatus } from '~/constants/app.constants';
+import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 
 export const usersInitialState: UserState = {
   users: [],
@@ -48,7 +48,7 @@ const slice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    usernameStatusVefication(state, action: PayloadAction<UserNameAvailabilityStatus>){
+    usernameStatusVefication(state, action: PayloadAction<UsernameAvailabilityStatus>){
       state.usernameAvailabilityResult = action?.payload;
       state.loading = false;
     },

@@ -9,7 +9,7 @@ import { LocalStorageVariables } from '~/constants/localstorage';
 import { usersActions } from '.';
 import { actions as apiKeyActions } from '../app-base/APIKey';
 import { selectApiKey } from '../app-base/APIKey/selectors';
-import { UserNameAvailabilityStatus } from '~/constants/app.constants';
+import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 
 export function* getUsers() {
   yield delay(500);
@@ -125,7 +125,7 @@ export function* checkUsernameAvailability(actionParams?: PayloadAction<{ userna
     const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/cid/${actionParams.payload.username}`;
 
     try {
-      const currentUser: {status:UserNameAvailabilityStatus} = yield call(request, requestURL, {
+      const currentUser: {status:UsernameAvailabilityStatus} = yield call(request, requestURL, {
         headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
       });
 
@@ -154,7 +154,7 @@ export function* createUser(actionParams?: PayloadAction<{ username: string, sub
       if (response?.data) {
         //TODO pedir paramétricos
         console.log('Create user  ', response);
-        yield put(usersActions.loadCurrentUser());
+        //yield put(usersActions.loadCurrentUser());
         //window.location.reload();
       }
       // const currentUser: AppUserTemplate = yield call(putRequest, requestURL, {

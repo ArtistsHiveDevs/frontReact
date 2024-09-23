@@ -1,4 +1,4 @@
-import { UserNameAvailabilityStatus } from '~/constants/app.constants';
+import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 import { AppUserModel } from '~/models/app/user/user.model';
 
 export enum UserErrorType {
@@ -10,7 +10,7 @@ export interface UserState {
   currentUser: AppUserModel;
   newUserRQInfo: {username:string, sub:string};
   usernameForAvailabilityCheck: string;
-  usernameAvailabilityResult: UserNameAvailabilityStatus;
+  usernameAvailabilityResult: UsernameAvailabilityStatus;
   loading: boolean;
   error: UserErrorType | null;
 }

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useApiKeySlice } from '~/common/slices/app-base/APIKey';
 import { selectError } from '~/common/slices/app-base/APIKey/selectors';
 import { useUsersSlice } from '~/common/slices/users';
-import { selectUsers } from '~/common/slices/users/selectors';
+import { selectUsernameValidation, selectUsers } from '~/common/slices/users/selectors';
 import { I18nPaths, useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
@@ -18,6 +18,7 @@ import './LoginPage.scss';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { AuthUser } from 'aws-amplify/auth';
+import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 
 const TRANSLATION_BASE_LOGIN_PAGE = 'app.pages.app_base.LoginPage';
 
@@ -30,6 +31,7 @@ export const LoginPage = () => {
   const { translateText } = useI18n();
 
   const usersList: AppUserModel[] = useSelector(selectUsers);
+  const usernameValidationResult: UsernameAvailabilityStatus = useSelector(selectUsernameValidation);
   const { actions: usersActions } = useUsersSlice();
 
   const fields: DynamicFieldData[] = [
@@ -113,11 +115,22 @@ export const LoginPage = () => {
     if (user) {
       // Aquí puedes ejecutar cualquier lógica una vez que el usuario esté cargado
       console.log('Usuario cargado:', user);
-      dispatch(usersActions.createUser({username: user.username, sub:user.userId}));
+      dispatch(usersActions.checkUsernameAvailability( user.username));
       // navigateToInnerPath({ path: PATHS.HOME });
     }
   }, [user]);
-
+  
+  
+  useEffect(()=>{
+    if(user && usernameValidationResult){
+      if(usernameValidationResult === UsernameAvailabilityStatus.AVAILABLE){
+        dispatch(usersActions.createUser({username: user.username, sub:user.userId}));
+      }
+      else{
+        console.log('Ya existía el usuario ', user.username);
+      }
+    }
+  }, [usernameValidationResult, user])
   return (
     <>
       {/* <h1>Artist Hive</h1> */}

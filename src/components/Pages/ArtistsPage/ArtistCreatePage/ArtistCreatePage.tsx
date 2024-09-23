@@ -176,12 +176,12 @@ const ArtistsCreatePage = () => {
       <RequireAuthComponent requiredSession={true}>
         {currentUserCanEdit && (
           <>
-            <h1>IMAGEN 2</h1>
+            {/* <h1>IMAGEN 2</h1>
             <FileUploader acceptedFileTypes={['image/*']} path="galeria/" maxFileCount={500} isResumable />
             <h2>FIN</h2>
-            {/* {url?.url?.href} */}
+            {/* {url?.url?.href} }
             <Avatar src={url?.url?.href} sx={{ width: '5rem', height: '5rem' }}></Avatar>
-            <br />
+            <br /> */}
             {/* {url?.expiresAt} */}
             <DynamicTabbedForm
               tabsInfo={ARTIST_DETAIL_SUB_PAGE_CONFIG}

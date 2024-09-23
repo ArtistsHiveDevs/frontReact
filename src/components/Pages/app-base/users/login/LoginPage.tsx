@@ -1,5 +1,5 @@
 import { useAuthenticator } from '@aws-amplify/ui-react';
-import { Grid, Paper } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useApiKeySlice } from '~/common/slices/app-base/APIKey';
@@ -9,7 +9,7 @@ import { selectUsers } from '~/common/slices/users/selectors';
 import { I18nPaths, useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
-import { DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
+import { DynamicFieldData, DynamicForm } from '~/components/shared/organisms/gui/dynamicForms';
 import { PATHS } from '~/constants';
 import { SocialNetworkTemplate, SocialNetworks } from '~/constants/social-networks.const';
 import { AppUserModel } from '~/models/app/user/user.model';
@@ -113,7 +113,8 @@ export const LoginPage = () => {
     if (user) {
       // Aquí puedes ejecutar cualquier lógica una vez que el usuario esté cargado
       console.log('Usuario cargado:', user);
-      navigateToInnerPath({ path: PATHS.HOME });
+      usersActions.createUser({username: user.username, sub:user.userId})
+      // navigateToInnerPath({ path: PATHS.HOME });
     }
   }, [user]);
 
@@ -164,7 +165,7 @@ export const LoginPage = () => {
             </Grid>
           </Paper>
         </Grid> */}
-        {/* <Grid item xs={12} md={6}>
+        { <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: 2 }} className={'login-form-container'}>
             <Typography variant="h4" gutterBottom padding={'1rem'}>
               {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.username_or_email`)}:
@@ -187,7 +188,7 @@ export const LoginPage = () => {
               </button>
             </div>
           </Paper>
-        </Grid> */}
+        </Grid> }
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: 2 }} className={'login-form-container'}>
             {/* <Typography variant="h4" gutterBottom padding={'1rem'}>

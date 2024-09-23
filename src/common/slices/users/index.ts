@@ -6,10 +6,14 @@ import { AppUserModel, AppUserTemplate, UNLOGGED_USER } from '~/models/app/user/
 
 import { userSaga } from './saga';
 import { UserErrorType, UserState } from './types';
+import { UserNameAvailabilityStatus } from '~/constants/app.constants';
 
 export const usersInitialState: UserState = {
   users: [],
   currentUser: undefined,
+  newUserRQInfo: undefined,
+  usernameForAvailabilityCheck: undefined,
+  usernameAvailabilityResult: undefined,
   loading: false,
   error: null,
 };
@@ -37,6 +41,20 @@ const slice = createSlice({
     currentUserLoaded(state, action: PayloadAction<AppUserTemplate>) {
       state.currentUser = action?.payload ? new AppUserModel(action.payload) : UNLOGGED_USER;
       state.loading = false;
+      state.error = null;
+    },
+    checkUsernameAvailability(state, action: PayloadAction<string>){
+      state.usernameForAvailabilityCheck = action.payload;
+      state.loading = true;
+      state.error = null;
+    },
+    usernameStatusVefication(state, action: PayloadAction<UserNameAvailabilityStatus>){
+      state.usernameAvailabilityResult = action?.payload;
+      state.loading = false;
+    },
+    createUser(state, action: PayloadAction<{username:string, sub:string}>){
+      state.newUserRQInfo = action.payload;
+      state.loading = true;
       state.error = null;
     },
     switchProfile(state, action: PayloadAction<{ id: string }>) {

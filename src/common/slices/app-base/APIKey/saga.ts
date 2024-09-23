@@ -7,7 +7,7 @@ import { jwtDecode } from 'jwt-decode';
 import { LocalStorageVariables } from '~/constants/localstorage';
 import { actions } from '.';
 
-import { AppErrorCodes } from '~/constants/app.errors';
+import { AppErrorCodes } from '~/constants/app.constants';
 import { usersActions } from '../../users';
 import { ApiKeyErrorType, ApiKeyPayload, ApiKeyResponse, ApiKeyVeficationStatus } from './types';
 

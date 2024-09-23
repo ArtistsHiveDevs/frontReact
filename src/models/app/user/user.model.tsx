@@ -73,6 +73,7 @@ export const APP_DOMAIN_ROLES: { [entityName: string]: DomainRole } = {
 };
 
 export interface AppUserTemplate extends ProfileTemplate {
+  sub:string;
   given_names: string;
   surnames: string;
   artistic_name: string;
@@ -108,6 +109,7 @@ export interface AppUserTemplate extends ProfileTemplate {
 }
 
 export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUserTemplate, SearchableTemplate {
+  declare sub: string;
   declare given_names: string;
   declare surnames: string;
   declare artistic_name: string;

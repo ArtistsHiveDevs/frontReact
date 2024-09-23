@@ -1,2 +1,2 @@
-export * from './app.errors';
+export * from './app.constants';
 export * from './domain.errors';

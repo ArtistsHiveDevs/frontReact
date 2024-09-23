@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { ErrorType } from '~/common/slices/app-base/APIKey/types';
 import { I18nPaths, useI18n } from '~/common/utils';
-import { AppErrorCodes } from '~/constants/app.errors';
+import { AppErrorCodes } from '~/constants/app.constants';
 import { DynamicControl } from './DynamicControl';
 import { DynamicFieldData } from './dynamic-control-types';
 import './dynamic-form.scss';

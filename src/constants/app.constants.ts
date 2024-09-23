@@ -1,3 +1,9 @@
+export enum UserNameAvailabilityStatus{
+  AVAILABLE,
+  IDENTIFIED,
+  TAKEN,
+}
+
 export enum AppErrorCodes {
   // Errores de Autenticación y Autorización
   AUTH_INVALID_CREDENTIALS = 'AUTH_INVALID_CREDENTIALS',

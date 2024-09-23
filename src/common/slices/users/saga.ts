@@ -116,13 +116,14 @@ export function* logout() {
 }
 
 
-export function* checkUsernameAvailability(actionParams?: PayloadAction<{ username: string }>) {
-  if (actionParams?.payload?.username) {
+export function* checkUsernameAvailability(actionParams?: PayloadAction<string>) {
+  if (actionParams?.payload) {
     yield delay(500);
 
+    console.log('consultando username ', actionParams.payload);
     const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
 
-    const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/cid/${actionParams.payload.username}`;
+    const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/cid/${actionParams.payload}`;
 
     try {
       const currentUser: {status:UsernameAvailabilityStatus} = yield call(request, requestURL, {

@@ -126,11 +126,11 @@ export function* checkUsernameAvailability(actionParams?: PayloadAction<string>)
     const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/cid/${actionParams.payload}`;
 
     try {
-      const currentUser: {status:UsernameAvailabilityStatus} = yield call(request, requestURL, {
+      const currentUser: {data?:{status:UsernameAvailabilityStatus}} = yield call(request, requestURL, {
         headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
       });
 
-      yield put(usersActions.usernameStatusVefication(currentUser?.status));
+      yield put(usersActions.usernameStatusVefication(currentUser?.data?.status));
     } catch (err) {
       yield put(usersActions.logout());
       // yield delay(500);

@@ -122,6 +122,7 @@ export const LoginPage = () => {
   
   
   useEffect(()=>{
+    console.log('AWS USer ', user, ' validation', usernameValidationResult)
     if(user && usernameValidationResult){
       if(usernameValidationResult === UsernameAvailabilityStatus.AVAILABLE){
         dispatch(usersActions.createUser({username: user.username, sub:user.userId}));

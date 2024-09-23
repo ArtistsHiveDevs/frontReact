@@ -113,7 +113,7 @@ export const LoginPage = () => {
     if (user) {
       // Aquí puedes ejecutar cualquier lógica una vez que el usuario esté cargado
       console.log('Usuario cargado:', user);
-      usersActions.createUser({username: user.username, sub:user.userId})
+      dispatch(usersActions.createUser({username: user.username, sub:user.userId}));
       // navigateToInnerPath({ path: PATHS.HOME });
     }
   }, [user]);

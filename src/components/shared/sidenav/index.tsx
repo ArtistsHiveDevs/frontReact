@@ -16,6 +16,7 @@ import { SearchableTemplate } from '~/models/base';
 import { ProfilePicture } from '../atoms/gui/ProfilePicture/ProfilePicture';
 import './index.scss';
 import { SIDENAV_MENU_CONFIG, SideMenuItem } from './sidenav.config';
+import { signOut } from "aws-amplify/auth";
 
 const TRANSLATION_BASE_SIDENAV = 'app.appbase.sidenav';
 
@@ -86,7 +87,8 @@ const SideNav = () => {
   };
 
   const handlers: { [handler: string]: Function } = {
-    logout: () => {
+    logout:async () => {
+      await signOut();
       dispatch(usersActions.logout());
       setOpenStatusSearchInputText(false);
       handleClose();

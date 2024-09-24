@@ -7,6 +7,7 @@ import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { AppUserModel } from '~/models/app/user/user.model';
 import { TRANSLATION_BASE_USER_DETAIL_PAGE, USER_DETAIL_SUB_PAGE_CONFIG } from '../UserDetails/config-user-detail';
+import { useUsersSlice } from '~/common/slices/users';
 
 const UserCreatePage = () => {
   const loggedUser = useSelector(selectCurrentUser);
@@ -14,6 +15,7 @@ const UserCreatePage = () => {
 
   const { actions: languageActions } = useLanguagesSlice();
   const { actions: allergyActions } = useAllergiesSlice();
+  const { actions: userActions} = useUsersSlice();
 
   const availableAllergies = useSelector(selectorAllergies.selectItems);
   const availableLanguages = useSelector(selectorLanguages.selectItems);
@@ -101,6 +103,11 @@ const UserCreatePage = () => {
   const handlers = {
     onSubmit: (data: any, error?: any) => {
       console.log('#####----------->>>>  !!! ', data);
+      dispatch(userActions.updateUser({
+        id: loggedUser.identifier,
+        newItem: {
+          ...data,
+        }}))
     },
     onChangecountry: (data: any) => {
       console.log('#####----------->>>>  !!! ', data);

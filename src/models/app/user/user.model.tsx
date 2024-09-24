@@ -203,7 +203,7 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
   }
 
   get fullname() {
-    return `${this.given_names} ${this.surnames}`;
+    return `${this.given_names || ''} ${this.surnames|| ''}`.trim();
   }
 
   get genderEnum(): UserGenderTemplate {

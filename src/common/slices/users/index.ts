@@ -57,6 +57,9 @@ const slice = createSlice({
       state.loading = true;
       state.error = null;
     },
+    updateUser(state, action: PayloadAction<{id:string, newItem:Partial<AppUserModel>}>){
+      state.loading = true;
+    },
     switchProfile(state, action: PayloadAction<{ id: string }>) {
       state.loading = true;
     },

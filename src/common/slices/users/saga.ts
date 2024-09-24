@@ -1,7 +1,7 @@
 import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 
 import { APIResponse, postRequest, putRequest, request } from '~/common/utils/request';
-import { AppUserTemplate } from '~/models/app/user/user.model';
+import { AppUserModel, AppUserTemplate } from '~/models/app/user/user.model';
 
 import { PayloadAction } from '@reduxjs/toolkit';
 import { defaultLang } from '~/common/context';
@@ -173,6 +173,33 @@ export function* createUser(actionParams?: PayloadAction<{ username: string, sub
 }
 
 
+export function* updateUser(actionParams?: PayloadAction<{ id: string, newItem:Partial<AppUserModel> }>) {
+  yield delay(500);
+
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/${actionParams.payload.id}`;
+
+  try {
+    const response: APIResponse = yield call(putRequest, requestURL, {
+      body: JSON.stringify({... actionParams.payload.newItem }),
+      headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
+    });
+
+    if (response?.data) {
+      yield put(usersActions.loadCurrentUser());
+    }
+    // const currentUser: AppUserTemplate = yield call(putRequest, requestURL, {
+    //   headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false)  },
+    //   body: { currentProfileIdentifier: actionParams?.payload.id },
+    // });
+  } catch (err) {
+    yield put(usersActions.logout());
+    // yield delay(500);
+    // window.location.reload();
+  }
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -188,4 +215,5 @@ export function* userSaga() {
   yield takeLatest(usersActions.switchLang.type, switchLanguage);
   yield takeLatest(usersActions.checkUsernameAvailability.type, checkUsernameAvailability);
   yield takeLatest(usersActions.createUser.type, createUser);
+  yield takeLatest(usersActions.updateUser.type, updateUser);
 }

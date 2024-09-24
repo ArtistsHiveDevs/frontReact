@@ -40,7 +40,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   formMetaData: { inputType: 'time' },
                 },
                 {
-                  icon: 'IoTimeOutline',
+                  icon: 'io5 IoTimeOutline',
                   name: 'initial_time',
                   formMetaData: { inputType: 'time' },
                 },
@@ -61,12 +61,12 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   formMetaData: { hidden: true },
                 },
                 {
-                  icon: 'IoTicketOutline',
+                  icon: 'io5 IoTicketOutline',
                   name: 'tickets_website',
                   emptyTitle: true,
                 },
                 {
-                  icon: 'IoTimeOutline',
+                  icon: 'io5 IoTimeOutline',
                   name: 'minimumAge',
                   formMetaData: { inputType: 'number', config: { min: 0 } },
                 },
@@ -75,7 +75,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   name: 'promoter',
                 },
                 {
-                  icon: 'IoBarcodeOutline',
+                  icon: 'io5 IoBarcodeOutline',
                   name: 'national_code',
                 },
               ],

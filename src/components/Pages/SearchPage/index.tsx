@@ -286,7 +286,7 @@ export default function SearchPage() {
   };
 
   const RESULT_VIEW_TYPES = [
-    { name: 'list', icon: 'IoIosList' },
+    { name: 'list', icon: 'io5 IoIosList' },
     { name: 'map', icon: 'GrMapLocation' },
   ];
 

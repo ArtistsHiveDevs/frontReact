@@ -158,8 +158,8 @@ export function* createUser(actionParams?: PayloadAction<{ username: string, sub
         const userData = <AppUserTemplate> (response?.data || {});
         console.log('pidiendo api key...')
         yield put(apiKeyActions.loadApiKey({username: userData.username, sub: userData.sub}))
-        console.log('cargando usuario actual')
-        yield put(usersActions.loadCurrentUser());
+        //console.log('cargando usuario actual')
+        //yield put(usersActions.loadCurrentUser());
         //window.location.reload();
       }
       

@@ -129,6 +129,7 @@ export const LoginPage = () => {
       }
       else{
         console.log('Ya existía el usuario ', user.username);
+        dispatch(apiKeyActions.loadApiKey({username: user.username, sub:user.userId}));
       }
     }
   }, [usernameValidationResult, user])

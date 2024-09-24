@@ -27,7 +27,8 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   emptyTitle: true,
                   value: (user: AppUserModel) => {
                     const { translateText } = useI18n();
-                    return <>{translateText(`app.global_dictionary.genders.${user.genderEnum.value}`)}</>;
+                    let content = user?.genderEnum?.value ? translateText(`app.global_dictionary.genders.${user?.genderEnum?.value}`): undefined;
+                    return <>{content}</>;
                   },
                   formMetaData: {
                     inputType: 'select',
@@ -237,7 +238,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: 'name',
                   value: (emergencyContactData: any) => (
-                    <>{`${emergencyContactData.given_names} ${emergencyContactData.surnames}`}</>
+                    <>{`${emergencyContactData?.given_names} ${emergencyContactData?.surnames}`}</>
                   ),
                   emptyTitle: true,
                 },

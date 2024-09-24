@@ -1,4 +1,5 @@
 import { useAuthenticator } from '@aws-amplify/ui-react';
+import { getCurrentUser } from 'aws-amplify/auth';
 import { Grid, Paper, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -180,7 +181,7 @@ export const LoginPage = () => {
             </Grid>
           </Paper>
         </Grid> */}
-        { <Grid item xs={12} md={6}>
+        {/* { <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: 2 }} className={'login-form-container'}>
             <Typography variant="h4" gutterBottom padding={'1rem'}>
               {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.username_or_email`)}:
@@ -203,7 +204,7 @@ export const LoginPage = () => {
               </button>
             </div>
           </Paper>
-        </Grid> }
+        </Grid> } */}
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: 2 }} className={'login-form-container'}>
             {/* <Typography variant="h4" gutterBottom padding={'1rem'}>
@@ -259,10 +260,11 @@ export const LoginPage = () => {
 
                 console.log('usuario logggeado aws  ', user);
                 return (
-                  <main>
-                    <h1>Hello {user?.username}</h1>
-                    <button onClick={signOut}>Sign out</button>
-                  </main>
+                  // <main>
+                  //   <h1>Hello {user?.username}</h1>
+                  //   <button onClick={signOut}>Sign out</button>
+                  // </main>
+                  <></>
                 );
               }}
             </Authenticator>

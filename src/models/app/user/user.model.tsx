@@ -195,7 +195,11 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
   }
 
   get hasFetchAllData(): boolean {
-    return !!this.id && !!this.username && !!this.name && !!this.email;
+    return !!this.id && !!this.username && !!this.nameKnownAs && !!this.email;
+  }
+
+  get hasFilledProfile():boolean{
+    return !!this.nameKnownAs.trim().length;
   }
 
   get fullname() {

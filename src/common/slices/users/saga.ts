@@ -155,13 +155,14 @@ export function* createUser(actionParams?: PayloadAction<{ username: string, sub
       if (response?.data) {
         //TODO pedir paramétricos
         console.log('Create user  ', response);
-        //yield put(usersActions.loadCurrentUser());
+        const userData = <AppUserTemplate> (response?.data || {});
+        console.log('pidiendo api key...')
+        yield put(apiKeyActions.loadApiKey({username: userData.username, sub: userData.sub}))
+        console.log('cargando usuario actual')
+        yield put(usersActions.loadCurrentUser());
         //window.location.reload();
       }
-      // const currentUser: AppUserTemplate = yield call(putRequest, requestURL, {
-      //   headers: { 'x-api-key': authInfo?.apiKey , lang: defaultLang(false) },
-      //   body: { currentProfileIdentifier: actionParams?.payload.id },
-      // });
+      
     } catch (err) {
       yield put(usersActions.logout());
       // yield delay(500);

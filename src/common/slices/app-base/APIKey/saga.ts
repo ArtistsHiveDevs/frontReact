@@ -46,36 +46,46 @@ export function getStoredUserIdToken() {
 export function* getApiKey(actionParams?: PayloadAction<ApiKeyPayload>): Generator<any, void, any> {
   yield delay(500);
   const { payload } = actionParams || {};
-  const { userId, password, remember_me, isLogout } = payload || {};
+  const { userId, password, remember_me, isLogout, username, sub } = payload || {};
 
   const existingAPIKey = localStorage.getItem(LocalStorageVariables.TOKEN_API_KEY);
 
   let hasToRequestToken = verifyToken(existingAPIKey) !== ApiKeyVeficationStatus.VALID;
 
+  let isAwsToken = !!username && !!sub;
+
   let response: ApiKeyResponse = undefined;
   try {
     if (hasToRequestToken) {
       if (!isLogout) {
-        if (!userId) {
-          yield put(
-            actions.repoError({
-              errorType: ApiKeyErrorType.RESPONSE_ERROR,
-              error: { message: 'UserId is required', errorCode: AppErrorCodes.AUTH_NO_USER_PROVIDED },
-            })
-          );
-          return;
-        } else if (!password) {
-          yield put(
-            actions.repoError({
-              errorType: ApiKeyErrorType.RESPONSE_ERROR,
-              error: { message: 'Password is required', errorCode: AppErrorCodes.AUTH_NO_PASSWORD_PROVIDED },
-            })
-          );
-          return;
-        } else {
+        let canRequest = isAwsToken;
+
+        if (!canRequest) {
+
+          if (!userId) {
+            yield put(
+              actions.repoError({
+                errorType: ApiKeyErrorType.RESPONSE_ERROR,
+                error: { message: 'UserId is required', errorCode: AppErrorCodes.AUTH_NO_USER_PROVIDED },
+              })
+            );
+            return;
+          } else if (!password) {
+            yield put(
+              actions.repoError({
+                errorType: ApiKeyErrorType.RESPONSE_ERROR,
+                error: { message: 'Password is required', errorCode: AppErrorCodes.AUTH_NO_PASSWORD_PROVIDED },
+              })
+            );
+            return;
+          }
+          canRequest = true;
+        }
+
+        if (canRequest) {
           const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/api/generate-key`;
 
-          const body = { userId, password, remember_me };
+          const body = { userId, password, remember_me, username, sub };
           response = yield call(postRequest, requestURL, {
             body: JSON.stringify(body),
           });

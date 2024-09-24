@@ -26,7 +26,9 @@ export enum ApiKeyVeficationStatus {
 
 export interface ApiKeyPayload {
   userId?: string;
-  password: string;
+  password?: string;
+  username?: string;
+  sub?: string;
   remember_me: boolean;
   isLogout?: boolean;
 }

@@ -73,7 +73,7 @@ export const HvAppContextProvider = ({ children, appMessages, setLang, lang }: I
   }, []);
 
   useEffect(() => {
-    if (currentUser && currentUser.user_language !== lang.lang) {
+    if (!!currentUser && !!currentUser.user_language && !!lang.lang && currentUser.user_language !== lang.lang ) {
       onSetLang(currentUser.user_language);
     }
   }, [currentUser]);

@@ -38,7 +38,7 @@ const HomePage = () => {
 
   // Effects
   useEffect(() => {
-    if(!loggedUser?.hasFilledProfile){
+    if(!!loggedUser && !loggedUser.hasFilledProfile){
       navigateToEntity({ entityType:AppUserModel.name, id: loggedUser.identifier, action: SUB_PATHS.EDIT });
     }
     loadData();

@@ -160,7 +160,7 @@ export const ProfileHeader = (props: any) => {
             onClick={() => clickOnField(fieldName)}
             className={`${errors && errors[fieldName] ? 'error-field' : ''}`}
           >
-            {prefix} {value}
+            {prefix} {value || placeholder}
             {!element && (
               <>
                 {newField?.config?.value || placeholder}

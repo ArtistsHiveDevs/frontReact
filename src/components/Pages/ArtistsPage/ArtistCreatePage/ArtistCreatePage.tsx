@@ -123,7 +123,7 @@ const ArtistsCreatePage = () => {
 
           const response = await uploadImage({ file: data.profile_pic });
           console.log('DESPUÉS de SUBIR FOTO, ', response);
-          // dispatch(artistsActions.createItem({ data }));
+          dispatch(artistsActions.createItem({ data }));
         } else {
           console.log('Actualizando  un nuevo artista ', currentArtist.identifier, data);
           dispatch(
@@ -137,7 +137,7 @@ const ArtistsCreatePage = () => {
           );
         }
       }
-      // setRequestHasBeenSended(true);
+      setRequestHasBeenSended(true);
     },
     onChangecountry: (data: any) => {
       console.log('#####----------->>>>  !!! ', data);

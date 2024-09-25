@@ -131,6 +131,7 @@ const UserCreatePage = () => {
 
   return (
     <>
+    {loggedUser && !loggedUser.hasFilledProfile && <div>Antes de continuar usando todos los beneficios de Artist Hive es necesario que completes tu perfil personal. </div>}
       <DynamicTabbedForm
         tabsInfo={USER_DETAIL_SUB_PAGE_CONFIG}
         handlers={handlers}

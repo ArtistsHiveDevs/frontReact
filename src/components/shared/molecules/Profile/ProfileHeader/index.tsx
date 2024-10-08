@@ -30,7 +30,7 @@ interface FieldInfo {
   renderField?: string;
 }
 export const ProfileHeader = (props: any) => {
-  const { element, formMethods, handlers: parentHandlers } = props;
+  const { element, formMethods, handlers: parentHandlers, customFields } = props;
 
   const isEditable = !!formMethods;
   const { register, formState } = formMethods || {};
@@ -38,7 +38,7 @@ export const ProfileHeader = (props: any) => {
 
   const avatarSize = 120;
 
-  const [fields, setFieldData] = useState<FieldInfo[]>([
+  const [fields, setFieldData] = useState<FieldInfo[]>(customFields ||[
     {
       name: 'name',
       label: 'Nombre',

@@ -16,6 +16,7 @@ import {
 } from '../../ProfileTabsPage/profile-details.def';
 import { DynamicControl } from './DynamicControl';
 import { ControlType, DynamicFieldData, SelectOption } from './dynamic-control-types';
+import { AppUserModel } from '~/models/app/user/user.model';
 
 export interface DynamicTabbedFormParams {
   tabsInfo: ProfileDetailsSubpage[];
@@ -253,12 +254,32 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     formState: { errors },
   } = formMethods;
 
+  let customHeaderConfig = undefined;
+
+  if(entityType === AppUserModel.name){
+    customHeaderConfig = [
+      {
+        name: 'name',
+        label: 'Nombre',
+        config: { required: false, minLength: 3 },
+        showEditableField: false,
+        renderField: 'nameKnownAs',
+      },
+      { name: 'subtitle', label: 'Subtitle' },
+      {
+        name: 'username',
+        label: 'username',
+        config: { required: true, minLength: 3 },
+      },
+    ]
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="fullwidth">
       <FormProvider {...formMethods}>
         <div className="place-container">
           {/* {profileHeaderComponent || <ProfileHeader element={entityData} />} */}
-          {entityType && <ProfileHeader element={elementData} formMethods={formMethods} />}
+          {entityType && <ProfileHeader element={elementData} formMethods={formMethods} customHeaderConfig={customHeaderConfig}/>}
           <TabbedPanel tabs={transformedConfig(tabsInfo, elementData)} />
         </div>
       </FormProvider>

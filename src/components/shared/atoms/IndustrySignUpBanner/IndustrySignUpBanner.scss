@@ -1,0 +1,15 @@
+@import '~/variables.module.scss';
+
+.industry-signup-banner {
+  margin: 2rem;
+  display: flex;
+  padding: 1rem;
+  background: $alert-background;
+  color: $alert-foreground;
+  border-radius: 2.5rem;
+  margin-bottom: 1rem;
+
+  .button {
+    margin: 1rem;
+  }
+}

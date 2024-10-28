@@ -13,6 +13,7 @@ export enum PATHS {
   NOT_FOUND = '*',
   SHOWS = '/shows',
   INDUSTRY_OFFER = '/offer',
+  INDUSTRY = '/industry',
   PROFILE = '/profile',
   PLACES = '/places',
   PROMOTERS = '/promoters',

@@ -197,6 +197,10 @@ export const DeMessages = {
         },
         UsersPages: {
           UsersDetailsPage: {
+            fillProfileBanner: {
+              content:
+                'Bevor du weiterhin alle Vorteile von Artist Hive nutzen kannst, musst du dein persönliches Profil vervollständigen.',
+            },
             subpages: {
               general: {
                 name: 'Allgemein',
@@ -204,6 +208,9 @@ export const DeMessages = {
                   general: {
                     name: 'Allgemeine Informationen',
                     attributes: {
+                      given_names: 'Vornamen',
+                      surnames: 'Nachname',
+                      stage_name: 'Künstlername',
                       fullname: 'Vollständiger Name',
                       gender: 'Geschlecht',
                       birthdate: 'Geburtstag',
@@ -296,6 +303,11 @@ export const DeMessages = {
                 },
               },
             },
+          },
+          activate_industry_banner: {
+            banner:
+              'Bist du Mitglied der Musikbranche? Greife auf alle Tools für Künstler, Agenten, Veranstaltungsorte und andere Fachleute zu.',
+            button: 'Jetzt aktivieren',
           },
         },
       },

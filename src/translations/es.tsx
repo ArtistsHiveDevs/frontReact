@@ -197,6 +197,10 @@ export const EsMessages = {
         },
         UsersPages: {
           UsersDetailsPage: {
+            fillProfileBanner: {
+              content:
+                'Antes de continuar usando todos los beneficios de Artist Hive es necesario que completes tu perfil personal.',
+            },
             subpages: {
               general: {
                 name: 'General',
@@ -204,6 +208,9 @@ export const EsMessages = {
                   general: {
                     name: 'Info General',
                     attributes: {
+                      given_names: 'Nombres',
+                      surnames: 'Apellidos',
+                      stage_name: 'Nombre artístico',
                       fullname: 'Nombre completo',
                       gender: 'Género',
                       birthdate: 'Fecha de nacimiento',
@@ -296,6 +303,11 @@ export const EsMessages = {
                 },
               },
             },
+          },
+          activate_industry_banner: {
+            banner:
+              '¿Eres miembro de la industria? Accede a todas las herramientas para artistas, agentes, venues y otros profesionales.',
+            button: 'Activar ahora',
           },
         },
       },

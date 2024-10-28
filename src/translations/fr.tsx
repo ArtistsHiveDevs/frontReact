@@ -196,6 +196,10 @@ export const FrMessages = {
         },
         UsersPages: {
           UsersDetailsPage: {
+            fillProfileBanner: {
+              content:
+                "Avant de continuer à profiter de tous les avantages d'Artist Hive, il est nécessaire de compléter votre profil personnel.",
+            },
             subpages: {
               general: {
                 name: 'Général',
@@ -203,6 +207,9 @@ export const FrMessages = {
                   general: {
                     name: 'Info Générale',
                     attributes: {
+                      given_names: 'Prénoms',
+                      surnames: 'Nom de famille',
+                      stage_name: 'Nom de scène',
                       fullname: 'Nom et prénom',
                       gender: 'Genre',
                       birthdate: 'Date de naissance',
@@ -295,6 +302,11 @@ export const FrMessages = {
                 },
               },
             },
+          },
+          activate_industry_banner: {
+            banner:
+              "Êtes-vous membre de l'industrie ? Accédez à tous les outils pour les artistes, agents, salles et autres professionnels.",
+            button: 'Activer maintenant',
           },
         },
       },

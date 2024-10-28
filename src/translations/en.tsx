@@ -196,6 +196,10 @@ export const EnMessages = {
         },
         UsersPages: {
           UsersDetailsPage: {
+            fillProfileBanner: {
+              content:
+                "Before you continue using all the benefits of Artist Hive, it's necessary to complete your personal profile.",
+            },
             subpages: {
               general: {
                 name: 'General',
@@ -203,6 +207,9 @@ export const EnMessages = {
                   general: {
                     name: 'General Info',
                     attributes: {
+                      given_names: 'Names',
+                      surnames: 'Surnames',
+                      stage_name: 'Stage name',
                       fullname: 'Full name',
                       gender: 'Gender',
                       birthdate: 'Birthday',
@@ -295,6 +302,11 @@ export const EnMessages = {
                 },
               },
             },
+          },
+          activate_industry_banner: {
+            banner:
+              'Are you an industry member? Access all tools for artists, agents, venues, and other professionals.',
+            button: 'Activate now',
           },
         },
       },

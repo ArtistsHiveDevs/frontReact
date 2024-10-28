@@ -1,3 +1,4 @@
+import { signOut } from 'aws-amplify/auth';
 import { useEffect, useState } from 'react';
 import { Container, Navbar, Offcanvas } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,7 +17,6 @@ import { SearchableTemplate } from '~/models/base';
 import { ProfilePicture } from '../atoms/gui/ProfilePicture/ProfilePicture';
 import './index.scss';
 import { SIDENAV_MENU_CONFIG, SideMenuItem } from './sidenav.config';
-import { signOut } from "aws-amplify/auth";
 
 const TRANSLATION_BASE_SIDENAV = 'app.appbase.sidenav';
 
@@ -87,7 +87,7 @@ const SideNav = () => {
   };
 
   const handlers: { [handler: string]: Function } = {
-    logout:async () => {
+    logout: async () => {
       await signOut();
       dispatch(usersActions.logout());
       setOpenStatusSearchInputText(false);
@@ -158,7 +158,12 @@ const SideNav = () => {
               <ProfilePicture
                 src={profilePicturesURLs[loggedUser?.currentProfileInfo?.identifier]}
                 onClickHandler={() => {
-                  setShowRight(true); // Mostrar el Offcanvas derecho
+                  console.log(loggedUser);
+                  if (loggedUser.isIndustryMember) {
+                    setShowRight(true); // Mostrar el Offcanvas derecho
+                  } else {
+                    handleResultOnClick(loggedUser?.currentProfileInfo);
+                  }
                 }}
                 size="xs"
               />
@@ -226,7 +231,7 @@ const SideNav = () => {
                     onBadgeClick={() => switchProfile(loggedUser)}
                   />
                   <div className="profile-header-name">
-                    <h4>{loggedUser?.artistic_name || loggedUser?.given_names}</h4>
+                    <h4>{loggedUser?.stage_name || loggedUser?.given_names}</h4>
                     <p>@{loggedUser?.username}</p>
                   </div>
                 </div>

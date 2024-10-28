@@ -1,21 +1,28 @@
+import { fetchUserAttributes } from 'aws-amplify/auth';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectorAllergies, useAllergiesSlice } from '~/common/slices/parametrics/demographics/allergies.redux';
 import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
+import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
+import { useI18n } from '~/common/utils';
+import { IndustrySignUpBanner } from '~/components/shared/atoms/IndustrySignUpBanner/IndustrySignUpBanner';
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { AppUserModel } from '~/models/app/user/user.model';
 import { TRANSLATION_BASE_USER_DETAIL_PAGE, USER_DETAIL_SUB_PAGE_CONFIG } from '../UserDetails/config-user-detail';
-import { useUsersSlice } from '~/common/slices/users';
+import './UserCreatePage.scss';
 
 const UserCreatePage = () => {
   const loggedUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
 
+  const { translateText, translateGlobalDict } = useI18n();
+
   const { actions: languageActions } = useLanguagesSlice();
   const { actions: allergyActions } = useAllergiesSlice();
-  const { actions: userActions} = useUsersSlice();
+  const { actions: userActions } = useUsersSlice();
 
   const availableAllergies = useSelector(selectorAllergies.selectItems);
   const availableLanguages = useSelector(selectorLanguages.selectItems);
@@ -85,12 +92,11 @@ const UserCreatePage = () => {
     //   { label: 'Gatos', value: 'Gatos' },
     // ]);
 
-    updateAvailableGenders([
-      { label: 'Man', value: 'male' },
-      { label: 'Woman', value: 'female' },
-      { label: 'Non binary', value: 'non_binary' },
-      { label: 'Non specified', value: 'non_specified' },
-    ]);
+    updateAvailableGenders(
+      ['male', 'female', 'non_binary', 'non_specified'].map((gender) => {
+        return { label: translateGlobalDict(`genders.${gender}`), value: gender };
+      })
+    );
 
     updateAvailableDietaryRestrictions([
       { label: 'None', value: 'none' },
@@ -98,16 +104,30 @@ const UserCreatePage = () => {
       { label: 'Vegan', value: 'vegan' },
       { label: 'Celiac', value: 'celiac' },
     ]);
+
+    getUserInfo();
   }, []);
+
+  const getUserInfo = async () => {
+    const user = await fetchUserAttributes();
+
+    // console.log('username', user.username);
+    // console.log('user id', user.userId);
+    // console.log('sign-in details', user.signInDetails);
+    console.log(user, ' - ', loggedUser);
+  };
 
   const handlers = {
     onSubmit: (data: any, error?: any) => {
       console.log('#####----------->>>>  !!! ', data);
-      dispatch(userActions.updateUser({
-        id: loggedUser.identifier,
-        newItem: {
-          ...data,
-        }}))
+      dispatch(
+        userActions.updateUser({
+          id: loggedUser.identifier,
+          newItem: {
+            ...data,
+          },
+        })
+      );
     },
     onChangecountry: (data: any) => {
       console.log('#####----------->>>>  !!! ', data);
@@ -131,7 +151,14 @@ const UserCreatePage = () => {
 
   return (
     <>
-    {loggedUser && !loggedUser.hasFilledProfile && <div>Antes de continuar usando todos los beneficios de Artist Hive es necesario que completes tu perfil personal. </div>}
+      {loggedUser && !loggedUser.hasFilledProfile && (
+        <div className="fill-profile-banner">
+          <div>
+            <DynamicIcons iconName="FaInfoCircle" size={40} color={'white'} />
+          </div>
+          <div>{translateText(`${TRANSLATION_BASE_USER_DETAIL_PAGE}.fillProfileBanner.content`)}</div>
+        </div>
+      )}
       <DynamicTabbedForm
         tabsInfo={USER_DETAIL_SUB_PAGE_CONFIG}
         handlers={handlers}
@@ -149,6 +176,7 @@ const UserCreatePage = () => {
           stage_languages: availableLanguages,
         }}
       />
+      <IndustrySignUpBanner />
     </>
   );
 };

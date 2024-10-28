@@ -1,1 +1,10 @@
 @import '~/variables.module.scss';
+
+.fill-profile-banner {
+  display: flex;
+  padding: 1rem;
+  background: $alert-background;
+  color: $alert-foreground;
+  border-radius: 2.5rem;
+  margin-bottom: 1rem;
+}

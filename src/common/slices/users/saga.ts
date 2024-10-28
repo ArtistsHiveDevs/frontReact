@@ -5,11 +5,11 @@ import { AppUserModel, AppUserTemplate } from '~/models/app/user/user.model';
 
 import { PayloadAction } from '@reduxjs/toolkit';
 import { defaultLang } from '~/common/context';
+import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 import { LocalStorageVariables } from '~/constants/localstorage';
 import { usersActions } from '.';
 import { actions as apiKeyActions } from '../app-base/APIKey';
 import { selectApiKey } from '../app-base/APIKey/selectors';
-import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 
 export function* getUsers() {
   yield delay(500);
@@ -116,7 +116,6 @@ export function* logout() {
   window.location.reload();
 }
 
-
 export function* checkUsernameAvailability(actionParams?: PayloadAction<string>) {
   if (actionParams?.payload) {
     yield delay(500);
@@ -127,7 +126,7 @@ export function* checkUsernameAvailability(actionParams?: PayloadAction<string>)
     const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/cid/${actionParams.payload}`;
 
     try {
-      const currentUser: {data?:{status:UsernameAvailabilityStatus}} = yield call(request, requestURL, {
+      const currentUser: { data?: { status: UsernameAvailabilityStatus } } = yield call(request, requestURL, {
         headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
       });
 
@@ -140,8 +139,7 @@ export function* checkUsernameAvailability(actionParams?: PayloadAction<string>)
   }
 }
 
-
-export function* createUser(actionParams?: PayloadAction<{ username: string, sub:string }>) {
+export function* createUser(actionParams?: PayloadAction<{ username: string; sub: string; email: string }>) {
   if (actionParams?.payload?.username) {
     yield delay(500);
 
@@ -150,20 +148,19 @@ export function* createUser(actionParams?: PayloadAction<{ username: string, sub
     try {
       const response: APIResponse = yield call(postRequest, requestURL, {
         body: JSON.stringify(actionParams.payload),
-        headers: {  lang: defaultLang(false) },
+        headers: { lang: defaultLang(false) },
       });
 
       if (response?.data) {
         //TODO pedir paramétricos
         console.log('Create user  ', response);
-        const userData = <AppUserTemplate> (response?.data || {});
-        console.log('pidiendo api key...')
-        yield put(apiKeyActions.loadApiKey({username: userData.username, sub: userData.sub}))
+        const userData = <AppUserTemplate>(response?.data || {});
+        console.log('pidiendo api key...');
+        yield put(apiKeyActions.loadApiKey({ username: userData.username, sub: userData.sub }));
         //console.log('cargando usuario actual')
         //yield put(usersActions.loadCurrentUser());
         //window.location.reload();
       }
-      
     } catch (err) {
       yield put(usersActions.logout());
       // yield delay(500);
@@ -172,8 +169,7 @@ export function* createUser(actionParams?: PayloadAction<{ username: string, sub
   }
 }
 
-
-export function* updateUser(actionParams?: PayloadAction<{ id: string, newItem:Partial<AppUserModel> }>) {
+export function* updateUser(actionParams?: PayloadAction<{ id: string; newItem: Partial<AppUserModel> }>) {
   yield delay(500);
 
   const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
@@ -182,7 +178,7 @@ export function* updateUser(actionParams?: PayloadAction<{ id: string, newItem:P
 
   try {
     const response: APIResponse = yield call(putRequest, requestURL, {
-      body: JSON.stringify({... actionParams.payload.newItem }),
+      body: JSON.stringify({ ...actionParams.payload.newItem }),
       headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
     });
 

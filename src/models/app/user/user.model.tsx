@@ -73,10 +73,10 @@ export const APP_DOMAIN_ROLES: { [entityName: string]: DomainRole } = {
 };
 
 export interface AppUserTemplate extends ProfileTemplate {
-  sub:string;
+  sub: string;
   given_names: string;
   surnames: string;
-  artistic_name: string;
+  stage_name: string;
   username: string;
   email: string;
   password?: string;
@@ -112,7 +112,7 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
   declare sub: string;
   declare given_names: string;
   declare surnames: string;
-  declare artistic_name: string;
+  declare stage_name: string;
   declare username: string;
   declare email: string;
   declare password?: string;
@@ -198,12 +198,12 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
     return !!this.id && !!this.username && !!this.nameKnownAs && !!this.email;
   }
 
-  get hasFilledProfile():boolean{
+  get hasFilledProfile(): boolean {
     return !!this.nameKnownAs.trim().length;
   }
 
   get fullname() {
-    return `${this.given_names || ''} ${this.surnames|| ''}`.trim();
+    return `${this.given_names || ''} ${this.surnames || ''}`.trim();
   }
 
   get genderEnum(): UserGenderTemplate {
@@ -211,7 +211,7 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
   }
 
   get nameKnownAs() {
-    return this.artistic_name || this.fullname;
+    return this.stage_name || this.fullname;
   }
 
   get subtitle(): string {
@@ -241,6 +241,10 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
       );
     }
     return new CurrentProfileInfoModel(template);
+  }
+
+  get isIndustryMember() {
+    return !!this.roles.length;
   }
 
   modifyDummyRole(entity: string, idEntity: string, roleName: string, action: 'add' | 'del') {

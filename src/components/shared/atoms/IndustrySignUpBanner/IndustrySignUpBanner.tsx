@@ -19,6 +19,7 @@ export const IndustrySignUpBanner = () => {
   };
   return (
     !!loggedUser &&
+    loggedUser.hasFilledProfile &&
     !loggedUser?.isIndustryMember && (
       <div className="industry-signup-banner">
         <div>

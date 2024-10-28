@@ -4,9 +4,9 @@ import { createSlice } from '~/common/utils/@reduxjs/toolkit';
 import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors';
 import { AppUserModel, AppUserTemplate, UNLOGGED_USER } from '~/models/app/user/user.model';
 
+import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 import { userSaga } from './saga';
 import { UserErrorType, UserState } from './types';
-import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 
 export const usersInitialState: UserState = {
   users: [],
@@ -43,21 +43,21 @@ const slice = createSlice({
       state.loading = false;
       state.error = null;
     },
-    checkUsernameAvailability(state, action: PayloadAction<string>){
+    checkUsernameAvailability(state, action: PayloadAction<string>) {
       state.usernameForAvailabilityCheck = action.payload;
       state.loading = true;
       state.error = null;
     },
-    usernameStatusVefication(state, action: PayloadAction<UsernameAvailabilityStatus>){
+    usernameStatusVefication(state, action: PayloadAction<UsernameAvailabilityStatus>) {
       state.usernameAvailabilityResult = action?.payload;
       state.loading = false;
     },
-    createUser(state, action: PayloadAction<{username:string, sub:string}>){
+    createUser(state, action: PayloadAction<{ username: string; sub: string; email: string }>) {
       state.newUserRQInfo = action.payload;
       state.loading = true;
       state.error = null;
     },
-    updateUser(state, action: PayloadAction<{id:string, newItem:Partial<AppUserModel>}>){
+    updateUser(state, action: PayloadAction<{ id: string; newItem: Partial<AppUserModel> }>) {
       state.loading = true;
     },
     switchProfile(state, action: PayloadAction<{ id: string }>) {

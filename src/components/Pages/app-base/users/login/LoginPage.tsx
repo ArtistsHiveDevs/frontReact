@@ -1,6 +1,6 @@
 import { useAuthenticator } from '@aws-amplify/ui-react';
-import { getCurrentUser } from 'aws-amplify/auth';
-import { Grid, Paper, Typography } from '@mui/material';
+import { Grid, Paper } from '@mui/material';
+import { fetchUserAttributes, FetchUserAttributesOutput } from 'aws-amplify/auth';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useApiKeySlice } from '~/common/slices/app-base/APIKey';
@@ -10,15 +10,16 @@ import { selectUsernameValidation, selectUsers } from '~/common/slices/users/sel
 import { I18nPaths, useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
-import { DynamicFieldData, DynamicForm } from '~/components/shared/organisms/gui/dynamicForms';
+import { DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
 import { PATHS } from '~/constants';
-import { SocialNetworkTemplate, SocialNetworks } from '~/constants/social-networks.const';
+import { SocialNetworks, SocialNetworkTemplate } from '~/constants/social-networks.const';
 import { AppUserModel } from '~/models/app/user/user.model';
 import './LoginPage.scss';
 
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { AuthUser } from 'aws-amplify/auth';
+import LoaderIcon from '~/components/shared/atoms/app/loader/loader-icon';
 import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 
 const TRANSLATION_BASE_LOGIN_PAGE = 'app.pages.app_base.LoginPage';
@@ -111,29 +112,39 @@ export const LoginPage = () => {
   // }, [user]);
 
   const [user, setUser] = useState<AuthUser>();
+  const [userAttributes, setUserAttributes] = useState<FetchUserAttributesOutput>();
 
   useEffect(() => {
     if (user) {
       // Aquí puedes ejecutar cualquier lógica una vez que el usuario esté cargado
-      console.log('Usuario cargado:', user);
-      dispatch(usersActions.checkUsernameAvailability( user.username));
+      loadAWSInfo();
+
       // navigateToInnerPath({ path: PATHS.HOME });
     }
   }, [user]);
-  
-  
-  useEffect(()=>{
-    console.log('AWS USer ', user, ' validation', usernameValidationResult)
-    if(user && usernameValidationResult){
-      if(usernameValidationResult === UsernameAvailabilityStatus.AVAILABLE){
-        dispatch(usersActions.createUser({username: user.username, sub:user.userId}));
+
+  const loadAWSInfo = async () => {
+    try {
+      const info = await fetchUserAttributes();
+      setUserAttributes(info);
+      if (user) {
+        dispatch(usersActions.checkUsernameAvailability(user.username));
       }
-      else{
+    } catch (error) {
+      console.error('Error fetching user attributes:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (user && usernameValidationResult) {
+      if (usernameValidationResult === UsernameAvailabilityStatus.AVAILABLE) {
+        dispatch(usersActions.createUser({ username: user.username, sub: user.userId, email: userAttributes.email }));
+      } else {
         console.log('Ya existía el usuario ', user.username);
-        dispatch(apiKeyActions.loadApiKey({username: user.username, sub:user.userId}));
+        dispatch(apiKeyActions.loadApiKey({ username: user.username, sub: user.userId }));
       }
     }
-  }, [usernameValidationResult, user])
+  }, [usernameValidationResult, user]);
   return (
     <>
       {/* <h1>Artist Hive</h1> */}
@@ -240,7 +251,7 @@ export const LoginPage = () => {
                       <>
                         {/* Re-use default `Authenticator.SignUp.FormFields` */}
                         <Authenticator.SignUp.FormFields />
-                        {/* 
+                        {/*
                 {/* Append & require Terms and Conditions field to sign up  *}
                 <CheckboxField
                   errorMessage={validationErrors.acknowledgement as string}
@@ -257,15 +268,7 @@ export const LoginPage = () => {
             >
               {({ signOut, user }) => {
                 setUser(user);
-
-                console.log('usuario logggeado aws  ', user);
-                return (
-                  // <main>
-                  //   <h1>Hello {user?.username}</h1>
-                  //   <button onClick={signOut}>Sign out</button>
-                  // </main>
-                  <></>
-                );
+                return <LoaderIcon />;
               }}
             </Authenticator>
             {/* <Button onClick={() => crearAlgo()}> POR FIN </Button> */}

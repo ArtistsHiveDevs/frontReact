@@ -180,7 +180,7 @@ export const SocialNetworks: {
     icon: 'TbWorld',
     emptyTitle: true,
     title: 'Web',
-    usernamePattern: /^((https?:\/\/)?(www\.)?|[a-zA-Z0-9\-\.]+)\.[a-zA-Z]{2,}(:[0-9]{1,5})?(\/\S*)?$/,
+    // usernamePattern: /^((https?:\/\/)?(www\.)?|[a-zA-Z0-9\-\.]+)\.[a-zA-Z]{2,}(:[0-9]{1,5})?(\/\S*)?$/,
   },
   whatsapp: {
     url: 'https://wa.me',

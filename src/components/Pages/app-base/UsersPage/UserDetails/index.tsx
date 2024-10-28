@@ -6,6 +6,7 @@ import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/P
 import { USER_DETAIL_SUB_PAGE_CONFIG } from './config-user-detail';
 
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { IndustrySignUpBanner } from '~/components/shared/atoms/IndustrySignUpBanner/IndustrySignUpBanner';
 import { SUB_PATHS } from '~/constants';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { EventModel } from '~/models/domain/event/event.model';
@@ -80,6 +81,7 @@ const UserDetailPage = () => {
           handlers={handlers}
         />
       )}
+      <IndustrySignUpBanner />
     </>
   );
 };

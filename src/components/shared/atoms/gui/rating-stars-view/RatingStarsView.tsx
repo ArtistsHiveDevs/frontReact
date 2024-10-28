@@ -4,7 +4,7 @@ export const RatingStarsView = (props: { rating: number }) => {
   const { rating } = props;
   const roundedRating = Math.round(rating * 10) / 10;
   const roundedRatingNear0_5 = Math.round(rating * 2) / 2;
-  const fullStars = Math.trunc(roundedRatingNear0_5);
+  const fullStars = Math.trunc(roundedRatingNear0_5) || 0;
   const decimalPart = roundedRatingNear0_5 - fullStars;
   const halfStar = !!decimalPart ? 1 : 0;
   const emptyRate = 5 - fullStars - halfStar;

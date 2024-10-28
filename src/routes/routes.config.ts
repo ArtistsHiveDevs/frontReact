@@ -69,6 +69,13 @@ export const ROUTES_CONFIG: PathConfigMap = {
           path: `${PATHS.INDUSTRY_OFFER}/:${URL_PARAMETER_NAMES.ROLE}`,
         },
       },
+      Industry: {
+        createIndustryEntityPage: {
+          component: lazy(() => import('~/components/Pages/domain/IndustryPages/CreateIndustryEntityPage')),
+          path: PATHS.INDUSTRY,
+          redirectToIfNotLoggedUser: PATHS.LOGIN,
+        },
+      },
     },
     entities: {
       academy: {

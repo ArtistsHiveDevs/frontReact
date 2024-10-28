@@ -184,9 +184,9 @@ const CreateIndustryEntityPage = () => {
             place: { options: availablePlaces },
           }}
         /> */}
-        {roles.map((role) => {
+        {roles.map((role: string, index: number) => {
           return (
-            <div className="entity" onClick={() => clickOnEntityHandler(role)}>
+            <div key={`${role}_${index}`} className="entity" onClick={() => clickOnEntityHandler(role)}>
               {' '}
               <DynamicIcons iconName="FaPlusCircle" color={'white'} />
               {translateGlobalDict(`entities.${role}.plural`)}

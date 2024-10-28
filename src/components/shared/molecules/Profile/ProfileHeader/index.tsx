@@ -30,7 +30,7 @@ interface FieldInfo {
   renderField?: string;
 }
 export const ProfileHeader = (props: any) => {
-  const { element, formMethods, handlers: parentHandlers, customFields } = props;
+  const { element, formMethods, handlers: parentHandlers, customHeaderConfig } = props;
 
   const isEditable = !!formMethods;
   const { register, formState } = formMethods || {};
@@ -38,20 +38,22 @@ export const ProfileHeader = (props: any) => {
 
   const avatarSize = 120;
 
-  const [fields, setFieldData] = useState<FieldInfo[]>(customFields ||[
-    {
-      name: 'name',
-      label: 'Nombre',
-      config: { required: true, minLength: 3 },
-      renderField: 'nameKnownAs',
-    },
-    { name: 'subtitle', label: 'Subtitle' },
-    {
-      name: 'username',
-      label: 'username',
-      config: { required: true, minLength: 3 },
-    },
-  ]);
+  const [fields, setFieldData] = useState<FieldInfo[]>(
+    customHeaderConfig || [
+      {
+        name: 'name',
+        label: 'Nombre',
+        config: { required: true, minLength: 3 },
+        renderField: 'nameKnownAs',
+      },
+      { name: 'subtitle', label: 'Subtitle' },
+      {
+        name: 'username',
+        label: 'username',
+        config: { required: true, minLength: 3 },
+      },
+    ]
+  );
 
   const [zoomProfilePic, setZoomProfilePic] = useState(false);
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
@@ -160,7 +162,7 @@ export const ProfileHeader = (props: any) => {
             onClick={() => clickOnField(fieldName)}
             className={`${errors && errors[fieldName] ? 'error-field' : ''}`}
           >
-            {prefix} {value || placeholder}
+            {prefix} {!!element && (value || placeholder)}
             {!element && (
               <>
                 {newField?.config?.value || placeholder}
@@ -269,17 +271,19 @@ export const ProfileHeader = (props: any) => {
               <VerifiedArtist verifiedStatus={element?.verified_status} />
             </span>
           </div>
-          <div className="profile-name">
-            <h2>
-              {generateEditableField('name', element, isEditable)}
+          {!!fields.find((field) => field.name === 'name') && (
+            <div className="profile-name">
+              <h2>
+                {generateEditableField('name', element, isEditable)}
 
-              {element && (
-                <>
-                  <FavoriteSubscription size={24} iconType={FavoriteSubscritionIconDefaultTypes.HEART} />
-                </>
-              )}
-            </h2>
-          </div>
+                {element && !currentUserIsInProfile && (
+                  <>
+                    <FavoriteSubscription size={24} iconType={FavoriteSubscritionIconDefaultTypes.HEART} />
+                  </>
+                )}
+              </h2>
+            </div>
+          )}
 
           <div className="profile-name">{generateEditableField('subtitle', element, isEditable)}</div>
         </div>

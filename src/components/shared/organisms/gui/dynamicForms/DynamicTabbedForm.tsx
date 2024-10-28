@@ -6,6 +6,7 @@ import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
 import { SocialNetworks } from '~/constants/social-networks.const';
+import { AppUserModel } from '~/models/app/user/user.model';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import {
   ProfileComponentDescriptor,
@@ -16,7 +17,6 @@ import {
 } from '../../ProfileTabsPage/profile-details.def';
 import { DynamicControl } from './DynamicControl';
 import { ControlType, DynamicFieldData, SelectOption } from './dynamic-control-types';
-import { AppUserModel } from '~/models/app/user/user.model';
 
 export interface DynamicTabbedFormParams {
   tabsInfo: ProfileDetailsSubpage[];
@@ -201,9 +201,9 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       .filter((subpageConfig) => subpageConfig.formMetaData?.hidden !== true)
       .map((subpage, subPageIndex) => {
         return {
-          name: translateSubpage(subpage.name),
-          // allowedRoles: subpage.allowedRoles,
-          // requireSession: subpage.requireSession,
+          name: subpage.title || translateSubpage(subpage.name),
+          allowedRoles: subpage.allowedRoles,
+          requireSession: subpage.requireSession,
           tabContent: () => {
             //   return <h1>asdasd {subPageIndex}</h1>;
 
@@ -256,22 +256,22 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
 
   let customHeaderConfig = undefined;
 
-  if(entityType === AppUserModel.name){
+  if (entityType === AppUserModel.name) {
     customHeaderConfig = [
-      {
-        name: 'name',
-        label: 'Nombre',
-        config: { required: false, minLength: 3 },
-        showEditableField: false,
-        renderField: 'nameKnownAs',
-      },
+      // {
+      //   name: 'name',
+      //   label: 'Nombre',
+      //   config: { required: false, minLength: 3 },
+      //   showEditableField: false,
+      //   renderField: 'nameKnownAs',
+      // },
       { name: 'subtitle', label: 'Subtitle' },
       {
         name: 'username',
         label: 'username',
         config: { required: true, minLength: 3 },
       },
-    ]
+    ];
   }
 
   return (
@@ -279,7 +279,9 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       <FormProvider {...formMethods}>
         <div className="place-container">
           {/* {profileHeaderComponent || <ProfileHeader element={entityData} />} */}
-          {entityType && <ProfileHeader element={elementData} formMethods={formMethods} customHeaderConfig={customHeaderConfig}/>}
+          {entityType && (
+            <ProfileHeader element={elementData} formMethods={formMethods} customHeaderConfig={customHeaderConfig} />
+          )}
           <TabbedPanel tabs={transformedConfig(tabsInfo, elementData)} />
         </div>
       </FormProvider>

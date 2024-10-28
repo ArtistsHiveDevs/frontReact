@@ -20,6 +20,32 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
               attributes: [
                 {
                   name: 'fullname',
+                  formMetaData: {
+                    hidden: true,
+                  },
+                },
+                {
+                  name: 'given_names',
+                  hidden: true,
+                  formMetaData: {
+                    hidden: false,
+                    config: { required: true },
+                  },
+                },
+                {
+                  name: 'surnames',
+                  hidden: true,
+                  formMetaData: {
+                    hidden: false,
+                    config: { required: true },
+                  },
+                },
+                {
+                  name: 'stage_name',
+                  hidden: true,
+                  formMetaData: {
+                    hidden: false,
+                  },
                 },
                 {
                   name: 'gender',
@@ -27,7 +53,9 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   emptyTitle: true,
                   value: (user: AppUserModel) => {
                     const { translateText } = useI18n();
-                    let content = user?.genderEnum?.value ? translateText(`app.global_dictionary.genders.${user?.genderEnum?.value}`): undefined;
+                    let content = user?.genderEnum?.value
+                      ? translateText(`app.global_dictionary.genders.${user?.genderEnum?.value}`)
+                      : undefined;
                     return <>{content}</>;
                   },
                   formMetaData: {
@@ -68,6 +96,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       },
       {
         name: 'contact',
+        allowedRoles: [{ entityName: 'Artist' }],
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
@@ -283,93 +312,93 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       },
     ],
   },
-  {
-    name: 'my_shows',
-    allowedRoles: [{ entityName: 'Artist' }],
-    sections: [
-      {
-        name: 'next_shows',
-        components: [
-          {
-            componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
-            data: {
-              data_source: 'events_as_artist.next_events',
-              fields: {
-                date: 'timetable__initial_date',
-                time: 'timetable__main_user_time',
-                title: 'name',
-                subtitle: 'subtitle',
-                place: 'place',
-              },
-            },
-            clickHandlerName: 'onClickEvent',
-          },
-        ],
-      },
-      {
-        name: 'past_shows',
-        components: [
-          {
-            componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
-            data: {
-              data_source: 'events_as_artist.past_events',
-              fields: {
-                date: 'timetable__initial_date',
-                time: 'timetable__main_user_time',
-                title: 'name',
-                subtitle: 'subtitle',
-                place: 'place',
-              },
-            },
-            clickHandlerName: 'onClickEvent',
-          },
-        ],
-      },
-    ],
-    formMetaData: { hidden: true },
-  },
-  {
-    name: 'my_liked_shows',
-    sections: [
-      {
-        name: 'next_shows',
-        components: [
-          {
-            componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
-            data: {
-              data_source: 'subscribed_events.next_events',
-              fields: {
-                date: 'timetable__initial_date',
-                time: 'timetable__main_user_time',
-                title: 'name',
-                subtitle: 'subtitle',
-                place: 'place',
-              },
-            },
-            clickHandlerName: 'onClickEvent',
-          },
-        ],
-      },
-      {
-        name: 'past_shows',
-        components: [
-          {
-            componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
-            data: {
-              data_source: 'subscribed_events.past_events',
-              fields: {
-                date: 'timetable__initial_date',
-                time: 'timetable__main_user_time',
-                title: 'name',
-                subtitle: 'subtitle',
-                place: 'place',
-              },
-            },
-            clickHandlerName: 'onClickEvent',
-          },
-        ],
-      },
-    ],
-    formMetaData: { hidden: true },
-  },
+  // {
+  //   name: 'my_shows',
+  //   allowedRoles: [{ entityName: 'Artist' }],
+  //   sections: [
+  //     {
+  //       name: 'next_shows',
+  //       components: [
+  //         {
+  //           componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
+  //           data: {
+  //             data_source: 'events_as_artist.next_events',
+  //             fields: {
+  //               date: 'timetable__initial_date',
+  //               time: 'timetable__main_user_time',
+  //               title: 'name',
+  //               subtitle: 'subtitle',
+  //               place: 'place',
+  //             },
+  //           },
+  //           clickHandlerName: 'onClickEvent',
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       name: 'past_shows',
+  //       components: [
+  //         {
+  //           componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
+  //           data: {
+  //             data_source: 'events_as_artist.past_events',
+  //             fields: {
+  //               date: 'timetable__initial_date',
+  //               time: 'timetable__main_user_time',
+  //               title: 'name',
+  //               subtitle: 'subtitle',
+  //               place: 'place',
+  //             },
+  //           },
+  //           clickHandlerName: 'onClickEvent',
+  //         },
+  //       ],
+  //     },
+  //   ],
+  //   formMetaData: { hidden: true },
+  // },
+  // {
+  //   name: 'my_liked_shows',
+  //   sections: [
+  //     {
+  //       name: 'next_shows',
+  //       components: [
+  //         {
+  //           componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
+  //           data: {
+  //             data_source: 'subscribed_events.next_events',
+  //             fields: {
+  //               date: 'timetable__initial_date',
+  //               time: 'timetable__main_user_time',
+  //               title: 'name',
+  //               subtitle: 'subtitle',
+  //               place: 'place',
+  //             },
+  //           },
+  //           clickHandlerName: 'onClickEvent',
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       name: 'past_shows',
+  //       components: [
+  //         {
+  //           componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
+  //           data: {
+  //             data_source: 'subscribed_events.past_events',
+  //             fields: {
+  //               date: 'timetable__initial_date',
+  //               time: 'timetable__main_user_time',
+  //               title: 'name',
+  //               subtitle: 'subtitle',
+  //               place: 'place',
+  //             },
+  //           },
+  //           clickHandlerName: 'onClickEvent',
+  //         },
+  //       ],
+  //     },
+  //   ],
+  //   formMetaData: { hidden: true },
+  // },
 ];

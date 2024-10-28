@@ -22,6 +22,7 @@ export enum ProfileComponentTypes {
 }
 export interface ProfileDetailsSubpage {
   name: string;
+  title?: string;
   sections?: ProfileDetailsSubpageSection[];
   allowedRoles?: AllowedEntityRole[];
   requireSession?: boolean;
@@ -35,6 +36,7 @@ export interface ProfileDetailsSubpageSection {
   components?: ProfileComponentDescriptor[];
   hidden?: boolean | Function;
   requireSession?: boolean;
+  allowedRoles?: AllowedEntityRole[];
   clickHandlerName?: string;
   formMetaData?: FormMetadata;
 }

@@ -6,14 +6,19 @@ import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
+import { resolveNavigateToEntityPath } from '~/common/utils/hooks/navigation/navigateToEntityResolver';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import { SearchComponent } from '~/components/shared/search';
-import { PATHS } from '~/constants';
+import { PATHS, SUB_PATHS } from '~/constants';
+import { AVAILABLE_ENTITY_MEMBERSHIPS } from '~/constants/app.constants';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { SearchableTemplate } from '~/models/base';
+import { ArtistModel } from '~/models/domain/artist/artist.model';
+import { EventModel } from '~/models/domain/event/event.model';
+import { PlaceModel } from '~/models/domain/place/place.model';
 import { ProfilePicture } from '../atoms/gui/ProfilePicture/ProfilePicture';
 import './index.scss';
 import { SIDENAV_MENU_CONFIG, SideMenuItem } from './sidenav.config';
@@ -134,6 +139,29 @@ const SideNav = () => {
     }
   }, [loggedUser]);
 
+  const createNewEntityInstance = (entityType: string) => {
+    if (!!loggedUser) {
+      let entityName = undefined;
+      let path = undefined;
+      if (entityType === 'artists') {
+        entityName = 'Artist';
+        path = ArtistModel.name;
+      } else if (entityType === 'places') {
+        entityName = 'Place';
+        path = PlaceModel.name;
+      } else if (entityType === 'events') {
+        entityName = 'Event';
+        path = EventModel.name;
+      }
+
+      navigateToInnerPath({
+        path: `${resolveNavigateToEntityPath(path)}/${SUB_PATHS.CREATE}`,
+        options: { replace: true },
+      });
+      setShowRight(false);
+    }
+  };
+
   return (
     <>
       <Navbar className="toolbar-header mb-3" expand="true">
@@ -213,7 +241,12 @@ const SideNav = () => {
           )}
           {!!showRight && (
             <Navbar.Offcanvas placement="end" show={showRight} onHide={handleClose} className={'w-75 mb-5'}>
-              <Offcanvas.Header closeButton className="sidebar-header" closeVariant="white">
+              <Offcanvas.Header
+                closeButton
+                className="sidebar-header"
+                closeVariant="white"
+                onClick={() => handleResultOnClick(loggedUser)}
+              >
                 <div
                   className={[
                     'profile-header',
@@ -277,101 +310,64 @@ const SideNav = () => {
                     <hr />
                   </div>
                 )}
-                <div>
-                  <section className="general-sec">
-                    <h5 className="sec-general-label">{translateGlobalDict('entities.artists.plural')}</h5>
-                    <div className="option-menu-list">
-                      {loggedUser?.artistMemberships
-                        .filter(
-                          (profileInfo: CurrentProfileInfoModel) =>
-                            profileInfo.identifier !== loggedUser.currentProfileInfo.identifier
-                        )
-                        .map((profileInfo: CurrentProfileInfoModel, index: number) => {
-                          return (
-                            <div
-                              className={[
-                                'menu-option',
-                                'menu-option-membership',
-                                loggedUser?.checkPermissions(profileInfo.identifier).isInProfile
-                                  ? 'current-profile'
-                                  : '',
-                              ].join(' ')}
-                              key={`artist-${index}`}
-                            >
-                              <AvatarWithIcon
-                                name=""
-                                image={profilePicturesURLs[profileInfo.identifier]}
-                                avatarSize={'3rem'}
-                                buttonIcon={
-                                  !loggedUser?.checkPermissions(profileInfo.identifier).isInProfile && 'PiUserSwitch'
-                                }
-                                onClick={() => handleResultOnClick(profileInfo)}
-                                onBadgeClick={() => switchProfile(profileInfo)}
-                              />
-                              <div onClick={() => handleResultOnClick(profileInfo)}>
-                                <p className="menu-option-label">{profileInfo.name}</p>
-                                {profileInfo.username && (
-                                  <p className="menu-option-membership-label ">@{profileInfo.username}</p>
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })}
-                    </div>
-                  </section>
-                  <hr />
-                </div>
-                <div>
-                  <section className="general-sec">
-                    <h5 className="sec-general-label">{translateGlobalDict('entities.places.plural')}</h5>
-                    <div className="option-menu-list">
-                      {loggedUser?.placeMemberships
-                        .filter(
-                          (profileInfo: CurrentProfileInfoModel) =>
-                            profileInfo.identifier !== loggedUser.currentProfileInfo.identifier
-                        )
-                        .map((profileInfo: CurrentProfileInfoModel, index: number) => {
-                          return (
-                            <div
-                              className={[
-                                'menu-option',
-                                'menu-option-membership',
-                                loggedUser?.checkPermissions(profileInfo.identifier).isInProfile
-                                  ? 'current-profile'
-                                  : '',
-                              ].join(' ')}
-                              key={`artist-${index}`}
-                            >
-                              <AvatarWithIcon
-                                name=""
-                                image={profilePicturesURLs[profileInfo?.identifier]}
-                                avatarSize={'3rem'}
-                                buttonIcon={
-                                  !loggedUser?.checkPermissions(profileInfo.identifier).isInProfile && 'PiUserSwitch'
-                                }
-                                onClick={() => handleResultOnClick(profileInfo)}
-                                onBadgeClick={() => switchProfile(profileInfo)}
-                              />
-                              <div onClick={() => handleResultOnClick(profileInfo)}>
-                                <p className="menu-option-label" onClick={() => handleResultOnClick(profileInfo)}>
-                                  {profileInfo.name}
-                                </p>
-                                {profileInfo.username && (
-                                  <p
-                                    className="menu-option-membership-label "
+                {AVAILABLE_ENTITY_MEMBERSHIPS.map((entityMembershipName: string, index: number) => {
+                  return (
+                    <div key={`${entityMembershipName}_${index}`}>
+                      <section className="general-sec">
+                        {/* ----------  Row header  ------------ */}
+                        <div className="entity-row-container">
+                          <h5 className="label">{translateGlobalDict(`entities.${entityMembershipName}.plural`)}</h5>
+                          <div className="icon" onClick={() => createNewEntityInstance(entityMembershipName)}>
+                            <DynamicIcons iconName="FaPlus" size={17} color="white" />
+                          </div>
+                        </div>
+
+                        {/* ----------  Entity Instances List  ------------ */}
+                        <div className="option-menu-list">
+                          {loggedUser
+                            ?.getMembershipsByEntity(entityMembershipName)
+                            .filter(
+                              (profileInfo: CurrentProfileInfoModel) =>
+                                profileInfo.identifier !== loggedUser.currentProfileInfo.identifier
+                            )
+                            .map((profileInfo: CurrentProfileInfoModel, index: number) => {
+                              return (
+                                <div
+                                  className={[
+                                    'menu-option',
+                                    'menu-option-membership',
+                                    loggedUser?.checkPermissions(profileInfo.identifier).isInProfile
+                                      ? 'current-profile'
+                                      : '',
+                                  ].join(' ')}
+                                  key={`artist-${index}`}
+                                >
+                                  <AvatarWithIcon
+                                    name=""
+                                    image={profilePicturesURLs[profileInfo.identifier]}
+                                    avatarSize={'3rem'}
+                                    buttonIcon={
+                                      !loggedUser?.checkPermissions(profileInfo.identifier).isInProfile &&
+                                      'PiUserSwitch'
+                                    }
                                     onClick={() => handleResultOnClick(profileInfo)}
-                                  >
-                                    @{profileInfo.username}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })}
+                                    onBadgeClick={() => switchProfile(profileInfo)}
+                                  />
+                                  <div onClick={() => handleResultOnClick(profileInfo)}>
+                                    <p className="menu-option-label">{profileInfo.name}</p>
+                                    {profileInfo.username && (
+                                      <p className="menu-option-membership-label ">@{profileInfo.username}</p>
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                        </div>
+                      </section>
+                      <hr />
                     </div>
-                  </section>
-                  <hr />
-                </div>
+                  );
+                })}
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           )}

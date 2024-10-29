@@ -6,6 +6,7 @@ import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametric
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
+import { uploadImage } from '~/common/utils/amplify/storage/storage.helpers';
 import { IndustrySignUpBanner } from '~/components/shared/atoms/IndustrySignUpBanner/IndustrySignUpBanner';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
@@ -118,16 +119,25 @@ const UserCreatePage = () => {
   };
 
   const handlers = {
-    onSubmit: (data: any, error?: any) => {
+    onSubmit: async (data: any, error?: any) => {
       console.log('#####----------->>>>  !!! ', data);
-      dispatch(
-        userActions.updateUser({
-          id: loggedUser.identifier,
-          newItem: {
-            ...data,
-          },
-        })
-      );
+      if (!!data.profile_pic) {
+        const prefferedFilename = `${loggedUser.sub}.${data.profile_pic.name.split('.').pop()}`;
+        const response = await uploadImage({
+          file: data.profile_pic,
+          prefferedFilename,
+        });
+        console.log('DESPUÉS de SUBIR FOTO, ', response);
+        dispatch(
+          userActions.updateUser({
+            id: loggedUser.identifier,
+            newItem: {
+              ...data,
+              profile_pic: `s3://public/${prefferedFilename}`,
+            },
+          })
+        );
+      }
     },
     onChangecountry: (data: any) => {
       console.log('#####----------->>>>  !!! ', data);

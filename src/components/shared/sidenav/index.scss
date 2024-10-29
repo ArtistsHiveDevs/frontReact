@@ -145,6 +145,22 @@
   background-color: $app-background-50;
 }
 
+.entity-row-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+
+  .label {
+    flex: 3; // Aproximadamente 75%
+    font-size: 1.1rem; // Ajusta según necesites
+  }
+
+  .icon {
+    flex: 1; // Aproximadamente 25%
+    text-align: right;
+  }
+}
+
 // Media queries zone
 
 @include media-breakpoint-down(sm) {

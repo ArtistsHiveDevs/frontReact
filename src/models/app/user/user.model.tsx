@@ -307,6 +307,24 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
 
     return { canEdit: ids.includes(idResource), isInProfile: idResource === this.currentProfileIdentifier };
   }
+
+  getMembershipsByEntity(entityType: string): CurrentProfileInfoModel[] {
+    let entityName = undefined;
+    let path = undefined;
+    if (entityType === 'artists') {
+      entityName = 'Artist';
+      path = ArtistModel.name;
+    } else if (entityType === 'places') {
+      entityName = 'Place';
+      path = PlaceModel.name;
+    } else if (entityType === 'events') {
+      entityName = 'Event';
+      path = EventModel.name;
+    }
+    return (this.roles.find((role) => role.entityName === entityName)?.entityRoleMap || []).map(
+      (roleMapInstance) => new CurrentProfileInfoModel({ ...roleMapInstance, entity: entityName })
+    );
+  }
 }
 
 export class CurrentProfileInfoModel implements EntityInstanceRoleMapTemplate, SearchableTemplate {

@@ -260,7 +260,7 @@ export const ProfileHeader = (props: any) => {
             avatarSize={avatarSize}
             bottomBadgeSize={avatarSize / 3}
             buttonIcon={currentUserCanEdit && !currentUserIsInProfile && 'PiUserSwitch'}
-            onClick={() => setZoomProfilePic(true)}
+            onClick={() => !!image && setZoomProfilePic(true)}
             onBadgeClick={() => switchProfile()}
           ></AvatarWithIcon>
         )}

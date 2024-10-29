@@ -1,4 +1,4 @@
-export enum UsernameAvailabilityStatus{
+export enum UsernameAvailabilityStatus {
   AVAILABLE = 'AVAILABLE',
   IDENTIFIED = 'IDENTIFIED',
   TAKEN = 'TAKEN',
@@ -67,3 +67,11 @@ export enum AppErrorCodes {
   // Errores Desconocidos
   UNKNOWN_ERROR = 'UNKNOWN_ERROR',
 }
+
+export const AVAILABLE_ENTITY_MEMBERSHIPS = [
+  // 'academies',
+  'artists',
+  // 'events',
+  'places',
+  // 'promoters'
+];

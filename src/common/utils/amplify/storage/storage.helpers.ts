@@ -5,11 +5,12 @@ export const uploadImage = async (params: {
   file: File;
   access_level?: 'public' | 'protected' | 'private';
   path?: string;
+  prefferedFilename?: string;
 }) => {
   try {
-    let { file, access_level, path } = params || {};
+    let { file, access_level, path, prefferedFilename } = params || {};
 
-    const fileName = `${Date.now()}-${file.name.replace('-min.', '')}`; // Crea un nombre único para el archivo
+    const fileName = prefferedFilename || `${Date.now()}-${file.name.replace('-min.', '')}`; // Crea un nombre único para el archivo
 
     console.log(path, `${path ? path + '/' : 'public'}/${fileName}`);
     const result = await uploadData({

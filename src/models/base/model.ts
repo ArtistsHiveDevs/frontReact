@@ -173,7 +173,7 @@ export abstract class ProfileModel<T extends ProfileTemplate>
   }
 
   get identifier(): string {
-    return this.username || this.identifier;
+    return this.username || this.id;
   }
 
   get fullUserName() {

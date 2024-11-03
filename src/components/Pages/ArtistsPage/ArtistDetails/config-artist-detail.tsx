@@ -1,3 +1,4 @@
+import Flag from 'react-world-flags';
 import { RatingStarsView } from '~/components/shared/atoms/gui/rating-stars-view/RatingStarsView';
 import { SocialNetworkStats } from '~/components/shared/domain/atoms/gui/social-network-stats/SocialNetworkStats';
 import {
@@ -45,6 +46,24 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   name: 'home_city',
                   icon: 'AiFillHome',
+                  value: (artist: ArtistModel) => {
+                    let text = 'No disponible';
+                    let flag = undefined;
+                    if (artist.country) {
+                      text = '';
+
+                      if (artist.city) {
+                        text = `${artist.city}, `;
+                      }
+                      text += `${artist.country.name}`;
+                      flag = <Flag code={artist.country.alpha2} height="20" style={{ border: '1px solid #999' }} />;
+                    }
+                    return (
+                      <>
+                        <span>{text}</span> {flag}
+                      </>
+                    );
+                  },
                   formMetaData: {
                     inputType: 'citySelector',
                   },

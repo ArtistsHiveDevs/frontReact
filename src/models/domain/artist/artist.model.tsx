@@ -95,6 +95,8 @@ export interface ArtistTemplate extends ProfileTemplate {
 
   since: number;
   home_city: string;
+  country: any;
+  city: any;
   spoken_languages: string[];
   stage_languages: string[];
   arts_languages: string[];
@@ -146,6 +148,8 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
   declare youtube_widget_id: string;
 
   declare arts?: { music: { albums: AlbumModel[] } };
+  declare country: any;
+  declare city: any;
 
   constructor(template: ArtistTemplate) {
     super(template);

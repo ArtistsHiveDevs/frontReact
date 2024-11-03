@@ -26,6 +26,7 @@ interface FieldInfo {
   name: string;
   label?: string;
   showEditableField?: boolean;
+  showPlaceHolderWhenEmpty?: boolean;
   config?: RegisterOptions;
   renderField?: string;
 }
@@ -46,7 +47,7 @@ export const ProfileHeader = (props: any) => {
         config: { required: true, minLength: 3 },
         renderField: 'nameKnownAs',
       },
-      { name: 'subtitle', label: 'Subtitle' },
+      { name: 'subtitle', label: 'Subtitle', showPlaceHolderWhenEmpty: false },
       {
         name: 'username',
         label: 'username',
@@ -162,7 +163,11 @@ export const ProfileHeader = (props: any) => {
             onClick={() => clickOnField(fieldName)}
             className={`${errors && errors[fieldName] ? 'error-field' : ''}`}
           >
-            {prefix} {!!element && (value || placeholder)}
+            {prefix}{' '}
+            {!!element &&
+              (value ||
+                ((newField?.showPlaceHolderWhenEmpty === undefined || newField?.showPlaceHolderWhenEmpty) &&
+                  placeholder))}
             {!element && (
               <>
                 {newField?.config?.value || placeholder}

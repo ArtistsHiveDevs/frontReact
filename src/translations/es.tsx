@@ -618,6 +618,7 @@ export const EsMessages = {
                   name: 'Discografía',
                   attributes: {
                     albums: 'Álbums',
+                    top_tracks: 'Canciones más escuchadas',
                     dvd_video: 'DVD / Video',
                   },
                 },

@@ -625,6 +625,7 @@ export const DeMessages = {
                   name: 'Diskographie',
                   attributes: {
                     albums: 'Alben',
+                    top_tracks: 'Beliebte Titel',
                     dvd_video: 'DVD / Video',
                   },
                 },

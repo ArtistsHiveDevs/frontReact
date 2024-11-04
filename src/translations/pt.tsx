@@ -623,6 +623,7 @@ export const PtMessages = {
                   name: 'Discografia',
                   attributes: {
                     albums: 'Álbuns',
+                    top_tracks: 'Melhores músicas',
                     dvd_video: 'DVD / Vídeo',
                   },
                 },

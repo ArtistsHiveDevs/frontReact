@@ -627,6 +627,7 @@ export const FrMessages = {
                   name: 'Discographie',
                   attributes: {
                     albums: 'Albums',
+                    top_tracks: 'Meilleures chansons',
                     dvd_video: 'DVD / Vidéo',
                   },
                 },

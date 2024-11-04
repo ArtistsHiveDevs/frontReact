@@ -611,6 +611,7 @@ export const EnMessages = {
                   name: 'Discography',
                   attributes: {
                     albums: 'Albums',
+                    top_tracks: 'Top tracks',
                     dvd_video: 'DVD / Video',
                   },
                 },

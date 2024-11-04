@@ -626,6 +626,7 @@ export const ItMessages = {
                   name: 'Discografia',
                   attributes: {
                     albums: 'Albums',
+                    top_tracks: 'Migliori canzoni',
                     dvd_video: 'DVD / Video',
                   },
                 },

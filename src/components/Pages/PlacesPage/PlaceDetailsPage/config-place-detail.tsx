@@ -58,12 +58,13 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                     return (
                       <>
                         <span>{place?.cityWithCountry}</span>
-                        {'   '}
-                        <Flag
-                          code={flags[flag as keyof typeof flags]}
-                          height="15"
-                          style={{ border: '1px solid #999' }}
-                        />
+                        {place?.country && (
+                          <Flag
+                            code={place?.country.alpha2}
+                            height="15"
+                            style={{ border: '1px solid #999', marginLeft: '0.6rem' }}
+                          />
+                        )}
                       </>
                     );
                   },

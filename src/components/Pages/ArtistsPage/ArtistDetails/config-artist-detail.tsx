@@ -214,6 +214,17 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   ],
                 },
                 {
+                  name: 'top_tracks',
+                  icon: 'FaHeadphones',
+                  components: [
+                    {
+                      componentName: ProfileComponentTypes.DISCOGRAPHY_LIST_VIEW,
+                      data_source: 'arts.music.albums',
+                      data: {},
+                    },
+                  ],
+                },
+                {
                   name: 'dvd_video',
                   icon: 'ImVideoCamera',
                 },
@@ -223,6 +234,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           },
         ],
       },
+
       {
         name: 'media_channels',
         components: [
@@ -272,6 +284,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       },
       {
         name: 'gallery',
+        hidden: true,
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,

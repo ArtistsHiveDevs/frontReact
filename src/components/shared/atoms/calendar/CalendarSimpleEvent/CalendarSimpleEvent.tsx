@@ -40,7 +40,7 @@ export const CalendarSimpleEvent = (props: {
             <p className="calendar-event-place">
               {eventInfo.place.address}
               <br />
-              {eventInfo.place.city}, {eventInfo.place.country}
+              {eventInfo.place.cityWithCountry}
             </p>
           )}
         </div>

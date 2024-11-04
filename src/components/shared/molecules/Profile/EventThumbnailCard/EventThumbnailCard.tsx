@@ -85,12 +85,8 @@ export const EventThumbnailCard = (props: any) => {
                 {event.place.name} <br />
                 {event.place.address} <br />
                 {event.place.city} <br />
-                {event.place.country}{' '}
-                <Flag
-                  code={flags[event.place.country as keyof typeof flags]}
-                  height="15"
-                  style={{ border: '1px solid #999' }}
-                />
+                {event.place.country.name}{' '}
+                <Flag code={event.place.country.alpha2} height="15" style={{ border: '1px solid #999' }} />
               </p>
             )}
           </div>

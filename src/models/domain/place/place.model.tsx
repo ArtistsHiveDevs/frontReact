@@ -2,6 +2,7 @@ import moment from 'moment';
 import { VerificationStatus } from '~/constants';
 import { SocialNetworkStatsTemplate } from '~/constants/social-networks.const';
 import { LocatableTemplate, ProfileModel, ProfileTemplate } from '~/models/base';
+import { CountryModel, CountryTemplate } from '~/models/parametrics/geo/country.model';
 import { EventModel, EventTemplate } from '../event/event.model';
 
 export interface PlaceRatingTemplate {
@@ -25,7 +26,8 @@ export interface PlaceTemplate extends ProfileTemplate {
   name: string;
   place_type: string;
   music_genre: string;
-  country: string;
+  country: CountryTemplate;
+  country_alpha2: string;
   state: string;
   city: string;
   address: string;
@@ -57,7 +59,8 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
   declare name: string;
   declare place_type: string;
   declare music_genre: string;
-  declare country: string;
+  declare country: CountryModel;
+  declare country_alpha2: string;
   declare state: string;
   declare city: string;
   declare address: string;
@@ -85,6 +88,8 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
   constructor(template: PlaceTemplate) {
     super(template);
     this.events = template.events?.map((event) => new EventModel(event)) || [];
+
+    this.country = template.country ? new CountryModel(template.country) : undefined;
   }
 
   get hasFetchAllData(): boolean {
@@ -104,7 +109,7 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
   }
 
   get cityWithCountry() {
-    return `${this.city}, ${this.state}, ${this.country}`;
+    return this.country ? [this.city, this.state, this.country.name].filter(Boolean).join(', ') : null;
   }
 
   get latitude() {

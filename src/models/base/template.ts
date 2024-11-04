@@ -29,7 +29,7 @@ export interface SearchableTemplate extends EntityTemplate {
   subtitle?: string;
   description?: string;
   cityWithCountry?: string;
-  country?: string;
+  country?: string | { name: string; alpha2: string };
   place?: PlaceModel;
   verified_status?: VerificationStatus;
 }

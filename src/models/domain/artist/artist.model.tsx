@@ -2,6 +2,7 @@ import moment from 'moment';
 import { VerificationStatus } from '~/constants';
 import { SocialNetworkStatsTemplate } from '~/constants/social-networks.const';
 import { EntityModel, EntityTemplate, ProfileModel, ProfileTemplate } from '~/models/base';
+import { CountryModel, CountryTemplate } from '~/models/parametrics/geo/country.model';
 import { EventModel, EventTemplate } from '../event/event.model';
 
 export interface ArtistInTrack {
@@ -95,7 +96,7 @@ export interface ArtistTemplate extends ProfileTemplate {
 
   since: number;
   home_city: string;
-  country: any;
+  country: CountryTemplate;
   city: any;
   spoken_languages: string[];
   stage_languages: string[];
@@ -148,12 +149,18 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
   declare youtube_widget_id: string;
 
   declare arts?: { music: { albums: AlbumModel[] } };
-  declare country: any;
+  declare country: CountryModel;
   declare city: any;
 
   constructor(template: ArtistTemplate) {
     super(template);
     this.events = template?.events?.map((event) => new EventModel(event)) || [];
+
+    if (typeof template === 'object' && template !== null) {
+      if (typeof template.country !== 'string') {
+        this.country = template.country ? new CountryModel(template.country) : undefined;
+      }
+    }
 
     if (!!template.arts?.music?.albums?.length) {
       this.arts.music.albums = template?.arts?.music?.albums?.map((album) => new AlbumModel(album)) || [];

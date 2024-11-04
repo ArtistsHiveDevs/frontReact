@@ -38,6 +38,7 @@ import { HorizontalImageGallery } from '../../atoms/ImageGallery/HorizontalImage
 import { TableView } from '../../atoms/Table/TableView';
 import { EventParams } from '../../atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent';
 import { EventThumbnailCard } from '../../molecules/Profile/EventThumbnailCard/EventThumbnailCard';
+import SEO from '../app/seo/seo';
 
 export interface ProfilePageParams {
   entityName: string;
@@ -50,6 +51,15 @@ export interface ProfilePageParams {
 
 export const ProfileTabsPage = (props: ProfilePageParams) => {
   const { translation_base_path, entityData, handlers, subpagesConfig, profileHeaderComponent } = props;
+  const seoData = entityData
+    ? {
+        title: `${entityData.name}  ◃⬡▹  Artist Hive`,
+        description: `${entityData.description || entityData.name}`,
+        url: 'https://www.artist-hive.com/home',
+        image: `${entityData.profile_pic || 'https://npcarlos.co/artistsHive_mocks/logo.png'}`,
+        type: 'website',
+      }
+    : undefined;
 
   const { translateText } = useI18n();
 
@@ -610,6 +620,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     <>
       {!!entityData && (
         <div className="place-container">
+          {seoData && <SEO {...seoData} />}
           {profileHeaderComponent || <ProfileHeader element={entityData} handlers={handlers} />}
           <TabbedPanel tabs={transformedConfig()} />
         </div>

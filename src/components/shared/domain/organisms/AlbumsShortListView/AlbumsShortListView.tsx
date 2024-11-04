@@ -124,6 +124,8 @@ export const AlbumsShortListView = (props: any) => {
             <AlbumShortView
               key={`album-${index}`}
               album={album}
+              albumNumber={index}
+              totalAlbums={discography.length}
               onClick={(element: any) => {
                 setSelectedIndex(index);
                 setCurrentAlbum(discography[index]);

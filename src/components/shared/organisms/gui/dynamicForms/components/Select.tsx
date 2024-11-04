@@ -1,9 +1,14 @@
+import { FormLabel } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { useEffect } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
-
-import { FormLabel } from '@mui/material';
 import Select from 'react-select';
 import { ComponentGeneratorParams } from '../DynamicControl';
+
+interface OptionType {
+  value: string;
+  label: string;
+}
 
 export const createSelect = (params: ComponentGeneratorParams) => {
   const { register, formState } = useFormContext();
@@ -22,50 +27,62 @@ export const createSelect = (params: ComponentGeneratorParams) => {
 
   const { control, setValue } = useFormContext();
 
+  const darkTheme = useTheme();
+
+  const customStyles = {
+    control: (styles: any) => ({
+      ...styles,
+      backgroundColor: darkTheme.palette.background.paper,
+      borderColor: darkTheme.palette.divider,
+      color: darkTheme.palette.text.primary,
+    }),
+    menu: (styles: any) => ({
+      ...styles,
+      backgroundColor: darkTheme.palette.background.paper,
+    }),
+    singleValue: (styles: any) => ({
+      ...styles,
+      color: darkTheme.palette.text.primary,
+    }),
+    option: (styles: any, param: { isFocused: any; isSelected: any }) => ({
+      ...styles,
+      backgroundColor: param.isSelected
+        ? darkTheme.palette.primary.main
+        : param.isFocused
+        ? darkTheme.palette.action.hover
+        : darkTheme.palette.background.paper,
+      color: param.isSelected ? darkTheme.palette.primary.contrastText : darkTheme.palette.text.primary,
+    }),
+    placeholder: (styles: any) => ({
+      ...styles,
+      color: darkTheme.palette.text.secondary,
+    }),
+  };
+
   const dispatchHandler = (data: { value: string; label?: string }) => {
     if (data && Object.keys(handlers).indexOf(`onChange${fieldName}`) >= 0) {
       handlers[`onChange${fieldName}`](data);
     }
   };
 
-  const resetDefaultValue = (data?: { value: string; label?: string }) => {
-    const selectedValues = options.filter((option) => option.selected);
-    const bySelectedValue = selectedValues.length === 1 ? selectedValues[0] : undefined;
-
-    const newValue = data?.value || defaultValue || bySelectedValue || options[0]?.value || '';
-
-    setValue(fieldName, newValue);
-    langValue = newValue;
-  };
-
   const handleChange = (data: any) => {
-    resetDefaultValue(data);
+    setValue(fieldName, data?.value || '');
     dispatchHandler(data);
   };
 
   useEffect(() => {
-    const selectedValues = options.filter((option) => option.selected);
-    const bySelectedValue = selectedValues.length === 1 ? selectedValues[0].value : undefined;
-
-    const newValue = defaultValue || bySelectedValue || options[0]?.value || '';
-
-    handleChange({ value: newValue });
-  }, [options]);
-
-  useEffect(() => {
-    const selectedValues = options.filter((option) => option.selected);
-    const bySelectedValue = selectedValues.length === 1 ? selectedValues[0] : undefined;
-
-    const newValue = defaultValue || bySelectedValue || options[0]?.value || '';
-    handleChange({ value: newValue });
-  }, [defaultValue]);
+    if (defaultValue) {
+      handleChange({ value: defaultValue });
+    }
+  }, [defaultValue, options]);
 
   let {
     field: { value: langValue, onChange: langOnChange, ref, ...restSelectField },
   } = useController({ name: fieldName, control });
 
-  if (!langValue) {
-    langValue = defaultValue || options[0]?.value || '';
+  // Asegurar que el valor inicial sea `undefined` si no hay un valor predeterminado
+  if (!langValue && !defaultValue) {
+    langValue = undefined;
   }
 
   return (
@@ -82,16 +99,15 @@ export const createSelect = (params: ComponentGeneratorParams) => {
         name={fieldName}
         placeholder={placeholder}
         options={options}
-        value={langValue ? options.find((x) => x.value === langValue) : langValue}
+        value={langValue ? options.find((x) => x.value === langValue) : undefined}
         key={`select_${fieldName}`}
         onChange={(option) => {
-          langOnChange(option ? option.value : option);
-          langValue = option.value;
+          langOnChange(option ? option.value : '');
           handleChange(option);
         }}
         {...restSelectField}
         menuPortalTarget={document.body}
-        styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+        styles={{ ...customStyles, menuPortal: (base) => ({ ...base, zIndex: 9 }) }}
       />
     </div>
   );

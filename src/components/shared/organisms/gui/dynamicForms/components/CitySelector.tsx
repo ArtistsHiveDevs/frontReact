@@ -1,8 +1,8 @@
 import { FormLabel } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import { useCountriesSlice } from '~/common/slices/parametrics/geo/country.redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectorCountries, useCountriesSlice } from '~/common/slices/parametrics/geo/country.redux';
 import { useI18n } from '~/common/utils';
 import { ComponentGeneratorParams } from '../DynamicControl';
 import { DynamicFieldData } from '../dynamic-control-types';
@@ -1452,6 +1452,9 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
   const { actions: countryActions } = useCountriesSlice();
 
   const [countryOptions, updateCountryOptions] = useState(countries);
+
+  const availableCountries = useSelector(selectorCountries.selectItems);
+
   const [selectedCountry, updateSelectedCountry] = useState();
   const [stateOptions, updateStateOptions] = useState([]);
   const [selectedState, updateSelectedState] = useState();
@@ -1474,8 +1477,8 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
 
   const customHandlers = {
     onChangecountry: (data: any) => {
-      updateSelectedCountry(data.value);
-      updateStateOptions(countries.find((country: any) => country.value === data.value).states);
+      // updateSelectedCountry(data.value);
+      // updateStateOptions(countries.find((country: any) => country.value === data.value).states);
     },
     onChangestate: (data: any) => {
       if (selectedCountry) {
@@ -1505,7 +1508,14 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
     label: translateText(`app.global_dictionary.location.country`),
     fieldName: 'country',
     inputType: 'select',
-    options: countryOptions,
+    options: availableCountries
+      .map((country) => {
+        return {
+          label: `${country.name}${country.name !== country.native ? ' (' + country.native + ')' : ''}`,
+          value: `${country.identifier}`,
+        };
+      })
+      .sort((a, b) => a.label.localeCompare(b.label)),
   };
   if (selectedCountry) {
     fieldDataCountries.defaultValue = selectedCountry;

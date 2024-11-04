@@ -130,6 +130,7 @@ abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
  *
  */
 export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
+  [x: string]: any;
   declare id: string;
   declare shortId?: string;
 

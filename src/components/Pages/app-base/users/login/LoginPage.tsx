@@ -268,7 +268,7 @@ export const LoginPage = () => {
             >
               {({ signOut, user }) => {
                 setUser(user);
-                return <LoaderIcon />;
+                return <LoaderIcon height="100%" />;
               }}
             </Authenticator>
             {/* <Button onClick={() => crearAlgo()}> POR FIN </Button> */}

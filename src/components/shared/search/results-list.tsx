@@ -6,13 +6,13 @@ import { useSearchSlice } from '~/common/slices/search';
 import { selectSearch, selectSearchLoading } from '~/common/slices/search/selectors';
 import { useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import LoaderIcon from '~/components/shared/atoms/app/loader/loader-icon';
 import { PATHS } from '~/constants';
 import { SearchableTemplate, ThumbnailableTemplate } from '~/models/base';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import { SearchModel } from '~/models/domain/search/search.model';
-import { DynamicIcons } from '../DynamicIcons';
 import { ResultElement } from './result-element';
 import consts, { EntityType } from './search-constants';
 import './search.scss';
@@ -36,7 +36,7 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
     return translateText(`${TRANSLATION_BASE_SEARCH}.${text}`);
   }
 
-  const [checkedFilterEntities, setCheckedFilterEntities] = useState([...consts.defaultTypes] || []);
+  const [checkedFilterEntities, setCheckedFilterEntities] = useState(consts.defaultTypes || []);
 
   const hasQueryTerms = Boolean(q);
 
@@ -134,14 +134,14 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
               {hasQueryTerms ? translate('results') : translate('recommendations')}
             </h4>
             <div className="search-item-head__subtitle disable-select">
-              <div>
+              {/* <div>
                 <Badge
                   bg={`ah-filter`}
                   // onClick={() => (badge.data?.length > 0 ? handleChecked(badge.type) : {})}
                 >
                   <DynamicIcons iconName="BsSliders" />
                 </Badge>
-              </div>
+              </div> */}
               <div>
                 {entityBadgesAndResults
                   .filter((badge) => (typeOfSearch || consts.defaultTypes).find((type) => type === badge.type))
@@ -167,7 +167,8 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
 
         {querySearchLoading && (
           <ListGroup.Item className="search-item search-item-footer">
-            <p className="label-search-waiting line-up-an">{translate('type_your_search')}...</p>
+            {/* <p className="label-search-waiting line-up-an">{translate('type_your_search')}...</p> */}
+            <LoaderIcon height="100%" padding="2rem" />
           </ListGroup.Item>
         )}
 

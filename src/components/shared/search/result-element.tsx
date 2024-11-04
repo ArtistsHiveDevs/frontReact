@@ -1,5 +1,6 @@
 import ListGroup from 'react-bootstrap/ListGroup';
 
+import { Avatar } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Flag from 'react-world-flags';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
@@ -51,11 +52,15 @@ export const ResultElement: React.FC<QueryTemplate> = (props: QueryTemplate) => 
       onClick={() => handleClick(element)}
     >
       <div className="search-item__link">
-        <img className="search-item__img" src={imageURL} />
+        <Avatar
+          src={imageURL}
+          alt={element?.name}
+          // sx={{ width: avatarSize, height: avatarSize, border: '2px solid white' }}
+          // className={errors && errors['profile_pic'] && 'error-profile-pic'}
+        />
         <div className="search-item-box">
           <h4 className="search-item__title">
-            {element.name}
-            <VerifiedArtist verifiedStatus={element?.verified_status} />
+            {element.name} <VerifiedArtist verifiedStatus={element?.verified_status} />
           </h4>
           <span className="search-item__subtitle">
             {element?.subtitle || (

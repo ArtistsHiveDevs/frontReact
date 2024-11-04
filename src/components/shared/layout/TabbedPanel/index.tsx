@@ -86,23 +86,29 @@ export const TabbedPanel = (props: any) => {
   });
 
   const tabTitles = () => {
-    return tabs.map((subpage: TabbedPage, idx: number) => {
-      const classNames = ['subpage-tab'];
-      if (activeSectionIndex === idx) {
-        classNames.push('active-tab-title');
-      }
-      return (
-        <RequireAuthComponent
-          key={`subpage-section-${idx}`}
-          allowedRoles={subpage.allowedRoles}
-          requiredSession={subpage.requireSession}
-        >
-          <div className={classNames.join(' ')} onClick={() => changeSection(idx)}>
-            <h5>{subpage.name}</h5>
-          </div>
-        </RequireAuthComponent>
-      );
-    });
+    return tabs
+      .filter(
+        (subpage: TabbedPage, idx: number) =>
+          validateUserAuthorization(currentUser, subpage.allowedRoles, subpage.requireSession) ===
+          AuthorizationStates.ALLOWED
+      )
+      .map((subpage: TabbedPage, idx: number) => {
+        const classNames = ['subpage-tab'];
+        if (activeSectionIndex === idx) {
+          classNames.push('active-tab-title');
+        }
+        return (
+          <RequireAuthComponent
+            key={`subpage-section-${idx}`}
+            allowedRoles={subpage.allowedRoles}
+            requiredSession={subpage.requireSession}
+          >
+            <div className={classNames.join(' ')} onClick={() => changeSection(idx)}>
+              <h5>{subpage.name}</h5>
+            </div>
+          </RequireAuthComponent>
+        );
+      });
   };
 
   const tabContents = () => {
@@ -111,9 +117,11 @@ export const TabbedPanel = (props: any) => {
     return subpage && <div className="full-content">{subpage()}</div>;
   };
 
+  const titles = tabTitles();
+
   return (
     <div {...swipeHandlers}>
-      <div className="subpages-tabs">{tabTitles()}</div>
+      {titles.length > 1 && <div className="subpages-tabs">{titles}</div>}
       <div>{tabContents()}</div>
     </div>
   );

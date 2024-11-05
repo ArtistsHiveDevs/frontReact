@@ -1,3 +1,4 @@
+import dayjs, { Dayjs } from 'dayjs';
 import moment from 'moment';
 import { VerificationStatus } from '~/constants';
 import { SocialNetworkStatsTemplate } from '~/constants/social-networks.const';
@@ -12,6 +13,7 @@ export interface ArtistInTrack {
 
 export interface TrackTemplate {
   artists: ArtistInTrack[];
+  album?: AlbumTemplate;
   disc_number: number;
   duration_ms: number;
   explicit: boolean;
@@ -94,7 +96,7 @@ export interface ArtistTemplate extends ProfileTemplate {
     socialNetworks: SocialNetworkStatsTemplate[];
   };
 
-  since: number;
+  since: Dayjs;
   home_city: string;
   country: CountryTemplate;
   city: any;
@@ -112,7 +114,7 @@ export interface ArtistTemplate extends ProfileTemplate {
   youtube: string;
   youtube_widget_id: string;
 
-  arts?: { music: { albums: AlbumTemplate[] } };
+  arts?: { music: { albums: AlbumTemplate[]; top_tracks: any[]; related_artists: ArtistTemplate[] } };
 }
 
 export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistTemplate {
@@ -132,7 +134,7 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
     socialNetworks: SocialNetworkStatsTemplate[];
   };
 
-  declare since: number;
+  declare since: Dayjs;
   declare home_city: string;
   declare spoken_languages: string[];
   declare stage_languages: string[];
@@ -148,7 +150,7 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
   declare youtube: string;
   declare youtube_widget_id: string;
 
-  declare arts?: { music: { albums: AlbumModel[] } };
+  declare arts?: { music: { albums: AlbumModel[]; top_tracks: any[]; related_artists: ArtistModel[] } };
   declare country: CountryModel;
   declare city: any;
 
@@ -165,6 +167,12 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
     if (!!template.arts?.music?.albums?.length) {
       this.arts.music.albums = template?.arts?.music?.albums?.map((album) => new AlbumModel(album)) || [];
     }
+    if (!!template.arts?.music?.related_artists?.length) {
+      this.arts.music.related_artists =
+        template?.arts?.music?.related_artists?.map((artist) => new ArtistModel(artist)) || [];
+    }
+
+    this.since = template.since ? dayjs(template.since) : null;
   }
 
   get hasFetchAllData(): boolean {

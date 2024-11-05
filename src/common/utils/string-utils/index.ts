@@ -92,3 +92,17 @@ export function currencyFormat(
     suffix
   );
 }
+
+export const formatDurationMillis = (ms: number): string => {
+  // Calcular las horas, minutos y segundos
+  const hours = Math.floor(ms / (1000 * 60 * 60));
+  const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((ms % (1000 * 60)) / 1000);
+
+  // Formatear la cadena de resultado
+  const formattedHours = hours > 0 ? `${hours}h ` : '';
+  const formattedMinutes = `${minutes}m `;
+  const formattedSeconds = `${seconds}s`;
+
+  return `${formattedHours}${formattedMinutes}${formattedSeconds}`;
+};

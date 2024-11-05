@@ -1,0 +1,61 @@
+@import '~/variables.module.scss';
+
+#tracks-viewer-header-list-view {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
+
+  // div {
+  //   width: 20%;
+  //   text-align: center;
+  // }
+
+  div:nth-child(1) {
+    flex-grow: 1;
+    text-align: left;
+  }
+
+  div:nth-child(2) {
+    width: 15%;
+    text-align: right;
+  }
+}
+
+#tracks-viewer-list-view {
+  max-height: 40vh;
+  overflow-y: auto;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  width: 90%;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  .track-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid $gray-dark;
+
+    // div {
+    //   width: 20%;
+    //   text-align: center;
+    // }
+
+    div:nth-child(1) {
+      flex-grow: 1;
+      text-align: left;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    div:nth-child(2) {
+      width: 15%;
+      text-align: right;
+    }
+  }
+}

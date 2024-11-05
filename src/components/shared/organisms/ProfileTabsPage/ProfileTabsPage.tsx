@@ -37,6 +37,7 @@ import { EventModel } from '~/models/domain/event/event.model';
 import { HorizontalImageGallery } from '../../atoms/ImageGallery/HorizontalImageGallery';
 import { TableView } from '../../atoms/Table/TableView';
 import { EventParams } from '../../atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent';
+import { TracksListView } from '../../domain/organisms/TracksListView/TracksListView';
 import { EventThumbnailCard } from '../../molecules/Profile/EventThumbnailCard/EventThumbnailCard';
 import SEO from '../app/seo/seo';
 
@@ -605,6 +606,10 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       const discography = getData(componentDescriptor.data_source);
 
       renderedComponent = <AlbumsShortListView discography={discography} />;
+    } else if (componentDescriptor.componentName === ProfileComponentTypes.TOP_TRACKS_LIST_VIEW) {
+      const tracks = getData(componentDescriptor.data_source);
+
+      renderedComponent = <TracksListView tracks={tracks} />;
     } else if (componentDescriptor.componentName === ProfileComponentTypes.VISITED_COUNTRIES_CITIES_LIST_VIEW) {
       const cities = getData(componentDescriptor.data?.cities) || [];
 

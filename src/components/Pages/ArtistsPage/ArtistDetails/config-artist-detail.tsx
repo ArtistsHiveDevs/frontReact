@@ -218,8 +218,8 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   icon: 'FaHeadphones',
                   components: [
                     {
-                      componentName: ProfileComponentTypes.DISCOGRAPHY_LIST_VIEW,
-                      data_source: 'arts.music.albums',
+                      componentName: ProfileComponentTypes.TOP_TRACKS_LIST_VIEW,
+                      data_source: 'arts.music.top_tracks',
                       data: {},
                     },
                   ],

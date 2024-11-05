@@ -22,6 +22,7 @@ import { EVENT_DETAIL_SUB_PAGE_CONFIG } from '~/components/Pages/EventsPage/Even
 import { Title } from '~/components/shared/atoms/Title/Title';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
 
+import { isDayjs } from 'dayjs';
 import moment from 'moment';
 import { CrewListView } from '~/components/shared//molecules/domain/crewListView/CrewListView';
 import { GenresListView } from '~/components/shared//molecules/domain/genres/GenresListView';
@@ -51,6 +52,8 @@ export interface ProfilePageParams {
 }
 
 export const ProfileTabsPage = (props: ProfilePageParams) => {
+  const { locale } = useI18n();
+
   const { translation_base_path, entityData, handlers, subpagesConfig, profileHeaderComponent } = props;
   const seoData = entityData
     ? {
@@ -97,6 +100,8 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
 
       if (Array.isArray(data) && data.length && (typeof data[0] === 'string' || typeof data[0] === 'number')) {
         response = data.join(', ');
+      } else if (isDayjs(data)) {
+        response = data.format('LL');
       }
     }
     return response;
@@ -264,6 +269,8 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
                 )}
               </>
             );
+          } else if (isDayjs(attribute.value)) {
+            value = attribute.value.format('LL');
           } else {
             value = attribute.value;
           }

@@ -9,6 +9,7 @@ import {
   ARTIST_DETAIL_SUB_PAGE_CONFIG,
   TRANSLATION_BASE_ARTIST_DETAIL_PAGE,
 } from '~/components/Pages/ArtistsPage/ArtistDetails/config-artist-detail';
+import MainSection from '~/components/Pages/HomePage/MainSection/MainSection';
 import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import AppLoader from '~/components/shared/organisms/app/loader/loader';
@@ -86,18 +87,35 @@ const ArtistDetailPage = () => {
       navigateToEntity({ entityType, id: value.identifier, action: SUB_PATHS.EDIT });
     },
   };
+  console.log(currentArtist);
 
   return (
     <>
       {finishedRequest ? (
         currentArtist ? (
-          <ProfileTabsPage
-            entityName="Artist"
-            entityData={currentArtist}
-            translation_base_path={TRANSLATION_BASE_ARTIST_DETAIL_PAGE}
-            subpagesConfig={subPagesInfo}
-            handlers={handlers}
-          />
+          <>
+            <ProfileTabsPage
+              entityName="Artist"
+              entityData={currentArtist}
+              translation_base_path={TRANSLATION_BASE_ARTIST_DETAIL_PAGE}
+              subpagesConfig={subPagesInfo}
+              handlers={handlers}
+            />
+            {currentArtist.arts?.music?.related_artists?.length ? (
+              <MainSection
+                description={'Estos son los artistas relacionados'}
+                listView={currentArtist.arts?.music?.related_artists}
+                params={{ useNewCard: true }}
+                title={
+                  'Artistas relacionados'
+                  // translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)
+                }
+                // callbacks={{ onClickCard: onClickCardArtist }}
+              />
+            ) : (
+              <></>
+            )}
+          </>
         ) : (
           <>Artist not found {JSON.stringify(requestError, null, 4)}</>
         )

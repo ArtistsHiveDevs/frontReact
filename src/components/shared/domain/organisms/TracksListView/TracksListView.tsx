@@ -121,8 +121,8 @@ export const TracksListView = (props: any) => {
               {/* <div>{track.track_number}.</div> */}
               <div className="track-name-list-view">
                 <strong>{track.name}</strong>
+                <p style={{ fontStyle: 'italic' }}>[{track.album.name}]</p>
                 <p>{track.artists.map((artist) => artist.name).join(', ')}</p>
-                <p>{track.album.name}</p>
               </div>
               <div>{formatDurationMillis(track.duration_ms)}</div>
             </div>

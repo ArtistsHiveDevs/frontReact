@@ -14,6 +14,7 @@ import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/Imag
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import AppLoader from '~/components/shared/organisms/app/loader/loader';
 import { SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
+import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import './index.scss';
 
@@ -110,7 +111,10 @@ const ArtistDetailPage = () => {
                   'Artistas relacionados'
                   // translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)
                 }
-                // callbacks={{ onClickCard: onClickCardArtist }}
+                callbacks={{
+                  onClickCard: (data: ArtistModel) =>
+                    navigateToEntity({ entityType: ArtistModel.name, id: data.identifier }),
+                }}
               />
             ) : (
               <></>

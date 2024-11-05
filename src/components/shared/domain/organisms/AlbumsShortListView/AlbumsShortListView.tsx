@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import { useI18n } from '~/common/utils';
+import { formatDurationMillis } from '~/common/utils/string-utils';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import { AlbumShortView } from '~/components/shared/domain/molecules/AlbumShortView/AlbumShortView';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
@@ -36,20 +37,6 @@ export const AlbumsShortListView = (props: any) => {
     setVisibleSeeMore(discography.length > DISCOGRAPHY_PAGINATION_LIMIT);
     setOpenSeeMore(false);
   }, [discography]);
-
-  const formatDuration = (ms: number): string => {
-    // Calcular las horas, minutos y segundos
-    const hours = Math.floor(ms / (1000 * 60 * 60));
-    const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((ms % (1000 * 60)) / 1000);
-
-    // Formatear la cadena de resultado
-    const formattedHours = hours > 0 ? `${hours}h ` : '';
-    const formattedMinutes = `${minutes}m `;
-    const formattedSeconds = `${seconds}s`;
-
-    return `${formattedHours}${formattedMinutes}${formattedSeconds}`;
-  };
 
   const handleClose = () => {
     setSelectedIndex(null);
@@ -175,7 +162,7 @@ export const AlbumsShortListView = (props: any) => {
                   </div>
 
                   <div id="album-info">
-                    {currentAlbum.total_tracks} tracks ⬢ {formatDuration(currentAlbum.totalDurationMs)}
+                    {currentAlbum.total_tracks} tracks ⬢ {formatDurationMillis(currentAlbum.totalDurationMs)}
                     <br />({dayjs(currentAlbum.release_date).format('MMM / YYYY')})
                   </div>
                 </div>
@@ -194,7 +181,7 @@ export const AlbumsShortListView = (props: any) => {
                         <strong>{track.name}</strong>
                         <p>{track.artists.map((artist) => artist.name).join(', ')}</p>
                       </div>
-                      <div>{formatDuration(track.duration_ms)}</div>
+                      <div>{formatDurationMillis(track.duration_ms)}</div>
                     </div>
                   ))}
                 </div>

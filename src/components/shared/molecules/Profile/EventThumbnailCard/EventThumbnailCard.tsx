@@ -1,7 +1,5 @@
-import moment from 'moment';
 import Flag from 'react-world-flags';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
-import { formatDateInMomentType } from '~/constants';
 import { EventModel } from '~/models/domain/event/event.model';
 import './EventThumbnailCard.scss';
 
@@ -44,22 +42,22 @@ export const EventThumbnailCard = (props: any) => {
     }
   })();
 
-  const initialTime = moment(event.timetable__initial_date);
+  // const initialTime = moment(event.timetable__initial_date);
   const time = parseInt(event.initial_time);
   const hour = Math.floor(time / 100);
   const minutes = time - hour * 100;
-  initialTime.set('hour', hour);
+  const initialTime = event.timetable__initial_date.set('hour', hour);
   initialTime.set('minutes', minutes);
-  console.log('%%%%%   ', event, initialTime, time, hour, minutes);
+  // console.log('%%%%%   ', event, initialTime, time, hour, minutes);
 
   return (
     <div className={['profile-thumbnail-card', eventConfirmStatusColor].join(' ')} onClick={onClickCardHandler}>
       <div className="profile-header">
         <div className="container-img-card-ev">
           <div className="card-date-section">
-            <p className="card-date-month">{formatDateInMomentType(event.timetable__initial_date, 'ddd')}</p>
-            <p className="card-date-number">{formatDateInMomentType(event.timetable__initial_date, 'DD')}</p>
-            <p className="card-date-hour">{formatDateInMomentType(`${initialTime.toISOString()}`, 'HH:mm')}h</p>
+            <p className="card-date-month">{event.timetable__initial_date.format('ddd')}</p>
+            <p className="card-date-number">{event.timetable__initial_date.format('DD')}</p>
+            <p className="card-date-hour">{event.timetable__initial_date.format('HH:mm')}h</p>
           </div>
           <img className="event-avatar" src={event.place.profile_pic} alt={event.place.name} />
           {/* <p>

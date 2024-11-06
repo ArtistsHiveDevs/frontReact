@@ -32,7 +32,6 @@ import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
 import { ProfileThumbnailCard } from '~/components/shared/molecules/Profile/ProfileThumbnailCard';
-import { formatDateInMomentType } from '~/constants';
 import { SocialNetworks } from '~/constants/social-networks.const';
 import { EventModel } from '~/models/domain/event/event.model';
 import { HorizontalImageGallery } from '../../atoms/ImageGallery/HorizontalImageGallery';
@@ -271,7 +270,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
               </>
             );
           } else if (isDayjs(attribute.value)) {
-            value = attribute.value.format('LL');
+            value = attribute.value.format('LLLL');
           } else {
             value = attribute.value;
           }
@@ -469,19 +468,16 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       return (elements || []).map((element, index, eventsArray) => {
         const event = new EventModel(element);
         const previous = index > 0 ? eventsArray[index - 1] : undefined;
-        const previousMoment = previous ? moment(previous?.timetable__initial_date) : undefined;
-        const currentMoment = moment(event.timetable__initial_date);
-        const sameMonth = previousMoment?.month() === currentMoment.month();
-        const sameYear = previousMoment?.year() === currentMoment.year();
+        // const previousMoment = previous ? moment(previous?.timetable__initial_date) : undefined;
+        // const currentMoment = moment(event.timetable__initial_date);
+        const sameMonth = previous?.timetable__initial_date.month() === event.timetable__initial_date.month();
+        const sameYear = previous?.timetable__initial_date?.year() === event.timetable__initial_date.year();
 
         return (
           <>
             {!sameMonth && (
               <h3 className="month-title">
-                {formatDateInMomentType(
-                  event.timetable__initial_date,
-                  `MMMM${!!previous && !sameYear ? ' / YYYY' : ''}`
-                )}
+                {event.timetable__initial_date.format(`MMMM${!!previous && !sameYear ? ' / YYYY' : ''}`)}
               </h3>
             )}
             <EventThumbnailCard

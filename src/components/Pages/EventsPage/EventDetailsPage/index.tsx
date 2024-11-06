@@ -8,6 +8,7 @@ import { selectorEvents, useEventsSlice } from '~/common/slices/domain/events/ev
 import { useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
+import NotFoundPage from '~/components/Pages/NotFoundPage';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import {
   FavoriteSubscription,
@@ -54,10 +55,15 @@ const EventDetailsPage = () => {
       document.title = `${currentEvent.name}  ◃⬡▹  Artist Hive`;
       // logPageViewEvent({ page_title: `Event - ${currentEvent.name}` });
     }
+    if (requestsAreReady) {
+      console.log('LLegó la respuesta del evento', currentEvent);
+    }
   }, [currentEvent]);
 
   useEffect(() => {
     dispatch(eventActions.getItemById({ id: eventId }));
+    console.log('RQ EVENTO');
+    setRequestesAreReady(true);
   }, [eventId]);
 
   // function navigateTo(newEntity: PATHS, id: string = null) {
@@ -110,9 +116,7 @@ const EventDetailsPage = () => {
           />
         </>
       )}
-      {requestsAreReady && !currentEvent && (
-        <h2>{translateText(`${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.eventNotFound`)}</h2>
-      )}
+      {requestsAreReady && !currentEvent && <NotFoundPage />}
     </>
   );
 };

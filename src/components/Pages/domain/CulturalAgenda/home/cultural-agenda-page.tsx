@@ -6,10 +6,10 @@ import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import {
   findEventsPerArtist,
   findEventsPerDate,
-  findEventsPerGenre
+  findEventsPerGenre,
 } from '~/common/utils/object-utils/object-utils-index';
 import MainSection from '~/components/Pages/HomePage/MainSection/MainSection';
-import { getCustomList } from '~/constants';
+import { getCustomList, sortEventsPerMonth } from '~/constants';
 import { SearchableTemplate } from '~/models/base';
 import { EventModel } from '~/models/domain/event/event.model';
 import './cultural-agenda-page.scss';
@@ -23,7 +23,7 @@ const CulturalAgendaPage: React.FC = () => {
 
   // Hooks
   const dispatch = useDispatch();
-  const { translateText } = useI18n();
+  const { translateText, locale } = useI18n();
   const { navigateToEntity } = useNavigation();
   const defaultFilteredList: EventModel[] = null;
   const [filteredList, updateFilteredList] = useState(defaultFilteredList);
@@ -62,8 +62,14 @@ const CulturalAgendaPage: React.FC = () => {
     if (eventsList.length === 0) {
       dispatch(eventActions.loadItems({}));
     }
+    window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Effects
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [eventsList]);
 
   // Constants and variables
   // const genresList = []; //searchGenresFromEvents(eventsList);
@@ -90,8 +96,10 @@ const CulturalAgendaPage: React.FC = () => {
           search: onFilterSearchAction,
         }}
       />
+      */}
 
-      {sortEventsPerMonth(filteredList || eventsList)?.map((eventCase, idx) => {
+      <div style={{ marginTop: '4rem' }}></div>
+      {sortEventsPerMonth(filteredList || eventsList, locale)?.map((eventCase, idx) => {
         return (
           <MainSection
             key={`event-month-${idx}`}
@@ -104,7 +112,7 @@ const CulturalAgendaPage: React.FC = () => {
             callbacks={{ onClickCard: onClickCardEventos }}
           />
         );
-      })} */}
+      })}
     </>
   );
 };

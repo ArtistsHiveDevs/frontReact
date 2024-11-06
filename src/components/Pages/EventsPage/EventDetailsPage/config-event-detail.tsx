@@ -1,3 +1,4 @@
+import Flag from 'react-world-flags';
 import {
   ProfileComponentTypes,
   ProfileDetailsSubpage,
@@ -54,7 +55,17 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                         {event.place?.name} <br />
                         {event.place?.address} <br />
                         {event.place?.city} <br />
-                        {event.place?.country}
+                        {event.place?.country && event.place?.country?.name && (
+                          <>
+                            {event.place?.country?.name}
+                            {'   '}
+                            <Flag
+                              code={event.place?.country?.alpha2}
+                              height="15"
+                              style={{ border: '1px solid #999' }}
+                            />
+                          </>
+                        )}
                       </>
                     );
                   },
@@ -158,7 +169,18 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                           name: 'city',
                           emptyTitle: true,
                           value: (place: PlaceModel) => {
-                            return <>{`${place.city}, ${place.country}`}</>;
+                            return (
+                              <>
+                                <span>{place?.cityWithCountry}</span>
+                                {place?.country && (
+                                  <Flag
+                                    code={place?.country.alpha2}
+                                    height="15"
+                                    style={{ border: '1px solid #999', marginLeft: '0.6rem' }}
+                                  />
+                                )}
+                              </>
+                            );
                           },
                         },
                         {

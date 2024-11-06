@@ -10,13 +10,13 @@ import {
   TRANSLATION_BASE_ARTIST_DETAIL_PAGE,
 } from '~/components/Pages/ArtistsPage/ArtistDetails/config-artist-detail';
 import MainSection from '~/components/Pages/HomePage/MainSection/MainSection';
+import NotFoundPage from '~/components/Pages/NotFoundPage';
 import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import AppLoader from '~/components/shared/organisms/app/loader/loader';
 import { SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
-import NotFoundPage from '../../NotFoundPage';
 import './index.scss';
 
 const ArtistDetailPage = () => {

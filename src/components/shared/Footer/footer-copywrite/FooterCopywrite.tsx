@@ -1,6 +1,8 @@
 import { useContext } from 'react';
+import { useDispatch } from 'react-redux';
 import { appName, foundationYear, trademarkSymbol } from '~/app.config.json';
 import { HvAppContext } from '~/common';
+import { useUsersSlice } from '~/common/slices/users';
 import { useI18n } from '~/common/utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { AVAILABLE_I18N_LANGUAGES } from '~/translations';
@@ -10,6 +12,8 @@ const TRANSLATION_BASE_COPYWRITE = 'app.appbase.footer.copywrite';
 
 const FooterCopywrite = (props: any) => {
   let { lang, messages, setLocale } = useContext(HvAppContext);
+  const dispatch = useDispatch();
+  const { actions: usersActions } = useUsersSlice();
   const { translateText } = useI18n();
   return (
     <>
@@ -30,7 +34,13 @@ const FooterCopywrite = (props: any) => {
             }
             return (
               <span key={`lang-${index}`}>
-                <span className={`translate-opt ${styles.join(' ')}`} onClick={() => setLocale(newLang)}>
+                <span
+                  className={`translate-opt ${styles.join(' ')}`}
+                  onClick={() => {
+                    setLocale(newLang);
+                    dispatch(usersActions.switchLang({ newLang }));
+                  }}
+                >
                   {newLang}
                 </span>
                 {index < newLangArr.length - 1 && '  |  '}

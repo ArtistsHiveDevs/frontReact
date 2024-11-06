@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { SearchableTemplate } from '~/models/base';
 import { EventModel } from '~/models/domain/event/event.model';
 
@@ -37,14 +36,13 @@ export function findEventsPerGenre(eventList: EventModel[], parentGenre: string)
 }
 
 export function findEventsPerDate(eventList: EventModel[], endDate: string, startDate?: string) {
-  const formatStartDate = startDate ? moment(startDate).toDate() : moment(endDate).toDate();
-
-  const formatEndDate = moment(endDate).toDate();
-
-  return eventList.filter((singleEvent) => {
-    const formatDate = moment(singleEvent?.timetable__initial_date || 0).toDate();
-    return formatDate >= formatStartDate && formatDate <= formatEndDate;
-  });
+  // const formatStartDate = startDate ? moment(startDate).toDate() : moment(endDate).toDate();
+  // const formatEndDate = moment(endDate).toDate();
+  // return eventList.filter((singleEvent) => {
+  //   const formatDate = moment(singleEvent?.timetable__initial_date || 0).toDate();
+  //   return formatDate >= formatStartDate && formatDate <= formatEndDate;
+  // });
+  return eventList;
 }
 
 export function findEventsPerArtist(eventList: EventModel[], search: SearchableTemplate) {
@@ -54,7 +52,7 @@ export function findEventsPerArtist(eventList: EventModel[], search: SearchableT
 
   //   return matchGuestArtist || matchMainArtist;
   // });
-  return eventList
+  return eventList;
 }
 
 // export function searchGenresFromEvents(eventList: EventModel[]) {

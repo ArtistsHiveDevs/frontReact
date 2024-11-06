@@ -74,17 +74,17 @@ const NewEntityCard = (props: any) => {
     <>
       {!data && (
         <>
-          <Skeleton className="empty-entity-card" variant="rounded" />
+          <Skeleton className="thumbnail-empty-entity-card" variant="rounded" />
         </>
       )}
       {!!data && (
         <>
-          <Card key={idx} className="new-entity-card">
+          <Card key={idx} className="thumbnail-new-entity-card">
             {!params?.hidePhoto && (
               <>
                 {
                   <>
-                    <div className="container-img-card">
+                    <div className="thumbnail-container-img-card">
                       <AvatarWithIcon
                         name=""
                         image={photoURL}
@@ -95,26 +95,26 @@ const NewEntityCard = (props: any) => {
                         onClick={() => onClickCardHandler()}
                         onBadgeClick={() => switchProfile()}
                       />
-                      {/* <Card.Img className="img-card" src={photoURL} variant="top"></Card.Img> */}
+                      {/* <Card.Img className="thumbnail-img-card" src={photoURL} variant="top"></Card.Img> */}
                       <Card.ImgOverlay onClick={() => onClickCardHandler()}>
                         {data.timetable__initial_date && (
-                          <div className="card-date-section">
-                            <p className="card-date-number">
+                          <div className="thumbnail-card-date-section">
+                            <p className="thumbnail-card-date-number">
                               {formatDateInMomentType(data.timetable__initial_date, 'DD')}
                             </p>
-                            <p className="card-date-label">
+                            <p className="thumbnail-card-date-label">
                               {formatDateInMomentType(data.timetable__initial_date, !!printDayOfWeek ? 'ddd' : 'MMM')}
                             </p>
                           </div>
                         )}
-                        <div className="card-name-section">
+                        <div className="thumbnail-card-name-section">
                           {data?.username && (
-                            <span className="username">
+                            <span className="thumbnail-username">
                               @{data?.username} <VerifiedArtist verifiedStatus={data?.verified_status} />
                             </span>
                           )}
-                          <p className="card-title-label">
-                            <span className="title-card-span">
+                          <p className="thumbnail-card-title-label">
+                            <span className="thumbnail-title-card-span">
                               {elementCardInfo?.title || data?.name}{' '}
                               {!data?.username && <VerifiedArtist verifiedStatus={data?.verified_status} />}
                             </span>
@@ -122,7 +122,7 @@ const NewEntityCard = (props: any) => {
                         </div>
                       </Card.ImgOverlay>
                       {data.place && (
-                        <div className="card-footer-place">
+                        <div className="thumbnail-card-footer-place">
                           <p>
                             <span>
                               <DynamicIcons iconName="FaMapMarkerAlt" size={20} />

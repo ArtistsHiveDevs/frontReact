@@ -48,13 +48,6 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   icon: 'AiFillHome',
                   emptyTitle: true,
                   value: (place: PlaceModel) => {
-                    const flag = place?.country;
-
-                    const flags = {
-                      Colombia: 'co',
-                      España: 'es',
-                      Inglaterra: 'GB-ENG',
-                    };
                     return (
                       <>
                         <span>{place?.cityWithCountry}</span>

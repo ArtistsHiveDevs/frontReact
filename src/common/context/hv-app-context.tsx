@@ -1,7 +1,14 @@
 import { createContext, useEffect } from 'react';
 
-import { appMessages } from '~/translations';
+import { appMessages, AVAILABLE_I18N_LANGUAGES } from '~/translations';
 
+import dayjs from 'dayjs';
+import 'dayjs/locale/de';
+import 'dayjs/locale/en';
+import 'dayjs/locale/es';
+import 'dayjs/locale/fr';
+import 'dayjs/locale/it';
+import 'dayjs/locale/pt';
 import { useDispatch, useSelector } from 'react-redux';
 import { LocalStorageVariables } from '~/constants/localstorage';
 import { useUsersSlice } from '../slices/users';
@@ -61,6 +68,9 @@ export const HvAppContextProvider = ({ children, appMessages, setLang, lang }: I
     localStorage.setItem(LocalStorageVariables.CURRENT_LANGUAGE, nextLang);
     dispatch(usersActions.switchLang({ newLang: nextLang }));
     window.scrollTo(0, 0);
+    if (AVAILABLE_I18N_LANGUAGES.includes(nextLang)) {
+      dayjs.locale(nextLang);
+    }
     setLang({ lang: nextLang, messages: appMessages[nextLang] });
   }
 
@@ -73,7 +83,7 @@ export const HvAppContextProvider = ({ children, appMessages, setLang, lang }: I
   }, []);
 
   useEffect(() => {
-    if (!!currentUser && !!currentUser.user_language && !!lang.lang && currentUser.user_language !== lang.lang ) {
+    if (!!currentUser && !!currentUser.user_language && !!lang.lang && currentUser.user_language !== lang.lang) {
       onSetLang(currentUser.user_language);
     }
   }, [currentUser]);

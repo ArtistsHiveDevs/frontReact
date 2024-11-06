@@ -1,3 +1,4 @@
+import dayjs, { Dayjs } from 'dayjs';
 import { getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
 import { VerificationStatus } from '~/constants';
 import { EntityModel, EntityTemplate, LocatableTemplate, SearchableTemplate } from '~/models/base';
@@ -27,7 +28,7 @@ export interface EventTemplate extends EntityTemplate {
   artists: ArtistModel[];
   place_id: string;
   place?: PlaceModel;
-  timetable__initial_date: string;
+  timetable__initial_date: Dayjs;
   timetable__end_date: string;
   timetable__openning_doors: string;
   timetable__guest_time: string;
@@ -55,7 +56,7 @@ export class EventModel
   declare artists: ArtistModel[];
   declare place_id: string;
   declare place?: PlaceModel;
-  declare timetable__initial_date: string;
+  declare timetable__initial_date: Dayjs;
   declare timetable__end_date: string;
   declare timetable__openning_doors: string;
   declare timetable__guest_time: string;
@@ -73,6 +74,7 @@ export class EventModel
     // this.guest_artist = template.guest_artist ? new ArtistModel(template.guest_artist) : undefined;
     this.artists = template.artists ? template.artists.map((artist) => new ArtistModel(artist)) : [];
     this.place = template.place ? new PlaceModel(template.place) : undefined;
+    this.timetable__initial_date = dayjs(template.timetable__initial_date);
   }
 
   get hasFetchAllData(): boolean {

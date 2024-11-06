@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import moment from 'moment-with-locales-es6';
 import { useI18n } from '~/common/utils';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
@@ -49,37 +50,53 @@ export function getCustomList(positions: number, list: any) {
   return returnList;
 }
 
-export function sortEventsPerMonth(list: EventModel[]) {
-  let returnArray = [];
-  let monthQuantity = 11;
-  while (monthQuantity >= 0) {
-    const countEvents = getEventsPerMonth(monthQuantity, list);
-    if (!!countEvents?.length) {
-      returnArray.push({
-        id: monthQuantity,
-        monthName: formatDateInMomentType(`${monthQuantity + 1}`, 'MMMM'),
-        data: countEvents,
-      });
+export function sortEventsPerMonth(list: EventModel[], lang: string) {
+  const today = dayjs();
+
+  dayjs.locale(lang);
+
+  // Filtrar solo los eventos futuros
+  const futureEvents = list.filter(
+    (event) => event?.timetable__initial_date && event.timetable__initial_date.isAfter(today)
+  );
+
+  // Agrupar eventos por mes y año
+  const groupedEvents = futureEvents.reduce((acc, event) => {
+    const eventDate = event.timetable__initial_date;
+    const monthKey = eventDate.format('YYYY-MM'); // Clave que incluye año y mes
+
+    if (!acc[monthKey]) {
+      acc[monthKey] = {
+        id: monthKey,
+        monthName: eventDate.format(today.year() === eventDate.year() ? 'MMMM' : 'MMMM YYYY'), // Nombre legible con mes y año
+        data: [],
+      };
     }
-    monthQuantity -= 1;
-  }
+    acc[monthKey].data.push(event);
+    return acc;
+  }, {} as Record<string, { id: string; monthName: string; data: EventModel[] }>);
 
-  return returnArray.sort((x, y) => x.id - y.id);
+  // Convertir el objeto agrupado en un array y ordenar por mes y año
+  const sortedArray = Object.values(groupedEvents).sort((a, b) => {
+    return dayjs(a.id, 'YYYY-MM').diff(dayjs(b.id, 'YYYY-MM'));
+  });
+
+  return sortedArray;
 }
 
-export function getEventsPerMonth(month: number, list: EventModel[]) {
-  let returnList: EventModel[] = [];
-  const max = list?.length | 0;
+// export function getEventsPerMonth(month: number, list: EventModel[]) {
+//   let returnList: EventModel[] = [];
+//   const max = list?.length | 0;
 
-  if (max > 0) {
-    returnList = list.filter((event) => {
-      const listMonth = moment(event?.timetable__initial_date, 'YYYY-MM-DD').toDate()?.getMonth();
-      return month === listMonth;
-    });
-  }
+//   if (max > 0) {
+//     returnList = list.filter((event) => {
+//       const listMonth = moment(event?.timetable__initial_date, 'YYYY-MM-DD').toDate()?.getMonth();
+//       return month === listMonth;
+//     });
+//   }
 
-  return returnList;
-}
+//   return returnList;
+// }
 
 export function formatDateInMomentType(dateInText: string, momentFormat: string, customLocale?: string) {
   const { locale } = useI18n();

@@ -5,13 +5,13 @@ import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/pl
 import { logPageViewEvent } from '~/common/utils/analytics/analytics';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
+import NotFoundPage from '~/components/Pages/NotFoundPage';
 import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import AppLoader from '~/components/shared/organisms/app/loader/loader';
 import { SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
-import NotFoundPage from '../../NotFoundPage';
 import { PLACE_DETAIL_SUB_PAGE_CONFIG, TRANSLATION_BASE_PLACE_DETAIL_PAGE } from './config-place-detail';
 
 const PlaceDetailPage = () => {

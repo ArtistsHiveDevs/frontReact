@@ -101,10 +101,10 @@ export function* switchLanguage(actionParams?: PayloadAction<{ newLang: string }
       // yield delay(500);
       // window.location.reload();
     }
+  } else {
+    window.location.reload();
+    window.scrollTo(0, 0);
   }
-  //  else {
-  //   window.location.reload();
-  // }
 }
 
 export function* logout() {

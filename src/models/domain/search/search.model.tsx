@@ -1,7 +1,7 @@
 import { EntityModel, EntityTemplate, isLocableEntity, isSearchableEntity, SearchableTemplate } from '~/models/base';
-import { ArtistModel } from '../artist/artist.model';
-import { EventModel } from '../event/event.model';
-import { PlaceModel } from '../place/place.model';
+import { ArtistModel, ArtistTemplate } from '../artist/artist.model';
+import { EventModel, EventTemplate } from '../event/event.model';
+import { PlaceModel, PlaceTemplate } from '../place/place.model';
 
 export interface SearchPaginationTemplate {
   total_artists: number;
@@ -17,9 +17,9 @@ export interface SearchLocationBoundariesTemplace {
 }
 
 export interface SearchTemplate extends EntityTemplate {
-  artists: ArtistModel[];
-  events: EventModel[];
-  places: PlaceModel[];
+  artists: ArtistTemplate[];
+  events: EventTemplate[];
+  places: PlaceTemplate[];
   pagination: SearchPaginationTemplate;
   location_boundaries: SearchLocationBoundariesTemplace;
 }
@@ -34,8 +34,8 @@ export class SearchModel extends EntityModel<SearchTemplate> implements SearchTe
   constructor(template: SearchTemplate) {
     super(template);
     this.artists = template?.artists?.map((artist) => new ArtistModel(artist)) || [];
-    this.events = template?.events?.map((events) => new EventModel(events)) || [];
-    this.places = template?.places?.map((places) => new PlaceModel(places)) || [];
+    this.events = template?.events?.map((event) => new EventModel(event)) || [];
+    this.places = template?.places?.map((place) => new PlaceModel(place)) || [];
   }
 
   get hasFetchAllData(): boolean {
@@ -68,6 +68,7 @@ export class SearchModel extends EntityModel<SearchTemplate> implements SearchTe
         }
       }
     });
+
     return result;
   }
 }

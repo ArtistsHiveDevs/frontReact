@@ -31,7 +31,21 @@ export interface PlaceTemplate extends ProfileTemplate {
   state: string;
   city: string;
   address: string;
-  location: string;
+  location:
+    | string
+    | [
+        {
+          country_name?: string;
+          country_alpha2?: string;
+          country_alpha3?: string;
+          state?: string;
+          city?: string;
+          address?: string;
+          latitude?: number;
+          longitude?: number;
+          locationPrecision?: string;
+        }
+      ];
   email: string;
   phone: string;
   public_private: string;
@@ -64,7 +78,21 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
   declare state: string;
   declare city: string;
   declare address: string;
-  declare location: string;
+  declare location:
+    | string
+    | [
+        {
+          country_name?: string;
+          country_alpha2?: string;
+          country_alpha3?: string;
+          state?: string;
+          city?: string;
+          address?: string;
+          latitude?: number;
+          longitude?: number;
+          locationPrecision?: string;
+        }
+      ];
   declare email: string;
   declare phone: string;
   declare public_private: string;
@@ -109,17 +137,46 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
   }
 
   get cityWithCountry() {
-    return this.country ? [this.city, this.state, this.country.name].filter(Boolean).join(', ') : null;
+    // Caso 1: Accede directamente a country, city, state si está disponible
+    if (this.country) {
+      return [this.city, this.state, this.country.name].filter(Boolean).join(', ');
+    }
+
+    // Caso 2: Accede a través de location, si location es un array de objetos
+    if (this.location && Array.isArray(this.location)) {
+      const locationObj = this.location[0]; // Si location es un array, tomamos el primer objeto
+      return [
+        locationObj.city,
+        locationObj.state,
+        locationObj.country_name, // Accedemos a country_name (en lugar de `country.location.name` ya que location es el objeto que contiene la propiedad country_name)
+      ]
+        .filter(Boolean)
+        .join(', ');
+    }
+
+    // Si no se puede obtener los datos, retornamos null
+    return null;
   }
 
   get latitude() {
-    return parseFloat(this.location?.split(',')[0] || '0');
+    if (typeof this.location === 'string') {
+      return parseFloat(this.location?.split(',')[0] || '0');
+    } else {
+      return this.location[0].latitude;
+    }
   }
 
   get longitude() {
-    return parseFloat(this.location?.split(',')[1] || '0');
+    if (typeof this.location === 'string') {
+      return parseFloat(this.location?.split(',')[1] || '0');
+    } else {
+      return this.location[0].longitude;
+    }
   }
 
+  get aa() {
+    return this.latitude + ', ' + this.longitude;
+  }
   get latLng() {
     return { lat: this.latitude, lng: this.longitude };
   }

@@ -30,6 +30,19 @@ export interface SearchableTemplate extends EntityTemplate {
   description?: string;
   cityWithCountry?: string;
   country?: string | { name: string; alpha2: string };
+  location?: [
+    {
+      country_name?: string;
+      country_alpha2?: string;
+      country_alpha3?: string;
+      state?: string;
+      city?: string;
+      address?: string;
+      latitude?: number;
+      longitude?: number;
+      locationPrecision?: string;
+    }
+  ];
   place?: PlaceModel;
   verified_status?: VerificationStatus;
 }
@@ -41,7 +54,7 @@ export interface ThumbnailableTemplate {
 export interface SearchableProfileTemplate extends SearchableTemplate, ThumbnailableTemplate {}
 
 export function isSearchableEntity(object: any): object is SearchableTemplate {
-  return 'name' in object && 'profile_pic' in object;
+  return 'name' in object; // && 'profile_pic' in object;
 }
 
 export function isLocableEntity(object: any): object is LocatableTemplate {

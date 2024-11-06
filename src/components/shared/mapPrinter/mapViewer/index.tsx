@@ -29,7 +29,9 @@ const MapViewer = (props: any) => {
       bounds.extend(new google.maps.LatLng(position.lat, position.lng));
     });
 
-    map.fitBounds(bounds);
+    if (data.fitBounds === undefined || data.fitBounds) {
+      map.fitBounds(bounds);
+    }
   });
 
   return <div ref={ref} id="map-viewer"></div>;

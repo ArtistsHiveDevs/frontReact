@@ -30,19 +30,21 @@ export interface SearchableTemplate extends EntityTemplate {
   description?: string;
   cityWithCountry?: string;
   country?: string | { name: string; alpha2: string };
-  location?: [
-    {
-      country_name?: string;
-      country_alpha2?: string;
-      country_alpha3?: string;
-      state?: string;
-      city?: string;
-      address?: string;
-      latitude?: number;
-      longitude?: number;
-      locationPrecision?: string;
-    }
-  ];
+  location?:
+    | string
+    | [
+        {
+          country_name?: string;
+          country_alpha2?: string;
+          country_alpha3?: string;
+          state?: string;
+          city?: string;
+          address?: string;
+          latitude?: number;
+          longitude?: number;
+          locationPrecision?: string;
+        }
+      ];
   place?: PlaceModel;
   verified_status?: VerificationStatus;
 }

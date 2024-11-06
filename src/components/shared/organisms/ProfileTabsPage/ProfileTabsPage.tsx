@@ -205,7 +205,8 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       const lng = getData(componentDescriptor.data?.lng, dataSourceElement);
 
       const mapData = {
-        zoom: 19,
+        fitBounds: false,
+        zoom: 17,
         center: {
           lat,
           lng,

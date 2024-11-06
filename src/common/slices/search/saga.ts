@@ -1,8 +1,8 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 
-import { request } from '~/common/utils/request';
-import { SearchModel } from '~/models/domain/search/search.model';
+import { APIResponse, request } from '~/common/utils/request';
+import { SearchModel, SearchTemplate } from '~/models/domain/search/search.model';
 
 import { defaultLang } from '~/common/context';
 import { searchActions as actions } from '.';
@@ -29,11 +29,17 @@ export function* queriedSearch(actionParams?: PayloadAction<string>) {
   const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/search?${urlParams}`;
 
   try {
-    const search: SearchModel = yield call(request, requestURL, {
+    const response: APIResponse = yield call(request, requestURL, {
       headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
     });
 
-    yield put(actions.searchQueried(search));
+    if (response.error) {
+      yield put(actions.repoError(1));
+    } else if (response.data) {
+      let resultInfo = response.data;
+
+      yield put(actions.searchQueried(new SearchModel(<SearchTemplate>resultInfo)));
+    }
   } catch (err) {
     console.log(err);
     yield put(actions.repoError(1));

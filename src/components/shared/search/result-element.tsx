@@ -26,13 +26,15 @@ export const ResultElement: React.FC<QueryTemplate> = (props: QueryTemplate) => 
       onClick(element);
     }
   };
-  const flag = element?.country || element.place?.country;
 
-  const flags = {
-    Colombia: 'co',
-    España: 'es',
-    Inglaterra: 'GB-ENG',
-  };
+  const flag =
+    element?.location && Array.isArray(element.location)
+      ? element?.location[0]?.country_alpha2
+      : typeof element?.country === 'object' && element?.country !== null
+      ? element?.country.alpha2
+      : typeof element?.country === 'string'
+      ? element?.country
+      : element?.place?.country_alpha2;
 
   const getProfilePicURL = async () => {
     const photoURL = element && !!element?.avatarURL ? await element.avatarURL() : element?.profile_pic;
@@ -65,9 +67,9 @@ export const ResultElement: React.FC<QueryTemplate> = (props: QueryTemplate) => 
           <span className="search-item__subtitle">
             {element?.subtitle || (
               <>
-                <span>{element?.cityWithCountry}</span>
+                <span className="search-item__subtitle_text">{element?.cityWithCountry}</span>
                 {'   '}
-                <Flag code={flags[flag as keyof typeof flags]} height="15" style={{ border: '1px solid #999' }} />
+                <Flag code={flag} height="15" style={{ border: '1px solid #999' }} />
               </>
             )}
           </span>

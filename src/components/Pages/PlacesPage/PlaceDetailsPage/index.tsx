@@ -11,6 +11,7 @@ import AppLoader from '~/components/shared/organisms/app/loader/loader';
 import { SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
+import NotFoundPage from '../../NotFoundPage';
 import { PLACE_DETAIL_SUB_PAGE_CONFIG, TRANSLATION_BASE_PLACE_DETAIL_PAGE } from './config-place-detail';
 
 const PlaceDetailPage = () => {
@@ -103,7 +104,7 @@ const PlaceDetailPage = () => {
             handlers={handlers}
           />
         ) : (
-          'Place not found'
+          <NotFoundPage />
         )
       ) : (
         <AppLoader />

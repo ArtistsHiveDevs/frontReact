@@ -6,9 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSearchSlice } from '~/common/slices/search';
 import { selectSearch, selectSearchLoading } from '~/common/slices/search/selectors';
 import { useI18n } from '~/common/utils';
-import { GMapsSvgMaker } from '~/common/utils/object-utils/object-utils-index';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
-import MapContainer from '~/components/shared/mapPrinter/mapContainer';
 import { ResultElement } from '~/components/shared/search/result-element';
 import consts from '~/components/shared/search/search-constants';
 import { EntityModel, EntityTemplate, LocatableTemplate, SearchableProfileTemplate } from '~/models/base';
@@ -18,6 +16,8 @@ import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { useSwipeable } from 'react-swipeable';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { GMapsSvgMaker } from '~/common/utils/object-utils/object-utils-index';
+import MapContainer from '~/components/shared/mapPrinter/mapContainer';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { SocialNetworks } from '~/constants/social-networks.const';
 import { SEARCH_FILTERS_CONFIG } from './config-search';
@@ -305,11 +305,23 @@ export default function SearchPage() {
     trackMouse: true, // Enable swipe with mouse for testing on desktop
   });
 
+  const handleMapTouchStart = (e: any) => {
+    e?.stopPropagation();
+  };
+
+  const handleMapTouchMove = (e: any) => {
+    e?.stopPropagation();
+  };
+
+  const handleMapTouchEnd = (e: any) => {
+    e?.stopPropagation();
+  };
+
   const clickHandlerMap = useSwipeable({
     onTouchStartOrOnMouseDown: (a) => console.log('TOUCH', a.event.target),
   });
   let mapData;
-  if (results?.location_boundaries) {
+  if (results) {
     const markers = Object.keys(results.locatedResults)
       .map((entityName) =>
         results.locatedResults[entityName].map((element: LocatableTemplate) => {
@@ -322,21 +334,22 @@ export default function SearchPage() {
       .flat(1);
 
     mapData = {
+      fitBounds: true,
       zoom: 6,
-      center: {
-        lat: (results.location_boundaries.max_lat + results.location_boundaries.min_lat) / 2,
-        lng: (results.location_boundaries.max_lng + results.location_boundaries.min_lng) / 2,
-      },
+      // center: {
+      //   lat: (results.location_boundaries.max_lat + results.location_boundaries.min_lat) / 2,
+      //   lng: (results.location_boundaries.max_lng + results.location_boundaries.min_lng) / 2,
+      // },
       marksLocation: markers,
       anotherOpts: {},
     };
   }
 
   const mapContainerStyles = {
-    width: '100%',
+    width: '90vw',
     height: '400px',
+    minWidth: '90%',
   };
-
   return (
     <div className="result-box" {...clickHandlerMap}>
       <h1>{translate('what_are_you_looking_for')}</h1>
@@ -416,10 +429,16 @@ export default function SearchPage() {
             })}
           {resultViewType === 'map' && (
             <>
-              {!results.location_boundaries && emptyResults()}
+              {/* {!results.location_boundaries && emptyResults()} */}
 
-              {results.location_boundaries && (
-                <div id="map-container" {...clickHandlerMap}>
+              {
+                <div
+                  id="map-container"
+                  {...clickHandlerMap}
+                  onTouchStart={handleMapTouchStart}
+                  onTouchMove={handleMapTouchMove}
+                  onTouchEnd={handleMapTouchEnd}
+                >
                   <MapContainer
                     id="MAPA"
                     //   key={`section-${section.name}-${index}-${componentIndex}`}
@@ -428,7 +447,7 @@ export default function SearchPage() {
                     mapData={mapData}
                   />
                 </div>
-              )}
+              }
             </>
           )}
         </div>

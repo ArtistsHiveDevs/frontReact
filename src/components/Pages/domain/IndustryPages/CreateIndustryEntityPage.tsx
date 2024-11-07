@@ -1,12 +1,16 @@
+import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
 import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
+import { useSearchSlice } from '~/common/slices/search';
+import { selectSearch, selectSearchLoading } from '~/common/slices/search/selectors';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { resolveNavigateToEntityPath } from '~/common/utils/hooks/navigation/navigateToEntityResolver';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import MainSection from '~/components/Pages/HomePage/MainSection/MainSection';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import {
   ProfileComponentTypes,
@@ -16,6 +20,7 @@ import { SUB_PATHS } from '~/constants';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
+import { SearchModel } from '~/models/domain/search/search.model';
 import './CreateIndustryEntityPage.scss';
 
 const CreateIndustryEntityPage = () => {
@@ -23,6 +28,7 @@ const CreateIndustryEntityPage = () => {
 
   const [isIndustryMemberActivated, setIndustryMemberActivated] = useState(false);
   const [selectedEntity, setSelectedEntity] = useState(undefined);
+  const [queryText, setQueryText] = useState('');
   const [availableArtists, updateAvailableArtists] = useState([]);
   const [availablePlaces, updateAvailablePlaces] = useState([]);
   const availableArtistsComplete: ArtistModel[] = useSelector(selectorArtists.selectItems);
@@ -34,6 +40,10 @@ const CreateIndustryEntityPage = () => {
   const dispatch = useDispatch();
   const { translateGlobalDict } = useI18n();
   const { navigateToInnerPath } = useNavigation();
+
+  const queriedSearchList: SearchModel = useSelector(selectSearch);
+  const querySearchLoading: boolean = useSelector(selectSearchLoading);
+  const { actions: searchActions } = useSearchSlice();
 
   const roles = [
     // 'academies',
@@ -138,7 +148,6 @@ const CreateIndustryEntityPage = () => {
 
   useEffect(() => {
     if (!!loggedUser && isIndustryMemberActivated) {
-      console.log(`./${selectedEntity}/${SUB_PATHS.CREATE}`);
       navigateToInnerPath({
         path: `${resolveNavigateToEntityPath(selectedEntity)}/${SUB_PATHS.CREATE}`,
         options: { replace: true },
@@ -169,8 +178,122 @@ const CreateIndustryEntityPage = () => {
     }
   };
 
+  const clickOnButton = () => {
+    dispatch(searchActions.querySearch(queryText));
+  };
+
+  const asociar = (params: { entityType: string; id: string }) => {
+    const { entityType, id } = params;
+    let entityName = undefined;
+    let plural = '';
+    if (entityType === ArtistModel.name) {
+      entityName = 'Artist';
+      plural = 'artists';
+    } else if (entityType === PlaceModel.name) {
+      entityName = 'Place';
+      plural = 'places';
+    } else if (entityType === EventModel.name) {
+      entityName = 'Event';
+      plural = 'events';
+    }
+
+    const instance = queriedSearchList[plural]?.find((e: any) => e.identifier == id);
+    const attributesToExtract = ['id', 'name', 'profile_pic', 'subtitle', 'verified_status'];
+
+    if (instance) {
+      const extractedObject = attributesToExtract.reduce((acc: any, key) => {
+        if (key in instance) {
+          acc[key] = instance[key];
+        }
+        return acc;
+      }, {});
+
+      let entityConfig = loggedUser.roles.find((entityRole) => entityRole.entityName === entityName) || {
+        entityName,
+        entityRoleMap: [],
+      };
+
+      // Verifica si `extractedObject` ya está en `entityRoleMap` usando `identifier`
+      const isAlreadyInMap = entityConfig.entityRoleMap.some((item) => item.id === extractedObject.id);
+
+      // Si no está en el array `entityRoleMap`, lo añade
+      if (!isAlreadyInMap) {
+        entityConfig.entityRoleMap.push({ ...extractedObject, roles: ['OWNER'] });
+      }
+
+      // Si `entityConfig` no estaba ya en `loggedUser.roles`, lo añadimos
+      if (!loggedUser.roles.find((role) => role.entityName === entityName)) {
+        loggedUser.roles.push(entityConfig);
+      }
+
+      dispatch(
+        usersActions.updateUser({
+          id: loggedUser.identifier,
+          newItem: {
+            roles: [...loggedUser.roles],
+          },
+        })
+      );
+      setQueryText('');
+    }
+  };
+
+  const resetOwnerships = (entityType: string) => {
+    dispatch(
+      usersActions.updateUser({
+        id: loggedUser.identifier,
+        newItem: {
+          roles: [...loggedUser.roles.filter((entity) => entity.entityName !== entityType)],
+        },
+      })
+    );
+    setQueryText('');
+  };
   return (
-    <div>
+    <>
+      <h2 style={{ textAlign: 'center' }}>Find agent</h2>
+      <div>
+        {/* <DynamicTabbedForm
+          tabsInfo={EVENT_DETAIL_SUB_PAGE_CONFIG}
+          handlers={handlers}
+          translationBasePath={'app.global_dictionary.entities'}
+          // entityType={AppUserModel.name}
+          fieldOptions={{}}
+          externalData={{
+            main_artists: { options: availableArtists },
+            place: { options: availablePlaces },
+          }}
+        /> */}
+        <input onChange={(e) => setQueryText(e.target.value)} /> <Button onClick={() => clickOnButton()}>Buscar</Button>
+      </div>
+      {queriedSearchList?.artists?.length && (
+        <MainSection
+          description={'Estos son los artistas relacionados'}
+          listView={queriedSearchList?.artists}
+          params={{ useNewCard: true }}
+          title={
+            'Artistas'
+            // translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)
+          }
+          callbacks={{
+            onClickCard: (data: ArtistModel) => asociar({ entityType: ArtistModel.name, id: data.identifier }),
+          }}
+        />
+      )}
+      {queriedSearchList?.places?.length && (
+        <MainSection
+          description={'Estos son los lugares relacionados'}
+          listView={queriedSearchList?.places}
+          params={{ useNewCard: true }}
+          title={
+            'Lugares'
+            // translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)
+          }
+          callbacks={{
+            onClickCard: (data: PlaceModel) => asociar({ entityType: PlaceModel.name, id: data.identifier }),
+          }}
+        />
+      )}
       <h2 style={{ textAlign: 'center' }}>Create agent</h2>
       <div>
         {/* <DynamicTabbedForm
@@ -194,7 +317,10 @@ const CreateIndustryEntityPage = () => {
           );
         })}
       </div>
-    </div>
+      <div style={{ margin: '5rem' }}></div>
+      <Button onClick={() => resetOwnerships('Artist')}>Reiniciar Artists</Button>
+      <Button onClick={() => resetOwnerships('Place')}>Reiniciar Places</Button>
+    </>
   );
 };
 

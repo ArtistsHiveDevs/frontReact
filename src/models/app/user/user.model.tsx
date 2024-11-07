@@ -220,26 +220,29 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
 
   get currentProfileInfo(): CurrentProfileInfoModel {
     let template;
-    if (this.currentProfileIdentifier === this.identifier) {
-      template = {
-        entity: AppUserModel.name,
-        id: this.identifier,
-        name: this.name,
-        username: this.username,
-        profile_pic: this.profile_pic,
-        subtitle: this.subtitle,
-        verified_status: this.verified_status,
-        roles: ['OWNER'],
-      };
-    } else {
+    template = {
+      entity: AppUserModel.name,
+      id: this.identifier,
+      name: this.name,
+      username: this.username,
+      profile_pic: this.profile_pic,
+      subtitle: this.subtitle,
+      verified_status: this.verified_status,
+      roles: ['OWNER'],
+    };
+
+    if (this.currentProfileIdentifier !== this.identifier) {
       const profiles = this.roles.find((role) =>
         role.entityRoleMap.find((roleMap) => [roleMap.id, roleMap.username].includes(this.currentProfileIdentifier))
       );
 
-      template = profiles.entityRoleMap.find((roleMap) =>
+      const newTemplate = profiles?.entityRoleMap.find((roleMap) =>
         [roleMap.id, roleMap.username].includes(this.currentProfileIdentifier)
       );
+
+      template = newTemplate || template;
     }
+
     return new CurrentProfileInfoModel(template);
   }
 

@@ -162,6 +162,13 @@ const SideNav = () => {
     }
   };
 
+  const createAgent = () => {
+    navigateToInnerPath({
+      path: `${PATHS.INDUSTRY}`,
+      options: { replace: true },
+    });
+    setShowRight(false);
+  };
   return (
     <>
       <Navbar className="toolbar-header mb-3" expand="true">
@@ -270,6 +277,17 @@ const SideNav = () => {
                 </div>
               </Offcanvas.Header>
               <Offcanvas.Body>
+                <div>
+                  <section className="general-sec">
+                    <div className="entity-row-container">
+                      <h5 className="label">Agregar artista / agente</h5>
+                      <div className="icon" onClick={() => createAgent()}>
+                        <DynamicIcons iconName="FaPlus" size={17} color="white" />
+                      </div>
+                    </div>
+                  </section>
+                  <hr />
+                </div>
                 {loggedUser?.currentProfileInfo.identifier !== loggedUser?.identifier && (
                   <div>
                     <section className="general-sec">
@@ -362,6 +380,15 @@ const SideNav = () => {
                                 </div>
                               );
                             })}
+                          {loggedUser
+                            ?.getMembershipsByEntity(entityMembershipName)
+                            .filter(
+                              (profileInfo: CurrentProfileInfoModel) =>
+                                profileInfo.identifier !== loggedUser.currentProfileInfo.identifier
+                            ).length === 0 &&
+                            `No se encontraron más ${translateGlobalDict(
+                              `entities.${entityMembershipName}.plural`
+                            ).toLowerCase()}`}
                         </div>
                       </section>
                       <hr />

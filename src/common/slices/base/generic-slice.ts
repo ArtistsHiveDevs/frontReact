@@ -3,6 +3,7 @@ import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 import { defaultLang } from '~/common/context';
 import { EntityStateTemplate } from '~/common/utils/redux-injectors/types';
 import { APIResponse, buildQueryString, deleteRequest, postRequest, putRequest, request } from '~/common/utils/request';
+import { AVAILABLE_ENTITY_MEMBERSHIPS } from '~/constants/app.constants';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import { selectApiKey } from '../app-base/APIKey/selectors';
@@ -204,7 +205,9 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
 
           if (response.data) {
             const newProfileInfo = new CurrentProfileInfoModel(response.data);
-            yield put(usersActions.switchProfile({ id: newProfileInfo.identifier }));
+            if (AVAILABLE_ENTITY_MEMBERSHIPS.includes(resourceEndpoint)) {
+              yield put(usersActions.switchProfile({ id: newProfileInfo.identifier }));
+            }
             // yield put(slice.actions.itemCreated(response.data));
           }
         } catch (err) {

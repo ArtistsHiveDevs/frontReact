@@ -9,7 +9,6 @@ import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import GenericModal from '~/components/shared/molecules/general/Modals/ModalCardInfo/GenericModal';
-import { formatDateInMomentType } from '~/constants';
 import './NewEntityCard.scss';
 
 const NewEntityCard = (props: any) => {
@@ -99,11 +98,9 @@ const NewEntityCard = (props: any) => {
                       <Card.ImgOverlay onClick={() => onClickCardHandler()}>
                         {data.timetable__initial_date && (
                           <div className="thumbnail-card-date-section">
-                            <p className="thumbnail-card-date-number">
-                              {formatDateInMomentType(data.timetable__initial_date, 'DD')}
-                            </p>
+                            <p className="thumbnail-card-date-number">{data.timetable__initial_date.format('DD')}</p>
                             <p className="thumbnail-card-date-label">
-                              {formatDateInMomentType(data.timetable__initial_date, !!printDayOfWeek ? 'ddd' : 'MMM')}
+                              {data.timetable__initial_date.format(!!printDayOfWeek ? 'ddd' : 'MMM')}
                             </p>
                           </div>
                         )}

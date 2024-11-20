@@ -27,11 +27,21 @@ export interface DynamicTabbedFormParams {
   elementData?: EntityModel<EntityTemplate>;
   fieldOptions?: { [fieldName: string]: any };
   externalData?: { [fieldName: string]: any };
+  customHeaderConfig?: any;
   submitLabel?: string;
 }
 export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
-  const { tabsInfo, elementData, handlers, translationBasePath, fieldOptions, externalData, entityType, submitLabel } =
-    params;
+  let {
+    tabsInfo,
+    elementData,
+    handlers,
+    translationBasePath,
+    fieldOptions,
+    externalData,
+    entityType,
+    submitLabel,
+    customHeaderConfig,
+  } = params;
 
   const [relationshipsValues, setRelationshipsValues] = useState<{ [relationship: string]: any[] }>({});
 
@@ -254,7 +264,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     formState: { errors },
   } = formMethods;
 
-  let customHeaderConfig = undefined;
+  // customHeaderConfig = undefined;
 
   if (entityType === AppUserModel.name) {
     customHeaderConfig = [

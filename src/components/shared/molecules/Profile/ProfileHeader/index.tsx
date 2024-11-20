@@ -270,12 +270,14 @@ export const ProfileHeader = (props: any) => {
           ></AvatarWithIcon>
         )}
         <div className="header-title d-grid align-items-bottom">
-          <div className="username">
-            <span>
-              {generateEditableField('username', element, isEditable, '@')}{' '}
-              <VerifiedArtist verifiedStatus={element?.verified_status} />
-            </span>
-          </div>
+          {!!fields.find((field) => field.name === 'username') && (
+            <div className="username">
+              <span>
+                {generateEditableField('username', element, isEditable, '@')}{' '}
+                <VerifiedArtist verifiedStatus={element?.verified_status} />
+              </span>
+            </div>
+          )}
           {!!fields.find((field) => field.name === 'name') && (
             <div className="profile-name">
               <h2>

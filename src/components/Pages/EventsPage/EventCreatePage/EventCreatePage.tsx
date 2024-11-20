@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
+import { useEventsSlice } from '~/common/slices/domain/events/events.redux';
 import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
 import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
-import { AppUserModel } from '~/models/app/user/user.model';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
+import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import {
   EVENT_DETAIL_SUB_PAGE_CONFIG,
@@ -37,6 +38,7 @@ const EventCreatePage = () => {
   const [selectedPlaces, updateSelectedPlaces] = useState([]);
 
   const { actions: artistsActions } = useArtistsSlice();
+  const { actions: eventsActions } = useEventsSlice();
   const { actions: placesActions } = usePlacesSlice();
 
   const dispatch = useDispatch();
@@ -122,6 +124,8 @@ const EventCreatePage = () => {
   const handlers = {
     onSubmit: (data: any, error?: any) => {
       console.log('#####----------->>>>  !!! ', data);
+
+      dispatch(eventsActions.createItem({ data }));
     },
     place_onChange: async (data: any) => {
       const searchedText = data?.target?.value?.trim().toLowerCase() || '';
@@ -148,7 +152,7 @@ const EventCreatePage = () => {
         tabsInfo={EVENT_DETAIL_SUB_PAGE_CONFIG}
         handlers={handlers}
         translationBasePath={TRANSLATION_BASE_EVENT_DETAILS_PAGE}
-        entityType={AppUserModel.name}
+        entityType={EventModel.name}
         fieldOptions={{
           allergies: availableAllergies,
           blood_group: availableBloodGroups,
@@ -163,6 +167,21 @@ const EventCreatePage = () => {
           main_artists: { options: availableArtists },
           place: { options: availablePlaces },
         }}
+        customHeaderConfig={[
+          {
+            name: 'name',
+            label: 'Nombre',
+            config: { required: false, minLength: 3 },
+            showEditableField: false,
+            // renderField: 'nameKnownAs',
+          },
+          { name: 'subtitle', label: 'Subtitle' },
+          // {
+          //   name: 'username',
+          //   label: 'username',
+          //   config: { required: true, minLength: 3 },
+          // },
+        ]}
       />
     </>
   );

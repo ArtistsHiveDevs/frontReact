@@ -995,6 +995,12 @@ export const EnMessages = {
               search: 'Search',
             },
           },
+          industry: {
+            name: 'Music Industry',
+            options: {
+              industry_member: 'Are you part of the music industry?',
+            },
+          },
           myInfo: {
             name: 'My Info',
             options: {

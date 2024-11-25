@@ -18,6 +18,7 @@ export interface EntityInstanceRoleMapTemplate {
   roles: string[];
   profile_pic?: string;
   name?: string;
+  stage_name?: string;
   username?: string;
   shortId?: string;
   subtitle?: string;
@@ -223,7 +224,7 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
     template = {
       entity: AppUserModel.name,
       id: this.identifier,
-      name: this.name,
+      name: this.nameKnownAs,
       username: this.username,
       profile_pic: this.profile_pic,
       subtitle: this.subtitle,
@@ -246,45 +247,16 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
     return new CurrentProfileInfoModel(template);
   }
 
-  get isIndustryMember() {
-    return !!this.roles.length;
+  get isInPersonalProfile() {
+    return this.currentProfileInfo?.identifier !== this?.identifier;
   }
 
-  modifyDummyRole(entity: string, idEntity: string, roleName: string, action: 'add' | 'del') {
-    // Busca la entidad en la que se va modificar el rol
-    if (!this.roles.find((role) => role.entityName === entity)) {
-      this.roles.push({ entityName: entity, entityRoleMap: [] });
-    }
-    const role = this.roles.find((role) => role.entityName === entity);
+  get hasIndustryProfiles() {
+    return !!this.roles.find((role: UserAvailableEntityRole) => !!role.entityRoleMap.length);
+  }
 
-    // Busca la instancia de la entidad
-    if (!role.entityRoleMap.find((roleMap) => roleMap.id === idEntity)) {
-      // role.entityRoleMap.push(new CurrentProfileInfoModel({ id: idEntity, roles: [] }));
-    }
-    const roleMap = role.entityRoleMap.find((roleMap) => roleMap.id === idEntity);
-
-    // Revisa si existe el rol en esa instancia
-    const exists = roleMap.roles.includes(roleName);
-    if (action === 'add') {
-      if (!exists) {
-        roleMap.roles.push(roleName);
-      }
-    } else if (action === 'del') {
-      if (exists) {
-        // Elimina el rol de la instancia
-        roleMap.roles = roleMap.roles.filter((role) => role !== roleName);
-
-        if (!roleMap.roles.length) {
-          // Si la instancia no tiene más roles, se elimina
-          role.entityRoleMap = role.entityRoleMap.filter((roleMap) => roleMap.roles.length);
-        }
-
-        if (!role.entityRoleMap.length) {
-          // Si el usuario no tiene instancias, elimina la entidad
-          this.roles = this.roles.filter((entityRoles) => entityRoles.entityRoleMap.length);
-        }
-      }
-    }
+  get isIndustryMember() {
+    return !!this.roles.length;
   }
 
   checkPermissions(idResource: string): UserPermissionsTemplate {
@@ -325,7 +297,7 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
       path = EventModel.name;
     }
     return (this.roles.find((role) => role.entityName === entityName)?.entityRoleMap || []).map(
-      (roleMapInstance) => new CurrentProfileInfoModel({ ...roleMapInstance, entity: entityName })
+      (roleMapInstance) => new CurrentProfileInfoModel({ ...roleMapInstance, entity: path })
     );
   }
 }

@@ -198,7 +198,7 @@ const CreateIndustryEntityPage = () => {
     }
 
     const instance = queriedSearchList[plural]?.find((e: any) => e.identifier == id);
-    const attributesToExtract = ['id', 'name', 'profile_pic', 'subtitle', 'verified_status'];
+    const attributesToExtract = ['id', 'shortId', 'profile_pic', 'name', 'username', 'subtitle', 'verified_status'];
 
     if (instance) {
       const extractedObject = attributesToExtract.reduce((acc: any, key) => {

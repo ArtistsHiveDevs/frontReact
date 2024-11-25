@@ -8,13 +8,12 @@ import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { PATHS, SUB_PATHS } from '~/constants';
+import { AppUserModel } from '~/models/app/user/user.model';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import MainSection from '../MainSection/MainSection';
-import WelcomeSection from '../WelcomeSection/WelcomeSection';
 import './index.scss';
-import { AppUserModel } from '~/models/app/user/user.model';
 
 const TRANSLATION_BASE_HOME_PAGE = 'app.pages.HomePage';
 const TRANSLATION_BASE_GLOBAL_DICTONARY = 'app.global_dictionary';
@@ -38,8 +37,8 @@ const HomePage = () => {
 
   // Effects
   useEffect(() => {
-    if(!!loggedUser && !loggedUser.hasFilledProfile){
-      navigateToEntity({ entityType:AppUserModel.name, id: loggedUser.identifier, action: SUB_PATHS.EDIT });
+    if (!!loggedUser && !loggedUser.hasFilledProfile) {
+      navigateToEntity({ entityType: AppUserModel.name, id: loggedUser.identifier, action: SUB_PATHS.EDIT });
     }
     loadData();
   }, [loggedUser]);
@@ -130,13 +129,13 @@ const HomePage = () => {
 
   return (
     <>
-      <WelcomeSection />
+      {/* <WelcomeSection /> */}
       <div className="home-section-title">
         <h1 className="welcome-title">{translateText(`${TRANSLATION_BASE_HOME_PAGE}.news`)}</h1>
       </div>
 
       <MainSection
-        description={'Estos son los artistas nuevos más solicitados'}
+        // description={'Estos son los artistas nuevos más solicitados'}
         listView={artistList}
         params={{ useNewCard: true }}
         title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)}
@@ -144,7 +143,7 @@ const HomePage = () => {
       />
 
       <MainSection
-        description={'Próximos eventos cercanos a ti'}
+        // description={'Próximos eventos cercanos a ti'}
         listView={eventsList}
         params={{ useNewCard: true }}
         title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.events`)}
@@ -152,7 +151,7 @@ const HomePage = () => {
       />
 
       <MainSection
-        description={'Estos son los lugares más cercanos a tu ubicación que están buscando artistas'}
+        // description={'Estos son los lugares más cercanos a tu ubicación que están buscando artistas'}
         listView={placesList}
         params={{ useNewCard: true }}
         title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.places`)}

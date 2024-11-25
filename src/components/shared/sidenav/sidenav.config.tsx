@@ -5,6 +5,7 @@ const TRANSLATION_BASE_SIDENAV = 'app.appbase.sidenav.sections';
 
 const enum SIDENAV_SECTIONS {
   GENERAL = 'general',
+  INDUSTRY = 'industry',
   MY_INFO = 'myInfo',
   SETTINGS = 'settings',
 }
@@ -53,31 +54,31 @@ const general: SideMenuItem[] = [
   },
 ];
 const miInfo: SideMenuItem[] = [
-  {
-    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_profile'),
-    path: `${PATHS.PROFILE}`,
-    icon: 'FaUser',
-    updated: new Date('2/20/16'),
-    requireSession: true,
-  },
-  {
-    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_bands'),
-    path: `${PATHS.ARTISTS}/${SUB_PATHS.ELEMENT_DETAILS}`,
-    icon: 'FaUsers',
-    updated: new Date('2/20/16'),
-    randomId: true,
-    allowedRoles: [{ entityName: 'Artist' }],
-    requireSession: false,
-    nestedMenuOptions: [
-      {
-        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_bands.nested.create'),
-        path: `${PATHS.ARTISTS}/${SUB_PATHS.CREATE}`,
-        icon: 'MdGroupAdd',
-        updated: new Date('2/20/16'),
-        requireSession: true,
-      },
-    ],
-  },
+  // {
+  //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_profile'),
+  //   path: `${PATHS.PROFILE}`,
+  //   icon: 'FaUser',
+  //   updated: new Date('2/20/16'),
+  //   requireSession: true,
+  // },
+  // {
+  //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_bands'),
+  //   path: `${PATHS.ARTISTS}/${SUB_PATHS.ELEMENT_DETAILS}`,
+  //   icon: 'FaUsers',
+  //   updated: new Date('2/20/16'),
+  //   randomId: true,
+  //   allowedRoles: [{ entityName: 'Artist' }],
+  //   requireSession: false,
+  //   nestedMenuOptions: [
+  //     {
+  //       name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_bands.nested.create'),
+  //       path: `${PATHS.ARTISTS}/${SUB_PATHS.CREATE}`,
+  //       icon: 'MdGroupAdd',
+  //       updated: new Date('2/20/16'),
+  //       requireSession: true,
+  //     },
+  //   ],
+  // },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox'),
     path: '',
@@ -119,52 +120,59 @@ const miInfo: SideMenuItem[] = [
       },
     ],
   },
-  {
-    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),
-    path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/rid_2`,
-    icon: 'FaFileAlt',
-    updated: new Date('2/20/16'),
-    allowedRoles: [{ entityName: 'Artist' }],
-  },
-  {
-    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_places'),
-    path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}`,
-    icon: 'hi2 HiBuildingStorefront',
-    updated: new Date('2/20/16'),
-    allowedRoles: [{ entityName: 'Place' }],
-    nestedMenuOptions: [
-      {
-        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_places.nested.create'),
-        path: `${PATHS.PLACES}/${SUB_PATHS.CREATE}`,
-        icon: 'MdGroupAdd',
-        updated: new Date('2/20/16'),
-        requireSession: true,
-      },
-    ],
-  },
+  // {
+  //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),
+  //   path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/rid_2`,
+  //   icon: 'FaFileAlt',
+  //   updated: new Date('2/20/16'),
+  //   allowedRoles: [{ entityName: 'Artist' }],
+  // },
+  // {
+  //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_places'),
+  //   path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}`,
+  //   icon: 'hi2 HiBuildingStorefront',
+  //   updated: new Date('2/20/16'),
+  //   allowedRoles: [{ entityName: 'Place' }],
+  //   nestedMenuOptions: [
+  //     {
+  //       name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_places.nested.create'),
+  //       path: `${PATHS.PLACES}/${SUB_PATHS.CREATE}`,
+  //       icon: 'MdGroupAdd',
+  //       updated: new Date('2/20/16'),
+  //       requireSession: true,
+  //     },
+  //   ],
+  // },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites'),
     path: '',
-    icon: 'BsFillBookmarksFill',
+    icon: 'AiFillHeart',
     updated: new Date('2/20/16'),
     requireSession: true,
     nestedMenuOptions: [
       {
         name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.saved'),
         path: `${PATHS.MY_FAVOURITES}`,
-        icon: 'AiFillHeart',
+        icon: 'BsFillBookmarksFill',
         updated: new Date('2/20/16'),
         requireSession: true,
       },
-      {
-        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.tour_planning'),
-        path: `${PATHS.TOURS_OUTLINE}`,
-        icon: 'BsFillJournalBookmarkFill',
-        updated: new Date('2/20/16'),
-        allowedRoles: [{ entityName: 'Artist' }],
-        requireSession: true,
-      },
+      // {
+      //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.tour_planning'),
+      //   path: `${PATHS.TOURS_OUTLINE}`,
+      //   icon: 'BsFillJournalBookmarkFill',
+      //   updated: new Date('2/20/16'),
+      //   allowedRoles: [{ entityName: 'Artist' }],
+      //   requireSession: true,
+      // },
     ],
+  },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'logout'),
+    handler: 'logout',
+    icon: 'HiOutlineLogout',
+    updated: new Date('2/20/16'),
+    requireSession: true,
   },
 ];
 const config: SideMenuItem[] = [
@@ -195,13 +203,7 @@ const config: SideMenuItem[] = [
     updated: new Date('2/20/16'),
     requireSession: true,
   },
-  {
-    name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'logout'),
-    handler: 'logout',
-    icon: 'HiOutlineLogout',
-    updated: new Date('2/20/16'),
-    requireSession: true,
-  },
+
   // {
   //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),
   //   path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/rid_2`,
@@ -210,18 +212,33 @@ const config: SideMenuItem[] = [
   // },
 ];
 
-export const SIDENAV_MENU_CONFIG: SideMenuSection[] = [
+export const LEFT_SIDENAV_MENU_CONFIG: SideMenuSection[] = [
   {
     name: `${TRANSLATION_BASE_SIDENAV}.${SIDENAV_SECTIONS.GENERAL}.name`,
     options: general,
   },
   {
-    name: `${TRANSLATION_BASE_SIDENAV}.${SIDENAV_SECTIONS.MY_INFO}.name`,
-    options: miInfo,
-    requireSession: true,
+    name: `${TRANSLATION_BASE_SIDENAV}.${SIDENAV_SECTIONS.INDUSTRY}.name`,
+    options: [
+      {
+        name: generateTranslationPath(SIDENAV_SECTIONS.INDUSTRY, 'industry_member'),
+        path: `${PATHS.INDUSTRY}`,
+        icon: 'hi2 HiMusicalNote',
+        updated: new Date('2/20/16'),
+        requireSession: true,
+      },
+    ],
   },
   {
     name: `${TRANSLATION_BASE_SIDENAV}.${SIDENAV_SECTIONS.SETTINGS}.name`,
     options: config,
+  },
+];
+
+export const RIGHT_SIDENAV_MENU_CONFIG: SideMenuSection[] = [
+  {
+    name: `${TRANSLATION_BASE_SIDENAV}.${SIDENAV_SECTIONS.MY_INFO}.name`,
+    options: miInfo,
+    requireSession: true,
   },
 ];

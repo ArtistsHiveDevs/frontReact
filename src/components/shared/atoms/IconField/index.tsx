@@ -1,3 +1,4 @@
+import ExpandableText from '~/components/shared/atoms/gui/ExpandableText/ExpandableText';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { buildSocialNetworkLinkData, SocialNetworks } from '~/constants/social-networks.const';
 import './index.scss';
@@ -62,7 +63,8 @@ const IconFieldReadOnly = (props: any) => {
       {!useDivInValue && (
         <span className="field-content">
           {direction !== 'vertical' && generateTitle()}
-          {renderFieldValue}
+          {typeof renderFieldValue === 'string' && <ExpandableText text={renderFieldValue} />}
+          {typeof renderFieldValue !== 'string' && renderFieldValue}
         </span>
       )}
     </div>

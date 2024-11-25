@@ -34,7 +34,7 @@ export const useNavigation = () => {
       window.scrollTo(0, 0);
       navigate(path, params.options);
     } else {
-      console.error('Navigate to entity error: Entity type was not found', params);
+      console.error('Navigate to entity error: Entity type was not found', params, entity);
     }
   };
 

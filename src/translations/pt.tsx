@@ -1007,6 +1007,12 @@ export const PtMessages = {
               search: 'Pesquisar',
             },
           },
+          industry: {
+            name: 'Indústria Musical',
+            options: {
+              industry_member: 'Você faz parte da indústria musical?',
+            },
+          },
           myInfo: {
             name: 'Minha informação',
             options: {

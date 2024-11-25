@@ -88,7 +88,7 @@ const NewEntityCard = (props: any) => {
                         name=""
                         image={photoURL}
                         variant={'rounded'}
-                        avatarSize={'11.5rem'}
+                        avatarSize={'10rem'}
                         bottomBadgeSize={'2.5rem'}
                         buttonIcon={currentUserCanEdit && !currentUserIsInProfile && 'PiUserSwitch'}
                         onClick={() => onClickCardHandler()}

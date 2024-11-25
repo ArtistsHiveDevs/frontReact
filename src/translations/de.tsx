@@ -1010,6 +1010,12 @@ export const DeMessages = {
               search: 'Suchen',
             },
           },
+          industry: {
+            name: 'Musikindustrie',
+            options: {
+              industry_member: 'Bist du Teil der Musikindustrie?',
+            },
+          },
           myInfo: {
             name: 'Meine Info',
             options: {

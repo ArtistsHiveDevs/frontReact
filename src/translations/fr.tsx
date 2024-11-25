@@ -1011,6 +1011,12 @@ export const FrMessages = {
               search: 'Rechercher',
             },
           },
+          industry: {
+            name: 'Industrie Musicale',
+            options: {
+              industry_member: "Faites-vous partie de l'industrie musicale ?",
+            },
+          },
           myInfo: {
             name: 'Mes info',
             options: {

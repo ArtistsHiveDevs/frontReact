@@ -1002,6 +1002,12 @@ export const EsMessages = {
               search: 'Buscar',
             },
           },
+          industry: {
+            name: 'Industria Musical',
+            options: {
+              industry_member: '¿Perteneces a la industria musical?',
+            },
+          },
           myInfo: {
             name: 'Mi Info',
             options: {

@@ -165,7 +165,7 @@ export const LoginPage = () => {
         Iniciar Sesión
       </Typography> */}
       <Grid alignItems="center" justifyContent="center" spacing={10} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        <Grid item justifyContent="center">
+        {/* <Grid item justifyContent="center">
           <img
             alt="Artist Hive"
             className="img-logotipo"
@@ -173,7 +173,7 @@ export const LoginPage = () => {
             width="200"
             onClick={() => setClicksEnLogo(clicksEnLogo + 1)}
           />
-        </Grid>
+        </Grid> */}
         {/* <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: 2 }} className={'login-form-container'}>
             <Typography variant="h4" gutterBottom padding={'1rem'}>

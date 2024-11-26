@@ -1,3 +1,4 @@
+import { Dialog, DialogContent } from '@mui/material';
 import { fetchUserAttributes } from 'aws-amplify/auth';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,6 +35,8 @@ const UserCreatePage = () => {
   // const [availableAllergies, updateAvailableAllergies] = useState([]);
   const [availableBloodGroups, updateAvailableBloodGroups] = useState([]);
   const [availableDietaryRestritions, updateAvailableDietaryRestrictions] = useState([]);
+
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     dispatch(languageActions.loadItems({}));
@@ -116,6 +119,7 @@ const UserCreatePage = () => {
     // console.log('user id', user.userId);
     // console.log('sign-in details', user.signInDetails);
     console.log(user, ' - ', loggedUser);
+    setOpenDialog(!!loggedUser || !loggedUser.hasFilledProfile);
   };
 
   const handlers = {
@@ -187,6 +191,16 @@ const UserCreatePage = () => {
         }}
       />
       <IndustrySignUpBanner />
+      <Dialog id="zoomAlbumImg" open={openDialog} onClose={() => setOpenDialog(false)} fullWidth>
+        <DialogContent className="zoom-dialog">
+          <div>
+            <div>
+              <DynamicIcons iconName="FaInfoCircle" size={40} color={'white'} />
+            </div>
+            <div>{translateText(`${TRANSLATION_BASE_USER_DETAIL_PAGE}.fillProfileBanner.content`)}</div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

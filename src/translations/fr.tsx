@@ -304,8 +304,10 @@ export const FrMessages = {
             },
           },
           activate_industry_banner: {
-            banner:
-              "Êtes-vous membre de l'industrie ? Accédez à tous les outils pour les artistes, agents, salles et autres professionnels.",
+            banner: {
+              title: "Êtes-vous membre de l'industrie?",
+              content: 'Accédez à tous les outils pour les artistes, agents, salles et autres professionnels.',
+            },
             button: 'Activer maintenant',
           },
         },

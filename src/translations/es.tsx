@@ -305,8 +305,10 @@ export const EsMessages = {
             },
           },
           activate_industry_banner: {
-            banner:
-              '¿Eres miembro de la industria? Accede a todas las herramientas para artistas, agentes, venues y otros profesionales.',
+            banner: {
+              title: '¿Eres miembro de la industria?',
+              content: 'Accede a todas las herramientas para artistas, agentes, venues y otros profesionales.',
+            },
             button: 'Activar ahora',
           },
         },

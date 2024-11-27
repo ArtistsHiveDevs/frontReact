@@ -304,8 +304,10 @@ export const PtMessages = {
             },
           },
           activate_industry_banner: {
-            banner:
-              'Você é membro da indústria? Acesse todas as ferramentas para artistas, agentes, venues e outros profissionais.',
+            banner: {
+              title: 'Você é membro da indústria?',
+              content: 'Acesse todas as ferramentas para artistas, agentes, venues e outros profissionais.',
+            },
             button: 'Ativar agora',
           },
         },

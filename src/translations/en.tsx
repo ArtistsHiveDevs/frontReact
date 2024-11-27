@@ -304,8 +304,10 @@ export const EnMessages = {
             },
           },
           activate_industry_banner: {
-            banner:
-              'Are you an industry member? Access all tools for artists, agents, venues, and other professionals.',
+            banner: {
+              title: 'Are you an industry member?',
+              content: 'Access all tools for artists, agents, venues, and other professionals.',
+            },
             button: 'Activate now',
           },
         },

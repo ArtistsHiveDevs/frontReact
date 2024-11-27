@@ -305,8 +305,10 @@ export const DeMessages = {
             },
           },
           activate_industry_banner: {
-            banner:
-              'Bist du Mitglied der Musikbranche? Greife auf alle Tools für Künstler, Agenten, Veranstaltungsorte und andere Fachleute zu.',
+            banner: {
+              title: 'Bist du Mitglied der Musikbranche?',
+              content: 'Greife auf alle Tools für Künstler, Agenten, Veranstaltungsorte und andere Fachleute zu.',
+            },
             button: 'Jetzt aktivieren',
           },
         },

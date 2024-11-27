@@ -107,6 +107,8 @@ export interface AppUserTemplate extends ProfileTemplate {
     next_events: EventTemplate[];
     past_events: EventTemplate[];
   };
+
+  show_industry_member_banner: boolean;
 }
 
 export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUserTemplate, SearchableTemplate {
@@ -146,6 +148,8 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
     next_events: EventTemplate[];
     past_events: EventTemplate[];
   };
+
+  declare show_industry_member_banner: boolean;
 
   artistMemberships: CurrentProfileInfoModel[];
   placeMemberships: CurrentProfileInfoModel[];

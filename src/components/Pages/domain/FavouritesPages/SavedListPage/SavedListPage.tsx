@@ -91,7 +91,10 @@ const SavedListPage = () => {
 
   return (
     <>
-      <h1>My favourites</h1>
+      <>
+        <h2>Mis favoritos</h2>
+        <p>Próximamente habilitaremos la opción de hacerle seguimiento a tus artistas, lugares y eventos favoritos</p>
+      </>
 
       {/* {favouritesList &&
         (favouritesList.likedEntities || []).map((entityName, entityIndex) => {

@@ -1,5 +1,5 @@
 import { AllowedEntityRole } from '~/components/shared/atoms/app/auth/RequiredAuth';
-import { PATHS, SUB_PATHS } from '~/constants';
+import { PATHS } from '~/constants';
 
 const TRANSLATION_BASE_SIDENAV = 'app.appbase.sidenav.sections';
 
@@ -105,20 +105,21 @@ const miInfo: SideMenuItem[] = [
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_events'),
-    path: `${PATHS.EVENTS}/${SUB_PATHS.ELEMENT_DETAILS}`,
+    path: `${PATHS.EVENTS}`,
     icon: 'FaRegCalendarAlt',
     updated: new Date('1/18/16'),
-    randomId: true,
-    allowedRoles: [{ entityName: 'Artist' }],
-    nestedMenuOptions: [
-      {
-        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_events.nested.create'),
-        path: `${PATHS.EVENTS}/${SUB_PATHS.CREATE}`,
-        icon: 'FaRegCalendarPlus',
-        updated: new Date('2/20/16'),
-        requireSession: true,
-      },
-    ],
+    randomId: false,
+    allowedRoles: [],
+    // nestedMenuOptions: [
+    // {
+    //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_events.nested.create'),
+    //   path: `${PATHS.EVENTS}/${SUB_PATHS.CREATE}`,
+    //   icon: 'FaRegCalendarPlus',
+    //   updated: new Date('2/20/16'),
+    //   requireSession: true,
+    //   allowedRoles: [{ entityName: 'Artist' }],
+    // },
+    // ],
   },
   // {
   //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),
@@ -145,27 +146,27 @@ const miInfo: SideMenuItem[] = [
   // },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites'),
-    path: '',
+    path: `${PATHS.MY_FAVOURITES}`,
     icon: 'AiFillHeart',
     updated: new Date('2/20/16'),
     requireSession: true,
-    nestedMenuOptions: [
-      {
-        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.saved'),
-        path: `${PATHS.MY_FAVOURITES}`,
-        icon: 'BsFillBookmarksFill',
-        updated: new Date('2/20/16'),
-        requireSession: true,
-      },
-      // {
-      //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.tour_planning'),
-      //   path: `${PATHS.TOURS_OUTLINE}`,
-      //   icon: 'BsFillJournalBookmarkFill',
-      //   updated: new Date('2/20/16'),
-      //   allowedRoles: [{ entityName: 'Artist' }],
-      //   requireSession: true,
-      // },
-    ],
+    //   nestedMenuOptions: [
+    //     {
+    //       name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.saved'),
+    //       path: `${PATHS.MY_FAVOURITES}`,
+    //       icon: 'BsFillBookmarksFill',
+    //       updated: new Date('2/20/16'),
+    //       requireSession: true,
+    //     },
+    //     // {
+    //     //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.tour_planning'),
+    //     //   path: `${PATHS.TOURS_OUTLINE}`,
+    //     //   icon: 'BsFillJournalBookmarkFill',
+    //     //   updated: new Date('2/20/16'),
+    //     //   allowedRoles: [{ entityName: 'Artist' }],
+    //     //   requireSession: true,
+    //     // },
+    //   ],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'logout'),
@@ -219,6 +220,7 @@ export const LEFT_SIDENAV_MENU_CONFIG: SideMenuSection[] = [
   },
   {
     name: `${TRANSLATION_BASE_SIDENAV}.${SIDENAV_SECTIONS.INDUSTRY}.name`,
+    requireSession: true,
     options: [
       {
         name: generateTranslationPath(SIDENAV_SECTIONS.INDUSTRY, 'industry_member'),

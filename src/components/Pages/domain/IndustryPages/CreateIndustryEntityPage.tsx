@@ -26,6 +26,8 @@ import './CreateIndustryEntityPage.scss';
 const CreateIndustryEntityPage = () => {
   const loggedUser = useSelector(selectCurrentUser);
 
+  const [count, setCount] = useState(0);
+  const [showReset, setShowReset] = useState(false);
   const [isIndustryMemberActivated, setIndustryMemberActivated] = useState(false);
   const [selectedEntity, setSelectedEntity] = useState(undefined);
   const [queryText, setQueryText] = useState('');
@@ -169,7 +171,7 @@ const CreateIndustryEntityPage = () => {
         entityName = 'Event';
         path = EventModel.name;
       }
-      console.log(entityName);
+      // console.log(entityName);
       dispatch(
         usersActions.updateUser({ id: loggedUser.identifier, newItem: { roles: [{ entityName, entityRoleMap: [] }] } })
       );
@@ -251,9 +253,32 @@ const CreateIndustryEntityPage = () => {
   };
   return (
     <>
-      <h2 style={{ textAlign: 'center' }}>Find agent</h2>
       <div>
-        {/* <DynamicTabbedForm
+        <h2
+          onClick={() => {
+            setCount(count + 1);
+            if (count >= 7) {
+              setShowReset(true);
+            }
+          }}
+        >
+          Miembro de la industria
+        </h2>
+        <div style={{ margin: '2rem' }}></div>
+        <p>
+          Gracias por tu interés en registrarte como miembro de la industria ya sea como artista, agente, dueño de un
+          venue, sala de ensayo u otra entidad.
+        </p>
+        <p>
+          Nuestro equipo estará analizando tu perfil y se contactará contigo para poder asociar los perfiles a tu
+          cuenta.
+        </p>
+      </div>
+      {showReset && (
+        <div>
+          <h2 style={{ textAlign: 'center' }}>Find agent</h2>
+          <div>
+            {/* <DynamicTabbedForm
           tabsInfo={EVENT_DETAIL_SUB_PAGE_CONFIG}
           handlers={handlers}
           translationBasePath={'app.global_dictionary.entities'}
@@ -264,39 +289,40 @@ const CreateIndustryEntityPage = () => {
             place: { options: availablePlaces },
           }}
         /> */}
-        <input onChange={(e) => setQueryText(e.target.value)} /> <Button onClick={() => clickOnButton()}>Buscar</Button>
-      </div>
-      {queriedSearchList?.artists?.length && (
-        <MainSection
-          description={'Estos son los artistas relacionados'}
-          listView={queriedSearchList?.artists}
-          params={{ useNewCard: true }}
-          title={
-            'Artistas'
-            // translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)
-          }
-          callbacks={{
-            onClickCard: (data: ArtistModel) => asociar({ entityType: ArtistModel.name, id: data.identifier }),
-          }}
-        />
-      )}
-      {queriedSearchList?.places?.length && (
-        <MainSection
-          description={'Estos son los lugares relacionados'}
-          listView={queriedSearchList?.places}
-          params={{ useNewCard: true }}
-          title={
-            'Lugares'
-            // translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)
-          }
-          callbacks={{
-            onClickCard: (data: PlaceModel) => asociar({ entityType: PlaceModel.name, id: data.identifier }),
-          }}
-        />
-      )}
-      <h2 style={{ textAlign: 'center' }}>Create agent</h2>
-      <div>
-        {/* <DynamicTabbedForm
+            <input onChange={(e) => setQueryText(e.target.value)} />{' '}
+            <Button onClick={() => clickOnButton()}>Buscar</Button>
+          </div>
+          {queriedSearchList?.artists?.length && (
+            <MainSection
+              description={'Estos son los artistas relacionados'}
+              listView={queriedSearchList?.artists}
+              params={{ useNewCard: true }}
+              title={
+                'Artistas'
+                // translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)
+              }
+              callbacks={{
+                onClickCard: (data: ArtistModel) => asociar({ entityType: ArtistModel.name, id: data.identifier }),
+              }}
+            />
+          )}
+          {queriedSearchList?.places?.length && (
+            <MainSection
+              description={'Estos son los lugares relacionados'}
+              listView={queriedSearchList?.places}
+              params={{ useNewCard: true }}
+              title={
+                'Lugares'
+                // translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)
+              }
+              callbacks={{
+                onClickCard: (data: PlaceModel) => asociar({ entityType: PlaceModel.name, id: data.identifier }),
+              }}
+            />
+          )}
+          <h2 style={{ textAlign: 'center' }}>Create agent</h2>
+          <div>
+            {/* <DynamicTabbedForm
           tabsInfo={EVENT_DETAIL_SUB_PAGE_CONFIG}
           handlers={handlers}
           translationBasePath={'app.global_dictionary.entities'}
@@ -307,19 +333,22 @@ const CreateIndustryEntityPage = () => {
             place: { options: availablePlaces },
           }}
         /> */}
-        {roles.map((role: string, index: number) => {
-          return (
-            <div key={`${role}_${index}`} className="entity" onClick={() => clickOnEntityHandler(role)}>
-              {' '}
-              <DynamicIcons iconName="FaPlusCircle" color={'white'} />
-              {translateGlobalDict(`entities.${role}.plural`)}
-            </div>
-          );
-        })}
-      </div>
-      <div style={{ margin: '5rem' }}></div>
-      <Button onClick={() => resetOwnerships('Artist')}>Reiniciar Artists</Button>
-      <Button onClick={() => resetOwnerships('Place')}>Reiniciar Places</Button>
+            {roles.map((role: string, index: number) => {
+              return (
+                <div key={`${role}_${index}`} className="entity" onClick={() => clickOnEntityHandler(role)}>
+                  {' '}
+                  <DynamicIcons iconName="FaPlusCircle" color={'white'} />
+                  {translateGlobalDict(`entities.${role}.plural`)}
+                </div>
+              );
+            })}
+          </div>
+          <div style={{ margin: '5rem' }}></div>
+
+          <Button onClick={() => resetOwnerships('Artist')}>Reiniciar Artists</Button>
+          <Button onClick={() => resetOwnerships('Place')}>Reiniciar Places</Button>
+        </div>
+      )}
     </>
   );
 };

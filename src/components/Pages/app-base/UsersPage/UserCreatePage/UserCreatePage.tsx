@@ -1,4 +1,3 @@
-import { Dialog, DialogContent } from '@mui/material';
 import { fetchUserAttributes } from 'aws-amplify/auth';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,8 +7,9 @@ import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { uploadImage } from '~/common/utils/amplify/storage/storage.helpers';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { IndustrySignUpBanner } from '~/components/shared/atoms/IndustrySignUpBanner/IndustrySignUpBanner';
-import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { AppUserModel } from '~/models/app/user/user.model';
@@ -21,6 +21,7 @@ const UserCreatePage = () => {
   const dispatch = useDispatch();
 
   const { translateText, translateGlobalDict } = useI18n();
+  const { navigateToEntity, navigateToInnerPath } = useNavigation();
 
   const { actions: languageActions } = useLanguagesSlice();
   const { actions: allergyActions } = useAllergiesSlice();
@@ -30,6 +31,7 @@ const UserCreatePage = () => {
   const availableLanguages = useSelector(selectorLanguages.selectItems);
 
   // const [availableLanguages, updateAvailableLanguages] = useState([]);
+  const [updateRequestWasSended, setUpdateRequestSended] = useState(false);
   const [availableGenres, updateAvailableGenres] = useState([]);
   const [availableGenders, updateAvailableGenders] = useState([]);
   // const [availableAllergies, updateAvailableAllergies] = useState([]);
@@ -112,26 +114,33 @@ const UserCreatePage = () => {
     getUserInfo();
   }, []);
 
+  useEffect(() => {
+    // console.log(updateRequestWasSended, '  -  ', loggedUser, '---  ', !!loggedUser.hasFilledProfile);
+    if (updateRequestWasSended && loggedUser && !!loggedUser.hasFilledProfile) {
+      navigateToEntity({ entityType: AppUserModel.name, id: loggedUser?.currentProfileIdentifier });
+    }
+  }, [loggedUser, updateRequestWasSended]);
+
   const getUserInfo = async () => {
     const user = await fetchUserAttributes();
 
     // console.log('username', user.username);
     // console.log('user id', user.userId);
     // console.log('sign-in details', user.signInDetails);
-    console.log(user, ' - ', loggedUser);
-    setOpenDialog(!!loggedUser || !loggedUser.hasFilledProfile);
+
+    setOpenDialog(loggedUser && !loggedUser.hasFilledProfile);
   };
 
   const handlers = {
     onSubmit: async (data: any, error?: any) => {
-      console.log('#####----------->>>>  !!! ', data);
+      // console.log('#####----------->>>>  !!! ', data);
       if (!!data.profile_pic) {
         const prefferedFilename = `${loggedUser.sub}.${data.profile_pic.name.split('.').pop()}`;
         const response = await uploadImage({
           file: data.profile_pic,
           prefferedFilename,
         });
-        console.log('DESPUÉS de SUBIR FOTO, ', response);
+        // console.log('DESPUÉS de SUBIR FOTO, ', response);
         dispatch(
           userActions.updateUser({
             id: loggedUser.identifier,
@@ -141,7 +150,17 @@ const UserCreatePage = () => {
             },
           })
         );
+      } else {
+        dispatch(
+          userActions.updateUser({
+            id: loggedUser.identifier,
+            newItem: {
+              ...data,
+            },
+          })
+        );
       }
+      setUpdateRequestSended(true);
     },
     onChangecountry: (data: any) => {
       console.log('#####----------->>>>  !!! ', data);
@@ -165,14 +184,6 @@ const UserCreatePage = () => {
 
   return (
     <>
-      {loggedUser && !loggedUser.hasFilledProfile && (
-        <div className="fill-profile-banner">
-          <div>
-            <DynamicIcons iconName="FaInfoCircle" size={40} color={'white'} />
-          </div>
-          <div>{translateText(`${TRANSLATION_BASE_USER_DETAIL_PAGE}.fillProfileBanner.content`)}</div>
-        </div>
-      )}
       <DynamicTabbedForm
         tabsInfo={USER_DETAIL_SUB_PAGE_CONFIG}
         handlers={handlers}
@@ -191,16 +202,29 @@ const UserCreatePage = () => {
         }}
       />
       <IndustrySignUpBanner />
-      <Dialog id="zoomAlbumImg" open={openDialog} onClose={() => setOpenDialog(false)} fullWidth>
+      <AppDialog
+        title="Completa tu perfil"
+        isOpenDialog={openDialog}
+        onClose={() => setOpenDialog(false)}
+        content={translateText(`${TRANSLATION_BASE_USER_DETAIL_PAGE}.fillProfileBanner.content`)}
+        icon={'FaInfoCircle'}
+      />
+      {/* <Dialog id="zoomAlbumImg" open={openDialog} onClose={() => setOpenDialog(false)} fullWidth>
+        <DialogTitle className="dialog-title">
+          Completa tu perfil
+          <IconButton onClick={() => setOpenDialog(false)} className="close-icon">
+            <DynamicIcons iconName="MdClose" />
+          </IconButton>
+        </DialogTitle>
         <DialogContent className="zoom-dialog">
           <div>
+            <div>{translateText(`${TRANSLATION_BASE_USER_DETAIL_PAGE}.fillProfileBanner.content`)}</div>
             <div>
               <DynamicIcons iconName="FaInfoCircle" size={40} color={'white'} />
             </div>
-            <div>{translateText(`${TRANSLATION_BASE_USER_DETAIL_PAGE}.fillProfileBanner.content`)}</div>
           </div>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 };

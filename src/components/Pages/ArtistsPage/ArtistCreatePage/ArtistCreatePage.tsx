@@ -1,6 +1,4 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
-import { FileUploader } from '@aws-amplify/ui-react-storage';
-import { Avatar } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -79,7 +77,7 @@ const ArtistsCreatePage = () => {
     if (requestHasBeenSended && loggedUser?.currentProfileIdentifier) {
       navigateToEntity({ entityType: ArtistModel.name, id: loggedUser?.currentProfileIdentifier });
     }
-  }, [loggedUser]);
+  }, [loggedUser, requestHasBeenSended]);
 
   useEffect(() => {
     if (!availableLanguages || availableLanguages.length === 0) {

@@ -1,0 +1,26 @@
+.dialog-title {
+  text-align: center;
+  padding-left: 3rem !important;
+  padding-right: 3rem !important;
+  position: relative;
+
+  .close-icon {
+    position: absolute;
+    top: 0rem;
+    right: 0.3rem;
+  }
+}
+
+.dialog-content {
+  text-align: justify;
+}
+
+.dialog-icon {
+  text-align: center;
+  padding: 1rem;
+}
+
+.dialog-actions {
+  margin: 1rem;
+  padding-left: 20%;
+}

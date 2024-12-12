@@ -1,4 +1,5 @@
 import React from 'react';
+import useWindowDimensions from '~/common/utils/hooks/screen/WindowDimensions.hook';
 import EntityCard from '~/components/shared/Cards/EntityCard';
 import NewEntityCard from '~/components/shared/Cards/NewEntityCard/NewEntityCard';
 import { EntityModel, EntityTemplate } from '~/models/base';
@@ -18,6 +19,9 @@ type MainSectionInputParams = {
 const MainSection: React.FC<MainSectionInputParams> = (props: MainSectionInputParams) => {
   const { title, description, listView = [], params, callbacks, titleAlign, orientation, cardOpts } = props;
 
+  const { height, width } = useWindowDimensions();
+  const numberEmptyItems = width < 500 ? 3 : width < 800 ? 5 : 7;
+
   return (
     <div className="main-section">
       <>
@@ -28,7 +32,7 @@ const MainSection: React.FC<MainSectionInputParams> = (props: MainSectionInputPa
         <div className={`cards-container-${orientation || 'horizontal'}`}>
           {!listView.length && (
             <>
-              {Array(3)
+              {Array(numberEmptyItems)
                 .fill(1)
                 .map((value, index) => (
                   <div key={`${title}-skeleton-${index}`}>

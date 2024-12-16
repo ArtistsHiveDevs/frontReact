@@ -71,7 +71,7 @@ const RiderDetailPage = () => {
   };
 
   function navigateTo(newEntity: PATHS, id: string = null) {
-    navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
+    navigate(`/${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
   }
 
   return (

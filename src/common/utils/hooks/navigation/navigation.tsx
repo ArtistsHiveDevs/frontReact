@@ -11,7 +11,7 @@ export const useNavigation = () => {
 
   const navigateToInnerPath = (params: { path: string; options?: NavigateOptions }) => {
     window.scrollTo(0, 0);
-    navigate(params.path, params.options);
+    navigate(`/${params.path}`, params.options);
   };
 
   const navigateToEntity = (params: {
@@ -23,7 +23,7 @@ export const useNavigation = () => {
     let entity = resolveNavigateToEntityPath(params.entityType);
 
     if (entity) {
-      let path = `${entity}`;
+      let path = `/${entity}`;
 
       if (entity === PATHS.PROFILE) {
         path += `/${params.action || ''}`;

@@ -67,7 +67,7 @@ const EventDetailsPage = () => {
   }, [eventId]);
 
   // function navigateTo(newEntity: PATHS, id: string = null) {
-  //   navigate(`${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
+  //   navigate(`/${newEntity}/${SUB_PATHS.ELEMENT_DETAILS}/${id}`);
   // }
 
   const handlers = {

@@ -17,13 +17,13 @@ export const AppFooter = () => {
         },
         {
           name: 'for_artists',
-          link: `${PATHS.INDUSTRY_OFFER}${PATHS.ARTISTS}`,
+          link: `${PATHS.INDUSTRY_OFFER}/${PATHS.ARTISTS}`,
         },
         // {
         //   name: 'for_promoters',
         //   link: `${PATHS.INDUSTRY_OFFER}${PATHS.PROMOTERS}`,
         // },
-        { name: 'for_places', link: `${PATHS.INDUSTRY_OFFER}${PATHS.PLACES}` },
+        { name: 'for_places', link: `${PATHS.INDUSTRY_OFFER}/${PATHS.PLACES}` },
         // {
         //   name: 'for_academies',
         //   link: `${PATHS.INDUSTRY_OFFER}${PATHS.ACADEMIES}`,

@@ -10,6 +10,7 @@ export interface PathConfig {
   object?: string;
   component?: any;
   path?: string;
+  pathSeparator?: string;
   redirectToIfLoggedUser?: string;
   redirectToIfNotLoggedUser?: string;
   subpaths?: PathConfigMap;
@@ -19,11 +20,11 @@ export interface PathConfigMap {
   [key: string]: PathConfig | PathConfigMap;
 }
 
-const flattenPaths = (paths: PathConfigMap, parentPath = '', parentObject = ''): PathConfig[] => {
+const flattenPaths = (paths: PathConfigMap, parentPath = '/', parentObject = ''): PathConfig[] => {
   return Object.entries(paths).reduce<PathConfig[]>((acc, [key, value]) => {
     const currentObject = parentObject ? `${parentObject}.${key}` : key;
     const config = value as PathConfig;
-    const currentPath = `${parentPath}${config.path || ''}`;
+    let currentPath = `${parentPath}${config.path || ''}`;
 
     if (config.component || config.path || config.redirectToIfLoggedUser || config.redirectToIfNotLoggedUser) {
       acc.push({
@@ -37,7 +38,9 @@ const flattenPaths = (paths: PathConfigMap, parentPath = '', parentObject = ''):
     }
 
     if (config.subpaths) {
-      acc = acc.concat(flattenPaths(config.subpaths as PathConfigMap, `${currentPath}/`, currentObject));
+      acc = acc.concat(
+        flattenPaths(config.subpaths as PathConfigMap, `${currentPath}${config.pathSeparator ?? '/'}`, currentObject)
+      );
     }
 
     return acc;
@@ -88,7 +91,7 @@ export const RoutesApp: React.FC = () => {
   const [componentIsLoaded, setComponentIsLoaded] = useState(false);
 
   useEffect(() => {
-    setNextPath(searchParams.get(URL_PARAMETER_NAMES.NEXT) || PATHS.HOME);
+    setNextPath(searchParams.get(URL_PARAMETER_NAMES.NEXT) || `/${PATHS.HOME}`);
   }, [searchParams]);
 
   useEffect(() => {

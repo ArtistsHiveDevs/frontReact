@@ -68,7 +68,7 @@ export function sortEventsPerMonth(list: EventModel[], lang: string) {
     if (!acc[monthKey]) {
       acc[monthKey] = {
         id: monthKey,
-        monthName: eventDate.format(today.year() === eventDate.year() ? 'MMMM' : 'MMMM YYYY'), // Nombre legible con mes y año
+        monthName: eventDate.format(today.month() === 11 && eventDate.month() === 0 ? 'MMMM YYYY' : 'MMMM'), // Nombre legible con mes y año
         data: [],
       };
     }

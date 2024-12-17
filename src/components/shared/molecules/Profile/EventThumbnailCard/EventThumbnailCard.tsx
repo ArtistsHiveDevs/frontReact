@@ -43,11 +43,12 @@ export const EventThumbnailCard = (props: any) => {
   })();
 
   // const initialTime = moment(event.timetable__initial_date);
-  const time = parseInt(event.initial_time);
-  const hour = Math.floor(time / 100);
-  const minutes = time - hour * 100;
-  const initialTime = event.timetable__initial_date.set('hour', hour);
-  initialTime.set('minutes', minutes);
+  // const time = event.initial_time;
+  // const hour = Math.floor(time / 100);
+  // const minutes = time - hour * 100;
+  const initialTime = event.timetable__initial_date;
+  // .set('hour', hour);
+  // initialTime.set('minutes', minutes);
   // console.log('%%%%%   ', event, initialTime, time, hour, minutes);
 
   return (

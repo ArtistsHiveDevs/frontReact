@@ -10,6 +10,7 @@ import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import NotFoundPage from '~/components/Pages/NotFoundPage';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
+import LoaderIcon from '~/components/shared/atoms/app/loader/loader-icon';
 import {
   FavoriteSubscription,
   FavoriteSubscritionIconDefaultTypes,
@@ -49,6 +50,7 @@ const EventDetailsPage = () => {
       return undefined;
     }
   });
+  const isLoading = useSelector(selectorEvents.selectLoading);
 
   useEffect(() => {
     if (currentEvent) {
@@ -116,7 +118,8 @@ const EventDetailsPage = () => {
           />
         </>
       )}
-      {requestsAreReady && !currentEvent && <NotFoundPage />}
+      {isLoading && <LoaderIcon height="100vh" />}
+      {requestsAreReady && !isLoading && !currentEvent && <NotFoundPage />}
     </>
   );
 };

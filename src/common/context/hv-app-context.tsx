@@ -34,6 +34,10 @@ export const HvAppContext = createContext<IHvAppContext>({
   messages: appMessages[getAvailableLang(defaultLang()) as keyof typeof appMessages],
   setLocale: (newLang: string) => {
     localStorage.setItem(LocalStorageVariables.CURRENT_LANGUAGE, getAvailableLang(newLang));
+
+    if (AVAILABLE_I18N_LANGUAGES.includes(newLang)) {
+      dayjs.locale(newLang);
+    }
   },
 });
 
@@ -78,6 +82,10 @@ export const HvAppContextProvider = ({ children, appMessages, setLang, lang }: I
     if (!lang) {
       const nextLang = defaultLang();
 
+      if (AVAILABLE_I18N_LANGUAGES.includes(nextLang)) {
+        dayjs.locale(nextLang);
+      }
+
       setLang({ lang: nextLang, messages: appMessages[nextLang] });
     }
   }, []);
@@ -85,6 +93,10 @@ export const HvAppContextProvider = ({ children, appMessages, setLang, lang }: I
   useEffect(() => {
     if (!!currentUser && !!currentUser.user_language && !!lang.lang && currentUser.user_language !== lang.lang) {
       onSetLang(currentUser.user_language);
+
+      if (AVAILABLE_I18N_LANGUAGES.includes(currentUser.user_language)) {
+        dayjs.locale(currentUser.user_language);
+      }
     }
   }, [currentUser]);
 

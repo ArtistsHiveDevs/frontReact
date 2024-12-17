@@ -14,14 +14,15 @@ import 'dayjs/locale/es';
 import 'dayjs/locale/fr';
 import 'dayjs/locale/it';
 import 'dayjs/locale/pt';
-import { appMessages } from './translations';
+import { appMessages, AVAILABLE_I18N_LANGUAGES } from './translations';
 
 // routes
 import { AuthProvider, HvAppContext, HvAppContextProvider } from './common';
 
 import { deDE, enUS, esES, frFR, itIT, ptBR } from '@mui/x-date-pickers';
 
-import { ThemeProvider, createTheme } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material';
+import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppFooter } from '~/components/shared/organisms/app/Footer/AppFooter';
 import SideNav from '~/components/shared/sidenav';
@@ -66,6 +67,12 @@ const App = () => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (appLang.lang && AVAILABLE_I18N_LANGUAGES.includes(appLang.lang)) {
+      dayjs.locale(appLang.lang);
+    }
+  }, [appLang]);
 
   return (
     <ThemeProvider theme={darkTheme}>

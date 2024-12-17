@@ -405,12 +405,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
             data: {
               data_source: 'nextEvents',
-              fields: {
-                date: 'timetable__initial_date',
-                time: 'timetable__main_artist_time',
-                title: 'name',
-                subtitle: 'subtitle',
-              },
+              options: { hidePlace: true },
             },
             clickHandlerName: 'onClickNextEvent',
           },
@@ -423,12 +418,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
             data: {
               data_source: 'pastEvents',
-              fields: {
-                date: 'timetable__initial_date',
-                title: 'name',
-                subtitle: 'subtitle',
-                picture: 'photo',
-              },
+              options: { hidePlace: true },
             },
             clickHandlerName: 'onClickPastEvent',
           },

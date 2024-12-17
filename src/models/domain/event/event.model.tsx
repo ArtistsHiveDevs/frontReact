@@ -32,12 +32,13 @@ export interface EventTemplate extends EntityTemplate {
   timetable__end_date: string;
   timetable__openning_doors: string;
   timetable__guest_time: string;
-  timetable__main_artist_time: string;
+  timetable__main_artist_time: number;
   promoter: string;
   national_code: string;
   description: string;
   tickets_website: string;
   genres: { [artType: string]: string[] };
+  price: any;
 }
 
 export class EventModel
@@ -60,21 +61,25 @@ export class EventModel
   declare timetable__end_date: string;
   declare timetable__openning_doors: string;
   declare timetable__guest_time: string;
-  declare timetable__main_artist_time: string;
+  declare timetable__main_artist_time: number;
   declare promoter: string;
   declare national_code: string;
   declare description: string;
   declare tickets_website: string;
   declare genres: { [artType: string]: string[] };
+  declare price: any;
 
   constructor(template: EventTemplate) {
     super(template);
-
+    this.timetable__main_artist_time = Number(template.timetable__main_artist_time);
     // this.main_artist = template.main_artist ? new ArtistModel(template.main_artist) : undefined;
     // this.guest_artist = template.guest_artist ? new ArtistModel(template.guest_artist) : undefined;
     this.artists = template.artists ? template.artists.map((artist) => new ArtistModel(artist)) : [];
     this.place = template.place ? new PlaceModel(template.place) : undefined;
-    this.timetable__initial_date = dayjs(template.timetable__initial_date);
+
+    const hours = Math.floor(this.timetable__main_artist_time / 100); // Dividir entre 100 para obtener las horas
+    const minutes = this.timetable__main_artist_time % 100;
+    this.timetable__initial_date = dayjs(template.timetable__initial_date).hour(hours).minute(minutes); //.add(4, 'month');
   }
 
   get hasFetchAllData(): boolean {

@@ -23,7 +23,6 @@ import { Title } from '~/components/shared/atoms/Title/Title';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
 
 import { isDayjs } from 'dayjs';
-import moment from 'moment';
 import { CrewListView } from '~/components/shared//molecules/domain/crewListView/CrewListView';
 import { GenresListView } from '~/components/shared//molecules/domain/genres/GenresListView';
 import { AlbumsShortListView } from '~/components/shared/domain/organisms/AlbumsShortListView/AlbumsShortListView';
@@ -36,7 +35,6 @@ import { SocialNetworks } from '~/constants/social-networks.const';
 import { EventModel } from '~/models/domain/event/event.model';
 import { HorizontalImageGallery } from '../../atoms/ImageGallery/HorizontalImageGallery';
 import { TableView } from '../../atoms/Table/TableView';
-import { EventParams } from '../../atoms/calendar/CalendarSimpleEvent/CalendarSimpleEvent';
 import { TracksListView } from '../../domain/organisms/TracksListView/TracksListView';
 import { EventThumbnailCard } from '../../molecules/Profile/EventThumbnailCard/EventThumbnailCard';
 import SEO from '../app/seo/seo';
@@ -535,20 +533,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
         </div>
       );
     } else if (componentDescriptor.componentName === ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT) {
-      const eventsInfo: EventParams[] = (getData(componentDescriptor.data?.data_source) || []).map((event: any) => {
-        return {
-          id: event.id,
-          name: event[componentDescriptor.data?.fields?.title],
-          title: event[componentDescriptor.data?.fields?.title],
-          subtitle: event[componentDescriptor.data?.fields?.subtitle],
-          picture: event[componentDescriptor.data?.fields?.picture],
-          place: event[componentDescriptor.data?.fields?.place],
-          datetime: moment(
-            `${event[componentDescriptor.data?.fields?.date]} ${event[componentDescriptor.data?.fields?.time]}`,
-            'YYYY-MM-DD hhmm'
-          ),
-        };
-      });
+      const eventsInfo: EventModel[] = getData(componentDescriptor.data?.data_source) || [];
 
       let clickHandler: (source: any, images: any) => void = undefined;
 
@@ -560,6 +545,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           //   key={`section-${section.name}-${index}`}
           events={eventsInfo}
           onClickHandler={clickHandler}
+          options={componentDescriptor.data?.options}
         />
       );
     } else if (componentDescriptor.componentName === ProfileComponentTypes.SOCIAL_NETWORK_WIDGET) {

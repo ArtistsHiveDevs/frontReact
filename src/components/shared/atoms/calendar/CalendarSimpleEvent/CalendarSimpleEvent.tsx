@@ -1,6 +1,7 @@
 import { Moment } from 'moment';
 import { Image } from 'react-bootstrap';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
+import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import './CalendarSimpleEvent.scss';
 
@@ -13,13 +14,14 @@ export interface EventParams {
   place?: PlaceModel;
 }
 export const CalendarSimpleEvent = (props: {
-  eventInfo: EventParams;
+  eventInfo: EventModel;
+  options: { [optionName: string]: any };
   requireSession?: boolean;
   onClickHandler?: Function;
 }) => {
-  const { eventInfo, requireSession, onClickHandler } = props;
+  const { eventInfo, requireSession, onClickHandler, options } = props;
 
-  function clickHandler(eventSource: EventParams) {
+  function clickHandler(eventSource: EventModel) {
     if (onClickHandler) {
       onClickHandler(eventSource);
     }
@@ -30,14 +32,19 @@ export const CalendarSimpleEvent = (props: {
       <div className="calendar-event-container" onClick={() => clickHandler(eventInfo)}>
         <div className="calendar-event-date">
           <span className="day">
-            {eventInfo.datetime.format('dddd').substring(0, 3)} {eventInfo.datetime.date()}
+            {eventInfo.timetable__initial_date.format('dddd').substring(0, 3)}{' '}
+            {eventInfo.timetable__initial_date.date()}
           </span>
-          <span className="hour">{eventInfo.datetime.format('HH:mm')}</span>
+          <span className="hour">{eventInfo.timetable__initial_date.format('HH:mm')}</span>
         </div>
         <div className="calendar-event-content">
-          <p className="calendar-event-title">{eventInfo.name}</p>
-          {eventInfo.place && (
+          <p className="calendar-event-title">
+            <strong>{eventInfo.name}</strong>
+          </p>
+          {!options?.hidePlace && eventInfo.place && (
             <p className="calendar-event-place">
+              <strong>{eventInfo.place.name}</strong>
+              <br />
               {eventInfo.place.address}
               <br />
               {eventInfo.place.cityWithCountry}

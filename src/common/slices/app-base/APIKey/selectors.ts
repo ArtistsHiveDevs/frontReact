@@ -14,5 +14,10 @@ export const selectError = createSelector([selectDomain], (ApiKeyState) => {
 });
 
 export const selectApiKey = createSelector([selectDomain], (ApiKeyState) => {
-  return { apiKey: ApiKeyState.apiKey, userId: ApiKeyState.userId };
+  return {
+    apiKey: ApiKeyState.apiKey,
+    userId: ApiKeyState.userId,
+    username: ApiKeyState.username,
+    sub: ApiKeyState.sub,
+  };
 });

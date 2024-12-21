@@ -10,6 +10,8 @@ export interface ErrorType {
 export interface ApiKeyState {
   apiKey: string;
   userId: string;
+  username: string;
+  sub: string;
   password: string;
   remember_me: boolean;
   loading: boolean;

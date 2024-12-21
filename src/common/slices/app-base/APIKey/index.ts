@@ -10,6 +10,8 @@ import { ApiKeyErrorType, ApiKeyState } from './types';
 export const apiKeyInitialState: ApiKeyState = {
   apiKey: undefined,
   userId: undefined,
+  username: undefined,
+  sub: undefined,
   password: undefined,
   remember_me: undefined,
   loading: false,
@@ -24,13 +26,22 @@ const slice = createSlice({
   reducers: {
     loadApiKey(
       state,
-      action?: PayloadAction<{ userId?: string; password?: string; remember_me?: boolean; isLogout?: boolean }>
+      action?: PayloadAction<{
+        userId?: string;
+        password?: string;
+        remember_me?: boolean;
+        isLogout?: boolean;
+        username?: string;
+        sub?: string;
+      }>
     ) {
       state.loading = true;
       state.error = null;
       state.errorContent = null;
       state.apiKey = undefined;
       state.userId = action?.payload?.userId;
+      state.username = action?.payload?.username;
+      state.sub = action?.payload?.sub;
       state.password = action?.payload?.password;
       state.remember_me = action?.payload?.remember_me;
       state.isLogout = action?.payload?.isLogout;

@@ -22,13 +22,13 @@ import { AuthProvider, HvAppContext, HvAppContextProvider } from './common';
 import { deDE, enUS, esES, frFR, itIT, ptBR } from '@mui/x-date-pickers';
 
 import { createTheme, ThemeProvider } from '@mui/material';
+import { FetchUserAttributesOutput, getCurrentUser } from 'aws-amplify/auth';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppFooter } from '~/components/shared/organisms/app/Footer/AppFooter';
 import SideNav from '~/components/shared/sidenav';
 import { RoutesApp } from '~/routes';
 import { useApiKeySlice } from './common/slices/app-base/APIKey';
-import { getStoredUserIdToken } from './common/slices/app-base/APIKey/saga';
 import { selectApiKey } from './common/slices/app-base/APIKey/selectors';
 import { initGA } from './common/utils/analytics/analytics';
 import AppLoader from './components/shared/organisms/app/loader/loader';
@@ -40,6 +40,9 @@ const App = () => {
     lang,
     messages,
   });
+
+  const [userAWSAttributes, setUserAWSAttributes] = useState<FetchUserAttributesOutput>();
+
   const onError = (error: any) => console.log(`Error Messages: ${error}`);
 
   const guii18nData = geti18nGUILanguage(appLang.lang);
@@ -60,13 +63,15 @@ const App = () => {
   const apiKeyInfo = useSelector(selectApiKey);
 
   useEffect(() => {
-    if (!apiKeyInfo?.apiKey) {
-      const existingSessionID = getStoredUserIdToken();
-      if (existingSessionID) {
-        dispatch(apiKeyActions.loadApiKey({ userId: existingSessionID }));
-      }
-    }
+    verifyUserSession();
   }, []);
+
+  const verifyUserSession = async () => {
+    const { username, userId, signInDetails } = await getCurrentUser();
+    if (username && userId) {
+      dispatch(apiKeyActions.loadApiKey({ username: username, sub: userId }));
+    }
+  };
 
   useEffect(() => {
     if (appLang.lang && AVAILABLE_I18N_LANGUAGES.includes(appLang.lang)) {

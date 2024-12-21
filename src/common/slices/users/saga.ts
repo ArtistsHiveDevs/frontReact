@@ -4,6 +4,7 @@ import { APIResponse, postRequest, putRequest, request } from '~/common/utils/re
 import { AppUserModel, AppUserTemplate } from '~/models/app/user/user.model';
 
 import { PayloadAction } from '@reduxjs/toolkit';
+import { signOut } from 'aws-amplify/auth';
 import { defaultLang } from '~/common/context';
 import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 import { LocalStorageVariables } from '~/constants/localstorage';
@@ -50,35 +51,44 @@ export function* getCurrentUserInfo() {
 export function* switchProfile(actionParams?: PayloadAction<{ id: string }>) {
   yield delay(500);
 
-  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+  const authInfo: { apiKey: string; userId: string; username: string; sub: string } = yield select(selectApiKey);
 
-  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/${authInfo.userId}`;
+  const userId = authInfo.userId || authInfo.username || authInfo.sub;
 
-  try {
-    const response: APIResponse = yield call(putRequest, requestURL, {
-      body: JSON.stringify({ currentProfileIdentifier: actionParams.payload.id }),
-      headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
-    });
+  if (userId) {
+    const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/${userId}`;
 
-    if (response?.data) {
-      yield put(usersActions.loadCurrentUser());
+    try {
+      const response: APIResponse = yield call(putRequest, requestURL, {
+        body: JSON.stringify({ currentProfileIdentifier: actionParams.payload.id }),
+        headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
+      });
+
+      if (response?.data) {
+        yield put(usersActions.loadCurrentUser());
+      }
+      // const currentUser: AppUserTemplate = yield call(putRequest, requestURL, {
+      //   headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false)  },
+      //   body: { currentProfileIdentifier: actionParams?.payload.id },
+      // });
+    } catch (err) {
+      yield put(usersActions.logout());
+      // yield delay(500);
+      // window.location.reload();
     }
-    // const currentUser: AppUserTemplate = yield call(putRequest, requestURL, {
-    //   headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false)  },
-    //   body: { currentProfileIdentifier: actionParams?.payload.id },
-    // });
-  } catch (err) {
-    yield put(usersActions.logout());
-    // yield delay(500);
-    // window.location.reload();
+  } else {
+    console.error('There is no user Id to switch profile');
   }
 }
 
 export function* switchLanguage(actionParams?: PayloadAction<{ newLang: string }>) {
   yield delay(500);
 
-  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
-  if (authInfo?.userId) {
+  const authInfo: { apiKey: string; userId: string; username: string; sub: string } = yield select(selectApiKey);
+
+  const userId = authInfo.userId || authInfo.username || authInfo.sub;
+
+  if (userId) {
     const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/${authInfo.userId}`;
 
     try {
@@ -112,8 +122,14 @@ export function* logout() {
   localStorage.removeItem(LocalStorageVariables.TOKEN_API_KEY);
   yield put(usersActions.currentUserLoaded(null));
   yield put(apiKeyActions.loadApiKey({ isLogout: true }));
+  signoutAWS();
   yield delay(500);
+  localStorage.removeItem(LocalStorageVariables.TOKEN_API_KEY);
   window.location.reload();
+}
+
+async function signoutAWS() {
+  await signOut();
 }
 
 export function* checkUsernameAvailability(actionParams?: PayloadAction<string>) {

@@ -112,6 +112,9 @@ export interface AppUserTemplate extends ProfileTemplate {
 }
 
 export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUserTemplate, SearchableTemplate {
+  membershipEntities = ['Artist', 'Place'];
+  membershipEntitiesClassName = [ArtistModel.name, PlaceModel.name];
+
   declare sub: string;
   declare given_names: string;
   declare surnames: string;
@@ -157,16 +160,12 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
   constructor(template: AppUserTemplate) {
     super(template);
 
-    const membershipEntities = ['Artist', 'Place'];
-    //TODO
-    const membershipEntitiesClassName = [ArtistModel.name, PlaceModel.name];
-
-    membershipEntities.forEach((entityName: string, index: number) => {
+    this.membershipEntities.forEach((entityName: string, index: number) => {
       const availableEntity = this.roles?.find((role: UserAvailableEntityRole) => role.entityName === entityName);
       if (availableEntity) {
         availableEntity.entityRoleMap = availableEntity?.entityRoleMap.map(
           (roleMapInstance) =>
-            new CurrentProfileInfoModel({ ...roleMapInstance, entity: membershipEntitiesClassName[index] })
+            new CurrentProfileInfoModel({ ...roleMapInstance, entity: this.membershipEntitiesClassName[index] })
         );
       }
       const getRoleMap = () => (availableEntity ? [...availableEntity.entityRoleMap] : []);
@@ -256,7 +255,10 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
   }
 
   get hasIndustryProfiles() {
-    return !!this.roles.find((role: UserAvailableEntityRole) => !!role.entityRoleMap.length);
+    return !!this.roles.find(
+      (role: UserAvailableEntityRole) =>
+        this.membershipEntities.includes(role.entityName) && !!role.entityRoleMap.length
+    );
   }
 
   get isIndustryMember() {

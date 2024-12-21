@@ -1,5 +1,6 @@
 import { AllowedEntityRole } from '~/components/shared/atoms/app/auth/RequiredAuth';
 import { PATHS } from '~/constants';
+import { AppUserModel } from '~/models/app/user/user.model';
 
 const TRANSLATION_BASE_SIDENAV = 'app.appbase.sidenav.sections';
 
@@ -19,6 +20,7 @@ export interface SideMenuSection {
   options: SideMenuItem[];
   allowedRoles?: AllowedEntityRole[];
   requireSession?: boolean;
+  hidden?: boolean | Function;
 }
 
 export interface SideMenuItem {
@@ -31,6 +33,7 @@ export interface SideMenuItem {
   allowedRoles?: AllowedEntityRole[];
   requireSession?: boolean;
   nestedMenuOptions?: SideMenuItem[];
+  hidden?: boolean | Function;
 }
 
 const general: SideMenuItem[] = [
@@ -230,6 +233,9 @@ export const LEFT_SIDENAV_MENU_CONFIG: SideMenuSection[] = [
         requireSession: true,
       },
     ],
+    hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
+      return params?.user?.hasIndustryProfiles || params?.user?.show_industry_member_banner;
+    },
   },
   {
     name: `${TRANSLATION_BASE_SIDENAV}.${SIDENAV_SECTIONS.SETTINGS}.name`,

@@ -231,7 +231,15 @@ const SideNav = () => {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <hr />
-                {LEFT_SIDENAV_MENU_CONFIG.map((sidenavSection, index) => {
+                {LEFT_SIDENAV_MENU_CONFIG.filter((sidenavSection, index) => {
+                  return (
+                    sidenavSection.hidden === undefined ||
+                    (typeof sidenavSection.hidden === 'boolean' && !sidenavSection.hidden) ||
+                    (typeof sidenavSection.hidden === 'string' && sidenavSection.hidden !== 'true') ||
+                    (sidenavSection.hidden instanceof Function &&
+                      !sidenavSection.hidden({ user: loggedUser, section: sidenavSection }))
+                  );
+                }).map((sidenavSection, index) => {
                   const sectionOptions = sidenavSection.options || [];
                   return (
                     <RequireAuthComponent
@@ -244,9 +252,19 @@ const SideNav = () => {
                         <section className="general-sec">
                           <h5 className="sec-general-label">{translateText(sidenavSection.name)}</h5>
                           <div className="option-menu-list">
-                            {sectionOptions.map((option: SideMenuItem, idx) => {
-                              return liMenuElement('general', option, idx);
-                            })}
+                            {sectionOptions
+                              .filter((option, index) => {
+                                return (
+                                  option.hidden === undefined ||
+                                  (typeof option.hidden === 'boolean' && !option.hidden) ||
+                                  (typeof option.hidden === 'string' && option.hidden !== 'true') ||
+                                  (option.hidden instanceof Function &&
+                                    !option.hidden({ user: loggedUser, option: option }))
+                                );
+                              })
+                              .map((option: SideMenuItem, idx) => {
+                                return liMenuElement('general', option, idx);
+                              })}
                           </div>
                         </section>
                         <hr />
@@ -304,7 +322,15 @@ const SideNav = () => {
                 {currentRightView === 'actions' && (
                   <>
                     <hr />
-                    {RIGHT_SIDENAV_MENU_CONFIG.map((sidenavSection, index) => {
+                    {RIGHT_SIDENAV_MENU_CONFIG.filter((sidenavSection, index) => {
+                      return (
+                        sidenavSection.hidden === undefined ||
+                        (typeof sidenavSection.hidden === 'boolean' && !sidenavSection.hidden) ||
+                        (typeof sidenavSection.hidden === 'string' && sidenavSection.hidden !== 'true') ||
+                        (sidenavSection.hidden instanceof Function &&
+                          !sidenavSection.hidden({ user: loggedUser, section: sidenavSection }))
+                      );
+                    }).map((sidenavSection, index) => {
                       const sectionOptions = sidenavSection.options || [];
                       return (
                         <RequireAuthComponent
@@ -317,9 +343,19 @@ const SideNav = () => {
                             <section className="general-sec">
                               <h5 className="sec-general-label">{translateText(sidenavSection.name)}</h5>
                               <div className="option-menu-list">
-                                {sectionOptions.map((option: SideMenuItem, idx) => {
-                                  return liMenuElement('general', option, idx);
-                                })}
+                                {sectionOptions
+                                  .filter((option, index) => {
+                                    return (
+                                      option.hidden === undefined ||
+                                      (typeof option.hidden === 'boolean' && !option.hidden) ||
+                                      (typeof option.hidden === 'string' && option.hidden !== 'true') ||
+                                      (option.hidden instanceof Function &&
+                                        !option.hidden({ user: loggedUser, option: option }))
+                                    );
+                                  })
+                                  .map((option: SideMenuItem, idx) => {
+                                    return liMenuElement('general', option, idx);
+                                  })}
                               </div>
                             </section>
                             <hr />

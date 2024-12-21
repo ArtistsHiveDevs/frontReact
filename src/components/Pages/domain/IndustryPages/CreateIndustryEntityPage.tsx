@@ -146,6 +146,8 @@ const CreateIndustryEntityPage = () => {
     if (availablePlacesComplete.length === 0) {
       dispatch(placesActions.loadItems({}));
     }
+
+    setCount(0);
   }, []);
 
   useEffect(() => {
@@ -275,7 +277,7 @@ const CreateIndustryEntityPage = () => {
         </p>
       </div>
       {showReset && (
-        <div>
+        <div className="content">
           <h2 style={{ textAlign: 'center' }}>Find agent</h2>
           <div>
             {/* <DynamicTabbedForm

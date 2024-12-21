@@ -7,8 +7,8 @@ import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/Imag
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { AcademyModel } from '~/models/domain/academy/academy.model';
-import { ACADEMY_DETAIL_SUB_PAGE_CONFIG } from './config-academy-detail';
-import './index.scss';
+import { ACADEMY_DETAIL_SUB_PAGE_CONFIG } from './config-enterprise-detail';
+import './enterprise-details.page.scss';
 
 const TRANSLATION_BASE_ARTIST_DETAIL_PAGE = 'app.pages.domain.AcademiesPages.AcademiesDetailsPage';
 

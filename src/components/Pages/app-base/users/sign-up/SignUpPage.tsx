@@ -15,7 +15,7 @@ export const SignUpPage = () => {
   const { navigateToInnerPath } = useNavigation();
 
   const handleSignUp = (type: string) => {
-    console.log(' TO = ', `${PATHS.PROFILE}${SUB_PATHS.CREATE}?type=${type}`);
+    console.log(' TO = ', `${PATHS.PROFILE}/${SUB_PATHS.CREATE}?type=${type}`);
     // navigateToInnerPath();
   };
 

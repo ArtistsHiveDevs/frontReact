@@ -85,3 +85,15 @@ export interface FollowerProfileTemplate {
   subtitle?: string;
   verified_status?: VerificationStatus;
 }
+
+export interface SocialNetworkUsernamesTemplate {
+  website: string;
+  email: string;
+  mobile_phone: string;
+  whatsapp: string;
+  facebook: string;
+  instagram: string;
+  spotify: string;
+  youtube: string;
+  youtube_widget_id: string;
+}

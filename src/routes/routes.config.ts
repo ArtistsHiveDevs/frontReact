@@ -87,6 +87,12 @@ export const ROUTES_CONFIG: PathConfigMap = {
       },
     },
     entities: {
+      profile: {
+        path: `${PATHS.USERNAME}`,
+        component: lazy(
+          () => import('~/components/Pages/domain/EnterprisePage/EnterprisesListPage/EnterpriseList.page')
+        ),
+      },
       academy: {
         path: PATHS.ACADEMIES,
         subpaths: {
@@ -115,6 +121,28 @@ export const ROUTES_CONFIG: PathConfigMap = {
           ArtistEditPage: {
             component: lazy(() => import('~/components/Pages/ArtistsPage/ArtistCreatePage/ArtistCreatePage')),
             path: `${SUB_PATHS.EDIT}/:${URL_PARAMETER_NAMES.ELEMENT_ID}`,
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
+          },
+        },
+      },
+      enterprise: {
+        path: PATHS.BUSINESS,
+        subpaths: {
+          EventsListPage: {
+            component: lazy(
+              () => import('~/components/Pages/domain/EnterprisePage/EnterprisesListPage/EnterpriseList.page')
+            ),
+          },
+          // EventDetailsPage: {
+          //   component: lazy(
+          //     () => import('~/components/Pages/domain/EnterprisePage/EnterpriseDetailsPage/enterprise-details.page')
+          //   ),
+          //   path: usernamePagePath,
+          //   pathSeparator: '',
+          // },
+          EventCreatePage: {
+            component: lazy(() => import('~/components/Pages/EventsPage/EventCreatePage/EventCreatePage')),
+            path: `${SUB_PATHS.CREATE}`,
             redirectToIfNotLoggedUser: PATHS.LOGIN,
           },
         },

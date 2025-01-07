@@ -58,6 +58,9 @@ export const FrMessages = {
         promoters: { plural: 'Promoteurs', singular: 'Promoteur' },
       },
       errors: {
+        // Data error
+        NOT_AVAILABLE: 'Non disponible',
+
         // Errores de Autenticación y Autorización
         AUTH_INVALID_CREDENTIALS: 'Identifiants invalides',
         AUTH_USER_NOT_FOUND: 'Utilisateur non trouvé',
@@ -733,6 +736,18 @@ export const FrMessages = {
               sections: {
                 location: {
                   name: 'Place',
+                },
+              },
+            },
+            tickets: {
+              name: 'Billets',
+              sections: {
+                general: {
+                  name: 'Informations Générales',
+                  attributes: {
+                    tickets_website: 'Site Web des Billets',
+                    price: 'Prix',
+                  },
                 },
               },
             },

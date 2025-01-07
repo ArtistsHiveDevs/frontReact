@@ -58,6 +58,9 @@ export const DeMessages = {
         promoters: { plural: 'Veranstalter', singular: 'Veranstalter' },
       },
       errors: {
+        // Data error
+        NOT_AVAILABLE: 'Nicht verfügbar',
+
         // Errores de Autenticación y Autorización
         AUTH_INVALID_CREDENTIALS: 'Ungültige Anmeldedaten',
         AUTH_USER_NOT_FOUND: 'Benutzer nicht gefunden',
@@ -731,6 +734,18 @@ export const DeMessages = {
               sections: {
                 location: {
                   name: 'Standort',
+                },
+              },
+            },
+            tickets: {
+              name: 'Tickets',
+              sections: {
+                general: {
+                  name: 'Allgemeine Informationen',
+                  attributes: {
+                    tickets_website: 'Ticket-Website',
+                    price: 'Preis',
+                  },
                 },
               },
             },

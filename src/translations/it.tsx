@@ -58,6 +58,9 @@ export const ItMessages = {
         promoters: { plural: 'Promotori', singular: 'Promotore' },
       },
       errors: {
+        // Data error
+        NOT_AVAILABLE: 'Non disponibile',
+
         // Errores de Autenticación y Autorización
         AUTH_INVALID_CREDENTIALS: 'Credenziali non valide',
         AUTH_USER_NOT_FOUND: 'Utente non trovato',
@@ -732,6 +735,18 @@ export const ItMessages = {
               sections: {
                 location: {
                   name: 'Localizzazione',
+                },
+              },
+            },
+            tickets: {
+              name: 'Biglietti',
+              sections: {
+                general: {
+                  name: 'Informazioni Generali',
+                  attributes: {
+                    tickets_website: 'Sito Web dei Biglietti',
+                    price: 'Prezzo',
+                  },
                 },
               },
             },

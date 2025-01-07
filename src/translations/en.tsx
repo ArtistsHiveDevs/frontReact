@@ -58,6 +58,9 @@ export const EnMessages = {
         promoters: { plural: 'Promoters', singular: 'Promoter' },
       },
       errors: {
+        // Data error
+        NOT_AVAILABLE: 'Not available',
+
         // Errores de Autenticación y Autorización
         AUTH_INVALID_CREDENTIALS: 'Invalid credentials',
         AUTH_USER_NOT_FOUND: 'User not found',
@@ -717,6 +720,18 @@ export const EnMessages = {
               sections: {
                 location: {
                   name: 'Location',
+                },
+              },
+            },
+            tickets: {
+              name: 'Tickets',
+              sections: {
+                general: {
+                  name: 'General Information',
+                  attributes: {
+                    tickets_website: 'Tickets Website',
+                    price: 'Price',
+                  },
                 },
               },
             },

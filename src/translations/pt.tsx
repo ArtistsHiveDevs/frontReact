@@ -58,6 +58,9 @@ export const PtMessages = {
         promoters: { plural: 'Promotores', singular: 'Promotor' },
       },
       errors: {
+        // Data error
+        NOT_AVAILABLE: 'Não disponível',
+
         // Errores de Autenticación y Autorización
         AUTH_INVALID_CREDENTIALS: 'Credenciais inválidas',
         AUTH_USER_NOT_FOUND: 'Usuário não encontrado',
@@ -729,6 +732,18 @@ export const PtMessages = {
               sections: {
                 location: {
                   name: 'Localização',
+                },
+              },
+            },
+            tickets: {
+              name: 'Ingressos',
+              sections: {
+                general: {
+                  name: 'Informações Gerais',
+                  attributes: {
+                    tickets_website: 'Site de Ingressos',
+                    price: 'Preço',
+                  },
                 },
               },
             },

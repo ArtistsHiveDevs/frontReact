@@ -58,6 +58,9 @@ export const EsMessages = {
         promoters: { plural: 'Promotores', singular: 'Promotor' },
       },
       errors: {
+        // Data error
+        NOT_AVAILABLE: 'No disponible',
+
         // Errores de Autenticación y Autorización
         AUTH_INVALID_CREDENTIALS: 'Credenciales inválidas',
         AUTH_USER_NOT_FOUND: 'Usuario no encontrado',
@@ -724,6 +727,18 @@ export const EsMessages = {
               sections: {
                 location: {
                   name: 'Ubicación',
+                },
+              },
+            },
+            tickets: {
+              name: 'Entradas',
+              sections: {
+                general: {
+                  name: 'Información General',
+                  attributes: {
+                    tickets_website: 'Sitio Web de Entradas',
+                    price: 'Precio',
+                  },
                 },
               },
             },

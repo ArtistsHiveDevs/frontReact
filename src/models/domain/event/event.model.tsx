@@ -77,13 +77,14 @@ export class EventModel
     this.artists = template.artists ? template.artists.map((artist) => new ArtistModel(artist)) : [];
     this.place = template.place ? new PlaceModel(template.place) : undefined;
 
-    const hours = Math.floor(this.timetable__main_artist_time / 100); // Dividir entre 100 para obtener las horas
-    const minutes = this.timetable__main_artist_time % 100;
+    const hours = Math.floor(this.timetable__main_artist_time / 100) || 0; // Dividir entre 100 para obtener las horas
+    const minutes = this.timetable__main_artist_time % 100 || 0;
+
     this.timetable__initial_date = dayjs(template.timetable__initial_date).hour(hours).minute(minutes); //.add(4, 'month');
   }
 
   get hasFetchAllData(): boolean {
-    return !!this.id && !!this.name && !!this.description;
+    return !!this.id && !!this.artists?.length && !!this.place;
   }
 
   get cardInfo() {

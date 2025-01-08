@@ -7,6 +7,7 @@ import { SearchModel, SearchTemplate } from '~/models/domain/search/search.model
 import { defaultLang } from '~/common/context';
 import { searchActions as actions } from '.';
 import { selectApiKey } from '../app-base/APIKey/selectors';
+import { SearchQueryParams } from './types';
 
 export function* queriedSearch(actionParams?: PayloadAction<string>) {
   yield delay(500);
@@ -45,6 +46,44 @@ export function* queriedSearch(actionParams?: PayloadAction<string>) {
     yield put(actions.repoError(1));
   }
 }
+export function* entityQueriedSearch(actionParams?: PayloadAction<SearchQueryParams>) {
+  yield delay(500);
+
+  const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+
+  const { payload } = actionParams;
+  const params = {
+    q: payload.term,
+    f: 'location_boundaries',
+    et: payload.entity,
+  };
+
+  const urlParams = Object.keys(params)
+    .reduce((info, currentValue) => {
+      info.push([currentValue, params[currentValue as keyof typeof params]].join('='));
+      return info;
+    }, [])
+    .join('&');
+
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/search?${urlParams}`;
+
+  try {
+    const response: APIResponse = yield call(request, requestURL, {
+      headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
+    });
+
+    if (response.error) {
+      yield put(actions.repoError(1));
+    } else if (response.data) {
+      let resultInfo = response.data;
+
+      yield put(actions.entitySearchQueried(new SearchModel(<SearchTemplate>resultInfo)));
+    }
+  } catch (err) {
+    console.log(err);
+    yield put(actions.repoError(1));
+  }
+}
 
 /**
  * Root saga manages watcher lifecycle
@@ -55,4 +94,5 @@ export function* searchSaga() {
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
   yield takeLatest(actions.querySearch.type, queriedSearch);
+  yield takeLatest(actions.entityQuerySearch.type, entityQueriedSearch);
 }

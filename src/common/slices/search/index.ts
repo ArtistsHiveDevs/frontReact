@@ -6,13 +6,17 @@ import { SearchModel } from '~/models/domain/search/search.model';
 
 import { logEvent } from '~/common/utils/analytics/analytics';
 import { searchSaga } from './saga';
-import { SearchErrorType, SearchState } from './types';
+import { SearchErrorType, SearchQueryParams, SearchState } from './types';
 
 export const SearchInitialState: SearchState = {
   search: null,
   loading: false,
   error: null,
   searchQueryParam: '',
+
+  entityLoading: false,
+  entitySearch: null,
+  entitySearchQueryParam: { term: '' },
 };
 
 const slice = createSlice({
@@ -32,6 +36,17 @@ const slice = createSlice({
     searchQueried(state, action: PayloadAction<SearchModel>) {
       state.search = new SearchModel(action.payload);
       state.loading = false;
+    },
+    entityQuerySearch(state, action: PayloadAction<SearchQueryParams>) {
+      state.entityLoading = true;
+      state.error = null;
+      state.entitySearch = null;
+      state.entitySearchQueryParam = action?.payload;
+    },
+    entitySearchQueried(state, action: PayloadAction<SearchModel>) {
+      state.entitySearch = new SearchModel(action.payload);
+      state.entitySearchQueryParam = { term: '' };
+      state.entityLoading = false;
     },
     repoError(state, action: PayloadAction<SearchErrorType>) {
       state.error = action.payload;

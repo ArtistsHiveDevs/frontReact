@@ -12,3 +12,7 @@ export const selectSearchLoading = createSelector([selectDomain], (SearchState) 
 export const selectSearchError = createSelector([selectDomain], (SearchState) => SearchState.error);
 
 export const selectSearch = createSelector([selectDomain], (SearchState) => SearchState.search);
+
+export const selectEntitySearchLoading = createSelector([selectDomain], (SearchState) => SearchState.entityLoading);
+
+export const selectEntitySearch = createSelector([selectDomain], (SearchState) => SearchState.entitySearch);

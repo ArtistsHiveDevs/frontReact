@@ -1,13 +1,17 @@
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
+import { useLocation } from 'react-router-dom';
 import { useEventsSlice } from '~/common/slices/domain/events/events.redux';
-import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
+import { useSearchSlice } from '~/common/slices/search';
+import { selectEntitySearch, selectEntitySearchLoading } from '~/common/slices/search/selectors';
 import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
+import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
+import { SearchModel } from '~/models/domain/search/search.model';
 import {
   EVENT_DETAIL_SUB_PAGE_CONFIG,
   TRANSLATION_BASE_EVENT_DETAILS_PAGE,
@@ -30,18 +34,18 @@ const EventCreatePage = () => {
   const [availableDietaryRestritions, updateAvailableDietaryRestrictions] = useState([]);
   const [availableArtists, updateAvailableArtists] = useState([]);
   const [availablePlaces, updateAvailablePlaces] = useState([]);
+  const [defaultArtists, setDefaultArtists] = useState([]);
+  const [defaultPlaces, setDefaultPlaces] = useState([]);
 
-  const availableArtistsComplete: ArtistModel[] = useSelector(selectorArtists.selectItems);
-  const availablePlacesComplete: PlaceModel[] = useSelector(selectorPlaces.selectItems);
+  const [queriedEntity, setQueriedEntity] = useState(null);
+  const queriedSearchList: SearchModel = useSelector(selectEntitySearch);
+  const querySearchLoading: boolean = useSelector(selectEntitySearchLoading);
+  const { actions: searchActions } = useSearchSlice();
 
-  const [selectedArtists, updateSelectedArtists] = useState([]);
-  const [selectedPlaces, updateSelectedPlaces] = useState([]);
-
-  const { actions: artistsActions } = useArtistsSlice();
   const { actions: eventsActions } = useEventsSlice();
-  const { actions: placesActions } = usePlacesSlice();
 
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     const langsOR = [
@@ -113,38 +117,48 @@ const EventCreatePage = () => {
       { label: 'Celiac', value: 'celiac' },
     ]);
 
-    if (availableArtistsComplete.length === 0) {
-      dispatch(artistsActions.loadItems({}));
-    }
-    if (availablePlacesComplete.length === 0) {
-      dispatch(placesActions.loadItems({}));
+    const data = location.state;
+
+    if (data?.originProfile) {
+      const profile: CurrentProfileInfoModel = data?.originProfile as CurrentProfileInfoModel;
+      if (profile.entity === ArtistModel.name) {
+        setDefaultArtists([profile]);
+      } else if (profile.entity === PlaceModel.name) {
+        setDefaultPlaces([profile]);
+      }
     }
   }, []);
 
   const handlers = {
     onSubmit: (data: any, error?: any) => {
-      console.log('#####----------->>>>  !!! ', data);
+      data.artists = [...(data.main_artists || [])];
+      data.timetable__initial_date = dayjs(data.timetable__initial_date).format('YYYY-MM-DD');
+      data.timetable__openning_doors = Number(dayjs(data.timetable__openning_doors).format('HHmm')); //Number(data.timetable__openning_doors?.replace(':', '') || '0');
+      data.timetable__main_artist_time = Number(dayjs(data.initial_time).format('HHmm')); //Number(data.initial_time?.replace(':', '') || '0');
+      data.price = Number(data.price);
 
+      console.log('#####----------->>>>  !!! ', data);
       dispatch(eventsActions.createItem({ data }));
     },
     place_onChange: async (data: any) => {
       const searchedText = data?.target?.value?.trim().toLowerCase() || '';
 
-      const filteredPlaces = availablePlacesComplete.filter((place) => place.name.toLowerCase().includes(searchedText));
-
-      console.log(searchedText, searchedText.length, filteredPlaces);
-      updateAvailablePlaces(filteredPlaces);
+      dispatch(searchActions.entityQuerySearch({ term: searchedText, entity: 'Place' }));
+      setQueriedEntity('Place');
     },
     main_artists_onChange: async (data: any) => {
       const searchedText = data?.target?.value?.trim().toLowerCase() || '';
 
-      const filteredArtists = availableArtistsComplete.filter((artist) =>
-        artist.name.toLowerCase().includes(searchedText)
-      );
-
-      updateAvailableArtists(filteredArtists);
+      dispatch(searchActions.entityQuerySearch({ term: searchedText, entity: 'Artist' }));
+      setQueriedEntity('Artist');
     },
   };
+
+  useEffect(() => {
+    updateAvailableArtists(queriedSearchList?.artists || []);
+    updateAvailablePlaces(queriedSearchList?.places || []);
+    setQueriedEntity(null);
+  }, [queriedSearchList]);
 
   return (
     <>
@@ -164,8 +178,16 @@ const EventCreatePage = () => {
           stage_languages: availableLanguages,
         }}
         externalData={{
-          main_artists: { options: availableArtists },
-          place: { options: availablePlaces },
+          main_artists: {
+            options: availableArtists,
+            isLoading: queriedEntity === 'Artist' && querySearchLoading,
+            defaultSelection: defaultArtists,
+          },
+          place: {
+            options: availablePlaces,
+            isLoading: queriedEntity === 'Place' && querySearchLoading,
+            defaultSelection: defaultPlaces,
+          },
         }}
         customHeaderConfig={[
           {

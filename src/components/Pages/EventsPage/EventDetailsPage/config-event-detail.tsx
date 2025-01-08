@@ -33,17 +33,17 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   icon: 'FaRegCalendarAlt',
                   name: 'timetable__initial_date',
-                  formMetaData: { inputType: 'date' },
+                  formMetaData: { inputType: 'date', config: { required: true } },
                 },
                 {
                   icon: 'TbDoorEnter',
                   name: 'timetable__openning_doors',
-                  formMetaData: { inputType: 'time' },
+                  formMetaData: { inputType: 'time', config: { required: true } },
                 },
                 {
                   icon: 'io5 IoTimeOutline',
                   name: 'initial_time',
-                  formMetaData: { inputType: 'time' },
+                  formMetaData: { inputType: 'time', config: { required: true } },
                 },
                 {
                   icon: 'FaMapMarkerAlt',
@@ -72,14 +72,9 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   formMetaData: { hidden: true },
                 },
                 {
-                  icon: 'io5 IoTicketOutline',
-                  name: 'tickets_website',
-                  emptyTitle: true,
-                },
-                {
                   icon: 'io5 IoTimeOutline',
                   name: 'minimumAge',
-                  formMetaData: { inputType: 'number', config: { min: 0 } },
+                  formMetaData: { inputType: 'number', config: { min: 10 }, defaultValue: 18 },
                 },
                 {
                   icon: 'BsInfoCircleFill',
@@ -121,7 +116,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
               data_source: 'main_artists',
             },
             clickHandlerName: 'onNavigateToEntity',
-            formMetaData: { fieldName: 'main_artists' },
+            formMetaData: { fieldName: 'main_artists', config: { required: true } },
           },
         ],
       },
@@ -211,7 +206,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
               },
             },
             clickHandlerName: 'onNavigateToEntity',
-            formMetaData: { fieldName: 'place', componentParams: { maximumRelations: 1 } },
+            formMetaData: { fieldName: 'place', componentParams: { maximumRelations: 1 }, config: { required: true } },
           },
         ],
       },
@@ -228,6 +223,31 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           },
         ],
         formMetaData: { hidden: true },
+      },
+    ],
+  },
+  {
+    name: 'tickets',
+    sections: [
+      {
+        name: 'general',
+        components: [
+          {
+            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  icon: 'io5 IoTicketOutline',
+                  name: 'tickets_website',
+                  emptyTitle: true,
+                },
+                {
+                  name: 'price',
+                },
+              ],
+            },
+          },
+        ],
       },
     ],
   },

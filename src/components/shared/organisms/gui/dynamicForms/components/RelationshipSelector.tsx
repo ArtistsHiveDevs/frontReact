@@ -20,12 +20,13 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
   const [inputValue, setInputValue] = React.useState<string>('');
   const { errors, register, fieldData, handlers } = params;
   const { label, fieldName, config, componentParams } = fieldData;
-  let { options, minimumRelations, maximumRelations, isLoading } = componentParams || {};
+  let { options, minimumRelations, maximumRelations, isLoading, defaultSelection } = componentParams || {};
 
-  let initialSelectedValues = [];
+  let initialSelectedValues = Array.isArray(defaultSelection) ? [...defaultSelection] : [];
   if (componentParams && componentParams['relationshipSelectedOptions']) {
-    initialSelectedValues = componentParams['relationshipSelectedOptions'];
+    initialSelectedValues = [...initialSelectedValues, ...componentParams['relationshipSelectedOptions']];
   }
+
   const [selectedValues, setSelectedValues] = React.useState<SearchableProfileTemplate[]>(initialSelectedValues);
 
   const [openList, setOpenedList] = React.useState<boolean>(false);
@@ -69,12 +70,7 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
     updateSelection(selectedValues.filter((value) => value.id !== element.id));
   };
 
-  const updateSelection = (elements: any) => {
-    setSelectedValues(elements);
-    if (handlers && handlers[`${fieldName}_selection_changed`]) {
-      handlers[`${fieldName}_selection_changed`](elements);
-    }
-
+  const registerValues = (elements: any) => {
     if (register) {
       if (maximumRelations === 1) {
         if (elements.length > 0) {
@@ -89,9 +85,20 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
       register(fieldName, config);
     }
   };
+  const updateSelection = (elements: any) => {
+    setSelectedValues(elements);
+    if (handlers && handlers[`${fieldName}_selection_changed`]) {
+      handlers[`${fieldName}_selection_changed`](elements);
+    }
+
+    registerValues(elements);
+  };
 
   if (register) {
     register(fieldName, config);
+    if (selectedValues?.length) {
+      registerValues(selectedValues);
+    }
   }
 
   return (

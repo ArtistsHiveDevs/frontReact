@@ -91,6 +91,7 @@ export interface FormMetadata {
   fieldName?: string;
   componentParams?: any;
   config?: RegisterOptions;
+  defaultValue?: any;
   createForm?: FormMetadata;
   editForm?: FormMetadata;
   hidden?: boolean;

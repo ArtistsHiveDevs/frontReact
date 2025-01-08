@@ -1,5 +1,5 @@
 import { AllowedEntityRole } from '~/components/shared/atoms/app/auth/RequiredAuth';
-import { PATHS } from '~/constants';
+import { PATHS, SUB_PATHS } from '~/constants';
 import { AppUserModel } from '~/models/app/user/user.model';
 
 const TRANSLATION_BASE_SIDENAV = 'app.appbase.sidenav.sections';
@@ -34,6 +34,11 @@ export interface SideMenuItem {
   requireSession?: boolean;
   nestedMenuOptions?: SideMenuItem[];
   hidden?: boolean | Function;
+  rightIcon?: string;
+  rightPath?: string;
+  rightHandler?: string;
+  rightAllowedRoles?: AllowedEntityRole[];
+  rightHidden?: boolean | Function;
 }
 
 const general: SideMenuItem[] = [
@@ -113,15 +118,17 @@ const miInfo: SideMenuItem[] = [
     updated: new Date('1/18/16'),
     randomId: false,
     allowedRoles: [],
+    rightIcon: 'FaPlus',
+    rightPath: `${PATHS.EVENTS}/${SUB_PATHS.CREATE}`,
     // nestedMenuOptions: [
-    // {
-    //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_events.nested.create'),
-    //   path: `${PATHS.EVENTS}/${SUB_PATHS.CREATE}`,
-    //   icon: 'FaRegCalendarPlus',
-    //   updated: new Date('2/20/16'),
-    //   requireSession: true,
-    //   allowedRoles: [{ entityName: 'Artist' }],
-    // },
+    //   {
+    //     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_events.nested.create'),
+    //     path: `${PATHS.EVENTS}/${SUB_PATHS.CREATE}`,
+    //     icon: 'FaRegCalendarPlus',
+    //     updated: new Date('2/20/16'),
+    //     requireSession: true,
+    //     allowedRoles: [{ entityName: 'Artist' }],
+    //   },
     // ],
   },
   // {

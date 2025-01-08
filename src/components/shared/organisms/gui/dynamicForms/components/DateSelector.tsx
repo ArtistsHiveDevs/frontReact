@@ -1,5 +1,4 @@
 import { DatePicker } from '@mui/x-date-pickers';
-import { Dayjs } from 'dayjs';
 import { useState } from 'react';
 import { Controller, FieldErrors, FieldValues, UseFormRegister, useForm, useFormContext } from 'react-hook-form';
 import { ComponentGeneratorParams } from '../DynamicControl';
@@ -9,6 +8,7 @@ export const createDatePicker = (params: {
   register: UseFormRegister<FieldValues>;
   fieldData: DynamicFieldData;
   errors: FieldErrors<FieldValues>;
+  handlers?: { [handlerName: string]: Function };
 }) => {
   const {
     label,
@@ -22,9 +22,11 @@ export const createDatePicker = (params: {
   } = params?.fieldData || {};
   const { disablePast, disableFuture } = componentParams || {};
 
-  const { control, handleSubmit } = useForm({
+  const defaultTimeValue = config?.value ?? null;
+
+  const { control } = useForm({
     defaultValues: {
-      date: null as Dayjs | null,
+      [fieldName]: defaultTimeValue,
     },
   });
 
@@ -38,18 +40,22 @@ export const createDatePicker = (params: {
     <>
       <Controller
         control={control}
-        name="date"
+        name={`date_${fieldName}`}
         rules={{ required: true }}
         render={({ field }) => {
           return (
             <DatePicker
               label={label}
-              value={field.value}
+              value={field.value || defaultTimeValue || null}
               inputRef={field.ref}
               onChange={(date) => {
-                field.onChange(date);
                 config.value = date?.toISOString();
                 register(fieldName, config);
+                field.onChange(date);
+
+                if (params?.handlers?.[`${fieldName}_value_onchange`]) {
+                  params?.handlers[`${fieldName}_value_onchange`](date);
+                }
               }}
               disablePast={disablePast}
               disableFuture={disableFuture}

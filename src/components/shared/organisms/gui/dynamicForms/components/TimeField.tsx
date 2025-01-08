@@ -1,5 +1,5 @@
 import { MobileTimePicker } from '@mui/x-date-pickers';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { Controller, FieldErrors, FieldValues, UseFormRegister, useForm, useFormContext } from 'react-hook-form';
 import { DynamicFieldData } from '../dynamic-control-types';
 
@@ -7,46 +7,60 @@ export const createTimeField = (params: {
   register: UseFormRegister<FieldValues>;
   fieldData: DynamicFieldData;
   errors: FieldErrors<FieldValues>;
+  handlers?: { [handlerName: string]: Function };
 }) => {
-  const {
-    label,
-    inputType,
-    fieldName,
-    defaultValue,
-    placeholder = '',
-    options = [],
-    config = {},
-    componentParams = {},
-  } = params?.fieldData || {};
+  const { label, fieldName, config = {}, componentParams = {}, handlersNames = {} } = params?.fieldData || {};
   const { disablePast, disableFuture } = componentParams || {};
 
-  const { control, handleSubmit } = useForm({
+  const defaultTimeValue = config?.value ? dayjs(config.value, 'HH:mm') : null;
+
+  const { control } = useForm({
     defaultValues: {
-      date: null as Dayjs | null,
+      [fieldName]: defaultTimeValue,
     },
   });
 
   const { register, formState } = useFormContext();
   const { errors } = formState || {};
+  if (register) {
+    register(fieldName, config);
+  }
 
   return (
     <>
       <Controller
         control={control}
-        name="date"
-        rules={{ required: true }}
-        render={({ field }) => {
-          return (
-            <MobileTimePicker
-              label={label}
-              minutesStep={5}
-              onChange={(value: any) => {
-                config.value = `${value.hour()}:${value.minute()}`;
-                register(fieldName, config);
-              }}
-            />
-          );
+        name={fieldName}
+        rules={{
+          required: config.required ? `${label || 'This field'} is required` : false,
         }}
+        render={({ field }) => (
+          <MobileTimePicker
+            {...field}
+            label={label}
+            value={field.value}
+            onChange={(value: Dayjs | null) => {
+              config.value = value?.format('HH:mm');
+              if (register) {
+                register(fieldName, config);
+              }
+              field.onChange(value);
+
+              if (params?.handlers?.[`${fieldName}_value_onchange`]) {
+                params?.handlers[`${fieldName}_value_onchange`](value);
+              }
+            }}
+            disablePast={disablePast}
+            disableFuture={disableFuture}
+            slotProps={{
+              textField: {
+                required: !!config?.required,
+                error: !!errors[fieldName],
+                helperText: errors[fieldName]?.message.toString() || '',
+              },
+            }}
+          />
+        )}
       />
     </>
   );

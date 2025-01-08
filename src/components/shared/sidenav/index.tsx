@@ -48,46 +48,74 @@ const SideNav = () => {
   const showHideSearchField = (event: any) => {
     setOpenStatusSearchInputText(!openStatusSearchInputText);
   };
-  const navigateTo = (path: string, useRandomId = false) => {
+  const navigateTo = (
+    params: { path: string; useRandomId?: boolean; state?: any } = { path: '', useRandomId: false, state: {} }
+  ) => {
+    let { path, useRandomId, state } = params;
+    state = state || {};
+    state.originProfile = loggedUser?.currentProfileInfo;
+
     let paramId = '';
     if (useRandomId) {
       paramId = `${Math.floor(Math.random() * 18) + 1}`;
     }
     if (path) {
-      navigateToInnerPath({ path: `${path}/${paramId}` });
+      navigateToInnerPath({ path: `${path}/${paramId}`, options: { state } });
     } else {
-      navigateToInnerPath({ path: `` });
+      navigateToInnerPath({ path: ``, options: { state } });
     }
     setShow(false);
     setShowRight(false);
   };
 
-  const liMenuElement = (section: any, note: any, idx: number, level = 0) => {
+  const liMenuElement = (section: any, menuOption: any, idx: number, level = 0) => {
     return (
       <RequireAuthComponent
-        allowedRoles={note.allowedRoles}
-        requiredSession={note.requireSession}
-        name={note.name}
+        allowedRoles={menuOption.allowedRoles}
+        requiredSession={menuOption.requireSession}
+        name={menuOption.name}
         key={idx}
       >
-        <a
-          className="menu-option"
-          href={void 0}
-          onClick={() => {
-            if (note?.path) {
-              navigateTo(note?.path, note.randomId);
-            } else if (note?.handler && Object.keys(handlers).includes(note?.handler)) {
-              handlers[note?.handler]();
-            }
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
-          style={{ paddingLeft: `${level * 3}rem` }}
         >
-          <DynamicIcons iconName={note.icon || 'AiFillFile'} size={20} />
-          <span className="menu-option-label">{translateText(note.name)}</span>
-        </a>
-        {note.nestedMenuOptions &&
-          note.nestedMenuOptions.length &&
-          note.nestedMenuOptions.map((childOption: any, index: number) =>
+          <a
+            className="menu-option"
+            href={void 0}
+            onClick={() => {
+              if (menuOption?.path) {
+                navigateTo({ path: menuOption?.path, useRandomId: menuOption.randomId, state: {} });
+              } else if (menuOption?.handler && Object.keys(handlers).includes(menuOption?.handler)) {
+                handlers[menuOption?.handler]();
+              }
+            }}
+            style={{ paddingLeft: `${level * 3}rem` }}
+          >
+            <DynamicIcons iconName={menuOption.icon || 'AiFillFile'} size={20} />
+            <span className="menu-option-label">{translateText(menuOption.name)}</span>
+          </a>
+
+          {menuOption.rightIcon && (
+            <span
+              onClick={() => {
+                if (menuOption?.rightPath) {
+                  navigateTo({ path: menuOption?.rightPath, useRandomId: menuOption.randomId, state: {} });
+                } else if (menuOption?.rightHandler && Object.keys(handlers).includes(menuOption?.rightHandler)) {
+                  handlers[menuOption?.rightHandler]();
+                }
+              }}
+            >
+              <DynamicIcons iconName={menuOption.rightIcon} size={17} color="white" />
+            </span>
+          )}
+        </div>
+        {menuOption.nestedMenuOptions &&
+          menuOption.nestedMenuOptions.length &&
+          menuOption.nestedMenuOptions.map((childOption: any, index: number) =>
             liMenuElement(section, childOption, index, level + 1)
           )}
       </RequireAuthComponent>
@@ -114,7 +142,7 @@ const SideNav = () => {
     navigateToEntity({ entityType: entityName, id: element.identifier });
   };
 
-  const goToHome = () => navigateTo(PATHS.HOME);
+  const goToHome = () => navigateTo({ path: PATHS.HOME });
 
   const userID = getStoredUserIdToken();
 

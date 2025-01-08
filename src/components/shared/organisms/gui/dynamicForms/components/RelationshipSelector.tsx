@@ -4,6 +4,7 @@ import { ComponentGeneratorParams } from '../DynamicControl';
 
 import Autocomplete from '@mui/material/Autocomplete';
 import * as React from 'react';
+import LoaderIcon from '~/components/shared/atoms/app/loader/loader-icon';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { ProfileThumbnailCard } from '~/components/shared/molecules/Profile/ProfileThumbnailCard';
 import { ResultElement } from '~/components/shared/search/result-element';
@@ -19,7 +20,7 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
   const [inputValue, setInputValue] = React.useState<string>('');
   const { errors, register, fieldData, handlers } = params;
   const { label, fieldName, config, componentParams } = fieldData;
-  let { options, minimumRelations, maximumRelations } = componentParams || {};
+  let { options, minimumRelations, maximumRelations, isLoading } = componentParams || {};
 
   let initialSelectedValues = [];
   if (componentParams && componentParams['relationshipSelectedOptions']) {
@@ -84,9 +85,14 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
       } else {
         config.value = elements.map((element: any) => element.id);
       }
+
       register(fieldName, config);
     }
   };
+
+  if (register) {
+    register(fieldName, config);
+  }
 
   return (
     <>
@@ -100,6 +106,8 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
 
         <Autocomplete
           freeSolo
+          loading
+          loadingText={<LoaderIcon />}
           open={openList}
           multiple
           onClose={(event: React.ChangeEvent<{}>, reason) => {
@@ -143,6 +151,8 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
             isInSelectableRange() !== InRangeValidation.ON_UPPER_LIMIT && (
               <TextField
                 {...params}
+                required={required === true || required === 'true'}
+                error={!!errors[fieldName]}
                 inputProps={params.inputProps}
                 placeholder="Filter labels"
                 fullWidth

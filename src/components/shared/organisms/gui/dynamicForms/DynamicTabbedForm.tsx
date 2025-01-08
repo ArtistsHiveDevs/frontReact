@@ -44,6 +44,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
   } = params;
 
   const [relationshipsValues, setRelationshipsValues] = useState<{ [relationship: string]: any[] }>({});
+  const [timeValues, setTimeValues] = useState<{ [relationship: string]: any }>({});
 
   const { translateText } = useI18n();
   const formMethods = useForm();
@@ -89,6 +90,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     formMethods: any
   ) => {
     // console.log('Generando secciones', relationshipsValues);
+
     const fields: JSX.Element[] = [];
     const {
       handleSubmit,
@@ -131,7 +133,19 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
           }
 
           const fieldName: string = attributeInfo.name;
-          const currentValue: any = elementData ? elementData[fieldName as keyof typeof elementData] : undefined;
+          let currentValue: any = elementData
+            ? elementData[fieldName as keyof typeof elementData]
+            : formMetaData?.defaultValue;
+
+          if (['date', 'dateinterval', 'time'].includes(inputType)) {
+            handlers = handlers ?? {};
+            handlers[`${fieldName}_value_onchange`] = (value: any) => {
+              timeValues[fieldName] = value;
+            };
+
+            formMetaData.config ??= {};
+            formMetaData.config.value = timeValues[fieldName];
+          }
 
           let componentParams = formMetaData?.componentParams || {};
           let fieldExternalData = externalData || {};

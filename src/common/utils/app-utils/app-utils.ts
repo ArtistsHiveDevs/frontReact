@@ -1,5 +1,5 @@
-export type EnvType = 'prod' | 'uat' | 'sit' | 'dev';
+export type EnvironmentType = 'prod' | 'uat' | 'sit' | 'dev';
 
-export function getEnvironment(): string {
+export function getEnvironment(): EnvironmentType {
   return import.meta.env.VITE_AMP_ENV || 'dev';
 }

@@ -6,6 +6,7 @@ import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
+import { getEnvironment } from '~/common/utils/app-utils/app-utils';
 import { resolveNavigateToEntityPath } from '~/common/utils/hooks/navigation/navigateToEntityResolver';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
@@ -260,13 +261,20 @@ const SideNav = () => {
               <Offcanvas.Body>
                 <hr />
                 {LEFT_SIDENAV_MENU_CONFIG.filter((sidenavSection, index) => {
-                  return (
+                  const isHidden =
                     sidenavSection.hidden === undefined ||
                     (typeof sidenavSection.hidden === 'boolean' && !sidenavSection.hidden) ||
                     (typeof sidenavSection.hidden === 'string' && sidenavSection.hidden !== 'true') ||
                     (sidenavSection.hidden instanceof Function &&
-                      !sidenavSection.hidden({ user: loggedUser, section: sidenavSection }))
-                  );
+                      !sidenavSection.hidden({ user: loggedUser, section: sidenavSection }));
+
+                  const isAllowedByEnvironment =
+                    (!sidenavSection.allowedEnvironments ||
+                      sidenavSection.allowedEnvironments.includes(getEnvironment())) &&
+                    (!sidenavSection.forbiddenEnvironments ||
+                      !sidenavSection.forbiddenEnvironments.includes(getEnvironment()));
+
+                  return isHidden && isAllowedByEnvironment;
                 }).map((sidenavSection, index) => {
                   const sectionOptions = sidenavSection.options || [];
                   return (
@@ -282,13 +290,20 @@ const SideNav = () => {
                           <div className="option-menu-list">
                             {sectionOptions
                               .filter((option, index) => {
-                                return (
+                                const isHidden =
                                   option.hidden === undefined ||
                                   (typeof option.hidden === 'boolean' && !option.hidden) ||
                                   (typeof option.hidden === 'string' && option.hidden !== 'true') ||
                                   (option.hidden instanceof Function &&
-                                    !option.hidden({ user: loggedUser, option: option }))
-                                );
+                                    !option.hidden({ user: loggedUser, option: option }));
+
+                                const isAllowedByEnvironment =
+                                  (!option.allowedEnvironments ||
+                                    option.allowedEnvironments.includes(getEnvironment())) &&
+                                  (!option.forbiddenEnvironments ||
+                                    !option.forbiddenEnvironments.includes(getEnvironment()));
+
+                                return isHidden && isAllowedByEnvironment;
                               })
                               .map((option: SideMenuItem, idx) => {
                                 return liMenuElement('general', option, idx);

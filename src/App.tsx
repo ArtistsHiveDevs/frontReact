@@ -31,7 +31,6 @@ import { RoutesApp } from '~/routes';
 import { useApiKeySlice } from './common/slices/app-base/APIKey';
 import { selectApiKey } from './common/slices/app-base/APIKey/selectors';
 import { initGA } from './common/utils/analytics/analytics';
-import { getEnvironment } from './common/utils/app-utils/app-utils';
 import AppLoader from './components/shared/organisms/app/loader/loader';
 
 // import { secret } from '@aws-amplify/backend';
@@ -81,10 +80,6 @@ const App = () => {
       dayjs.locale(appLang.lang);
     }
   }, [appLang]);
-  // , secret('ENV_NAME')
-  console.log('sd1da289h9883%% ', import.meta.env.VITE_ENV_NAME, ' ### ');
-  console.log('REACT_APP_TEST_VARIABLE', import.meta.env.VITE_REACT_APP_TEST_VARIABLE);
-  console.log('AMBIENTE', getEnvironment());
 
   return (
     <ThemeProvider theme={darkTheme}>

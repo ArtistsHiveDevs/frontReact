@@ -79,6 +79,8 @@ const App = () => {
     }
   }, [appLang]);
 
+  console.log('sd1da289h9883%% ', import.meta.env.VITE_ENV_NAME);
+
   return (
     <ThemeProvider theme={darkTheme}>
       <HelmetProvider>

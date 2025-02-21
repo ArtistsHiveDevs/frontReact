@@ -131,13 +131,13 @@ const miInfo: SideMenuItem[] = [
     //   },
     // ],
   },
-  // {
-  //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),
-  //   path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/rid_2`,
-  //   icon: 'FaFileAlt',
-  //   updated: new Date('2/20/16'),
-  //   allowedRoles: [{ entityName: 'Artist' }],
-  // },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),
+    path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/rid_2`,
+    icon: 'FaFileAlt',
+    updated: new Date('2/20/16'),
+    allowedRoles: [{ entityName: 'Artist' }],
+  },
   // {
   //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_places'),
   //   path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}`,
@@ -160,23 +160,23 @@ const miInfo: SideMenuItem[] = [
     icon: 'AiFillHeart',
     updated: new Date('2/20/16'),
     requireSession: true,
-    //   nestedMenuOptions: [
-    //     {
-    //       name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.saved'),
-    //       path: `${PATHS.MY_FAVOURITES}`,
-    //       icon: 'BsFillBookmarksFill',
-    //       updated: new Date('2/20/16'),
-    //       requireSession: true,
-    //     },
-    //     // {
-    //     //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.tour_planning'),
-    //     //   path: `${PATHS.TOURS_OUTLINE}`,
-    //     //   icon: 'BsFillJournalBookmarkFill',
-    //     //   updated: new Date('2/20/16'),
-    //     //   allowedRoles: [{ entityName: 'Artist' }],
-    //     //   requireSession: true,
-    //     // },
-    //   ],
+    nestedMenuOptions: [
+      {
+        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.saved'),
+        path: `${PATHS.MY_FAVOURITES}`,
+        icon: 'BsFillBookmarksFill',
+        updated: new Date('2/20/16'),
+        requireSession: true,
+      },
+      {
+        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.tour_planning'),
+        path: `${PATHS.TOURS_OUTLINE}`,
+        icon: 'BsFillJournalBookmarkFill',
+        updated: new Date('2/20/16'),
+        allowedRoles: [{ entityName: 'Artist' }],
+        requireSession: true,
+      },
+    ],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'logout'),

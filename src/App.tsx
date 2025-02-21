@@ -82,7 +82,8 @@ const App = () => {
   }, [appLang]);
   // , secret('ENV_NAME')
   console.log('sd1da289h9883%% ', import.meta.env.VITE_ENV_NAME, ' ### ');
-  console.log('REACT_APP_TEST_VARIABLE', import.meta.env.REACT_APP_TEST_VARIABLE);
+  console.log('REACT_APP_TEST_VARIABLE', import.meta.env.VITE_REACT_APP_TEST_VARIABLE);
+  console.log('Int2', import.meta.env.VITE_ENV);
 
   return (
     <ThemeProvider theme={darkTheme}>

@@ -1,3 +1,4 @@
+import { EnvironmentType } from '~/common/utils/app-utils/app-utils';
 import { AllowedEntityRole } from '~/components/shared/atoms/app/auth/RequiredAuth';
 import { PATHS, SUB_PATHS } from '~/constants';
 import { AppUserModel } from '~/models/app/user/user.model';
@@ -21,6 +22,8 @@ export interface SideMenuSection {
   allowedRoles?: AllowedEntityRole[];
   requireSession?: boolean;
   hidden?: boolean | Function;
+  allowedEnvironments?: EnvironmentType[];
+  forbiddenEnvironments?: EnvironmentType[];
 }
 
 export interface SideMenuItem {
@@ -34,11 +37,15 @@ export interface SideMenuItem {
   requireSession?: boolean;
   nestedMenuOptions?: SideMenuItem[];
   hidden?: boolean | Function;
+  allowedEnvironments?: EnvironmentType[];
+  forbiddenEnvironments?: EnvironmentType[];
   rightIcon?: string;
   rightPath?: string;
   rightHandler?: string;
   rightAllowedRoles?: AllowedEntityRole[];
   rightHidden?: boolean | Function;
+  rightAllowedEnvironments?: EnvironmentType[];
+  rightForbiddenEnvironments?: EnvironmentType[];
 }
 
 const general: SideMenuItem[] = [
@@ -137,6 +144,7 @@ const miInfo: SideMenuItem[] = [
     icon: 'FaFileAlt',
     updated: new Date('2/20/16'),
     allowedRoles: [{ entityName: 'Artist' }],
+    forbiddenEnvironments: ['prod'],
   },
   // {
   //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_places'),
@@ -177,6 +185,7 @@ const miInfo: SideMenuItem[] = [
         requireSession: true,
       },
     ],
+    forbiddenEnvironments: ['prod'],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'logout'),
@@ -213,6 +222,7 @@ const config: SideMenuItem[] = [
     icon: 'MdFeedback',
     updated: new Date('2/20/16'),
     requireSession: true,
+    forbiddenEnvironments: ['prod'],
   },
 
   // {

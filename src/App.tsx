@@ -33,7 +33,7 @@ import { selectApiKey } from './common/slices/app-base/APIKey/selectors';
 import { initGA } from './common/utils/analytics/analytics';
 import AppLoader from './components/shared/organisms/app/loader/loader';
 
-import { secret } from '@aws-amplify/backend';
+// import { secret } from '@aws-amplify/backend';
 
 const App = () => {
   let { lang, messages, setLocale: setLang } = useContext(HvAppContext);
@@ -80,8 +80,8 @@ const App = () => {
       dayjs.locale(appLang.lang);
     }
   }, [appLang]);
-
-  console.log('sd1da289h9883%% ', import.meta.env.VITE_ENV_NAME, ' ### ', secret('ENV_NAME'));
+  // , secret('ENV_NAME')
+  console.log('sd1da289h9883%% ', import.meta.env.VITE_ENV_NAME, ' ### ');
   console.log('REACT_APP_TEST_VARIABLE', process.env.REACT_APP_TEST_VARIABLE);
 
   return (

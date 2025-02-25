@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { VerificationStatus } from '~/constants';
 import { SocialNetworkStatsTemplate } from '~/constants/social-networks.const';
-import { LocatableTemplate, ProfileModel, ProfileTemplate } from '~/models/base';
+import { LocatableTemplate, LocationTemplate, ProfileModel, ProfileTemplate } from '~/models/base';
 import { CountryModel, CountryTemplate } from '~/models/parametrics/geo/country.model';
 import { EventModel, EventTemplate } from '../event/event.model';
 
@@ -31,21 +31,7 @@ export interface PlaceTemplate extends ProfileTemplate {
   state: string;
   city: string;
   address: string;
-  location:
-    | string
-    | [
-        {
-          country_name?: string;
-          country_alpha2?: string;
-          country_alpha3?: string;
-          state?: string;
-          city?: string;
-          address?: string;
-          latitude?: number;
-          longitude?: number;
-          locationPrecision?: string;
-        }
-      ];
+  location: string | LocationTemplate[];
   email: string;
   phone: string;
   public_private: string;
@@ -78,21 +64,7 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
   declare state: string;
   declare city: string;
   declare address: string;
-  declare location:
-    | string
-    | [
-        {
-          country_name?: string;
-          country_alpha2?: string;
-          country_alpha3?: string;
-          state?: string;
-          city?: string;
-          address?: string;
-          latitude?: number;
-          longitude?: number;
-          locationPrecision?: string;
-        }
-      ];
+  declare location: string | LocationTemplate[];
   declare email: string;
   declare phone: string;
   declare public_private: string;

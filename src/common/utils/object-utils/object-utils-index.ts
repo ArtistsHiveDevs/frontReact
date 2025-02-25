@@ -1,7 +1,10 @@
 import { SearchableTemplate } from '~/models/base';
 import { EventModel } from '~/models/domain/event/event.model';
 
-export function GMapsSvgMaker(icon: any, data?: any) {
+export function GMapsSvgMaker(
+  icon: any,
+  data?: { color?: string; opacity?: number; rotation?: number; scale?: number }
+) {
   const path = icon[4] as string;
   const iconAnchor = [icon[0] / 2 || 0, icon[1] || 20];
   const customColor = data?.color || '#8a5433';

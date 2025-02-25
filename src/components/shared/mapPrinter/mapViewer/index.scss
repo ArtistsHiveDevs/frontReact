@@ -1,6 +1,33 @@
+@import '~/variables.module.scss';
+
 #map-viewer {
   position: relative;
   width: 100%;
   height: 100%;
   border-radius: 15px;
+  z-index: 1000;
+}
+
+.custom-info-window-title {
+  color: $black !important; /* Texto blanco */
+  font-weight: bold;
+}
+
+.custom-info-window {
+  color: $gray-dark;
+  padding: '0.5rem';
+  border-radius: 8px;
+  max-width: 200px;
+  // text-align: center;
+  display: flex;
+  gap: '1rem';
+}
+
+.info-window-address-div {
+  align-content: baseline;
+  padding: 0.5rem;
+}
+
+.custom-info-window .info-title {
+  font-weight: bold;
 }

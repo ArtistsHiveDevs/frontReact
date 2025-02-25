@@ -12,7 +12,7 @@ import consts from '~/components/shared/search/search-constants';
 import { EntityModel, EntityTemplate, LocatableTemplate, SearchableProfileTemplate } from '~/models/base';
 import { SearchModel } from '~/models/domain/search/search.model';
 
-import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { useSwipeable } from 'react-swipeable';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
@@ -20,6 +20,7 @@ import { GMapsSvgMaker } from '~/common/utils/object-utils/object-utils-index';
 import MapContainer from '~/components/shared/mapPrinter/mapContainer';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { SocialNetworks } from '~/constants/social-networks.const';
+import { PlaceModel } from '~/models/domain/place/place.model';
 import { SEARCH_FILTERS_CONFIG } from './config-search';
 
 const TRANSLATION_BASE_SEARCH = 'app.appbase.search';
@@ -141,7 +142,7 @@ export default function SearchPage() {
   const [availablePlaces, updateAvailablePlaces] = useState([]);
 
   useEffect(() => {
-    console.log('showFiltersModal: ', showFiltersModal, filtersObject);
+    // console.log('showFiltersModal: ', showFiltersModal, filtersObject);
   }, [showFiltersModal]);
 
   useEffect(() => {
@@ -255,25 +256,28 @@ export default function SearchPage() {
         fullWidth={true}
         disableEscapeKeyDown={false}
         keepMounted={true}
+        style={{ zIndex: showFiltersModal ? 3000 : 0 }}
       >
         <DialogTitle>{translateText(`${TRANSLATION_BASE_FILTERS}.title`)}</DialogTitle>
         <DialogContent dividers={true}>
-          <DynamicTabbedForm
-            tabsInfo={SEARCH_FILTERS_CONFIG}
-            handlers={handlers}
-            translationBasePath={TRANSLATION_BASE_FILTERS}
-            fieldOptions={{
-              gender: availableGenders,
-              genres: availableGenres,
-              user_language: availableLanguages,
-              spoken_languages: availableLanguages,
-              stage_languages: availableLanguages,
-              art_languages: availableLanguages,
-              has_social_networks: availableSocialNetworks,
-            }}
-            elementData={filtersObject}
-            externalData={{}}
-          />
+          {showFiltersModal && (
+            <DynamicTabbedForm
+              tabsInfo={SEARCH_FILTERS_CONFIG}
+              handlers={handlers}
+              translationBasePath={TRANSLATION_BASE_FILTERS}
+              fieldOptions={{
+                gender: availableGenders,
+                genres: availableGenres,
+                user_language: availableLanguages,
+                spoken_languages: availableLanguages,
+                stage_languages: availableLanguages,
+                art_languages: availableLanguages,
+                has_social_networks: availableSocialNetworks,
+              }}
+              elementData={filtersObject}
+              externalData={{}}
+            />
+          )}
         </DialogContent>
         {/* <DialogActions>
           <Button onClick={handleCloseFiltersModal}>Disagree</Button>
@@ -318,16 +322,37 @@ export default function SearchPage() {
   };
 
   const clickHandlerMap = useSwipeable({
-    onTouchStartOrOnMouseDown: (a) => console.log('TOUCH', a.event.target),
+    onTouchStartOrOnMouseDown: (a) => {
+      const target = a?.event?.target as HTMLElement;
+    },
   });
+
+  const onClickMapMarker = (element: LocatableTemplate) => {
+    navigateToEntity({ entityType: PlaceModel.name, id: element.identifier });
+  };
+
   let mapData;
+
   if (results) {
     const markers = Object.keys(results.locatedResults)
       .map((entityName) =>
-        results.locatedResults[entityName].map((element: LocatableTemplate) => {
+        results.locatedResults[entityName].map((result: LocatableTemplate) => {
+          const element = result as PlaceModel;
+
+          let address = element.location;
+          if (element.location && Array.isArray(element.location)) {
+            address = element.location?.[0]?.address;
+          } else if (typeof element.location === 'string') {
+            address = element.location;
+          }
+
           return {
+            id: element.identifier,
+            title: element.name,
+            content: address,
             position: { ...element.latLng },
-            iconData: GMapsSvgMaker(faHome.icon),
+            iconData: GMapsSvgMaker(faMapMarkerAlt.icon, { color: '#D30000', opacity: 0.6 }),
+            element: element,
           };
         })
       )
@@ -445,6 +470,7 @@ export default function SearchPage() {
                     apiKey={import.meta.env.VITE_GMAPS_KEY}
                     stylesc={mapContainerStyles}
                     mapData={mapData}
+                    onClickMapMarker={onClickMapMarker}
                   />
                 </div>
               }

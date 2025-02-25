@@ -12,10 +12,11 @@ interface Props {
   onClick?: Function;
   onBadgeClick?: Function;
   variant?: 'circular' | 'rounded' | 'square';
+  id?: string;
 }
 
 export const AvatarWithIcon = forwardRef<HTMLDivElement, Props>((params, ref) => {
-  const { image, name, avatarSize, bottomBadgeSize, buttonIcon, onClick, onBadgeClick, variant } = params || {};
+  const { id, image, name, avatarSize, bottomBadgeSize, buttonIcon, onClick, onBadgeClick, variant } = params || {};
 
   return (
     <div ref={ref} style={{ position: 'relative', display: 'inline-block' }}>
@@ -45,6 +46,7 @@ export const AvatarWithIcon = forwardRef<HTMLDivElement, Props>((params, ref) =>
           }}
           variant={variant || 'circular'}
           onClick={() => onClick && onClick()}
+          id={id}
         />
       </Badge>
     </div>

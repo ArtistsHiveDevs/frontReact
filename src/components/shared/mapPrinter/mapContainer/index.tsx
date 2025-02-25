@@ -17,7 +17,7 @@ const MapContainer = (props: any) => {
   return (
     <div className="map-container" style={props?.stylesc}>
       <Wrapper apiKey={props.apiKey} render={render} libraries={['marker']}>
-        <MapViewer data={props?.mapData} />
+        <MapViewer data={props?.mapData} onClickMapMarker={props?.onClickMapMarker} />
       </Wrapper>
     </div>
   );

@@ -107,7 +107,7 @@ export const createSelect = (params: ComponentGeneratorParams) => {
         }}
         {...restSelectField}
         menuPortalTarget={document.body}
-        styles={{ ...customStyles, menuPortal: (base) => ({ ...base, zIndex: 9 }) }}
+        styles={{ ...customStyles, menuPortal: (base) => ({ ...base, zIndex: 3500 }) }}
       />
     </div>
   );

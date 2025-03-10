@@ -1,5 +1,36 @@
 import { Template } from '~/models/base';
 
+import CryptoJS from 'crypto-js';
+import { getEnvironment } from '../app-utils/app-utils';
+
+const SECRET_KEY = import.meta.env.VITE_ENV_KEY || 'd855f76d6fe2ac84f7c0e38a619c5810'; // Debe ser de 32 caracteres
+const SECRET_IV = import.meta.env.VITE_ENV_KEY_IV || '358e8a3a5474d65a'; // Debe ser de 16 caracteres
+
+export function encryptBrowser(text: string): string {
+  const key = CryptoJS.enc.Utf8.parse(SECRET_KEY);
+  const iv = CryptoJS.enc.Utf8.parse(SECRET_IV);
+
+  const encrypted = CryptoJS.AES.encrypt(text, key, {
+    iv,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7,
+  });
+
+  return encrypted.toString();
+}
+
+function generateKey() {
+  const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
+
+  return `${getEnvironment()}@${today}`;
+}
+
+function generateEnvironmentHeader() {
+  const encryptedData = encryptBrowser(generateKey());
+  console.log(generateKey(), encryptedData);
+  return { 'x-env': encryptedData };
+}
+
 export class ResponseError extends Error {
   public response: Response;
   public content: Promise<any>;
@@ -85,6 +116,8 @@ function checkStatus(response: Response) {
  * @return {object}           The response data
  */
 export async function request(url: string, options?: RequestInit): Promise<{} | { err: ResponseError }> {
+  options.headers = { ...options.headers, ...generateEnvironmentHeader() };
+
   const fetchResponse = await fetch(url, options);
 
   return parseJSON(fetchResponse);
@@ -100,7 +133,7 @@ export async function request(url: string, options?: RequestInit): Promise<{} | 
  */
 export async function postRequest(url: string, options?: RequestInit): Promise<Response | { err: ResponseError }> {
   options.method = 'POST';
-  options.headers = { ...options.headers, 'Content-Type': 'application/json' };
+  options.headers = { ...options.headers, ...generateEnvironmentHeader(), 'Content-Type': 'application/json' };
 
   const fetchResponse = await fetch(url, options);
 
@@ -117,7 +150,7 @@ export async function postRequest(url: string, options?: RequestInit): Promise<R
  */
 export async function putRequest(url: string, options?: RequestInit): Promise<{} | { err: ResponseError }> {
   options.method = 'PUT';
-  options.headers = { ...options.headers, 'Content-Type': 'application/json' };
+  options.headers = { ...options.headers, ...generateEnvironmentHeader(), 'Content-Type': 'application/json' };
 
   const fetchResponse = await fetch(url, options);
 
@@ -134,7 +167,7 @@ export async function putRequest(url: string, options?: RequestInit): Promise<{}
  */
 export async function patchRequest(url: string, options?: RequestInit): Promise<{} | { err: ResponseError }> {
   options.method = 'PATCH';
-  options.headers = { ...options.headers, 'Content-Type': 'application/json' };
+  options.headers = { ...options.headers, ...generateEnvironmentHeader(), 'Content-Type': 'application/json' };
 
   const fetchResponse = await fetch(url, options);
 
@@ -151,7 +184,8 @@ export async function patchRequest(url: string, options?: RequestInit): Promise<
  */
 export async function deleteRequest(url: string, options?: RequestInit): Promise<{} | { err: ResponseError }> {
   options.method = 'DELETE';
-  options.headers = { ...options.headers, 'Content-Type': 'application/json' };
+
+  options.headers = { ...options.headers, ...generateEnvironmentHeader(), 'Content-Type': 'application/json' };
 
   const fetchResponse = await fetch(url, options);
 

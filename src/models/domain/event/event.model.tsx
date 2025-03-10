@@ -74,7 +74,7 @@ export class EventModel
     this.timetable__main_artist_time = Number(template.timetable__main_artist_time);
     // this.main_artist = template.main_artist ? new ArtistModel(template.main_artist) : undefined;
     // this.guest_artist = template.guest_artist ? new ArtistModel(template.guest_artist) : undefined;
-    this.artists = template.artists ? template.artists.map((artist) => new ArtistModel(artist)) : [];
+    this.artists = template.artists ? (template.artists || []).map((artist) => new ArtistModel(artist)) : [];
     this.place = template.place ? new PlaceModel(template.place) : undefined;
 
     const hours = Math.floor(this.timetable__main_artist_time / 100) || 0; // Dividir entre 100 para obtener las horas

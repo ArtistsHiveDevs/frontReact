@@ -78,6 +78,7 @@
     "@aws-amplify/backend": "^1.2.1",
     "@aws-amplify/backend-cli": "^1.2.5",
     "@reduxjs/toolkit": "^1.9.0",
+    "@types/crypto-js": "^4.2.2",
     "@types/date-fns": "^2.6.0",
     "@types/google.maps": "^3.58.1",
     "@types/node": "^18.11.17",

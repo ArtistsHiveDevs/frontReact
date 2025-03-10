@@ -22,7 +22,7 @@ export const GenresListView = (props: GenresListViewParams) => {
           <div key={`art_${artType}`}>
             <h4 className="art-title">{translateText(`${TRANSLATION_BASE_ART_TYPES}.${artType}`)}</h4>
             <div className="genre-container">
-              {genresList.map((genre: string) => (
+              {(genresList || []).map((genre: string) => (
                 <Badge key={`art_${artType}_${genre}`} text={genre}></Badge>
               ))}
             </div>

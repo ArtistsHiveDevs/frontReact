@@ -13,7 +13,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script type="module">
       // Configurar algo usando la variable de entorno antes de cargar la aplicación
-      const e = import.meta.env.PROD;
+      const e = import.meta.env.VITE_AMP_ENV === 'prod';
       if (e) {
         const ga_code = import.meta.env.VITE_GA_CODE;
         window.dataLayer = window.dataLayer || [];

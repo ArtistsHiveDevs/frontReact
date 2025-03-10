@@ -31,6 +31,7 @@ import { RoutesApp } from '~/routes';
 import { useApiKeySlice } from './common/slices/app-base/APIKey';
 import { selectApiKey } from './common/slices/app-base/APIKey/selectors';
 import { initGA } from './common/utils/analytics/analytics';
+import { isProdEnvironment } from './common/utils/app-utils/app-utils';
 import AppLoader from './components/shared/organisms/app/loader/loader';
 
 // import { secret } from '@aws-amplify/backend';
@@ -54,7 +55,7 @@ const App = () => {
     },
   });
 
-  if (import.meta.env.PROD) {
+  if (isProdEnvironment()) {
     const trackingID = import.meta.env.VITE_GA_CODE; // Reemplaza con tu ID de seguimiento de Google Analytics
     initGA(trackingID);
   }

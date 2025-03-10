@@ -1,6 +1,8 @@
+import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
+
 // src/analytics.ts
 export const initGA = (measurementId: string): void => {
-  if (import.meta.env.PROD) {
+  if (isProdEnvironment()) {
     (window as any).dataLayer = (window as any).dataLayer || [];
     function gtag(...args: any[]): void {
       (window as any).dataLayer.push(args);
@@ -13,7 +15,7 @@ export const initGA = (measurementId: string): void => {
 };
 
 export const logPageView = (params?: { title?: string; url?: string }): void => {
-  if (import.meta.env.PROD) {
+  if (isProdEnvironment()) {
     let { url, title } = params || {};
 
     if (!url && window.location) {
@@ -33,7 +35,7 @@ export const logPageView = (params?: { title?: string; url?: string }): void => 
 };
 
 export const logEvent = (action: string, category: string, label?: string, value?: number): void => {
-  if (import.meta.env.PROD) {
+  if (isProdEnvironment()) {
     (window as any).gtag('event', action, {
       event_category: category,
       event_label: label,
@@ -47,7 +49,7 @@ export const logPageViewEvent = (params?: {
   page_location?: string;
   page_path?: string;
 }): void => {
-  if (import.meta.env.PROD) {
+  if (isProdEnvironment()) {
     const algo: string = import.meta.env.GA_PREVENT_ANALYTICS;
     console.log('$$$$$$$    ', algo);
 
@@ -75,7 +77,7 @@ export const logPageViewEvent = (params?: {
 };
 
 export const logUser = (userId: string): void => {
-  if (import.meta.env.PROD) {
+  if (isProdEnvironment()) {
     (window as any).gtag('set', { user_id: userId });
   }
 };

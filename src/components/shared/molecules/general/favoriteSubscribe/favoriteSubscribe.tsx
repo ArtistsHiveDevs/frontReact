@@ -4,7 +4,8 @@ import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import './favoriteSubscribe.scss';
 
 type FavoriteSubscribeInputTemplate = {
-  callback?: { [nameParam: string]: Function };
+  // callback?: { [nameParam: string]: Function };
+  callback?: Function;
   color?: string;
   customSubscriberTo?: boolean;
   size?: number;
@@ -49,9 +50,11 @@ export const FavoriteSubscription: React.FC<FavoriteSubscribeInputTemplate> = (
   // Functions
   function onClickIconHandler() {
     const { callback } = props;
-    setSubscriberTo(!subscriberTo);
-    if (callback?.onClick) {
-      callback.onClickIcon(subscriberTo);
+    const newValue = !subscriberTo;
+    setSubscriberTo(newValue);
+
+    if (callback && typeof callback === 'function') {
+      callback(!subscriberTo);
     }
   }
   const buttonState = `fav-subs-${subscriberTo ? 'active' : 'initial'}`;

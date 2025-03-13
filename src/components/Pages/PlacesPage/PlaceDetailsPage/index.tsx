@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
+import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { logPageViewEvent } from '~/common/utils/analytics/analytics';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
@@ -17,6 +18,8 @@ import { PLACE_DETAIL_SUB_PAGE_CONFIG, TRANSLATION_BASE_PLACE_DETAIL_PAGE } from
 const PlaceDetailPage = () => {
   const { navigateToEntity } = useNavigation();
   const urlParameters = useParams();
+
+  const loggedUser = useSelector(selectCurrentUser);
 
   const [placeId, setCurrentPlaceId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
   const [startedRequest, setStartedRequest] = useState(false);
@@ -89,6 +92,11 @@ const PlaceDetailPage = () => {
     onEditProfile: (value: any) => {
       const entityType = value.constructor.name !== 'Object' ? value.constructor.name : value.entity;
       navigateToEntity({ entityType, id: value.identifier, action: SUB_PATHS.EDIT });
+    },
+    onClickFollowSucription: (value: any) => {
+      if (loggedUser) {
+        console.log('CLIC ', value);
+      }
     },
   };
 

@@ -14,6 +14,9 @@ export interface EntityTemplate extends Template {
 export interface ProfileTemplate extends EntityTemplate {
   username?: string;
   profile_pic?: string;
+
+  followed_profiles?: string[];
+  followed_by?: string[];
 }
 
 export interface ObjectValueTemplate extends Template {}

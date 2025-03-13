@@ -173,10 +173,15 @@ export abstract class ProfileModel<T extends ProfileTemplate>
   declare shortId?: string;
   protected _profile_pic_aws?: StorageGetUrlOutput;
 
+  declare followed_profiles: string[];
+  declare followed_by: string[];
+
   constructor(template: T | any = {}) {
     super(template);
     this.id = template.id || template._id;
     // this.setAWSURL();
+    this.followed_profiles = template.followed_profiles || [];
+    this.followed_by = template.followed_by || [];
   }
 
   get identifier(): string {
@@ -205,5 +210,9 @@ export abstract class ProfileModel<T extends ProfileTemplate>
     } else {
       this._profile_pic_aws = undefined;
     }
+  }
+
+  isFollowedBy(identifier: string) {
+    return true; //this.followed_by.includes(identifier);
   }
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
+import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { logPageViewEvent } from '~/common/utils/analytics/analytics';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
@@ -22,6 +23,8 @@ import './index.scss';
 const ArtistDetailPage = () => {
   const { navigateToEntity } = useNavigation();
   const urlParameters = useParams();
+
+  const loggedUser = useSelector(selectCurrentUser);
 
   const [artistId, setCurrentArtistId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
   const [startedRequest, setStartedRequest] = useState(false);
@@ -87,6 +90,17 @@ const ArtistDetailPage = () => {
     onEditProfile: (value: any) => {
       const entityType = value.constructor.name !== 'Object' ? value.constructor.name : value.entity;
       navigateToEntity({ entityType, id: value.identifier, action: SUB_PATHS.EDIT });
+    },
+    onClickFollowSucription: (value: any) => {
+      if (loggedUser) {
+        if (value) {
+          console.log('Seguir a:  ', currentArtist.name);
+        } else {
+          {
+            console.log('dejar de Seguir a:  ', currentArtist.name);
+          }
+        }
+      }
     },
   };
   console.log(currentArtist);

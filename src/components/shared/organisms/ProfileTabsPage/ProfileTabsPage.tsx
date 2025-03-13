@@ -468,6 +468,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
         const previous = index > 0 ? new EventModel(eventsArray[index - 1]) : undefined;
         // const previousMoment = previous ? moment(previous?.timetable__initial_date) : undefined;
         // const currentMoment = moment(event.timetable__initial_date);
+        console.log(previous, event);
         const sameMonth = previous?.timetable__initial_date.month() === event.timetable__initial_date.month();
         const sameYear = previous?.timetable__initial_date?.year() === event.timetable__initial_date.year();
 

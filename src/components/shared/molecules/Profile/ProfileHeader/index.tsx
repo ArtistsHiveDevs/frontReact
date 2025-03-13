@@ -9,6 +9,8 @@ import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
+import { ProfileModel } from '~/models/base';
+import { PlaceModel } from '~/models/domain/place/place.model';
 import {
   FavoriteSubscription,
   FavoriteSubscritionIconDefaultTypes,
@@ -32,6 +34,8 @@ interface FieldInfo {
 }
 export const ProfileHeader = (props: any) => {
   const { element, formMethods, handlers: parentHandlers, customHeaderConfig } = props;
+
+  const elementAsProfileModel = element as ProfileModel<PlaceModel>;
 
   const isEditable = !!formMethods;
   const { register, formState } = formMethods || {};
@@ -285,7 +289,12 @@ export const ProfileHeader = (props: any) => {
 
                 {element && !currentUserIsInProfile && (
                   <>
-                    <FavoriteSubscription size={24} iconType={FavoriteSubscritionIconDefaultTypes.HEART} />
+                    <FavoriteSubscription
+                      size={24}
+                      iconType={FavoriteSubscritionIconDefaultTypes.HEART}
+                      customSubscriberTo={true}
+                      callback={parentHandlers['onClickFollowSucription']}
+                    />
                   </>
                 )}
               </h2>

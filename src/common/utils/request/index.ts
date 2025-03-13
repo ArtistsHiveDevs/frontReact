@@ -16,6 +16,7 @@ export function encryptBrowser(text: string): string {
     padding: CryptoJS.pad.Pkcs7,
   });
 
+
   return encrypted.toString();
 }
 

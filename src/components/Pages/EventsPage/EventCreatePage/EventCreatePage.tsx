@@ -2,9 +2,11 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { useEventsSlice } from '~/common/slices/domain/events/events.redux';
+import { selectorEvents, useEventsSlice } from '~/common/slices/domain/events/events.redux';
 import { useSearchSlice } from '~/common/slices/search';
 import { selectEntitySearch, selectEntitySearchLoading } from '~/common/slices/search/selectors';
+import { selectCurrentUser } from '~/common/slices/users/selectors';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
@@ -26,6 +28,10 @@ function sleep(duration: number): Promise<void> {
 }
 
 const EventCreatePage = () => {
+  const loggedUser = useSelector(selectCurrentUser);
+
+  const { navigateToEntity, navigateToInnerPath } = useNavigation();
+
   const [availableLanguages, updateAvailableLanguages] = useState([]);
   const [availableGenres, updateAvailableGenres] = useState([]);
   const [availableGenders, updateAvailableGenders] = useState([]);
@@ -37,12 +43,15 @@ const EventCreatePage = () => {
   const [defaultArtists, setDefaultArtists] = useState([]);
   const [defaultPlaces, setDefaultPlaces] = useState([]);
 
+  const [requestHasBeenSended, setRequestHasBeenSended] = useState(false);
+
   const [queriedEntity, setQueriedEntity] = useState(null);
   const queriedSearchList: SearchModel = useSelector(selectEntitySearch);
   const querySearchLoading: boolean = useSelector(selectEntitySearchLoading);
   const { actions: searchActions } = useSearchSlice();
 
   const { actions: eventsActions } = useEventsSlice();
+  const createdEvent = useSelector(selectorEvents.selectCreatedItem);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -130,7 +139,7 @@ const EventCreatePage = () => {
   }, []);
 
   const handlers = {
-    onSubmit: (data: any, error?: any) => {
+    onSubmit: async (data: any, error?: any) => {
       data.artists = [...(data.main_artists || [])];
       data.timetable__initial_date = dayjs(data.timetable__initial_date).format('YYYY-MM-DD');
       data.timetable__openning_doors = Number(dayjs(data.timetable__openning_doors).format('HHmm')); //Number(data.timetable__openning_doors?.replace(':', '') || '0');
@@ -139,6 +148,7 @@ const EventCreatePage = () => {
 
       console.log('#####----------->>>>  !!! ', data);
       dispatch(eventsActions.createItem({ data }));
+      setRequestHasBeenSended(true);
     },
     place_onChange: async (data: any) => {
       const searchedText = data?.target?.value?.trim().toLowerCase() || '';
@@ -159,6 +169,19 @@ const EventCreatePage = () => {
     updateAvailablePlaces(queriedSearchList?.places || []);
     setQueriedEntity(null);
   }, [queriedSearchList]);
+
+  useEffect(() => {
+    if (requestHasBeenSended && loggedUser?.currentProfileIdentifier) {
+      console.log('NAVIGATE....... ');
+    }
+  }, [loggedUser, requestHasBeenSended]);
+
+  useEffect(() => {
+    console.log('NEW EVENT!!!!!! ', createdEvent);
+    if (!!createdEvent) {
+      navigateToEntity({ entityType: EventModel.name, id: createdEvent.identifier });
+    }
+  }, [requestHasBeenSended, createdEvent]);
 
   return (
     <>

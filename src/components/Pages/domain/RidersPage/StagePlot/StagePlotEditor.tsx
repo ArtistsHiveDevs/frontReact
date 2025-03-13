@@ -23,6 +23,7 @@ const StagePlotEditor: React.FC = () => {
 
   const [color, setColor] = useState<string>('blue');
   const [camaraHabilitada, setCamaraHabilitada] = useState<boolean>(false);
+  const [autoRotate, setAutoRotate] = useState(true);
   const [dragging, setDragging] = useState<boolean>(false); // Estado para arrastre
   const [elements, setElements] = useState([]); // Estado para arrastre
 
@@ -236,7 +237,7 @@ const StagePlotEditor: React.FC = () => {
             ref={controlsRef}
             // enableZoom={!dragging}
             // enabled={camaraHabilitada}
-            autoRotate={true}
+            autoRotate={autoRotate}
             autoRotateSpeed={8}
             // maxPolarAngle={}
           />{' '}
@@ -255,6 +256,9 @@ const StagePlotEditor: React.FC = () => {
         >
           Vista Principal
         </div>
+      </div>
+      <div onClick={() => setAutoRotate(!autoRotate)}>
+        <p>{autoRotate ? 'Detener' : 'Rotar'}</p>
       </div>
       <div style={{ gridColumn: '1 / 4', gridRow: '2 / 3', textAlign: 'center' }}>
         <p>Elemento Seleccionado: {selectedElement ? selectedElement.name : ''}</p>

@@ -10,107 +10,83 @@ interface typesPropsIcon {
   background?: string;
   propsIcon?: IconBaseProps;
   customStyle?: { [property: string]: any };
+  className?: string;
 }
 
 export function DynamicIcons(params: typesPropsIcon): JSX.Element {
-  let { iconName, size, color, background, propsIcon, customStyle = {} } = params;
+  let { iconName, size, color, background, propsIcon, customStyle = {}, className = '' } = params;
   const props = { ...propsIcon };
   const specificLib = iconName.indexOf(' ') >= 0 ? iconName.split(' ')[0] : undefined;
   const name = iconName.indexOf(' ') >= 0 ? iconName.split(' ')[1] : iconName;
   props.color = color;
   props.size = size;
 
-  const [Icon, setIcon] = useState(() => RiLoader2Line);
-
-  const loadIcon = (iconslibrary: any) => {
-    const icon = iconslibrary[name as keyof typeof iconslibrary] as IconType;
-    if (!!icon) {
-      setIcon(() => icon);
-    }
-  };
-  const lib =
-    specificLib ||
-    name
-      .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
-      .split(' ')[0]
-      .toLocaleLowerCase();
+  const [Icon, setIcon] = useState<IconType>(() => RiLoader2Line);
 
   useEffect(() => {
-    switch (lib) {
-      case 'ai':
-        import('react-icons/ai/index').then(loadIcon);
-        break;
-      case 'bi':
-        import('react-icons/bi/index').then(loadIcon);
-        break;
-      case 'bs':
-        import('react-icons/bs/index').then(loadIcon);
-        break;
-      case 'fa':
-        import(`react-icons/fa/index`).then(loadIcon);
-        break;
-      case 'gi':
-        import('react-icons/gi/index').then(loadIcon);
-        break;
-      case 'gr':
-        import('react-icons/gr/index').then(loadIcon);
-        break;
-      case 'im':
-        import('react-icons/im/index').then(loadIcon);
-        break;
-      case 'io':
-        import('react-icons/io/index').then(loadIcon);
-        break;
-      case 'io5':
-        import('react-icons/io5/index').then(loadIcon);
-        break;
-      case 'hi':
-        import('react-icons/hi/index').then(loadIcon);
-        break;
-      case 'hi2':
-        import('react-icons/hi2/index').then(loadIcon);
-        break;
-      case 'md':
-        import('react-icons/md/index').then(loadIcon);
-        break;
-      case 'pi':
-        import('react-icons/pi/index').then(loadIcon);
-        break;
-      case 'ri':
-        import('react-icons/ri/index').then(loadIcon);
-        break;
-      case 'si':
-        import('react-icons/si/index').then(loadIcon);
-        break;
-      case 'sl':
-        import('react-icons/sl/index').then(loadIcon);
-        break;
-      case 'tb':
-        import('react-icons/tb/index').then(loadIcon);
-        break;
-      default:
-        import('react-icons/fa/index').then(loadIcon);
-    }
-  }, []);
+    let isMounted = true;
 
-  const customStyleParam: { [property: string]: any } = { ...customStyle };
+    const loadIcon = async () => {
+      try {
+        const lib =
+          specificLib ||
+          name
+            .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+            .split(' ')[0]
+            .toLowerCase();
 
-  if (!!size) {
-    customStyleParam['fontSize'] = size;
-  }
-  if (!!color) {
-    customStyleParam['color'] = color;
-  }
+        const libraryMap: Record<string, () => Promise<any>> = {
+          ai: () => import('react-icons/ai/index'),
+          bi: () => import('react-icons/bi/index'),
+          bs: () => import('react-icons/bs/index'),
+          fa: () => import('react-icons/fa/index'),
+          gi: () => import('react-icons/gi/index'),
+          gr: () => import('react-icons/gr/index'),
+          im: () => import('react-icons/im/index'),
+          io: () => import('react-icons/io/index'),
+          io5: () => import('react-icons/io5/index'),
+          hi: () => import('react-icons/hi/index'),
+          hi2: () => import('react-icons/hi2/index'),
+          md: () => import('react-icons/md/index'),
+          pi: () => import('react-icons/pi/index'),
+          ri: () => import('react-icons/ri/index'),
+          si: () => import('react-icons/si/index'),
+          sl: () => import('react-icons/sl/index'),
+          tb: () => import('react-icons/tb/index'),
+        };
+
+        const loadLibrary = libraryMap[lib] || libraryMap['fa']; // Default: FontAwesome
+        const iconsLibrary = await loadLibrary();
+        const SelectedIcon = iconsLibrary[name as keyof typeof iconsLibrary] as IconType;
+
+        if (isMounted && SelectedIcon) {
+          setIcon(() => SelectedIcon);
+        }
+      } catch (error) {
+        console.error('Error loading icon:', error);
+      }
+    };
+
+    loadIcon();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [iconName]); // 🔄 Se reactiva cuando cambia el nombre del icono
 
   return (
-    <span className="icon-container" style={customStyleParam}>
-      <Icon
-        className={'icon'}
-        color={propsIcon?.color}
-        size={propsIcon?.size}
-        // fill="red"
-        style={{ background: background, padding: background ? `0.1rem` : '', borderRadius: background ? '50%' : '' }}
-      />
+    <span
+      className={`icon-container ${className}`}
+      style={{
+        fontSize: size,
+        color,
+        background,
+        padding: background ? '0.1rem' : '',
+        borderRadius: background ? '50%' : '',
+        ...customStyle,
+      }}
+    >
+      <Icon {...props} />
     </span>
   );
 }

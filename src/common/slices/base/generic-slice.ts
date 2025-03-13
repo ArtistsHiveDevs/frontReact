@@ -208,7 +208,7 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
             if (AVAILABLE_ENTITY_MEMBERSHIPS.includes(resourceEndpoint)) {
               yield put(usersActions.switchProfile({ id: newProfileInfo.identifier }));
             }
-            // yield put(slice.actions.itemCreated(response.data));
+            yield put(slice.actions.itemCreated(response.data));
           }
         } catch (err) {
           yield put(slice.actions.repoError(1));

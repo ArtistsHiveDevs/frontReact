@@ -1,4 +1,5 @@
 import Flag from 'react-world-flags';
+import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { EventModel } from '~/models/domain/event/event.model';
 import './EventThumbnailCard.scss';
@@ -60,7 +61,8 @@ export const EventThumbnailCard = (props: any) => {
             <p className="card-date-number">{event.timetable__initial_date.format('DD')}</p>
             <p className="card-date-hour">{event.timetable__initial_date.format('HH:mm')}h</p>
           </div>
-          <img className="event-avatar" src={event.place.profile_pic} alt={event.place.name} />
+          <AvatarWithIcon image={event?.place?.profile_pic} avatarSize={'4rem'} name={event?.place?.name} />
+          {/* <img className="event-avatar" src={event?.place?.profile_pic} alt={event?.place?.name} /> */}
           {/* <p>
             status: {confirmationStatus}
             <span

@@ -13,16 +13,22 @@ abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
   private _template: any;
   public fetchTimestamp: number;
   protected maxCacheTimeToLive: number;
+  public rawTemplate: T | any;
 
   /**
    *
    * @param template
    */
   constructor(template: T | any = {}) {
-    this._template = template;
+    this.rawTemplate = template;
     this.fetchTimestamp = Date.now();
-    this._template.fetchTimestamp = this.fetchTimestamp;
     this.maxCacheTimeToLive = DEFAULT_MAX_CACHE_TIME_TO_LIVE;
+
+    if (typeof template === 'object' && template !== null) {
+      this._template = { ...template, fetchTimestamp: this.fetchTimestamp };
+    } else {
+      this._template = { value: template, fetchTimestamp: this.fetchTimestamp };
+    }
 
     Object.keys(template)
       .filter((templateKey) => templateKey !== '_data')

@@ -123,6 +123,10 @@ export const FrMessages = {
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Erreur inconnue',
       },
+      follows: {
+        followers: 'Abonnés',
+        following: 'Abonnements',
+      },
       location: {
         borough: 'Arrondissement',
         canton: 'Canton',

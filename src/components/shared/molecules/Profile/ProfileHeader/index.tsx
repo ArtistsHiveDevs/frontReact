@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
+import { useI18n } from '~/common/utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
@@ -33,6 +34,7 @@ interface FieldInfo {
   renderField?: string;
 }
 export const ProfileHeader = (props: any) => {
+  const { translateGlobalDict } = useI18n();
   const { element, formMethods, handlers: parentHandlers, customHeaderConfig } = props;
 
   const elementAsProfileModel = element as ProfileModel<PlaceModel>;
@@ -292,7 +294,7 @@ export const ProfileHeader = (props: any) => {
                     <FavoriteSubscription
                       size={24}
                       iconType={FavoriteSubscritionIconDefaultTypes.HEART}
-                      customSubscriberTo={true}
+                      customSubscriberTo={loggedUser?.currentSessionLikesProfile(element)}
                       callback={parentHandlers['onClickFollowSucription']}
                     />
                   </>
@@ -302,6 +304,20 @@ export const ProfileHeader = (props: any) => {
           )}
 
           <div className="profile-name">{generateEditableField('subtitle', element, isEditable)}</div>
+          {element?.followed_by_count !== undefined && (
+            <div className="followers-box">
+              <div>
+                <span className="follow-number">{element.followed_by_count}</span>
+                <br />
+                {translateGlobalDict(`follows.followers`)}
+              </div>
+              <div>
+                <span className="follow-number">{element.followed_profiles_count}</span>
+                <br />
+                {translateGlobalDict(`follows.following`)}
+              </div>
+            </div>
+          )}
         </div>
       </div>
       {currentUserIsInProfile && (

@@ -1,7 +1,13 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
 import { getUrl } from 'aws-amplify/storage';
 import { toCamelCase } from '~/common/utils/string-utils';
-import { EntityTemplate, ObjectValueTemplate, ProfileTemplate, SearchableProfileTemplate } from './template';
+import {
+  EntityTemplate,
+  FollowerProfileTemplate,
+  ObjectValueTemplate,
+  ProfileTemplate,
+  SearchableProfileTemplate,
+} from './template';
 
 const DEFAULT_MAX_CACHE_TIME_TO_LIVE = 3 * 60 * 1000;
 
@@ -173,15 +179,33 @@ export abstract class ProfileModel<T extends ProfileTemplate>
   declare shortId?: string;
   protected _profile_pic_aws?: StorageGetUrlOutput;
 
-  declare followed_profiles: string[];
-  declare followed_by: string[];
+  declare followed_profiles: FollowerProfileTemplate[];
+  declare followed_by: FollowerProfileTemplate[];
 
   constructor(template: T | any = {}) {
     super(template);
     this.id = template.id || template._id;
     // this.setAWSURL();
-    this.followed_profiles = template.followed_profiles || [];
-    this.followed_by = template.followed_by || [];
+    this.followed_profiles =
+      template.followed_profiles ||
+      [
+        // {
+        //   id: 'bbb',
+        //   identifier: 'bbb',
+        //   name: 'PEPITO PÉREZ',
+        //   profile_pic: 's3://public/24e884f8-2061-70d1-9dcc-c33cf99891e9.jpg',
+        // },
+      ];
+    this.followed_by =
+      template.followed_by ||
+      [
+        // {
+        //   id: 'bbb',
+        //   identifier: 'bbb',
+        //   name: 'PEPITO PÉREZ',
+        //   profile_pic: 's3://public/24e884f8-2061-70d1-9dcc-c33cf99891e9.jpg',
+        // },
+      ];
   }
 
   get identifier(): string {

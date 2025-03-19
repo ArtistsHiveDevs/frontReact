@@ -5,6 +5,7 @@ import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors'
 import { AppUserModel, AppUserTemplate, UNLOGGED_USER } from '~/models/app/user/user.model';
 
 import { UsernameAvailabilityStatus } from '~/constants/app.constants';
+import { ProfileTemplate } from '~/models/base';
 import { userSaga } from './saga';
 import { UserErrorType, UserState } from './types';
 
@@ -58,6 +59,9 @@ const slice = createSlice({
       state.error = null;
     },
     updateUser(state, action: PayloadAction<{ id: string; newItem: Partial<AppUserModel> }>) {
+      state.loading = true;
+    },
+    followProfileUser(state, action: PayloadAction<{ action: 'follow' | 'unfollow'; profile: ProfileTemplate }>) {
       state.loading = true;
     },
     switchProfile(state, action: PayloadAction<{ id: string }>) {

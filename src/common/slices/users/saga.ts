@@ -8,9 +8,11 @@ import { signOut } from 'aws-amplify/auth';
 import { defaultLang } from '~/common/context';
 import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 import { LocalStorageVariables } from '~/constants/localstorage';
+import { ProfileModel, ProfileTemplate } from '~/models/base';
 import { usersActions } from '.';
 import { actions as apiKeyActions } from '../app-base/APIKey';
 import { selectApiKey } from '../app-base/APIKey/selectors';
+import { actionsArtists } from '../domain/artists/artist.redux';
 
 export function* getUsers() {
   yield delay(500);
@@ -89,7 +91,7 @@ export function* switchLanguage(actionParams?: PayloadAction<{ newLang: string }
   const userId = authInfo.userId || authInfo.username || authInfo.sub;
 
   if (userId) {
-    const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/${authInfo.userId}`;
+    const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/${userId}`;
 
     try {
       const response: APIResponse = yield call(putRequest, requestURL, {
@@ -107,12 +109,14 @@ export function* switchLanguage(actionParams?: PayloadAction<{ newLang: string }
       //   body: { currentProfileIdentifier: actionParams?.payload.id },
       // });
     } catch (err) {
+      // console.log('errooooor ', err);
       yield put(usersActions.logout());
-      // yield delay(500);
-      // window.location.reload();
+      yield delay(500);
+      window.location.reload();
     }
   } else {
     window.location.reload();
+    // console.log('RELOAD.....  no user .....');
     window.scrollTo(0, 0);
   }
 }
@@ -212,6 +216,39 @@ export function* updateUser(actionParams?: PayloadAction<{ id: string; newItem: 
   }
 }
 
+export function* followProfileUser(
+  actionParams?: PayloadAction<{ action: 'follow' | 'unfollow'; profile: ProfileTemplate }>
+) {
+  yield delay(500);
+
+  const authInfo: { apiKey: string; userId: string; username: string; sub: string } = yield select(selectApiKey);
+  const userId = authInfo.userId || authInfo.username || authInfo.sub;
+
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/${userId}/action`;
+
+  try {
+    const { id, identifier, username } = actionParams.payload.profile as ProfileModel<any>;
+    const body = { action: actionParams.payload.action, id, identifier, username, entity: 'Artist' };
+
+    const response: APIResponse = yield call(putRequest, requestURL, {
+      body: JSON.stringify({ ...body }),
+      headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
+    });
+    if (response?.data) {
+      console.log(response.data);
+      yield put(actionsArtists.getItemById({ id: identifier }));
+    }
+    // const currentUser: AppUserTemplate = yield call(putRequest, requestURL, {
+    //   headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false)  },
+    //   body: { currentProfileIdentifier: actionParams?.payload.id },
+    // });
+  } catch (err) {
+    // yield put(usersActions.logout());
+    // yield delay(500);
+    // window.location.reload();
+  }
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -228,4 +265,5 @@ export function* userSaga() {
   yield takeLatest(usersActions.checkUsernameAvailability.type, checkUsernameAvailability);
   yield takeLatest(usersActions.createUser.type, createUser);
   yield takeLatest(usersActions.updateUser.type, updateUser);
+  yield takeLatest(usersActions.followProfileUser.type, followProfileUser);
 }

@@ -306,6 +306,13 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
       (roleMapInstance) => new CurrentProfileInfoModel({ ...roleMapInstance, entity: path })
     );
   }
+
+  currentSessionLikesProfile(element: ProfileModel<any>) {
+    console.log('Followed By: ', element?.followed_by, this.currentProfileInfo);
+    return !!(element?.followed_by || []).find(
+      (e: any) => e.id === this.currentProfileInfo.id || e.identifier === this.currentProfileIdentifier
+    );
+  }
 }
 
 export class CurrentProfileInfoModel implements EntityInstanceRoleMapTemplate, SearchableTemplate {

@@ -123,6 +123,10 @@ export const DeMessages = {
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Unbekannter Fehler',
       },
+      follows: {
+        followers: 'Follower',
+        following: 'Folgt',
+      },
       location: {
         borough: 'Stadtteil',
         canton: 'Kanton',

@@ -123,6 +123,10 @@ export const EsMessages = {
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Error desconocido',
       },
+      follows: {
+        followers: 'Seguidores',
+        following: 'Siguiendo',
+      },
       location: {
         borough: 'Barrio',
         canton: 'Cantón',

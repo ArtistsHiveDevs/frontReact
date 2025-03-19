@@ -3,6 +3,7 @@ import { VerificationStatus } from '~/constants';
 import { SocialNetworkStatsTemplate } from '~/constants/social-networks.const';
 import { EntityModel, EntityTemplate, ProfileModel, ProfileTemplate } from '~/models/base';
 import { CountryModel, CountryTemplate } from '~/models/parametrics/geo/country.model';
+import { LanguageModel, LanguageTemplate } from '~/models/parametrics/geo/language.model';
 import { EventModel, EventTemplate } from '../event/event.model';
 
 export interface ArtistInTrack {
@@ -99,9 +100,9 @@ export interface ArtistTemplate extends ProfileTemplate {
   home_city: string;
   country: CountryTemplate;
   city: any;
-  spoken_languages: string[];
-  stage_languages: string[];
-  arts_languages: string[];
+  spoken_languages: LanguageTemplate[];
+  stage_languages: LanguageTemplate[];
+  arts_languages: LanguageTemplate[];
 
   website: string;
   email: string;
@@ -135,9 +136,9 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
 
   declare since: Dayjs;
   declare home_city: string;
-  declare spoken_languages: string[];
-  declare stage_languages: string[];
-  declare arts_languages: string[];
+  declare spoken_languages: LanguageModel[];
+  declare stage_languages: LanguageModel[];
+  declare arts_languages: LanguageModel[];
 
   declare website: string;
   declare email: string;

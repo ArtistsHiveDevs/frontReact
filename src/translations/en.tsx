@@ -123,6 +123,10 @@ export const EnMessages = {
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Unknown error',
       },
+      follows: {
+        followers: 'Followers',
+        following: 'Following',
+      },
       location: {
         borough: 'Borough',
         canton: 'Canton',

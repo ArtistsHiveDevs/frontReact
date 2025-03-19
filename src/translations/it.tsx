@@ -123,6 +123,10 @@ export const ItMessages = {
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Errore sconosciuto',
       },
+      follows: {
+        followers: 'Follower',
+        following: 'Seguiti',
+      },
       location: {
         borough: 'Quartiere',
         canton: 'Cantone',

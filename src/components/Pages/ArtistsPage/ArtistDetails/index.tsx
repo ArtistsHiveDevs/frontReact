@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
+import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { logPageViewEvent } from '~/common/utils/analytics/analytics';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
@@ -34,6 +35,7 @@ const ArtistDetailPage = () => {
   const requestIsLoading = useSelector(selectorArtists.selectLoading);
   const requestError = useSelector(selectorArtists.selectError);
   const { actions: artistsActions } = useArtistsSlice();
+  const { actions: usersActions } = useUsersSlice();
 
   const subPagesInfo = [...ARTIST_DETAIL_SUB_PAGE_CONFIG];
   const selectArtistById = selectorArtists.makeSelectItemById();
@@ -93,13 +95,20 @@ const ArtistDetailPage = () => {
     },
     onClickFollowSucription: (value: any) => {
       if (loggedUser) {
+        let followAction: 'follow' | 'unfollow';
+        let id;
         if (value) {
-          console.log('Seguir a:  ', currentArtist.name);
+          followAction = 'follow';
+          id = 'XX Seguir a:  ' + currentArtist.identifier;
         } else {
           {
-            console.log('dejar de Seguir a:  ', currentArtist.name);
+            followAction = 'unfollow';
+            id = 'XX dejar de Seguir a:  ' + currentArtist.identifier;
           }
         }
+        dispatch(usersActions.followProfileUser({ action: followAction, profile: currentArtist }));
+      } else {
+        console.log('Debe iniciar sesión');
       }
     },
   };

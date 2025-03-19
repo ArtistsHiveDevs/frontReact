@@ -123,6 +123,10 @@ export const PtMessages = {
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Erro desconhecido',
       },
+      follows: {
+        followers: 'Seguidores',
+        following: 'Seguindo',
+      },
       location: {
         borough: 'Bairro',
         canton: 'Cantão',

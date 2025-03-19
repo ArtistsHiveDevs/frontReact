@@ -15,8 +15,8 @@ export interface ProfileTemplate extends EntityTemplate {
   username?: string;
   profile_pic?: string;
 
-  followed_profiles?: string[];
-  followed_by?: string[];
+  followed_profiles?: FollowerProfileTemplate[];
+  followed_by?: FollowerProfileTemplate[];
 }
 
 export interface ObjectValueTemplate extends Template {}
@@ -64,4 +64,11 @@ export function isSearchableEntity(object: any): object is SearchableTemplate {
 
 export function isLocableEntity(object: any): object is LocatableTemplate {
   return 'latLng' in object;
+}
+
+export interface FollowerProfileTemplate {
+  id: string;
+  identifier?: string;
+  name?: string;
+  profile_pic?: string;
 }

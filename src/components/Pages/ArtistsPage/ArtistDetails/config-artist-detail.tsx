@@ -5,6 +5,7 @@ import {
   ProfileDetailsSubpage,
 } from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
 import { ArtistModel, ArtistRatingTemplate } from '~/models/domain/artist/artist.model';
+import { LanguageModel } from '~/models/parametrics/geo/language.model';
 
 export const TRANSLATION_BASE_ARTIST_DETAIL_PAGE = 'app.pages.ArtistsPages.ArtistsDetailsPage';
 export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
@@ -75,18 +76,27 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   name: 'spoken_languages',
                   icon: 'TbWorld',
                   requireSession: true,
+                  value: (artist: ArtistModel) => {
+                    return artist?.spoken_languages.map((l: LanguageModel) => l.name).join(', ');
+                  },
                   formMetaData: { inputType: 'chipPicker' },
                 },
                 {
                   name: 'stage_languages',
                   icon: 'BsTranslate',
                   requireSession: true,
+                  value: (artist: ArtistModel) => {
+                    return artist?.stage_languages.map((l: LanguageModel) => l.name).join(', ');
+                  },
                   formMetaData: { inputType: 'chipPicker' },
                 },
                 {
                   name: 'arts_languages',
                   icon: 'BsFillMegaphoneFill',
                   requireSession: true,
+                  value: (artist: ArtistModel) => {
+                    return artist?.arts_languages.map((l: LanguageModel) => l.name).join(', ');
+                  },
                   formMetaData: {
                     inputType: 'chipPicker',
                     config: { required: true },

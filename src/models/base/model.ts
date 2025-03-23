@@ -182,6 +182,8 @@ export abstract class ProfileModel<T extends ProfileTemplate>
   declare followed_profiles: FollowerProfileTemplate[];
   declare followed_by: FollowerProfileTemplate[];
 
+  declare isFollowedByCurrentProfile: boolean;
+
   constructor(template: T | any = {}) {
     super(template);
     this.id = template.id || template._id;

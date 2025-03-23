@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
+import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { logPageViewEvent } from '~/common/utils/analytics/analytics';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
@@ -11,6 +12,7 @@ import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/Imag
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import AppLoader from '~/components/shared/organisms/app/loader/loader';
 import { SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
+import { getClassFromModelName } from '~/models/base/modelHelpers';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import { PLACE_DETAIL_SUB_PAGE_CONFIG, TRANSLATION_BASE_PLACE_DETAIL_PAGE } from './config-place-detail';
@@ -29,6 +31,7 @@ const PlaceDetailPage = () => {
   const placeList: PlaceModel[] = useSelector(selectorPlaces.selectItems);
   const requestIsLoading = useSelector(selectorPlaces.selectLoading);
   const { actions: placesActions } = usePlacesSlice();
+  const { actions: usersActions } = useUsersSlice();
 
   const subPagesInfo = [...PLACE_DETAIL_SUB_PAGE_CONFIG];
 
@@ -95,7 +98,27 @@ const PlaceDetailPage = () => {
     },
     onClickFollowSucription: (value: any) => {
       if (loggedUser) {
-        console.log('CLIC ', value);
+        let followAction: 'follow' | 'unfollow';
+        let id;
+        if (value) {
+          followAction = 'follow';
+          id = 'XX Seguir a:  ' + currentPlace.identifier;
+        } else {
+          {
+            followAction = 'unfollow';
+            id = 'XX dejar de Seguir a:  ' + currentPlace.identifier;
+          }
+        }
+        dispatch(usersActions.followProfileUser({ action: followAction, profile: currentPlace }));
+      } else {
+        console.log('Debe iniciar sesión');
+      }
+    },
+
+    onClickOnFollower: (value: any) => {
+      const entityType = getClassFromModelName(value?.entityType)?.name;
+      if (entityType) {
+        navigateToEntity({ entityType, id: value.username || value.id });
       }
     },
   };

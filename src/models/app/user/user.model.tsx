@@ -308,10 +308,8 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
   }
 
   currentSessionLikesProfile(element: ProfileModel<any>) {
-    console.log('Followed By: ', element?.followed_by, this.currentProfileInfo);
-    return !!(element?.followed_by || []).find(
-      (e: any) => e.id === this.currentProfileInfo.id || e.identifier === this.currentProfileIdentifier
-    );
+    console.log('LIKES????? ', element.followed_by, this.currentProfileInfo);
+    return !!(element?.followed_by || []).find((e: any) => e.entityId === this.currentProfileInfo.id);
   }
 }
 

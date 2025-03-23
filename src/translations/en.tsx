@@ -71,6 +71,7 @@ export const EnMessages = {
         AUTH_TOKEN_EXPIRED: 'Token expired',
         AUTH_TOKEN_INVALID: 'Invalid token',
         AUTH_PERMISSION_DENIED: 'Permission denied',
+        AUTH_LOGIN_REQUIRED: 'You need to log in to view this content.',
 
         // Errores de Red
         NETWORK_ERROR: 'Network error',
@@ -126,6 +127,12 @@ export const EnMessages = {
       follows: {
         followers: 'Followers',
         following: 'Following',
+        in_common: 'In common',
+        errors: {
+          NO_FOLLOWING: 'This profile is not following anyone.',
+          NO_FOLLOWERS: 'This profile has no followers.',
+          NO_COMMON_FOLLOWERS: 'No common followers.',
+        },
       },
       location: {
         borough: 'Borough',

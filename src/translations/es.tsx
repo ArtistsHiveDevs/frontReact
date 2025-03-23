@@ -71,6 +71,7 @@ export const EsMessages = {
         AUTH_TOKEN_EXPIRED: 'Token expirado',
         AUTH_TOKEN_INVALID: 'Token inválido',
         AUTH_PERMISSION_DENIED: 'Permiso denegado',
+        AUTH_LOGIN_REQUIRED: 'Para ver este contenido debes iniciar sesión.',
 
         // Errores de Red
         NETWORK_ERROR: 'Error de red',
@@ -126,6 +127,12 @@ export const EsMessages = {
       follows: {
         followers: 'Seguidores',
         following: 'Siguiendo',
+        in_common: 'En común',
+        errors: {
+          NO_FOLLOWING: 'Este perfil no está siguiendo a nadie.',
+          NO_FOLLOWERS: 'Este perfil no tiene seguidores.',
+          NO_COMMON_FOLLOWERS: 'No hay seguidores en común.',
+        },
       },
       location: {
         borough: 'Barrio',

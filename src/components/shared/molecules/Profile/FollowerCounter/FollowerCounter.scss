@@ -1,0 +1,27 @@
+@import '~/variables.module.scss';
+
+.followers-box {
+  font-size: 14px;
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  gap: 1rem; /* Espaciado entre los elementos */
+  width: 100%;
+  min-width: 100%;
+  text-align: center;
+}
+
+.followers-box div {
+  flex: 1; /* Hace que cada div ocupe el mismo espacio */
+  text-align: center; /* Asegura que el texto se centre */
+}
+
+.follow-number {
+  font-size: x-large;
+  font-weight: 620;
+  color: $main-title-color;
+}
+
+.active-follower-type-title {
+  border-bottom: solid 2px white;
+}

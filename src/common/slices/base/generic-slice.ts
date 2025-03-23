@@ -5,7 +5,7 @@ import { EntityStateTemplate } from '~/common/utils/redux-injectors/types';
 import { APIResponse, buildQueryString, deleteRequest, postRequest, putRequest, request } from '~/common/utils/request';
 import { AVAILABLE_ENTITY_MEMBERSHIPS } from '~/constants/app.constants';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
-import { EntityModel, EntityTemplate } from '~/models/base';
+import { EntityModel, EntityTemplate, ProfileModel } from '~/models/base';
 import { selectApiKey } from '../app-base/APIKey/selectors';
 import { usersActions } from '../users';
 
@@ -77,6 +77,25 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
         state.loading = false;
         state.queryParams = undefined;
       },
+      itemUpdatePartial(state: EntityStateTemplate<T, M>, action: PayloadAction<{ id: string; item: any }>) {
+        const { id, item } = action.payload;
+        if (!!id && !!item) {
+          const oldData = state.detailedItems[id];
+
+          // Verificamos si el objeto es un ProfileModel<T>
+          if (oldData instanceof ProfileModel) {
+            oldData.followed_by = [...item['followed_by']];
+            oldData.followed_profiles = [...item['followed_profiles']];
+            oldData.isFollowedByCurrentProfile = item['isFollowedByCurrentProfile'];
+          }
+
+          // Crear la nueva instancia del modelo
+          state.detailedItems[id] = new Model({ ...oldData } as unknown as T);
+        }
+        state.loading = false;
+        state.queryParams = undefined;
+      },
+
       ...(options?.disableOperations?.create
         ? {}
         : {

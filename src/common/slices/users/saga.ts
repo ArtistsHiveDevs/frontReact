@@ -9,10 +9,12 @@ import { defaultLang } from '~/common/context';
 import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 import { LocalStorageVariables } from '~/constants/localstorage';
 import { ProfileModel, ProfileTemplate } from '~/models/base';
+import { getModelInfoFromInstance } from '~/models/base/modelHelpers';
 import { usersActions } from '.';
 import { actions as apiKeyActions } from '../app-base/APIKey';
 import { selectApiKey } from '../app-base/APIKey/selectors';
 import { actionsArtists } from '../domain/artists/artist.redux';
+import { actionsPlaces } from '../domain/places/places.redux';
 
 export function* getUsers() {
   yield delay(500);
@@ -228,7 +230,14 @@ export function* followProfileUser(
 
   try {
     const { id, identifier, username } = actionParams.payload.profile as ProfileModel<any>;
-    const body = { action: actionParams.payload.action, id, identifier, username, entity: 'Artist' };
+
+    const body = {
+      action: actionParams.payload.action,
+      id,
+      identifier,
+      username,
+      entity: getModelInfoFromInstance(actionParams.payload.profile).entityName,
+    };
 
     const response: APIResponse = yield call(putRequest, requestURL, {
       body: JSON.stringify({ ...body }),
@@ -237,6 +246,9 @@ export function* followProfileUser(
     if (response?.data) {
       console.log(response.data);
       yield put(actionsArtists.getItemById({ id: identifier }));
+      yield put(actionsPlaces.getItemById({ id: identifier }));
+
+      yield put(usersActions.loadCurrentUser());
     }
     // const currentUser: AppUserTemplate = yield call(putRequest, requestURL, {
     //   headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false)  },

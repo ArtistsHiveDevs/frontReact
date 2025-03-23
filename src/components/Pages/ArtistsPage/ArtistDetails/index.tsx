@@ -17,6 +17,7 @@ import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/Imag
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import AppLoader from '~/components/shared/organisms/app/loader/loader';
 import { SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
+import { getClassFromModelName } from '~/models/base/modelHelpers';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import './index.scss';
@@ -93,6 +94,12 @@ const ArtistDetailPage = () => {
       const entityType = value.constructor.name !== 'Object' ? value.constructor.name : value.entity;
       navigateToEntity({ entityType, id: value.identifier, action: SUB_PATHS.EDIT });
     },
+    onClickOnFollower: (value: any) => {
+      const entityType = getClassFromModelName(value?.entityType)?.name;
+      if (entityType) {
+        navigateToEntity({ entityType, id: value.username || value.id });
+      }
+    },
     onClickFollowSucription: (value: any) => {
       if (loggedUser) {
         let followAction: 'follow' | 'unfollow';
@@ -112,7 +119,6 @@ const ArtistDetailPage = () => {
       }
     },
   };
-  console.log(currentArtist);
 
   return (
     <>

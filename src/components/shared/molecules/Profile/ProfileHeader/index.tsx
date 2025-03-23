@@ -9,6 +9,7 @@ import { useI18n } from '~/common/utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
+import { FollowerCounter } from '~/components/shared/molecules/Profile/FollowerCounter/FollowerCounter';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
 import { ProfileModel } from '~/models/base';
 import { PlaceModel } from '~/models/domain/place/place.model';
@@ -35,7 +36,7 @@ interface FieldInfo {
 }
 export const ProfileHeader = (props: any) => {
   const { translateGlobalDict } = useI18n();
-  const { element, formMethods, handlers: parentHandlers, customHeaderConfig } = props;
+  const { element, formMethods, handlers: parentHandlers, customHeaderConfig, showFollowerCounter = true } = props;
 
   const elementAsProfileModel = element as ProfileModel<PlaceModel>;
 
@@ -294,7 +295,7 @@ export const ProfileHeader = (props: any) => {
                     <FavoriteSubscription
                       size={24}
                       iconType={FavoriteSubscritionIconDefaultTypes.HEART}
-                      customSubscriberTo={loggedUser?.currentSessionLikesProfile(element)}
+                      customSubscriberTo={element?.isFollowedByCurrentProfile}
                       callback={parentHandlers['onClickFollowSucription']}
                     />
                   </>
@@ -304,20 +305,8 @@ export const ProfileHeader = (props: any) => {
           )}
 
           <div className="profile-name">{generateEditableField('subtitle', element, isEditable)}</div>
-          {element?.followed_by_count !== undefined && (
-            <div className="followers-box">
-              <div>
-                <span className="follow-number">{element.followed_by_count}</span>
-                <br />
-                {translateGlobalDict(`follows.followers`)}
-              </div>
-              <div>
-                <span className="follow-number">{element.followed_profiles_count}</span>
-                <br />
-                {translateGlobalDict(`follows.following`)}
-              </div>
-            </div>
-          )}
+          {/* {element?.followed_by_count !== undefined && ( */}
+          {showFollowerCounter && <FollowerCounter element={element} handlers={parentHandlers} />}
         </div>
       </div>
       {currentUserIsInProfile && (

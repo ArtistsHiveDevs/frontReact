@@ -450,4 +450,21 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       },
     ],
   },
+  {
+    name: 'followers',
+    hideMainMenu: true,
+    sections: [
+      {
+        components: [
+          {
+            componentName: ProfileComponentTypes.PROFILE_FOLLOWERS_COMPONENT,
+            // data: {
+            //   data_source: 'nextEvents',
+            // },
+            clickHandlerName: 'onClickBackButtonFollowers',
+          },
+        ],
+      },
+    ],
+  },
 ];

@@ -1,0 +1,17 @@
+@import '~/variables.module.scss';
+
+.follower-list-view {
+  margin-top: 1.5rem;
+}
+
+.followers-list {
+  margin-top: 1.5rem;
+  max-height: 40rem;
+  overflow: scroll;
+  padding: 1rem;
+}
+
+.followers-error {
+  text-align: center;
+  padding: 3rem;
+}

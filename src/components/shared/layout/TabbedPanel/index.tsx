@@ -15,10 +15,11 @@ export interface TabbedPage {
   tabContent: any;
   requireSession?: boolean;
   allowedRoles?: AllowedEntityRole[];
+  hideMainMenu?: boolean;
 }
 
 export const TabbedPanel = (props: any) => {
-  const { tabs, allowedSections } = props;
+  const { tabs, allowedSections, handlers = {}, showSpecificTab } = props;
 
   const currentUser = useSelector(selectCurrentUser);
 
@@ -28,10 +29,20 @@ export const TabbedPanel = (props: any) => {
     changeSection(0);
   }, []);
 
+  useEffect(() => {
+    handlers?.['onSelectedTab']?.(activeSectionIndex);
+  }, [activeSectionIndex]);
+
   const changeSection = (activeSection: number) => {
     window.scroll(0, 0);
     setSection(activeSection);
   };
+
+  useEffect(() => {
+    if (showSpecificTab != undefined) {
+      changeSection(showSpecificTab);
+    }
+  }, [showSpecificTab]);
 
   const handlePrev = () => {
     let nextSection = activeSectionIndex - 1;
@@ -90,7 +101,7 @@ export const TabbedPanel = (props: any) => {
       .filter(
         (subpage: TabbedPage, idx: number) =>
           validateUserAuthorization(currentUser, subpage.allowedRoles, subpage.requireSession) ===
-          AuthorizationStates.ALLOWED
+            AuthorizationStates.ALLOWED && !subpage.hideMainMenu
       )
       .map((subpage: TabbedPage, idx: number) => {
         const classNames = ['subpage-tab'];
@@ -121,7 +132,7 @@ export const TabbedPanel = (props: any) => {
 
   return (
     <div {...swipeHandlers}>
-      {titles.length > 1 && <div className="subpages-tabs">{titles}</div>}
+      {titles.length > 1 && !tabs[activeSectionIndex]?.hideMainMenu && <div className="subpages-tabs">{titles}</div>}
       <div>{tabContents()}</div>
     </div>
   );

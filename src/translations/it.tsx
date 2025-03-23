@@ -71,6 +71,7 @@ export const ItMessages = {
         AUTH_TOKEN_EXPIRED: 'Token scaduto',
         AUTH_TOKEN_INVALID: 'Token non valido',
         AUTH_PERMISSION_DENIED: 'Permesso negato',
+        AUTH_LOGIN_REQUIRED: 'Devi accedere per visualizzare questo contenuto.',
 
         // Errores de Red
         NETWORK_ERROR: 'Errore di rete',
@@ -126,6 +127,12 @@ export const ItMessages = {
       follows: {
         followers: 'Follower',
         following: 'Seguiti',
+        in_common: 'In comune',
+        errors: {
+          NO_FOLLOWING: 'Questo profilo non segue nessuno.',
+          NO_FOLLOWERS: 'Questo profilo non ha follower.',
+          NO_COMMON_FOLLOWERS: 'Nessun follower in comune.',
+        },
       },
       location: {
         borough: 'Quartiere',

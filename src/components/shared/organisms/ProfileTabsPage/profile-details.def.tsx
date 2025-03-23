@@ -13,6 +13,7 @@ export enum ProfileComponentTypes {
   IMAGE,
   IMAGE_GALLERY,
   HORIZONTAL_IMAGE_GALLERY,
+  PROFILE_FOLLOWERS_COMPONENT,
   MAP,
   SOCIAL_NETWORK_WIDGET,
   TABLE,
@@ -29,6 +30,7 @@ export interface ProfileDetailsSubpage {
   requireSession?: boolean;
   clickHandlerName?: string;
   formMetaData?: FormMetadata;
+  hideMainMenu?: boolean;
 }
 export interface ProfileDetailsSubpageSection {
   id?: string;

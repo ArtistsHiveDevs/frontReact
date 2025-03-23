@@ -519,6 +519,10 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'rating',
         components: [
           {
+            componentName: ProfileComponentTypes.HTML_CONTENT,
+            data: { content: '* * Las siguientes calificaciones son ficticias y sirven para efectos de pruebas.' },
+          },
+          {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               data_source: 'stats.rating',
@@ -619,5 +623,22 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       },
     ],
     formMetaData: { hidden: true },
+  },
+  {
+    name: 'followers',
+    hideMainMenu: true,
+    sections: [
+      {
+        components: [
+          {
+            componentName: ProfileComponentTypes.PROFILE_FOLLOWERS_COMPONENT,
+            // data: {
+            //   data_source: 'nextEvents',
+            // },
+            clickHandlerName: 'onClickBackButtonFollowers',
+          },
+        ],
+      },
+    ],
   },
 ];

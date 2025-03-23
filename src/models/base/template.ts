@@ -15,6 +15,7 @@ export interface ProfileTemplate extends EntityTemplate {
   username?: string;
   profile_pic?: string;
 
+  isFollowedByCurrentProfile?: boolean;
   followed_profiles?: FollowerProfileTemplate[];
   followed_by?: FollowerProfileTemplate[];
 }
@@ -67,8 +68,12 @@ export function isLocableEntity(object: any): object is LocatableTemplate {
 }
 
 export interface FollowerProfileTemplate {
+  entityType: string;
   id: string;
   identifier?: string;
   name?: string;
+  username?: string;
   profile_pic?: string;
+  subtitle?: string;
+  verified_status?: VerificationStatus;
 }

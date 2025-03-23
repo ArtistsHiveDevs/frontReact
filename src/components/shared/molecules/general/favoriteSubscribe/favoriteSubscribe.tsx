@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useI18n } from '~/common/utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import './favoriteSubscribe.scss';
@@ -38,6 +38,10 @@ export const FavoriteSubscription: React.FC<FavoriteSubscribeInputTemplate> = (
 ) => {
   // Hooks
   const [subscriberTo, setSubscriberTo] = useState(props?.customSubscriberTo || false);
+
+  useEffect(() => {
+    setSubscriberTo(props?.customSubscriberTo);
+  }, [props]);
 
   const { translateText } = useI18n();
 

@@ -4,7 +4,7 @@ import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import './index.scss';
 
 export const ProfileThumbnailCard = (props: any) => {
-  const { elementData, footer, styles, callbacks } = props;
+  const { elementData, footer, styles, callbacks, avatarSize = '7rem' } = props;
 
   const [imageURL, setImageURL] = useState<string>(undefined);
   const { profile_pic, name, subtitle, username, verified_status } = elementData || {};
@@ -31,7 +31,7 @@ export const ProfileThumbnailCard = (props: any) => {
     <div className="profile-thumbnail-card" onClick={onClickCardHandler}>
       <div className="profile-thumbnail-header">
         {/* <img className={styles ? styles.avatar : 'avatar'} src={imageURL} alt={name} /> */}
-        <AvatarWithIcon image={imageURL} avatarSize={'7rem'} name={name} />
+        <AvatarWithIcon image={imageURL} avatarSize={avatarSize} name={name} />
         <div className="header-title d-grid align-items-bottom">
           <h2>{name}</h2>
           <p>

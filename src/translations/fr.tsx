@@ -71,6 +71,7 @@ export const FrMessages = {
         AUTH_TOKEN_EXPIRED: 'Jeton expiré',
         AUTH_TOKEN_INVALID: 'Jeton invalide',
         AUTH_PERMISSION_DENIED: 'Permission refusée',
+        AUTH_LOGIN_REQUIRED: 'Vous devez vous connecter pour voir ce contenu.',
 
         // Errores de Red
         NETWORK_ERROR: 'Erreur réseau',
@@ -126,6 +127,12 @@ export const FrMessages = {
       follows: {
         followers: 'Abonnés',
         following: 'Abonnements',
+        in_common: 'En commun',
+        errors: {
+          NO_FOLLOWING: 'Ce profil ne suit personne.',
+          NO_FOLLOWERS: "Ce profil n'a pas de abonnés.",
+          NO_COMMON_FOLLOWERS: 'Aucun abonné en commun.',
+        },
       },
       location: {
         borough: 'Arrondissement',

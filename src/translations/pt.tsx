@@ -71,6 +71,7 @@ export const PtMessages = {
         AUTH_TOKEN_EXPIRED: 'Token expirado',
         AUTH_TOKEN_INVALID: 'Token inválido',
         AUTH_PERMISSION_DENIED: 'Permissão negada',
+        AUTH_LOGIN_REQUIRED: 'Você precisa fazer login para ver este conteúdo.',
 
         // Errores de Red
         NETWORK_ERROR: 'Erro de rede',
@@ -126,6 +127,12 @@ export const PtMessages = {
       follows: {
         followers: 'Seguidores',
         following: 'Seguindo',
+        in_common: 'Em comum',
+        errors: {
+          NO_FOLLOWING: 'Este perfil não está seguindo ninguém.',
+          NO_FOLLOWERS: 'Este perfil não tem seguidores.',
+          NO_COMMON_FOLLOWERS: 'Nenhum seguidor em comum.',
+        },
       },
       location: {
         borough: 'Bairro',

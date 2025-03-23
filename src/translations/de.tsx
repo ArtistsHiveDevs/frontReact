@@ -71,6 +71,7 @@ export const DeMessages = {
         AUTH_TOKEN_EXPIRED: 'Token abgelaufen',
         AUTH_TOKEN_INVALID: 'Ungültiger Token',
         AUTH_PERMISSION_DENIED: 'Zugriff verweigert',
+        AUTH_LOGIN_REQUIRED: 'Sie müssen sich anmelden, um diesen Inhalt zu sehen.',
 
         // Errores de Red
         NETWORK_ERROR: 'Netzwerkfehler',
@@ -126,6 +127,12 @@ export const DeMessages = {
       follows: {
         followers: 'Follower',
         following: 'Folgt',
+        in_common: 'Gemeinsam',
+        errors: {
+          NO_FOLLOWING: 'Dieses Profil folgt niemandem.',
+          NO_FOLLOWERS: 'Dieses Profil hat keine Follower.',
+          NO_COMMON_FOLLOWERS: 'Keine gemeinsamen Follower.',
+        },
       },
       location: {
         borough: 'Stadtteil',

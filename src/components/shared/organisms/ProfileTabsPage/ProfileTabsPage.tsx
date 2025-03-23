@@ -23,12 +23,18 @@ import { Title } from '~/components/shared/atoms/Title/Title';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
 
 import { isDayjs } from 'dayjs';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useProfilesSlice } from '~/common/slices/domain/profile/ProfileSlice';
+import useAuth from '~/common/utils/hooks/auth/useAuth';
 import { CrewListView } from '~/components/shared//molecules/domain/crewListView/CrewListView';
 import { GenresListView } from '~/components/shared//molecules/domain/genres/GenresListView';
 import { AlbumsShortListView } from '~/components/shared/domain/organisms/AlbumsShortListView/AlbumsShortListView';
 import { CountriesCitiesListView } from '~/components/shared/domain/organisms/CountriesCitiesListView/CountriesCitiesListView';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
+import { EventThumbnailCard } from '~/components/shared/molecules/Profile/EventThumbnailCard/EventThumbnailCard';
+import { FollowerListView } from '~/components/shared/molecules/Profile/FollowerListView/FollowerListView';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
 import { ProfileThumbnailCard } from '~/components/shared/molecules/Profile/ProfileThumbnailCard';
 import { SocialNetworks } from '~/constants/social-networks.const';
@@ -36,7 +42,6 @@ import { EventModel } from '~/models/domain/event/event.model';
 import { HorizontalImageGallery } from '../../atoms/ImageGallery/HorizontalImageGallery';
 import { TableView } from '../../atoms/Table/TableView';
 import { TracksListView } from '../../domain/organisms/TracksListView/TracksListView';
-import { EventThumbnailCard } from '../../molecules/Profile/EventThumbnailCard/EventThumbnailCard';
 import SEO from '../app/seo/seo';
 
 export interface ProfilePageParams {
@@ -63,6 +68,33 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     : undefined;
 
   const { translateText } = useI18n();
+  const { loggedUser } = useAuth();
+  const { actions: profileActions } = useProfilesSlice();
+
+  const dispatch = useDispatch();
+
+  const [headerShouldShowFollowerCounter, setHeaderShouldShowFollowerCounter] = useState(true);
+  const [showSpecificTab, setShowSpecificTab] = useState(undefined);
+  const [showSpecificFollowerType, setShowSpecificFollowerType] = useState(undefined);
+  const [lastVisibleTab, setLastVisibleTab] = useState(-1);
+  const [currentVisibleTab, setCurrentVisibleTab] = useState(0);
+  const [hasSeenFollowers, setHasSeenFollowers] = useState(false);
+
+  useEffect(() => {
+    const followersPageIndex = (subpagesConfig || []).findIndex((subpage) => subpage.name === 'followers');
+    if (entityData && followersPageIndex === currentVisibleTab) {
+      setHasSeenFollowers(true);
+      if (loggedUser) {
+        dispatch(profileActions.loadProfileEndpoint({ entity: entityData, endpoint: 'follow' }));
+      }
+    }
+  }, [currentVisibleTab]);
+
+  useEffect(() => {
+    if (loggedUser) {
+      dispatch(profileActions.loadProfileEndpoint({ entity: entityData, endpoint: 'follow' }));
+    }
+  }, [loggedUser]);
 
   const getAttributeTitle = (
     subpageName: string,
@@ -107,7 +139,9 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
   const transformedConfig = () => {
     return (subpagesConfig || []).map((subpage, subPageIndex) => {
       return {
+        _name: subpage.name,
         name: translateSubpage(subpage.name),
+        hideMainMenu: subpage.hideMainMenu,
         allowedRoles: subpage.allowedRoles,
         requireSession: subpage.requireSession,
         tabContent: () => {
@@ -365,6 +399,28 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
         componentDescriptor.data?.content ||
         (componentDescriptor.data?.render && componentDescriptor.data?.render(parentDataSource || dataSourceElement));
       return <>{content}</>;
+    } else if (componentDescriptor.componentName === ProfileComponentTypes.PROFILE_FOLLOWERS_COMPONENT) {
+      const content =
+        getData(componentDescriptor.data?.attribute_content) ||
+        componentDescriptor.data?.content ||
+        (componentDescriptor.data?.render && componentDescriptor.data?.render(parentDataSource || dataSourceElement)) ||
+        parentDataSource ||
+        dataSourceElement;
+
+      const followersListView = {
+        ...handlers,
+        onClickBackButtonFollowers: () => {
+          console.log(lastVisibleTab);
+          setShowSpecificTab(lastVisibleTab);
+        },
+      };
+      return (
+        <FollowerListView
+          element={content}
+          handlers={followersListView}
+          showSpecificFollowerType={showSpecificFollowerType}
+        />
+      );
     } else if (componentDescriptor.componentName === ProfileComponentTypes.PROFILE_THUMBNAIL_CARD) {
       // Data source
       const data: any = entityData[componentDescriptor.data?.data_source as keyof typeof entityData];
@@ -612,13 +668,42 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
 
   //#endregion
 
+  const tabPanelHandlers = {
+    onSelectedTab: (selectedTabIndex: any) => {
+      setLastVisibleTab(currentVisibleTab);
+      setCurrentVisibleTab(selectedTabIndex);
+      setHeaderShouldShowFollowerCounter(transformedConfigData?.[selectedTabIndex]?._name !== 'followers');
+    },
+  };
+
+  const transformedConfigData = transformedConfig();
+
   return (
     <>
       {!!entityData && (
         <div className="place-container">
           {seoData && <SEO {...seoData} />}
-          {profileHeaderComponent || <ProfileHeader element={entityData} handlers={handlers} />}
-          <TabbedPanel tabs={transformedConfig()} />
+          {profileHeaderComponent || (
+            <ProfileHeader
+              element={entityData}
+              handlers={{
+                ...handlers,
+                onClickSeeFollowers: (value: any) => {
+                  const subpageIndex = (subpagesConfig || []).findIndex((subpage) => subpage.name === 'followers');
+                  setShowSpecificFollowerType(value);
+                  setShowSpecificTab(subpageIndex);
+                },
+              }}
+              showFollowerCounter={headerShouldShowFollowerCounter}
+            />
+          )}
+          <br></br>
+          <TabbedPanel
+            tabs={transformedConfigData}
+            handlers={tabPanelHandlers}
+            showSpecificTab={showSpecificTab}
+            showSpecificFollowerType={showSpecificFollowerType}
+          />
         </div>
       )}
     </>

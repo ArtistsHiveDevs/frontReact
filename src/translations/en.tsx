@@ -679,6 +679,9 @@ export const EnMessages = {
                 },
               },
             },
+            followers: {
+              name: 'Followers',
+            },
           },
         },
       },
@@ -853,6 +856,9 @@ export const EnMessages = {
                   name: 'Second Course',
                 },
               },
+            },
+            followers: {
+              name: 'Followers',
             },
           },
         },

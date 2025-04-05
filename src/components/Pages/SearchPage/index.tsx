@@ -294,17 +294,19 @@ export default function SearchPage() {
     { name: 'map', icon: 'GrMapLocation' },
   ];
 
-  const handlePrev = () => {
+  const handlePrev = (source?: any) => {
     setResultViewType('list');
   };
 
-  const handleNext = () => {
-    setResultViewType('map');
+  const handleNext = (source?: any) => {
+    if (resultViewType !== 'map') {
+      setResultViewType('map');
+    }
   };
 
   const swipeHandlers = useSwipeable({
     onSwipedLeft: handleNext,
-    onSwipedRight: handlePrev,
+    // onSwipedRight: handlePrev,
     // preventDefaultTouchmoveEvent: true,
     trackMouse: true, // Enable swipe with mouse for testing on desktop
   });

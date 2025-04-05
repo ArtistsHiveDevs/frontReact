@@ -2,6 +2,7 @@ import { signOut } from 'aws-amplify/auth';
 import { useEffect, useState } from 'react';
 import { Container, Navbar, Offcanvas } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
@@ -30,6 +31,7 @@ type RIGHT_SIDENAV_VIEWS = 'actions' | 'memberships_list';
 
 const SideNav = () => {
   const loggedUser = useSelector(selectCurrentUser);
+  const location = useLocation();
 
   const [show, setShow] = useState(false);
   const [showRight, setShowRight] = useState(false);
@@ -68,6 +70,10 @@ const SideNav = () => {
     setShow(false);
     setShowRight(false);
   };
+
+  useEffect(() => {
+    setOpenStatusSearchInputText(false);
+  }, [location]);
 
   const liMenuElement = (section: any, menuOption: any, idx: number, level = 0) => {
     return (

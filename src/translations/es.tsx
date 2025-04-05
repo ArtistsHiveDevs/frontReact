@@ -686,6 +686,9 @@ export const EsMessages = {
                 },
               },
             },
+            followers: {
+              name: 'Followers',
+            },
           },
         },
       },
@@ -860,6 +863,9 @@ export const EsMessages = {
                   name: 'Segundo plato',
                 },
               },
+            },
+            followers: {
+              name: 'Followers',
             },
           },
         },

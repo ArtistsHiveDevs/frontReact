@@ -24,7 +24,7 @@ export const FollowerCounter = (props: any) => {
             <DynamicIcons iconName="FaChevronLeft" color={'white'} size={20} />
           </div>
         )}
-        {fields.map((field) => {
+        {fields.map((field, index) => {
           const classNames = [];
           if (selected === field.name) {
             classNames.push('active-tab-title');
@@ -32,7 +32,10 @@ export const FollowerCounter = (props: any) => {
 
           return (
             field.show && (
-              <div onClick={() => parentHandlers?.['onClickSeeFollowers']?.(field.name)}>
+              <div
+                key={`follower-counter-tab-${index}`}
+                onClick={() => parentHandlers?.['onClickSeeFollowers']?.(field.name)}
+              >
                 <span className="follow-number">{element?.[`${field.name}_count`] || 0}</span>
                 <br />
                 <span className={classNames.join(' ')}>{translateGlobalDict(field.label)}</span>

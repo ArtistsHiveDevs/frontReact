@@ -691,6 +691,9 @@ export const PtMessages = {
                 },
               },
             },
+            followers: {
+              name: 'Followers',
+            },
           },
         },
       },
@@ -865,6 +868,9 @@ export const PtMessages = {
                   name: 'Segundo Prato',
                 },
               },
+            },
+            followers: {
+              name: 'Followers',
             },
           },
         },

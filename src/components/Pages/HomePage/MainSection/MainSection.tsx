@@ -6,6 +6,7 @@ import { EntityModel, EntityTemplate } from '~/models/base';
 import './MainSection.scss';
 
 type MainSectionInputParams = {
+  titleColor?: number;
   title?: string;
   titleAlign?: any;
   description?: string;
@@ -17,7 +18,7 @@ type MainSectionInputParams = {
 };
 
 const MainSection: React.FC<MainSectionInputParams> = (props: MainSectionInputParams) => {
-  const { title, description, listView = [], params, callbacks, titleAlign, orientation, cardOpts } = props;
+  const { titleColor, title, description, listView = [], params, callbacks, titleAlign, orientation, cardOpts } = props;
 
   const { height, width } = useWindowDimensions();
   const numberEmptyItems = width < 500 ? 3 : width < 800 ? 5 : 7;
@@ -25,7 +26,10 @@ const MainSection: React.FC<MainSectionInputParams> = (props: MainSectionInputPa
   return (
     <div className="main-section">
       <>
-        <h3 className={`main-section-title`} style={{ textAlign: titleAlign || 'left' }}>
+        <h3
+          className={[`main-section-title`, `title-entity-${titleColor}-item`].join(' ')}
+          style={{ textAlign: titleAlign || 'left' }}
+        >
           {title}
         </h3>
         <p>{description}</p>

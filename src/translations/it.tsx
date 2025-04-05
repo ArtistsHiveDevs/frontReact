@@ -694,6 +694,9 @@ export const ItMessages = {
                 },
               },
             },
+            followers: {
+              name: 'Followers',
+            },
           },
         },
       },
@@ -868,6 +871,9 @@ export const ItMessages = {
                   name: 'Secondo piatto',
                 },
               },
+            },
+            followers: {
+              name: 'Followers',
             },
           },
         },

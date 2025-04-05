@@ -695,6 +695,9 @@ export const FrMessages = {
                 },
               },
             },
+            followers: {
+              name: 'Followers',
+            },
           },
         },
       },
@@ -869,6 +872,9 @@ export const FrMessages = {
                   name: 'Second plat',
                 },
               },
+            },
+            followers: {
+              name: 'Followers',
             },
           },
         },

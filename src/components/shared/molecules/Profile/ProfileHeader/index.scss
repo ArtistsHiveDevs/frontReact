@@ -3,7 +3,19 @@
 .profile-header {
   display: flex;
   text-align: left;
-  align-items: flex-start;
+  align-items: center;
+  margin-left: -2rem;
+  margin-top: -2rem;
+  padding-top: 2rem;
+
+  .profile-avatar-border {
+    padding-left: 1rem;
+  }
+
+  h2 {
+    margin-top: 0.4rem;
+    font-size: x-large;
+  }
 
   .avatar {
     object-fit: cover;
@@ -45,6 +57,23 @@
     font-weight: 620;
     color: $main-title-color;
   }
+}
+
+.profile-entity-1-item {
+  border-left: 0.5rem solid $entity-1 !important;
+  // border-color: $entity-1;
+}
+.profile-entity-2-item {
+  border-left: 0.5rem solid $entity-2 !important;
+  // border-color: $entity-2;
+}
+.profile-entity-3-item {
+  border-left: 0.5rem solid $entity-3 !important;
+  // border-color: $entity-3;
+}
+.profile-entity-4-item {
+  border-left: 0.5rem solid $entity-4 !important;
+  // border-color: $entity-4;
 }
 
 .error-field {

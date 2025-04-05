@@ -693,6 +693,9 @@ export const DeMessages = {
                 },
               },
             },
+            followers: {
+              name: 'Followers',
+            },
           },
         },
       },
@@ -867,6 +870,9 @@ export const DeMessages = {
                   name: 'Zweites Gericht',
                 },
               },
+            },
+            followers: {
+              name: 'Followers',
             },
           },
         },

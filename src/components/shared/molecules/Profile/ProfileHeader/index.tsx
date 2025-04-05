@@ -12,6 +12,7 @@ import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/A
 import { FollowerCounter } from '~/components/shared/molecules/Profile/FollowerCounter/FollowerCounter';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
 import { ProfileModel } from '~/models/base';
+import { defaultTypesColors, getModelInfoFromInstance } from '~/models/base/modelHelpers';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import {
   FavoriteSubscription,
@@ -66,6 +67,7 @@ export const ProfileHeader = (props: any) => {
   const [zoomProfilePic, setZoomProfilePic] = useState(false);
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
   const [currentUserIsInProfile, setCurrentUserIsInProfile] = useState(false);
+  const [borderProfileColor, setBorderProfileColor] = useState(undefined);
   const { actions: userActions } = useUsersSlice();
 
   const dispatch = useDispatch();
@@ -116,6 +118,11 @@ export const ProfileHeader = (props: any) => {
     }
     setCurrentUserCanEdit(permissions.canEdit);
     setCurrentUserIsInProfile(permissions.isInProfile);
+    const entityColorIndex =
+      defaultTypesColors.findIndex(
+        (type) => type.toLowerCase() === getModelInfoFromInstance(element).entityName?.toLowerCase()
+      ) + 1;
+    setBorderProfileColor(entityColorIndex);
   }, [element, loggedUser]);
 
   const generateEditableField = (fieldName: string, element: any, isEditable?: boolean, prefix?: any) => {
@@ -163,6 +170,8 @@ export const ProfileHeader = (props: any) => {
         ? element[newField?.renderField]
         : newField?.config?.value);
 
+    const renderValue = value || ((!!element && newField?.showPlaceHolderWhenEmpty) ?? true ? placeholder : '');
+
     return (
       <>
         {!showEditableField && (
@@ -170,11 +179,7 @@ export const ProfileHeader = (props: any) => {
             onClick={() => clickOnField(fieldName)}
             className={`${errors && errors[fieldName] ? 'error-field' : ''}`}
           >
-            {prefix}{' '}
-            {!!element &&
-              (value ||
-                ((newField?.showPlaceHolderWhenEmpty === undefined || newField?.showPlaceHolderWhenEmpty) &&
-                  placeholder))}
+            {prefix} {!!element && (value || ((newField?.showPlaceHolderWhenEmpty ?? true) && placeholder))}
             {!element && (
               <>
                 {newField?.config?.value || placeholder}
@@ -249,9 +254,9 @@ export const ProfileHeader = (props: any) => {
 
   return (
     <>
-      <div className="profile-header">
+      <div className={['profile-header', `profile-entity-${borderProfileColor}-item`].join(' ')}>
         {isEditable && (
-          <>
+          <div className="profile-avatar-border">
             <input accept="image/*" id="profile-pic-button-file" type="file" hidden onChange={handleOnChange} />
             <label htmlFor="profile-pic-button-file">
               <IconButton color="primary" component="span">
@@ -263,21 +268,23 @@ export const ProfileHeader = (props: any) => {
                 />
               </IconButton>
             </label>
-          </>
+          </div>
         )}
         {!isEditable && (
-          <AvatarWithIcon
-            image={image}
-            name={element?.name}
-            avatarSize={avatarSize}
-            bottomBadgeSize={avatarSize / 3}
-            buttonIcon={currentUserCanEdit && !currentUserIsInProfile && 'PiUserSwitch'}
-            onClick={() => !!image && setZoomProfilePic(true)}
-            onBadgeClick={() => switchProfile()}
-          ></AvatarWithIcon>
+          <div className="profile-avatar-border">
+            <AvatarWithIcon
+              image={image}
+              name={element?.name}
+              avatarSize={avatarSize}
+              bottomBadgeSize={avatarSize / 3}
+              buttonIcon={currentUserCanEdit && !currentUserIsInProfile && 'PiUserSwitch'}
+              onClick={() => !!image && setZoomProfilePic(true)}
+              onBadgeClick={() => switchProfile()}
+            ></AvatarWithIcon>
+          </div>
         )}
         <div className="header-title d-grid align-items-bottom">
-          {!!fields.find((field) => field.name === 'username') && (
+          {!!fields.find((field) => field.name === 'username') && element?.username && (
             <div className="username">
               <span>
                 {generateEditableField('username', element, isEditable, '@')}{' '}

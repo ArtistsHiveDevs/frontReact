@@ -3,6 +3,14 @@ import { ArtistModel } from '../domain/artist/artist.model';
 import { EventModel } from '../domain/event/event.model';
 import { PlaceModel } from '../domain/place/place.model';
 
+export enum EntityType {
+  PLACES = 'Place',
+  ARTISTS = 'Artist',
+  EVENTS = 'Event',
+}
+
+export const defaultTypesColors = [EntityType.ARTISTS, EntityType.PLACES, EntityType.EVENTS];
+
 export function getModelNameFromPlural(entityType: string) {
   let entityName = '';
   if (entityType === 'artists') {

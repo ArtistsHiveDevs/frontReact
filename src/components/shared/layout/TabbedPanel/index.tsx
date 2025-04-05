@@ -44,7 +44,7 @@ export const TabbedPanel = (props: any) => {
     }
   }, [showSpecificTab]);
 
-  const handlePrev = () => {
+  const handlePrev = (source?: any) => {
     let nextSection = activeSectionIndex - 1;
     let authState = AuthorizationStates.UNAUTHORIZED_AND_LOGGED_USER;
 
@@ -66,7 +66,7 @@ export const TabbedPanel = (props: any) => {
     }
   };
 
-  const handleNext = () => {
+  const handleNext = (source?: any) => {
     let nextSection = activeSectionIndex + 1;
     let authState = AuthorizationStates.UNAUTHORIZED_AND_LOGGED_USER;
 

@@ -139,6 +139,7 @@ const HomePage = () => {
         listView={artistList}
         params={{ useNewCard: true }}
         title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)}
+        titleColor={1}
         callbacks={{ onClickCard: onClickCardArtist }}
       />
 
@@ -147,6 +148,7 @@ const HomePage = () => {
         listView={eventsList}
         params={{ useNewCard: true }}
         title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.events`)}
+        titleColor={3}
         callbacks={{ onClickCard: onClickCardEventos }}
       />
 
@@ -155,6 +157,7 @@ const HomePage = () => {
         listView={placesList}
         params={{ useNewCard: true }}
         title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.places`)}
+        titleColor={2}
         callbacks={{ onClickCard: onClickCardPlaces }}
       />
 

@@ -40,6 +40,7 @@ export function DynamicIcons(params: typesPropsIcon): JSX.Element {
           bi: () => import('react-icons/bi/index'),
           bs: () => import('react-icons/bs/index'),
           fa: () => import('react-icons/fa/index'),
+          fa6: () => import('react-icons/fa6/index'),
           gi: () => import('react-icons/gi/index'),
           gr: () => import('react-icons/gr/index'),
           im: () => import('react-icons/im/index'),

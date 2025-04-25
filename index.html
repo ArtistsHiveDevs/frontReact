@@ -14,6 +14,7 @@
     <script type="module">
       // Configurar algo usando la variable de entorno antes de cargar la aplicación
       const e = import.meta.env.VITE_AMP_ENV === 'prod';
+      let robotsMeta = 'noindex, nofollow';
       if (e) {
         const ga_code = import.meta.env.VITE_GA_CODE;
         window.dataLayer = window.dataLayer || [];
@@ -32,9 +33,16 @@
           console.error('Error al cargar Google Tag Manager');
         };
         document.head.appendChild(script);
+
+        robotsMeta = 'index, follow';
       } else {
         console.log('Modo de desarrollo - No se carga Google Tag Manager');
       }
+
+      const meta = document.createElement('meta');
+      meta.name = 'robots';
+      meta.content = robotsMeta;
+      document.head.appendChild(meta);
     </script>
 
     <script></script>

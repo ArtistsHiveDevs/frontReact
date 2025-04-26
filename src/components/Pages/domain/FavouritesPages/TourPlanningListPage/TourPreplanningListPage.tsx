@@ -100,7 +100,7 @@ const TourPreplanningListPage = () => {
           return (
             <section key={`section-${entityIndex}-${tourOutline}`}>
               <div
-                className={`group-title-icon`}
+                className={`group-title-icon-tourlist`}
                 onClick={() => {
                   const newObjectValues = [...open];
                   newObjectValues[entityIndex] = !newObjectValues[entityIndex];

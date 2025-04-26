@@ -334,7 +334,7 @@ const SideNav = () => {
               >
                 <div
                   className={[
-                    'profile-header',
+                    'profile-header-sidenav',
                     // loggedUser?.checkPermissions(loggedUser?.currentProfileInfo.identifier).isInProfile
                     //   ? 'current-profile'
                     //   : '',

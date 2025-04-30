@@ -41,6 +41,7 @@ export const FrMessages = {
         create: 'Créer',
         follow_us: 'Suivez-nous',
         save: 'Enregistrer',
+        cancel: 'Annuler',
         show_more: 'Afficher plus',
         show_less: 'Afficher moins',
         submit: 'Soumettre',
@@ -886,6 +887,15 @@ export const FrMessages = {
         disclaimer:
           "Vous regardez une version de test de notre plateforme. Nous espérons qu'elle vous plaît. Vous pouvez nous contacter en utilisant le bouton ci-dessous.",
         our_email_is: 'Notre adresse e-mail est:',
+      },
+      claimProfileBanner: {
+        PROFILE_AUTO_GENERATED_CAPTION:
+          "Ce profil a été créé à partir d'informations publiques disponibles sur Internet. Est-ce le vôtre ? Prenez le contrôle de votre page gratuite pour la gérer et la mettre à jour.",
+        PROFILE_CONFIRMATION_MESSAGE:
+          'Merci de votre intérêt pour la gestion de ce profil. En cliquant sur « Prenez le contrôle », vous nous autorisez à lancer le processus de validation de propriété en votre nom. Une fois la propriété vérifiée, vous aurez accès au profil avec des rôles d’administrateur pour interagir avec vos fans et l’industrie musicale via tous les outils d’Artist Hive. <br />Veuillez noter que le processus de validation peut prendre entre 5 et 10 jours ouvrables. Vous serez informé par email ou via les réseaux sociaux du profil.',
+        CLAIM_REQUEST_CONFIRMATION:
+          "Votre demande a été enregistrée avec succès. Nous vous contacterons par email ou via les réseaux sociaux dès qu'elle sera traitée.",
+        CLAIM_BUTTON: 'Prenez le contrôle',
       },
       footer: {
         columns: {

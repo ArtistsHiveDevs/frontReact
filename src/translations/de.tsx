@@ -41,6 +41,7 @@ export const DeMessages = {
         create: 'Erstellen',
         follow_us: 'Folst uns',
         save: 'Speichern',
+        cancel: 'Abbrechen',
         show_more: 'Mehr anzeigen',
         show_less: 'Weniger anzeigen',
         submit: 'Absenden',
@@ -884,6 +885,15 @@ export const DeMessages = {
         disclaimer:
           'Du siehst gerade eine Testversion unserer Plattform. Wir hoffen, sie gefällt dir. Du kannst dich über den unten stehenden Button mit uns in Verbindung setzen.',
         our_email_is: 'Unsere E-Mail ist:',
+      },
+      claimProfileBanner: {
+        PROFILE_AUTO_GENERATED_CAPTION:
+          'Dieses Profil wurde mit öffentlich verfügbaren Informationen aus dem Internet erstellt. Ist es deins? Fordere dein kostenloses Profil an, um es zu verwalten und zu aktualisieren.',
+        PROFILE_CONFIRMATION_MESSAGE:
+          'Vielen Dank für dein Interesse an der Übernahme dieses Profils. Durch Klicken auf die Schaltfläche „Profil übernehmen“ gibst du uns die Erlaubnis, den Validierungsprozess zur Eigentumsprüfung in deinem Namen zu starten. Sobald das Eigentum bestätigt ist, erhältst du Zugriff auf das Profil mit Administratorrechten, damit du mit deinen Fans und der Musikbranche über alle Tools von Artist Hive interagieren kannst. <br />Bitte beachte, dass der Validierungsprozess zwischen 5 und 10 Werktagen dauern kann. Wir benachrichtigen dich per E-Mail oder über die sozialen Netzwerke des Profils.',
+        CLAIM_REQUEST_CONFIRMATION:
+          'Deine Anfrage wurde erfolgreich registriert. Wir werden dich per E-Mail oder über soziale Netzwerke kontaktieren, sobald sie bearbeitet wurde.',
+        CLAIM_BUTTON: 'Profil übernehmen',
       },
       footer: {
         columns: {

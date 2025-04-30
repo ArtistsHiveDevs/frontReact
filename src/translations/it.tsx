@@ -41,6 +41,7 @@ export const ItMessages = {
         create: 'Creare',
         follow_us: 'Seguici',
         save: 'Salvare',
+        cancel: 'Annulla',
         show_more: 'Mostra di più',
         show_less: 'Mostra di meno',
         submit: 'Invia',
@@ -885,6 +886,15 @@ export const ItMessages = {
         disclaimer:
           'Stai visualizzando una versione di prova della nostra piattaforma. Speriamo che ti piaccia. Puoi contattarci utilizzando il pulsante sottostante.',
         our_email_is: 'Il nostro indirizzo email è:',
+      },
+      claimProfileBanner: {
+        PROFILE_AUTO_GENERATED_CAPTION:
+          'Questo profilo è stato creato con informazioni pubbliche disponibili online. È il tuo? Richiedi gratuitamente il tuo profilo per gestirlo e aggiornarlo.',
+        PROFILE_CONFIRMATION_MESSAGE:
+          'Grazie per il tuo interesse nel richiedere questo profilo. Cliccando sul pulsante "Richiedi il profilo", ci autorizzi ad avviare il processo di verifica della proprietà a tuo nome. Una volta confermata la proprietà, avrai accesso al profilo con i ruoli di amministratore per interagire con i tuoi fan e con l\'industria musicale utilizzando tutti gli strumenti offerti da Artist Hive. <br />Tieni presente che il processo di verifica può richiedere dai 5 ai 10 giorni lavorativi. Ti informeremo via email o attraverso i social media del profilo.',
+        CLAIM_REQUEST_CONFIRMATION:
+          'La tua richiesta è stata registrata con successo. Ti contatteremo via email o tramite i social media non appena sarà risolta.',
+        CLAIM_BUTTON: 'Richiedi il profilo',
       },
       footer: {
         columns: {

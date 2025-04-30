@@ -179,6 +179,8 @@ export abstract class ProfileModel<T extends ProfileTemplate>
   declare shortId?: string;
   protected _profile_pic_aws?: StorageGetUrlOutput;
 
+  declare isClaimedProfile?: boolean;
+
   declare followed_profiles: FollowerProfileTemplate[];
   declare followed_by: FollowerProfileTemplate[];
 

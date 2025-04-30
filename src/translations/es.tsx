@@ -41,6 +41,7 @@ export const EsMessages = {
         create: 'Crear',
         follow_us: 'Síguenos',
         save: 'Guardar',
+        cancel: 'Cancelar',
         show_more: 'Mostrar más',
         show_less: 'Mostrar menos',
         submit: 'Enviar',
@@ -877,6 +878,15 @@ export const EsMessages = {
         disclaimer:
           'Estás viendo una versión de prueba de nuestra plataforma. Esperamos que te guste, puedes comunicarte con usando el botón que está a continuación.',
         our_email_is: 'Nuesto email es:',
+      },
+      claimProfileBanner: {
+        PROFILE_AUTO_GENERATED_CAPTION:
+          'Este perfil fue creado con información pública disponible en internet. ¿Es tuyo? Reclama tu perfil gratuito para administrarlo y actualizarlo.',
+        PROFILE_CONFIRMATION_MESSAGE:
+          'Gracias por tu interés en reclamar este perfil. Al oprimir el botón de "Reclamar perfil" nos autorizas para iniciar el proceso de validación de titularidad del perfil a tu nombre. Una vez la titularidad sea validada, podrás acceder al perfil con los roles de administración para que puedas interactuar con tus fans y la  industria musical a través de todas las herramientas de Artist Hive.                 <br />Ten presente que el proceso de validación puede tomar entre 5 y 10 días hábiles. Te avisaremos por correo electrónico o a través de las redes sociales del perfil.',
+        CLAIM_REQUEST_CONFIRMATION:
+          'Tu solicitud ha sido registrada exitosamente. Te contactaremos vía email o a través de las redes sociales tan pronto sea resuelta.',
+        CLAIM_BUTTON: 'Reclamar perfil',
       },
       footer: {
         columns: {

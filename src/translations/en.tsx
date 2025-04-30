@@ -41,6 +41,7 @@ export const EnMessages = {
         create: 'Create',
         follow_us: 'Follow us',
         save: 'Save',
+        cancel: 'Cancel',
         show_more: 'Show more',
         show_less: 'Show less',
         submit: 'Submit',
@@ -870,6 +871,15 @@ export const EnMessages = {
         disclaimer:
           'You are viewing a trial version of our platform. We hope you like it. You can contact us using the button below.',
         our_email_is: 'Our email is:',
+      },
+      claimProfileBanner: {
+        PROFILE_AUTO_GENERATED_CAPTION:
+          'This profile was created using publicly available information online. Is it yours? Claim your free profile to manage and update it.',
+        PROFILE_CONFIRMATION_MESSAGE:
+          "Thank you for your interest in claiming this profile. By clicking the 'Claim your profile' button, you authorize us to begin the ownership validation process in your name. Once ownership is verified, you will have access to the profile with admin roles so you can interact with your fans and the music industry through all the tools Artist Hive offers. <br />Please note that the validation process may take between 5 and 10 business days. We will notify you by email or through the profile's social media channels.",
+        CLAIM_REQUEST_CONFIRMATION:
+          'Your request has been successfully submitted. We will contact you via email or through social media as soon as it is resolved.',
+        CLAIM_BUTTON: 'Claim your profile',
       },
       footer: {
         columns: {

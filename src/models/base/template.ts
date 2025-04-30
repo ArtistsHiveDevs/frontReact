@@ -15,6 +15,8 @@ export interface ProfileTemplate extends EntityTemplate {
   username?: string;
   profile_pic?: string;
 
+  isClaimedProfile?: boolean;
+
   isFollowedByCurrentProfile?: boolean;
   followed_profiles?: FollowerProfileTemplate[];
   followed_by?: FollowerProfileTemplate[];

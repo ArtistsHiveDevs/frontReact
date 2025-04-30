@@ -61,6 +61,9 @@ const slice = createSlice({
     updateUser(state, action: PayloadAction<{ id: string; newItem: Partial<AppUserModel> }>) {
       state.loading = true;
     },
+    claimProfileUser(state, action: PayloadAction<{ profile: ProfileTemplate }>) {
+      state.loading = true;
+    },
     followProfileUser(state, action: PayloadAction<{ action: 'follow' | 'unfollow'; profile: ProfileTemplate }>) {
       state.loading = true;
     },
@@ -69,6 +72,9 @@ const slice = createSlice({
     },
     switchLang(state, action: PayloadAction<{ newLang: string }>) {
       state.loading = true;
+    },
+    voidRQ(state, action: PayloadAction<any>) {
+      state.loading = false;
     },
     repoError(state, action: PayloadAction<UserErrorType>) {
       state.error = action.payload;

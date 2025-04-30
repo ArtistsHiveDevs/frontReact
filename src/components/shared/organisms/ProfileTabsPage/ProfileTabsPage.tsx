@@ -51,12 +51,20 @@ export interface ProfilePageParams {
   handlers?: any;
   subpagesConfig?: ProfileDetailsSubpage[];
   profileHeaderComponent?: any;
+  footer?: any;
 }
 
 export const ProfileTabsPage = (props: ProfilePageParams) => {
   const { locale } = useI18n();
 
-  const { translation_base_path, entityData, handlers, subpagesConfig, profileHeaderComponent } = props;
+  const {
+    translation_base_path,
+    entityData,
+    handlers,
+    subpagesConfig,
+    profileHeaderComponent,
+    footer: profileFooter,
+  } = props;
   const seoData = entityData
     ? {
         title: `${entityData.name}  ◃⬡▹  Artist Hive`,
@@ -704,6 +712,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
             showSpecificTab={showSpecificTab}
             showSpecificFollowerType={showSpecificFollowerType}
           />
+          {profileFooter}
         </div>
       )}
     </>

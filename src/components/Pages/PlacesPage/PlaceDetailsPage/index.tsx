@@ -9,6 +9,7 @@ import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import NotFoundPage from '~/components/Pages/NotFoundPage';
 import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
+import { ClaimProfileBanner } from '~/components/shared/molecules/Profile/ClaimProfileBanner/ClaimProfileBanner';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import AppLoader from '~/components/shared/organisms/app/loader/loader';
 import { SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
@@ -133,6 +134,7 @@ const PlaceDetailPage = () => {
             translation_base_path={TRANSLATION_BASE_PLACE_DETAIL_PAGE}
             subpagesConfig={subPagesInfo}
             handlers={handlers}
+            footer={<ClaimProfileBanner entityName="Place" entityData={currentPlace} />}
           />
         ) : (
           <NotFoundPage />

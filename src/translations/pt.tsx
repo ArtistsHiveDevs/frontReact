@@ -41,6 +41,7 @@ export const PtMessages = {
         create: 'Criar',
         follow_us: 'Siga-nos',
         save: 'Salvar',
+        cancel: 'Cancelar',
         show_more: 'Mostrar mais',
         show_less: 'Mostrar menos',
         submit: 'Enviar',
@@ -882,6 +883,15 @@ export const PtMessages = {
         disclaimer:
           'Você está visualizando uma versão de teste da nossa plataforma. Esperamos que goste. Você pode entrar em contato conosco usando o botão abaixo.',
         our_email_is: 'Nosso e-mail é:',
+      },
+      claimProfileBanner: {
+        PROFILE_AUTO_GENERATED_CAPTION:
+          'Este perfil foi criado com informações públicas disponíveis na internet. É seu? Solicite o seu perfil gratuito para gerenciá-lo e atualizá-lo.',
+        PROFILE_CONFIRMATION_MESSAGE:
+          'Obrigado pelo seu interesse em solicitar este perfil. Ao clicar no botão "Solicitar perfil", você nos autoriza a iniciar o processo de validação de propriedade em seu nome. Assim que a titularidade for confirmada, você terá acesso ao perfil com permissões de administrador para interagir com seus fãs e com a indústria da música através das ferramentas do Artist Hive. <br />O processo de validação pode levar de 5 a 10 dias úteis. Informaremos por e-mail ou pelas redes sociais do perfil.',
+        CLAIM_REQUEST_CONFIRMATION:
+          'Sua solicitação foi registrada com sucesso. Entraremos em contato por e-mail ou pelas redes sociais assim que for resolvida.',
+        CLAIM_BUTTON: 'Solicitar perfil',
       },
       footer: {
         columns: {

@@ -12,14 +12,14 @@ import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/Imag
 import { ClaimProfileBanner } from '~/components/shared/molecules/Profile/ClaimProfileBanner/ClaimProfileBanner';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import AppLoader from '~/components/shared/organisms/app/loader/loader';
-import { SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
+import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { getClassFromModelName } from '~/models/base/modelHelpers';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import { PLACE_DETAIL_SUB_PAGE_CONFIG, TRANSLATION_BASE_PLACE_DETAIL_PAGE } from './config-place-detail';
 
 const PlaceDetailPage = () => {
-  const { navigateToEntity } = useNavigation();
+  const { navigateToEntity, navigateToInnerPath } = useNavigation();
   const urlParameters = useParams();
 
   const loggedUser = useSelector(selectCurrentUser);
@@ -113,6 +113,8 @@ const PlaceDetailPage = () => {
         dispatch(usersActions.followProfileUser({ action: followAction, profile: currentPlace }));
       } else {
         console.log('Debe iniciar sesión');
+
+        navigateToInnerPath({ path: PATHS.LOGIN });
       }
     },
 

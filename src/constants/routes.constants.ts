@@ -5,6 +5,7 @@ export enum PATHS {
   CONTACT_US = 'contact',
   PRIVACY_POLICY = 'privacy',
   TERMS_OF_SERVICE = 'terms',
+  PLANS = 'plans',
   ACADEMIES = 'academies',
   ARTISTS = 'artists',
   CULTURAL_AGENDA = 'agenda',

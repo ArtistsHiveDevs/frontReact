@@ -51,6 +51,10 @@ export const ROUTES_CONFIG: PathConfigMap = {
       path: PATHS.SETTINGS,
       redirectToIfNotLoggedUser: PATHS.LOGIN,
     },
+    PlansPage: {
+      component: lazy(() => import('~/components/shared/organisms/app/PlansOffer/PlansOfferPage/PlansOfferPage')),
+      path: PATHS.PLANS,
+    },
   },
   domain: {
     sections: {

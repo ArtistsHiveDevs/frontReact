@@ -7,6 +7,7 @@ export enum EntityType {
   PLACES = 'Place',
   ARTISTS = 'Artist',
   EVENTS = 'Event',
+  CHAT_CONVERSATION = 'Chat',
 }
 
 export const defaultTypesColors = [EntityType.ARTISTS, EntityType.PLACES, EntityType.EVENTS];

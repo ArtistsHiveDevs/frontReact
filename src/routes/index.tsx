@@ -66,6 +66,8 @@ const generateRoutes = (userIsLoggedIn: boolean, possibleForcedNextPath: string,
       forcedNextPath = possibleForcedNextPath;
       redirectPath = forcedNextPath || route.redirectToIfNotLoggedUser;
       next = route.path;
+
+      console.log('REDIRECT ', forcedNextPath, redirectPath, next);
     } else {
       const Component = route.component;
       routes.push(<Route key={route.path} path={route.path} element={<Component />} />);

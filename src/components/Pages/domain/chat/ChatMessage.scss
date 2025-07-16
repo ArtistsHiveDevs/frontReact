@@ -1,0 +1,82 @@
+.chat-message {
+  display: flex;
+  margin: 0.75rem 0;
+  align-items: flex-start;
+  position: relative;
+  max-width: 80%; /* Hacemos el mensaje más pequeño */
+}
+
+.chat-message.own {
+  flex-direction: row-reverse; /* Mensajes propios a la derecha */
+}
+
+.chat-message:not(.own) {
+  flex-direction: row;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.avatar.left {
+  margin-left: 10px; /* Avatar del lado izquierdo */
+}
+
+.avatar.right {
+  margin-right: 10px; /* Avatar del lado derecho */
+}
+
+.message-content-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.chat-message.own .message-content-container {
+  align-items: flex-end; /* Mensaje propio alineado a la derecha */
+}
+
+.message-content {
+  background-color: #e5e5e5;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 75%; /* Hacemos los mensajes más pequeños */
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.chat-message.own .message-content {
+  background-color: #dcf8c6; /* Fondo verde para el mensaje propio */
+}
+
+.message-time {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 5px;
+  align-self: flex-end;
+}
+
+/* Reacciones flotantes */
+.reactions {
+  cursor: pointer;
+  font-size: 1.25rem;
+  position: absolute;
+  bottom: 8px;
+  right: -35px; /* Ajustamos la posición */
+}
+
+.reaction-options {
+  display: flex;
+  gap: 10px;
+  font-size: 1.25rem;
+  margin-top: 0.5rem;
+  position: absolute;
+  top: 0;
+  right: -60px;
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}

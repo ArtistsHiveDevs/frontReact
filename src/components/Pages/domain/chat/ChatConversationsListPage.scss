@@ -1,0 +1,54 @@
+/* Estilo general de la lista de conversaciones */
+.conversations-list {
+  width: 100%;
+  position: relative; /* Esto es necesario para que el FAB se posicione dentro de este contenedor */
+  padding-bottom: 80px; /* Deja suficiente espacio para el FAB (ajustar según el tamaño del FAB) */
+  overflow: auto;
+}
+
+/* FAB flotante con comportamiento sticky */
+.fab {
+  position: absolute;
+  bottom: 20px; /* Distancia desde el fondo del contenedor */
+  right: 20px; /* Distancia desde la derecha del contenedor */
+  z-index: 10; /* Asegura que el FAB esté encima de otros elementos */
+  transition: position 0.3s ease; /* Transición suave entre fixed y absolute */
+}
+
+.fab.fixed {
+  position: fixed; /* Cuando el contenedor tiene scroll, se fija */
+  bottom: 20px;
+  right: 20px;
+}
+// .header {
+//   display: flex;
+//   justify-content: space-between; /* Espacio entre los elementos */
+//   align-items: center; /* Alinea los elementos verticalmente en el centro */
+//   padding: 10px 20px; /* Espaciado alrededor */
+// }
+
+// // .back-arrow,
+// // .more-options {
+// //   background: none;
+// //   border: none;
+// //   font-size: 24px; /* Tamaño del ícono */
+// //   cursor: pointer;
+// // }
+
+// // .title {
+// //   font-size: 20px;
+// //   font-weight: bold;
+// //   text-align: center;
+// //   margin: 0; /* Elimina el margen del título */
+// // }
+
+// /* Ajustes responsivos */
+// @media (max-width: 768px) {
+//   .header {
+//     padding: 10px; /* Menos espacio en pantallas pequeñas */
+//   }
+
+//   .title {
+//     font-size: 18px; /* Ajustar tamaño del título */
+//   }
+// }

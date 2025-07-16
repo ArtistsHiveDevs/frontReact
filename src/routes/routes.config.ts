@@ -115,6 +115,21 @@ export const ROUTES_CONFIG: PathConfigMap = {
           },
         },
       },
+      chatsPage: {
+        path: PATHS.CHATS,
+        subpaths: {
+          ChatsListPage: {
+            component: lazy(() => import('~/components/Pages/domain/chat/ChatConversationsListPage')),
+            // redirectToIfNotLoggedUser: PATHS.LOGIN,
+          },
+          ChatDetailsPage: {
+            component: lazy(() => import('~/components/Pages/domain/chat/ChatConversationPage')),
+            // component: lazy(() => import('~/components/Pages/ArtistsPage/ArtistDetails')),
+            path: usernamePagePath,
+            // redirectToIfNotLoggedUser: PATHS.LOGIN,
+          },
+        },
+      },
       event: {
         path: PATHS.EVENTS,
         subpaths: {

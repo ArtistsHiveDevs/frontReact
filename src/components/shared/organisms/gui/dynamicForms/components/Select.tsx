@@ -72,18 +72,17 @@ export const createSelect = (params: ComponentGeneratorParams) => {
 
   useEffect(() => {
     if (defaultValue) {
-      handleChange({ value: defaultValue });
+      setValue(fieldName, defaultValue);
+      dispatchHandler({ value: defaultValue });
     }
-  }, [defaultValue, options]);
+  }, [defaultValue, options, fieldName, setValue]);
 
   let {
     field: { value: langValue, onChange: langOnChange, ref, ...restSelectField },
   } = useController({ name: fieldName, control });
 
-  // Asegurar que el valor inicial sea `undefined` si no hay un valor predeterminado
-  if (!langValue && !defaultValue) {
-    langValue = undefined;
-  }
+  // Resolver el valor a mostrar: usar langValue si existe, sino defaultValue
+  const resolvedValue = langValue || defaultValue || undefined;
 
   return (
     <div>
@@ -99,7 +98,7 @@ export const createSelect = (params: ComponentGeneratorParams) => {
         name={fieldName}
         placeholder={placeholder}
         options={options}
-        value={langValue ? options.find((x) => x.value === langValue) : undefined}
+        value={resolvedValue ? options.find((x) => x.value === resolvedValue) : undefined}
         key={`select_${fieldName}`}
         onChange={(option) => {
           langOnChange(option ? option.value : '');

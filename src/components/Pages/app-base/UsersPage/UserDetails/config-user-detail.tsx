@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useI18n } from '~/common/utils';
 import {
   ProfileComponentTypes,
@@ -49,10 +50,12 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 },
                 {
                   name: 'gender',
+                  valueFieldName: 'genderEnum.value',
                   icon: 'BsGenderTrans',
                   emptyTitle: true,
                   value: (user: AppUserModel) => {
                     const { translateText } = useI18n();
+
                     let content = user?.genderEnum?.value
                       ? translateText(`app.global_dictionary.genders.${user?.genderEnum?.value}`)
                       : undefined;
@@ -66,6 +69,14 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   name: 'birthdate',
                   icon: 'FaBirthdayCake',
                   emptyTitle: true,
+                  value: (user: AppUserModel) => {
+                    // const { translateText } = useI18n();
+
+                    // let content = user?.genderEnum?.value
+                    //   ? translateText(`app.global_dictionary.genders.${user?.genderEnum?.value}`)
+                    //   : undefined;
+                    return <>{dayjs(user.birthdate).format('DD / MMM / YYYY')}</>;
+                  },
                   formMetaData: {
                     inputType: 'date',
                     componentParams: {
@@ -130,75 +141,75 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           },
         ],
       },
-      {
-        name: 'dance',
-        components: [
-          {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [],
-            },
-          },
-        ],
-      },
-      {
-        name: 'photography',
-        components: [
-          {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [],
-            },
-          },
-        ],
-      },
-      {
-        name: 'video',
-        components: [
-          {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [],
-            },
-          },
-        ],
-      },
-      {
-        name: 'painting',
-        components: [
-          {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [],
-            },
-          },
-        ],
-      },
-      {
-        name: 'poetry',
-        components: [
-          {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [],
-            },
-          },
-        ],
-      },
-      {
-        name: 'standup_comedy',
-        components: [
-          {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [],
-            },
-          },
-        ],
-      },
-      {
-        name: 'awards',
-      },
+      // {
+      //   name: 'dance',
+      //   components: [
+      //     {
+      //       componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       data: {
+      //         attributes: [],
+      //       },
+      //     },
+      //   ],
+      // },
+      // {
+      //   name: 'photography',
+      //   components: [
+      //     {
+      //       componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       data: {
+      //         attributes: [],
+      //       },
+      //     },
+      //   ],
+      // },
+      // {
+      //   name: 'video',
+      //   components: [
+      //     {
+      //       componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       data: {
+      //         attributes: [],
+      //       },
+      //     },
+      //   ],
+      // },
+      // {
+      //   name: 'painting',
+      //   components: [
+      //     {
+      //       componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       data: {
+      //         attributes: [],
+      //       },
+      //     },
+      //   ],
+      // },
+      // {
+      //   name: 'poetry',
+      //   components: [
+      //     {
+      //       componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       data: {
+      //         attributes: [],
+      //       },
+      //     },
+      //   ],
+      // },
+      // {
+      //   name: 'standup_comedy',
+      //   components: [
+      //     {
+      //       componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       data: {
+      //         attributes: [],
+      //       },
+      //     },
+      //   ],
+      // },
+      // {
+      //   name: 'awards',
+      // },
     ],
   },
 
@@ -214,7 +225,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             data: {
               attributes: [
                 {
-                  name: 'user_language',
+                  name: 'spoken_languages',
                   icon: 'FaGlobeAmericas',
                   emptyTitle: true,
                   formMetaData: { inputType: 'chipPicker' },

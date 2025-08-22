@@ -1,4 +1,5 @@
 import { DatePicker } from '@mui/x-date-pickers';
+import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
 import { Controller, FieldErrors, FieldValues, UseFormRegister, useForm, useFormContext } from 'react-hook-form';
 import { ComponentGeneratorParams } from '../DynamicControl';
@@ -22,35 +23,36 @@ export const createDatePicker = (params: {
   } = params?.fieldData || {};
   const { disablePast, disableFuture } = componentParams || {};
 
-  const defaultTimeValue = config?.value ?? null;
+  // Convert defaultValue to dayjs object if it's a string or Date
+  const parsedDefaultValue = defaultValue ? dayjs(defaultValue) : null;
+  const parsedConfigValue = config?.value ? dayjs(config.value) : null;
+  const [defaultTimeValue, setDefaultTimeValue] = useState<Dayjs | null>(parsedDefaultValue ?? parsedConfigValue ?? null);
 
-  const { control } = useForm({
-    defaultValues: {
-      [fieldName]: defaultTimeValue,
-    },
-  });
-
-  const { register, formState } = useFormContext();
+  const { control, register: formRegister, formState, setValue } = useFormContext();
   const { errors } = formState || {};
-  if (register) {
-    register(fieldName, config);
+  
+  // Initialize form value with defaultValue
+  if (parsedDefaultValue && formRegister) {
+    setValue(fieldName, parsedDefaultValue);
   }
 
   return (
     <>
       <Controller
         control={control}
-        name={`date_${fieldName}`}
-        rules={{ required: true }}
+        name={fieldName}
+        rules={{ required: !!config?.required }}
         render={({ field }) => {
+          // Ensure we always have a dayjs object or null
+          const resolvedValue = field.value ? dayjs(field.value) : defaultTimeValue;
+          
           return (
             <DatePicker
               label={label}
-              value={field.value || defaultTimeValue || null}
+              value={resolvedValue}
               inputRef={field.ref}
-              onChange={(date) => {
-                config.value = date?.toISOString();
-                register(fieldName, config);
+              onChange={(date: Dayjs | null) => {
+                setValue(fieldName, date);
                 field.onChange(date);
 
                 if (params?.handlers?.[`${fieldName}_value_onchange`]) {
@@ -76,7 +78,7 @@ export const createDatePicker = (params: {
 
 export const createDatePickerAnterior = (params: ComponentGeneratorParams) => {
   const { fieldData, formContext } = params;
-  const { register, control } = formContext;
+  const { register, control, setValue } = formContext;
   const {
     label,
     inputType,
@@ -110,27 +112,31 @@ export const createDatePickerAnterior = (params: ComponentGeneratorParams) => {
 
   const { disablePast, disableFuture } = componentParams;
   const isRequired = !!config?.required;
-  const defaultDate = defaultValue; // isRequired ? defaultValue : undefined;
-  const [selectedDate, setSelectedDate] = useState(defaultDate?.toISOString());
-  //   console.log(fieldData);
-
-  register(fieldName, { ...config, value: selectedDate?.toISOString() });
+  // Convert defaultValue to dayjs object if it's a string or Date
+  const parsedDefaultDate = defaultValue ? dayjs(defaultValue) : null;
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(parsedDefaultDate);
+  
+  // Initialize form value with defaultValue
+  if (parsedDefaultDate) {
+    setValue(fieldName, parsedDefaultDate);
+  }
   return (
     <Controller
       control={control}
-      name={`fieldName_dp`}
-      //   shouldUnregister={true}
+      name={fieldName}
       rules={{ required: isRequired }}
       render={({ field }) => {
+        // Ensure we always have a dayjs object or null
+        const resolvedValue = field.value ? dayjs(field.value) : parsedDefaultDate;
+        
         return (
           <DatePicker
             label={label}
-            value={defaultDate}
+            value={resolvedValue}
             inputRef={field.ref}
-            onChange={(date) => {
-              setSelectedDate(date.toISOString());
-              register(fieldName, { ...config, value: selectedDate?.toISOString() });
-              console.log(selectedDate?.toISOString(), { ...config, value: selectedDate?.toISOString() });
+            onChange={(date: Dayjs | null) => {
+              setSelectedDate(date);
+              setValue(fieldName, date);
               field.onChange(date);
             }}
             disableFuture={disableFuture}

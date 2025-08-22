@@ -247,6 +247,7 @@ export const PtMessages = {
                     name: 'Informações do artista',
                     attributes: {
                       user_language: 'Idioma do usuário',
+                      spoken_languages: 'Idiomas falados',
                       blood_group: 'Grupo sanguíneo',
                       dietary_restrictions: 'Restrições alimentares',
                       allergies: 'Alergias',

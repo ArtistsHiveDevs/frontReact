@@ -303,7 +303,7 @@ export const ProfileHeader = (props: any) => {
                       size={24}
                       iconType={FavoriteSubscritionIconDefaultTypes.HEART}
                       customSubscriberTo={element?.isFollowedByCurrentProfile}
-                      callback={parentHandlers['onClickFollowSucription']}
+                      callback={parentHandlers?.onClickFollowSucription && parentHandlers['onClickFollowSucription']}
                     />
                   </>
                 )}
@@ -313,7 +313,7 @@ export const ProfileHeader = (props: any) => {
 
           <div className="profile-name">{generateEditableField('subtitle', element, isEditable)}</div>
           {/* {element?.followed_by_count !== undefined && ( */}
-          {showFollowerCounter && <FollowerCounter element={element} handlers={parentHandlers} />}
+          {showFollowerCounter && !isEditable && <FollowerCounter element={element} handlers={parentHandlers} />}
         </div>
       </div>
       {currentUserIsInProfile && (

@@ -133,9 +133,21 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
           }
 
           const fieldName: string = attributeInfo.name;
-          let currentValue: any = elementData
-            ? elementData[fieldName as keyof typeof elementData]
-            : formMetaData?.defaultValue;
+          let currentValue: any;
+          if (elementData) {
+            if (attributeInfo.valueFieldName) {
+              const dsPath = attributeInfo.valueFieldName.split('.') || [];
+              const element = elementData;
+              currentValue =
+                dsPath.reduce((previous: any, current: any) => {
+                  return previous ? previous[current as keyof typeof previous] : {};
+                }, element) || {};
+            } else {
+              currentValue = elementData[fieldName as keyof typeof elementData];
+            }
+          } else {
+            currentValue = formMetaData?.defaultValue;
+          }
 
           if (['date', 'dateinterval', 'time'].includes(inputType)) {
             handlers = handlers ?? {};

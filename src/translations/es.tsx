@@ -248,6 +248,7 @@ export const EsMessages = {
                     name: 'Información del artista',
                     attributes: {
                       user_language: 'Idioma del usuario',
+                      spoken_languages: 'Idiomas hablados',
                       blood_group: 'Grupo sanguíneo',
                       dietary_restrictions: 'Restricciones dietéticas',
                       allergies: 'Alergias',

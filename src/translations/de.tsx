@@ -248,6 +248,7 @@ export const DeMessages = {
                     name: 'Künstlerinformationen',
                     attributes: {
                       user_language: 'Benutzersprache',
+                      spoken_languages: 'Gesprochene Sprachen',
                       blood_group: 'Blutgruppe',
                       dietary_restrictions: 'Diätetische Einschränkungen',
                       allergies: 'Allergien',

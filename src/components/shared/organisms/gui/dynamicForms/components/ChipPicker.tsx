@@ -60,7 +60,19 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
     register(fieldName, config);
   };
 
-  const renderedOptions = options.slice(0, componentParams?.max_visible || MAX_VISIBLE_ELEMENTS);
+  const renderedOptions = options
+    .sort((a, b) => {
+      // Sort selected options first, then unselected
+      const aSelected = selectedOptions.includes(a.value);
+      const bSelected = selectedOptions.includes(b.value);
+
+      if (aSelected && !bSelected) return -1;
+      if (!aSelected && bSelected) return 1;
+      
+      // Within same selection status, sort by label alphabetically
+      return a.label.localeCompare(b.label);
+    })
+    .slice(0, componentParams?.max_visible || MAX_VISIBLE_ELEMENTS);
 
   const handleClose = (e: any) => {
     setDisplayAllOptions(false);
@@ -166,6 +178,17 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
                       ? selectedGroupByTerms.includes(option[componentParams?.groupby as keyof typeof option])
                       : true
                   )
+                  .sort((a, b) => {
+                    // Sort selected options first, then unselected
+                    const aSelected = selectedOptions.includes(a.value);
+                    const bSelected = selectedOptions.includes(b.value);
+                    
+                    if (aSelected && !bSelected) return -1;
+                    if (!aSelected && bSelected) return 1;
+                    
+                    // Within same selection status, sort by label alphabetically
+                    return a.label.localeCompare(b.label);
+                  })
                   .map((option, index) => (
                     <Chip
                       key={`option-${fieldName}-${option.value}`}

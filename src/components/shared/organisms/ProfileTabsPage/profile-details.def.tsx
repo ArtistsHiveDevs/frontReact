@@ -55,6 +55,8 @@ export interface ProfileComponentDescriptor {
 export interface ProfileDetailAttributeConfiguration {
   name: string;
 
+  valueFieldName?: string;
+
   hidden?: boolean;
 
   /**

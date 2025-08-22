@@ -247,6 +247,7 @@ export const EnMessages = {
                     name: 'Artist Information',
                     attributes: {
                       user_language: 'User language',
+                      spoken_languages: 'User languages',
                       blood_group: 'Blood Group',
                       dietary_restrictions: 'Dietary restrictions',
                       allergies: 'Allergies',

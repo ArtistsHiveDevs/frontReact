@@ -247,6 +247,7 @@ export const FrMessages = {
                     name: "Informations sur l'artiste",
                     attributes: {
                       user_language: "Langue de l'utilisateur",
+                      spoken_languages: 'Langues parlées',
                       blood_group: 'Groupe sanguin',
                       dietary_restrictions: 'Restrictions alimentaires',
                       allergies: 'Allergies',

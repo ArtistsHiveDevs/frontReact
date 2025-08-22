@@ -248,6 +248,7 @@ export const ItMessages = {
                     name: "Informazioni sull'artista",
                     attributes: {
                       user_language: "Lingua dell'utente",
+                      spoken_languages: 'Lingue parlate',
                       blood_group: 'Gruppo sanguigno',
                       dietary_restrictions: 'Restrizioni dietetiche',
                       allergies: 'Allergie',

@@ -35,7 +35,7 @@ export const logPageView = (params?: { title?: string; url?: string }): void => 
 };
 
 export const logEvent = (action: string, category: string, label?: string, value?: number): void => {
-  if (isProdEnvironment()) {
+  if (isProdEnvironment() && (window as any).gtag && typeof (window as any).gtag === 'function') {
     (window as any).gtag('event', action, {
       event_category: category,
       event_label: label,

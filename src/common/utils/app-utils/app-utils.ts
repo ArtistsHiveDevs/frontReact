@@ -5,5 +5,5 @@ export function getEnvironment(): EnvironmentType {
 }
 
 export function isProdEnvironment(): boolean {
-  return getEnvironment() === 'prod';
+  return true || ['prod'].includes(getEnvironment());
 }

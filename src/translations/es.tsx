@@ -261,6 +261,9 @@ export const EsMessages = {
                 sections: {
                   music: {
                     name: 'Música',
+                    attributes: {
+                      played_instruments: 'Instrumentos interpretados',
+                    },
                   },
                   dance: {
                     name: 'Danza',
@@ -626,6 +629,32 @@ export const EsMessages = {
                 },
                 members: {
                   name: 'Miembros',
+                },
+              },
+            },
+            members: {
+              name: 'Miembros',
+              sections: {
+                discography: {
+                  name: 'Discografía',
+                  attributes: {
+                    albums: 'Álbums',
+                    top_tracks: 'Canciones más escuchadas',
+                    dvd_video: 'DVD / Video',
+                  },
+                },
+                media_channels: {
+                  name: 'Canales multimedia',
+                },
+                gallery: {
+                  name: 'Galería',
+                  attributes: {
+                    photos: 'Fotos',
+                    video: 'Video',
+                  },
+                },
+                awards: {
+                  name: 'Premios',
                 },
               },
             },
@@ -1061,6 +1090,7 @@ export const EsMessages = {
                 incoming: 'Entrada',
                 sent: 'Enviados',
               },
+              crew: 'Mi Crew',
               my_profile: 'Mi perfil',
               my_bands: 'Mis bandas',
               'my_bands.nested': { create: 'Crear Banda' },

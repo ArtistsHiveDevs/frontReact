@@ -260,6 +260,9 @@ export const FrMessages = {
                 sections: {
                   music: {
                     name: 'Musique',
+                    attributes: {
+                      played_instruments: 'Instruments joués',
+                    },
                   },
                   dance: {
                     name: 'Danse',
@@ -1070,6 +1073,7 @@ export const FrMessages = {
                 incoming: 'Entrants',
                 sent: 'Envoyés',
               },
+              crew: 'Mon Crew',
               my_profile: 'Mon profil',
               my_bands: 'Mes bands',
               'my_bands.nested': { create: 'Créer une Band' },

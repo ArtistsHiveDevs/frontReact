@@ -27,7 +27,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useProfilesSlice } from '~/common/slices/domain/profile/ProfileSlice';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
-import { CrewListView } from '~/components/shared//molecules/domain/crewListView/CrewListView';
+import { CrewListRiderView } from '~/components/shared//molecules/domain/crewListView/CrewListView';
 import { GenresListView } from '~/components/shared//molecules/domain/genres/GenresListView';
 import { AlbumsShortListView } from '~/components/shared/domain/organisms/AlbumsShortListView/AlbumsShortListView';
 import { CountriesCitiesListView } from '~/components/shared/domain/organisms/CountriesCitiesListView/CountriesCitiesListView';
@@ -443,15 +443,14 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       // Footers
       let footer: any = undefined;
       const footerDescriptor = componentDescriptor.data?.footer;
-      if (footerDescriptor) {
-        footer = () => {
+      const source = parentDataSource || entityData;
+
+      const dataSourceElement: EntityModel<EntityTemplate> =
+        source[componentDescriptor.data?.data_source as keyof typeof source];
+      if (footerDescriptor?.components) {
+        footer = (element: any) => {
           return (footerDescriptor.components || []).map(
             (componentDescriptor: ProfileComponentDescriptor, componentIndex: number) => {
-              const source = parentDataSource || entityData;
-
-              const dataSourceElement: EntityModel<EntityTemplate> =
-                source[componentDescriptor.data?.data_source as keyof typeof source];
-
               const generated = buildComponent(
                 subpage,
                 section,
@@ -463,6 +462,8 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
             }
           );
         };
+      } else if (footerDescriptor && typeof footerDescriptor === 'function') {
+        footer = (element: any) => footerDescriptor(element);
       }
 
       // Handlers
@@ -475,7 +476,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
         <ProfileThumbnailCard
           key={`${section.name}-profile-thumbnail-${index}`}
           elementData={element}
-          footer={footer}
+          footer={() => footer?.(element)}
           callbacks={{
             onClickCard: (elementData: any) => {
               if (componentDescriptor.clickHandlerName) {
@@ -646,10 +647,10 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       const content = getData(componentDescriptor.data?.genres) || {};
 
       return <GenresListView genres={content} />;
-    } else if (componentDescriptor.componentName === ProfileComponentTypes.CREW_LIST_VIEW) {
+    } else if (componentDescriptor.componentName === ProfileComponentTypes.CREW_LIST_RIDER_VIEW) {
       const crewList = getData(componentDescriptor.data?.crewList) || {};
       console.log('ProfileTabs', componentDescriptor.data?.crewList, crewList);
-      renderedComponent = <CrewListView crewList={crewList} />;
+      renderedComponent = <CrewListRiderView crewList={crewList} />;
     } else if (componentDescriptor.componentName === ProfileComponentTypes.TABLE) {
       const tableConfig = componentDescriptor.data?.tableConfig
         ? componentDescriptor.data?.tableConfig(dataSourceElement)

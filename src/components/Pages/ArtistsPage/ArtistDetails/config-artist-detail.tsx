@@ -227,6 +227,16 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     ],
   },
   {
+    name: 'members',
+    requireSession: true,
+    sections: [
+      {
+        name: 'members',
+        components: [],
+      },
+    ],
+  },
+  {
     name: 'arts',
     sections: [
       {
@@ -318,7 +328,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       },
       {
         name: 'gallery',
-        hidden: true,
+        // hidden: true,
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,

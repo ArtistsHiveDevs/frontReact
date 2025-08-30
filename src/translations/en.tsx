@@ -260,6 +260,9 @@ export const EnMessages = {
                 sections: {
                   music: {
                     name: 'Music',
+                    attributes: {
+                      played_instruments: 'Played instruments',
+                    },
                   },
                   dance: {
                     name: 'Dance',
@@ -1054,6 +1057,7 @@ export const EnMessages = {
                 incoming: 'Incoming',
                 sent: 'Sent',
               },
+              crew: 'My Crew',
               my_profile: 'My Profile',
               my_bands: 'My Bands',
               'my_bands.nested': { create: 'Create Band' },

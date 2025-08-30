@@ -168,6 +168,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
           const fieldData: DynamicFieldData = {
             inputType,
             fieldName: attributeInfo.name,
+            fieldNamePrefix: attributeInfo.namePrefix,
             label: getAttributeTitle(subpage.name, section.name, attributeInfo),
             componentParams,
             config: formMetaData?.config || {},

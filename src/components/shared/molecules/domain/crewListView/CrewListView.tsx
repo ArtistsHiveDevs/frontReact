@@ -2,11 +2,11 @@ import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { CrewMemberTemplate, CrewTeamTemplate } from '~/models/domain/rider/rider.model';
 import './CrewListView.scss';
 
-export interface CrewListViewParams {
+export interface CrewListRiderViewParams {
   crewList: CrewTeamTemplate;
 }
 
-export const CrewListView = (props: CrewListViewParams) => {
+export const CrewListRiderView = (props: CrewListRiderViewParams) => {
   const { crewList } = props;
 
   let dietaryRestrictionsIcon = {

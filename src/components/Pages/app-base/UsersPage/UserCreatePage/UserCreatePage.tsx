@@ -9,6 +9,7 @@ import { useI18n } from '~/common/utils';
 import { uploadImage } from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { IndustrySignUpBanner } from '~/components/shared/atoms/IndustrySignUpBanner/IndustrySignUpBanner';
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
@@ -21,7 +22,7 @@ const UserCreatePage = () => {
   const dispatch = useDispatch();
 
   const { translateText, translateGlobalDict } = useI18n();
-  const { navigateToEntity, navigateToInnerPath } = useNavigation();
+  const { navigateToEntity, goBack } = useNavigation();
 
   const { actions: languageActions } = useLanguagesSlice();
   const { actions: allergyActions } = useAllergiesSlice();
@@ -38,7 +39,7 @@ const UserCreatePage = () => {
   const [availableBloodGroups, updateAvailableBloodGroups] = useState([]);
   const [availableDietaryRestritions, updateAvailableDietaryRestrictions] = useState([]);
 
-  const [openDialog, setOpenDialog] = useState(false);
+  const [openDialogSelectInstrument, setOpenDialogSelectInstrument] = useState(false);
 
   useEffect(() => {
     dispatch(languageActions.loadItems({}));
@@ -128,7 +129,7 @@ const UserCreatePage = () => {
     // console.log('user id', user.userId);
     // console.log('sign-in details', user.signInDetails);
 
-    setOpenDialog(loggedUser && !loggedUser.hasFilledProfile);
+    setOpenDialogSelectInstrument(loggedUser && !loggedUser.hasFilledProfile);
   };
 
   const handlers = {
@@ -162,28 +163,22 @@ const UserCreatePage = () => {
       }
       setUpdateRequestSended(true);
     },
-    onChangecountry: (data: any) => {
-      console.log('#####----------->>>>  !!! ', data);
-      // const ciudades =
-      //   !!data &&
-      //   !!data.value &&
-      //   Object.keys(provincias).indexOf(data?.value) >= 0
-      //     ? provincias[data.value as keyof typeof provincias]
-      //     : [];
-      // const provinceField = fields.find(
-      //   (fieldData) => fieldData.fieldName === "province"
-      // );
-      // provinceField.options = ciudades;
-      // // provinceField.defaultValue =
-      // //   (ciudades && ciudades.length && ciudades[1].value) || "";
-
-      // updateFields(fields);
-      // updateCiudades(ciudades);
-    },
   };
 
   return (
     <>
+      <div
+        style={{
+          alignContent: 'left',
+          paddingBottom: '0.5rem',
+          cursor: 'pointer',
+          width: '100%',
+          zIndex: 10000000,
+        }}
+        onClick={() => goBack()}
+      >
+        <DynamicIcons iconName="io5 IoChevronBackOutline" size={'2rem'} /> Back
+      </div>
       <DynamicTabbedForm
         tabsInfo={USER_DETAIL_SUB_PAGE_CONFIG}
         handlers={handlers}
@@ -203,9 +198,9 @@ const UserCreatePage = () => {
       />
       <IndustrySignUpBanner />
       <AppDialog
-        title="Completa tu perfil"
-        isOpenDialog={openDialog}
-        onClose={() => setOpenDialog(false)}
+        title="Selecciona "
+        isOpenDialog={openDialogSelectInstrument}
+        onClose={() => setOpenDialogSelectInstrument(false)}
         content={translateText(`${TRANSLATION_BASE_USER_DETAIL_PAGE}.fillProfileBanner.content`)}
         icon={'FaInfoCircle'}
       />

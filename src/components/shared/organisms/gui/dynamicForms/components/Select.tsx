@@ -1,6 +1,5 @@
 import { FormLabel } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { useEffect } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import Select from 'react-select';
 import { ComponentGeneratorParams } from '../DynamicControl';
@@ -11,7 +10,7 @@ interface OptionType {
 }
 
 export const createSelect = (params: ComponentGeneratorParams) => {
-  const { register, formState } = useFormContext();
+  const { formState, register } = useFormContext();
   const { fieldData, errors, handlers } = params;
   const {
     label,
@@ -65,24 +64,23 @@ export const createSelect = (params: ComponentGeneratorParams) => {
     }
   };
 
-  const handleChange = (data: any) => {
-    setValue(fieldName, data?.value || '');
+  const handleChange = (data?: any) => {
+    const newValue = data?.value || null;
+    config.value = newValue;
+    register(fieldName, config);
+    setSelectedValue(newValue);
+    setValue(fieldName, newValue);
+    // Trigger form validation for this field
     dispatchHandler(data);
   };
 
-  useEffect(() => {
-    if (defaultValue) {
-      setValue(fieldName, defaultValue);
-      dispatchHandler({ value: defaultValue });
-    }
-  }, [defaultValue, options, fieldName, setValue]);
-
   let {
-    field: { value: langValue, onChange: langOnChange, ref, ...restSelectField },
-  } = useController({ name: fieldName, control });
-
-  // Resolver el valor a mostrar: usar langValue si existe, sino defaultValue
-  const resolvedValue = langValue || defaultValue || undefined;
+    field: { value: selectedValue = null, onChange: setSelectedValue, ref, ...restSelectField },
+  } = useController({
+    name: fieldName,
+    control,
+    defaultValue: defaultValue ?? null,
+  });
 
   return (
     <div>
@@ -96,17 +94,19 @@ export const createSelect = (params: ComponentGeneratorParams) => {
         ref={ref}
         className="select-input"
         name={fieldName}
-        placeholder={placeholder}
+        placeholder={placeholder || 'Selecciona una opción'}
         options={options}
-        value={resolvedValue ? options.find((x) => x.value === resolvedValue) : undefined}
+        value={selectedValue ? options.find((x: any) => x.value === selectedValue) : null}
         key={`select_${fieldName}`}
         onChange={(option) => {
-          langOnChange(option ? option.value : '');
-          handleChange(option);
+          handleChange(option || { value: null });
         }}
         {...restSelectField}
         menuPortalTarget={document.body}
-        styles={{ ...customStyles, menuPortal: (base) => ({ ...base, zIndex: 3500 }) }}
+        styles={{
+          ...customStyles,
+          menuPortal: (base) => ({ ...base, zIndex: 3500 }),
+        }}
       />
     </div>
   );

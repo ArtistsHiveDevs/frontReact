@@ -25,7 +25,8 @@ export type ControlType =
   | 'citySelector'
   | 'chipPicker'
   | 'relationship'
-  | 'hidden';
+  | 'hidden'
+  | 'instrumentSelector';
 
 export interface SelectOption {
   label: string;
@@ -39,6 +40,7 @@ export interface DynamicFieldData {
   label?: string;
   inputType: ControlType;
   fieldName: string;
+  fieldNamePrefix?: string;
   defaultValue?: any;
   placeholder?: string;
   options?: SelectOption[];

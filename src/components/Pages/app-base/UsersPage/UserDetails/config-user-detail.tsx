@@ -136,7 +136,28 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
-              attributes: [],
+              attributes: [
+                {
+                  name: 'played_instruments',
+                  data_source: 'arts.music_performance.played_instruments',
+                  namePrefix: 'arts.music_performance.',
+                  value: (user: AppUserModel) => {
+                    return (
+                      <>
+                        <ul>
+                          {(user.arts?.music_performance?.played_instruments || []).map((instrument: string) => (
+                            <li>{instrument}</li>
+                          ))}
+                        </ul>
+                      </>
+                    );
+                  },
+                  formMetaData: {
+                    inputType: 'instrumentSelector',
+                    componentParams: {},
+                  },
+                },
+              ],
             },
           },
         ],
@@ -152,17 +173,17 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       //     },
       //   ],
       // },
-      // {
-      //   name: 'photography',
-      //   components: [
-      //     {
-      //       componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
-      //       data: {
-      //         attributes: [],
-      //       },
-      //     },
-      //   ],
-      // },
+      {
+        name: 'photography',
+        components: [
+          {
+            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [],
+            },
+          },
+        ],
+      },
       // {
       //   name: 'video',
       //   components: [
@@ -302,6 +323,13 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
             data: {
               data_source: 'artistMemberships',
+              footer: (a: any) => (
+                <>
+                  <hr></hr>
+                  <h3>Roles:</h3>
+                  <p>{a.roles.join(', ')}</p>
+                </>
+              ),
             },
             clickHandlerName: 'onNavigateToEntity',
             formMetaData: { fieldName: 'artistMemberships' },
@@ -315,6 +343,13 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
             data: {
               data_source: 'placeMemberships',
+              footer: (a: any) => (
+                <>
+                  <hr></hr>
+                  <h3>Roles:</h3>
+                  <p>{a.roles.join(', ')}</p>
+                </>
+              ),
             },
             clickHandlerName: 'onNavigateToEntity',
             formMetaData: { fieldName: 'placeMemberships' },

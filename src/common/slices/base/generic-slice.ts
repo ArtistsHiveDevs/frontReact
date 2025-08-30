@@ -160,6 +160,8 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
               resultInfo = [resultInfo];
             }
             yield put(slice.actions.itemsLoaded(<T[]>resultInfo));
+          } else {
+            yield put(slice.actions.repoError(1));
           }
         } catch (err) {
           console.log(err);

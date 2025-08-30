@@ -2,7 +2,7 @@ import {
   ProfileComponentTypes,
   ProfileDetailsSubpage,
 } from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
-import { CitySelectionLevel } from '~/components/shared/organisms/gui/dynamicForms/components/CitySelector';
+// import { CitySelectionLevel } from '~/components/shared/organisms/gui/dynamicForms/components/CitySelector';
 
 export const SEARCH_FILTERS_CONFIG: ProfileDetailsSubpage[] = [
   {
@@ -24,7 +24,7 @@ export const SEARCH_FILTERS_CONFIG: ProfileDetailsSubpage[] = [
                   formMetaData: {
                     inputType: 'citySelector',
                     componentParams: {
-                      minimumSelectionLevel: CitySelectionLevel.BOROUGH,
+                      // minimumSelectionLevel: CitySelectionLevel.BOROUGH,
                     },
                   },
                 },

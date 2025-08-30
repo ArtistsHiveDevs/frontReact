@@ -99,7 +99,7 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'staff',
         components: [
           {
-            componentName: ProfileComponentTypes.CREW_LIST_VIEW,
+            componentName: ProfileComponentTypes.CREW_LIST_RIDER_VIEW,
             data: {
               crewList: 'staff.crewList',
             },

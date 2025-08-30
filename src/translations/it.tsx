@@ -261,6 +261,9 @@ export const ItMessages = {
                 sections: {
                   music: {
                     name: 'Musica',
+                    attributes: {
+                      played_instruments: 'Strumenti suonati',
+                    },
                   },
                   dance: {
                     name: 'Danza',
@@ -1069,6 +1072,7 @@ export const ItMessages = {
                 incoming: 'In arrivo',
                 sent: 'Inviati',
               },
+              crew: 'La Mia Crew',
               my_profile: 'Il mio profilo',
               my_bands: 'Le mie band',
               'my_bands.nested': { create: 'Crea una band' },

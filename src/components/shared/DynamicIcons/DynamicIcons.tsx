@@ -11,10 +11,11 @@ interface typesPropsIcon {
   propsIcon?: IconBaseProps;
   customStyle?: { [property: string]: any };
   className?: string;
+  onClick?: Function;
 }
 
 export function DynamicIcons(params: typesPropsIcon): JSX.Element {
-  let { iconName, size, color, background, propsIcon, customStyle = {}, className = '' } = params;
+  let { iconName, size, color, background, propsIcon, customStyle = {}, className = '', onClick } = params;
   const props = { ...propsIcon };
   const specificLib = iconName.indexOf(' ') >= 0 ? iconName.split(' ')[0] : undefined;
   const name = iconName.indexOf(' ') >= 0 ? iconName.split(' ')[1] : iconName;
@@ -85,6 +86,11 @@ export function DynamicIcons(params: typesPropsIcon): JSX.Element {
         padding: background ? '0.1rem' : '',
         borderRadius: background ? '50%' : '',
         ...customStyle,
+      }}
+      onClick={() => {
+        if (onClick && typeof onClick === 'function') {
+          onClick();
+        }
       }}
     >
       <Icon {...props} />

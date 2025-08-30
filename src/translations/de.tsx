@@ -261,6 +261,9 @@ export const DeMessages = {
                 sections: {
                   music: {
                     name: 'Musik',
+                    attributes: {
+                      played_instruments: 'Gespielte Instrumente',
+                    },
                   },
                   dance: {
                     name: 'Tanz',
@@ -1069,6 +1072,7 @@ export const DeMessages = {
                 incoming: 'Eingehend',
                 sent: 'Gesendet',
               },
+              crew: 'Meine Crew',
               my_profile: 'Mein Profil',
               my_bands: 'Meine Bands',
               'my_bands.nested': { create: 'Band erstellen' },

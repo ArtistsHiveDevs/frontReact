@@ -260,6 +260,9 @@ export const PtMessages = {
                 sections: {
                   music: {
                     name: 'Música',
+                    attributes: {
+                      played_instruments: 'Instrumentos tocados',
+                    },
                   },
                   dance: {
                     name: 'Dança',
@@ -1066,6 +1069,7 @@ export const PtMessages = {
                 incoming: 'Recebidos',
                 sent: 'Enviados',
               },
+              crew: 'Minha Crew',
               my_profile: 'Meu perfil',
               my_bands: 'Minhas bandas',
               'my_bands.nested': { create: 'Criar uma Band' },

@@ -6,7 +6,7 @@ export enum ProfileComponentTypes {
   ATTRIBUTES_ICON_FIELDS,
   CALENDAR_SIMPLE_LAYOUT,
   ARTS_GENRES,
-  CREW_LIST_VIEW,
+  CREW_LIST_RIDER_VIEW,
   DISCOGRAPHY_LIST_VIEW,
   TOP_TRACKS_LIST_VIEW,
   HTML_CONTENT,
@@ -54,6 +54,7 @@ export interface ProfileComponentDescriptor {
 }
 export interface ProfileDetailAttributeConfiguration {
   name: string;
+  namePrefix?: string;
 
   valueFieldName?: string;
 
@@ -93,6 +94,7 @@ export interface ProfileDetailAttributeConfiguration {
 export interface FormMetadata {
   inputType?: ControlType;
   fieldName?: string;
+  namePrefix?: string;
   componentParams?: any;
   config?: RegisterOptions;
   defaultValue?: any;

@@ -24,7 +24,7 @@ export const ItMessages = {
         painting: 'Pittura',
         poetry: 'Poesia',
         photography: 'Fotografia',
-        standup_comedy: 'Cavaliere',
+        standup_comedy: 'Stand-up Comedy',
         theatre: 'Teatro',
         video: 'Video',
       },
@@ -38,16 +38,30 @@ export const ItMessages = {
           signup: 'Registrati',
           username_or_email: 'Nome utente o email',
         },
-        create: 'Creare',
+        create: 'Crea',
         follow_us: 'Seguici',
-        save: 'Salvare',
+        save: 'Salva',
         cancel: 'Annulla',
+        navigation: {
+          back: 'Indietro',
+          first: 'Primo',
+          home: 'Home',
+          last: 'Ultimo',
+          next: 'Successivo',
+          previous: 'Precedente',
+          refresh: 'Aggiorna',
+          submit: 'Invia',
+          cancel: 'Annulla',
+          close: 'Chiudi',
+          open: 'Apri',
+          save: 'Salva',
+        },
         show_more: 'Mostra di più',
         show_less: 'Mostra di meno',
         submit: 'Invia',
         subscription: {
-          subscribe: 'Iscriversi',
-          unsubscribe: 'Disiscriversi',
+          subscribe: 'Iscriviti',
+          unsubscribe: 'Disiscriviti',
         },
         upload: 'Carica',
       },
@@ -62,7 +76,7 @@ export const ItMessages = {
         // Data error
         NOT_AVAILABLE: 'Non disponibile',
 
-        // Errores de Autenticación y Autorización
+        // Errori di Autenticazione e Autorizzazione
         AUTH_INVALID_CREDENTIALS: 'Credenziali non valide',
         AUTH_USER_NOT_FOUND: 'Utente non trovato',
         AUTH_NO_USER_PROVIDED: 'Nessun utente fornito',
@@ -74,55 +88,55 @@ export const ItMessages = {
         AUTH_PERMISSION_DENIED: 'Permesso negato',
         AUTH_LOGIN_REQUIRED: 'Devi accedere per visualizzare questo contenuto.',
 
-        // Errores de Red
+        // Errori di Rete
         NETWORK_ERROR: 'Errore di rete',
         NETWORK_TIMEOUT: 'Timeout di rete',
         NETWORK_NOT_CONNECTED: 'Non connesso alla rete',
 
-        // Errores de Validación
+        // Errori di Validazione
         VALIDATION_EMAIL_INVALID: 'Email non valida',
         VALIDATION_PASSWORD_WEAK: 'Password debole',
         VALIDATION_FIELD_REQUIRED: 'Campo obbligatorio',
         VALIDATION_USERNAME_TAKEN: 'Nome utente già in uso',
 
-        // Errores de Usuario
+        // Errori di Utente
         USER_PROFILE_NOT_FOUND: 'Profilo utente non trovato',
         USER_PROFILE_UPDATE_FAILED: 'Aggiornamento del profilo utente non riuscito',
         USER_ACCOUNT_SUSPENDED: 'Account utente sospeso',
         USER_ACCOUNT_DELETED: 'Account utente eliminato',
 
-        // Errores de Contenido
+        // Errori di Contenuto
         CONTENT_NOT_FOUND: 'Contenuto non trovato',
         CONTENT_UPLOAD_FAILED: 'Caricamento del contenuto non riuscito',
         CONTENT_TOO_LARGE: 'Contenuto troppo grande',
         CONTENT_TYPE_NOT_SUPPORTED: 'Tipo di contenuto non supportato',
 
-        // Errores de Amistad/Conexión
+        // Errori di Amicizia/Connessione
         CONNECTION_REQUEST_FAILED: 'Richiesta di connessione non riuscita',
         CONNECTION_ALREADY_EXISTS: 'Connessione già esistente',
         CONNECTION_NOT_FOUND: 'Connessione non trovata',
 
-        // Errores de Mensajes
+        // Errori di Messaggi
         MESSAGE_SEND_FAILED: 'Invio del messaggio non riuscito',
         MESSAGE_NOT_FOUND: 'Messaggio non trovato',
         MESSAGE_CONTENT_INVALID: 'Contenuto del messaggio non valido',
 
-        // Errores de Publicación
+        // Errori di Pubblicazione
         POST_CREATE_FAILED: 'Creazione del post non riuscita',
         POST_NOT_FOUND: 'Post non trovato',
         POST_UPDATE_FAILED: 'Aggiornamento del post non riuscito',
         POST_DELETE_FAILED: 'Eliminazione del post non riuscita',
 
-        // Errores de Pago
+        // Errori di Pagamento
         PAYMENT_FAILED: 'Pagamento non riuscito',
         PAYMENT_METHOD_INVALID: 'Metodo di pagamento non valido',
         PAYMENT_INSUFFICIENT_FUNDS: 'Fondi insufficienti',
 
-        // Errores del Servidor
+        // Errori del Server
         SERVER_ERROR: 'Errore del server',
         SERVER_MAINTENANCE: 'Manutenzione del server',
 
-        // Errores Desconocidos
+        // Errori Sconosciuti
         UNKNOWN_ERROR: 'Errore sconosciuto',
       },
       follows: {
@@ -189,7 +203,7 @@ export const ItMessages = {
           user_profile: {
             title: 'Profilo utente',
             user: 'Utente',
-            logout: 'Disconnettersi',
+            logout: 'Disconnettiti',
             logged_user: 'Utente registrato',
             empty_user: "Non c'è un utente",
             user_info: 'Informazioni utente',
@@ -208,7 +222,7 @@ export const ItMessages = {
             'Se desideri unirti alla comunità degli artisti, ti invitiamo a registrarti facendo clic sul seguente pulsante.',
           paragraph3:
             "Ricorda che puoi registrarti sia come parte dell'ecosistema musicale che come fan. Registrati e tieni presente l'agenda culturale, riceverai notifiche e avvisi per eventi di tuo interesse.",
-          button: 'Registrarmi nella versione di prova',
+          button: 'Registrati alla versione di prova',
         },
         UsersPages: {
           UsersDetailsPage: {
@@ -281,10 +295,10 @@ export const ItMessages = {
                     name: 'Poesia',
                   },
                   standup_comedy: {
-                    name: 'Cabatteria',
+                    name: 'Stand-up Comedy',
                   },
                   awards: {
-                    name: 'Prezzo',
+                    name: 'Premi',
                   },
                 },
               },
@@ -414,7 +428,7 @@ export const ItMessages = {
                 name: 'Menu',
                 sections: {
                   main_course: { name: 'Piatto principale' },
-                  second_course: { name: 'Secundo Piatto' },
+                  second_course: { name: 'Secondo Piatto' },
                 },
               },
             },
@@ -706,11 +720,11 @@ export const ItMessages = {
         },
       },
       HomePage: {
-        welcome: 'Bienvenuti',
-        news: 'Notizia',
+        welcome: 'Benvenuti',
+        news: 'Notizie',
         artists: 'Artisti',
         events: 'Eventi',
-        places: 'Posti',
+        places: 'Luoghi',
         industry_offer: {
           title: "Fai parte dell'industria musicale?",
           call_to_action: 'Scopri la nostra proposta',
@@ -939,7 +953,7 @@ export const ItMessages = {
       },
       search: {
         empty_results: {
-          title: 'Non ci sono resultati che corrispondono alla tua ricerca',
+          title: 'Non ci sono risultati che corrispondono alla tua ricerca',
           suggestions: {
             statement: 'Prova uno dei seguenti suggerimenti',
             spelling: 'Controlla la tua ortografia',
@@ -1035,7 +1049,7 @@ export const ItMessages = {
           list: 'Lista',
           map: 'Mappa',
         },
-        results: 'Resultati',
+        results: 'Risultati',
         search: 'Cerca',
         search_placeholder: 'Artisti, eventi, luoghi...',
         see_more: 'Vedi di più',
@@ -1094,7 +1108,7 @@ export const ItMessages = {
               settings: 'Impostazioni',
               help_center: 'Centro assistenza',
               report: 'Segnala',
-              send_comments: 'Invia comenti',
+              send_comments: 'Invia commenti',
               logout: 'Esci',
             },
           },

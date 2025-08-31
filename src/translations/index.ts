@@ -1,4 +1,5 @@
 import { DeMessages } from './de';
+import { ElMessages } from './el';
 import { EnMessages } from './en';
 import { EsMessages } from './es';
 import { EsCOMessages } from './es-co';
@@ -19,6 +20,7 @@ function flatObject(input: any) {
 
 export const appMessages: { [key: string]: { [key: string]: string } } = {
   de: flatObject(DeMessages),
+  el: flatObject(ElMessages),
   en: flatObject(EnMessages),
   es: flatObject(EsMessages),
   'es-co': flatObject(EsCOMessages),

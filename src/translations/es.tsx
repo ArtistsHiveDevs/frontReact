@@ -1,7 +1,7 @@
 export const EsMessages = {
   app: {
     name: 'App ES',
-    loading: 'Cargando....',
+    loading: 'Cargando...',
     general: {
       not_found_page: {
         title: 'Ups! No encontramos lo que buscas',
@@ -42,6 +42,20 @@ export const EsMessages = {
         follow_us: 'Síguenos',
         save: 'Guardar',
         cancel: 'Cancelar',
+        navigation: {
+          back: 'Atrás',
+          first: 'Primero',
+          home: 'Inicio',
+          last: 'Último',
+          next: 'Siguiente',
+          previous: 'Anterior',
+          refresh: 'Actualizar',
+          submit: 'Enviar',
+          cancel: 'Cancelar',
+          close: 'Cerrar',
+          open: 'Abrir',
+          save: 'Guardar',
+        },
         show_more: 'Mostrar más',
         show_less: 'Mostrar menos',
         submit: 'Enviar',
@@ -191,7 +205,7 @@ export const EsMessages = {
             user: 'Usuario',
             logout: 'Cerrar sesión',
             logged_user: 'Usuario actual',
-            empty_user: 'No hay un usuario',
+            empty_user: 'No hay usuario',
             user_info: 'Información del usuario',
             roles: 'Roles',
             artist: 'Artista',
@@ -411,7 +425,7 @@ export const EsMessages = {
                 },
               },
               menu: {
-                name: 'Menu',
+                name: 'Menú',
                 sections: {
                   main_course: { name: 'Plato principal' },
                   second_course: { name: 'Segundo plato' },
@@ -539,7 +553,7 @@ export const EsMessages = {
         },
         TourPlansPages: {
           TourPlanDetailsPage: {
-            tourPlanNotFound: 'Tour no encontrada',
+            tourPlanNotFound: 'Tour no encontrado',
             subpages: {
               general: {
                 name: 'General',
@@ -620,6 +634,13 @@ export const EsMessages = {
                 },
                 contact: {
                   name: 'Contacto',
+                  attributes: {
+                    website: 'Sitio web',
+                    email: 'Correo electrónico',
+                    phone: 'Teléfono',
+                    mobile_phone: 'Teléfono móvil',
+                    whatsapp: 'WhatsApp',
+                  },
                 },
                 social_networks: {
                   name: 'Redes sociales',
@@ -718,7 +739,7 @@ export const EsMessages = {
               },
             },
             followers: {
-              name: 'Followers',
+              name: 'Seguidores',
             },
           },
         },
@@ -896,7 +917,7 @@ export const EsMessages = {
               },
             },
             followers: {
-              name: 'Followers',
+              name: 'Seguidores',
             },
           },
         },
@@ -906,8 +927,8 @@ export const EsMessages = {
       betabar: {
         contact_us: 'Contáctanos',
         disclaimer:
-          'Estás viendo una versión de prueba de nuestra plataforma. Esperamos que te guste, puedes comunicarte con usando el botón que está a continuación.',
-        our_email_is: 'Nuesto email es:',
+          'Estás viendo una versión de prueba de nuestra plataforma. Esperamos que te guste, puedes comunicarte con nosotros usando el botón que está a continuación.',
+        our_email_is: 'Nuestro email es:',
       },
       claimProfileBanner: {
         PROFILE_AUTO_GENERATED_CAPTION:

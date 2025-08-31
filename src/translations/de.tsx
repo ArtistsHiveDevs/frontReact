@@ -39,9 +39,23 @@ export const DeMessages = {
           username_or_email: 'Benutzername oder E-Mail',
         },
         create: 'Erstellen',
-        follow_us: 'Folst uns',
+        follow_us: 'Folge uns',
         save: 'Speichern',
         cancel: 'Abbrechen',
+        navigation: {
+          back: 'Zurück',
+          first: 'Erste',
+          home: 'Startseite',
+          last: 'Letzte',
+          next: 'Nächste',
+          previous: 'Vorherige',
+          refresh: 'Aktualisieren',
+          submit: 'Absenden',
+          cancel: 'Abbrechen',
+          close: 'Schließen',
+          open: 'Öffnen',
+          save: 'Speichern',
+        },
         show_more: 'Mehr anzeigen',
         show_less: 'Weniger anzeigen',
         submit: 'Absenden',
@@ -172,10 +186,10 @@ export const DeMessages = {
           total_rates: 'Gesamtbewertungen',
           talent: 'Talent',
           performance: 'Leistung',
-          proffesionalism: 'Professionalität',
+          proffesionalism: 'Professionalismus',
           stage_presence: 'Bühnenpräsenz',
           charisma: 'Charisma',
-          respectfulness: 'Respektvoll',
+          respectfulness: 'Respekt',
         },
       },
     },
@@ -208,7 +222,7 @@ export const DeMessages = {
             'Wenn du dich dem Künstlerkollektiv anschließen möchtest, laden wir dich ein, dich zu registrieren, indem du auf den folgenden Button klickst.',
           paragraph3:
             'Denke daran, dass du dich entweder als Teil des Musikökosystems oder als Fan registrieren kannst. Registriere dich und behalte den Kulturkalender im Blick. Du erhältst Benachrichtigungen und Hinweise zu Veranstaltungen, die dich interessieren.',
-          button: 'Registrieren Sie mich in der Testversion',
+          button: 'Registriere mich in der Testversion',
         },
         UsersPages: {
           UsersDetailsPage: {
@@ -284,7 +298,7 @@ export const DeMessages = {
                     name: 'Standup-Comedy',
                   },
                   awards: {
-                    name: 'Preis',
+                    name: 'Preise',
                   },
                 },
               },
@@ -303,7 +317,7 @@ export const DeMessages = {
                 name: 'Meine Veranstaltungen',
                 sections: {
                   next_shows: {
-                    name: 'Bevorstehende Sendungen',
+                    name: 'Bevorstehende Shows',
                   },
                   past_shows: {
                     name: 'Vergangene Shows',
@@ -311,10 +325,10 @@ export const DeMessages = {
                 },
               },
               my_liked_shows: {
-                name: 'Meine liebe Veranstaltungen',
+                name: 'Meine Lieblings-Veranstaltungen',
                 sections: {
                   next_shows: {
-                    name: 'Bevorstehende Sendungen',
+                    name: 'Bevorstehende Shows',
                   },
                   past_shows: {
                     name: 'Vergangene Shows',
@@ -340,50 +354,50 @@ export const DeMessages = {
           AcademiesDetailsPage: {
             subpages: {
               general: {
-                name: 'Generale',
+                name: 'Allgemein',
                 sections: {
                   gallery: {
-                    name: 'Galleria',
+                    name: 'Galerie',
                   },
                   general: {
-                    name: 'Info generale',
+                    name: 'Allgemeine Informationen',
                     attributes: {
                       description: 'Beschreibung',
-                      address: 'Indirizzo',
-                      city: 'Città',
-                      categories: 'Categorie',
-                      since: 'Da',
-                      spoken_languages: 'Lingue parlate',
+                      address: 'Adresse',
+                      city: 'Stadt',
+                      categories: 'Kategorien',
+                      since: 'Seit',
+                      spoken_languages: 'Gesprochene Sprachen',
                     },
                   },
                   contact: {
-                    name: 'Contatto',
+                    name: 'Kontakt',
                     attributes: {
                       website: 'Website',
-                      email: 'e-mail',
-                      phone: 'Telefono',
-                      mobile_phone: 'Cellulare',
+                      email: 'E-Mail',
+                      phone: 'Telefon',
+                      mobile_phone: 'Mobiltelefon',
                       whatsapp: 'WhatsApp',
                     },
                   },
                   social_networks: {
-                    name: 'Reti Sociali',
+                    name: 'Soziale Netzwerke',
                   },
                 },
               },
 
               social: {
-                name: 'Sociale',
+                name: 'Sozial',
                 sections: {
                   social_network_presence: {
-                    name: 'Presenza sui social network',
+                    name: 'Präsenz in sozialen Netzwerken',
                   },
                   stats: {
-                    name: 'Statistiche',
+                    name: 'Statistiken',
                     attributes: {
-                      general_rate: 'Qualificazione generale',
+                      general_rate: 'Allgemeine Bewertung',
                       followers: 'Followers',
-                      event_followers: 'Eventi followers',
+                      event_followers: 'Veranstaltungs-Follower',
                     },
                   },
                 },
@@ -392,10 +406,10 @@ export const DeMessages = {
                 name: 'Shows',
                 sections: {
                   next_shows: {
-                    name: 'Prossimi spettacoli',
+                    name: 'Kommende Shows',
                   },
                   past_shows: {
-                    name: 'Spettacoli passati',
+                    name: 'Vergangene Shows',
                   },
                 },
               },
@@ -413,8 +427,8 @@ export const DeMessages = {
               menu: {
                 name: 'Menu',
                 sections: {
-                  main_course: { name: 'Main course' },
-                  second_course: { name: 'Second course' },
+                  main_course: { name: 'Hauptgericht' },
+                  second_course: { name: 'Zweites Gericht' },
                 },
               },
             },
@@ -568,7 +582,7 @@ export const DeMessages = {
                     name: 'Interne Beförderung',
                   },
                   intercity_transportation: {
-                    name: 'Streckenbefeörderung',
+                    name: 'Fernverkehr',
                   },
                   accommodation: {
                     name: 'Unterkunft',
@@ -622,7 +636,7 @@ export const DeMessages = {
                   name: 'Kontakt',
                   attributes: {
                     website: 'Webseite',
-                    email: 'e-mail',
+                    email: 'E-Mail',
                     phone: 'Telefon',
                     mobile_phone: 'Mobiltelefon',
                     whatsapp: 'WhatsApp',
@@ -676,7 +690,7 @@ export const DeMessages = {
                   attributes: {
                     general_rate: 'Allgemeine Qualifikation',
                     followers: 'Anhänger',
-                    event_followers: 'Follower-Ereignis',
+                    event_followers: 'Event-Follower',
                   },
                 },
                 rating: {
@@ -691,10 +705,10 @@ export const DeMessages = {
                   name: 'Zusammenfassung',
                 },
                 next_shows: {
-                  name: 'Nächsten Shows',
+                  name: 'Nächste Shows',
                 },
                 past_shows: {
-                  name: 'Vergangenen Shows',
+                  name: 'Vergangene Shows',
                 },
               },
             },
@@ -705,11 +719,11 @@ export const DeMessages = {
         },
       },
       HomePage: {
-        welcome: 'Willkomen',
+        welcome: 'Willkommen',
         news: 'Neu',
-        artists: 'Artists',
-        events: 'Ereignisses',
-        places: 'Örtlichkeit',
+        artists: 'Künstler',
+        events: 'Veranstaltungen',
+        places: 'Orte',
         industry_offer: {
           title: 'Bist du Teil der Musikindustrie?',
           call_to_action: 'Erfahre mehr über unser Angebot',

@@ -42,6 +42,20 @@ export const FrMessages = {
         follow_us: 'Suivez-nous',
         save: 'Enregistrer',
         cancel: 'Annuler',
+        navigation: {
+          back: 'Retour',
+          first: 'Premier',
+          home: 'Accueil',
+          last: 'Dernier',
+          next: 'Suivant',
+          previous: 'Précédent',
+          refresh: 'Rafraîchir',
+          submit: 'Envoyer',
+          cancel: 'Annuler',
+          close: 'Fermer',
+          open: 'Ouvrir',
+          save: 'Enregistrer',
+        },
         show_more: 'Afficher plus',
         show_less: 'Afficher moins',
         submit: 'Soumettre',
@@ -131,7 +145,7 @@ export const FrMessages = {
         in_common: 'En commun',
         errors: {
           NO_FOLLOWING: 'Ce profil ne suit personne.',
-          NO_FOLLOWERS: "Ce profil n'a pas de abonnés.",
+          NO_FOLLOWERS: "Ce profil n'a pas d'abonnés.",
           NO_COMMON_FOLLOWERS: 'Aucun abonné en commun.',
         },
       },
@@ -339,53 +353,53 @@ export const FrMessages = {
           AcademiesDetailsPage: {
             subpages: {
               general: {
-                name: 'Generale',
+                name: 'Général',
                 sections: {
                   gallery: {
-                    name: 'Galleria',
+                    name: 'Galerie',
                   },
                   general: {
-                    name: 'Info generale',
+                    name: 'Infos générales',
                     attributes: {
                       description: 'Description',
-                      address: 'Indirizzo',
-                      city: 'Città',
+                      address: 'Adresse',
+                      city: 'Ville',
                       cityWithCountry: 'Ville',
-                      categories: 'Categorie',
-                      since: 'Da',
-                      spoken_languages: 'Lingue parlate',
-                      stage_languages: 'Lingue en scena',
-                      arts_languages: "Lingue dell'arte",
+                      categories: 'Catégories',
+                      since: 'Depuis',
+                      spoken_languages: 'Langues parlées',
+                      stage_languages: 'Langues de scène',
+                      arts_languages: 'Langues artistiques',
                     },
                   },
                   contact: {
-                    name: 'Contatto',
+                    name: 'Contact',
                     attributes: {
                       website: 'Website',
                       email: 'e-mail',
-                      phone: 'Telefono',
-                      mobile_phone: 'Cellulare',
+                      phone: 'Téléphone',
+                      mobile_phone: 'Portable',
                       whatsapp: 'WhatsApp',
                     },
                   },
                   social_networks: {
-                    name: 'Reti Sociali',
+                    name: 'Réseaux Sociaux',
                   },
                 },
               },
 
               social: {
-                name: 'Sociale',
+                name: 'Social',
                 sections: {
                   social_network_presence: {
-                    name: 'Presenza sui social network',
+                    name: 'Présence sur les réseaux sociaux',
                   },
                   stats: {
-                    name: 'Statistiche',
+                    name: 'Statistiques',
                     attributes: {
-                      general_rate: 'Qualificazione generale',
-                      followers: 'Followers',
-                      event_followers: 'Eventi followers',
+                      general_rate: 'Note générale',
+                      followers: 'Abonnés',
+                      event_followers: 'Abonnés aux événements',
                     },
                   },
                 },
@@ -394,10 +408,10 @@ export const FrMessages = {
                 name: 'Shows',
                 sections: {
                   next_shows: {
-                    name: 'Prossimi spettacoli',
+                    name: 'Spectacles à venir',
                   },
                   past_shows: {
-                    name: 'Spettacoli passati',
+                    name: 'Spectacles passés',
                   },
                 },
               },
@@ -405,18 +419,18 @@ export const FrMessages = {
                 name: 'Backline',
                 sections: {
                   sound_backline: {
-                    name: 'sound backline',
+                    name: 'Backline sonore',
                   },
                   light_backline: {
-                    name: 'light backline',
+                    name: 'Backline éclairage',
                   },
                 },
               },
               menu: {
                 name: 'Menu',
                 sections: {
-                  main_course: { name: 'Plato principal' },
-                  second_course: { name: 'Plato secundario' },
+                  main_course: { name: 'Plat principal' },
+                  second_course: { name: 'Second plat' },
                 },
               },
             },
@@ -676,9 +690,9 @@ export const FrMessages = {
                 stats: {
                   name: 'Statistiques',
                   attributes: {
-                    general_rate: 'Qualification générale',
-                    followers: 'Followers',
-                    event_followers: 'Événement followers',
+                    general_rate: 'Note générale',
+                    followers: 'Abonnés',
+                    event_followers: 'Abonnés aux événements',
                   },
                 },
                 rating: {
@@ -701,7 +715,7 @@ export const FrMessages = {
               },
             },
             followers: {
-              name: 'Followers',
+              name: 'Abonnés',
             },
           },
         },
@@ -724,9 +738,9 @@ export const FrMessages = {
               name: 'Info',
               sections: {
                 general: {
-                  name: 'Info generale',
+                  name: 'Informations générales',
                   attributes: {
-                    national_code: 'Cod. PULEP',
+                    national_code: 'Code PULEP',
                     timetable__initial_date: 'Quand?',
                     initial_time: 'Heure',
                     minimumAge: 'Âge minimum',
@@ -879,7 +893,7 @@ export const FrMessages = {
               },
             },
             followers: {
-              name: 'Followers',
+              name: 'Abonnés',
             },
           },
         },
@@ -1052,7 +1066,7 @@ export const FrMessages = {
         name: 'Menu principal',
         sections: {
           general: {
-            name: 'Géneral',
+            name: 'Général',
             options: {
               home: 'Accueil',
               cultural_agenda: 'Agenda culturel',

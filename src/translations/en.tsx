@@ -42,6 +42,20 @@ export const EnMessages = {
         follow_us: 'Follow us',
         save: 'Save',
         cancel: 'Cancel',
+        navigation: {
+          back: 'Back',
+          first: 'First',
+          home: 'Home',
+          last: 'Last',
+          next: 'Next',
+          previous: 'Previous',
+          refresh: 'Refresh',
+          submit: 'Submit',
+          cancel: 'Cancel',
+          close: 'Close',
+          open: 'Open',
+          save: 'Save',
+        },
         show_more: 'Show more',
         show_less: 'Show less',
         submit: 'Submit',
@@ -62,7 +76,7 @@ export const EnMessages = {
         // Data error
         NOT_AVAILABLE: 'Not available',
 
-        // Errores de Autenticación y Autorización
+        // Authentication and Authorization Errors
         AUTH_INVALID_CREDENTIALS: 'Invalid credentials',
         AUTH_USER_NOT_FOUND: 'User not found',
         AUTH_NO_USER_PROVIDED: 'No user provided',
@@ -74,55 +88,55 @@ export const EnMessages = {
         AUTH_PERMISSION_DENIED: 'Permission denied',
         AUTH_LOGIN_REQUIRED: 'You need to log in to view this content.',
 
-        // Errores de Red
+        // Network Errors
         NETWORK_ERROR: 'Network error',
         NETWORK_TIMEOUT: 'Network timeout',
         NETWORK_NOT_CONNECTED: 'Not connected to the network',
 
-        // Errores de Validación
+        // Validation Errors
         VALIDATION_EMAIL_INVALID: 'Invalid email',
         VALIDATION_PASSWORD_WEAK: 'Weak password',
         VALIDATION_FIELD_REQUIRED: 'Field required',
         VALIDATION_USERNAME_TAKEN: 'Username already taken',
 
-        // Errores de Usuario
+        // User Errors
         USER_PROFILE_NOT_FOUND: 'User profile not found',
         USER_PROFILE_UPDATE_FAILED: 'User profile update failed',
         USER_ACCOUNT_SUSPENDED: 'User account suspended',
         USER_ACCOUNT_DELETED: 'User account deleted',
 
-        // Errores de Contenido
+        // Content Errors
         CONTENT_NOT_FOUND: 'Content not found',
         CONTENT_UPLOAD_FAILED: 'Content upload failed',
         CONTENT_TOO_LARGE: 'Content too large',
         CONTENT_TYPE_NOT_SUPPORTED: 'Content type not supported',
 
-        // Errores de Amistad/Conexión
+        // Connection Errors
         CONNECTION_REQUEST_FAILED: 'Connection request failed',
         CONNECTION_ALREADY_EXISTS: 'Connection already exists',
         CONNECTION_NOT_FOUND: 'Connection not found',
 
-        // Errores de Mensajes
+        // Message Errors
         MESSAGE_SEND_FAILED: 'Message send failed',
         MESSAGE_NOT_FOUND: 'Message not found',
         MESSAGE_CONTENT_INVALID: 'Invalid message content',
 
-        // Errores de Publicación
+        // Post Errors
         POST_CREATE_FAILED: 'Post creation failed',
         POST_NOT_FOUND: 'Post not found',
         POST_UPDATE_FAILED: 'Post update failed',
         POST_DELETE_FAILED: 'Post deletion failed',
 
-        // Errores de Pago
+        // Payment Errors
         PAYMENT_FAILED: 'Payment failed',
         PAYMENT_METHOD_INVALID: 'Invalid payment method',
         PAYMENT_INSUFFICIENT_FUNDS: 'Insufficient funds',
 
-        // Errores del Servidor
+        // Server Errors
         SERVER_ERROR: 'Server error',
         SERVER_MAINTENANCE: 'Server maintenance',
 
-        // Errores Desconocidos
+        // Unknown Errors
         UNKNOWN_ERROR: 'Unknown error',
       },
       follows: {
@@ -172,7 +186,7 @@ export const EnMessages = {
           total_rates: 'Total rates',
           talent: 'Talent',
           performance: 'Performance',
-          proffesionalism: 'Proffesionalism',
+          professionalism: 'Professionalism',
           stage_presence: 'Stage presence',
           charisma: 'Charisma',
           respectfulness: 'Respectfulness',
@@ -191,7 +205,7 @@ export const EnMessages = {
             user: 'User',
             logout: 'Logout',
             logged_user: 'Logged User',
-            empty_user: 'There is not an user',
+            empty_user: 'There is no user',
             user_info: 'User Info',
             roles: 'Roles',
             artist: 'Artist',
@@ -339,51 +353,51 @@ export const EnMessages = {
           AcademiesDetailsPage: {
             subpages: {
               general: {
-                name: 'Generale',
+                name: 'General',
                 sections: {
                   gallery: {
                     name: 'Gallery',
                   },
                   general: {
-                    name: 'Info generale',
+                    name: 'General Info',
                     attributes: {
                       description: 'Description',
                       address: 'Address',
-                      city: 'Città',
+                      city: 'City',
                       cityWithCountry: 'City',
-                      categories: 'Categorie',
-                      since: 'Da',
-                      spoken_languages: 'Lingue parlate',
+                      categories: 'Categories',
+                      since: 'Since',
+                      spoken_languages: 'Spoken languages',
                     },
                   },
                   contact: {
-                    name: 'Contatto',
+                    name: 'Contact',
                     attributes: {
                       website: 'Website',
                       email: 'e-mail',
-                      phone: 'Telefono',
-                      mobile_phone: 'Cellulare',
+                      phone: 'Phone',
+                      mobile_phone: 'Mobile Phone',
                       whatsapp: 'WhatsApp',
                     },
                   },
                   social_networks: {
-                    name: 'Reti Sociali',
+                    name: 'Social Networks',
                   },
                 },
               },
 
               social: {
-                name: 'Sociale',
+                name: 'Social',
                 sections: {
                   social_network_presence: {
-                    name: 'Presenza sui social network',
+                    name: 'Social network presence',
                   },
                   stats: {
-                    name: 'Statistiche',
+                    name: 'Statistics',
                     attributes: {
-                      general_rate: 'Qualificazione generale',
+                      general_rate: 'General rating',
                       followers: 'Followers',
-                      event_followers: 'Eventi followers',
+                      event_followers: 'Event followers',
                     },
                   },
                 },
@@ -392,10 +406,10 @@ export const EnMessages = {
                 name: 'Shows',
                 sections: {
                   next_shows: {
-                    name: 'Prossimi spettacoli',
+                    name: 'Next shows',
                   },
                   past_shows: {
-                    name: 'Spettacoli passati',
+                    name: 'Past shows',
                   },
                 },
               },
@@ -447,7 +461,7 @@ export const EnMessages = {
                   general_technical_features: {
                     name: 'General Technical Features',
                     attributes: {
-                      frecuency_response: 'FQ Response',
+                      frequency_response: 'Frequency Response',
                       sound_pressure: 'Sound Pressure',
                       foh_distance: 'FOH Distance',
                     },
@@ -562,12 +576,12 @@ export const EnMessages = {
               budget: {
                 name: 'Budget',
                 sections: {
-                  internal_transportation: { name: 'Transporte interno' },
+                  internal_transportation: { name: 'Internal transportation' },
                   intercity_transportation: {
-                    name: 'Transporte entre ciudades',
+                    name: 'Intercity transportation',
                   },
-                  accommodation: { name: 'Acomodación' },
-                  food: { name: 'Alimentación' },
+                  accommodation: { name: 'Accommodation' },
+                  food: { name: 'Food' },
                 },
               },
               wishes: {
@@ -918,7 +932,7 @@ export const EnMessages = {
             },
           },
         },
-        copywrite: {
+        copyright: {
           allRightsReserved: 'All rights reserved',
         },
       },

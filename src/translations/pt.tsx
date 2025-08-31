@@ -31,7 +31,7 @@ export const PtMessages = {
       actions: {
         accounts: {
           create_account: 'Criar conta',
-          forgot_password: 'Olvidé mi contraseña',
+          forgot_password: 'Esqueci minha senha',
           login: 'Entrar',
           password: 'Senha',
           remember_me: 'Lembrar-me',
@@ -42,6 +42,20 @@ export const PtMessages = {
         follow_us: 'Siga-nos',
         save: 'Salvar',
         cancel: 'Cancelar',
+        navigation: {
+          back: 'Voltar',
+          first: 'Primeiro',
+          home: 'Início',
+          last: 'Último',
+          next: 'Próximo',
+          previous: 'Anterior',
+          refresh: 'Atualizar',
+          submit: 'Enviar',
+          cancel: 'Cancelar',
+          close: 'Fechar',
+          open: 'Abrir',
+          save: 'Salvar',
+        },
         show_more: 'Mostrar mais',
         show_less: 'Mostrar menos',
         submit: 'Enviar',
@@ -207,7 +221,7 @@ export const PtMessages = {
             'Se você deseja se juntar à colmeia de artistas, convidamos você a se registrar clicando no botão abaixo.',
           paragraph3:
             'Lembre-se de que você pode se registrar como parte do ecossistema musical ou como um fã. Faça seu registro e fique atento à agenda cultural. Você receberá notificações e alertas para eventos do seu interesse.',
-          button: 'Registrar-me na versão de testev',
+          button: 'Registrar-me na versão de teste',
         },
         UsersPages: {
           UsersDetailsPage: {
@@ -339,7 +353,7 @@ export const PtMessages = {
           AcademiesDetailsPage: {
             subpages: {
               general: {
-                name: 'Generale',
+                name: 'Geral',
                 sections: {
                   gallery: {
                     name: 'Galeria',
@@ -620,7 +634,7 @@ export const PtMessages = {
                   name: 'Contato',
                   attributes: {
                     website: 'Website',
-                    email: 'e-mail',
+                    email: 'E-mail',
                     phone: 'Telefone',
                     mobile_phone: 'Celular',
                     whatsapp: 'WhatsApp',
@@ -697,7 +711,7 @@ export const PtMessages = {
               },
             },
             followers: {
-              name: 'Followers',
+              name: 'Seguidores',
             },
           },
         },
@@ -875,7 +889,7 @@ export const PtMessages = {
               },
             },
             followers: {
-              name: 'Followers',
+              name: 'Seguidores',
             },
           },
         },

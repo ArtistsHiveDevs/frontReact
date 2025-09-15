@@ -97,24 +97,27 @@ export const TabbedPanel = (props: any) => {
   });
 
   const tabTitles = () => {
-    return tabs
+    const filteredTabsWithOriginalIndex: { subpage: TabbedPage; originalIndex: number }[] = tabs
+      .map((subpage: TabbedPage, originalIndex: number) => ({ subpage, originalIndex }))
       .filter(
-        (subpage: TabbedPage, idx: number) =>
+        ({ subpage }: { subpage: TabbedPage; originalIndex: number }) =>
           validateUserAuthorization(currentUser, subpage.allowedRoles, subpage.requireSession) ===
             AuthorizationStates.ALLOWED && !subpage.hideMainMenu
-      )
-      .map((subpage: TabbedPage, idx: number) => {
+      );
+
+    return filteredTabsWithOriginalIndex
+      .map(({ subpage, originalIndex }: { subpage: TabbedPage; originalIndex: number }, filteredIndex: number) => {
         const classNames = ['subpage-tab'];
-        if (activeSectionIndex === idx) {
+        if (activeSectionIndex === originalIndex) {
           classNames.push('active-tab-title');
         }
         return (
           <RequireAuthComponent
-            key={`subpage-section-${idx}`}
+            key={`subpage-section-${originalIndex}`}
             allowedRoles={subpage.allowedRoles}
             requiredSession={subpage.requireSession}
           >
-            <div className={classNames.join(' ')} onClick={() => changeSection(idx)}>
+            <div className={classNames.join(' ')} onClick={() => changeSection(originalIndex)}>
               <h5>{subpage.name}</h5>
             </div>
           </RequireAuthComponent>

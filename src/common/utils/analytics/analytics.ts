@@ -25,7 +25,7 @@ export const logPageView = (params?: { title?: string; url?: string }): void => 
       title = document.title;
     }
     if (url) {
-      (window as any).gtag('config', 'G-BVRLBFQS28', {
+      (window as any)?.gtag('config', 'G-BVRLBFQS28', {
         page_path: url,
         page_title: title,
         send_page_view: false,
@@ -35,8 +35,8 @@ export const logPageView = (params?: { title?: string; url?: string }): void => 
 };
 
 export const logEvent = (action: string, category: string, label?: string, value?: number): void => {
-  if (isProdEnvironment() && (window as any).gtag && typeof (window as any).gtag === 'function') {
-    (window as any).gtag('event', action, {
+  if (isProdEnvironment() && (window as any)?.gtag && typeof (window as any)?.gtag === 'function') {
+    (window as any)?.gtag('event', action, {
       event_category: category,
       event_label: label,
       value: value,
@@ -67,7 +67,7 @@ export const logPageViewEvent = (params?: {
     }
     console.log('GA EVENT PAGE VIEW MANUAL', page_title, page_location, page_path);
 
-    (window as any).gtag('event', 'page_view', {
+    (window as any)?.gtag('event', 'page_view', {
       page_title,
       page_location,
       page_path,
@@ -78,6 +78,6 @@ export const logPageViewEvent = (params?: {
 
 export const logUser = (userId: string): void => {
   if (isProdEnvironment()) {
-    (window as any).gtag('set', { user_id: userId });
+    (window as any)?.gtag('set', { user_id: userId });
   }
 };

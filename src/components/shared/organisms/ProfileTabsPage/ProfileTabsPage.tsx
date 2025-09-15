@@ -182,6 +182,25 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
 
                   const sectionContent = () => contentComponents;
 
+                  const filteredSections = (subpage.sections || []).filter(
+                    (section) => {
+                      // Check hidden property first
+                      const isHidden = section.hidden !== undefined &&
+                        ((typeof section.hidden === 'boolean' && section.hidden) ||
+                         (typeof section.hidden === 'string' && section.hidden === 'true') ||
+                         (section.hidden instanceof Function && section.hidden(entityData)));
+
+                      if (isHidden) return false;
+
+                      // Check requireSession property
+                      if (section.requireSession && !loggedUser) {
+                        return false;
+                      }
+
+                      return true;
+                    }
+                  );
+
                   return (
                     <RequireAuthComponent
                       key={`section-${section.name}-${sectionIndex}`}
@@ -190,6 +209,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
                       <SectionsPanel
                         sectionName={translateSection(subpage.name, section?.name)}
                         sectionContent={sectionContent}
+                        isCollapsible={filteredSections.length > 1}
                       />
                     </RequireAuthComponent>
                   );
@@ -431,7 +451,13 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       );
     } else if (componentDescriptor.componentName === ProfileComponentTypes.PROFILE_THUMBNAIL_CARD) {
       // Data source
-      const data: any = entityData[componentDescriptor.data?.data_source as keyof typeof entityData];
+      const element = entityData;
+      const propertyPath = componentDescriptor.data?.data_source?.split('.') || [];
+      const data =
+        propertyPath.reduce((previous: any, current: any) => {
+          return previous ? previous[current as keyof typeof previous] : '';
+        }, element) || '';
+      // const data: any = entityData[componentDescriptor.data?.data_source as keyof typeof entityData];
 
       let elements = [];
       if (Array.isArray(data)) {
@@ -472,11 +498,16 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       if (!!componentDescriptor.clickHandlerName) {
         clickHandler = handlers[componentDescriptor.clickHandlerName as keyof typeof handlers];
       }
+
+      // Avatar Size
+      const avatarSize = componentDescriptor.data?.avatarSize;
+
       return (elements || []).map((element, index) => (
         <ProfileThumbnailCard
           key={`${section.name}-profile-thumbnail-${index}`}
           elementData={element}
           footer={() => footer?.(element)}
+          avatarSize={avatarSize}
           callbacks={{
             onClickCard: (elementData: any) => {
               if (componentDescriptor.clickHandlerName) {

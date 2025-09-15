@@ -8,8 +8,8 @@ import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { uploadImage } from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
 import { IndustrySignUpBanner } from '~/components/shared/atoms/IndustrySignUpBanner/IndustrySignUpBanner';
-import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
@@ -22,7 +22,7 @@ const UserCreatePage = () => {
   const dispatch = useDispatch();
 
   const { translateText, translateGlobalDict } = useI18n();
-  const { navigateToEntity, goBack } = useNavigation();
+  const { navigateToEntity } = useNavigation();
 
   const { actions: languageActions } = useLanguagesSlice();
   const { actions: allergyActions } = useAllergiesSlice();
@@ -167,18 +167,7 @@ const UserCreatePage = () => {
 
   return (
     <>
-      <div
-        style={{
-          alignContent: 'left',
-          paddingBottom: '0.5rem',
-          cursor: 'pointer',
-          width: '100%',
-          zIndex: 10000000,
-        }}
-        onClick={() => goBack()}
-      >
-        <DynamicIcons iconName="io5 IoChevronBackOutline" size={'2rem'} /> Back
-      </div>
+      <BackButton />
       <DynamicTabbedForm
         tabsInfo={USER_DETAIL_SUB_PAGE_CONFIG}
         handlers={handlers}

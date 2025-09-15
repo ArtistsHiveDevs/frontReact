@@ -271,10 +271,15 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
 
                     const sectionContent = () => contentComponents;
 
+                    const filteredSections = (subpage.sections || []).filter(
+                      (section) => section.formMetaData?.hidden !== true
+                    );
+
                     return (
                       <SectionsPanel
                         sectionName={translateSection(subpage.name, section?.name)}
                         sectionContent={sectionContent}
+                        isCollapsible={filteredSections.length > 1}
                         key={`${subpage.name}-${section?.name}`}
                       />
                     );

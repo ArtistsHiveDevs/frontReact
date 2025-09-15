@@ -32,6 +32,7 @@ export interface SelectOption {
   label: string;
   value: string;
   icon?: string;
+  iconColor?: string;
   required?: boolean;
   selected?: boolean;
 }

@@ -33,7 +33,7 @@ export const ProfileThumbnailCard = (props: any) => {
         {/* <img className={styles ? styles.avatar : 'avatar'} src={imageURL} alt={name} /> */}
         <AvatarWithIcon image={imageURL} avatarSize={avatarSize} name={name} />
         <div className="header-title d-grid align-items-bottom">
-          <h2>{name}</h2>
+          {parseFloat(avatarSize) > 4 ? <h2>{name}</h2> : <h4>{name}</h4>}
           <p>
             @{username} <VerifiedArtist verifiedStatus={verified_status} size={20} />
           </p>

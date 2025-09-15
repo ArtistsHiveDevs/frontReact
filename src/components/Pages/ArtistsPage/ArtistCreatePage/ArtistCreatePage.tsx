@@ -9,6 +9,7 @@ import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { getImageURL, uploadImage } from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
+import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { PATHS, URL_PARAMETER_NAMES } from '~/constants';
@@ -172,6 +173,7 @@ const ArtistsCreatePage = () => {
   return (
     <>
       <RequireAuthComponent requiredSession={true}>
+        <BackButton />
         {currentUserCanEdit && (
           <>
             {/* <h1>IMAGEN 2</h1>

@@ -213,4 +213,10 @@ export const ROUTES_CONFIG: PathConfigMap = {
       },
     },
   },
+  utils: {
+    PaymentsPage: {
+      component: lazy(() => import('~/components/Pages/utils/payments/Payment.page')),
+      path: PATHS.PAYMENTS,
+    },
+  },
 };

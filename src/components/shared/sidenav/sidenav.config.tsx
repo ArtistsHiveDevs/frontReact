@@ -101,22 +101,22 @@ const miInfo: SideMenuItem[] = [
     updated: new Date('2/20/16'),
     requireSession: true,
     allowedRoles: [{ entityName: 'Artist' }, { entityName: 'Place' }],
-    nestedMenuOptions: [
-      {
-        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox.nested.incoming'),
-        path: '',
-        icon: 'HiInboxIn',
-        updated: new Date('2/20/16'),
-        requireSession: true,
-      },
-      {
-        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox.nested.sent'),
-        path: '',
-        icon: 'RiMailSendLine',
-        updated: new Date('2/20/16'),
-        requireSession: true,
-      },
-    ],
+    // nestedMenuOptions: [
+    //   {
+    //     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox.nested.incoming'),
+    //     path: '',
+    //     icon: 'HiInboxIn',
+    //     updated: new Date('2/20/16'),
+    //     requireSession: true,
+    //   },
+    //   {
+    //     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'inbox.nested.sent'),
+    //     path: '',
+    //     icon: 'RiMailSendLine',
+    //     updated: new Date('2/20/16'),
+    //     requireSession: true,
+    //   },
+    // ],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_events'),

@@ -4,7 +4,7 @@ export const AppLoader = () => {
   return (
     <div>
       {/* Loading... */}
-      <LoaderIcon height="100vh" />
+      <LoaderIcon />
     </div>
   );
 };

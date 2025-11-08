@@ -5,7 +5,10 @@ import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/Imag
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import { USER_DETAIL_SUB_PAGE_CONFIG } from './config-user-detail';
 
+import { useSelector } from 'react-redux';
+import { selectLoading } from '~/common/slices/users/selectors';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import LoaderIcon from '~/components/shared/atoms/app/loader/loader-icon';
 import { IndustrySignUpBanner } from '~/components/shared/atoms/IndustrySignUpBanner/IndustrySignUpBanner';
 import { SUB_PATHS } from '~/constants';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
@@ -17,7 +20,9 @@ const TRANSLATION_BASE_ARTIST_DETAIL_PAGE = 'app.pages.app_base.UsersPages.Users
 const UserDetailPage = () => {
   const { navigateToEntity } = useNavigation();
 
-  const { loggedUser, setLoggedUser } = useAuth();
+  const { loggedUser, setLoggedUser, currentUserProfile } = useAuth();
+
+  const isLoading = useSelector(selectLoading);
 
   const subPagesInfo = [...USER_DETAIL_SUB_PAGE_CONFIG];
 
@@ -71,7 +76,13 @@ const UserDetailPage = () => {
 
   return (
     <>
-      {!loggedUser && <h1>Iniciar sesión</h1>}
+      {!loggedUser &&
+        ((!isLoading && <h1>Iniciar sesión</h1>) ||
+          (isLoading && (
+            <div>
+              <LoaderIcon />
+            </div>
+          )))}
       {!!loggedUser && (
         <ProfileTabsPage
           entityName="User"

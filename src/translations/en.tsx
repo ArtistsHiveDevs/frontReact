@@ -639,6 +639,29 @@ export const EnMessages = {
                 },
               },
             },
+            members: {
+              name: 'Members',
+              sections: {
+                music_performance: {
+                  name: 'Instruments',
+                },
+                audio_engineering: {
+                  name: 'Audio Engineering',
+                },
+                visual_arts: {
+                  name: 'Visuals',
+                },
+                management: {
+                  name: 'Management',
+                },
+                production: {
+                  name: 'Production',
+                },
+                support: {
+                  name: 'Support',
+                },
+              },
+            },
             arts: {
               name: 'Arts',
               sections: {
@@ -812,6 +835,9 @@ export const EnMessages = {
                     spoken_languages: 'Spoken Languages',
                     stage_languages: 'Stage Languages',
                     arts_languages: 'Arts Languages',
+                    activity: 'Is active?',
+                    has_open_mic: 'Has open mic?',
+                    bookingRatesPolicy: 'Booking Policies',
                   },
                 },
                 genres: {

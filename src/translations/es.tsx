@@ -656,26 +656,23 @@ export const EsMessages = {
             members: {
               name: 'Miembros',
               sections: {
-                discography: {
-                  name: 'Discografía',
-                  attributes: {
-                    albums: 'Álbums',
-                    top_tracks: 'Canciones más escuchadas',
-                    dvd_video: 'DVD / Video',
-                  },
+                music_performance: {
+                  name: 'Instrumentos',
                 },
-                media_channels: {
-                  name: 'Canales multimedia',
+                audio_engineering: {
+                  name: 'Ingeniería de sonido',
                 },
-                gallery: {
-                  name: 'Galería',
-                  attributes: {
-                    photos: 'Fotos',
-                    video: 'Video',
-                  },
+                visual_arts: {
+                  name: 'Visuales',
                 },
-                awards: {
-                  name: 'Premios',
+                management: {
+                  name: 'Management',
+                },
+                production: {
+                  name: 'Producción',
+                },
+                support: {
+                  name: 'Soporte',
                 },
               },
             },
@@ -852,6 +849,9 @@ export const EsMessages = {
                     spoken_languages: 'Idiomas hablados',
                     stage_languages: 'Idiomas en escena',
                     arts_languages: 'Idiomas en artes',
+                    activity: '¿Está activo?',
+                    has_open_mic: '¿Tiene micrófono abierto?',
+                    bookingRatesPolicy: 'Políticas de reserva',
                   },
                 },
                 genres: {

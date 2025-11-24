@@ -653,6 +653,29 @@ export const DeMessages = {
                 },
               },
             },
+            members: {
+              name: 'Mitglieder',
+              sections: {
+                music_performance: {
+                  name: 'Instrumente',
+                },
+                audio_engineering: {
+                  name: 'Tontechnik',
+                },
+                visual_arts: {
+                  name: 'Visuelles',
+                },
+                management: {
+                  name: 'Management',
+                },
+                production: {
+                  name: 'Produktion',
+                },
+                support: {
+                  name: 'Support',
+                },
+              },
+            },
             arts: {
               name: 'Künste',
               sections: {
@@ -826,6 +849,9 @@ export const DeMessages = {
                     spoken_languages: 'Gesprochene Sprachen',
                     stage_languages: 'Bühnensprachen',
                     arts_languages: 'Kunstsprachen',
+                    activity: 'Ist es aktiv?',
+                    has_open_mic: 'Hat es ein offenes Mikrofon?',
+                    bookingRatesPolicy: 'Buchungsrichtlinien',
                   },
                 },
                 genres: {

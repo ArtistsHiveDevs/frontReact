@@ -654,6 +654,29 @@ export const ElMessages = {
                 },
               },
             },
+            members: {
+              name: 'Μέλη',
+              sections: {
+                music_performance: {
+                  name: 'Όργανα',
+                },
+                audio_engineering: {
+                  name: 'Ηχητική Μηχανική',
+                },
+                visual_arts: {
+                  name: 'Οπτικά',
+                },
+                management: {
+                  name: 'Διαχείριση',
+                },
+                production: {
+                  name: 'Παραγωγή',
+                },
+                support: {
+                  name: 'Υποστήριξη',
+                },
+              },
+            },
             arts: {
               name: 'Τέχνες',
               sections: {
@@ -827,6 +850,9 @@ export const ElMessages = {
                     spoken_languages: 'Γλώσσες που μιλιούνται',
                     stage_languages: 'Γλώσσες σκηνής',
                     arts_languages: 'Καλλιτεχνικές γλώσσες',
+                    activity: 'Είναι ενεργό;',
+                    has_open_mic: 'Έχει ανοιχτό μικρόφωνο;',
+                    bookingRatesPolicy: 'Πολιτικές κράτησης',
                   },
                 },
                 genres: {

@@ -655,6 +655,29 @@ export const FrMessages = {
                 },
               },
             },
+            members: {
+              name: 'Membres',
+              sections: {
+                music_performance: {
+                  name: 'Instruments',
+                },
+                audio_engineering: {
+                  name: 'Ingénierie audio',
+                },
+                visual_arts: {
+                  name: 'Visuels',
+                },
+                management: {
+                  name: 'Management',
+                },
+                production: {
+                  name: 'Production',
+                },
+                support: {
+                  name: 'Support',
+                },
+              },
+            },
             arts: {
               name: 'Arts',
               sections: {
@@ -828,6 +851,9 @@ export const FrMessages = {
                     spoken_languages: 'Langues parlées',
                     stage_languages: 'Langues de scène',
                     arts_languages: 'Langues artistiques',
+                    activity: 'Est-ce actif ?',
+                    has_open_mic: 'A-t-il un micro ouvert ?',
+                    bookingRatesPolicy: 'Politiques de réservation',
                   },
                 },
                 genres: {

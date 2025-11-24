@@ -654,6 +654,29 @@ export const ItMessages = {
                 },
               },
             },
+            members: {
+              name: 'Membri',
+              sections: {
+                music_performance: {
+                  name: 'Strumenti',
+                },
+                audio_engineering: {
+                  name: 'Ingegneria audio',
+                },
+                visual_arts: {
+                  name: 'Visual',
+                },
+                management: {
+                  name: 'Management',
+                },
+                production: {
+                  name: 'Produzione',
+                },
+                support: {
+                  name: 'Supporto',
+                },
+              },
+            },
             arts: {
               name: 'Arti',
               sections: {
@@ -827,6 +850,9 @@ export const ItMessages = {
                     spoken_languages: 'Lingue parlate',
                     stage_languages: 'Lingue di scena',
                     arts_languages: 'Lingue nelle arti',
+                    activity: 'È attivo?',
+                    has_open_mic: 'Ha un microfono aperto?',
+                    bookingRatesPolicy: 'Politiche di prenotazione',
                   },
                 },
                 genres: {

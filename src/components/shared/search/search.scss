@@ -1,5 +1,18 @@
 @import '~/variables.module.scss';
 
+.activity-banner-result-element {
+  margin: 0.5rem;
+
+  &.probably-active {
+    background: $probably-active-profile-bg;
+    color: white;
+  }
+  &.non-active {
+    background: $non-active-profile-bg;
+    color: white;
+  }
+}
+
 .hidden {
   display: none;
 }

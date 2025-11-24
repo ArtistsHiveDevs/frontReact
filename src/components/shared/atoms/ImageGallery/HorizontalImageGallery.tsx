@@ -4,6 +4,7 @@ import { useSwipeable } from 'react-swipeable';
 import { getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
 import { DynamicIcons } from '../../DynamicIcons';
 import { GalleryImageParams } from './ImageGallery';
+import './ImageGallery.scss';
 
 interface HorizontalImageGalleryProps {
   imagesInfo: GalleryImageParams[];
@@ -72,74 +73,82 @@ export const HorizontalImageGallery: React.FC<HorizontalImageGalleryProps> = ({ 
   };
 
   return (
-    Object.keys(profilePicturesURLs).length > 0 && (
-      <Box>
-        <Grid container spacing={2} direction="row" wrap="nowrap" style={{ overflowX: 'auto' }}>
-          {(imageUrls || []).map((image, index) => {
-            const { src, alt } = image;
-            return (
-              <Grid item key={index}>
-                <Box
-                  sx={{
-                    width: '100px',
-                    paddingTop: '100px',
-                    position: 'relative',
-                    backgroundColor: 'black',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => handleClickOpen(index)}
-                >
-                  <img
-                    src={profilePicturesURLs[src]}
-                    alt={`Thumbnail ${profilePicturesURLs[src]}`}
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      maxHeight: '100%',
-                      maxWidth: '100%',
+    <>
+      {Object.keys(profilePicturesURLs).length > 0 && (
+        <Box>
+          <Grid container spacing={2} direction="row" wrap="nowrap" style={{ overflowX: 'auto' }}>
+            {(imageUrls || []).map((image, index) => {
+              const { src, alt } = image;
+              return (
+                <Grid item key={index}>
+                  <Box
+                    sx={{
+                      width: '100px',
+                      paddingTop: '100px',
+                      position: 'relative',
+                      backgroundColor: 'black',
+                      cursor: 'pointer',
                     }}
-                  />
-                </Box>
-              </Grid>
-            );
-          })}
-        </Grid>
-        <Dialog open={selectedIndex !== null} onClose={handleClose} fullWidth onKeyUp={handleKeyboard}>
-          <DialogContent style={{ textAlign: 'center', position: 'relative' }} {...swipeHandlers}>
-            <IconButton onClick={handleClose} style={{ position: 'absolute', top: 10, right: 10 }}>
-              <DynamicIcons iconName="MdClose" />
-            </IconButton>
-            {selectedIndex !== null && (
-              <img
-                src={profilePicturesURLs[imageUrls[selectedIndex].src]}
-                alt={`Image ${selectedIndex}`}
-                style={{ maxWidth: '100%', maxHeight: '80vh' }}
-              />
-            )}
-            <IconButton
-              onClick={handlePrev}
-              style={{ position: 'absolute', top: '50%', left: 10, transform: 'translateY(-50%)' }}
-            >
-              <DynamicIcons iconName="MdArrowBackIosNew" />
-            </IconButton>
-            <IconButton
-              onClick={handleNext}
-              style={{ position: 'absolute', top: '50%', right: 10, transform: 'translateY(-50%)' }}
-            >
-              <DynamicIcons iconName="MdArrowForwardIos" />
-            </IconButton>
-            {selectedIndex !== null && (
-              <p>
-                ({selectedIndex + 1} / {imageUrls.length})
-                {!!imageUrls[selectedIndex].description && ' - ' && imageUrls[selectedIndex].description}
-              </p>
-            )}
-          </DialogContent>
-        </Dialog>
-      </Box>
-    )
+                    onClick={() => handleClickOpen(index)}
+                  >
+                    <img
+                      src={profilePicturesURLs[src]}
+                      alt={`Thumbnail ${profilePicturesURLs[src]}`}
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        maxHeight: '100%',
+                        maxWidth: '100%',
+                      }}
+                    />
+                  </Box>
+                </Grid>
+              );
+            })}
+          </Grid>
+          <Dialog open={selectedIndex !== null} onClose={handleClose} fullWidth onKeyUp={handleKeyboard}>
+            <DialogContent style={{ textAlign: 'center', position: 'relative' }} {...swipeHandlers}>
+              <IconButton onClick={handleClose} style={{ position: 'absolute', top: 10, right: 10 }}>
+                <DynamicIcons iconName="MdClose" />
+              </IconButton>
+              {selectedIndex !== null && (
+                <img
+                  src={profilePicturesURLs[imageUrls[selectedIndex].src]}
+                  alt={`Image ${selectedIndex}`}
+                  style={{ maxWidth: '100%', maxHeight: '80vh' }}
+                />
+              )}
+              <IconButton
+                onClick={handlePrev}
+                style={{ position: 'absolute', top: '50%', left: 10, transform: 'translateY(-50%)' }}
+              >
+                <DynamicIcons iconName="MdArrowBackIosNew" />
+              </IconButton>
+              <IconButton
+                onClick={handleNext}
+                style={{ position: 'absolute', top: '50%', right: 10, transform: 'translateY(-50%)' }}
+              >
+                <DynamicIcons iconName="MdArrowForwardIos" />
+              </IconButton>
+              {selectedIndex !== null && (
+                <p>
+                  ({selectedIndex + 1} / {imageUrls.length})
+                  {!!imageUrls[selectedIndex].description && ' - ' && imageUrls[selectedIndex].description}
+                </p>
+              )}
+            </DialogContent>
+          </Dialog>
+        </Box>
+      )}
+
+      {Object.keys(profilePicturesURLs).length === 0 && (
+        <div className="empty-horizontal-gallery-container">
+          <DynamicIcons iconName="gr GrGallery" size={40} color={'#848484'} />
+        </div>
+      )}
+    </>
   );
 };
 

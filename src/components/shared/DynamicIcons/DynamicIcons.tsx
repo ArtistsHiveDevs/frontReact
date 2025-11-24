@@ -49,6 +49,7 @@ export function DynamicIcons(params: typesPropsIcon): JSX.Element {
           io5: () => import('react-icons/io5/index'),
           hi: () => import('react-icons/hi/index'),
           hi2: () => import('react-icons/hi2/index'),
+          lu: () => import('react-icons/lu/index'),
           md: () => import('react-icons/md/index'),
           pi: () => import('react-icons/pi/index'),
           ri: () => import('react-icons/ri/index'),

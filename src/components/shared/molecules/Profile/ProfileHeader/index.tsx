@@ -254,6 +254,13 @@ export const ProfileHeader = (props: any) => {
 
   return (
     <>
+      {!!element.activity && element.activity !== 'active' && (
+        <div className={['activity-banner', element.activity.replace('_', '-')].join(' ')}>
+          <DynamicIcons iconName="PiWarningOctagonBold" size={25} color={'white'} />
+          {element.activity === 'non_active' && 'Este perfil no está activo'}
+          {element.activity === 'probably_active' && 'Parece que este perfil no está activo'}
+        </div>
+      )}
       <div className={['profile-header', `profile-entity-${borderProfileColor}-item`].join(' ')}>
         {isEditable && (
           <div className="profile-avatar-border">

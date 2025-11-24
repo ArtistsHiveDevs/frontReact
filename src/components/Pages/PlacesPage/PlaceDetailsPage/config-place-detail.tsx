@@ -92,9 +92,35 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   },
                 },
                 {
+                  name: 'activity',
+                  icon: 'bs BsActivity',
+                },
+                {
                   name: 'spoken_languages',
                   icon: 'BsTranslate',
                   formMetaData: { inputType: 'chipPicker' },
+                },
+                {
+                  name: 'has_open_mic',
+                  icon: 'lu LuMicVocal',
+                  value: (place: PlaceModel) => {
+                    return place.has_open_mic ? 'Sí' : 'No';
+                  },
+                  // formMetaData: { inputType: 'chipPicker' },
+                },
+                {
+                  name: 'bookingRatesPolicy',
+                  icon: 'tb TbContract',
+                  value: (place: PlaceModel) => {
+                    return (
+                      <ul>
+                        {place.bookingRatesPolicy.map((policy: any, index: number) => (
+                          <li key={`policy_${index}`}>{policy}</li>
+                        ))}
+                      </ul>
+                    );
+                  },
+                  // formMetaData: { inputType: 'chipPicker' },
                 },
               ],
             },

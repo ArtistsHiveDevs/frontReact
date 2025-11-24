@@ -630,6 +630,25 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
               cities: 'cities',
             },
           },
+          {
+            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  name: 'priceRange',
+                  icon: 'BsFillMegaphoneFill',
+                  requireSession: false,
+                  value: (artist: ArtistModel) => {
+                    return artist?.priceRange.join(' - ');
+                  },
+                  // formMetaData: {
+                  //   inputType: 'chipPicker',
+                  //   config: { required: true },
+                  // },
+                },
+              ],
+            },
+          },
         ],
       },
       {

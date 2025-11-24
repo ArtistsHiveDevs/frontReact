@@ -1,4 +1,17 @@
 @import '~/variables.module.scss';
+.activity-banner {
+  display: flex;
+  // padding: 0.3rem;
+  align-items: center;
+  &.probably-active {
+    background: $probably-active-profile-bg;
+    color: white;
+  }
+  &.non-active {
+    background: $non-active-profile-bg;
+    color: white;
+  }
+}
 
 .profile-header {
   display: flex;

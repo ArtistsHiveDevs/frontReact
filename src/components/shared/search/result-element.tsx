@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Flag from 'react-world-flags';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { SearchableProfileTemplate } from '~/models/base';
+import { DynamicIcons } from '../DynamicIcons';
 import consts from './search-constants';
 import './search.scss';
 
@@ -75,6 +76,13 @@ export const ResultElement: React.FC<QueryTemplate> = (props: QueryTemplate) => 
           </span>
         </div>
       </div>
+      {!!element.activity && element.activity !== 'active' && (
+        <div className={['activity-banner-result-element', element.activity.replace('_', '-')].join(' ')}>
+          <DynamicIcons iconName="PiWarningOctagonBold" size={25} color={'white'} />
+          {element.activity === 'non_active' && 'Este perfil no está activo'}
+          {element.activity === 'probably_active' && 'Parece que este perfil no está activo'}
+        </div>
+      )}
     </ListGroup.Item>
   );
 };

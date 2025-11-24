@@ -1,4 +1,5 @@
 import { VerificationStatus } from '~/constants';
+import { ProfileActiveStatus, ProfileNature } from '~/constants/domain/profile.constants';
 import { PlaceModel } from '../domain/place/place.model';
 
 export interface Template {
@@ -16,6 +17,10 @@ export interface ProfileTemplate extends EntityTemplate {
   profile_pic?: string;
 
   isClaimedProfile?: boolean;
+
+  is_active?: ProfileActiveStatus;
+
+  nature?: ProfileNature;
 
   isFollowedByCurrentProfile?: boolean;
   followed_profiles?: FollowerProfileTemplate[];
@@ -53,6 +58,7 @@ export interface SearchableTemplate extends EntityTemplate {
   location?: string | LocationTemplate[];
   place?: PlaceModel;
   verified_status?: VerificationStatus;
+  activity?: string;
 }
 
 export interface ThumbnailableTemplate {

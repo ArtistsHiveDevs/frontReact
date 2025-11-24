@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { VerificationStatus } from '~/constants';
+import { Target_Audience } from '~/constants/domain/domain.constants';
 import { SocialNetworkStatsTemplate } from '~/constants/social-networks.const';
 import { LocatableTemplate, LocationTemplate, ProfileModel, ProfileTemplate } from '~/models/base';
 import { CountryModel, CountryTemplate } from '~/models/parametrics/geo/country.model';
@@ -22,6 +23,36 @@ export interface PlaceRatingTemplate {
   seating_capacity: number;
   total_rates: number;
 }
+
+export interface VenueStageTemplate {
+  name?: string;
+  width: number;
+  depth: number;
+  seated_capacity?: number;
+  total_capacity?: number;
+  isMainStage: boolean;
+}
+
+export interface VenueFacilitiesTemplate {
+  parking?: {
+    has_own_parking?: boolean;
+    has_nearby_parking?: boolean;
+  };
+  publicTransportNearby?: boolean;
+  accessibility?: boolean;
+}
+
+export interface VenueOperatingHoursTemplate {
+  monday?: boolean;
+  tuesday?: boolean;
+  wednesday?: boolean;
+  thursday?: boolean;
+  friday?: boolean;
+  saturday?: boolean;
+  sunday?: boolean;
+  shift?: 'day' | 'night' | 'both';
+}
+
 export interface PlaceTemplate extends ProfileTemplate {
   name: string;
   place_type: string;
@@ -49,10 +80,44 @@ export interface PlaceTemplate extends ProfileTemplate {
   events: EventTemplate[];
   genres: { [artType: string]: string[] };
 
+  stages: VenueStageTemplate[];
+
+  target_audiences: Target_Audience[];
+  bookingRatesPolicy: string[];
+
+  facilities: VenueFacilitiesTemplate;
+
   stats: {
     rating: PlaceRatingTemplate;
     socialNetworks: SocialNetworkStatsTemplate[];
   };
+
+  has_open_mic?: boolean;
+
+  // ========================================
+  // NUEVOS ATRIBUTOS PARA FILTROS DE BÚSQUEDA
+  // ========================================
+
+  // Horarios de operación
+  operatingHours?: VenueOperatingHoursTemplate;
+
+  // Tipo de contrato
+  contractType?: 'percentage' | 'fixed_fee' | 'both';
+
+  // Política de bebidas
+  beveragePolicy?: string[]; // ['open_bar', 'prohibited', 'minimum_consumption']
+
+  // Restricción de edad
+  ageRestriction?: string[]; // ['infantil', '+18', '+21', 'familiar', 'todas']
+
+  // Backline disponible (tipos)
+  backlineTypes?: string[]; // ['sonido', 'luces', 'video', 'piano', etc.]
+
+  // Número de micrófonos
+  micCount?: number;
+
+  // Capacidad total del venue
+  capacity?: number;
 }
 
 export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemplate, LocatableTemplate {
@@ -80,16 +145,52 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
   declare verified_status?: VerificationStatus;
   declare events: EventTemplate[];
   declare genres: { [artType: string]: string[] };
+
+  declare stages: VenueStageTemplate[];
+
+  declare has_open_mic?: boolean;
+
+  declare target_audiences: Target_Audience[];
+  declare bookingRatesPolicy: string[];
+
+  declare facilities: VenueFacilitiesTemplate;
+
   declare stats: {
     rating: PlaceRatingTemplate;
     socialNetworks: SocialNetworkStatsTemplate[];
   };
+
+  // ========================================
+  // NUEVOS ATRIBUTOS PARA FILTROS DE BÚSQUEDA
+  // ========================================
+  declare operatingHours?: VenueOperatingHoursTemplate;
+  declare contractType?: 'percentage' | 'fixed_fee' | 'both';
+  declare beveragePolicy?: string[];
+  declare ageRestriction?: string[];
+  declare backlineTypes?: string[];
+  declare micCount?: number;
+  declare capacity?: number;
 
   constructor(template: PlaceTemplate) {
     super(template);
     this.events = template.events?.map((event) => new EventModel(event)) || [];
 
     this.country = template.country ? new CountryModel(template.country) : undefined;
+
+    // Políticas de alquiler
+    const politicas = [
+      'Alquiler del lugar entero por un valor fijo',
+      'Entradas para el artista, consumo para el venue.',
+      '80% de las entradas para el artista y 20% de las entradas más el consumo para el venue',
+      'Contrato fijo para el artista',
+      'Convenio con bookers específicos, no se contrata directamente',
+    ];
+    const shuffledBookingPolicies = [...politicas].sort(() => Math.random() - 0.5);
+
+    const size = Math.floor(Math.random() * politicas.length) + 1;
+
+    // Retornamos los primeros "size" elementos del arreglo mezclado
+    this.bookingRatesPolicy = shuffledBookingPolicies.slice(0, size);
   }
 
   get hasFetchAllData(): boolean {

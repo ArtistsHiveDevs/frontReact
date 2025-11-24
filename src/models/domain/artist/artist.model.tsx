@@ -1,24 +1,31 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { VerificationStatus } from '~/constants';
+import { ExperienceRange } from '~/constants/domain/domain.constants';
 import { SocialNetworkStatsTemplate } from '~/constants/social-networks.const';
+import { AppUserTemplate } from '~/models/app/user/user.model';
 import { EntityModel, EntityTemplate, ProfileModel, ProfileTemplate } from '~/models/base';
 import { CountryModel, CountryTemplate } from '~/models/parametrics/geo/country.model';
 import { LanguageModel, LanguageTemplate } from '~/models/parametrics/geo/language.model';
 import { EventModel, EventTemplate } from '../event/event.model';
+import { ShowProjectModel } from './showProject.model';
 
 export interface ArtistInTrack {
   id: string;
   name: string;
 }
 
-export interface TrackTemplate {
+export interface SimpleTrackTemplate {
+  id: string;
+  name: string;
+  duration_ms: number;
+}
+
+export interface TrackTemplate extends SimpleTrackTemplate {
   artists: ArtistInTrack[];
   album?: AlbumTemplate;
   disc_number: number;
-  duration_ms: number;
   explicit: boolean;
   id: string;
-  name: string;
   track_number: number;
 }
 
@@ -80,6 +87,26 @@ export interface ArtistRatingTemplate {
   total_rates: number;
 }
 
+export interface ArtistAwardTemplate {
+  name: string;
+  status: 'Nomminated' | 'Winner';
+  date: Date;
+}
+
+export interface ArtistShowFormatTemplate {
+  name?: string;
+  musicians: AppUserTemplate[];
+  technicalCrew: AppUserTemplate[];
+  stageCrew: AppUserTemplate[];
+}
+
+export interface ArtistPricingTemplate {
+  startingPrice: number;
+  finalPrice: number;
+  currency?: string;
+  since?: Date;
+}
+
 export interface ArtistTemplate extends ProfileTemplate {
   artistType: string;
   name: string;
@@ -115,6 +142,31 @@ export interface ArtistTemplate extends ProfileTemplate {
   youtube_widget_id: string;
 
   arts?: { music: { albums: AlbumTemplate[]; top_tracks: any[]; related_artists: ArtistTemplate[] } };
+
+  // Solista, Trío, Banda, etc
+  showFormats: ArtistShowFormatTemplate[];
+
+  show_pojects: ShowProjectModel[];
+
+  awards?: ArtistAwardTemplate[];
+
+  // ========================================
+  // NUEVOS ATRIBUTOS PARA FILTROS DE BÚSQUEDA
+  // ========================================
+
+  // Público objetivo por edad
+  targetAudience?: string[]; // ['CHILDRENS', 'TEEN', 'ADULTS_18', 'ADULTS_21', 'SENIOR', 'FAMILY', 'ALL_AGES']
+
+  // Tipo de discográfica
+  recordLabelType?: 'independent' | 'signed';
+
+  manager?: string;
+
+  // Subgéneros musicales más específicos
+  subgenres?: string[];
+
+  // Rango de movilidad geográfica
+  mobility_range?: 'local' | 'national' | 'international' | 'worldwide';
 }
 
 export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistTemplate {
@@ -151,8 +203,67 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
   declare youtube_widget_id: string;
 
   declare arts?: { music: { albums: AlbumModel[]; top_tracks: any[]; related_artists: ArtistModel[] } };
+
+  declare showFormats: ArtistShowFormatTemplate[];
+
+  declare show_pojects: ShowProjectModel[];
+
+  declare awards?: ArtistAwardTemplate[];
+
   declare country: CountryModel;
   declare city: any;
+
+  // ========================================
+  // NUEVOS ATRIBUTOS PARA FILTROS DE BÚSQUEDA
+  // ========================================
+
+  /**
+   * Retorna el número de músicos en tarima del formato principal
+   * o del primer formato disponible
+   */
+  get musiciansOnStage(): number {
+    if (!this.showFormats?.length) return 0;
+    const mainFormat = this.showFormats[0]; // Primer formato o formato principal
+    return mainFormat?.musicians?.length || 0;
+  }
+
+  declare targetAudience?: string[];
+  declare recordLabelType?: 'independent' | 'signed';
+  declare subgenres?: string[];
+
+  declare manager?: string;
+
+  get hasManager(): boolean {
+    return !!this.manager;
+  }
+
+  /**
+   * Verifica si alguno de los show projects tiene rider técnico
+   */
+  get hasRider(): boolean {
+    return this.show_pojects?.some((project) => project.hasRider) || false;
+  }
+
+  /**
+   * Verifica si alguno de los show projects tiene stage plot
+   */
+  get hasStagePlot(): boolean {
+    return this.show_pojects?.some((project) => project.hasStagePlot) || false;
+  }
+
+  /**
+   * Calcula el rango de experiencia basado en los años desde el campo 'since'
+   */
+  get experience(): string | undefined {
+    if (!this.since) return undefined;
+    const years = dayjs().diff(this.since, 'year');
+    if (years < 5) return ExperienceRange.ENTRY;
+    if (years < 10) return ExperienceRange.INTERMEDIATE;
+    if (years < 20) return ExperienceRange.ADVANCED;
+    return ExperienceRange.EXPERT;
+  }
+
+  declare mobility_range?: 'local' | 'national' | 'international' | 'worldwide';
 
   constructor(template: ArtistTemplate) {
     super(template);
@@ -189,5 +300,23 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
     return this.events
       .filter((event) => dayjs(event.timetable__initial_date).isAfter(dayjs())) // Filtrar los eventos antes de la fecha actual
       .sort((a, b) => dayjs(a.timetable__initial_date).diff(dayjs(b.timetable__initial_date))); // Ordenar del más antiguo al más reciente
+  }
+
+  get priceRange() {
+    return [this.pricing.startingPrice, this.pricing.finalPrice];
+  }
+
+  get pricing(): ArtistPricingTemplate {
+    const averagePricing = {
+      startingPrice: 500,
+      finalPrice: 1000,
+      currency: 'USD',
+      since: new Date(2025, 1, 1),
+    };
+    return averagePricing;
+  }
+
+  get target_audiences() {
+    return;
   }
 }

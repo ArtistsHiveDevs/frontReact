@@ -1,6 +1,7 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
 import { getUrl } from 'aws-amplify/storage';
 import { toCamelCase } from '~/common/utils/string-utils';
+import { ProfileActiveStatus, ProfileNature } from '~/constants/domain/profile.constants';
 import {
   EntityTemplate,
   FollowerProfileTemplate,
@@ -181,10 +182,14 @@ export abstract class ProfileModel<T extends ProfileTemplate>
 
   declare isClaimedProfile?: boolean;
 
+  declare is_active: ProfileActiveStatus;
+
   declare followed_profiles: FollowerProfileTemplate[];
   declare followed_by: FollowerProfileTemplate[];
 
   declare isFollowedByCurrentProfile: boolean;
+
+  declare nature?: ProfileNature;
 
   constructor(template: T | any = {}) {
     super(template);

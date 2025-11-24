@@ -39,6 +39,22 @@ export interface EventTemplate extends EntityTemplate {
   tickets_website: string;
   genres: { [artType: string]: string[] };
   price: any;
+
+  // ========================================
+  // NUEVOS ATRIBUTOS PARA FILTROS DE BÚSQUEDA
+  // ========================================
+
+  // Tipo de evento
+  eventType?: string[]; // ['concierto', 'festival', 'privado']
+
+  // Disponibilidad de tickets
+  ticketAvailability?: 'available' | 'sold_out' | 'coming_soon';
+
+  // Evento con streaming
+  hasStreaming?: boolean;
+
+  // Rango de precio de entrada
+  entryPriceRange?: { min: number; max: number; currency: string };
 }
 
 export class EventModel
@@ -68,6 +84,14 @@ export class EventModel
   declare tickets_website: string;
   declare genres: { [artType: string]: string[] };
   declare price: any;
+
+  // ========================================
+  // NUEVOS ATRIBUTOS PARA FILTROS DE BÚSQUEDA
+  // ========================================
+  declare eventType?: string[];
+  declare ticketAvailability?: 'available' | 'sold_out' | 'coming_soon';
+  declare hasStreaming?: boolean;
+  declare entryPriceRange?: { min: number; max: number; currency: string };
 
   constructor(template: EventTemplate) {
     super(template);

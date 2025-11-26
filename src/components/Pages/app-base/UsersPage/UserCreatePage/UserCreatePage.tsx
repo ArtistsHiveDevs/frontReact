@@ -39,7 +39,7 @@ const UserCreatePage = () => {
   const [availableBloodGroups, updateAvailableBloodGroups] = useState([]);
   const [availableDietaryRestritions, updateAvailableDietaryRestrictions] = useState([]);
 
-  const [openDialogSelectInstrument, setOpenDialogSelectInstrument] = useState(false);
+  const [openDialogSelectInstrument, setOpenDialogFillProfileBanner] = useState(false);
 
   useEffect(() => {
     dispatch(languageActions.loadItems({}));
@@ -129,7 +129,7 @@ const UserCreatePage = () => {
     // console.log('user id', user.userId);
     // console.log('sign-in details', user.signInDetails);
 
-    setOpenDialogSelectInstrument(loggedUser && !loggedUser.hasFilledProfile);
+    setOpenDialogFillProfileBanner(loggedUser && !loggedUser.hasFilledProfile);
   };
 
   const handlers = {
@@ -167,7 +167,7 @@ const UserCreatePage = () => {
 
   return (
     <>
-      <BackButton />
+      {!!loggedUser?.hasFilledProfile && <BackButton />}
       <DynamicTabbedForm
         tabsInfo={USER_DETAIL_SUB_PAGE_CONFIG}
         handlers={handlers}
@@ -189,7 +189,7 @@ const UserCreatePage = () => {
       <AppDialog
         title="Selecciona "
         isOpenDialog={openDialogSelectInstrument}
-        onClose={() => setOpenDialogSelectInstrument(false)}
+        onClose={() => setOpenDialogFillProfileBanner(false)}
         content={translateText(`${TRANSLATION_BASE_USER_DETAIL_PAGE}.fillProfileBanner.content`)}
         icon={'FaInfoCircle'}
       />

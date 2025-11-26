@@ -35,6 +35,7 @@ export interface ProfileDetailsSubpage {
 export interface ProfileDetailsSubpageSection {
   id?: string;
   name?: string;
+  emptyTitle?: boolean;
   attributes?: ProfileDetailAttributeConfiguration[];
   components?: ProfileComponentDescriptor[];
   hidden?: boolean | Function;

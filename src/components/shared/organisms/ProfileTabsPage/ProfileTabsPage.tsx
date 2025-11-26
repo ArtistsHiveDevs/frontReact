@@ -22,8 +22,9 @@ import { EVENT_DETAIL_SUB_PAGE_CONFIG } from '~/components/Pages/EventsPage/Even
 import { Title } from '~/components/shared/atoms/Title/Title';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
 
+import { Fab } from '@mui/material';
 import { isDayjs } from 'dayjs';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useProfilesSlice } from '~/common/slices/domain/profile/ProfileSlice';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
@@ -39,11 +40,17 @@ import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHead
 import { ProfileThumbnailCard } from '~/components/shared/molecules/Profile/ProfileThumbnailCard';
 import { SocialNetworks } from '~/constants/social-networks.const';
 import { EventModel } from '~/models/domain/event/event.model';
+import { DynamicIcons } from '../../DynamicIcons';
 import { HorizontalImageGallery } from '../../atoms/ImageGallery/HorizontalImageGallery';
 import { TableView } from '../../atoms/Table/TableView';
 import { TracksListView } from '../../domain/organisms/TracksListView/TracksListView';
 import SEO from '../app/seo/seo';
 
+interface FabParams {
+  icon?: string;
+  text?: string;
+  handler: Function;
+}
 export interface ProfilePageParams {
   entityName: string;
   translation_base_path: string;
@@ -52,6 +59,7 @@ export interface ProfilePageParams {
   subpagesConfig?: ProfileDetailsSubpage[];
   profileHeaderComponent?: any;
   footer?: any;
+  fab?: FabParams;
 }
 
 export const ProfileTabsPage = (props: ProfilePageParams) => {
@@ -64,6 +72,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     subpagesConfig,
     profileHeaderComponent,
     footer: profileFooter,
+    fab,
   } = props;
   const seoData = entityData
     ? {
@@ -87,6 +96,10 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
   const [lastVisibleTab, setLastVisibleTab] = useState(-1);
   const [currentVisibleTab, setCurrentVisibleTab] = useState(0);
   const [hasSeenFollowers, setHasSeenFollowers] = useState(false);
+  const [isFabVisible, setIsFabVisible] = useState(true);
+
+  const tabbedPanelRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const followersPageIndex = (subpagesConfig || []).findIndex((subpage) => subpage.name === 'followers');
@@ -103,6 +116,37 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       dispatch(profileActions.loadProfileEndpoint({ entity: entityData, endpoint: 'follow' }));
     }
   }, [loggedUser]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const tabbedPanelElement = tabbedPanelRef.current;
+      const footerElement = footerRef.current;
+
+      if (!tabbedPanelElement) return;
+
+      const tabbedPanelRect = tabbedPanelElement.getBoundingClientRect();
+      const tabbedPanelBottom = tabbedPanelRect.bottom;
+
+      // Si hay footer, usar su posición, si no, usar el final del TabbedPanel
+      let limitPosition = tabbedPanelBottom;
+
+      if (footerElement) {
+        const footerRect = footerElement.getBoundingClientRect();
+        limitPosition = Math.min(tabbedPanelBottom, footerRect.top);
+      }
+
+      // El FAB está fijo en bottom: 24px, así que consideramos esa altura
+      const fabBottomPosition = window.innerHeight - 24;
+
+      // Ocultar el FAB si alcanzó el límite
+      setIsFabVisible(fabBottomPosition < limitPosition);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Ejecutar al montar
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const getAttributeTitle = (
     subpageName: string,
@@ -182,24 +226,23 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
 
                   const sectionContent = () => contentComponents;
 
-                  const filteredSections = (subpage.sections || []).filter(
-                    (section) => {
-                      // Check hidden property first
-                      const isHidden = section.hidden !== undefined &&
-                        ((typeof section.hidden === 'boolean' && section.hidden) ||
-                         (typeof section.hidden === 'string' && section.hidden === 'true') ||
-                         (section.hidden instanceof Function && section.hidden(entityData)));
+                  const filteredSections = (subpage.sections || []).filter((section) => {
+                    // Check hidden property first
+                    const isHidden =
+                      section.hidden !== undefined &&
+                      ((typeof section.hidden === 'boolean' && section.hidden) ||
+                        (typeof section.hidden === 'string' && section.hidden === 'true') ||
+                        (section.hidden instanceof Function && section.hidden(entityData)));
 
-                      if (isHidden) return false;
+                    if (isHidden) return false;
 
-                      // Check requireSession property
-                      if (section.requireSession && !loggedUser) {
-                        return false;
-                      }
-
-                      return true;
+                    // Check requireSession property
+                    if (section.requireSession && !loggedUser) {
+                      return false;
                     }
-                  );
+
+                    return true;
+                  });
 
                   return (
                     <RequireAuthComponent
@@ -207,7 +250,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
                       requiredSession={section.requireSession}
                     >
                       <SectionsPanel
-                        sectionName={translateSection(subpage.name, section?.name)}
+                        sectionName={section?.emptyTitle ? '' : translateSection(subpage.name, section?.name)}
                         sectionContent={sectionContent}
                         isCollapsible={filteredSections.length > 1}
                       />
@@ -599,7 +642,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       if (componentDescriptor.data?.image) {
         images = [{ src: getData(componentDescriptor.data?.image) }];
       }
-      renderedComponent = <HorizontalImageGallery imagesInfo={images} />;
+      renderedComponent = <HorizontalImageGallery imagesInfo={images} data={componentDescriptor.data}/>;
     } else if (componentDescriptor.componentName === ProfileComponentTypes.IMAGE_GALLERY) {
       let clickHandler: (source: GalleryImageParams, images: any) => void = undefined;
 
@@ -737,14 +780,28 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
               showFollowerCounter={headerShouldShowFollowerCounter}
             />
           )}
-          <br></br>
-          <TabbedPanel
-            tabs={transformedConfigData}
-            handlers={tabPanelHandlers}
-            showSpecificTab={showSpecificTab}
-            showSpecificFollowerType={showSpecificFollowerType}
-          />
-          {profileFooter}
+
+          <div ref={tabbedPanelRef}>
+            <TabbedPanel
+              tabs={transformedConfigData}
+              handlers={tabPanelHandlers}
+              showSpecificTab={showSpecificTab}
+              showSpecificFollowerType={showSpecificFollowerType}
+            />
+          </div>
+          {profileFooter && <div ref={footerRef}>{profileFooter}</div>}
+          {!profileFooter && profileFooter}
+          {fab && (
+            <Fab
+              color="primary"
+              aria-label="add"
+              size="medium"
+              className={!isFabVisible ? 'fab-hidden' : ''}
+              onClick={() => fab.handler()}
+            >
+              <DynamicIcons iconName={fab.icon || 'lu LuCalendarPlus'} size={30} color="#034d5b" />
+            </Fab>
+          )}
         </div>
       )}
     </>

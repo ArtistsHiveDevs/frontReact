@@ -10,6 +10,7 @@ import { RootState } from '~/common/utils/redux-injectors/types';
 import NotFoundPage from '~/components/Pages/NotFoundPage';
 import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
 import { ClaimProfileBanner } from '~/components/shared/molecules/Profile/ClaimProfileBanner/ClaimProfileBanner';
+import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import AppLoader from '~/components/shared/organisms/app/loader/loader';
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
@@ -28,6 +29,7 @@ const PlaceDetailPage = () => {
   const [startedRequest, setStartedRequest] = useState(false);
   const [finishedRequest, setFinishedRequest] = useState(false);
   const [currentGalleryImage, setGalleryImage] = useState(undefined);
+  const [openDialogBookDate, setOpenDialogBookDate] = useState(undefined);
 
   const placeList: PlaceModel[] = useSelector(selectorPlaces.selectItems);
   const requestIsLoading = useSelector(selectorPlaces.selectLoading);
@@ -126,6 +128,10 @@ const PlaceDetailPage = () => {
     },
   };
 
+  const onFABClick = () => {
+    setOpenDialogBookDate(true);
+  };
+
   return (
     <>
       {finishedRequest ? (
@@ -137,6 +143,7 @@ const PlaceDetailPage = () => {
             subpagesConfig={subPagesInfo}
             handlers={handlers}
             footer={<ClaimProfileBanner entityName="Place" entityData={currentPlace} />}
+            fab={{ handler: onFABClick }}
           />
         ) : (
           <NotFoundPage />
@@ -144,6 +151,13 @@ const PlaceDetailPage = () => {
       ) : (
         <AppLoader />
       )}
+      <AppDialog
+        title="Agendar evento"
+        isOpenDialog={openDialogBookDate}
+        onClose={() => setOpenDialogBookDate(false)}
+        content={`Pronto prodrás solicitar una fecha para tu evento a ${currentPlace?.name}`}
+        icon={'FaInfoCircle'}
+      />
     </>
   );
 };

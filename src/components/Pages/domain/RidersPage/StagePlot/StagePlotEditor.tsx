@@ -497,6 +497,7 @@ const StagePlotEditor: React.FC = () => {
         ref={canvasContainerRef}
         style={{ gridColumn: '1 / 4', gridRow: '1 / 2', position: 'relative', overflow: 'hidden' }}
       >
+        <h2>Stage Plot</h2>
         <Canvas
           style={{ height: '100%', width: '100%' }}
           onCreated={({ gl }) => {

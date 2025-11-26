@@ -109,6 +109,7 @@ export interface AppUserTemplate extends ProfileTemplate {
   };
 
   show_industry_member_banner: boolean;
+  request_industry_member: number;
 }
 
 export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUserTemplate, SearchableTemplate {
@@ -153,6 +154,7 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
   };
 
   declare show_industry_member_banner: boolean;
+  declare request_industry_member: number;
 
   artistMemberships: CurrentProfileInfoModel[];
   placeMemberships: CurrentProfileInfoModel[];

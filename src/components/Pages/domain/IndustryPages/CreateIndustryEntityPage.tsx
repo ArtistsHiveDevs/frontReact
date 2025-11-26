@@ -157,6 +157,14 @@ const CreateIndustryEntityPage = () => {
         options: { replace: true },
       });
     }
+    if (!!loggedUser && !loggedUser.request_industry_member) {
+      dispatch(
+        usersActions.updateUser({
+          id: loggedUser.identifier,
+          newItem: { request_industry_member: new Date().getTime() },
+        })
+      );
+    }
   }, [loggedUser, isIndustryMemberActivated]);
 
   const clickOnEntityHandler = (entityNamePlural: string) => {

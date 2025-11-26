@@ -15,6 +15,7 @@ import MainSection from '~/components/Pages/HomePage/MainSection/MainSection';
 import NotFoundPage from '~/components/Pages/NotFoundPage';
 import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
 import { ClaimProfileBanner } from '~/components/shared/molecules/Profile/ClaimProfileBanner/ClaimProfileBanner';
+import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import AppLoader from '~/components/shared/organisms/app/loader/loader';
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
@@ -33,6 +34,7 @@ const ArtistDetailPage = () => {
   const [startedRequest, setStartedRequest] = useState(false);
   const [finishedRequest, setFinishedRequest] = useState(false);
   const [currentGalleryImage, setGalleryImage] = useState(undefined);
+  const [openDialogBookDate, setOpenDialogBookDate] = useState(undefined);
 
   const requestIsLoading = useSelector(selectorArtists.selectLoading);
   const requestError = useSelector(selectorArtists.selectError);
@@ -122,6 +124,10 @@ const ArtistDetailPage = () => {
     },
   };
 
+  const onFABClick = () => {
+    setOpenDialogBookDate(true);
+  };
+
   return (
     <>
       {finishedRequest ? (
@@ -134,6 +140,7 @@ const ArtistDetailPage = () => {
               subpagesConfig={subPagesInfo}
               handlers={handlers}
               footer={<ClaimProfileBanner entityName="Artist" entityData={currentArtist} />}
+              fab={{ handler: onFABClick }}
             />
             {currentArtist.arts?.music?.related_artists?.length ? (
               <MainSection
@@ -162,6 +169,13 @@ const ArtistDetailPage = () => {
       ) : (
         <AppLoader />
       )}
+      <AppDialog
+        title="Agendar evento"
+        isOpenDialog={openDialogBookDate}
+        onClose={() => setOpenDialogBookDate(false)}
+        content={`Pronto prodrás solicitar una fecha para tu evento a ${currentArtist?.name}`}
+        icon={'FaInfoCircle'}
+      />
     </>
   );
 };

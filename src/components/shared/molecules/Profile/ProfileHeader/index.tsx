@@ -254,7 +254,7 @@ export const ProfileHeader = (props: any) => {
 
   return (
     <>
-      {!!element.activity && element.activity !== 'active' && (
+      {!!element?.activity && element.activity !== 'active' && (
         <div className={['activity-banner', element.activity.replace('_', '-')].join(' ')}>
           <DynamicIcons iconName="PiWarningOctagonBold" size={25} color={'white'} />
           {element.activity === 'non_active' && 'Este perfil no está activo'}

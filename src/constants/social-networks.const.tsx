@@ -1,3 +1,4 @@
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { ParametrizedIFrame } from '~/components/shared/molecules/general/parametrizedIFrame/parametrizedIFrame';
 
 export interface SocialNetworkTemplate {
@@ -131,14 +132,20 @@ export const SocialNetworks: {
         entity = 'artist';
       }
       return (
-        user && (
+        (user && (
           <ParametrizedIFrame
             key={`scloud-frame-${user}-${entity || ''}`}
             srcUrl={`https://open.spotify.com/embed/${entity}/${user}?utm_source=generator&theme=0`}
             customWidth={width}
             customHeight={height}
           />
-        )
+        )) ||
+        (!user && (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <DynamicIcons iconName="BsSpotify" size={35} />
+            <span>No disponible</span>
+          </div>
+        ))
       );
     },
     loginWidget: true,
@@ -204,7 +211,7 @@ export const SocialNetworks: {
     widget: (params: any) => {
       let { entity, width, height, videoURL } = params;
       return (
-        videoURL && (
+        (videoURL && (
           <ParametrizedIFrame
             key={`scloud-frame-${videoURL}-${entity || ''}`}
             srcUrl={`https://www.youtube.com/embed/${videoURL}`}
@@ -212,7 +219,13 @@ export const SocialNetworks: {
             customHeight={height}
             customStyles={{ borderRadius: '10px' }}
           />
-        )
+        )) ||
+        (!videoURL && (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <DynamicIcons iconName="BsYoutube" size={35} />
+            <span>No disponible</span>
+          </div>
+        ))
       );
     },
   },

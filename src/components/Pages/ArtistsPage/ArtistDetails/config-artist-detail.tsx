@@ -14,6 +14,22 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     sections: [
       {
         name: 'general',
+        emptyTitle: true,
+        components: [
+          {
+            componentName: ProfileComponentTypes.HORIZONTAL_IMAGE_GALLERY,
+            data: { images: 'image_gallery', placeholder: 'Foto de los integrantes' },
+            clickHandlerName: 'onClickGalleryImage',
+            formMetaData: {
+              inputType: 'file',
+              fieldName: 'image_gallery',
+              componentParams: { multipleFiles: true, accept: 'image/*' },
+            },
+          },
+        ],
+      },
+      {
+        name: 'general',
         components: [
           {
             componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
@@ -217,13 +233,13 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
           },
         ],
       },
-      {
-        name: 'record_label',
-      },
-      {
-        name: 'members',
-        requireSession: true,
-      },
+      // {
+      //   name: 'record_label',
+      // },
+      // {
+      //   name: 'members',
+      //   requireSession: true,
+      // },
     ],
   },
   {
@@ -231,7 +247,27 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
     requireSession: true,
     sections: [
       {
-        name: 'members',
+        name: 'music_performance',
+        components: [],
+      },
+      {
+        name: 'audio_engineering',
+        components: [],
+      },
+      {
+        name: 'visual_arts',
+        components: [],
+      },
+      {
+        name: 'management',
+        components: [],
+      },
+      {
+        name: 'production',
+        components: [],
+      },
+      {
+        name: 'support',
         components: [],
       },
     ],

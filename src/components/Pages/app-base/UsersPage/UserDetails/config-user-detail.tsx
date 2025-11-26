@@ -43,7 +43,9 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 },
                 {
                   name: 'stage_name',
-                  hidden: true,
+                  hidden: (user: AppUserModel) => {
+                    return !user.isIndustryMember;
+                  },
                   formMetaData: {
                     hidden: false,
                   },
@@ -79,8 +81,12 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                   },
                   formMetaData: {
                     inputType: 'date',
+                    config: { required: true },
                     componentParams: {
-                      disableFuture: true,
+                      disableFuture: true, // No puede ser futuro
+                      minAgeInYears: 18, // Debe tener mínimo 18 años
+                      maxAgeInYears: 120, // Máximo 120 años
+                      defaultToMinAge: true, // Preselecciona "hoy - 18 años"
                     },
                   },
                 },

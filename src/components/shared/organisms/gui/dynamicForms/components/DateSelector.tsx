@@ -1,7 +1,7 @@
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
-import { Controller, FieldErrors, FieldValues, UseFormRegister, useForm, useFormContext } from 'react-hook-form';
+import { Controller, FieldErrors, FieldValues, UseFormRegister, useFormContext } from 'react-hook-form';
 import { ComponentGeneratorParams } from '../DynamicControl';
 import { DynamicFieldData } from '../dynamic-control-types';
 
@@ -21,19 +21,100 @@ export const createDatePicker = (params: {
     config = {},
     componentParams = {},
   } = params?.fieldData || {};
-  const { disablePast, disableFuture } = componentParams || {};
+  const {
+    disablePast,
+    disableFuture,
+    minDate,
+    maxDate,
+    minYearsAgo,
+    maxYearsAgo,
+    minAgeInYears,
+    maxAgeInYears,
+    defaultToMinAge,
+    defaultToMaxAge,
+  } = componentParams || {};
 
-  // Convert defaultValue to dayjs object if it's a string or Date
-  const parsedDefaultValue = defaultValue ? dayjs(defaultValue) : null;
-  const parsedConfigValue = config?.value ? dayjs(config.value) : null;
-  const [defaultTimeValue, setDefaultTimeValue] = useState<Dayjs | null>(parsedDefaultValue ?? parsedConfigValue ?? null);
+  /**
+   * Calcula un valor por defecto inteligente basado en las restricciones de edad
+   */
+  const calculateSmartDefaultValue = (): Dayjs | null => {
+    // Si hay un defaultValue explícito, usarlo
+    if (defaultValue) return dayjs(defaultValue);
+
+    // Si config tiene un valor, usarlo
+    if (config?.value) return dayjs(config.value);
+
+    // Si defaultToMinAge está activado y hay restricción de edad mínima
+    if (defaultToMinAge && minAgeInYears) {
+      return dayjs().subtract(minAgeInYears, 'year');
+    }
+
+    // Si defaultToMaxAge está activado y hay restricción de edad máxima
+    if (defaultToMaxAge && maxAgeInYears) {
+      return dayjs().subtract(maxAgeInYears, 'year');
+    }
+
+    // Si hay minYearsAgo, usar esa fecha
+    if (defaultToMinAge && minYearsAgo) {
+      return dayjs().subtract(minYearsAgo, 'year');
+    }
+
+    return null;
+  };
+
+  const smartDefaultValue = calculateSmartDefaultValue();
+  const [defaultTimeValue, setDefaultTimeValue] = useState<Dayjs | null>(smartDefaultValue);
+
+  /**
+   * Calcula la fecha mínima permitida basada en los parámetros
+   * minAgeInYears define la EDAD MÍNIMA → fecha MÁXIMA permitida (más reciente)
+   * maxAgeInYears define la EDAD MÁXIMA → fecha MÍNIMA permitida (más antigua)
+   * Prioridad: minDate > minYearsAgo > maxAgeInYears
+   */
+  const calculateMinDate = (): Dayjs | undefined => {
+    if (minDate) {
+      return dayjs(minDate);
+    }
+    if (minYearsAgo) {
+      // Por ejemplo: minYearsAgo: 100 → hace 100 años desde hoy (fecha más antigua)
+      return dayjs().subtract(minYearsAgo, 'year');
+    }
+    if (maxAgeInYears) {
+      // Por ejemplo: maxAgeInYears: 120 → hace 120 años desde hoy (fecha más antigua = edad máxima)
+      return dayjs().subtract(maxAgeInYears, 'year');
+    }
+    return undefined;
+  };
+
+  /**
+   * Calcula la fecha máxima permitida basada en los parámetros
+   * minAgeInYears define la EDAD MÍNIMA → fecha MÁXIMA permitida (más reciente)
+   * Prioridad: maxDate > maxYearsAgo > minAgeInYears
+   */
+  const calculateMaxDate = (): Dayjs | undefined => {
+    if (maxDate) {
+      return dayjs(maxDate);
+    }
+    if (maxYearsAgo) {
+      // Por ejemplo: maxYearsAgo: 18 → hace 18 años desde hoy (fecha más reciente)
+      return dayjs().subtract(maxYearsAgo, 'year');
+    }
+    if (minAgeInYears) {
+      // Por ejemplo: minAgeInYears: 18 → hace 18 años desde hoy (fecha más reciente = edad mínima)
+      return dayjs().subtract(minAgeInYears, 'year');
+    }
+    return undefined;
+  };
+
+  const calculatedMinDate = calculateMinDate();
+  const calculatedMaxDate = calculateMaxDate();
 
   const { control, register: formRegister, formState, setValue } = useFormContext();
   const { errors } = formState || {};
-  
-  // Initialize form value with defaultValue
-  if (parsedDefaultValue && formRegister) {
-    setValue(fieldName, parsedDefaultValue);
+
+  // Initialize form value with smart default value
+  if (smartDefaultValue && formRegister) {
+    setValue(fieldName, smartDefaultValue);
   }
 
   return (
@@ -45,7 +126,7 @@ export const createDatePicker = (params: {
         render={({ field }) => {
           // Ensure we always have a dayjs object or null
           const resolvedValue = field.value ? dayjs(field.value) : defaultTimeValue;
-          
+
           return (
             <DatePicker
               label={label}
@@ -61,11 +142,14 @@ export const createDatePicker = (params: {
               }}
               disablePast={disablePast}
               disableFuture={disableFuture}
+              minDate={calculatedMinDate}
+              maxDate={calculatedMaxDate}
               displayWeekNumber={componentParams?.displayWeekNumber}
               slotProps={{
                 textField: {
                   required: !!config?.required,
                   error: !!errors[fieldName],
+                  helperText: errors[fieldName]?.message as string,
                 },
               }}
             />
@@ -110,15 +194,63 @@ export const createDatePickerAnterior = (params: ComponentGeneratorParams) => {
   //     rangeLimits.step = componentParams["step"];
   //   }
 
-  const { disablePast, disableFuture } = componentParams;
+  const {
+    disablePast,
+    disableFuture,
+    minDate,
+    maxDate,
+    minYearsAgo,
+    maxYearsAgo,
+    minAgeInYears,
+    maxAgeInYears,
+    defaultToMinAge,
+    defaultToMaxAge,
+  } = componentParams;
+
   const isRequired = !!config?.required;
-  // Convert defaultValue to dayjs object if it's a string or Date
-  const parsedDefaultDate = defaultValue ? dayjs(defaultValue) : null;
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(parsedDefaultDate);
-  
-  // Initialize form value with defaultValue
-  if (parsedDefaultDate) {
-    setValue(fieldName, parsedDefaultDate);
+
+  // Calculate smart default value
+  const calculateSmartDefaultValue = (): Dayjs | null => {
+    if (defaultValue) return dayjs(defaultValue);
+    if (config?.value) return dayjs(config.value);
+
+    if (defaultToMinAge && minAgeInYears) {
+      return dayjs().subtract(minAgeInYears, 'year');
+    }
+    if (defaultToMaxAge && maxAgeInYears) {
+      return dayjs().subtract(maxAgeInYears, 'year');
+    }
+    if (defaultToMinAge && minYearsAgo) {
+      return dayjs().subtract(minYearsAgo, 'year');
+    }
+
+    return null;
+  };
+
+  const smartDefaultValue = calculateSmartDefaultValue();
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(smartDefaultValue);
+
+  // Calculate min/max dates
+  const calculateMinDate = (): Dayjs | undefined => {
+    if (minDate) return dayjs(minDate);
+    if (minYearsAgo) return dayjs().subtract(minYearsAgo, 'year');
+    if (maxAgeInYears) return dayjs().subtract(maxAgeInYears, 'year'); // maxAge → minDate (más antigua)
+    return undefined;
+  };
+
+  const calculateMaxDate = (): Dayjs | undefined => {
+    if (maxDate) return dayjs(maxDate);
+    if (maxYearsAgo) return dayjs().subtract(maxYearsAgo, 'year');
+    if (minAgeInYears) return dayjs().subtract(minAgeInYears, 'year'); // minAge → maxDate (más reciente)
+    return undefined;
+  };
+
+  const calculatedMinDate = calculateMinDate();
+  const calculatedMaxDate = calculateMaxDate();
+
+  // Initialize form value with smart default value
+  if (smartDefaultValue) {
+    setValue(fieldName, smartDefaultValue);
   }
   return (
     <Controller
@@ -127,8 +259,8 @@ export const createDatePickerAnterior = (params: ComponentGeneratorParams) => {
       rules={{ required: isRequired }}
       render={({ field }) => {
         // Ensure we always have a dayjs object or null
-        const resolvedValue = field.value ? dayjs(field.value) : parsedDefaultDate;
-        
+        const resolvedValue = field.value ? dayjs(field.value) : smartDefaultValue;
+
         return (
           <DatePicker
             label={label}
@@ -141,6 +273,8 @@ export const createDatePickerAnterior = (params: ComponentGeneratorParams) => {
             }}
             disableFuture={disableFuture}
             disablePast={disablePast}
+            minDate={calculatedMinDate}
+            maxDate={calculatedMaxDate}
             slotProps={{ textField: { fullWidth: true } }}
             displayWeekNumber={componentParams?.displayWeekNumber}
           />

@@ -67,6 +67,18 @@ const general: SideMenuItem[] = [
     icon: 'ImSearch',
     updated: new Date('2/20/16'),
   },
+  // {
+  //   name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, 'artists'),
+  //   path: `${PATHS.SEARCH}`,
+  //   icon: 'ImSearch',
+  //   updated: new Date('2/20/16'),
+  // },
+  // {
+  //   name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, 'places'),
+  //   path: `${PATHS.SEARCH}`,
+  //   icon: 'ImSearch',
+  //   updated: new Date('2/20/16'),
+  // },
 ];
 const miInfo: SideMenuItem[] = [
   // {
@@ -124,9 +136,12 @@ const miInfo: SideMenuItem[] = [
     icon: 'FaRegCalendarAlt',
     updated: new Date('1/18/16'),
     randomId: false,
-    allowedRoles: [],
+    allowedRoles: [{ entityName: 'Artist' }, { entityName: 'Place' }],
     rightIcon: 'FaPlus',
     rightPath: `${PATHS.EVENTS}/${SUB_PATHS.CREATE}`,
+    hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
+      return params?.user?.hasIndustryProfiles && !params?.user?.isInPersonalProfile;
+    },
     // nestedMenuOptions: [
     //   {
     //     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_events.nested.create'),
@@ -168,23 +183,23 @@ const miInfo: SideMenuItem[] = [
     icon: 'AiFillHeart',
     updated: new Date('2/20/16'),
     requireSession: true,
-    nestedMenuOptions: [
-      {
-        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.saved'),
-        path: `${PATHS.MY_FAVOURITES}`,
-        icon: 'BsFillBookmarksFill',
-        updated: new Date('2/20/16'),
-        requireSession: true,
-      },
-      {
-        name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.tour_planning'),
-        path: `${PATHS.TOURS_OUTLINE}`,
-        icon: 'BsFillJournalBookmarkFill',
-        updated: new Date('2/20/16'),
-        allowedRoles: [{ entityName: 'Artist' }],
-        requireSession: true,
-      },
-    ],
+    // nestedMenuOptions: [
+    // {
+    //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.saved'),
+    //   path: `${PATHS.MY_FAVOURITES}`,
+    //   icon: 'BsFillBookmarksFill',
+    //   updated: new Date('2/20/16'),
+    //   requireSession: true,
+    // },
+    // {
+    //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'favourites.nested.tour_planning'),
+    //   path: `${PATHS.TOURS_OUTLINE}`,
+    //   icon: 'BsFillJournalBookmarkFill',
+    //   updated: new Date('2/20/16'),
+    //   allowedRoles: [{ entityName: 'Artist' }],
+    //   requireSession: true,
+    // },
+    // ],
     forbiddenEnvironments: ['prod'],
   },
   {
@@ -224,6 +239,20 @@ const config: SideMenuItem[] = [
     requireSession: true,
     forbiddenEnvironments: ['prod'],
   },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'send_comments'),
+    path: `${PATHS.STAGE_PLOT}/editor/ahgd`,
+    icon: 'BsPinMapFill',
+    updated: new Date('2/20/16'),
+    forbiddenEnvironments: ['prod'],
+  },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'send_comments'),
+    path: `${PATHS.PLANS}`,
+    icon: 'MdAttachMoney',
+    updated: new Date('2/20/16'),
+    forbiddenEnvironments: ['prod'],
+  },
 
   // {
   //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),
@@ -238,6 +267,14 @@ export const LEFT_SIDENAV_MENU_CONFIG: SideMenuSection[] = [
     name: `${TRANSLATION_BASE_SIDENAV}.${SIDENAV_SECTIONS.GENERAL}.name`,
     options: general,
   },
+
+  {
+    name: `${TRANSLATION_BASE_SIDENAV}.${SIDENAV_SECTIONS.SETTINGS}.name`,
+    options: config,
+  },
+];
+
+export const RIGHT_SIDENAV_MENU_CONFIG: SideMenuSection[] = [
   {
     name: `${TRANSLATION_BASE_SIDENAV}.${SIDENAV_SECTIONS.INDUSTRY}.name`,
     requireSession: true,
@@ -251,16 +288,9 @@ export const LEFT_SIDENAV_MENU_CONFIG: SideMenuSection[] = [
       },
     ],
     hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
-      return params?.user?.hasIndustryProfiles || params?.user?.show_industry_member_banner;
+      return params?.user?.hasIndustryProfiles;
     },
   },
-  {
-    name: `${TRANSLATION_BASE_SIDENAV}.${SIDENAV_SECTIONS.SETTINGS}.name`,
-    options: config,
-  },
-];
-
-export const RIGHT_SIDENAV_MENU_CONFIG: SideMenuSection[] = [
   {
     name: `${TRANSLATION_BASE_SIDENAV}.${SIDENAV_SECTIONS.MY_INFO}.name`,
     options: miInfo,

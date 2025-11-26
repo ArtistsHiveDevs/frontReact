@@ -8,9 +8,12 @@ import './ImageGallery.scss';
 
 interface HorizontalImageGalleryProps {
   imagesInfo: GalleryImageParams[];
+  data?: any;
 }
 
-export const HorizontalImageGallery: React.FC<HorizontalImageGalleryProps> = ({ imagesInfo: imageUrls }) => {
+export const HorizontalImageGallery: React.FC<HorizontalImageGalleryProps> = (params: HorizontalImageGalleryProps) => {
+  const { imagesInfo, data } = params;
+  const { placeholder } = data || {};
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [profilePicturesURLs, setProfilePicturesURLs] = useState<{ [profileIdentifier: string]: string }>({});
 
@@ -24,13 +27,13 @@ export const HorizontalImageGallery: React.FC<HorizontalImageGalleryProps> = ({ 
 
   const handlePrev = () => {
     if (selectedIndex !== null) {
-      setSelectedIndex((selectedIndex - 1 + imageUrls.length) % imageUrls.length);
+      setSelectedIndex((selectedIndex - 1 + imagesInfo.length) % imagesInfo.length);
     }
   };
 
   const handleNext = () => {
     if (selectedIndex !== null) {
-      setSelectedIndex((selectedIndex + 1) % imageUrls.length);
+      setSelectedIndex((selectedIndex + 1) % imagesInfo.length);
     }
   };
 
@@ -50,16 +53,16 @@ export const HorizontalImageGallery: React.FC<HorizontalImageGalleryProps> = ({ 
   });
 
   useEffect(() => {
-    if (!!imageUrls) {
+    if (!!imagesInfo) {
       getProfilePicURLs();
     }
-  }, [imageUrls]);
+  }, [imagesInfo]);
   const getProfilePicURLs = async () => {
-    if (!!imageUrls) {
+    if (!!imagesInfo) {
       const urlsObject: { [identifier: string]: string } = {};
 
       // Mapeamos las URLs a promesas y usamos Promise.all para esperar a que todas se resuelvan
-      const urlPromises = imageUrls.map(async (imageParams) => {
+      const urlPromises = imagesInfo.map(async (imageParams) => {
         const url = await getUrlS3({ path: imageParams.src });
         urlsObject[imageParams.src] = url;
       });
@@ -77,7 +80,7 @@ export const HorizontalImageGallery: React.FC<HorizontalImageGalleryProps> = ({ 
       {Object.keys(profilePicturesURLs).length > 0 && (
         <Box>
           <Grid container spacing={2} direction="row" wrap="nowrap" style={{ overflowX: 'auto' }}>
-            {(imageUrls || []).map((image, index) => {
+            {(imagesInfo || []).map((image, index) => {
               const { src, alt } = image;
               return (
                 <Grid item key={index}>
@@ -115,7 +118,7 @@ export const HorizontalImageGallery: React.FC<HorizontalImageGalleryProps> = ({ 
               </IconButton>
               {selectedIndex !== null && (
                 <img
-                  src={profilePicturesURLs[imageUrls[selectedIndex].src]}
+                  src={profilePicturesURLs[imagesInfo[selectedIndex].src]}
                   alt={`Image ${selectedIndex}`}
                   style={{ maxWidth: '100%', maxHeight: '80vh' }}
                 />
@@ -134,8 +137,8 @@ export const HorizontalImageGallery: React.FC<HorizontalImageGalleryProps> = ({ 
               </IconButton>
               {selectedIndex !== null && (
                 <p>
-                  ({selectedIndex + 1} / {imageUrls.length})
-                  {!!imageUrls[selectedIndex].description && ' - ' && imageUrls[selectedIndex].description}
+                  ({selectedIndex + 1} / {imagesInfo.length})
+                  {!!imagesInfo[selectedIndex].description && ' - ' && imagesInfo[selectedIndex].description}
                 </p>
               )}
             </DialogContent>
@@ -145,7 +148,10 @@ export const HorizontalImageGallery: React.FC<HorizontalImageGalleryProps> = ({ 
 
       {Object.keys(profilePicturesURLs).length === 0 && (
         <div className="empty-horizontal-gallery-container">
-          <DynamicIcons iconName="gr GrGallery" size={40} color={'#848484'} />
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <DynamicIcons iconName="gr GrGallery" size={40} color={'#848484'} />
+            {placeholder}
+          </div>
         </div>
       )}
     </>

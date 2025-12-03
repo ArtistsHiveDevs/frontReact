@@ -6,11 +6,11 @@ import { useUsersSlice } from '~/common/slices/users';
 import { useI18n } from '~/common/utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { AVAILABLE_I18N_LANGUAGES } from '~/translations';
-import './FooterCopyWrite.scss';
+import './FooterCopyright.scss';
 
-const TRANSLATION_BASE_COPYWRITE = 'app.appbase.footer.copywrite';
+const TRANSLATION_BASE_COPYWRITE = 'app.appbase.footer.copyright';
 
-const FooterCopywrite = (props: any) => {
+const FooterCopyright = (props: any) => {
   let { lang, messages, setLocale } = useContext(HvAppContext);
   const dispatch = useDispatch();
   const { actions: usersActions } = useUsersSlice();
@@ -53,4 +53,4 @@ const FooterCopywrite = (props: any) => {
   );
 };
 
-export default FooterCopywrite;
+export default FooterCopyright;

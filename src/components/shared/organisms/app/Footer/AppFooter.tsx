@@ -1,6 +1,6 @@
 import { FooterColumnTemplate } from '~/components/shared/Footer/columns-menu';
 import FooterColumns from '~/components/shared/Footer/columns-menu/ColumnsMenu';
-import FooterCopywrite from '~/components/shared/Footer/footer-copywrite/FooterCopywrite';
+import FooterCopyright from '~/components/shared/Footer/footer-copyright/FooterCopyright';
 import FooterSocialNetworks from '~/components/shared/Footer/footer-social-networks/FooterSocialNetworks';
 import { PATHS } from '~/constants';
 import './AppFooter.scss';
@@ -55,7 +55,7 @@ export const AppFooter = () => {
     <>
       <FooterColumns footerColumns={footerColumns} />
       <FooterSocialNetworks />
-      <FooterCopywrite />
+      <FooterCopyright />
     </>
   );
 };

@@ -10,7 +10,10 @@ interface OptionType {
 }
 
 export const createSelect = (params: ComponentGeneratorParams) => {
-  const { formState, register } = useFormContext();
+  const hookContext = useFormContext();
+  const finalContext = params.formContext || hookContext;
+  const { formState, register, control, setValue } = finalContext;
+
   const { fieldData, errors, handlers } = params;
   const {
     label,
@@ -23,8 +26,6 @@ export const createSelect = (params: ComponentGeneratorParams) => {
   } = fieldData;
 
   const { required } = config || {};
-
-  const { control, setValue } = useFormContext();
 
   const darkTheme = useTheme();
 

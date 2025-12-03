@@ -22,21 +22,37 @@ export interface CitySelectorParams extends ComponentGeneratorParams {
   allowEmptyLevels?: boolean; // Allow skipping optional levels
 }
 
-// Helper component to render individual selectors
-const LevelSelector: React.FC<{
-  fieldData: DynamicFieldData;
-  handlers: any;
-}> = ({ fieldData, handlers }) => {
-  // console.log('  >>  >>   ..... ', fieldData);
-  return createSelect({ fieldData, handlers });
-};
-
 export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
-  const { fieldData, handlers } = citySelectorParams;
+  const {
+    fieldData,
+    handlers,
+    formContext: externalContext,
+    register: externalRegister,
+    errors: externalErrors,
+  } = citySelectorParams;
   const { componentParams = {} } = fieldData || {};
   const { maxLevel = 3, minLevel = 1, showCountrySelector = true, allowEmptyLevels = true } = componentParams;
 
-  const { setValue, watch } = useFormContext();
+  const hookContext = useFormContext();
+  const finalContext = externalContext || hookContext;
+  const { setValue, watch, register, formState } = finalContext;
+  const { errors } = formState || {};
+
+  // Helper component to render individual selectors
+  const LevelSelector: React.FC<{
+    fieldData: DynamicFieldData;
+    handlers: any;
+  }> = ({ fieldData: levelFieldData, handlers: levelHandlers }) => {
+    // console.log('  >>  >>   ..... ', levelFieldData);
+    return createSelect({
+      fieldData: levelFieldData,
+      handlers: levelHandlers,
+      register,
+      errors,
+      formContext: finalContext,
+    });
+  };
+
   const dispatch = useDispatch();
   const { translateText } = useI18n();
 

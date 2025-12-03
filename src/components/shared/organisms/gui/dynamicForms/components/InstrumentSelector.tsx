@@ -77,7 +77,10 @@ export const createInstrumentSelector = (params: ComponentGeneratorParams) => {
 
   const [openDialogSelectInstrument, setOpenDialogSelectInstrument] = useState(false);
 
-  const { register, formState } = useFormContext();
+  const hookContext = useFormContext();
+  const finalContext = params.formContext || hookContext;
+  const { register, formState } = finalContext;
+
   const { fieldData } = params;
   let { config, fieldName, fieldNamePrefix } = fieldData || {};
   register(fieldData.fieldName, config?.value);

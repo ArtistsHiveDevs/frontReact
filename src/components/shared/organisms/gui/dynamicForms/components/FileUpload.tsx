@@ -23,8 +23,11 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
     width: 1,
   });
 
-  const { fieldData } = params;
-  const { register, formState } = useFormContext();
+  const { fieldData, formContext: externalContext } = params;
+
+  const hookContext = useFormContext();
+  const finalContext = externalContext || hookContext;
+  const { register, formState } = finalContext;
   const { errors } = formState || {};
 
   const { label, fieldName, options = [], config, componentParams } = fieldData || {};

@@ -2,6 +2,7 @@ import { faMicrophoneLines } from '@fortawesome/free-solid-svg-icons';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import { useFormContext } from 'react-hook-form';
 import { GMapsSvgMaker } from '~/common/utils/object-utils/object-utils-index';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import MapContainer from '~/components/shared/mapPrinter/mapContainer';
@@ -9,7 +10,13 @@ import { SocialNetworks } from '~/constants/social-networks.const';
 import { ComponentGeneratorParams } from '../DynamicControl';
 
 export const createTextField = (params: ComponentGeneratorParams) => {
-  const { errors, fieldData, register, handlers } = params || {};
+  const { fieldData, handlers, formContext: externalContext } = params || {};
+
+  // ✅ Patrón híbrido: usar formContext pasado O fallback a useFormContext()
+  const hookContext = useFormContext();
+  const finalContext = externalContext || hookContext;
+  const { register, formState } = finalContext;
+  const { errors } = formState || {};
   const [isPasswordType] = useState(fieldData.inputType === 'password');
 
   const {
@@ -127,7 +134,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
 };
 
 export const createSocialNetworkTextField = (params: ComponentGeneratorParams) => {
-  const { errors, fieldData, register } = params || {};
+  const { errors, fieldData, register, formContext } = params || {};
   fieldData.inputType = 'text';
   const socialNetwork = SocialNetworks[fieldData.fieldName];
 
@@ -166,11 +173,11 @@ export const createSocialNetworkTextField = (params: ComponentGeneratorParams) =
     minLength: fieldData?.config?.minLength,
   };
 
-  return createTextField({ register, fieldData, errors });
+  return createTextField({ register, fieldData, errors, formContext });
 };
 
 export const createAddressTextField = (params: ComponentGeneratorParams) => {
-  const { errors, fieldData, register } = params || {};
+  const { errors, fieldData, register, formContext } = params || {};
 
   const lat = 4.6126;
   const lng = -74.0705;
@@ -200,7 +207,7 @@ export const createAddressTextField = (params: ComponentGeneratorParams) => {
 
   return (
     <div>
-      {createTextField({ register, fieldData, errors })}
+      {createTextField({ register, fieldData, errors, formContext })}
       <MapContainer
         //   key={`section-${section.name}-${index}-${componentIndex}`}
         apiKey={import.meta.env.VITE_GMAPS_KEY}

@@ -3,6 +3,7 @@ import {
   FieldValues,
   UseFormGetValues,
   UseFormRegister,
+  UseFormReturn,
   UseFormWatch,
   useFormContext,
 } from 'react-hook-form';
@@ -23,32 +24,39 @@ import { createTimeField } from './components/TimeField';
 import { DynamicFieldData } from './dynamic-control-types';
 
 export interface ComponentGeneratorParams {
-  errors?: FieldErrors<FieldValues>;
+  errors: FieldErrors<FieldValues>;
   fieldData: DynamicFieldData;
   getValues?: UseFormGetValues<FieldValues>;
   handlers?: { [handlerName: string]: Function };
-  register?: UseFormRegister<FieldValues>;
+  register: UseFormRegister<FieldValues>;
   watch?: UseFormWatch<FieldValues>;
-  formContext?: any;
+  formContext?: UseFormReturn<FieldValues>;
 }
 
 export const DynamicControl = (params: {
   fieldData: DynamicFieldData;
   errors: FieldErrors<FieldValues>;
   handlers: { [handlerName: string]: Function };
+  formContext?: UseFormReturn<FieldValues>;
   control?: any;
 }) => {
-  const { fieldData, errors, handlers } = params;
-  const { register, getValues, watch } = useFormContext() || {};
+  const { fieldData, errors, handlers, formContext: externalContext } = params;
+
+  const hookContext = useFormContext();
+  const finalContext = externalContext || hookContext;
+
+  // Extraer métodos del contexto final
+  const { register, getValues, watch } = finalContext || {};
 
   const { inputType }: DynamicFieldData = fieldData;
-  const fieldParams = {
+  const fieldParams: ComponentGeneratorParams = {
     register,
     getValues,
     watch,
     fieldData,
     errors,
     handlers,
+    formContext: finalContext,
   };
 
   switch (inputType) {

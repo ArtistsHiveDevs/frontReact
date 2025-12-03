@@ -1,16 +1,11 @@
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
-import { Controller, FieldErrors, FieldValues, UseFormRegister, useFormContext } from 'react-hook-form';
+import { Controller, FieldErrors, FieldValues, UseFormRegister, UseFormReturn, useFormContext } from 'react-hook-form';
 import { ComponentGeneratorParams } from '../DynamicControl';
 import { DynamicFieldData } from '../dynamic-control-types';
 
-export const createDatePicker = (params: {
-  register: UseFormRegister<FieldValues>;
-  fieldData: DynamicFieldData;
-  errors: FieldErrors<FieldValues>;
-  handlers?: { [handlerName: string]: Function };
-}) => {
+export const createDatePicker = (params: ComponentGeneratorParams) => {
   const {
     label,
     inputType,
@@ -109,7 +104,9 @@ export const createDatePicker = (params: {
   const calculatedMinDate = calculateMinDate();
   const calculatedMaxDate = calculateMaxDate();
 
-  const { control, register: formRegister, formState, setValue } = useFormContext();
+  const hookContext = useFormContext();
+  const finalContext = params.formContext || hookContext;
+  const { control, register: formRegister, formState, setValue } = finalContext;
   const { errors } = formState || {};
 
   // Initialize form value with smart default value
@@ -161,8 +158,11 @@ export const createDatePicker = (params: {
 };
 
 export const createDatePickerAnterior = (params: ComponentGeneratorParams) => {
-  const { fieldData, formContext } = params;
-  const { register, control, setValue } = formContext;
+  const { fieldData, formContext: externalContext } = params;
+
+  const hookContext = useFormContext();
+  const finalContext = externalContext || hookContext;
+  const { register, control, setValue } = finalContext;
   const {
     label,
     inputType,

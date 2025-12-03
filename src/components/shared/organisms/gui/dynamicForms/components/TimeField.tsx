@@ -1,29 +1,23 @@
 import { MobileTimePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
-import { Controller, FieldErrors, FieldValues, UseFormRegister, useForm, useFormContext } from 'react-hook-form';
-import { DynamicFieldData } from '../dynamic-control-types';
+import { Controller, useFormContext } from 'react-hook-form';
+import { ComponentGeneratorParams } from '../DynamicControl';
 
-export const createTimeField = (params: {
-  register: UseFormRegister<FieldValues>;
-  fieldData: DynamicFieldData;
-  errors: FieldErrors<FieldValues>;
-  handlers?: { [handlerName: string]: Function };
-}) => {
-  const { label, fieldName, config = {}, componentParams = {}, handlersNames = {} } = params?.fieldData || {};
+export const createTimeField = (params: ComponentGeneratorParams) => {
+  const { fieldData, formContext: externalContext } = params;
+  const { label, fieldName, config = {}, componentParams = {} } = fieldData || {};
   const { disablePast, disableFuture } = componentParams || {};
+
+  const hookContext = useFormContext();
+  const finalContext = externalContext || hookContext;
+  const { control, register, formState, setValue } = finalContext;
+  const { errors } = formState || {};
 
   const defaultTimeValue = config?.value ? dayjs(config.value, 'HH:mm') : null;
 
-  const { control } = useForm({
-    defaultValues: {
-      [fieldName]: defaultTimeValue,
-    },
-  });
-
-  const { register, formState } = useFormContext();
-  const { errors } = formState || {};
-  if (register) {
-    register(fieldName, config);
+  // Initialize with default value
+  if (defaultTimeValue && register) {
+    setValue(fieldName, defaultTimeValue);
   }
 
   return (
@@ -40,10 +34,7 @@ export const createTimeField = (params: {
             label={label}
             value={field.value}
             onChange={(value: Dayjs | null) => {
-              config.value = value?.format('HH:mm');
-              if (register) {
-                register(fieldName, config);
-              }
+              setValue(fieldName, value);
               field.onChange(value);
 
               if (params?.handlers?.[`${fieldName}_value_onchange`]) {

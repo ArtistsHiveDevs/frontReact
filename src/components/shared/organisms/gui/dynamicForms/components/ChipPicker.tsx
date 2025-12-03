@@ -31,7 +31,9 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
   options = options || [];
   config = config || {};
 
-  const { register, formState } = useFormContext();
+  const hookContext = useFormContext();
+  const finalContext = params.formContext || hookContext;
+  const { register, formState } = finalContext;
   const { errors } = formState || {};
 
   const [selectedGroupByTerms, updateGroupByTerms] = useState([]);
@@ -68,7 +70,7 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
 
       if (aSelected && !bSelected) return -1;
       if (!aSelected && bSelected) return 1;
-      
+
       // Within same selection status, sort by label alphabetically
       return a.label.localeCompare(b.label);
     })
@@ -182,10 +184,10 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
                     // Sort selected options first, then unselected
                     const aSelected = selectedOptions.includes(a.value);
                     const bSelected = selectedOptions.includes(b.value);
-                    
+
                     if (aSelected && !bSelected) return -1;
                     if (!aSelected && bSelected) return 1;
-                    
+
                     // Within same selection status, sort by label alphabetically
                     return a.label.localeCompare(b.label);
                   })

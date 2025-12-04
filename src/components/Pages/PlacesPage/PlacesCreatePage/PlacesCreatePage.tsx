@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
+import { uploadImage } from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
@@ -21,6 +22,7 @@ const PlacesCreatePage = () => {
   const [placeId, setCurrentPlaceId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
   const [availableLanguages, updateAvailableLanguages] = useState([]);
   const [availableGenres, updateAvailableGenres] = useState([]);
+  const [requestHasBeenSended, setRequestHasBeenSended] = useState(false);
 
   const { actions: placesActions } = usePlacesSlice();
 
@@ -34,7 +36,9 @@ const PlacesCreatePage = () => {
   });
 
   useEffect(() => {
-    dispatch(placesActions.getItemById({ id: placeId }));
+    if (placeId) {
+      dispatch(placesActions.getItemById({ id: placeId }));
+    }
   }, [placeId]);
 
   useEffect(() => {
@@ -74,10 +78,25 @@ const PlacesCreatePage = () => {
   }, []);
 
   const handlers = {
-    onSubmit: (data: any, error?: any) => {
-      console.log('#####----------->>>>  !!! ', data);
+    onSubmit: async (data: any, error?: any) => {
+      if (!requestHasBeenSended) {
+        if (!currentPlace) {
+          const response = await uploadImage({ file: data.profile_pic });
 
-      navigateToEntity({ entityType: PlaceModel.name, id: currentPlace?.identifier || 'nuevo-elemento' });
+          dispatch(placesActions.createItem({ data }));
+        } else {
+          dispatch(
+            placesActions.updateItem({
+              id: currentPlace.identifier,
+              newItem: {
+                ...data,
+              },
+              // newItem: { spotify: 'InstagramActualizado' },
+            })
+          );
+        }
+      }
+      setRequestHasBeenSended(true);
     },
     onChangecountry: (data: any) => {
       console.log('#####----------->>>>  !!! ', data);

@@ -291,7 +291,7 @@ export const ProfileHeader = (props: any) => {
           </div>
         )}
         <div className="header-title d-grid align-items-bottom">
-          {!!fields.find((field) => field.name === 'username') && element?.username && (
+          {!!fields.find((field) => field.name === 'username') && (
             <div className="username">
               <span>
                 {generateEditableField('username', element, isEditable, '@')}{' '}

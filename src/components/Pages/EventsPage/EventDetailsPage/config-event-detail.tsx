@@ -33,17 +33,29 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
                 {
                   icon: 'FaRegCalendarAlt',
                   name: 'timetable__initial_date',
-                  formMetaData: { inputType: 'date', config: { required: true } },
+                  formMetaData: {
+                    inputType: 'date',
+                    config: { required: true },
+                    componentParams: {
+                      disablePast: true,
+                    },
+                  },
                 },
                 {
                   icon: 'TbDoorEnter',
                   name: 'timetable__openning_doors',
-                  formMetaData: { inputType: 'time', config: { required: true } },
+                  formMetaData: {
+                    inputType: 'time',
+                    config: { required: true },
+                  },
                 },
                 {
                   icon: 'io5 IoTimeOutline',
                   name: 'initial_time',
-                  formMetaData: { inputType: 'time', config: { required: true } },
+                  formMetaData: {
+                    inputType: 'time',
+                    config: { required: true },
+                  },
                 },
                 {
                   icon: 'FaMapMarkerAlt',

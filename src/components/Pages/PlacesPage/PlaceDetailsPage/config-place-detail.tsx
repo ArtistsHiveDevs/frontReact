@@ -425,6 +425,9 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
     ],
+    formMetaData: {
+      hidden: true,
+    },
   },
   {
     name: 'shows',
@@ -469,6 +472,9 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'light_backline',
       },
     ],
+    formMetaData: {
+      hidden: true,
+    },
   },
   // {
   //   name: 'menu',
@@ -497,5 +503,9 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         ],
       },
     ],
+
+    formMetaData: {
+      hidden: true,
+    },
   },
 ];

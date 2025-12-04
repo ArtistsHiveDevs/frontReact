@@ -1,8 +1,8 @@
 import { RegisterOptions } from 'react-hook-form';
 import { AllowedEntityRole } from '~/components/shared/atoms/app/auth/RequiredAuth';
-import { ControlType } from '../gui/dynamicForms';
+import { ControlType } from '~/components/shared/organisms/gui/dynamicForms';
 
-export enum ProfileComponentTypes {
+export enum ComponentTypes {
   ATTRIBUTES_ICON_FIELDS,
   CALENDAR_SIMPLE_LAYOUT,
   ARTS_GENRES,
@@ -22,22 +22,22 @@ export enum ProfileComponentTypes {
   EVENT_THUMBNAIL_CARD,
   VISITED_COUNTRIES_CITIES_LIST_VIEW,
 }
-export interface ProfileDetailsSubpage {
+export interface PageSection {
   name: string;
   title?: string;
-  sections?: ProfileDetailsSubpageSection[];
+  sections?: ContentSection[];
   allowedRoles?: AllowedEntityRole[];
   requireSession?: boolean;
   clickHandlerName?: string;
   formMetaData?: FormMetadata;
   hideMainMenu?: boolean;
 }
-export interface ProfileDetailsSubpageSection {
+export interface ContentSection {
   id?: string;
   name?: string;
   emptyTitle?: boolean;
-  attributes?: ProfileDetailAttributeConfiguration[];
-  components?: ProfileComponentDescriptor[];
+  attributes?: AttributeConfiguration[];
+  components?: ComponentDescriptor[];
   hidden?: boolean | Function;
   requireSession?: boolean;
   allowedRoles?: AllowedEntityRole[];
@@ -45,21 +45,21 @@ export interface ProfileDetailsSubpageSection {
   formMetaData?: FormMetadata;
 }
 
-export interface ProfileComponentDescriptor {
-  componentName: ProfileComponentTypes;
+export interface ComponentDescriptor {
+  componentName: ComponentTypes;
   data?: any;
   data_source?: any;
   clickHandlerName?: string;
   requireSession?: boolean;
   formMetaData?: FormMetadata;
 }
-export interface ProfileDetailAttributeConfiguration {
+export interface AttributeConfiguration {
   name: string;
   namePrefix?: string;
 
   valueFieldName?: string;
 
-  hidden?: boolean;
+  hidden?: boolean | Function;
 
   /**
    *
@@ -88,6 +88,11 @@ export interface ProfileDetailAttributeConfiguration {
   translationPath?: string;
 
   value?: Function | string | number;
+
+  /**
+   * Componentes anidados (para atributos con componentes complejos)
+   */
+  components?: ComponentDescriptor[];
 
   formMetaData?: FormMetadata;
 }

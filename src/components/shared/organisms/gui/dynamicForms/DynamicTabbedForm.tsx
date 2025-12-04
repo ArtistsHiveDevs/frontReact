@@ -9,17 +9,17 @@ import { SocialNetworks } from '~/constants/social-networks.const';
 import { AppUserModel } from '~/models/app/user/user.model';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import {
-  ProfileComponentDescriptor,
-  ProfileComponentTypes,
-  ProfileDetailAttributeConfiguration,
-  ProfileDetailsSubpage,
-  ProfileDetailsSubpageSection,
-} from '../../ProfileTabsPage/profile-details.def';
+  ComponentDescriptor,
+  ComponentTypes,
+  AttributeConfiguration,
+  PageSection,
+  ContentSection,
+} from '~/components/shared/organisms/gui/builders/component-types.def';
 import { DynamicControl } from './DynamicControl';
 import { ControlType, DynamicFieldData, SelectOption } from './dynamic-control-types';
 
 export interface DynamicTabbedFormParams {
-  tabsInfo: ProfileDetailsSubpage[];
+  tabsInfo: PageSection[];
   handlers: { onSubmit: Function; [handlerName: string]: Function };
   translationBasePath: string;
   entityType?: string;
@@ -66,7 +66,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
   const getAttributeTitle = (
     subpageName: string,
     sectionName: string,
-    attribute: ProfileDetailAttributeConfiguration
+    attribute: AttributeConfiguration
   ) => {
     let title: string = '';
     if (attribute.translationPath) {
@@ -82,9 +82,9 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
   };
 
   const generateSectionFormFields = (
-    subpage: ProfileDetailsSubpage,
-    section: ProfileDetailsSubpageSection,
-    componentDescriptor: ProfileComponentDescriptor,
+    subpage: PageSection,
+    section: ContentSection,
+    componentDescriptor: ComponentDescriptor,
     componentIndex: number,
     handlers: any,
     formMethods: any
@@ -115,10 +115,10 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
 
     let addComponentField = false;
 
-    if (componentDescriptor.componentName === ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS) {
+    if (componentDescriptor.componentName === ComponentTypes.ATTRIBUTES_ICON_FIELDS) {
       (componentDescriptor.data?.attributes || [])
-        .filter((attributeInfo: ProfileDetailAttributeConfiguration) => attributeInfo.formMetaData?.hidden !== true)
-        .forEach((attributeInfo: ProfileDetailAttributeConfiguration, index: number) => {
+        .filter((attributeInfo: AttributeConfiguration) => attributeInfo.formMetaData?.hidden !== true)
+        .forEach((attributeInfo: AttributeConfiguration, index: number) => {
           const { formMetaData } = attributeInfo;
 
           let inputType: ControlType = formMetaData?.inputType || 'text';
@@ -191,13 +191,13 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     } else if (componentDescriptor?.formMetaData?.inputType === 'address') {
       componentFieldData.inputType = 'address';
       addComponentField = true;
-    } else if (componentDescriptor.componentName === ProfileComponentTypes.ARTS_GENRES) {
+    } else if (componentDescriptor.componentName === ComponentTypes.ARTS_GENRES) {
       componentFieldData.inputType = 'chipPicker';
       addComponentField = true;
-    } else if (componentDescriptor.componentName === ProfileComponentTypes.IMAGE_GALLERY) {
+    } else if (componentDescriptor.componentName === ComponentTypes.IMAGE_GALLERY) {
       componentFieldData.inputType = 'file';
       addComponentField = true;
-    } else if (componentDescriptor.componentName === ProfileComponentTypes.PROFILE_THUMBNAIL_CARD) {
+    } else if (componentDescriptor.componentName === ComponentTypes.PROFILE_THUMBNAIL_CARD) {
       componentFieldData.inputType = 'relationship';
       if (!!relationshipsValues && !Object.keys(relationshipsValues).find((key) => key === fieldNameComponent)) {
         relationshipsValues[fieldNameComponent] = [];
@@ -209,7 +209,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
         componentFieldData.componentParams = { ...componentParamsComponent, ...fieldExternalData[fieldNameComponent] };
       };
       addComponentField = true;
-    } else if (componentDescriptor.componentName === ProfileComponentTypes.HTML_CONTENT) {
+    } else if (componentDescriptor.componentName === ComponentTypes.HTML_CONTENT) {
       componentFieldData.inputType = 'textarea';
       addComponentField = true;
     }
@@ -233,7 +233,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     );
   };
 
-  const transformedConfig = (subpagesConfig: ProfileDetailsSubpage[], elementData?: EntityModel<EntityTemplate>) => {
+  const transformedConfig = (subpagesConfig: PageSection[], elementData?: EntityModel<EntityTemplate>) => {
     return (subpagesConfig || [])
       .filter((subpageConfig) => subpageConfig.formMetaData?.hidden !== true)
       .map((subpage, subPageIndex) => {
@@ -254,7 +254,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
                     let contentComponents: any = <></>;
                     if (section.components) {
                       contentComponents = (section.components || []).map(
-                        (componentDescriptor: ProfileComponentDescriptor, componentIndex: number) => (
+                        (componentDescriptor: ComponentDescriptor, componentIndex: number) => (
                           <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
                             {generateSectionFormFields(
                               subpage,

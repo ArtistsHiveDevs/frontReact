@@ -19,7 +19,7 @@ import { appMessages, AVAILABLE_I18N_LANGUAGES } from './translations';
 // routes
 import { AuthProvider, HvAppContext, HvAppContextProvider } from './common';
 
-import { deDE, enUS, esES, frFR, itIT, ptBR } from '@mui/x-date-pickers';
+import { deDE, elGR, enUS, esES, frFR, itIT, ptBR } from '@mui/x-date-pickers';
 
 import { createTheme, ThemeProvider } from '@mui/material';
 import { FetchUserAttributesOutput, getCurrentUser } from 'aws-amplify/auth';
@@ -124,6 +124,9 @@ const geti18nGUILanguage = (currentLang: string) => {
   switch (currentLang) {
     case 'de':
       language = deDE;
+      break;
+    case 'el':
+      language = elGR;
       break;
     case 'es':
       language = esES;

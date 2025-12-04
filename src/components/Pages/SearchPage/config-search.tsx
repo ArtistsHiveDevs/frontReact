@@ -1,10 +1,10 @@
 import {
-  ProfileComponentTypes,
-  ProfileDetailsSubpage,
-} from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
+  ComponentTypes,
+  PageSection,
+} from '~/components/shared/organisms/gui/builders/component-types.def';
 // import { CitySelectionLevel } from '~/components/shared/organisms/gui/dynamicForms/components/CitySelector';
 
-export const SEARCH_FILTERS_CONFIG: ProfileDetailsSubpage[] = [
+export const SEARCH_FILTERS_CONFIG: PageSection[] = [
   {
     name: 'general',
     sections: [
@@ -12,7 +12,7 @@ export const SEARCH_FILTERS_CONFIG: ProfileDetailsSubpage[] = [
         name: 'general',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -37,7 +37,7 @@ export const SEARCH_FILTERS_CONFIG: ProfileDetailsSubpage[] = [
         name: 'dates',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -53,7 +53,7 @@ export const SEARCH_FILTERS_CONFIG: ProfileDetailsSubpage[] = [
         name: 'languages',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -82,7 +82,7 @@ export const SEARCH_FILTERS_CONFIG: ProfileDetailsSubpage[] = [
         name: 'general',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -111,7 +111,7 @@ export const SEARCH_FILTERS_CONFIG: ProfileDetailsSubpage[] = [
         name: 'rating',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -140,7 +140,7 @@ export const SEARCH_FILTERS_CONFIG: ProfileDetailsSubpage[] = [
         name: 'stage',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -164,7 +164,7 @@ export const SEARCH_FILTERS_CONFIG: ProfileDetailsSubpage[] = [
         name: 'backline',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -185,7 +185,7 @@ export const SEARCH_FILTERS_CONFIG: ProfileDetailsSubpage[] = [
         name: 'presence',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {

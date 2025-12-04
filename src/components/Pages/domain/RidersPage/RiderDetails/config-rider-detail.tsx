@@ -1,10 +1,10 @@
 import {
-  ProfileComponentTypes,
-  ProfileDetailsSubpage,
-} from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
+  ComponentTypes,
+  PageSection,
+} from '~/components/shared/organisms/gui/builders/component-types.def';
 import { ArtistRiderModel } from '~/models/domain/rider/rider.model';
 
-export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
+export const RIDER_DETAILS_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'general',
     sections: [
@@ -12,7 +12,7 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'general',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -52,7 +52,7 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'contact',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -73,7 +73,7 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'general_technical_features',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -99,7 +99,7 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'staff',
         components: [
           {
-            componentName: ProfileComponentTypes.CREW_LIST_RIDER_VIEW,
+            componentName: ComponentTypes.CREW_LIST_RIDER_VIEW,
             data: {
               crewList: 'staff.crewList',
             },
@@ -110,7 +110,7 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'external_transportation',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -126,7 +126,7 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'internal_transportation',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -142,7 +142,7 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'rooming_list',
         components: [
           {
-            componentName: ProfileComponentTypes.TABLE,
+            componentName: ComponentTypes.TABLE,
             data: {},
           },
         ],
@@ -156,82 +156,82 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'staging',
         components: [
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'Stage plot',
               size: '3',
             },
           },
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'Top view',
               size: '5',
             },
           },
           {
-            componentName: ProfileComponentTypes.IMAGE_GALLERY,
+            componentName: ComponentTypes.IMAGE_GALLERY,
             data: {
               image: 'stage_plot.topview',
             },
           },
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'Front view',
               size: '5',
             },
           },
           {
-            componentName: ProfileComponentTypes.IMAGE_GALLERY,
+            componentName: ComponentTypes.IMAGE_GALLERY,
             data: {
               image: 'stage_plot.frontview',
             },
           },
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'Stage & structures',
               size: '3',
             },
           },
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'Tarima',
               size: '5',
             },
           },
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'Sobre Tarima',
               size: '5',
             },
           },
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'Structures',
               size: '3',
             },
           },
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'Roofs',
               size: '5',
             },
           },
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'House Mix',
               size: '5',
             },
           },
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'Edit',
               size: '5',
@@ -244,14 +244,14 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'audio_requirements',
         components: [
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'Input List',
               size: '3',
             },
           },
           {
-            componentName: ProfileComponentTypes.TABLE,
+            componentName: ComponentTypes.TABLE,
             data: {
               tableConfig: (rider: ArtistRiderModel) => {
                 let config = undefined;
@@ -269,14 +269,14 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             },
           },
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'Mezclas y monitoreo',
               size: '3',
             },
           },
           {
-            componentName: ProfileComponentTypes.TABLE,
+            componentName: ComponentTypes.TABLE,
             data: {
               tableConfig: (rider: ArtistRiderModel) => {
                 let config = undefined;
@@ -299,42 +299,42 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'video_requirements',
         components: [
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'Reproducción de video',
               size: '3',
             },
           },
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'Pantallas',
               size: '3',
             },
           },
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'Pantalla izquierda',
               size: '5',
             },
           },
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'Pantalla Central',
               size: '5',
             },
           },
           {
-            componentName: ProfileComponentTypes.TITLE,
+            componentName: ComponentTypes.TITLE,
             data: {
               title: 'Pantalla Derecha',
               size: '5',
             },
           },
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -351,7 +351,7 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'lights_requirements',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -368,7 +368,7 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'stage_design',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -385,7 +385,7 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'special_effects',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -407,7 +407,7 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'external_required_backline',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -424,7 +424,7 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'owned_backline',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -446,7 +446,7 @@ export const RIDER_DETAILS_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'timing',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {

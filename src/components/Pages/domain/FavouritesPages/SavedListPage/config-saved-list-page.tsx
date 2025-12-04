@@ -1,6 +1,6 @@
-import { ProfileDetailsSubpage } from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
+import { PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 
-export const SAVED_LIST_PAGE_CONFIG: ProfileDetailsSubpage[] = [
+export const SAVED_LIST_PAGE_CONFIG: PageSection[] = [
   {
     name: 'artists',
     sections: [],

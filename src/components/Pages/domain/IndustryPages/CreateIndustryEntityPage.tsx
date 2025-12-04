@@ -13,9 +13,9 @@ import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import MainSection from '~/components/Pages/HomePage/MainSection/MainSection';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import {
-  ProfileComponentTypes,
-  ProfileDetailsSubpage,
-} from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
+  ComponentTypes,
+  PageSection,
+} from '~/components/shared/organisms/gui/builders/component-types.def';
 import { SUB_PATHS } from '~/constants';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
@@ -55,7 +55,7 @@ const CreateIndustryEntityPage = () => {
     // 'promoters'
   ];
 
-  const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = roles.map((role) => {
+  const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = roles.map((role) => {
     return {
       name: role,
       title: translateGlobalDict(`entities.${role}.plural`),
@@ -65,7 +65,7 @@ const CreateIndustryEntityPage = () => {
           title: '"',
           components: [
             {
-              componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
+              componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
               data: {
                 data_source: 'main_artists',
               },
@@ -86,7 +86,7 @@ const CreateIndustryEntityPage = () => {
   //         name: 'main_artists',
   //         components: [
   //           {
-  //             componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
+  //             componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
   //             data: {
   //               data_source: 'main_artists',
   //             },
@@ -99,7 +99,7 @@ const CreateIndustryEntityPage = () => {
   //         name: 'other_artists',
   //         components: [
   //           {
-  //             componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
+  //             componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
   //             data: {
   //               data_source: 'other_artists',
   //             },

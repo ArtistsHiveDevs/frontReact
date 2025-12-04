@@ -6,9 +6,9 @@ import {
   IconDetailedAttribute,
 } from '~/components/shared/molecules/general/AttributesIconField';
 import {
-  ProfileComponentTypes,
-  ProfileDetailsSubpage,
-} from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
+  ComponentTypes,
+  PageSection,
+} from '~/components/shared/organisms/gui/builders/component-types.def';
 import { formatDateInMomentType } from '~/constants';
 import { EventConfirmationStatus } from '~/models/domain/event/event.model';
 import { TourOutlineModel } from '~/models/domain/favourites/tourOutline';
@@ -18,7 +18,7 @@ function formatDate(date: string) {
   const dateFormat = newDate.year() === moment(moment.now()).year() ? 'dddd, MMMM DD' : 'dddd, MMMM DD (YYYY)';
   return formatDateInMomentType(date, dateFormat);
 }
-export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
+export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'general',
     sections: [
@@ -26,7 +26,7 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'dates',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -100,7 +100,7 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'shows',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -139,7 +139,7 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       {
         components: [
           {
-            componentName: ProfileComponentTypes.EVENT_THUMBNAIL_CARD,
+            componentName: ComponentTypes.EVENT_THUMBNAIL_CARD,
             data: {
               data_source: 'events',
             },
@@ -155,7 +155,7 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'accommodation',
         components: [
           {
-            componentName: ProfileComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.HTML_CONTENT,
             data: {
               render: (tourOutline: TourOutlineModel) => {
                 const icons = {
@@ -206,7 +206,7 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'intercity_transportation',
         components: [
           {
-            componentName: ProfileComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.HTML_CONTENT,
             data: {
               render: (tourOutline: TourOutlineModel) => {
                 const icons = {
@@ -265,7 +265,7 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'internal_transportation',
         components: [
           {
-            componentName: ProfileComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.HTML_CONTENT,
             data: {
               render: (tourOutline: TourOutlineModel) => {
                 const icons = {
@@ -337,7 +337,7 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'guest_artists',
         components: [
           {
-            componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
+            componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
             data: {
               data_source: 'likedArtists',
             },
@@ -348,7 +348,7 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'possible_shows',
         components: [
           {
-            componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
+            componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
             data: {
               data_source: 'likedPlaces',
             },

@@ -1,15 +1,15 @@
 import Flag from 'react-world-flags';
 import { RatingStarsView } from '~/components/shared/atoms/gui/rating-stars-view/RatingStarsView';
 import {
-  ProfileComponentTypes,
-  ProfileDetailsSubpage,
-} from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
+  ComponentTypes,
+  PageSection,
+} from '~/components/shared/organisms/gui/builders/component-types.def';
 // import { CitySelectionLevel } from '~/components/shared/organisms/gui/dynamicForms/components/CitySelector';
 import { PlaceModel, PlaceRatingTemplate } from '~/models/domain/place/place.model';
 
 export const TRANSLATION_BASE_PLACE_DETAIL_PAGE = 'app.pages.PlacesPages.PlacesDetailsPage';
 
-export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
+export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'general',
     sections: [
@@ -17,7 +17,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'gallery',
         components: [
           {
-            componentName: ProfileComponentTypes.HORIZONTAL_IMAGE_GALLERY,
+            componentName: ComponentTypes.HORIZONTAL_IMAGE_GALLERY,
             data: { images: 'image_gallery' },
             clickHandlerName: 'onClickGalleryImage',
             formMetaData: {
@@ -32,7 +32,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'general',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -126,7 +126,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             },
           },
           {
-            componentName: ProfileComponentTypes.MAP,
+            componentName: ComponentTypes.MAP,
             data: { lat: 'latitude', lng: 'longitude' },
           },
         ],
@@ -135,7 +135,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'genres',
         components: [
           {
-            componentName: ProfileComponentTypes.ARTS_GENRES,
+            componentName: ComponentTypes.ARTS_GENRES,
             data: {
               genres: 'genres',
             },
@@ -148,7 +148,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'contact',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -175,7 +175,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'social_networks',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -211,7 +211,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       //   name: 'social_network_presence',
       //   components: [
       //     {
-      //       componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
       //       data: {
       //         attributes: [
       //           {
@@ -335,13 +335,13 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'rating',
         components: [
           {
-            componentName: ProfileComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.HTML_CONTENT,
             data: {
               content: '* * Las siguientes calificaciones son ficticias y sirven para efectos de pruebas.',
             },
           },
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               data_source: 'stats.rating',
               fields: [
@@ -436,7 +436,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'next_shows',
         components: [
           {
-            componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
+            componentName: ComponentTypes.CALENDAR_SIMPLE_LAYOUT,
             data: {
               data_source: 'nextEvents',
               options: { hidePlace: true },
@@ -449,7 +449,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'past_shows',
         components: [
           {
-            componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
+            componentName: ComponentTypes.CALENDAR_SIMPLE_LAYOUT,
             data: {
               data_source: 'pastEvents',
               options: { hidePlace: true },
@@ -494,7 +494,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       {
         components: [
           {
-            componentName: ProfileComponentTypes.PROFILE_FOLLOWERS_COMPONENT,
+            componentName: ComponentTypes.PROFILE_FOLLOWERS_COMPONENT,
             // data: {
             //   data_source: 'nextEvents',
             // },

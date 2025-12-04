@@ -1,14 +1,14 @@
 import dayjs from 'dayjs';
 import { useI18n } from '~/common/utils';
 import {
-  ProfileComponentTypes,
-  ProfileDetailsSubpage,
-} from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
+  ComponentTypes,
+  PageSection,
+} from '~/components/shared/organisms/gui/builders/component-types.def';
 import { AppUserModel } from '~/models/app/user/user.model';
 
 export const TRANSLATION_BASE_USER_DETAIL_PAGE = 'app.pages.app_base.UsersPages.UsersDetailsPage';
 
-export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
+export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'general',
     sections: [
@@ -16,7 +16,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'general',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -116,7 +116,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         allowedRoles: [{ entityName: 'Artist' }],
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -140,7 +140,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'music',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -172,7 +172,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       //   name: 'dance',
       //   components: [
       //     {
-      //       componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
       //       data: {
       //         attributes: [],
       //       },
@@ -183,7 +183,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'photography',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [],
             },
@@ -194,7 +194,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       //   name: 'video',
       //   components: [
       //     {
-      //       componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
       //       data: {
       //         attributes: [],
       //       },
@@ -205,7 +205,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       //   name: 'painting',
       //   components: [
       //     {
-      //       componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
       //       data: {
       //         attributes: [],
       //       },
@@ -216,7 +216,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       //   name: 'poetry',
       //   components: [
       //     {
-      //       componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
       //       data: {
       //         attributes: [],
       //       },
@@ -227,7 +227,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
       //   name: 'standup_comedy',
       //   components: [
       //     {
-      //       componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
       //       data: {
       //         attributes: [],
       //       },
@@ -248,7 +248,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'artists_info',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -293,7 +293,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'emergency_contact',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               data_element_title: {
                 prefix: 'contact',
@@ -326,7 +326,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'artists',
         components: [
           {
-            componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
+            componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
             data: {
               data_source: 'artistMemberships',
               footer: (a: any) => (
@@ -346,7 +346,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'places',
         components: [
           {
-            componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
+            componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
             data: {
               data_source: 'placeMemberships',
               footer: (a: any) => (
@@ -372,7 +372,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   //       name: 'next_shows',
   //       components: [
   //         {
-  //           componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
+  //           componentName: ComponentTypes.CALENDAR_SIMPLE_LAYOUT,
   //           data: {
   //             data_source: 'events_as_artist.next_events',
   //             fields: {
@@ -391,7 +391,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   //       name: 'past_shows',
   //       components: [
   //         {
-  //           componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
+  //           componentName: ComponentTypes.CALENDAR_SIMPLE_LAYOUT,
   //           data: {
   //             data_source: 'events_as_artist.past_events',
   //             fields: {
@@ -416,7 +416,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   //       name: 'next_shows',
   //       components: [
   //         {
-  //           componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
+  //           componentName: ComponentTypes.CALENDAR_SIMPLE_LAYOUT,
   //           data: {
   //             data_source: 'subscribed_events.next_events',
   //             fields: {
@@ -435,7 +435,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
   //       name: 'past_shows',
   //       components: [
   //         {
-  //           componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
+  //           componentName: ComponentTypes.CALENDAR_SIMPLE_LAYOUT,
   //           data: {
   //             data_source: 'subscribed_events.past_events',
   //             fields: {

@@ -1,14 +1,14 @@
 import Flag from 'react-world-flags';
 import {
-  ProfileComponentTypes,
-  ProfileDetailsSubpage,
-} from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
+  ComponentTypes,
+  PageSection,
+} from '~/components/shared/organisms/gui/builders/component-types.def';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
 
 export const TRANSLATION_BASE_EVENT_DETAILS_PAGE: string = 'app.pages.EventsPages.EventDetailsPage';
 
-export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
+export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'general',
     sections: [
@@ -16,7 +16,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'description',
         components: [
           {
-            componentName: ProfileComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.HTML_CONTENT,
             data: {
               attribute_content: 'description',
             },
@@ -27,7 +27,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'general',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -106,7 +106,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'genres',
         components: [
           {
-            componentName: ProfileComponentTypes.ARTS_GENRES,
+            componentName: ComponentTypes.ARTS_GENRES,
             data: {
               genres: 'genres',
             },
@@ -123,7 +123,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'main_artists',
         components: [
           {
-            componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
+            componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
             data: {
               data_source: 'main_artists',
             },
@@ -136,7 +136,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'other_artists',
         components: [
           {
-            componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
+            componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
             data: {
               data_source: 'other_artists',
             },
@@ -158,13 +158,13 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         id: 'place',
         components: [
           {
-            componentName: ProfileComponentTypes.PROFILE_THUMBNAIL_CARD,
+            componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
             data: {
               data_source: 'place',
               footer: {
                 components: [
                   {
-                    componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+                    componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
                     data: {
                       data_source: 'place',
                       attributes: [
@@ -226,7 +226,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'location',
         components: [
           {
-            componentName: ProfileComponentTypes.MAP,
+            componentName: ComponentTypes.MAP,
             data: {
               data_source: 'place',
               lat: 'latitude',
@@ -245,7 +245,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'general',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -270,7 +270,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'contact',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -294,7 +294,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'social_networks',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -329,7 +329,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'additional_info',
         components: [
           {
-            componentName: ProfileComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.HTML_CONTENT,
             data: {
               attribute_content: 'additional_info',
             },
@@ -340,7 +340,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'dress_code',
         components: [
           {
-            componentName: ProfileComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.HTML_CONTENT,
             data: {
               attribute_content: 'dress_code',
             },
@@ -351,7 +351,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'discounts',
         components: [
           {
-            componentName: ProfileComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.HTML_CONTENT,
             data: {
               attribute_content: 'discounts',
             },
@@ -362,7 +362,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'promoter',
         components: [
           {
-            componentName: ProfileComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.HTML_CONTENT,
             data: {
               attribute_content: 'promoter',
             },

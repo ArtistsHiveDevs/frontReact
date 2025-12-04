@@ -1,9 +1,9 @@
 import {
-  ProfileComponentTypes,
-  ProfileDetailsSubpage,
-} from '~/components/shared/organisms/ProfileTabsPage/profile-details.def';
+  ComponentTypes,
+  PageSection,
+} from '~/components/shared/organisms/gui/builders/component-types.def';
 
-export const ACADEMY_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
+export const ACADEMY_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'general',
     sections: [
@@ -11,7 +11,7 @@ export const ACADEMY_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'gallery',
         components: [
           {
-            componentName: ProfileComponentTypes.IMAGE_GALLERY,
+            componentName: ComponentTypes.IMAGE_GALLERY,
             data: { images: 'image_gallery' },
             clickHandlerName: 'onClickGalleryImage',
           },
@@ -21,7 +21,7 @@ export const ACADEMY_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'general',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -53,7 +53,7 @@ export const ACADEMY_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
             },
           },
           {
-            componentName: ProfileComponentTypes.MAP,
+            componentName: ComponentTypes.MAP,
             data: { lat: 'latitude', lng: 'longitude' },
           },
         ],
@@ -62,7 +62,7 @@ export const ACADEMY_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'contact',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -89,7 +89,7 @@ export const ACADEMY_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'social_networks',
         components: [
           {
-            componentName: ProfileComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
                 {
@@ -180,7 +180,7 @@ export const ACADEMY_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'next_shows',
         components: [
           {
-            componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
+            componentName: ComponentTypes.CALENDAR_SIMPLE_LAYOUT,
             data: {
               data_source: 'nextEvents',
               fields: {
@@ -198,7 +198,7 @@ export const ACADEMY_DETAIL_SUB_PAGE_CONFIG: ProfileDetailsSubpage[] = [
         name: 'past_shows',
         components: [
           {
-            componentName: ProfileComponentTypes.CALENDAR_SIMPLE_LAYOUT,
+            componentName: ComponentTypes.CALENDAR_SIMPLE_LAYOUT,
             data: {
               data_source: 'pastEvents',
               fields: {

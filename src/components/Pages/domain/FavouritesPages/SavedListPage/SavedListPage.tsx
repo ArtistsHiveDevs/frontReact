@@ -61,7 +61,7 @@ const SavedListPage = () => {
   // }
 
   // // Data config
-  // const tabs: TabbedPage[] = subPagesInfo.map((subpage: ProfileDetailsSubpage) => {
+  // const tabs: TabbedPage[] = subPagesInfo.map((subpage: PageSection) => {
   //   return {
   //     name: subpage.name,
   //     tabContent: () => {

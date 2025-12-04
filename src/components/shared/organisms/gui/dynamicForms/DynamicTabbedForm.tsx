@@ -296,6 +296,24 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     formState: { errors },
   } = formMethods;
 
+  // 🔍 Logging de errores para debugging
+  const handleFormSubmit = (data: any) => {
+    // console.log('✅ Form submitted successfully with data:', data);
+    return onSubmit(data);
+  };
+
+  const handleFormErrors = (errors: any) => {
+    // console.log('❌ Form validation failed. Errors by field:');
+    // console.table(
+    //   Object.entries(errors).map(([fieldName, error]: [string, any]) => ({
+    //     Campo: fieldName,
+    //     Mensaje: error?.message || 'Error sin mensaje',
+    //     Tipo: error?.type || 'unknown',
+    //   }))
+    // );
+    // console.log('Full errors object:', errors);
+  };
+
   // customHeaderConfig = undefined;
 
   if (entityType === AppUserModel.name) {
@@ -317,7 +335,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="fullwidth">
+    <form onSubmit={handleSubmit(handleFormSubmit, handleFormErrors)} noValidate className="fullwidth">
       <FormProvider {...formMethods}>
         <div className="place-container">
           {/* {profileHeaderComponent || <ProfileHeader element={entityData} />} */}

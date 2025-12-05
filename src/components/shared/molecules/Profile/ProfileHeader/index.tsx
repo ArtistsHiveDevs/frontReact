@@ -1,5 +1,5 @@
 import { Avatar, Button, Dialog, DialogContent, IconButton } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { RegisterOptions } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
@@ -46,6 +46,10 @@ export const ProfileHeader = (props: any) => {
   const { errors } = formState || {};
 
   const avatarSize = 120;
+
+  // Estado y ref para el header fijo
+  const [showFixedHeader, setShowFixedHeader] = useState(false);
+  const headerRef = useRef<HTMLDivElement>(null);
 
   const [fields, setFieldData] = useState<FieldInfo[]>(
     customHeaderConfig || [
@@ -124,6 +128,20 @@ export const ProfileHeader = (props: any) => {
       ) + 1;
     setBorderProfileColor(entityColorIndex);
   }, [element, loggedUser]);
+
+  // Efecto para manejar el scroll y mostrar/ocultar el header fijo
+  useEffect(() => {
+    const handleScroll = () => {
+      if (headerRef.current) {
+        const headerRect = headerRef.current.getBoundingClientRect();
+        // Mostrar header fijo cuando el header principal está fuera de la vista
+        setShowFixedHeader(headerRect.bottom < 0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const generateEditableField = (fieldName: string, element: any, isEditable?: boolean, prefix?: any) => {
     const newField = fields.find((item) => item.name === fieldName);
@@ -261,7 +279,39 @@ export const ProfileHeader = (props: any) => {
           {element.activity === 'probably_active' && 'Parece que este perfil no está activo'}
         </div>
       )}
-      <div className={['profile-header', `profile-entity-${borderProfileColor}-item`].join(' ')}>
+
+      {/* Header fijo que aparece al hacer scroll */}
+      {!isEditable && element && (
+        <div
+          className={[
+            'fixed-profile-header',
+            `profile-entity-${borderProfileColor}-item`,
+            showFixedHeader ? 'visible' : '',
+          ].join(' ')}
+        >
+          <div className="fixed-header-content">
+            <Avatar src={image} alt={element?.name} sx={{ width: 50, height: 50 }} />
+            <div className="fixed-header-info">
+              <div className="fixed-username">
+                @{element?.username} <VerifiedArtist verifiedStatus={element?.verified_status} />
+              </div>
+              <div className="fixed-name">{element?.name}</div>
+            </div>
+            {element && !currentUserIsInProfile && (
+              <div className="fixed-like-button">
+                <FavoriteSubscription
+                  size={24}
+                  iconType={FavoriteSubscritionIconDefaultTypes.HEART}
+                  customSubscriberTo={element?.isFollowedByCurrentProfile}
+                  callback={parentHandlers?.onClickFollowSucription && parentHandlers['onClickFollowSucription']}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      <div ref={headerRef} className={['profile-header', `profile-entity-${borderProfileColor}-item`].join(' ')}>
         {isEditable && (
           <div className="profile-avatar-border">
             <input accept="image/*" id="profile-pic-button-file" type="file" hidden onChange={handleOnChange} />

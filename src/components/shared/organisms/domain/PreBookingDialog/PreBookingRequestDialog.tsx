@@ -280,6 +280,7 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
       </>
     );
   };
+
   return (
     <>
       <AppDialog
@@ -288,97 +289,97 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
         onClose={onClose}
         content={
           <DynamicForm
+            formMethods={methods}
             fields={[
-              {
-                fieldName: 'name',
-                inputType: 'text',
-                label: 'Name',
-
-                config: { required: true },
-              },
-              {
-                fieldName: 'description',
-                inputType: 'textarea',
-                label: 'Description',
-                config: { required: true },
-              },
-              {
-                fieldName: 'flexible_dates',
-                inputType: 'switch',
-                label: 'Flexible dates',
-                handlersNames: ['onClick'],
-              },
-              {
-                fieldName: 'date',
-                inputType: 'date',
-                label: 'date',
-                config: { required: true },
-                componentParams: {
-                  disablePast: true,
+                {
+                  fieldName: 'name',
+                  inputType: 'text',
+                  label: 'Name',
+                  config: { required: true },
                 },
-              },
-              {
-                fieldName: 'recipients',
-                inputType: 'hidden',
-                label: 'Artists',
-                componentParams: {
-                  render: (
-                    <div>
-                      {entities.map((entityName: string) => {
-                        const missingParticipant = isMissingParticipantForEntity(entityName);
-                        return (
-                          <div key={entityName}>
-                            <div className="pbrd-entity-type-participants">
-                              <FormLabel
-                                required={true}
-                                error={missingParticipant}
-                                className="pbrd-entity-type-participants"
-                              >
-                                {getModelInfoFromClassName(entityName).plural &&
-                                  translateGlobalDict(
-                                    `entities.${getModelInfoFromClassName(entityName).plural}.plural`
-                                  )}
-                              </FormLabel>
-                              <DynamicIcons
-                                iconName="fa6 FaCirclePlus"
-                                size={20}
-                                color="white"
-                                onClick={() => setSearchEntity(entityName)}
-                              />
-                            </div>
-                            <div className="pbrd-participants-box">
-                              {participants
-                                .filter((p: CurrentProfileInfoModel) => p.entity === entityName)
-                                .map((participant: CurrentProfileInfoModel) => (
-                                  <div key={participant.identifier}>
-                                    {ProfileIconWithName({
-                                      element: participant,
-                                      handlers: {
-                                        onTopRightClick: (element: any) => {
-                                          deleteParticipant(element.identifier);
+                {
+                  fieldName: 'description',
+                  inputType: 'textarea',
+                  label: 'Description',
+                  config: { required: true },
+                },
+                {
+                  fieldName: 'flexible_dates',
+                  inputType: 'switch',
+                  label: 'Flexible dates',
+                  handlersNames: ['onClick'],
+                },
+                {
+                  fieldName: 'date',
+                  inputType: 'date',
+                  label: 'date',
+                  config: { required: true },
+                  componentParams: {
+                    disablePast: true,
+                  },
+                },
+                {
+                  fieldName: 'recipients',
+                  inputType: 'hidden',
+                  label: 'Artists',
+                  componentParams: {
+                    render: (
+                      <div>
+                        {entities.map((entityName: string) => {
+                          const missingParticipant = isMissingParticipantForEntity(entityName);
+                          return (
+                            <div key={entityName}>
+                              <div className="pbrd-entity-type-participants">
+                                <FormLabel
+                                  required={true}
+                                  error={missingParticipant}
+                                  className="pbrd-entity-type-participants"
+                                >
+                                  {getModelInfoFromClassName(entityName).plural &&
+                                    translateGlobalDict(
+                                      `entities.${getModelInfoFromClassName(entityName).plural}.plural`
+                                    )}
+                                </FormLabel>
+                                <DynamicIcons
+                                  iconName="fa6 FaCirclePlus"
+                                  size={20}
+                                  color="white"
+                                  onClick={() => setSearchEntity(entityName)}
+                                />
+                              </div>
+                              <div className="pbrd-participants-box">
+                                {participants
+                                  .filter((p: CurrentProfileInfoModel) => p.entity === entityName)
+                                  .map((participant: CurrentProfileInfoModel) => (
+                                    <div key={participant.identifier}>
+                                      {ProfileIconWithName({
+                                        element: participant,
+                                        handlers: {
+                                          onTopRightClick: (element: any) => {
+                                            deleteParticipant(element.identifier);
+                                          },
                                         },
-                                      },
-                                    })}
-                                  </div>
-                                ))}
+                                      })}
+                                    </div>
+                                  ))}
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ),
+                          );
+                        })}
+                      </div>
+                    ),
+                  },
                 },
-              },
-              {
-                fieldName: 'notes',
-                inputType: 'textarea',
-                label: 'Notes',
-              },
-            ]}
-            handlers={handlers}
-            translationBasePath=""
-            submitLabel="create"
-          />
+                {
+                  fieldName: 'notes',
+                  inputType: 'textarea',
+                  label: 'Notes',
+                },
+              ]}
+              handlers={handlers}
+              translationBasePath=""
+              submitLabel="create"
+            />
         }
       />
       <AppDialog

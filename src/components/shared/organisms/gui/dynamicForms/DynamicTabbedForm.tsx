@@ -5,16 +5,16 @@ import { I18nPaths, useI18n } from '~/common/utils';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
+import {
+  AttributeConfiguration,
+  ComponentDescriptor,
+  ComponentTypes,
+  ContentSection,
+  PageSection,
+} from '~/components/shared/organisms/gui/builders/component-types.def';
 import { SocialNetworks } from '~/constants/social-networks.const';
 import { AppUserModel } from '~/models/app/user/user.model';
 import { EntityModel, EntityTemplate } from '~/models/base';
-import {
-  ComponentDescriptor,
-  ComponentTypes,
-  AttributeConfiguration,
-  PageSection,
-  ContentSection,
-} from '~/components/shared/organisms/gui/builders/component-types.def';
 import { DynamicControl } from './DynamicControl';
 import { ControlType, DynamicFieldData, SelectOption } from './dynamic-control-types';
 
@@ -60,22 +60,21 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
   const translateSection = (subpage: string, section: string) => {
     return section ? translateText(`${translationBasePath}.subpages.${subpage}.sections.${section}.name`) : undefined;
   };
-  const translateAttribute = (subpage: string, section: string, attribute: string) => {
-    return translateText(`${translationBasePath}.subpages.${subpage}.sections.${section}.attributes.${attribute}`);
+  const translateAttribute = (subpage: string, section: string, attribute: string, suffix: string) => {
+    return translateText(
+      `${translationBasePath}.subpages.${subpage}.sections.${section}.attributes.${attribute}`,
+      suffix
+    );
   };
-  const getAttributeTitle = (
-    subpageName: string,
-    sectionName: string,
-    attribute: AttributeConfiguration
-  ) => {
+  const getAttributeTitle = (subpageName: string, sectionName: string, attribute: AttributeConfiguration) => {
     let title: string = '';
     if (attribute.translationPath) {
-      title = translateText(`${attribute.translationPath}.${attribute.name}`);
+      title = translateText(`${attribute.translationPath}.${attribute.name}`, attribute.labelChild);
     } else if (attribute.title) {
       title = attribute.title;
     } else {
       // if (attribute.useTranslation || attribute.emptyTitle === undefined || attribute.emptyTitle === false) {
-      title = translateAttribute(subpageName, sectionName, attribute.name);
+      title = translateAttribute(subpageName, sectionName, attribute.name, attribute.labelChild);
     }
 
     return title;

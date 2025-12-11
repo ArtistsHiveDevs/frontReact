@@ -56,6 +56,7 @@ export interface ComponentDescriptor {
 export interface AttributeConfiguration {
   name: string;
   namePrefix?: string;
+  labelChild?: string;
 
   valueFieldName?: string;
 

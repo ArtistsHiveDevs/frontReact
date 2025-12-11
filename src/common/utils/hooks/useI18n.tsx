@@ -12,15 +12,16 @@ export const useI18n = () => {
   let { locale, formatMessage } = useIntl();
   locale = !!locale ? locale : 'es';
 
-  const translateText = (messageId: string) => {
-    const subpaths = messageId?.split('.') || [];
+  const translateText = (messageId: string, suffix?: string) => {
+    const fullMessageId = suffix ? `${messageId}.${suffix}` : messageId;
+    const subpaths = fullMessageId?.split('.') || [];
     let response = '';
     if (subpaths.length) {
       const socialNetworkName = SocialNetworks[subpaths[subpaths.length - 1]];
       if (!socialNetworkName) {
-        response = formatMessage({ id: messageId });
+        response = formatMessage({ id: fullMessageId });
       } else {
-        response = socialNetworkName.title || (!socialNetworkName.emptyTitle && formatMessage({ id: messageId }));
+        response = socialNetworkName.title || (!socialNetworkName.emptyTitle && formatMessage({ id: fullMessageId }));
       }
     }
     return response;

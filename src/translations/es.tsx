@@ -72,6 +72,19 @@ export const EsMessages = {
         places: { plural: 'Lugares', singular: 'Lugar' },
         promoters: { plural: 'Promotores', singular: 'Promotor' },
         prebooking_requests: { plural: 'Pre-Reservas', singular: 'Pre-Reserva' },
+        users: {
+          plural: 'Usuarios',
+          singular: 'Usuario',
+          attributes: {
+            agrees_to_a_blood_transfusion: {
+              label: '¿Acepta transfusiones sanguíneas?',
+              values: {
+                true: 'Acepta transfusiones sanguíneas',
+                false: 'No acepta transfusiones sanguíneas',
+              },
+            },
+          },
+        },
       },
       errors: {
         // Data error

@@ -72,6 +72,19 @@ export const ItMessages = {
         places: { plural: 'Luoghi', singular: 'Luogo' },
         promoters: { plural: 'Promotori', singular: 'Promotore' },
         prebooking_requests: { plural: 'Pre-Prenotazioni', singular: 'Pre-Prenotazione' },
+        users: {
+          plural: 'Utenti',
+          singular: 'Utente',
+          attributes: {
+            agrees_to_a_blood_transfusion: {
+              label: 'Accetti trasfusioni di sangue?',
+              values: {
+                true: 'Accetta trasfusioni di sangue',
+                false: 'Non accetta trasfusioni di sangue',
+              },
+            },
+          },
+        },
       },
       errors: {
         // Data error

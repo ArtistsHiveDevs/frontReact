@@ -72,6 +72,19 @@ export const EnMessages = {
         places: { plural: 'Places', singular: 'Place' },
         promoters: { plural: 'Promoters', singular: 'Promoter' },
         prebooking_requests: { plural: 'Pre-Bookings', singular: 'Pre-Booking' },
+        users: {
+          plural: 'Users',
+          singular: 'User',
+          attributes: {
+            agrees_to_a_blood_transfusion: {
+              label: 'Do you accept blood transfusions?',
+              values: {
+                true: 'Accepts blood transfusions',
+                false: 'Does not accept blood transfusions',
+              },
+            },
+          },
+        },
       },
       errors: {
         // Data error

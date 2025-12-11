@@ -72,6 +72,19 @@ export const ElMessages = {
         places: { plural: 'Χώροι', singular: 'Χώρος' },
         promoters: { plural: 'Διοργανωτές', singular: 'Διοργανωτής' },
         prebooking_requests: { plural: 'Προκρατήσεις', singular: 'Προκράτηση' },
+        users: {
+          plural: 'Χρήστες',
+          singular: 'Χρήστης',
+          attributes: {
+            agrees_to_a_blood_transfusion: {
+              label: 'Δέχεστε μεταγγίσεις αίματος;',
+              values: {
+                true: 'Δέχεται μεταγγίσεις αίματος',
+                false: 'Δεν δέχεται μεταγγίσεις αίματος',
+              },
+            },
+          },
+        },
       },
       errors: {
         // Σφάλματα Δεδομένων

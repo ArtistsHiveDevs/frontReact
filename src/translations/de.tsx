@@ -72,6 +72,19 @@ export const DeMessages = {
         places: { plural: 'Orte', singular: 'Ort' },
         promoters: { plural: 'Veranstalter', singular: 'Veranstalter' },
         prebooking_requests: { plural: 'Vorreservierungen', singular: 'Vorreservierung' },
+        users: {
+          plural: 'Benutzer',
+          singular: 'Benutzer',
+          attributes: {
+            agrees_to_a_blood_transfusion: {
+              label: 'Akzeptieren Sie Bluttransfusionen?',
+              values: {
+                true: 'Akzeptiert Bluttransfusionen',
+                false: 'Akzeptiert keine Bluttransfusionen',
+              },
+            },
+          },
+        },
       },
       errors: {
         // Data error

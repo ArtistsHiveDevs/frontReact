@@ -85,6 +85,7 @@ export interface AppUserTemplate extends ProfileTemplate {
   access_token: string;
   gender?: number;
   blood_group?: string;
+  agrees_to_a_blood_transfusion?: boolean;
   birthdate?: string;
   nationality?: string;
   home_city?: string;
@@ -130,6 +131,8 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
   declare access_token: string;
   declare gender: number;
   declare blood_group: string;
+  declare agrees_to_a_blood_transfusion?: boolean;
+
   declare birthdate: string;
   declare nationality: string;
   declare home_city: string;

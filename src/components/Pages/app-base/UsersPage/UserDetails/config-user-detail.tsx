@@ -1,9 +1,6 @@
 import dayjs from 'dayjs';
 import { useI18n } from '~/common/utils';
-import {
-  ComponentTypes,
-  PageSection,
-} from '~/components/shared/organisms/gui/builders/component-types.def';
+import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 import { AppUserModel } from '~/models/app/user/user.model';
 
 export const TRANSLATION_BASE_USER_DETAIL_PAGE = 'app.pages.app_base.UsersPages.UsersDetailsPage';
@@ -263,6 +260,26 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   emptyTitle: true,
                   formMetaData: {
                     inputType: 'select',
+                  },
+                },
+                {
+                  name: 'agrees_to_a_blood_transfusion',
+                  labelChild: 'label',
+                  translationPath: 'app.global_dictionary.entities.users.attributes',
+                  icon: 'BiDonateBlood',
+                  emptyTitle: true,
+                  value: (user: AppUserModel) => {
+                    const { translateGlobalDict } = useI18n();
+                    if (user.agrees_to_a_blood_transfusion === undefined) {
+                      return 'No disponible';
+                    } else {
+                      return translateGlobalDict(
+                        `entities.users.attributes.agrees_to_a_blood_transfusion.values.${user.agrees_to_a_blood_transfusion}`
+                      );
+                    }
+                  },
+                  formMetaData: {
+                    inputType: 'switch',
                   },
                 },
                 {

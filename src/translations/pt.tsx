@@ -72,6 +72,19 @@ export const PtMessages = {
         places: { plural: 'Locais', singular: 'Local' },
         promoters: { plural: 'Promotores', singular: 'Promotor' },
         prebooking_requests: { plural: 'Pré-Reservas', singular: 'Pré-Reserva' },
+        users: {
+          plural: 'Usuários',
+          singular: 'Usuário',
+          attributes: {
+            agrees_to_a_blood_transfusion: {
+              label: 'Aceita transfusões de sangue?',
+              values: {
+                true: 'Aceita transfusões de sangue',
+                false: 'Não aceita transfusões de sangue',
+              },
+            },
+          },
+        },
       },
       errors: {
         // Data error

@@ -15,7 +15,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
   // ✅ Patrón híbrido: usar formContext pasado O fallback a useFormContext()
   const hookContext = useFormContext();
   const finalContext = externalContext || hookContext;
-  const { register, formState, trigger, clearErrors } = finalContext || {};
+  const { register, formState, trigger, clearErrors, watch, setValue } = finalContext || {};
   const { errors } = formState || {};
   const [isPasswordType] = useState(fieldData.inputType === 'password');
 
@@ -31,10 +31,26 @@ export const createTextField = (params: ComponentGeneratorParams) => {
     focused = false,
   } = fieldData;
 
+  // Usar el valor del formulario en lugar de estado local
+  const formValue = watch ? watch(fieldName) : undefined;
+  const [currentValue, setCurrentValue] = useState(formValue ?? defaultValue ?? '');
+
+  // Sincronizar con el valor del formulario cuando cambie
   useEffect(() => {
-    setCurrentValue(fieldData?.defaultValue ?? '');
-  }, [fieldData]);
-  const [currentValue, setCurrentValue] = useState(defaultValue ?? '');
+    if (formValue !== undefined && formValue !== currentValue) {
+      setCurrentValue(formValue);
+    }
+  }, [formValue]);
+
+  // Solo actualizar si defaultValue cambia Y el campo está vacío
+  useEffect(() => {
+    if (defaultValue !== undefined && !currentValue) {
+      setCurrentValue(defaultValue);
+      if (setValue) {
+        setValue(fieldName, defaultValue);
+      }
+    }
+  }, [defaultValue]);
 
   if (isPasswordType) {
     const [showPassword, setShowPassword] = useState(false);
@@ -126,7 +142,13 @@ export const createTextField = (params: ComponentGeneratorParams) => {
         onBlurHandler(data);
       }}
       onChange={(data) => {
-        setCurrentValue(data.target.value);
+        const newValue = data.target.value;
+        setCurrentValue(newValue);
+
+        // Actualizar react-hook-form
+        if (setValue) {
+          setValue(fieldName, newValue, { shouldDirty: true });
+        }
 
         // Limpiar error cuando el usuario empieza a escribir
         if (clearErrors && errors && errors[fieldName]) {
@@ -141,7 +163,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
         }
 
         if (handlers && handlers[`on${fieldName}Change`]) {
-          handlers[`on${fieldName}Change`](data.target.value);
+          handlers[`on${fieldName}Change`](newValue);
         }
       }}
       focused={focused}

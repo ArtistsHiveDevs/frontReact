@@ -17,12 +17,14 @@ interface FormProps {
   submitLabel?: string;
   errors?: ErrorType;
   styles?: { className?: string; spacing?: number };
+  formMethods?: any;
 }
 
 export const DynamicForm = (props: FormProps) => {
-  const { fields, handlers, submitLabel, errors: responseErrors, styles } = props;
+  const { fields, handlers, submitLabel, errors: responseErrors, styles, formMethods: externalFormMethods } = props;
   const [responseErrorsRender, setResponseErrorsRender] = useState([]);
-  const formMethods = useForm();
+  const internalFormMethods = useForm();
+  const formMethods = externalFormMethods || internalFormMethods;
   const { translateError, translateText } = useI18n();
   const {
     handleSubmit,

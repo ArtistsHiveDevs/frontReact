@@ -9,25 +9,47 @@ export const createTextArea = (params: ComponentGeneratorParams) => {
   // ✅ Patrón híbrido: usar formContext pasado O fallback a useFormContext()
   const hookContext = useFormContext();
   const finalContext = externalContext || hookContext;
-  const { trigger, clearErrors } = finalContext || {};
+  const { trigger, clearErrors, watch, setValue } = finalContext || {};
 
   const { label, fieldName, options = [], config } = fieldData;
 
   const { required } = config || {};
 
-  const [currentValue, setCurrentValue] = useState(fieldData?.defaultValue || '');
+  // Usar el valor del formulario en lugar de estado local
+  const formValue = watch ? watch(fieldName) : undefined;
+  const defaultVal = fieldData?.defaultValue || '';
+  const [currentValue, setCurrentValue] = useState(formValue ?? defaultVal);
 
+  // Sincronizar con el valor del formulario cuando cambie
   useEffect(() => {
-    const defaultVal = fieldData?.defaultValue || '';
-    setCurrentValue(defaultVal);
-    if (config) {
-      config.value = defaultVal;
+    if (formValue !== undefined && formValue !== currentValue) {
+      setCurrentValue(formValue);
     }
-  }, [fieldData?.defaultValue, config]);
+  }, [formValue]);
+
+  // Solo actualizar si defaultValue cambia Y el campo está vacío
+  useEffect(() => {
+    const newDefault = fieldData?.defaultValue || '';
+    if (newDefault && !currentValue) {
+      setCurrentValue(newDefault);
+      if (setValue) {
+        setValue(fieldName, newDefault);
+      }
+      if (config) {
+        config.value = newDefault;
+      }
+    }
+  }, [fieldData?.defaultValue]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setCurrentValue(newValue);
+
+    // Actualizar react-hook-form
+    if (setValue) {
+      setValue(fieldName, newValue, { shouldDirty: true });
+    }
+
     if (config) {
       config.value = newValue;
     }

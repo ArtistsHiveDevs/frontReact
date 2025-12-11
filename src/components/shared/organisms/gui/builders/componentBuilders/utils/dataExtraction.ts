@@ -1,6 +1,6 @@
 import { isDayjs } from 'dayjs';
 import { EntityModel, EntityTemplate } from '~/models/base';
-import { ComponentDescriptor, AttributeConfiguration } from '../../component-types.def';
+import { AttributeConfiguration, ComponentDescriptor } from '../../component-types.def';
 
 /**
  * Extrae datos de una entidad usando un path tipo "user.country.name"
@@ -37,18 +37,20 @@ export const getAttributeTitle = (
   translationBasePath: string,
   translateText: (path: string) => string
 ): string => {
-  if (attribute.translationPath) {
-    return translateText(`${attribute.translationPath}.${attribute.name}`);
-  }
+  if (attribute.emptyTitle !== true) {
+    if (attribute.translationPath) {
+      return translateText(`${attribute.translationPath}.${attribute.name}`);
+    }
 
-  if (attribute.title) {
-    return attribute.title;
-  }
+    if (attribute.title) {
+      return attribute.title;
+    }
 
-  if (attribute.useTranslation || attribute.emptyTitle === undefined) {
-    return translateText(
-      `${translationBasePath}.subpages.${subpageName}.sections.${sectionName}.attributes.${attribute.name}`
-    );
+    if (attribute.useTranslation || attribute.emptyTitle === undefined) {
+      return translateText(
+        `${translationBasePath}.subpages.${subpageName}.sections.${sectionName}.attributes.${attribute.name}`
+      );
+    }
   }
 
   return '';

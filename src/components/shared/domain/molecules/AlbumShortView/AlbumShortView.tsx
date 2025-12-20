@@ -9,7 +9,7 @@ export const AlbumShortView = (props: any) => {
   return (
     <div className="album-short-view" onClick={() => onClickHandler && onClickHandler(album)}>
       <AvatarWithIcon
-        image={album.images[2].url}
+        image={album.images[0].url}
         name={album.name}
         avatarSize={albumInDialogSize}
         variant="rounded"

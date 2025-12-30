@@ -36,6 +36,7 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
     disableOperations?: {
       create?: boolean;
       update?: boolean;
+      postAction?: boolean;
       delete?: boolean;
     };
     customOperations?: CustomOperations<typeof initialState>;
@@ -103,6 +104,9 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
               state.loading = true;
               state.newItemRQ = action.payload.data;
               state.createdItem = undefined;
+              if ('prebookingRequests' === name) {
+                console.log('Created Item: .....   ', action.payload);
+              }
             },
             itemCreated(state: EntityStateTemplate<T, M>, action: PayloadAction<T>) {
               const newItem = new Model(action.payload);
@@ -117,6 +121,21 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
         ? {}
         : {
             updateItem(state: EntityStateTemplate<T, M>, action: PayloadAction<{ id: string; newItem: Partial<T> }>) {
+              state.loading = true;
+            },
+          }),
+      ...(options?.disableOperations?.postAction
+        ? {}
+        : {
+            postActionItem(
+              state: EntityStateTemplate<T, M>,
+              action: PayloadAction<{
+                id: string;
+                action: string;
+                newItem: Partial<T>;
+                params: { [name: string]: any };
+              }>
+            ) {
               state.loading = true;
             },
           }),
@@ -252,6 +271,43 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
             if (newItem) {
               const response: any = yield call(putRequest, requestURL, {
                 body: JSON.stringify(newItem),
+                headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
+              });
+
+              if (response.data) {
+                yield put(usersActions.loadCurrentUser());
+                yield put(slice.actions.itemByIdLoaded({ id: requestedItemID, item: response.data }));
+              }
+            }
+          } catch (err) {
+            yield put(slice.actions.repoError(1));
+          }
+        }
+      );
+    }
+
+    if (!options?.disableOperations?.postAction) {
+      // ==================================   POST ACTION ==============================================================
+      yield takeLatest(
+        slice.actions.postActionItem.type,
+        function* postActionItem(
+          actionParams?: PayloadAction<{
+            id: string;
+            action: string;
+            newItem: Partial<M>;
+            params: { [name: string]: any };
+          }>
+        ) {
+          yield delay(500);
+
+          const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+          const { id: requestedItemID, action, newItem, params } = actionParams?.payload || {};
+          const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}${resourceEndpoint}/action`;
+
+          try {
+            if (newItem) {
+              const response: any = yield call(postRequest, requestURL, {
+                body: JSON.stringify({ id: requestedItemID, action, newItem, ...params }),
                 headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
               });
 

@@ -23,6 +23,7 @@ import {
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import {
   ParticipantApprovalStatus,
@@ -37,6 +38,8 @@ const PrebookingsListPage = () => {
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedPrebookingId, setSelectedPrebookingId] = useState<string | null>(null);
+  const [selectedParticipantDetails, setSelectedParticipantDetails] = useState<CurrentProfileInfoModel | null>(null);
+  const [selectedPrebookingDetails, setSelectedPrebookingDetails] = useState<PreBookingRequestModel | null>(null);
 
   const loggedUser = useSelector(selectCurrentUser);
   const allPreBookingRequests: PreBookingRequestModel[] = useSelector(selectorPreBookingRequests.selectItems);
@@ -227,8 +230,8 @@ const PrebookingsListPage = () => {
                     <div className="pb-card-location">
                       <DynamicIcons iconName="fa6 FaLocationDot" size={25} />
                       <ul className="pb-card-location-list">
-                        {prebooking.venues.map((venue: CurrentProfileInfoModel) => (
-                          <li className="pb-card-location-element-list">
+                        {prebooking.venues.map((venue: CurrentProfileInfoModel, indexVenue: number) => (
+                          <li key={`pb_card_venue_${indexVenue}`} className="pb-card-location-element-list">
                             {venue.name} - (
                             {venue.location && Array.isArray(venue.location) && `${venue.cityWithCountry}`})
                             {
@@ -256,6 +259,10 @@ const PrebookingsListPage = () => {
                               color: 'white',
                               border: 'none !important',
                             },
+                            onClick: (event) => {
+                              event.stopPropagation(); // optional
+                              setSelectedPrebookingDetails(prebooking);
+                            },
                           },
                         }}
                       >
@@ -273,6 +280,7 @@ const PrebookingsListPage = () => {
                                     <DynamicIcons iconName={approvalInfo.icon} color={approvalInfo.color} size={25} />
                                   ) : null
                                 }
+                                onClick={() => setSelectedParticipantDetails(participant)}
                               >
                                 <Avatar
                                   alt={participant.name}
@@ -301,6 +309,14 @@ const PrebookingsListPage = () => {
                                 onChange={(e) => {
                                   // TODO: Aquí deberías actualizar el estado del participante
                                   console.log('Cambiar respuesta a:', e.target.value);
+                                  dispatch(
+                                    prebookingActions.postActionItem({
+                                      id: prebooking.id,
+                                      action: 'setStatus',
+                                      newItem: {},
+                                      params: { status: e.target.value },
+                                    })
+                                  );
                                 }}
                                 displayEmpty
                                 renderValue={(value) => {
@@ -402,6 +418,193 @@ const PrebookingsListPage = () => {
       <div className={['pb-lp-fixed-header', showFixedHeader ? 'visible' : ''].join(' ')}>
         <div>{getHeader()}</div>
       </div>
+      {selectedParticipantDetails && (
+        <AppDialog
+          title={selectedParticipantDetails.name}
+          isOpenDialog={!!selectedParticipantDetails}
+          onClose={() => setSelectedParticipantDetails(null)}
+          content={
+            <div>
+              <Avatar
+                alt={selectedParticipantDetails.name}
+                src={selectedParticipantDetails.profile_pic}
+                sx={{
+                  color: 'white',
+                  width: '8rem',
+                  height: '8rem',
+                  // border: (approvalInfo ? `2px solid ${approvalInfo.color}` : 'none') + ' !important',
+                }}
+                // onClick={() => setSelectedParticipantDetails(participant)}
+              />
+            </div>
+          }
+          // icon={'FaInfoCircle'}
+        />
+      )}
+      {selectedPrebookingDetails && (
+        <AppDialog
+          title={selectedPrebookingDetails.event_name}
+          isOpenDialog={!!selectedPrebookingDetails}
+          onClose={() => setSelectedPrebookingDetails(null)}
+          content={
+            <div className="pb-card-container">
+              <div className="pb-card-content-container">
+                <p className="pb-card-description">{selectedPrebookingDetails.description}</p>
+                <div className="pb-card-date">
+                  <DynamicIcons
+                    iconName={selectedPrebookingDetails.flexible_dates ? 'TbCalendarQuestion' : 'LuCalendarDays'}
+                    size={25}
+                  />
+                  <div>
+                    {selectedPrebookingDetails.requested_date_start?.format('LL')}
+                    {selectedPrebookingDetails.flexible_dates ? ' - (Flexibles)' : ''}
+                  </div>
+                </div>
+                <div className="pb-card-location">
+                  <DynamicIcons iconName="fa6 FaLocationDot" size={25} />
+                  <ul className="pb-card-location-list">
+                    {selectedPrebookingDetails.venues.map((venue: CurrentProfileInfoModel, indexVenue: number) => (
+                      <li key={`pb_card_venue_${indexVenue}`} className="pb-card-location-element-list">
+                        {venue.name} - ({venue.location && Array.isArray(venue.location) && `${venue.cityWithCountry}`})
+                        {<Flag code={'CO'} height="15" style={{ border: '1px solid #999', marginLeft: '0.6rem' }} />}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              <Divider />
+              <div className="pb-card-participants-container">
+                <p>Participantes:</p>
+                <div className="pb-card-participants-box">
+                  <AvatarGroup
+                    max={4}
+                    spacing={-6}
+                    componentsProps={{
+                      additionalAvatar: {
+                        sx: {
+                          color: 'white',
+                          border: 'none !important',
+                        },
+                        onClick: (event) => {
+                          event.stopPropagation(); // optional
+                          setSelectedPrebookingDetails(selectedPrebookingDetails);
+                        },
+                      },
+                    }}
+                  >
+                    {sortParticipants(selectedPrebookingDetails.recipients).map(
+                      (participant: CurrentProfileInfoModel, participant_index: number) => {
+                        const approvalInfo = getParticipantApprovalStatus(selectedPrebookingDetails, participant.id);
+
+                        return (
+                          <Badge
+                            key={`participant_${participant.id}_${participant_index}`}
+                            overlap="circular"
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                            badgeContent={
+                              approvalInfo ? (
+                                <DynamicIcons iconName={approvalInfo.icon} color={approvalInfo.color} size={25} />
+                              ) : null
+                            }
+                            onClick={() => setSelectedParticipantDetails(participant)}
+                          >
+                            <Avatar
+                              alt={participant.name}
+                              src={participant.profile_pic}
+                              sx={{
+                                color: 'white',
+                                border: (approvalInfo ? `2px solid ${approvalInfo.color}` : 'none') + ' !important',
+                              }}
+                            />
+                          </Badge>
+                        );
+                      }
+                    )}
+                  </AvatarGroup>
+                  {loggedUser?.currentProfileIdentifier && (
+                    <>
+                      <Divider orientation="vertical" flexItem />
+                      <div className="pb-card-response-box">
+                        <FormControl>
+                          <Select
+                            value={
+                              selectedPrebookingDetails.participant_approvals.find(
+                                (approval) => approval.participant_profile_id === loggedUser?.currentProfileInfo.id
+                              )?.status || ParticipantStatus.PENDING
+                            }
+                            onChange={(e) => {
+                              // TODO: Aquí deberías actualizar el estado del participante
+                              console.log('Cambiar respuesta a:', e.target.value);
+                              dispatch(
+                                prebookingActions.postActionItem({
+                                  id: selectedPrebookingDetails.id,
+                                  action: 'setStatus',
+                                  newItem: {},
+                                  params: { status: e.target.value },
+                                })
+                              );
+                            }}
+                            displayEmpty
+                            renderValue={(value) => {
+                              const icon = getApprovalIcon(value);
+                              return (
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                  {icon && <DynamicIcons iconName={icon.icon} color={icon.color} size={30} />}
+                                  {/* <span style={{ textTransform: 'capitalize' }}>{value}</span> */}
+                                </div>
+                              );
+                            }}
+                            sx={{
+                              '& .MuiSelect-select': {
+                                padding: '4px 8px',
+                              },
+                              '& fieldset': {
+                                borderColor: '#ddd',
+                                borderRadius: '20px',
+                              },
+                            }}
+                          >
+                            <MenuItem value={ParticipantStatus.PENDING}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                <DynamicIcons
+                                  iconName={getApprovalIcon(ParticipantStatus.PENDING).icon}
+                                  color={getApprovalIcon(ParticipantStatus.PENDING).color}
+                                  size={20}
+                                />
+                                <span>Pending</span>
+                              </div>
+                            </MenuItem>
+                            <MenuItem value={ParticipantStatus.ACCEPTED}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                <DynamicIcons
+                                  iconName={getApprovalIcon(ParticipantStatus.ACCEPTED).icon}
+                                  color={getApprovalIcon(ParticipantStatus.ACCEPTED).color}
+                                  size={20}
+                                />
+                                <span>Accepted</span>
+                              </div>
+                            </MenuItem>
+                            <MenuItem value={ParticipantStatus.REJECTED}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                <DynamicIcons
+                                  iconName={getApprovalIcon(ParticipantStatus.REJECTED).icon}
+                                  color={getApprovalIcon(ParticipantStatus.REJECTED).color}
+                                  size={20}
+                                />
+                                <span>Rejected</span>
+                              </div>
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          }
+        />
+      )}
     </>
   );
 };

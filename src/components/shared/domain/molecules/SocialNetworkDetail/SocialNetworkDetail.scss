@@ -1,0 +1,188 @@
+@import '~/variables.module.scss';
+
+.social-network-detail {
+  background: #1a2332;
+  min-height: 100%;
+  padding: 1.5rem;
+  animation: slideInLeft 0.3s ease-out;
+
+  @keyframes slideInLeft {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .detail-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    .back-button {
+      color: rgba(255, 255, 255, 0.8);
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+
+    .header-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .network-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        // Colores oficiales de cada red social - con !important para sobreescribir DynamicIcons
+        &.sn-icon-spotify,
+        &.sn-icon-spotify .icon-container,
+        &.sn-icon-spotify .icon-container svg { color: #1db954 !important; }
+
+        &.sn-icon-youtube,
+        &.sn-icon-youtube .icon-container,
+        &.sn-icon-youtube .icon-container svg { color: #ff0000 !important; }
+
+        &.sn-icon-instagram,
+        &.sn-icon-instagram .icon-container,
+        &.sn-icon-instagram .icon-container svg { color: #e1306c !important; }
+
+        &.sn-icon-tiktok,
+        &.sn-icon-tiktok .icon-container,
+        &.sn-icon-tiktok .icon-container svg {
+          background: linear-gradient(45deg, #25f4ee, #fe2c55) !important;
+          -webkit-background-clip: text !important;
+          -webkit-text-fill-color: transparent !important;
+          background-clip: text !important;
+        }
+
+        &.sn-icon-facebook,
+        &.sn-icon-facebook .icon-container,
+        &.sn-icon-facebook .icon-container svg { color: #1877f2 !important; }
+
+        &.sn-icon-twitter, &.sn-icon-x,
+        &.sn-icon-twitter .icon-container, &.sn-icon-x .icon-container,
+        &.sn-icon-twitter .icon-container svg, &.sn-icon-x .icon-container svg { color: #000000 !important; }
+
+        &.sn-icon-pandora,
+        &.sn-icon-pandora .icon-container,
+        &.sn-icon-pandora .icon-container svg { color: #3668ff !important; }
+
+        &.sn-icon-shazam,
+        &.sn-icon-shazam .icon-container,
+        &.sn-icon-shazam .icon-container svg { color: #0088ff !important; }
+
+        &.sn-icon-apple-music, &.sn-icon-applemusic,
+        &.sn-icon-apple-music .icon-container, &.sn-icon-applemusic .icon-container,
+        &.sn-icon-apple-music .icon-container svg, &.sn-icon-applemusic .icon-container svg { color: #fa2d48 !important; }
+
+        &.sn-icon-soundcloud,
+        &.sn-icon-soundcloud .icon-container,
+        &.sn-icon-soundcloud .icon-container svg { color: #ff5500 !important; }
+
+        &.sn-icon-deezer,
+        &.sn-icon-deezer .icon-container,
+        &.sn-icon-deezer .icon-container svg { color: #ff0092 !important; }
+
+        &.sn-icon-tidal,
+        &.sn-icon-tidal .icon-container,
+        &.sn-icon-tidal .icon-container svg { color: #000000 !important; }
+
+        &.sn-icon-amazon-music, &.sn-icon-amazonmusic,
+        &.sn-icon-amazon-music .icon-container, &.sn-icon-amazonmusic .icon-container,
+        &.sn-icon-amazon-music .icon-container svg, &.sn-icon-amazonmusic .icon-container svg { color: #ff9900 !important; }
+
+        &.sn-icon-twitch,
+        &.sn-icon-twitch .icon-container,
+        &.sn-icon-twitch .icon-container svg { color: #9146ff !important; }
+
+        &.sn-icon-linkedin,
+        &.sn-icon-linkedin .icon-container,
+        &.sn-icon-linkedin .icon-container svg { color: #0077b5 !important; }
+
+        &.sn-icon-snapchat,
+        &.sn-icon-snapchat .icon-container,
+        &.sn-icon-snapchat .icon-container svg { color: #fffc00 !important; }
+
+        &.sn-icon-pinterest,
+        &.sn-icon-pinterest .icon-container,
+        &.sn-icon-pinterest .icon-container svg { color: #e60023 !important; }
+
+        &.sn-icon-reddit,
+        &.sn-icon-reddit .icon-container,
+        &.sn-icon-reddit .icon-container svg { color: #ff4500 !important; }
+
+        &.sn-icon-discord,
+        &.sn-icon-discord .icon-container,
+        &.sn-icon-discord .icon-container svg { color: #5865f2 !important; }
+      }
+
+      .network-name {
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0;
+      }
+    }
+  }
+
+  .detail-body {
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+
+      @media (min-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .metric-card {
+        background: #252f3f;
+        border-radius: 8px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        transition: background 0.3s ease;
+
+        &:hover {
+          background: #2a3649;
+        }
+
+        .metric-label {
+          color: rgba(255, 255, 255, 0.6);
+          font-size: 0.875rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .metric-value {
+          color: #fff;
+          font-size: 2rem;
+          font-weight: 700;
+        }
+      }
+    }
+
+    .no-details {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: rgba(255, 255, 255, 0.6);
+
+      p {
+        font-size: 1rem;
+        margin: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,116 @@
+@import '~/variables.module.scss';
+
+.social-networks-analytics-widget {
+  width: 100%;
+  min-height: 400px;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  .widget-content {
+    width: 100%;
+    transition: transform 0.3s ease-out;
+    box-sizing: border-box;
+
+    &.list-view {
+      animation: slideInRight 0.3s ease-out;
+    }
+
+    &.detail-view {
+      animation: slideInLeft 0.3s ease-out;
+    }
+
+    @keyframes slideInRight {
+      from {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .networks-grid {
+      display: grid;
+      gap: 1rem;
+      width: 100%;
+      box-sizing: border-box;
+
+      @media (max-width: 576px) {
+        gap: 0.75rem;
+      }
+
+      // Configuración de columnas según prop
+      &.columns-1 {
+        grid-template-columns: 1fr;
+      }
+
+      &.columns-2 {
+        grid-template-columns: repeat(2, 1fr);
+
+        @media (max-width: 768px) {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      &.columns-4 {
+        grid-template-columns: repeat(4, 1fr);
+
+        @media (max-width: 1200px) {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media (max-width: 992px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 576px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      &.columns-6 {
+        grid-template-columns: repeat(6, 1fr);
+
+        @media (max-width: 1400px) {
+          grid-template-columns: repeat(4, 1fr);
+        }
+
+        @media (max-width: 1200px) {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media (max-width: 992px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 576px) {
+          grid-template-columns: 1fr;
+        }
+      }
+    }
+  }
+}
+
+.trademark_cm {
+  justify-content: center;
+  display: flex;
+  padding: 1rem;
+  align-items: center;
+
+  & img {
+    width: 10rem;
+  }
+}

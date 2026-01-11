@@ -1,9 +1,6 @@
 import Flag from 'react-world-flags';
 import { RatingStarsView } from '~/components/shared/atoms/gui/rating-stars-view/RatingStarsView';
-import {
-  ComponentTypes,
-  PageSection,
-} from '~/components/shared/organisms/gui/builders/component-types.def';
+import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 import { ArtistModel, ArtistRatingTemplate } from '~/models/domain/artist/artist.model';
 import { LanguageModel } from '~/models/parametrics/geo/language.model';
 
@@ -462,130 +459,15 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
     requireSession: false,
     formMetaData: { hidden: true },
     sections: [
-      // {
-      // name: 'social_network_presence',
-      // components: [
-      //   {
-      //     componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
-      //     data: {
-      //       attributes: [
-      //         {
-      //           name: 'facebook',
-      //           hidden: (artist: ArtistModel) => {
-      //             return !artist.stats?.socialNetworks?.find(
-      //               (socialNetworkStats) => socialNetworkStats.name === 'facebook'
-      //             );
-      //           },
-      //           value: (artist: ArtistModel) => {
-      //             const socialNetworkData = artist.stats?.socialNetworks?.find(
-      //               (socialNetworkStats) => socialNetworkStats.name === 'facebook'
-      //             );
-      //             return (
-      //               <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
-      //             );
-      //           },
-      //         },
-      //         {
-      //           name: 'instagram',
-      //           hidden: (artist: ArtistModel) => {
-      //             return !artist.stats?.socialNetworks?.find(
-      //               (socialNetworkStats) => socialNetworkStats.name === 'instagram'
-      //             );
-      //           },
-      //           value: (artist: ArtistModel) => {
-      //             const socialNetworkData = artist.stats?.socialNetworks?.find(
-      //               (socialNetworkStats) => socialNetworkStats.name === 'instagram'
-      //             );
-      //             return (
-      //               <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
-      //             );
-      //           },
-      //         },
-      //         {
-      //           name: 'twitter',
-      //           hidden: (artist: ArtistModel) => {
-      //             return !artist.stats?.socialNetworks?.find(
-      //               (socialNetworkStats) => socialNetworkStats.name === 'twitter'
-      //             );
-      //           },
-      //           value: (artist: ArtistModel) => {
-      //             const socialNetworkData = artist.stats?.socialNetworks?.find(
-      //               (socialNetworkStats) => socialNetworkStats.name === 'twitter'
-      //             );
-      //             return (
-      //               <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
-      //             );
-      //           },
-      //         },
-      //         {
-      //           name: 'spotify',
-      //           hidden: (artist: ArtistModel) => {
-      //             return !artist.stats?.socialNetworks?.find(
-      //               (socialNetworkStats) => socialNetworkStats.name === 'spotify'
-      //             );
-      //           },
-      //           value: (artist: ArtistModel) => {
-      //             const socialNetworkData = artist.stats?.socialNetworks?.find(
-      //               (socialNetworkStats) => socialNetworkStats.name === 'spotify'
-      //             );
-      //             return (
-      //               <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
-      //             );
-      //           },
-      //         },
-      //         {
-      //           name: 'deezer',
-      //           hidden: (artist: ArtistModel) => {
-      //             return !artist.stats?.socialNetworks?.find(
-      //               (socialNetworkStats) => socialNetworkStats.name === 'deezer'
-      //             );
-      //           },
-      //           value: (artist: ArtistModel) => {
-      //             const socialNetworkData = artist.stats?.socialNetworks?.find(
-      //               (socialNetworkStats) => socialNetworkStats.name === 'deezer'
-      //             );
-      //             return (
-      //               <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
-      //             );
-      //           },
-      //         },
-      //         {
-      //           name: 'appleMusic',
-      //           hidden: (artist: ArtistModel) => {
-      //             return !artist.stats?.socialNetworks?.find(
-      //               (socialNetworkStats) => socialNetworkStats.name === 'appleMusic'
-      //             );
-      //           },
-      //           value: (artist: ArtistModel) => {
-      //             const socialNetworkData = artist.stats?.socialNetworks?.find(
-      //               (socialNetworkStats) => socialNetworkStats.name === 'appleMusic'
-      //             );
-      //             return (
-      //               <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
-      //             );
-      //           },
-      //         },
-      //         {
-      //           name: 'youtube',
-      //           hidden: (artist: ArtistModel) => {
-      //             return !artist.stats?.socialNetworks?.find(
-      //               (socialNetworkStats) => socialNetworkStats.name === 'youtube'
-      //             );
-      //           },
-      //           value: (artist: ArtistModel) => {
-      //             const socialNetworkData = artist.stats?.socialNetworks?.find(
-      //               (socialNetworkStats) => socialNetworkStats.name === 'youtube'
-      //             );
-      //             return (
-      //               <SocialNetworkStats followers={socialNetworkData?.followers} extraData={socialNetworkData} />
-      //             );
-      //           },
-      //         },
-      //       ],
-      //     },
-      //   },
-      // ],
-      // },
+      {
+        name: 'social_network_presence',
+        components: [
+          {
+            componentName: ComponentTypes.SOCIAL_NETWORK_CHARTMETRIC_ANALYTICS_WIDGET,
+            data: {},
+          },
+        ],
+      },
       {
         name: 'rating',
         components: [

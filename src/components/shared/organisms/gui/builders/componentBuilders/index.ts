@@ -30,23 +30,24 @@ import { ComponentTypes } from '../component-types.def';
 import { registerBuilder } from './ComponentBuilder';
 
 // Imports de todos los builders
-import { createMapComponent } from './builders/MapBuilder';
-import { createHtmlContentComponent } from './builders/HtmlContentBuilder';
-import { createTitleComponent } from './builders/TitleBuilder';
 import { createArtsGenresComponent } from './builders/ArtsGenresBuilder';
-import { createImageGalleryComponent } from './builders/ImageGalleryBuilder';
-import { createHorizontalImageGalleryComponent } from './builders/HorizontalImageGalleryBuilder';
 import { createAttributesIconFieldsComponent } from './builders/AttributesIconFieldsBuilder';
 import { createCalendarSimpleLayoutComponent } from './builders/CalendarSimpleLayoutBuilder';
-import { createSocialNetworkWidgetComponent } from './builders/SocialNetworkWidgetBuilder';
 import { createCrewListRiderViewComponent } from './builders/CrewListRiderViewBuilder';
-import { createTableComponent } from './builders/TableBuilder';
 import { createDiscographyListViewComponent } from './builders/DiscographyListViewBuilder';
+import { createEventThumbnailCardComponent } from './builders/EventThumbnailCardBuilder';
+import { createHorizontalImageGalleryComponent } from './builders/HorizontalImageGalleryBuilder';
+import { createHtmlContentComponent } from './builders/HtmlContentBuilder';
+import { createImageGalleryComponent } from './builders/ImageGalleryBuilder';
+import { createMapComponent } from './builders/MapBuilder';
+import { createProfileFollowersComponent } from './builders/ProfileFollowersBuilder';
+import { createProfileThumbnailCardComponent } from './builders/ProfileThumbnailCardBuilder';
+import { createSocialNetworkChartmetricAnalyticsWidgetComponent } from './builders/SocialNetworkChartmetricWidgetWidgetBuilder';
+import { createSocialNetworkWidgetComponent } from './builders/SocialNetworkWidgetBuilder';
+import { createTableComponent } from './builders/TableBuilder';
+import { createTitleComponent } from './builders/TitleBuilder';
 import { createTopTracksListViewComponent } from './builders/TopTracksListViewBuilder';
 import { createVisitedCountriesCitiesComponent } from './builders/VisitedCountriesCitiesBuilder';
-import { createProfileThumbnailCardComponent } from './builders/ProfileThumbnailCardBuilder';
-import { createEventThumbnailCardComponent } from './builders/EventThumbnailCardBuilder';
-import { createProfileFollowersComponent } from './builders/ProfileFollowersBuilder';
 
 // Placeholder builder for IMAGE component type (not implemented yet)
 const createImageComponent = () => null as any;
@@ -66,6 +67,7 @@ const BUILDER_CONFIG = {
   [ComponentTypes.ATTRIBUTES_ICON_FIELDS]: createAttributesIconFieldsComponent,
   [ComponentTypes.CALENDAR_SIMPLE_LAYOUT]: createCalendarSimpleLayoutComponent,
   [ComponentTypes.SOCIAL_NETWORK_WIDGET]: createSocialNetworkWidgetComponent,
+  [ComponentTypes.SOCIAL_NETWORK_CHARTMETRIC_ANALYTICS_WIDGET]: createSocialNetworkChartmetricAnalyticsWidgetComponent,
   [ComponentTypes.CREW_LIST_RIDER_VIEW]: createCrewListRiderViewComponent,
   [ComponentTypes.TABLE]: createTableComponent,
   [ComponentTypes.DISCOGRAPHY_LIST_VIEW]: createDiscographyListViewComponent,
@@ -87,4 +89,4 @@ export const registerAllBuilders = (): void => {
 
 // Re-exportar funcionalidades core
 export { buildComponent, getRegisteredBuilders } from './ComponentBuilder';
-export type { ComponentBuilderParams, ComponentBuilderFunction, BuilderRegistry } from './types';
+export type { BuilderRegistry, ComponentBuilderFunction, ComponentBuilderParams } from './types';

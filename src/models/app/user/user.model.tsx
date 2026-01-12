@@ -1,4 +1,3 @@
-import { getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
 import { VerificationStatus } from '~/constants';
 import { LocationTemplate, Model, ProfileModel, ProfileTemplate, SearchableTemplate } from '~/models/base';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
@@ -347,7 +346,7 @@ export class CurrentProfileInfoModel
   }
 
   async avatarURL(): Promise<string> {
-    return await getUrlS3({ path: this.profile_pic });
+    return await this.getS3UrlWithCache(this.profile_pic);
   }
 
   get cityWithCountry() {

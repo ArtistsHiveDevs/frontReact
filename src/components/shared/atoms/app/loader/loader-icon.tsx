@@ -1,4 +1,4 @@
-interface LoaderIconProps {
+export interface LoaderIconProps {
   height?: string;
   padding?: string;
   fullHeight?: boolean; // Nueva prop para ocupar todo el alto disponible
@@ -23,5 +23,3 @@ export const LoaderIcon = (params: LoaderIconProps = {}) => {
     </div>
   );
 };
-
-export default LoaderIcon;

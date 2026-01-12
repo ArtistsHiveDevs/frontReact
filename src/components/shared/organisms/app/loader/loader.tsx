@@ -1,10 +1,10 @@
-import LoaderIcon from '~/components/shared/atoms/app/loader/loader-icon';
+import { LoaderIcon, LoaderIconProps } from '~/components/shared/atoms/app/loader/loader-icon';
 
-export const AppLoader = () => {
+export const AppLoader = (params: LoaderIconProps) => {
   return (
     <div>
       {/* Loading... */}
-      <LoaderIcon />
+      <LoaderIcon {...params} />
     </div>
   );
 };

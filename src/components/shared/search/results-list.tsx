@@ -6,13 +6,13 @@ import { useSearchSlice } from '~/common/slices/search';
 import { selectSearch, selectSearchLoading } from '~/common/slices/search/selectors';
 import { useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
-import LoaderIcon from '~/components/shared/atoms/app/loader/loader-icon';
 import { PATHS } from '~/constants';
 import { SearchableTemplate, ThumbnailableTemplate } from '~/models/base';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import { SearchModel } from '~/models/domain/search/search.model';
+import AppLoader from '../organisms/app/loader/loader';
 import { ResultElement } from './result-element';
 import consts, { EntityType } from './search-constants';
 import './search.scss';
@@ -168,7 +168,7 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
         {querySearchLoading && (
           <ListGroup.Item className="search-item search-item-footer">
             {/* <p className="label-search-waiting line-up-an">{translate('type_your_search')}...</p> */}
-            <LoaderIcon height="100%" padding="2rem" />
+            <AppLoader height="100%" padding="2rem" />
           </ListGroup.Item>
         )}
 

@@ -8,8 +8,8 @@ import { USER_DETAIL_SUB_PAGE_CONFIG } from './config-user-detail';
 import { useSelector } from 'react-redux';
 import { selectLoading } from '~/common/slices/users/selectors';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
-import LoaderIcon from '~/components/shared/atoms/app/loader/loader-icon';
 import { IndustrySignUpBanner } from '~/components/shared/atoms/IndustrySignUpBanner/IndustrySignUpBanner';
+import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { SUB_PATHS } from '~/constants';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { EventModel } from '~/models/domain/event/event.model';
@@ -80,7 +80,7 @@ const UserDetailPage = () => {
         ((!isLoading && <h1>Iniciar sesión</h1>) ||
           (isLoading && (
             <div>
-              <LoaderIcon />
+              <AppLoader />
             </div>
           )))}
       {!!loggedUser && (

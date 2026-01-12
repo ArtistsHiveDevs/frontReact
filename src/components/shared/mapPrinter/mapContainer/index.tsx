@@ -1,6 +1,6 @@
 import { Status, Wrapper } from '@googlemaps/react-wrapper';
 import { ReactElement } from 'react';
-import AppLoader from '~/components/shared/organisms/app/loader/loader';
+import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import MapViewer from '../mapViewer';
 import './index.scss';
 

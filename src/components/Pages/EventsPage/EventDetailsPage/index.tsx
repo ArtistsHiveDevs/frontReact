@@ -10,12 +10,12 @@ import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import NotFoundPage from '~/components/Pages/NotFoundPage';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
-import LoaderIcon from '~/components/shared/atoms/app/loader/loader-icon';
 import {
   FavoriteSubscription,
   FavoriteSubscritionIconDefaultTypes,
 } from '~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
+import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { URL_PARAMETER_NAMES } from '~/constants';
 import { EventModel } from '~/models/domain/event/event.model';
 import { EVENT_DETAIL_SUB_PAGE_CONFIG, TRANSLATION_BASE_EVENT_DETAILS_PAGE } from './config-event-detail';
@@ -118,7 +118,7 @@ const EventDetailsPage = () => {
           />
         </>
       )}
-      {isLoading && <LoaderIcon height="100vh" />}
+      {isLoading && <AppLoader height="100vh" />}
       {requestsAreReady && !isLoading && !currentEvent && <NotFoundPage />}
     </>
   );

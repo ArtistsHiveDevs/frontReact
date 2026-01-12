@@ -19,7 +19,7 @@ import './LoginPage.scss';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { AuthUser } from 'aws-amplify/auth';
-import LoaderIcon from '~/components/shared/atoms/app/loader/loader-icon';
+import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 
 const TRANSLATION_BASE_LOGIN_PAGE = 'app.pages.app_base.LoginPage';
@@ -268,7 +268,7 @@ export const LoginPage = () => {
             >
               {({ signOut, user }) => {
                 setUser(user);
-                return <LoaderIcon height="100%" />;
+                return <AppLoader height="100%" />;
               }}
             </Authenticator>
             {/* <Button onClick={() => crearAlgo()}> POR FIN </Button> */}

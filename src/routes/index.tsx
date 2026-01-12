@@ -2,7 +2,7 @@ import React, { ReactElement, Suspense, useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation, useSearchParams } from 'react-router-dom';
 import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
-import AppLoader from '~/components/shared/organisms/app/loader/loader';
+import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { ROUTES_CONFIG } from './routes.config';
 
@@ -47,9 +47,7 @@ const flattenPaths = (paths: PathConfigMap, parentPath = '/', parentObject = '')
     // Procesar subpaths si existen
     if (config.subpaths) {
       const separator = config.pathSeparator ?? '/';
-      acc = acc.concat(
-        flattenPaths(config.subpaths as PathConfigMap, `${currentPath}${separator}`, currentObject)
-      );
+      acc = acc.concat(flattenPaths(config.subpaths as PathConfigMap, `${currentPath}${separator}`, currentObject));
     }
 
     return acc;

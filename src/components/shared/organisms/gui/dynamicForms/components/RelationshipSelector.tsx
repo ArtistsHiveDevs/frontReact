@@ -4,9 +4,9 @@ import { ComponentGeneratorParams } from '../DynamicControl';
 
 import Autocomplete from '@mui/material/Autocomplete';
 import * as React from 'react';
-import LoaderIcon from '~/components/shared/atoms/app/loader/loader-icon';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { ProfileThumbnailCard } from '~/components/shared/molecules/Profile/ProfileThumbnailCard';
+import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { ResultElement } from '~/components/shared/search/result-element';
 import { SearchableProfileTemplate } from '~/models/base';
 
@@ -114,7 +114,7 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
         <Autocomplete
           freeSolo
           loading
-          loadingText={<LoaderIcon />}
+          loadingText={<AppLoader />}
           open={openList}
           multiple
           onClose={(event: React.ChangeEvent<{}>, reason) => {

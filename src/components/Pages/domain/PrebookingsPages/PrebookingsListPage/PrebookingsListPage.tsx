@@ -24,7 +24,7 @@ import { useI18n } from '~/common/utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { S3Avatar } from '~/components/shared/molecules/general/S3Avatar/S3Avatar';
-import AppLoader from '~/components/shared/organisms/app/loader/loader';
+import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import {
   ParticipantApprovalStatus,

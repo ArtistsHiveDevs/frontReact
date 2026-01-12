@@ -8,9 +8,9 @@ import { useSearchSlice } from '~/common/slices/search';
 import { selectEntitySearch, selectEntitySearchLoading } from '~/common/slices/search/selectors';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
-import LoaderIcon from '~/components/shared/atoms/app/loader/loader-icon';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
+import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { createTextField, DynamicForm } from '~/components/shared/organisms/gui/dynamicForms';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { ProfileModel, ProfileTemplate } from '~/models/base';
@@ -454,7 +454,7 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
         content={
           <>
             <div>{search_text}</div>
-            {showSearchLoader && searchValue && <LoaderIcon height="8rem" />}
+            {showSearchLoader && searchValue && <AppLoader height="8rem" />}
             {!showSearchLoader && (
               <div className="pbrd-participants-box pbrd-result-box">
                 {(searchEntity === ArtistModel.name ? availableArtists : availablePlaces).map((a: any) => (

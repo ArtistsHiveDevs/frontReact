@@ -8,5 +8,3 @@ export const AppLoader = (params: LoaderIconProps) => {
     </div>
   );
 };
-
-export default AppLoader;

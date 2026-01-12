@@ -32,7 +32,7 @@ import { useApiKeySlice } from './common/slices/app-base/APIKey';
 import { selectApiKey } from './common/slices/app-base/APIKey/selectors';
 import { initGA } from './common/utils/analytics/analytics';
 import { isProdEnvironment } from './common/utils/app-utils/app-utils';
-import AppLoader from './components/shared/organisms/app/loader/loader';
+import { AppLoader } from './components/shared/organisms/app/loader/loader';
 
 // import { secret } from '@aws-amplify/backend';
 

@@ -1,5 +1,4 @@
 import {
-  Avatar,
   AvatarGroup,
   Badge,
   Card,
@@ -24,6 +23,8 @@ import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
+import { S3Avatar } from '~/components/shared/molecules/general/S3Avatar/S3Avatar';
+import AppLoader from '~/components/shared/organisms/app/loader/loader';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import {
   ParticipantApprovalStatus,
@@ -44,11 +45,17 @@ const PrebookingsListPage = () => {
   const loggedUser = useSelector(selectCurrentUser);
   const allPreBookingRequests: PreBookingRequestModel[] = useSelector(selectorPreBookingRequests.selectItems);
 
+  const isLoading = useSelector(selectorPreBookingRequests.selectLoading);
+
   const { actions: prebookingActions } = usePreBookingRequestsSlice();
 
   // Estado y ref para el header fijo
   const [showFixedHeader, setShowFixedHeader] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
+
+  // Estados para el loading local del Select
+  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+  const [updatingPrebookingId, setUpdatingPrebookingId] = useState<string | null>(null);
 
   const statusFilters = [
     'all',
@@ -69,8 +76,31 @@ const PrebookingsListPage = () => {
   }, [loggedUser]);
 
   useEffect(() => {
+    // Limpiar estados de loading solo cuando se confirme que el prebooking se actualizó
+    if (isUpdatingStatus && updatingPrebookingId) {
+      const oldPrebooking = displayedPrebookings.find((pb) => pb.identifier === updatingPrebookingId);
+      const newPrebooking = allPreBookingRequests.find((pb) => pb.identifier === updatingPrebookingId);
+
+      // Verificar que el estado realmente cambió comparando los participant_approvals
+      if (oldPrebooking && newPrebooking) {
+        const oldApprovalStatus = oldPrebooking.participant_approvals.find(
+          (approval) => approval.participant_profile_id === loggedUser?.currentProfileInfo.id
+        )?.status;
+        const newApprovalStatus = newPrebooking.participant_approvals.find(
+          (approval) => approval.participant_profile_id === loggedUser?.currentProfileInfo.id
+        )?.status;
+
+        // Solo limpiar si el estado realmente cambió
+        if (oldApprovalStatus !== newApprovalStatus) {
+          setIsUpdatingStatus(false);
+          setUpdatingPrebookingId(null);
+        }
+      }
+    }
+
+    // Actualizar la lista después de verificar cambios
     setDisplayedPrebookings([...allPreBookingRequests]);
-  }, [allPreBookingRequests]);
+  }, [allPreBookingRequests, isUpdatingStatus, updatingPrebookingId]);
 
   // Efecto para manejar el scroll y mostrar/ocultar el header fijo
   useEffect(() => {
@@ -85,6 +115,10 @@ const PrebookingsListPage = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // useEffect(() => {
+  //   console.log('Updated.....', updatedPrebooking);
+  // }, [updatedPrebooking]);
 
   const getParticipantApprovalStatus = (prebooking: PreBookingRequestModel, idParticipant: string) => {
     const approval = prebooking.participant_approvals.find(
@@ -104,7 +138,7 @@ const PrebookingsListPage = () => {
         approvalGUI = { icon: 'TbClockHour2Filled', color: 'orange' };
         break;
       case PrebookingParticipantStatus.NOT_INTERESTED:
-        approvalGUI = { icon: 'FaTimesCircle', color: 'b70707' };
+        approvalGUI = { icon: 'FaTimesCircle', color: '#b70707' };
         break;
       default:
         approvalGUI = undefined;
@@ -150,8 +184,7 @@ const PrebookingsListPage = () => {
   };
 
   const handleDelete = () => {
-    console.log('Eliminar prebooking:', selectedPrebookingId);
-    // TODO: Implementar lógica de eliminación
+    dispatch(prebookingActions.deleteItem({ id: selectedPrebookingId }));
     handleMenuClose();
   };
 
@@ -189,209 +222,229 @@ const PrebookingsListPage = () => {
             ))}
           </Select>
         </FormControl>
+        <DynamicIcons iconName="AiOutlineSearch" size={25} />
       </>
     );
   };
 
-  console.log(displayedPrebookings);
   return (
     <>
       <div ref={headerRef} className="pb-list-top-header">
         {getHeader()}
       </div>
       <div className="pb-container">
-        {displayedPrebookings.map((prebooking: PreBookingRequestModel, index: number) => {
-          return (
-            <div key={`prebook_${index}`} className="pb-card-container">
-              <Card sx={{ display: 'flex', flexDirection: 'column' }}>
-                <CardHeader
-                  title={prebooking.event_name}
-                  action={
-                    loggedUser?.currentProfileIdentifier === prebooking?.requester?.identifier && (
-                      <IconButton onClick={(e: any) => handleMenuOpen(e, prebooking.id)}>
-                        <DynamicIcons iconName="HiDotsVertical" size={20} />
-                      </IconButton>
-                    )
-                  }
-                ></CardHeader>
-                <CardContent sx={{ display: 'flex', flexDirection: 'column', flex: 1, padding: 0 }}>
-                  <div className="pb-card-content-container">
-                    <p className="pb-card-description">{prebooking.description}</p>
-                    <div className="pb-card-date">
-                      <DynamicIcons
-                        iconName={prebooking.flexible_dates ? 'TbCalendarQuestion' : 'LuCalendarDays'}
-                        size={25}
-                      />
-                      <div>
-                        {prebooking.requested_date_start?.format('LL')}
-                        {prebooking.flexible_dates ? ' - (Flexibles)' : ''}
+        {isLoading && displayedPrebookings.length === 0 ? (
+          <AppLoader />
+        ) : displayedPrebookings.length === 0 ? (
+          <div className="pb-empty-state">
+            <DynamicIcons iconName="TbCalendarQuestion" size={60} />
+            <h3>No hay prebookings aún</h3>
+            <p>Cuando tengas prebookings, aparecerán aquí</p>
+          </div>
+        ) : (
+          displayedPrebookings.map((prebooking: PreBookingRequestModel, index: number) => {
+            return (
+              <div key={`prebook_${index}`} className="pb-card-container">
+                <Card sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <CardHeader
+                    title={prebooking.event_name}
+                    action={
+                      loggedUser?.currentProfileIdentifier === prebooking?.requester?.identifier && (
+                        <IconButton onClick={(e: any) => handleMenuOpen(e, prebooking.id)}>
+                          <DynamicIcons iconName="HiDotsVertical" size={20} />
+                        </IconButton>
+                      )
+                    }
+                  ></CardHeader>
+                  <CardContent sx={{ display: 'flex', flexDirection: 'column', flex: 1, padding: 0 }}>
+                    <div className="pb-card-content-container">
+                      <p className="pb-card-description">{prebooking.description}</p>
+                      <div className="pb-card-date">
+                        <DynamicIcons
+                          iconName={prebooking.flexible_dates ? 'TbCalendarQuestion' : 'LuCalendarDays'}
+                          size={25}
+                        />
+                        <div>
+                          {prebooking.requested_date_start?.format('LL')}
+                          {prebooking.flexible_dates ? ' - (Flexibles)' : ''}
+                        </div>
+                      </div>
+                      <div className="pb-card-location">
+                        <DynamicIcons iconName="fa6 FaLocationDot" size={25} />
+                        <ul className="pb-card-location-list">
+                          {prebooking.venues.map((venue: CurrentProfileInfoModel, indexVenue: number) => (
+                            <li key={`pb_card_venue_${indexVenue}`} className="pb-card-location-element-list">
+                              {venue.name} - (
+                              {venue.location && Array.isArray(venue.location) && `${venue.cityWithCountry}`})
+                              {
+                                <Flag
+                                  code={'CO'}
+                                  height="15"
+                                  style={{ border: '1px solid #999', marginLeft: '0.6rem' }}
+                                />
+                              }
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
-                    <div className="pb-card-location">
-                      <DynamicIcons iconName="fa6 FaLocationDot" size={25} />
-                      <ul className="pb-card-location-list">
-                        {prebooking.venues.map((venue: CurrentProfileInfoModel, indexVenue: number) => (
-                          <li key={`pb_card_venue_${indexVenue}`} className="pb-card-location-element-list">
-                            {venue.name} - (
-                            {venue.location && Array.isArray(venue.location) && `${venue.cityWithCountry}`})
-                            {
-                              <Flag
-                                code={'CO'}
-                                height="15"
-                                style={{ border: '1px solid #999', marginLeft: '0.6rem' }}
-                              />
-                            }
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                  <Divider />
-                  <div className="pb-card-participants-container">
-                    <p>Participantes:</p>
-                    <div className="pb-card-participants-box">
-                      <AvatarGroup
-                        max={4}
-                        spacing={-6}
-                        componentsProps={{
-                          additionalAvatar: {
-                            sx: {
-                              color: 'white',
-                              border: 'none !important',
+                    <Divider />
+                    <div className="pb-card-participants-container">
+                      <p>Participantes:</p>
+                      <div className="pb-card-participants-box">
+                        <AvatarGroup
+                          max={4}
+                          spacing={-6}
+                          componentsProps={{
+                            additionalAvatar: {
+                              sx: {
+                                color: 'white',
+                                border: 'none !important',
+                              },
+                              onClick: (event) => {
+                                event.stopPropagation(); // optional
+                                setSelectedPrebookingDetails(prebooking);
+                              },
                             },
-                            onClick: (event) => {
-                              event.stopPropagation(); // optional
-                              setSelectedPrebookingDetails(prebooking);
-                            },
-                          },
-                        }}
-                      >
-                        {sortParticipants(prebooking.recipients).map(
-                          (participant: CurrentProfileInfoModel, participant_index: number) => {
-                            const approvalInfo = getParticipantApprovalStatus(prebooking, participant.id);
+                          }}
+                        >
+                          {sortParticipants(prebooking.recipients).map(
+                            (participant: CurrentProfileInfoModel, participant_index: number) => {
+                              const approvalInfo = getParticipantApprovalStatus(prebooking, participant.id);
 
-                            return (
-                              <Badge
-                                key={`participant_${participant.id}_${participant_index}`}
-                                overlap="circular"
-                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                                badgeContent={
-                                  approvalInfo ? (
-                                    <DynamicIcons iconName={approvalInfo.icon} color={approvalInfo.color} size={25} />
-                                  ) : null
-                                }
-                                onClick={() => setSelectedParticipantDetails(participant)}
-                              >
-                                <Avatar
-                                  alt={participant.name}
-                                  src={participant.profile_pic}
-                                  sx={{
-                                    color: 'white',
-                                    border: (approvalInfo ? `2px solid ${approvalInfo.color}` : 'none') + ' !important',
-                                  }}
-                                />
-                              </Badge>
-                            );
-                          }
+                              return (
+                                <Badge
+                                  key={`participant_${participant.id}_${participant_index}`}
+                                  overlap="circular"
+                                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                  badgeContent={
+                                    approvalInfo ? (
+                                      <DynamicIcons iconName={approvalInfo.icon} color={approvalInfo.color} size={25} />
+                                    ) : null
+                                  }
+                                  onClick={() => setSelectedParticipantDetails(participant)}
+                                >
+                                  <S3Avatar
+                                    alt={participant.name}
+                                    src={participant.profile_pic}
+                                    sx={{
+                                      color: 'white',
+                                      border:
+                                        (approvalInfo ? `2px solid ${approvalInfo.color}` : 'none') + ' !important',
+                                    }}
+                                  />
+                                </Badge>
+                              );
+                            }
+                          )}
+                        </AvatarGroup>
+                        {loggedUser?.currentProfileIdentifier && (
+                          <>
+                            <Divider orientation="vertical" flexItem />
+                            <div className="pb-card-response-box">
+                              {(!isUpdatingStatus || prebooking.identifier !== updatingPrebookingId) && (
+                                <FormControl>
+                                  <Select
+                                    value={
+                                      prebooking.participant_approvals.find(
+                                        (approval) =>
+                                          approval.participant_profile_id === loggedUser?.currentProfileInfo.id
+                                      )?.status || PrebookingParticipantStatus.PENDING
+                                    }
+                                    onChange={(e) => {
+                                      // Activar el loading local
+                                      setIsUpdatingStatus(true);
+                                      setUpdatingPrebookingId(prebooking.identifier);
+
+                                      // TODO: Aquí deberías actualizar el estado del participante
+                                      dispatch(
+                                        prebookingActions.postActionItem({
+                                          id: prebooking.id,
+                                          action: 'setStatus',
+                                          newItem: {},
+                                          params: { status: e.target.value },
+                                        })
+                                      );
+                                    }}
+                                    disabled={isUpdatingStatus && updatingPrebookingId === prebooking.identifier}
+                                    displayEmpty
+                                    renderValue={(value) => {
+                                      const icon = getApprovalIcon(value);
+                                      return (
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                          {icon && <DynamicIcons iconName={icon.icon} color={icon.color} size={30} />}
+                                        </div>
+                                      );
+                                    }}
+                                    sx={{
+                                      '& .MuiSelect-select': {
+                                        padding: '4px 8px',
+                                      },
+                                      '& fieldset': {
+                                        borderColor: '#ddd',
+                                        borderRadius: '20px',
+                                      },
+                                    }}
+                                  >
+                                    <MenuItem value={PrebookingParticipantStatus.INTERESTED}>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                        <DynamicIcons
+                                          iconName={getApprovalIcon(PrebookingParticipantStatus.INTERESTED).icon}
+                                          color={getApprovalIcon(PrebookingParticipantStatus.INTERESTED).color}
+                                          size={20}
+                                        />
+                                        <span>
+                                          {translateGlobalDict(
+                                            `prebooking.participant_status.${PrebookingParticipantStatus.INTERESTED}`
+                                          )}
+                                        </span>
+                                      </div>
+                                    </MenuItem>
+                                    <MenuItem value={PrebookingParticipantStatus.PENDING}>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                        <DynamicIcons
+                                          iconName={getApprovalIcon(PrebookingParticipantStatus.PENDING).icon}
+                                          color={getApprovalIcon(PrebookingParticipantStatus.PENDING).color}
+                                          size={20}
+                                        />
+                                        <span>
+                                          {translateGlobalDict(
+                                            `prebooking.participant_status.${PrebookingParticipantStatus.PENDING}`
+                                          )}
+                                        </span>
+                                      </div>
+                                    </MenuItem>
+                                    <MenuItem value={PrebookingParticipantStatus.NOT_INTERESTED}>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                        <DynamicIcons
+                                          iconName={getApprovalIcon(PrebookingParticipantStatus.NOT_INTERESTED).icon}
+                                          color={getApprovalIcon(PrebookingParticipantStatus.NOT_INTERESTED).color}
+                                          size={20}
+                                        />
+                                        <span>
+                                          {translateGlobalDict(
+                                            `prebooking.participant_status.${PrebookingParticipantStatus.NOT_INTERESTED}`
+                                          )}
+                                        </span>
+                                      </div>
+                                    </MenuItem>
+                                  </Select>
+                                </FormControl>
+                              )}
+                              {isUpdatingStatus && prebooking.identifier === updatingPrebookingId && (
+                                <AppLoader fullHeight={false} />
+                              )}
+                            </div>
+                          </>
                         )}
-                      </AvatarGroup>
-                      {loggedUser?.currentProfileIdentifier && (
-                        <>
-                          <Divider orientation="vertical" flexItem />
-                          <div className="pb-card-response-box">
-                            <FormControl>
-                              <Select
-                                value={
-                                  prebooking.participant_approvals.find(
-                                    (approval) => approval.participant_profile_id === loggedUser?.currentProfileInfo.id
-                                  )?.status || PrebookingParticipantStatus.PENDING
-                                }
-                                onChange={(e) => {
-                                  // TODO: Aquí deberías actualizar el estado del participante
-                                  console.log('Cambiar respuesta a:', e.target.value);
-                                  dispatch(
-                                    prebookingActions.postActionItem({
-                                      id: prebooking.id,
-                                      action: 'setStatus',
-                                      newItem: {},
-                                      params: { status: e.target.value },
-                                    })
-                                  );
-                                }}
-                                displayEmpty
-                                renderValue={(value) => {
-                                  const icon = getApprovalIcon(value);
-                                  return (
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                      {icon && <DynamicIcons iconName={icon.icon} color={icon.color} size={30} />}
-                                      {/* <span style={{ textTransform: 'capitalize' }}>{value}</span> */}
-                                    </div>
-                                  );
-                                }}
-                                sx={{
-                                  '& .MuiSelect-select': {
-                                    padding: '4px 8px',
-                                  },
-                                  '& fieldset': {
-                                    borderColor: '#ddd',
-                                    borderRadius: '20px',
-                                  },
-                                }}
-                              >
-                                <MenuItem value={PrebookingParticipantStatus.INTERESTED}>
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                    <DynamicIcons
-                                      iconName={getApprovalIcon(PrebookingParticipantStatus.INTERESTED).icon}
-                                      color={getApprovalIcon(PrebookingParticipantStatus.INTERESTED).color}
-                                      size={20}
-                                    />
-                                    <span>
-                                      {translateGlobalDict(
-                                        `prebooking.participant_status.${PrebookingParticipantStatus.INTERESTED}`
-                                      )}
-                                    </span>
-                                  </div>
-                                </MenuItem>
-                                <MenuItem value={PrebookingParticipantStatus.PENDING}>
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                    <DynamicIcons
-                                      iconName={getApprovalIcon(PrebookingParticipantStatus.PENDING).icon}
-                                      color={getApprovalIcon(PrebookingParticipantStatus.PENDING).color}
-                                      size={20}
-                                    />
-                                    <span>
-                                      {translateGlobalDict(
-                                        `prebooking.participant_status.${PrebookingParticipantStatus.PENDING}`
-                                      )}
-                                    </span>
-                                  </div>
-                                </MenuItem>
-                                <MenuItem value={PrebookingParticipantStatus.NOT_INTERESTED}>
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                    <DynamicIcons
-                                      iconName={getApprovalIcon(PrebookingParticipantStatus.NOT_INTERESTED).icon}
-                                      color={getApprovalIcon(PrebookingParticipantStatus.NOT_INTERESTED).color}
-                                      size={20}
-                                    />
-                                    <span>
-                                      {translateGlobalDict(
-                                        `prebooking.participant_status.${PrebookingParticipantStatus.NOT_INTERESTED}`
-                                      )}
-                                    </span>
-                                  </div>
-                                </MenuItem>
-                              </Select>
-                            </FormControl>
-                          </div>
-                        </>
-                      )}
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          );
-        })}
+                  </CardContent>
+                </Card>
+              </div>
+            );
+          })
+        )}
       </div>
       <Menu
         anchorEl={anchorEl}
@@ -425,7 +478,7 @@ const PrebookingsListPage = () => {
           onClose={() => setSelectedParticipantDetails(null)}
           content={
             <div>
-              <Avatar
+              <S3Avatar
                 alt={selectedParticipantDetails.name}
                 src={selectedParticipantDetails.profile_pic}
                 sx={{
@@ -508,7 +561,7 @@ const PrebookingsListPage = () => {
                             }
                             onClick={() => setSelectedParticipantDetails(participant)}
                           >
-                            <Avatar
+                            <S3Avatar
                               alt={participant.name}
                               src={participant.profile_pic}
                               sx={{
@@ -530,7 +583,7 @@ const PrebookingsListPage = () => {
                             value={
                               selectedPrebookingDetails.participant_approvals.find(
                                 (approval) => approval.participant_profile_id === loggedUser?.currentProfileInfo.id
-                              )?.status || ParticipantStatus.PENDING
+                              )?.status || PrebookingParticipantStatus.PENDING
                             }
                             onChange={(e) => {
                               // TODO: Aquí deberías actualizar el estado del participante
@@ -564,34 +617,46 @@ const PrebookingsListPage = () => {
                               },
                             }}
                           >
-                            <MenuItem value={ParticipantStatus.PENDING}>
+                            <MenuItem value={PrebookingParticipantStatus.INTERESTED}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                 <DynamicIcons
-                                  iconName={getApprovalIcon(ParticipantStatus.PENDING).icon}
-                                  color={getApprovalIcon(ParticipantStatus.PENDING).color}
+                                  iconName={getApprovalIcon(PrebookingParticipantStatus.INTERESTED).icon}
+                                  color={getApprovalIcon(PrebookingParticipantStatus.INTERESTED).color}
                                   size={20}
                                 />
-                                <span>Pending</span>
+                                <span>
+                                  {translateGlobalDict(
+                                    `prebooking.participant_status.${PrebookingParticipantStatus.INTERESTED}`
+                                  )}
+                                </span>
                               </div>
                             </MenuItem>
-                            <MenuItem value={ParticipantStatus.ACCEPTED}>
+                            <MenuItem value={PrebookingParticipantStatus.PENDING}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                 <DynamicIcons
-                                  iconName={getApprovalIcon(ParticipantStatus.ACCEPTED).icon}
-                                  color={getApprovalIcon(ParticipantStatus.ACCEPTED).color}
+                                  iconName={getApprovalIcon(PrebookingParticipantStatus.PENDING).icon}
+                                  color={getApprovalIcon(PrebookingParticipantStatus.PENDING).color}
                                   size={20}
                                 />
-                                <span>Accepted</span>
+                                <span>
+                                  {translateGlobalDict(
+                                    `prebooking.participant_status.${PrebookingParticipantStatus.PENDING}`
+                                  )}
+                                </span>
                               </div>
                             </MenuItem>
-                            <MenuItem value={ParticipantStatus.REJECTED}>
+                            <MenuItem value={PrebookingParticipantStatus.NOT_INTERESTED}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                 <DynamicIcons
-                                  iconName={getApprovalIcon(ParticipantStatus.REJECTED).icon}
-                                  color={getApprovalIcon(ParticipantStatus.REJECTED).color}
+                                  iconName={getApprovalIcon(PrebookingParticipantStatus.NOT_INTERESTED).icon}
+                                  color={getApprovalIcon(PrebookingParticipantStatus.NOT_INTERESTED).color}
                                   size={20}
                                 />
-                                <span>Rejected</span>
+                                <span>
+                                  {translateGlobalDict(
+                                    `prebooking.participant_status.${PrebookingParticipantStatus.NOT_INTERESTED}`
+                                  )}
+                                </span>
                               </div>
                             </MenuItem>
                           </Select>

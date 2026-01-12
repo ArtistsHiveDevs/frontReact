@@ -71,6 +71,27 @@
   font-size: smaller;
 }
 
+.pb-empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+  // color: $app-text-color-secondary;
+
+  h3 {
+    margin: 1rem 0 0.5rem;
+    // color: $app-text-color-primary;
+  }
+
+  p {
+    margin: 0;
+    opacity: 0.7;
+  }
+}
+
 .pb-card-container {
   display: flex;
   height: 100%;

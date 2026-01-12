@@ -71,9 +71,18 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
         state.queryParams = action.payload.queryParams;
       },
       itemByIdLoaded(state: EntityStateTemplate<T, M>, action: PayloadAction<{ id: string; item: T }>) {
+        let foundItem: M;
         if (action.payload.item) {
-          let foundItem = new Model(action.payload.item);
+          foundItem = new Model(action.payload.item);
+
           state.detailedItems[foundItem.identifier] = foundItem;
+
+          // Actualizar en la lista de items si ya existe
+          const itemIndex = state.items.findIndex((id) => id === foundItem.identifier);
+
+          if (itemIndex >= 0) {
+            state.items[itemIndex] = foundItem.identifier;
+          }
         }
         state.loading = false;
         state.queryParams = undefined;
@@ -144,6 +153,23 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
         : {
             deleteItem(state: EntityStateTemplate<T, M>, action: PayloadAction<{ id: string }>) {
               state.loading = true;
+            },
+            deletedItem(state: EntityStateTemplate<T, M>, action: PayloadAction<{ id: string; item: T }>) {
+              state.loading = false;
+              console.log('Item eliminado....', action.payload.id, action.payload.item);
+
+              // Remover el item del array de IDs (filter ya crea una nueva referencia)
+              state.items = state.items.filter((item) => item !== action.payload.id);
+
+              // Crear una nueva referencia del diccionario sin el item eliminado
+              const { [action.payload.id]: deletedItem, ...restItems } = state.detailedItems;
+              state.detailedItems = restItems as { [id: string]: M };
+
+              // Guardar referencia al item eliminado
+              // state.deletedItem = new Model(action.payload.item);
+              // state.newItemRQ = undefined;
+
+              console.log('terminamos....');
             },
           }),
       repoError(state: EntityStateTemplate<T, M>, action: PayloadAction<number>) {
@@ -312,11 +338,12 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
               });
 
               if (response.data) {
-                yield put(usersActions.loadCurrentUser());
+                // yield put(usersActions.loadCurrentUser());
                 yield put(slice.actions.itemByIdLoaded({ id: requestedItemID, item: response.data }));
               }
             }
           } catch (err) {
+            console.log(err);
             yield put(slice.actions.repoError(1));
           }
         }
@@ -325,27 +352,41 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
 
     if (!options?.disableOperations?.delete) {
       // ==================================   DELETE  ==============================================================
-      yield takeLatest(slice.actions.deleteItem.type, function* deleteItem(actionParams?: PayloadAction<string>) {
-        yield delay(500);
+      yield takeLatest(
+        slice.actions.deleteItem.type,
+        function* deleteItem(actionParams?: PayloadAction<{ id: string }>) {
+          yield delay(500);
 
-        const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
-        const id = actionParams?.payload;
-        const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}${resourceEndpoint}/${id}`;
+          const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+          const { id } = actionParams?.payload;
+          console.log(id);
+          const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}${resourceEndpoint}/${id}`;
 
-        try {
-          if (id) {
-            const response: any = yield call(deleteRequest, requestURL, {
-              headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
-            });
+          try {
+            if (id) {
+              const response: any = yield call(deleteRequest, requestURL, {
+                headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
+              });
 
-            if (response.data) {
-              yield put(slice.actions.itemByIdLoaded({ id, item: undefined }));
+              console.log('Delete response:', response);
+
+              if (response.data) {
+                yield put(slice.actions.deletedItem({ id, item: response.data }));
+              } else if (response.ok || response.status === 204) {
+                // Si el servidor retorna 204 No Content o un OK sin data
+                console.log('Delete exitoso sin data, usando id:', id);
+                yield put(slice.actions.deletedItem({ id, item: { id } as T }));
+              } else {
+                console.error('Delete falló:', response);
+                yield put(slice.actions.repoError(response.status || 1));
+              }
             }
+          } catch (err) {
+            console.error('Error en delete:', err);
+            yield put(slice.actions.repoError(1));
           }
-        } catch (err) {
-          yield put(slice.actions.repoError(1));
         }
-      });
+      );
     }
 
     if (options?.customOperations?.sagas) {

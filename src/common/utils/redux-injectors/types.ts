@@ -45,6 +45,7 @@ export interface EntityStateTemplate<T extends EntityTemplate, M extends EntityM
   queryParams?: { [param: string]: any };
   newItemRQ?: T;
   createdItem?: M;
+  deletedItem?: M;
 }
 
 // Definición de la función para crear el estado inicial

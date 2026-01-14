@@ -290,7 +290,15 @@ export const ProfileHeader = (props: any) => {
           ].join(' ')}
         >
           <div className="fixed-header-content">
-            <Avatar src={image} alt={element?.name} sx={{ width: 50, height: 50 }} />
+            <AvatarWithIcon
+              image={image}
+              name={element?.name}
+              avatarSize={50}
+              bottomBadgeSize={30}
+              buttonIcon={currentUserCanEdit && !currentUserIsInProfile && 'PiUserSwitch'}
+              onClick={() => !!image && setZoomProfilePic(true)}
+              onBadgeClick={() => switchProfile()}
+            ></AvatarWithIcon>
             <div className="fixed-header-info">
               <div className="fixed-username">
                 @{element?.username} <VerifiedArtist verifiedStatus={element?.verified_status} />

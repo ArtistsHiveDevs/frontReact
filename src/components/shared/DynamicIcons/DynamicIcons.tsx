@@ -86,6 +86,9 @@ export function DynamicIcons(params: typesPropsIcon): JSX.Element {
         background,
         padding: background ? '0.1rem' : '',
         borderRadius: background ? '50%' : '',
+        display: background ? 'flex' : '',
+        alignItems: background ? 'center' : '',
+        justifyContent: background ? 'center' : '',
         ...customStyle,
       }}
       onClick={() => {

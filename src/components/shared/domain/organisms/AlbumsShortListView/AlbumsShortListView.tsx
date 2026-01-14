@@ -105,7 +105,7 @@ export const AlbumsShortListView = (props: any) => {
       seeMoreVisible && !seeMoreOpened ? discography.slice(0, DISCOGRAPHY_PAGINATION_LIMIT) : discography;
 
     return (
-      <div>
+      <div className={'albums-list'}>
         {discographyShortList.map((album: any, index: number) => {
           return (
             <AlbumShortView

@@ -1,5 +1,11 @@
 @import '~/variables.module.scss';
 
+.albums-list {
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .btn-see-more {
   text-align: center;
   color: $main-title-color;

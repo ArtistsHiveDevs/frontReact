@@ -132,7 +132,7 @@ const miInfo: SideMenuItem[] = [
     // ],
   },
   {
-    name: 'Mi calendario',
+    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_calendar'),
     path: `${PATHS.CALENDAR}`,
     icon: 'io5 IoCalendarNumberOutline',
     updated: new Date('1/18/16'),

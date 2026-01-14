@@ -1246,6 +1246,8 @@ export const DeMessages = {
                 saved: 'Gespeichert',
                 tour_planning: 'Tourplanung',
               },
+              my_prebooking_requests: 'Meine Anfragen',
+              my_calendar: 'Mein Kalender',
             },
           },
           settings: {

@@ -1246,6 +1246,8 @@ export const ElMessages = {
                 saved: 'Αποθηκευμένα',
                 tour_planning: 'Σχεδιασμός περιοδείας',
               },
+              my_prebooking_requests: 'Τα αιτήματά μου',
+              my_calendar: 'Το ημερολόγιό μου',
             },
           },
           settings: {

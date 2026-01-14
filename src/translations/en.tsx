@@ -1231,6 +1231,8 @@ export const EnMessages = {
                 saved: 'Saved',
                 tour_planning: 'Tour Planning',
               },
+              my_prebooking_requests: 'My Booking Requests',
+              my_calendar: 'My Calendar',
             },
           },
           settings: {

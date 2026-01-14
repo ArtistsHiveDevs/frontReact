@@ -1247,6 +1247,8 @@ export const FrMessages = {
                 saved: 'Enregistrés',
                 tour_planning: 'Planification de tours',
               },
+              my_prebooking_requests: 'Mes Demandes',
+              my_calendar: 'Mon Calendrier',
             },
           },
           settings: {

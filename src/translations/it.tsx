@@ -1246,6 +1246,8 @@ export const ItMessages = {
                 saved: 'Salvati',
                 tour_planning: 'Pianificazione del tour',
               },
+              my_prebooking_requests: 'Le Mie Richieste',
+              my_calendar: 'Il Mio Calendario',
             },
           },
           settings: {

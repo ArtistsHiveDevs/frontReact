@@ -1246,6 +1246,7 @@ export const EsMessages = {
                 saved: 'Guardados',
                 tour_planning: 'Planificación de giras',
               },
+              my_calendar: 'Mi Calendario',
             },
           },
           settings: {

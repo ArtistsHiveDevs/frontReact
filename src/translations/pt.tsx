@@ -1243,6 +1243,8 @@ export const PtMessages = {
                 saved: 'Salvos',
                 tour_planning: 'Planejamento de turnê',
               },
+              my_prebooking_requests: 'Minhas Solicitações',
+              my_calendar: 'Meu Calendário',
             },
           },
           settings: {

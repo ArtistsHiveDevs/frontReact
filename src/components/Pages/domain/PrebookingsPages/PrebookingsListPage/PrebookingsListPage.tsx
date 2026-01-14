@@ -8,10 +8,13 @@ import {
   Divider,
   FormControl,
   IconButton,
+  InputAdornment,
   Menu,
   MenuItem,
   Select,
+  TextField,
 } from '@mui/material';
+import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Flag from 'react-world-flags';
@@ -40,7 +43,13 @@ const PrebookingsListPage = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedPrebookingId, setSelectedPrebookingId] = useState<string | null>(null);
   const [selectedParticipantDetails, setSelectedParticipantDetails] = useState<CurrentProfileInfoModel | null>(null);
+  const [selectedParticipantAvatarURL, setSelectedParticipantAvatarURL] = useState<string>('');
   const [selectedPrebookingDetails, setSelectedPrebookingDetails] = useState<PreBookingRequestModel | null>(null);
+  const [openStatusSearchInputText, setOpenStatusSearchInputText] = useState(false);
+  const [searchText, setSearchText] = useState('');
+  const [openDateFilter, setOpenDateFilter] = useState(false);
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
 
   const loggedUser = useSelector(selectCurrentUser);
   const allPreBookingRequests: PreBookingRequestModel[] = useSelector(selectorPreBookingRequests.selectItems);
@@ -76,6 +85,133 @@ const PrebookingsListPage = () => {
   }, [loggedUser]);
 
   useEffect(() => {
+    const loadParticipantAvatar = async () => {
+      if (selectedParticipantDetails) {
+        const url = await selectedParticipantDetails.avatarURL();
+        setSelectedParticipantAvatarURL(url);
+      } else {
+        setSelectedParticipantAvatarURL('');
+      }
+    };
+
+    loadParticipantAvatar();
+  }, [selectedParticipantDetails]);
+
+  // Función para filtrar prebookings
+  const filterPrebookings = (
+    prebookings: PreBookingRequestModel[],
+    status: string,
+    searchQuery: string,
+    fromDate: string,
+    toDate: string
+  ): PreBookingRequestModel[] => {
+    let filtered = [...prebookings];
+
+    // Filtrar por estado
+    if (status !== 'all') {
+      filtered = filtered.filter((prebooking) => {
+        if (status === ParticipantStatus.PENDING) {
+          return prebooking.participant_approvals.some(
+            (approval) =>
+              approval.participant_profile_id === loggedUser?.currentProfileInfo.id &&
+              approval.status === ParticipantStatus.PENDING
+          );
+        }
+        return prebooking.status === status;
+      });
+    }
+
+    // Filtrar por rango de fechas
+    if (fromDate || toDate) {
+      filtered = filtered.filter((prebooking) => {
+        const eventDate = prebooking.requested_date_start;
+
+        if (fromDate && toDate) {
+          // Ambas fechas proporcionadas: verificar que esté en el rango
+          const from = dayjs(fromDate).startOf('day');
+          const to = dayjs(toDate).endOf('day');
+          return (
+            (eventDate.isAfter(from) || eventDate.isSame(from, 'day')) &&
+            (eventDate.isBefore(to) || eventDate.isSame(to, 'day'))
+          );
+        } else if (fromDate) {
+          // Solo fecha desde: verificar que sea igual o posterior
+          const from = dayjs(fromDate).startOf('day');
+          return eventDate.isAfter(from) || eventDate.isSame(from, 'day');
+        } else if (toDate) {
+          // Solo fecha hasta: verificar que sea igual o anterior
+          const to = dayjs(toDate).endOf('day');
+          return eventDate.isBefore(to) || eventDate.isSame(to, 'day');
+        }
+
+        return true;
+      });
+    }
+
+    // Filtrar por texto de búsqueda
+    if (searchQuery.trim() !== '') {
+      const searchLower = searchQuery.toLowerCase();
+      filtered = filtered.filter((prebooking) => {
+        // Buscar en nombre del evento
+        if (prebooking.event_name?.toLowerCase().includes(searchLower)) return true;
+
+        // Buscar en descripción
+        if (prebooking.description?.toLowerCase().includes(searchLower)) return true;
+
+        // Buscar en venues (nombre, username, ubicación, país)
+        const venueMatch = prebooking.venues.some((venue: CurrentProfileInfoModel) => {
+          // Verificar nombre y username
+          if (venue.name?.toLowerCase().includes(searchLower)) return true;
+          if (venue.username?.toLowerCase().includes(searchLower)) return true;
+
+          // Buscar en ubicación solo si existe
+          if (Array.isArray(venue.location) && venue.location.length > 0) {
+            const locationObj = venue.location[0];
+            if (locationObj) {
+              // Buscar en país
+              if (locationObj.country_name?.toLowerCase().includes(searchLower)) return true;
+              // Buscar en ciudad
+              if (locationObj.city?.toLowerCase().includes(searchLower)) return true;
+              // Buscar en estado
+              if (locationObj.state?.toLowerCase().includes(searchLower)) return true;
+            }
+          }
+
+          return false;
+        });
+        if (venueMatch) return true;
+
+        // Buscar en participantes (nombre, username, ubicación, país)
+        const participantMatch = prebooking.recipients.some((participant: CurrentProfileInfoModel) => {
+          // Verificar nombre y username
+          if (participant.name?.toLowerCase().includes(searchLower)) return true;
+          if (participant.username?.toLowerCase().includes(searchLower)) return true;
+
+          // Buscar en ubicación solo si existe
+          if (Array.isArray(participant.location) && participant.location.length > 0) {
+            const locationObj = participant.location[0];
+            if (locationObj) {
+              // Buscar en país
+              if (locationObj.country_name?.toLowerCase().includes(searchLower)) return true;
+              // Buscar en ciudad
+              if (locationObj.city?.toLowerCase().includes(searchLower)) return true;
+              // Buscar en estado
+              if (locationObj.state?.toLowerCase().includes(searchLower)) return true;
+            }
+          }
+
+          return false;
+        });
+        if (participantMatch) return true;
+
+        return false;
+      });
+    }
+
+    return filtered;
+  };
+
+  useEffect(() => {
     // Limpiar estados de loading solo cuando se confirme que el prebooking se actualizó
     if (isUpdatingStatus && updatingPrebookingId) {
       const oldPrebooking = displayedPrebookings.find((pb) => pb.identifier === updatingPrebookingId);
@@ -98,9 +234,19 @@ const PrebookingsListPage = () => {
       }
     }
 
-    // Actualizar la lista después de verificar cambios
-    setDisplayedPrebookings([...allPreBookingRequests]);
-  }, [allPreBookingRequests, isUpdatingStatus, updatingPrebookingId]);
+    // Aplicar filtros
+    const filtered = filterPrebookings(allPreBookingRequests, selectedStatus, searchText, dateFrom, dateTo);
+    setDisplayedPrebookings(filtered);
+  }, [
+    allPreBookingRequests,
+    isUpdatingStatus,
+    updatingPrebookingId,
+    selectedStatus,
+    searchText,
+    dateFrom,
+    dateTo,
+    loggedUser,
+  ]);
 
   // Efecto para manejar el scroll y mostrar/ocultar el header fijo
   useEffect(() => {
@@ -188,41 +334,155 @@ const PrebookingsListPage = () => {
     handleMenuClose();
   };
 
-  const getHeader = () => {
+  const showHideSearchField = () => {
+    if (!openStatusSearchInputText) {
+      // Si se va a abrir la búsqueda, cerrar el filtro de fecha
+      setOpenDateFilter(false);
+    }
+    setOpenStatusSearchInputText(!openStatusSearchInputText);
+  };
+
+  const showHideDateFilter = () => {
+    if (!openDateFilter) {
+      // Si se va a abrir el filtro de fecha, cerrar la búsqueda
+      setOpenStatusSearchInputText(false);
+    }
+    setOpenDateFilter(!openDateFilter);
+  };
+
+  const clearSearch = () => {
+    setSearchText('');
+  };
+
+  const clearDateFilter = () => {
+    setDateFrom('');
+    setDateTo('');
+  };
+
+  const hasActiveSearch = searchText.trim() !== '';
+  const hasActiveDateFilter = dateFrom !== '' || dateTo !== '';
+
+  const getHeaderTitle = () => {
+    return <h3>Prebookings</h3>;
+  };
+
+  const getHeaderFilters = () => {
     return (
       <>
-        <h3>Prebookings</h3>
+        <div className="pb-header-filters">
+          <FormControl>
+            <Select
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+              displayEmpty
+              IconComponent={() => null}
+              renderValue={(value) => (
+                <Chip
+                  label={value}
+                  className="chip-filter"
+                  deleteIcon={<DynamicIcons iconName="FaChevronDown" size={14} />}
+                  onDelete={() => {}}
+                />
+              )}
+              sx={{
+                '& .MuiSelect-select': {
+                  padding: 0,
+                  paddingRight: '0 !important',
+                },
+                '& fieldset': { border: 'none' },
+              }}
+            >
+              {statusFilters.map((status) => (
+                <MenuItem key={status} value={status}>
+                  {status}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-        <FormControl>
-          <Select
-            value={selectedStatus}
-            onChange={(e) => setSelectedStatus(e.target.value)}
-            displayEmpty
-            IconComponent={() => null}
-            renderValue={(value) => (
-              <Chip
-                label={value}
-                className="chip-filter"
-                deleteIcon={<DynamicIcons iconName="FaChevronDown" size={14} />}
-                onDelete={() => {}}
-              />
+          <span onClick={showHideDateFilter} className={`pb-search-icon ${hasActiveDateFilter ? 'active' : ''}`}>
+            {openDateFilter && (
+              <>
+                <DynamicIcons iconName={'FaRegCalendarTimes'} size={25} />
+                {hasActiveDateFilter && <span className="pb-search-badge" />}
+              </>
             )}
-            sx={{
-              '& .MuiSelect-select': {
-                padding: 0,
-                paddingRight: '0 !important',
-              },
-              '& fieldset': { border: 'none' },
-            }}
-          >
-            {statusFilters.map((status) => (
-              <MenuItem key={status} value={status}>
-                {status}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <DynamicIcons iconName="AiOutlineSearch" size={25} />
+            {!openDateFilter && (
+              <>
+                <DynamicIcons iconName={'FaRegCalendarAlt'} size={25} />
+                {hasActiveDateFilter && <span className="pb-search-badge" />}
+              </>
+            )}
+          </span>
+
+          <span onClick={showHideSearchField} className={`pb-search-icon ${hasActiveSearch ? 'active' : ''}`}>
+            {openStatusSearchInputText && (
+              <>
+                <DynamicIcons iconName={'MdSearchOff'} size={25} />
+                {hasActiveSearch && <span className="pb-search-badge" />}
+              </>
+            )}
+            {!openStatusSearchInputText && (
+              <>
+                <DynamicIcons iconName={'AiOutlineSearch'} size={25} />
+                {hasActiveSearch && <span className="pb-search-badge" />}
+              </>
+            )}
+          </span>
+        </div>
+        <div className={'pb-header-filter-params'}>
+          {openStatusSearchInputText && (
+            <TextField
+              className="pb-search-field"
+              placeholder="Buscar..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              size="small"
+              autoFocus
+              InputProps={{
+                endAdornment: searchText && (
+                  <InputAdornment position="end">
+                    <IconButton onClick={clearSearch} edge="end" size="small">
+                      <DynamicIcons iconName="MdClose" size={20} />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+
+          {openDateFilter && (
+            <div className="pb-date-filter-container">
+              <TextField
+                className="pb-date-field"
+                label="Desde"
+                type="date"
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+                size="small"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <TextField
+                className="pb-date-field"
+                label="Hasta"
+                type="date"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+                size="small"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              {hasActiveDateFilter && (
+                <IconButton onClick={clearDateFilter} size="small">
+                  <DynamicIcons iconName="MdClose" size={20} />
+                </IconButton>
+              )}
+            </div>
+          )}
+        </div>
       </>
     );
   };
@@ -230,7 +490,8 @@ const PrebookingsListPage = () => {
   return (
     <>
       <div ref={headerRef} className="pb-list-top-header">
-        {getHeader()}
+        {getHeaderTitle()}
+        {getHeaderFilters()}
       </div>
       <div className="pb-container">
         {isLoading && displayedPrebookings.length === 0 ? (
@@ -319,7 +580,12 @@ const PrebookingsListPage = () => {
                                   anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                                   badgeContent={
                                     approvalInfo ? (
-                                      <DynamicIcons iconName={approvalInfo.icon} color={approvalInfo.color} size={25} />
+                                      <DynamicIcons
+                                        iconName={approvalInfo.icon}
+                                        color={approvalInfo.color}
+                                        size={25}
+                                        background="white"
+                                      />
                                     ) : null
                                   }
                                   onClick={() => setSelectedParticipantDetails(participant)}
@@ -372,7 +638,14 @@ const PrebookingsListPage = () => {
                                       const icon = getApprovalIcon(value);
                                       return (
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                          {icon && <DynamicIcons iconName={icon.icon} color={icon.color} size={30} />}
+                                          {icon && (
+                                            <DynamicIcons
+                                              iconName={icon.icon}
+                                              color={icon.color}
+                                              size={30}
+                                              background="white"
+                                            />
+                                          )}
                                         </div>
                                       );
                                     }}
@@ -392,6 +665,7 @@ const PrebookingsListPage = () => {
                                           iconName={getApprovalIcon(PrebookingParticipantStatus.INTERESTED).icon}
                                           color={getApprovalIcon(PrebookingParticipantStatus.INTERESTED).color}
                                           size={20}
+                                          background="white"
                                         />
                                         <span>
                                           {translateGlobalDict(
@@ -406,6 +680,7 @@ const PrebookingsListPage = () => {
                                           iconName={getApprovalIcon(PrebookingParticipantStatus.PENDING).icon}
                                           color={getApprovalIcon(PrebookingParticipantStatus.PENDING).color}
                                           size={20}
+                                          background="white"
                                         />
                                         <span>
                                           {translateGlobalDict(
@@ -420,6 +695,7 @@ const PrebookingsListPage = () => {
                                           iconName={getApprovalIcon(PrebookingParticipantStatus.NOT_INTERESTED).icon}
                                           color={getApprovalIcon(PrebookingParticipantStatus.NOT_INTERESTED).color}
                                           size={20}
+                                          background="white"
                                         />
                                         <span>
                                           {translateGlobalDict(
@@ -469,7 +745,10 @@ const PrebookingsListPage = () => {
         </MenuItem>
       </Menu>
       <div className={['pb-lp-fixed-header', showFixedHeader ? 'visible' : ''].join(' ')}>
-        <div>{getHeader()}</div>
+        <div className="pb-fixed-header-content">
+          {getHeaderTitle()}
+          {getHeaderFilters()}
+        </div>
       </div>
       {selectedParticipantDetails && (
         <AppDialog
@@ -480,14 +759,12 @@ const PrebookingsListPage = () => {
             <div>
               <S3Avatar
                 alt={selectedParticipantDetails.name}
-                src={selectedParticipantDetails.profile_pic}
+                src={selectedParticipantAvatarURL}
                 sx={{
                   color: 'white',
                   width: '8rem',
                   height: '8rem',
-                  // border: (approvalInfo ? `2px solid ${approvalInfo.color}` : 'none') + ' !important',
                 }}
-                // onClick={() => setSelectedParticipantDetails(participant)}
               />
             </div>
           }
@@ -556,7 +833,12 @@ const PrebookingsListPage = () => {
                             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                             badgeContent={
                               approvalInfo ? (
-                                <DynamicIcons iconName={approvalInfo.icon} color={approvalInfo.color} size={25} />
+                                <DynamicIcons
+                                  iconName={approvalInfo.icon}
+                                  color={approvalInfo.color}
+                                  size={25}
+                                  background="white"
+                                />
                               ) : null
                             }
                             onClick={() => setSelectedParticipantDetails(participant)}
@@ -602,8 +884,14 @@ const PrebookingsListPage = () => {
                               const icon = getApprovalIcon(value);
                               return (
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                  {icon && <DynamicIcons iconName={icon.icon} color={icon.color} size={30} />}
-                                  {/* <span style={{ textTransform: 'capitalize' }}>{value}</span> */}
+                                  {icon && (
+                                    <DynamicIcons
+                                      iconName={icon.icon}
+                                      color={icon.color}
+                                      size={30}
+                                      background="white"
+                                    />
+                                  )}
                                 </div>
                               );
                             }}
@@ -623,6 +911,7 @@ const PrebookingsListPage = () => {
                                   iconName={getApprovalIcon(PrebookingParticipantStatus.INTERESTED).icon}
                                   color={getApprovalIcon(PrebookingParticipantStatus.INTERESTED).color}
                                   size={20}
+                                  background="white"
                                 />
                                 <span>
                                   {translateGlobalDict(
@@ -637,6 +926,7 @@ const PrebookingsListPage = () => {
                                   iconName={getApprovalIcon(PrebookingParticipantStatus.PENDING).icon}
                                   color={getApprovalIcon(PrebookingParticipantStatus.PENDING).color}
                                   size={20}
+                                  background="white"
                                 />
                                 <span>
                                   {translateGlobalDict(
@@ -651,6 +941,7 @@ const PrebookingsListPage = () => {
                                   iconName={getApprovalIcon(PrebookingParticipantStatus.NOT_INTERESTED).icon}
                                   color={getApprovalIcon(PrebookingParticipantStatus.NOT_INTERESTED).color}
                                   size={20}
+                                  background="white"
                                 />
                                 <span>
                                   {translateGlobalDict(

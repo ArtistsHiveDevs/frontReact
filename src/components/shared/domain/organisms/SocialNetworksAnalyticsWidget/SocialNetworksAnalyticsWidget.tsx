@@ -205,8 +205,11 @@ export const SocialNetworksAnalyticsWidget = (props: SocialNetworksAnalyticsWidg
         </div>
       </div>
       <div className="trademark_cm">
-        Powered by{'\n'}
-        <img src="/cm_logo.png" />
+        <div className="trademark-content">
+          <span>Powered by</span>
+          <img src="/cm_logo.png" alt="Chartmetric" />
+        </div>
+        <span className="test-data-label">* Datos de prueba</span>
       </div>
     </>
   );

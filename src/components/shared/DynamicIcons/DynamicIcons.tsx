@@ -43,6 +43,7 @@ export function DynamicIcons(params: typesPropsIcon): JSX.Element {
           fa: () => import('react-icons/fa/index'),
           fa6: () => import('react-icons/fa6/index'),
           gi: () => import('react-icons/gi/index'),
+          go: () => import('react-icons/go/index'),
           gr: () => import('react-icons/gr/index'),
           im: () => import('react-icons/im/index'),
           io: () => import('react-icons/io/index'),

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { getUrl } from 'aws-amplify/storage';
+import { useEffect, useState } from 'react';
 
 // Caché global compartido - mismo que en model.ts
 const s3UrlCache = new Map<string, { url: string; expiresAt: number }>();
@@ -11,7 +11,8 @@ const pendingRequests = new Map<string, Promise<string>>();
  * @returns URL HTTP lista para usar en <img> o <Avatar>
  */
 export const useS3Url = (s3PathOrUrl: string | undefined): string | undefined => {
-  const [url, setUrl] = useState<string | undefined>(s3PathOrUrl);
+  // IMPORTANTE: Si es S3, empezar con undefined para forzar re-render cuando se resuelva
+  const [url, setUrl] = useState<string | undefined>(s3PathOrUrl?.startsWith('s3://') ? undefined : s3PathOrUrl);
 
   useEffect(() => {
     // Si no hay path o no es S3, retornar directamente
@@ -48,6 +49,8 @@ export const useS3Url = (s3PathOrUrl: string | undefined): string | undefined =>
         const expiresAt = now + 50 * 60 * 1000; // 50 minutos
         s3UrlCache.set(s3Path, { url: httpUrl, expiresAt });
         setUrl(httpUrl);
+      } catch (error) {
+        console.error('❌ Error resolving S3 URL:', { s3Path, error });
       } finally {
         pendingRequests.delete(s3Path);
       }

@@ -8,9 +8,9 @@ import './index.scss';
 import { configureAppStore } from './store/configureStore';
 
 import { Amplify } from 'aws-amplify';
-import awsconfig from './aws-exports'; // Ajusta la ruta si es necesario
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(awsconfig);
+Amplify.configure(outputs);
 
 const store = configureAppStore();
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);

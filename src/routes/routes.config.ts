@@ -243,5 +243,9 @@ export const ROUTES_CONFIG: PathConfigMap = {
       component: lazy(() => import('~/components/Pages/utils/payments/Payment.page')),
       path: PATHS.PAYMENTS,
     },
+    CCPage: {
+      component: lazy(() => import('~/components/Pages/utils/cc-qr/CC')),
+      path: PATHS.CC,
+    },
   },
 };

@@ -1,0 +1,9 @@
+// CC Page styles
+.cc-page {
+  &__qr-container {
+    canvas {
+      border: 2px solid white;
+      border-radius: 8px;
+    }
+  }
+}

@@ -16,20 +16,33 @@ export function encryptBrowser(text: string): string {
     padding: CryptoJS.pad.Pkcs7,
   });
 
-
   return encrypted.toString();
 }
 
-function generateKey() {
+function generateKey(content: any) {
   const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
 
-  return `${getEnvironment()}@${today}`;
+  return `${content}@${today}`;
 }
 
 function generateEnvironmentHeader() {
-  const encryptedData = encryptBrowser(generateKey());
-  console.log(generateKey(), encryptedData);
+  const encryptedData = encryptBrowser(generateKey(getEnvironment()));
+
   return { 'x-env': encryptedData };
+}
+
+/**
+ * Genera headers para operaciones pre-autenticación (como verificar username durante login)
+ * IMPORTANTE: Solo usar para operaciones específicas que requieren acceso antes del login
+ * @param context - Contexto de la operación (ej: 'user_name_signin')
+ * @returns Headers con x-req-ctx y x-env
+ */
+export function generatePreAuthHeaders(context: string) {
+  const encryptedContext = encryptBrowser(generateKey(context));
+  return {
+    'x-req-ctx': encryptedContext,
+    ...generateEnvironmentHeader(),
+  };
 }
 
 export class ResponseError extends Error {

@@ -70,9 +70,18 @@ const App = () => {
   }, []);
 
   const verifyUserSession = async () => {
-    const { username, userId, signInDetails } = await getCurrentUser();
-    if (username && userId) {
-      dispatch(apiKeyActions.loadApiKey({ username: username, sub: userId }));
+    try {
+      const { username, userId, signInDetails } = await getCurrentUser();
+      if (username && userId) {
+        // Obtener los atributos del usuario para conseguir el preferred_username
+        const { fetchUserAttributes } = await import('aws-amplify/auth');
+        const attributes = await fetchUserAttributes();
+        const preferredUsername = attributes.preferred_username || username;
+
+        dispatch(apiKeyActions.loadApiKey({ username: preferredUsername, sub: userId }));
+      }
+    } catch (error) {
+      console.error('Error verifying user session:', error);
     }
   };
 

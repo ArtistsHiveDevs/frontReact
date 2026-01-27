@@ -210,7 +210,7 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
   }
 
   get hasFilledProfile(): boolean {
-    return !!this.nameKnownAs.trim().length;
+    return !!this.nameKnownAs.trim().length && !!this.gender; //&& !!this.nationality;
   }
 
   get fullname() {

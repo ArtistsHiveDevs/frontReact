@@ -2,6 +2,7 @@ import { Button, Stack } from '@mui/material';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { I18nPaths, useI18n } from '~/common/utils';
+import { createDebouncedUsernameValidation } from '~/common/utils/validation/username-validation';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
@@ -29,6 +30,7 @@ export interface DynamicTabbedFormParams {
   externalData?: { [fieldName: string]: any };
   customHeaderConfig?: any;
   submitLabel?: string;
+  enableUsernameValidation?: boolean;
 }
 export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
   let {
@@ -41,13 +43,17 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     entityType,
     submitLabel,
     customHeaderConfig,
+    enableUsernameValidation = true,
   } = params;
 
   const [relationshipsValues, setRelationshipsValues] = useState<{ [relationship: string]: any[] }>({});
   const [timeValues, setTimeValues] = useState<{ [relationship: string]: any }>({});
 
   const { translateText } = useI18n();
-  const formMethods = useForm();
+  const formMethods = useForm({
+    mode: 'onChange', // Validar en cada cambio
+    reValidateMode: 'onChange', // Re-validar en cada cambio
+  });
 
   const onSubmitNotImplemented = () => {
     console.warn('onSubmit is not implemented yet');
@@ -297,11 +303,11 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
 
   // 🔍 Logging de errores para debugging
   const handleFormSubmit = (data: any) => {
-    // console.log('✅ Form submitted successfully with data:', data);
     return onSubmit(data);
   };
 
   const handleFormErrors = (errors: any) => {
+    window.scrollTo(0, 0);
     // console.log('❌ Form validation failed. Errors by field:');
     // console.table(
     //   Object.entries(errors).map(([fieldName, error]: [string, any]) => ({
@@ -316,6 +322,9 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
   // customHeaderConfig = undefined;
 
   if (entityType === AppUserModel.name) {
+    // Capturar el username original del usuario (si existe)
+    const originalUsername = elementData?.['username' as keyof typeof elementData] as string | undefined;
+
     customHeaderConfig = [
       // {
       //   name: 'name',
@@ -328,7 +337,16 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       {
         name: 'username',
         label: 'username',
-        config: { required: true, minLength: 3 },
+        showEditableField: true, // Mostrar el campo editable desde el inicio
+        config: {
+          required: true,
+          minLength: 3,
+          ...(enableUsernameValidation && {
+            validate: {
+              available: createDebouncedUsernameValidation(originalUsername),
+            },
+          }),
+        },
       },
     ];
   }
@@ -339,7 +357,12 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
         <div className="place-container">
           {/* {profileHeaderComponent || <ProfileHeader element={entityData} />} */}
           {entityType && (
-            <ProfileHeader element={elementData} formMethods={formMethods} customHeaderConfig={customHeaderConfig} />
+            <ProfileHeader
+              element={elementData}
+              formMethods={formMethods}
+              customHeaderConfig={customHeaderConfig}
+              enableUsernameValidation={enableUsernameValidation}
+            />
           )}
           <TabbedPanel
             rawConfig={tabsInfo}

@@ -147,7 +147,10 @@ export const createTextField = (params: ComponentGeneratorParams) => {
 
         // Actualizar react-hook-form
         if (setValue) {
-          setValue(fieldName, newValue, { shouldDirty: true });
+          setValue(fieldName, newValue, {
+            shouldDirty: true,
+            shouldValidate: true, // Disparar validación en cada cambio
+          });
         }
 
         // Limpiar error cuando el usuario empieza a escribir

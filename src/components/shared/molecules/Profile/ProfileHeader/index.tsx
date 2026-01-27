@@ -6,6 +6,7 @@ import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
+import { debouncedUsernameValidation } from '~/common/utils/validation/username-validation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
@@ -37,7 +38,14 @@ interface FieldInfo {
 }
 export const ProfileHeader = (props: any) => {
   const { translateGlobalDict } = useI18n();
-  const { element, formMethods, handlers: parentHandlers, customHeaderConfig, showFollowerCounter = true } = props;
+  const {
+    element,
+    formMethods,
+    handlers: parentHandlers,
+    customHeaderConfig,
+    showFollowerCounter = true,
+    enableUsernameValidation = true,
+  } = props;
 
   const elementAsProfileModel = element as ProfileModel<PlaceModel>;
 
@@ -51,22 +59,32 @@ export const ProfileHeader = (props: any) => {
   const [showFixedHeader, setShowFixedHeader] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
 
-  const [fields, setFieldData] = useState<FieldInfo[]>(
-    customHeaderConfig || [
-      {
-        name: 'name',
-        label: 'Nombre',
-        config: { required: true, minLength: 3 },
-        renderField: 'nameKnownAs',
-      },
-      { name: 'subtitle', label: 'Subtitle', showPlaceHolderWhenEmpty: false },
-      {
-        name: 'username',
-        label: 'username',
-        config: { required: true, minLength: 3 },
-      },
-    ]
-  );
+  const [fields, setFieldData] = useState<FieldInfo[]>(() => {
+    return (
+      customHeaderConfig || [
+        {
+          name: 'name',
+          label: 'Nombre',
+          config: { required: true, minLength: 3 },
+          renderField: 'nameKnownAs',
+        },
+        { name: 'subtitle', label: 'Subtitle', showPlaceHolderWhenEmpty: false },
+        {
+          name: 'username',
+          label: 'username',
+          config: {
+            required: true,
+            minLength: 3,
+            ...(enableUsernameValidation && {
+              validate: {
+                available: debouncedUsernameValidation,
+              },
+            }),
+          },
+        },
+      ]
+    );
+  });
 
   const [zoomProfilePic, setZoomProfilePic] = useState(false);
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
@@ -160,7 +178,9 @@ export const ProfileHeader = (props: any) => {
         startAdornment: prefix,
       },
       config: newField.config || {},
+      defaultValue: element?.[fieldName] || newField.config?.value || '',
     };
+
     const handlers = {
       onBlur: (data: any) => {
         const targetFieldName = data.target.name;
@@ -263,7 +283,6 @@ export const ProfileHeader = (props: any) => {
 
   if (isEditable) {
     register('profile_pic', profilePictureConfig);
-    fields.forEach((field) => register(field.name, field.config));
   }
 
   const handleCloseZoomDialog = () => {

@@ -1,10 +1,10 @@
 import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 
-import { APIResponse, postRequest, putRequest, request } from '~/common/utils/request';
+import { APIResponse, generatePreAuthHeaders, postRequest, putRequest, request } from '~/common/utils/request';
 import { AppUserModel, AppUserTemplate } from '~/models/app/user/user.model';
 
 import { PayloadAction } from '@reduxjs/toolkit';
-import { signOut } from 'aws-amplify/auth';
+import { fetchUserAttributes, signOut, updateUserAttributes } from 'aws-amplify/auth';
 import { defaultLang } from '~/common/context';
 import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 import { LocalStorageVariables } from '~/constants/localstorage';
@@ -15,6 +15,42 @@ import { actions as apiKeyActions } from '../app-base/APIKey';
 import { selectApiKey } from '../app-base/APIKey/selectors';
 import { actionsArtists } from '../domain/artists/artist.redux';
 import { actionsPlaces } from '../domain/places/places.redux';
+
+/**
+ * Helper function para obtener email por username durante el login
+ * Esta función NO es una saga, se puede llamar directamente desde componentes
+ */
+export async function getEmailByUsername(username: string): Promise<string | null> {
+  try {
+    const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/cid/${username}`;
+
+    const response = await request(requestURL, {
+      headers: {
+        lang: defaultLang(false),
+        ...generatePreAuthHeaders('username_signin'),
+      },
+    });
+
+    // Verificar si hay error en la respuesta
+    if ('err' in response) {
+      console.error('Error in response:', response.err);
+      return null;
+    }
+
+    // Type assertion para el tipo de respuesta exitosa
+    const successResponse = response as { data?: { status: UsernameAvailabilityStatus; email?: string } };
+
+    // El endpoint retorna { data: { status: "TAKEN", email: "..." } } o { data: { status: "AVAILABLE" } }
+    if (successResponse?.data?.status === 'TAKEN' && successResponse?.data?.email) {
+      return successResponse.data.email;
+    }
+
+    return null;
+  } catch (error) {
+    console.error('Error fetching email by username:', error);
+    return null;
+  }
+}
 
 export function* getUsers() {
   yield delay(500);
@@ -57,7 +93,7 @@ export function* switchProfile(actionParams?: PayloadAction<{ id: string }>) {
 
   const authInfo: { apiKey: string; userId: string; username: string; sub: string } = yield select(selectApiKey);
 
-  const userId = authInfo.userId || authInfo.username || authInfo.sub;
+  const userId = authInfo.username || authInfo.sub || authInfo.userId;
 
   if (userId) {
     const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/${userId}`;
@@ -68,6 +104,8 @@ export function* switchProfile(actionParams?: PayloadAction<{ id: string }>) {
         headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
       });
 
+      yield delay(300);
+
       if (response?.data) {
         yield put(usersActions.loadCurrentUser());
       }
@@ -77,6 +115,7 @@ export function* switchProfile(actionParams?: PayloadAction<{ id: string }>) {
       // });
     } catch (err) {
       yield put(usersActions.logout());
+      // yield put(usersActions.logout());
       // yield delay(500);
       // window.location.reload();
     }
@@ -118,7 +157,6 @@ export function* switchLanguage(actionParams?: PayloadAction<{ newLang: string }
     }
   } else {
     window.location.reload();
-    // console.log('RELOAD.....  no user .....');
     window.scrollTo(0, 0);
   }
 }
@@ -142,7 +180,6 @@ export function* checkUsernameAvailability(actionParams?: PayloadAction<string>)
   if (actionParams?.payload) {
     yield delay(500);
 
-    console.log('consultando username ', actionParams.payload);
     const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
 
     const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/cid/${actionParams.payload}`;
@@ -179,9 +216,8 @@ export function* createUser(actionParams?: PayloadAction<{ username: string; sub
         const userData = <AppUserTemplate>(response?.data || {});
         console.log('pidiendo api key...');
         yield put(apiKeyActions.loadApiKey({ username: userData.username, sub: userData.sub }));
-        //console.log('cargando usuario actual')
-        //yield put(usersActions.loadCurrentUser());
-        //window.location.reload();
+        yield put(usersActions.loadCurrentUser());
+        window.location.reload();
       }
     } catch (err) {
       yield put(usersActions.logout());
@@ -205,6 +241,25 @@ export function* updateUser(actionParams?: PayloadAction<{ id: string; newItem: 
     });
 
     if (response?.data) {
+      // Si se actualizó el username, sincronizar con Cognito
+      if (actionParams.payload.newItem.username) {
+        try {
+          // Obtener atributos actuales del usuario de Cognito
+          const currentAttributes: Record<string, string> = yield call(fetchUserAttributes);
+
+          // Actualizar solo si el preferred_username es diferente
+          if (currentAttributes.preferred_username !== actionParams.payload.newItem.username) {
+            yield call(updateUserAttributes, {
+              userAttributes: {
+                preferred_username: actionParams.payload.newItem.username,
+              },
+            });
+          }
+        } catch (cognitoError) {
+          // No bloqueamos el flujo si falla la sincronización con Cognito
+        }
+      }
+
       yield put(usersActions.loadCurrentUser());
     }
     // const currentUser: AppUserTemplate = yield call(putRequest, requestURL, {

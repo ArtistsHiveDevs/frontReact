@@ -1,14 +1,16 @@
-import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Grid, Paper } from '@mui/material';
-import { fetchUserAttributes, FetchUserAttributesOutput } from 'aws-amplify/auth';
+import { fetchUserAttributes, FetchUserAttributesOutput, signIn } from 'aws-amplify/auth';
+import { Hub } from 'aws-amplify/utils';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useApiKeySlice } from '~/common/slices/app-base/APIKey';
 import { selectError } from '~/common/slices/app-base/APIKey/selectors';
 import { useUsersSlice } from '~/common/slices/users';
+import { getEmailByUsername } from '~/common/slices/users/saga';
 import { selectUsernameValidation, selectUsers } from '~/common/slices/users/selectors';
 import { I18nPaths, useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { generatePreAuthHeaders } from '~/common/utils/request';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
 import { PATHS } from '~/constants';
@@ -25,6 +27,32 @@ import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 const TRANSLATION_BASE_LOGIN_PAGE = 'app.pages.app_base.LoginPage';
 
 const LIMITE_CLICKS = 3;
+
+// Helper function to check if input is email or username
+const isEmail = (input: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(input);
+};
+
+// Helper function to validate password according to Cognito rules
+const validatePassword = (password: string): { valid: boolean; message?: string } => {
+  if (!password || password.length < 8) {
+    return { valid: false, message: 'Password must be at least 8 characters long' };
+  }
+  if (!/[0-9]/.test(password)) {
+    return { valid: false, message: 'Password must contain at least one number' };
+  }
+  if (!/[a-z]/.test(password)) {
+    return { valid: false, message: 'Password must contain at least one lowercase letter' };
+  }
+  if (!/[A-Z]/.test(password)) {
+    return { valid: false, message: 'Password must contain at least one uppercase letter' };
+  }
+  if (!/[^a-zA-Z0-9]/.test(password)) {
+    return { valid: false, message: 'Password must contain at least one special character' };
+  }
+  return { valid: true };
+};
 
 export const LoginPage = () => {
   const [clicksEnLogo, setClicksEnLogo] = useState(0);
@@ -77,7 +105,6 @@ export const LoginPage = () => {
       dispatch(
         apiKeyActions.loadApiKey({ userId: data.email, password: data.password, remember_me: data.remember_me })
       );
-      console.log('Form Submitted:', data);
     },
     onForgotPassword: () => {
       console.log('Forgot Password Clicked');
@@ -111,24 +138,84 @@ export const LoginPage = () => {
   //   console.log('AWS USER ', user);
   // }, [user]);
 
-  const [user, setUser] = useState<AuthUser>();
+  const [cognitoUser, setCognitoUser] = useState<AuthUser>();
   const [userAttributes, setUserAttributes] = useState<FetchUserAttributesOutput>();
 
+  // Hub listener para eventos de autenticación
   useEffect(() => {
-    if (user) {
+    const hubListenerCancelToken = Hub.listen('auth', async ({ payload }) => {
+      const { event } = payload;
+
+      // Evento que se dispara después de hacer login (manual o automático después de verificar email)
+      if (event === 'signedIn') {
+        try {
+          const attributes = await fetchUserAttributes();
+
+          // Verificar si el usuario ya existe en MongoDB
+          const checkResponse = await fetch(
+            `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/cid/${attributes.email}`,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                ...generatePreAuthHeaders('username_signin'),
+              },
+            }
+          );
+
+          const checkData = await checkResponse.json();
+
+          // Si no existe, crear el usuario en MongoDB
+          if (checkData?.data?.status === 'AVAILABLE') {
+            const createResponse = await fetch(`${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                ...generatePreAuthHeaders('user_signup'),
+              },
+              body: JSON.stringify({
+                username: attributes.preferred_username || null,
+                sub: attributes.sub,
+                email: attributes.email,
+                given_names: attributes.given_name,
+                surnames: attributes.family_name,
+                phone_number: attributes.phone_number || null,
+              }),
+            });
+
+            if (!createResponse.ok) {
+              console.error('Failed to create user in MongoDB:', await createResponse.text());
+            }
+          } else {
+            console.log('User already exists in MongoDB');
+          }
+        } catch (error) {
+          console.error('Error in signedIn handler:', error);
+        }
+      }
+    });
+
+    return () => {
+      hubListenerCancelToken();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (cognitoUser) {
       // Aquí puedes ejecutar cualquier lógica una vez que el usuario esté cargado
       loadAWSInfo();
 
       // navigateToInnerPath({ path: PATHS.HOME });
     }
-  }, [user]);
+  }, [cognitoUser]);
 
   const loadAWSInfo = async () => {
     try {
       const info = await fetchUserAttributes();
       setUserAttributes(info);
-      if (user) {
-        dispatch(usersActions.checkUsernameAvailability(user.username));
+
+      if (cognitoUser && info.email) {
+        // Verificar existencia y disponibilidad
+        dispatch(usersActions.checkUsernameAvailability(info.preferred_username || info.email));
       }
     } catch (error) {
       console.error('Error fetching user attributes:', error);
@@ -136,15 +223,19 @@ export const LoginPage = () => {
   };
 
   useEffect(() => {
-    if (user && usernameValidationResult) {
-      if (usernameValidationResult === UsernameAvailabilityStatus.AVAILABLE) {
-        dispatch(usersActions.createUser({ username: user.username, sub: user.userId, email: userAttributes.email }));
-      } else {
-        console.log('Ya existía el usuario ', user.username);
-        dispatch(apiKeyActions.loadApiKey({ username: user.username, sub: user.userId }));
-      }
+    if (cognitoUser && userAttributes) {
+      // Asumir que el usuario ya existe en MongoDB (creado al verificar email)
+      // Solo cargar el API key
+
+      dispatch(
+        apiKeyActions.loadApiKey({
+          username: userAttributes.preferred_username || userAttributes.email || cognitoUser.userId,
+          sub: cognitoUser.userId,
+        })
+      );
     }
-  }, [usernameValidationResult, user]);
+  }, [cognitoUser, userAttributes]);
+
   return (
     <>
       {/* <h1>Artist Hive</h1> */}
@@ -222,52 +313,104 @@ export const LoginPage = () => {
               Usuario o email:
             </Typography> */}
             <Authenticator
+              loginMechanisms={['email']}
               // socialProviders={['amazon', 'apple', 'facebook', 'google']}
-              signUpAttributes={[
-                'email',
-                // 'address',
-                // 'birthdate',
-                // 'family_name',
-                // 'given_name',
-                // 'gender',
-                // 'locale',
-                // 'middle_name',
-                // 'name',
-                // 'nickname',
-                // 'phone_number',
-                // 'picture',
-                // 'preferred_username',
-                // 'profile',
-                // 'updated_at',
-                // 'website',
-                // 'zoneinfo',
-              ]}
-              components={{
-                SignUp: {
-                  FormFields() {
-                    const { validationErrors } = useAuthenticator();
+              signUpAttributes={['email', 'given_name', 'family_name', 'phone_number']}
+              services={{
+                async handleSignIn(formData) {
+                  const { username, password } = formData;
 
-                    return (
-                      <>
-                        {/* Re-use default `Authenticator.SignUp.FormFields` */}
-                        <Authenticator.SignUp.FormFields />
-                        {/*
-                {/* Append & require Terms and Conditions field to sign up  *}
-                <CheckboxField
-                  errorMessage={validationErrors.acknowledgement as string}
-                  hasError={!!validationErrors.acknowledgement}
-                  name="acknowledgement"
-                  value="yes"
-                  label="I agree with the Terms and Conditions"
-                /> */}
-                      </>
-                    );
+                  // Validar password
+                  const passwordValidation = validatePassword(password);
+                  if (!passwordValidation.valid) {
+                    throw new Error(passwordValidation.message);
+                  }
+
+                  // Detectar si es email o username
+                  let emailToUse = username;
+
+                  if (!isEmail(username)) {
+                    // Es un username, buscar el email
+                    const email = await getEmailByUsername(username);
+
+                    if (!email) {
+                      throw new Error('Username not found');
+                    }
+
+                    emailToUse = email;
+                  }
+
+                  // Hacer login con Cognito usando el email
+                  return signIn({ username: emailToUse, password });
+                },
+                async handleConfirmSignUp(formData) {
+                  const { username, confirmationCode } = formData;
+
+                  // Confirmar el email en Cognito
+                  const { confirmSignUp } = await import('aws-amplify/auth');
+
+                  // Cognito hace autoSignIn después de confirmar
+                  // El evento se manejará en el Hub listener
+                  return confirmSignUp({ username, confirmationCode });
+                },
+              }}
+              formFields={{
+                signIn: {
+                  username: {
+                    label: 'Email o Username',
+                    placeholder: 'Ingresa tu email o username',
+                    isRequired: true,
+                    type: 'text',
+                  },
+                  password: {
+                    label: 'Password',
+                    placeholder: 'Ingresa tu password',
+                    isRequired: true,
+                  },
+                },
+                signUp: {
+                  given_name: {
+                    label: 'First Name',
+                    placeholder: 'Enter your first name',
+                    isRequired: true,
+                    order: 1,
+                  },
+                  family_name: {
+                    label: 'Last Name',
+                    placeholder: 'Enter your last name',
+                    isRequired: true,
+                    order: 2,
+                  },
+                  email: {
+                    label: 'Email',
+                    placeholder: 'Enter your Email',
+                    isRequired: true,
+                    order: 3,
+                  },
+                  password: {
+                    label: 'Password',
+                    placeholder: 'Enter your Password',
+                    isRequired: true,
+                    order: 4,
+                  },
+                  confirm_password: {
+                    label: 'Confirm Password',
+                    placeholder: 'Please confirm your Password',
+                    isRequired: true,
+                    order: 5,
+                  },
+                  phone_number: {
+                    label: 'Phone Number',
+                    placeholder: '1234567890',
+                    isRequired: false,
+                    order: 6,
                   },
                 },
               }}
+              components={{}}
             >
               {({ signOut, user }) => {
-                setUser(user);
+                setCognitoUser(user);
                 return <AppLoader height="100%" />;
               }}
             </Authenticator>

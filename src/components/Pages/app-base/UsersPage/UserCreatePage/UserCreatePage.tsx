@@ -187,7 +187,7 @@ const UserCreatePage = () => {
       />
       <IndustrySignUpBanner />
       <AppDialog
-        title="Selecciona "
+        title="Completa tu perfil"
         isOpenDialog={openDialogSelectInstrument}
         onClose={() => setOpenDialogFillProfileBanner(false)}
         content={translateText(`${TRANSLATION_BASE_USER_DETAIL_PAGE}.fillProfileBanner.content`)}

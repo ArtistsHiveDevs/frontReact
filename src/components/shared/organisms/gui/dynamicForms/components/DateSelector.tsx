@@ -1,9 +1,8 @@
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
-import { Controller, FieldErrors, FieldValues, UseFormRegister, UseFormReturn, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { ComponentGeneratorParams } from '../DynamicControl';
-import { DynamicFieldData } from '../dynamic-control-types';
 
 export const createDatePicker = (params: ComponentGeneratorParams) => {
   const {
@@ -125,31 +124,33 @@ export const createDatePicker = (params: ComponentGeneratorParams) => {
           const resolvedValue = field.value ? dayjs(field.value) : defaultTimeValue;
 
           return (
-            <DatePicker
-              label={label}
-              value={resolvedValue}
-              inputRef={field.ref}
-              onChange={(date: Dayjs | null) => {
-                setValue(fieldName, date);
-                field.onChange(date);
+            <>
+              <DatePicker
+                label={label}
+                value={resolvedValue}
+                inputRef={field.ref}
+                onChange={(date: Dayjs | null) => {
+                  setValue(fieldName, date);
+                  field.onChange(date);
 
-                if (params?.handlers?.[`${fieldName}_value_onchange`]) {
-                  params?.handlers[`${fieldName}_value_onchange`](date);
-                }
-              }}
-              disablePast={disablePast}
-              disableFuture={disableFuture}
-              minDate={calculatedMinDate}
-              maxDate={calculatedMaxDate}
-              displayWeekNumber={componentParams?.displayWeekNumber}
-              slotProps={{
-                textField: {
-                  required: !!config?.required,
-                  error: !!errors[fieldName],
-                  helperText: errors[fieldName]?.message as string,
-                },
-              }}
-            />
+                  if (params?.handlers?.[`${fieldName}_value_onchange`]) {
+                    params?.handlers[`${fieldName}_value_onchange`](date);
+                  }
+                }}
+                disablePast={disablePast}
+                disableFuture={disableFuture}
+                minDate={calculatedMinDate}
+                maxDate={calculatedMaxDate}
+                displayWeekNumber={componentParams?.displayWeekNumber}
+                slotProps={{
+                  textField: {
+                    required: !!config?.required,
+                    error: !!errors[fieldName],
+                    helperText: errors[fieldName]?.message as string,
+                  },
+                }}
+              />
+            </>
           );
         }}
       />

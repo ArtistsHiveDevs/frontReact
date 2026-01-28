@@ -48,6 +48,9 @@ import { createProfileThumbnailCardComponent } from './builders/ProfileThumbnail
 import { createEventThumbnailCardComponent } from './builders/EventThumbnailCardBuilder';
 import { createProfileFollowersComponent } from './builders/ProfileFollowersBuilder';
 
+// Placeholder builder for IMAGE component type (not implemented yet)
+const createImageComponent = () => null as any;
+
 /**
  * Configuración de builders
  * Mapea cada ComponentTypes a su función builder
@@ -57,6 +60,7 @@ const BUILDER_CONFIG = {
   [ComponentTypes.HTML_CONTENT]: createHtmlContentComponent,
   [ComponentTypes.TITLE]: createTitleComponent,
   [ComponentTypes.ARTS_GENRES]: createArtsGenresComponent,
+  [ComponentTypes.IMAGE]: createImageComponent,
   [ComponentTypes.IMAGE_GALLERY]: createImageGalleryComponent,
   [ComponentTypes.HORIZONTAL_IMAGE_GALLERY]: createHorizontalImageGalleryComponent,
   [ComponentTypes.ATTRIBUTES_ICON_FIELDS]: createAttributesIconFieldsComponent,

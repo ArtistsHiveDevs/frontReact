@@ -21,6 +21,7 @@ export const registerBuilder = (
  */
 export const buildComponent = (params: ComponentBuilderParams): JSX.Element => {
   const { componentDescriptor } = params;
+
   const builder = builderRegistry[componentDescriptor.componentName];
 
   if (!builder) {

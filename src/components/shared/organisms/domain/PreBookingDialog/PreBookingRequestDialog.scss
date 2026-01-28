@@ -1,0 +1,62 @@
+@import '~/variables.module.scss';
+
+.pbrd-forms {
+  padding: 1rem;
+}
+
+.pbrd-entity-type-participants {
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+  font-size: larger;
+  font-weight: 500;
+}
+
+.pbrd-participants-box {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 4rem);
+  column-gap: 1.5rem;
+  row-gap: 1.3rem;
+  justify-content: space-evenly;
+  align-items: start;
+  margin-bottom: 1.5rem;
+}
+
+.pbrd-participant-avatar-name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.pbrd-delete-icon {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  cursor: pointer;
+  //   opacity: 0.7;
+  transition: opacity 0.2s ease;
+  z-index: 1;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.pbrd-participant-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.pbrd-result-box {
+  margin-top: 1.5rem;
+}

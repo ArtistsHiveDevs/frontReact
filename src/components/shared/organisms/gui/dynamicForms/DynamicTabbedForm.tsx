@@ -342,7 +342,10 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
           {entityType && (
             <ProfileHeader element={elementData} formMethods={formMethods} customHeaderConfig={customHeaderConfig} />
           )}
-          <TabbedPanel tabs={transformedConfig(tabsInfo, elementData)} />
+          <TabbedPanel
+            rawConfig={tabsInfo}
+            configTransformer={(config: PageSection[]) => transformedConfig(config, elementData)}
+          />
         </div>
       </FormProvider>
       <Button type="submit" variant="contained" fullWidth>

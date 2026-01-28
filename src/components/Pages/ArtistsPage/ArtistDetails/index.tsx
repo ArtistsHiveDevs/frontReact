@@ -15,9 +15,9 @@ import MainSection from '~/components/Pages/HomePage/MainSection/MainSection';
 import NotFoundPage from '~/components/Pages/NotFoundPage';
 import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
 import { ClaimProfileBanner } from '~/components/shared/molecules/Profile/ClaimProfileBanner/ClaimProfileBanner';
-import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import AppLoader from '~/components/shared/organisms/app/loader/loader';
+import { PreBookingRequestDialog } from '~/components/shared/organisms/domain/PreBookingDialog';
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { getClassFromModelName } from '~/models/base/modelHelpers';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
@@ -169,13 +169,22 @@ const ArtistDetailPage = () => {
       ) : (
         <AppLoader />
       )}
-      <AppDialog
+      {/* <AppDialog
         title="Agendar evento"
         isOpenDialog={openDialogBookDate}
         onClose={() => setOpenDialogBookDate(false)}
         content={`Pronto prodrás solicitar una fecha para tu evento a ${currentArtist?.name}`}
         icon={'FaInfoCircle'}
-      />
+      /> */}
+      {currentArtist && (
+        <PreBookingRequestDialog
+          open={openDialogBookDate}
+          onClose={() => setOpenDialogBookDate(false)}
+          onSubmit={() => console.log('sumbit')}
+          // availableParticipants={availableParticipants}
+          mainRecipient={currentArtist}
+        />
+      )}
     </>
   );
 };

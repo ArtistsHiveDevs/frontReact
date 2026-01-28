@@ -1,8 +1,14 @@
+@import '~/variables.module.scss';
+
+.dialog-styles {
+  z-index: 100;
+}
 .dialog-title {
   text-align: center;
   padding-left: 3rem !important;
   padding-right: 3rem !important;
   position: relative;
+  background-color: $app-background-75;
 
   .close-icon {
     position: absolute;
@@ -13,6 +19,7 @@
 
 .dialog-content {
   text-align: justify;
+  margin: 1rem;
 }
 
 .dialog-icon {

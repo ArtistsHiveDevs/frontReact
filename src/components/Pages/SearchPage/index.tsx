@@ -13,11 +13,11 @@ import { EntityModel, EntityTemplate, LocatableTemplate, SearchableProfileTempla
 import { SearchModel } from '~/models/domain/search/search.model';
 
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { useSwipeable } from 'react-swipeable';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { GMapsSvgMaker } from '~/common/utils/object-utils/object-utils-index';
 import MapContainer from '~/components/shared/mapPrinter/mapContainer';
+import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { SocialNetworks } from '~/constants/social-networks.const';
 import { PlaceModel } from '~/models/domain/place/place.model';
@@ -247,20 +247,15 @@ export default function SearchPage() {
   };
   const openModal = () => {
     return (
-      <Dialog
+      <AppDialog
+        isOpenDialog={showFiltersModal}
+        title={translateText(`${TRANSLATION_BASE_FILTERS}.title`)}
         onClose={() => {
           console.log('CERRAAAAAAAAARR--------');
           handlers['onSubmit']();
         }}
-        open={showFiltersModal}
-        fullWidth={true}
-        disableEscapeKeyDown={false}
-        keepMounted={true}
-        style={{ zIndex: showFiltersModal ? 3000 : 0 }}
-      >
-        <DialogTitle>{translateText(`${TRANSLATION_BASE_FILTERS}.title`)}</DialogTitle>
-        <DialogContent dividers={true}>
-          {showFiltersModal && (
+        content={
+          showFiltersModal && (
             <DynamicTabbedForm
               tabsInfo={SEARCH_FILTERS_CONFIG}
               handlers={handlers}
@@ -277,15 +272,9 @@ export default function SearchPage() {
               elementData={filtersObject}
               externalData={{}}
             />
-          )}
-        </DialogContent>
-        {/* <DialogActions>
-          <Button onClick={handleCloseFiltersModal}>Disagree</Button>
-          <Button onClick={handleCloseFiltersModal} autoFocus>
-            Agree
-          </Button>
-        </DialogActions> */}
-      </Dialog>
+          )
+        }
+      />
     );
   };
 

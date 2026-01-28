@@ -10,9 +10,9 @@ import { RootState } from '~/common/utils/redux-injectors/types';
 import NotFoundPage from '~/components/Pages/NotFoundPage';
 import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
 import { ClaimProfileBanner } from '~/components/shared/molecules/Profile/ClaimProfileBanner/ClaimProfileBanner';
-import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import AppLoader from '~/components/shared/organisms/app/loader/loader';
+import { PreBookingRequestDialog } from '~/components/shared/organisms/domain/PreBookingDialog';
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { getClassFromModelName } from '~/models/base/modelHelpers';
 import { EventModel } from '~/models/domain/event/event.model';
@@ -151,13 +151,22 @@ const PlaceDetailPage = () => {
       ) : (
         <AppLoader />
       )}
-      <AppDialog
-        title="Agendar evento"
-        isOpenDialog={openDialogBookDate}
-        onClose={() => setOpenDialogBookDate(false)}
-        content={`Pronto prodrás solicitar una fecha para tu evento a ${currentPlace?.name}`}
-        icon={'FaInfoCircle'}
-      />
+      {/* <AppDialog
+              title="Agendar evento"
+              isOpenDialog={openDialogBookDate}
+              onClose={() => setOpenDialogBookDate(false)}
+              content={`Pronto prodrás solicitar una fecha para tu evento a ${currentArtist?.name}`}
+              icon={'FaInfoCircle'}
+            /> */}
+      {currentPlace && (
+        <PreBookingRequestDialog
+          open={openDialogBookDate}
+          onClose={() => setOpenDialogBookDate(false)}
+          onSubmit={() => console.log('sumbit')}
+          // availableParticipants={availableParticipants}
+          mainRecipient={currentPlace}
+        />
+      )}
     </>
   );
 };

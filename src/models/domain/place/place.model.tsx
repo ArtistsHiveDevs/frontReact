@@ -74,7 +74,7 @@ export interface PlaceTemplate extends ProfileTemplate {
   tiktok: string;
   subtitle?: string;
   profile_pic: string;
-  verified_status?: VerificationStatus;
+  verified_status: VerificationStatus;
   imageGallery: Image[];
 
   events: EventTemplate[];
@@ -142,7 +142,7 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
   declare subtitle?: string;
   declare profile_pic: string;
   declare imageGallery: Image[];
-  declare verified_status?: VerificationStatus;
+  declare verified_status: VerificationStatus;
   declare events: EventTemplate[];
   declare genres: { [artType: string]: string[] };
 
@@ -172,7 +172,7 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
   declare capacity?: number;
 
   constructor(template: PlaceTemplate) {
-    super(template);
+    super({ ...template, entity: PlaceModel.name });
     this.events = template.events?.map((event) => new EventModel(event)) || [];
 
     this.country = template.country ? new CountryModel(template.country) : undefined;
@@ -191,6 +191,10 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
 
     // Retornamos los primeros "size" elementos del arreglo mezclado
     this.bookingRatesPolicy = shuffledBookingPolicies.slice(0, size);
+
+    if (!this.verified_status) {
+      this.verified_status = VerificationStatus.NON_VERIFIED;
+    }
   }
 
   get hasFetchAllData(): boolean {

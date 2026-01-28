@@ -1,8 +1,8 @@
 import { faMicrophoneLines } from '@fortawesome/free-solid-svg-icons';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { useFormContext } from 'react-hook-form';
+import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { GMapsSvgMaker } from '~/common/utils/object-utils/object-utils-index';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import MapContainer from '~/components/shared/mapPrinter/mapContainer';
@@ -15,7 +15,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
   // ✅ Patrón híbrido: usar formContext pasado O fallback a useFormContext()
   const hookContext = useFormContext();
   const finalContext = externalContext || hookContext;
-  const { register, formState } = finalContext;
+  const { register, formState, trigger, clearErrors } = finalContext || {};
   const { errors } = formState || {};
   const [isPasswordType] = useState(fieldData.inputType === 'password');
 
@@ -32,9 +32,9 @@ export const createTextField = (params: ComponentGeneratorParams) => {
   } = fieldData;
 
   useEffect(() => {
-    setCurrentValue(fieldData?.defaultValue);
+    setCurrentValue(fieldData?.defaultValue ?? '');
   }, [fieldData]);
-  const [currentValue, setCurrentValue] = useState(defaultValue);
+  const [currentValue, setCurrentValue] = useState(defaultValue ?? '');
 
   if (isPasswordType) {
     const [showPassword, setShowPassword] = useState(false);
@@ -116,16 +116,34 @@ export const createTextField = (params: ComponentGeneratorParams) => {
       required={required === true || required === 'true'}
       label={label}
       type={inputType}
-      {...register(fieldName, config)}
-      value={currentValue}
+      {...(register ? register(fieldName, config) : {})}
+      value={currentValue ?? ''}
       placeholder={placeholder}
-      error={!!errors[fieldName]}
-      helperText={errors[fieldName]?.message?.toString()}
+      error={!!(errors && errors[fieldName])}
+      helperText={errors && errors[fieldName]?.message?.toString()}
       InputProps={inputProps}
       onBlur={(data) => {
         onBlurHandler(data);
       }}
-      onChange={(data) => setCurrentValue(data.target.value)}
+      onChange={(data) => {
+        setCurrentValue(data.target.value);
+
+        // Limpiar error cuando el usuario empieza a escribir
+        if (clearErrors && errors && errors[fieldName]) {
+          clearErrors(fieldName);
+        }
+
+        // Triggear validación después de un pequeño delay para evitar validar cada tecla
+        if (trigger && errors && errors[fieldName]) {
+          setTimeout(() => {
+            trigger(fieldName);
+          }, 300);
+        }
+
+        if (handlers && handlers[`on${fieldName}Change`]) {
+          handlers[`on${fieldName}Change`](data.target.value);
+        }
+      }}
       focused={focused}
       variant={variant}
       fullWidth

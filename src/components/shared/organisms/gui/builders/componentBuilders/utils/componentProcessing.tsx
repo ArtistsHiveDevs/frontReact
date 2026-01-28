@@ -26,9 +26,18 @@ export const processAttribute = (
       // Componentes anidados
       value = (
         <>
-          {attribute.components.map((comp, idx) => (
-            <div key={`nested-${componentIndex}-${idx}`}>{buildComponent(comp)}</div>
-          ))}
+          {attribute.components.map((comp, idx) => {
+            // Asignar el nombre de la red social al descriptor antes de construir
+            // Esto es necesario para que SocialNetworkWidgetBuilder sepa qué red social usar
+            if (!comp.data) {
+              comp.data = {};
+            }
+            comp.data.socialNetwork = attribute.name;
+
+            return (
+              <div key={`nested-${componentIndex}-${idx}`}>{buildComponent(comp)}</div>
+            );
+          })}
         </>
       );
     } else if (isDayjs(attribute.value)) {

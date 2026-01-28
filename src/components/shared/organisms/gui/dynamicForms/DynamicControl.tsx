@@ -13,11 +13,13 @@ import { createCitySelect } from './components/CitySelector';
 import { createDatePicker } from './components/DateSelector';
 import { createFileUpload } from './components/FileUpload';
 import { createHiddenField } from './components/HiddenField';
+import { createIconTextButton } from './components/IconTextButton';
 import { createInstrumentSelector } from './components/InstrumentSelector';
 import { createRadio } from './components/Radio';
 import { createRelationshipSelector } from './components/RelationshipSelector';
 import { createSelect } from './components/Select';
 import { createSlider } from './components/Slider';
+import { createSwitch } from './components/Switch';
 import { createTextArea } from './components/TextArea';
 import { createAddressTextField, createSocialNetworkTextField, createTextField } from './components/TextField';
 import { createTimeField } from './components/TimeField';
@@ -60,6 +62,10 @@ export const DynamicControl = (params: {
   };
 
   switch (inputType) {
+    // Botones
+    case 'iconTextButton':
+      return createIconTextButton(fieldParams);
+
     // Campos de texto
     case 'text':
     case 'password':
@@ -89,6 +95,8 @@ export const DynamicControl = (params: {
       return createCheckbox(fieldParams);
     case 'radio':
       return createRadio(fieldParams);
+    case 'switch':
+      return createSwitch(fieldParams);
 
     // Rangos
     case 'range':

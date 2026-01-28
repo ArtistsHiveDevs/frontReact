@@ -13,13 +13,14 @@ interface FormProps {
   fields: DynamicFieldData[];
   handlers: { onSubmit: Function; [handlerName: string]: Function };
   translationBasePath: string;
-  entityType: string;
+  // entityType: string;
   submitLabel?: string;
   errors?: ErrorType;
+  styles?: { className?: string; spacing?: number };
 }
 
 export const DynamicForm = (props: FormProps) => {
-  const { fields, handlers, submitLabel, errors: responseErrors } = props;
+  const { fields, handlers, submitLabel, errors: responseErrors, styles } = props;
   const [responseErrorsRender, setResponseErrorsRender] = useState([]);
   const formMethods = useForm();
   const { translateError, translateText } = useI18n();
@@ -45,9 +46,9 @@ export const DynamicForm = (props: FormProps) => {
   }, [responseErrors]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="fullwidth">
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className={`${styles?.className || ''} fullwidth`.trim()}>
       <FormProvider {...formMethods}>
-        <Stack spacing={2}>
+        <Stack spacing={styles?.spacing || 2}>
           {fields.map((d, i) => (
             <div key={i}>
               <DynamicControl fieldData={d} handlers={{ ...handlers }} errors={{ ...errors }} />

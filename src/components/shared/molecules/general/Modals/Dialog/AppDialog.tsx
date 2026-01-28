@@ -10,34 +10,43 @@ export const AppDialog = (params: {
   icon?: string;
   actions?: { label: string; handler: Function }[];
 }) => {
+  // Solo renderizar el Dialog cuando está abierto para optimizar memoria
+  if (!params?.isOpenDialog) {
+    return null;
+  }
+
   return (
-    params && (
-      <Dialog id="zoomAlbumImg" open={params.isOpenDialog} onClose={() => params.onClose()} fullWidth>
-        <DialogTitle className="dialog-title">
-          {params.title}
-          <IconButton onClick={() => params.onClose()} className="close-icon">
-            <DynamicIcons iconName="MdClose" />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent className="zoom-dialog">
-          <div>
-            <div className="dialog-content">{params.content}</div>
-            {!!params.icon && (
-              <div className="dialog-icon">
-                <DynamicIcons iconName={params.icon} size={40} color={'white'} />
-              </div>
-            )}
-          </div>
-          <div className="dialog-actions">
-            {params.actions?.length &&
-              params.actions.map((action) => (
-                <Button key={action.label} onClick={() => action.handler()}>
-                  {action.label}
-                </Button>
-              ))}
-          </div>
-        </DialogContent>
-      </Dialog>
-    )
+    <Dialog
+      className="dialog-styles"
+      id="zoomAlbumImg"
+      open={params.isOpenDialog}
+      onClose={() => params.onClose()}
+      fullWidth
+    >
+      <DialogTitle className="dialog-title">
+        {params.title}
+        <IconButton onClick={() => params.onClose()} className="close-icon">
+          <DynamicIcons iconName="MdClose" />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent className="zoom-dialog">
+        <div>
+          <div className="dialog-content">{params.content}</div>
+          {!!params.icon && (
+            <div className="dialog-icon">
+              <DynamicIcons iconName={params.icon} size={40} color={'white'} />
+            </div>
+          )}
+        </div>
+        <div className="dialog-actions">
+          {params.actions?.length &&
+            params.actions.map((action) => (
+              <Button key={action.label} onClick={() => action.handler()}>
+                {action.label}
+              </Button>
+            ))}
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };

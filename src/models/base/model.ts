@@ -1,7 +1,9 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
 import { getUrl } from 'aws-amplify/storage';
 import { toCamelCase } from '~/common/utils/string-utils';
+import { VerificationStatus } from '~/constants';
 import { ProfileActiveStatus, ProfileNature } from '~/constants/domain/profile.constants';
+import { CurrentProfileInfoModel } from '../app/user/user.model';
 import {
   EntityTemplate,
   FollowerProfileTemplate,
@@ -191,6 +193,10 @@ export abstract class ProfileModel<T extends ProfileTemplate>
 
   declare nature?: ProfileNature;
 
+  declare entity: string;
+  declare verified_status: VerificationStatus;
+  // declare roles: string[];
+
   constructor(template: T | any = {}) {
     super(template);
     this.id = template.id || template._id;
@@ -243,6 +249,10 @@ export abstract class ProfileModel<T extends ProfileTemplate>
     } else {
       this._profile_pic_aws = undefined;
     }
+  }
+
+  get profileInfo(): CurrentProfileInfoModel {
+    return new CurrentProfileInfoModel({ ...this });
   }
 
   isFollowedBy(identifier: string) {

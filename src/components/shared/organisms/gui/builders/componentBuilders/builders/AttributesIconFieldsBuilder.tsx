@@ -3,12 +3,27 @@ import { AttributesIconFieldReadOnly } from '~/components/shared/molecules/gener
 import { ComponentBuilderParams } from '../types';
 import { getDataSource, isAttributeHidden } from '../utils/dataExtraction';
 import { processAttribute } from '../utils/componentProcessing';
+import { buildComponent as buildComponentFromRegistry } from '../ComponentBuilder';
 
 export const createAttributesIconFieldsComponent = (params: ComponentBuilderParams): JSX.Element => {
-  const { componentDescriptor, entityData, parentDataSource, subpage, section, translationBasePath } = params;
+  const { componentDescriptor, entityData, parentDataSource, subpage, section, translationBasePath, handlers } = params;
   const { translateText } = useI18n();
 
   const dataSourceElement = getDataSource(componentDescriptor, entityData, parentDataSource);
+
+  // Función para construir componentes anidados
+  const buildNestedComponent = (componentDescriptor: any) => {
+    return buildComponentFromRegistry({
+      componentDescriptor,
+      subpage,
+      section,
+      componentIndex: 0,
+      entityData,
+      parentDataSource: dataSourceElement,
+      handlers: handlers || {},
+      translationBasePath,
+    });
+  };
 
   let sectionsAttributes: any[] = [];
 
@@ -33,7 +48,7 @@ export const createAttributesIconFieldsComponent = (params: ComponentBuilderPara
         attributes: (componentDescriptor.data?.attributes || componentDescriptor.data?.fields || [])
           .filter((attr: any) => !isAttributeHidden(attr, dataSource))
           .map((attr: any, idx: number) =>
-            processAttribute(attr, idx, dataSource, subpage.name, section.name || '', translationBasePath, translateText)
+            processAttribute(attr, idx, dataSource, subpage.name, section.name || '', translationBasePath, translateText, buildNestedComponent)
           ),
       };
     });
@@ -53,7 +68,8 @@ export const createAttributesIconFieldsComponent = (params: ComponentBuilderPara
               subpage.name,
               section.name || '',
               translationBasePath,
-              translateText
+              translateText,
+              buildNestedComponent
             )
           ),
       },

@@ -1,22 +1,17 @@
 import { useI18n } from '~/common/utils';
+import { PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import './ProfileTabsPage.scss';
-import { ComponentDescriptor, PageSection, ContentSection } from '~/components/shared/organisms/gui/builders/component-types.def';
-
-import { EVENT_DETAIL_SUB_PAGE_CONFIG } from '~/components/Pages/EventsPage/EventDetailsPage/config-event-detail';
-import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
 
 import { Fab } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useProfilesSlice } from '~/common/slices/domain/profile/ProfileSlice';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
-import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
 import { DynamicIcons } from '../../DynamicIcons';
 import SEO from '../app/seo/seo';
-import { buildComponent as buildComponentFromRegistry, registerAllBuilders } from '~/components/shared/organisms/gui/builders/componentBuilders';
 
 interface FabParams {
   icon?: string;
@@ -75,11 +70,6 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
   const tabbedPanelRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
 
-  // Registrar builders al montar el componente
-  useEffect(() => {
-    registerAllBuilders();
-  }, []);
-
   useEffect(() => {
     const followersPageIndex = (subpagesConfig || []).findIndex((subpage) => subpage.name === 'followers');
     if (entityData && followersPageIndex === currentVisibleTab) {
@@ -132,143 +122,31 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     handleScroll(); // Ejecutar al montar
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const subPagesInfo = [...EVENT_DETAIL_SUB_PAGE_CONFIG];
-
-  //#region Helpers
-  const transformedConfig = () => {
-    return (subpagesConfig || []).map((subpage, subPageIndex) => {
-      return {
-        _name: subpage.name,
-        name: translateSubpage(subpage.name),
-        hideMainMenu: subpage.hideMainMenu,
-        allowedRoles: subpage.allowedRoles,
-        requireSession: subpage.requireSession,
-        tabContent: () => {
-          return (
-            <RequireAuthComponent
-              requiredSession={subpage.requireSession}
-              key={`section_${subPageIndex}_${subpage.name}`}
-            >
-              {(subpage.sections || [])
-                .filter(
-                  (section) =>
-                    section.hidden === undefined ||
-                    (typeof section.hidden === 'boolean' && !section.hidden) ||
-                    (typeof section.hidden === 'string' && section.hidden !== 'true') ||
-                    (section.hidden instanceof Function && !section.hidden(entityData))
-                )
-                .map((section, sectionIndex) => {
-                  // Icon Detailed Attributes
-
-                  let contentComponents: any = <></>;
-                  if (section.components) {
-                    contentComponents = (section.components || []).map(
-                      (componentDescriptor: ComponentDescriptor, componentIndex: number) => (
-                        <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
-                          {buildComponent(subpage, section, componentDescriptor, componentIndex)}
-                        </div>
-                      )
-                    );
-                  }
-
-                  const sectionContent = () => contentComponents;
-
-                  const filteredSections = (subpage.sections || []).filter((section) => {
-                    // Check hidden property first
-                    const isHidden =
-                      section.hidden !== undefined &&
-                      ((typeof section.hidden === 'boolean' && section.hidden) ||
-                        (typeof section.hidden === 'string' && section.hidden === 'true') ||
-                        (section.hidden instanceof Function && section.hidden(entityData)));
-
-                    if (isHidden) return false;
-
-                    // Check requireSession property
-                    if (section.requireSession && !loggedUser) {
-                      return false;
-                    }
-
-                    return true;
-                  });
-
-                  return (
-                    <RequireAuthComponent
-                      key={`section-${section.name}-${sectionIndex}`}
-                      requiredSession={section.requireSession}
-                    >
-                      <SectionsPanel
-                        sectionName={section?.emptyTitle ? '' : translateSection(subpage.name, section?.name)}
-                        sectionContent={sectionContent}
-                        isCollapsible={filteredSections.length > 1}
-                      />
-                    </RequireAuthComponent>
-                  );
-                })}
-            </RequireAuthComponent>
-          );
-        },
-      };
-    });
-  };
-  //#endregion
-  //#region Translation region
-  // Translation helpers
-  const translateAttribute = (subpage: string, section: string, attribute: string) => {
-    return translateText(`${translation_base_path}.subpages.${subpage}.sections.${section}.attributes.${attribute}`);
-  };
-
-  const translateSubpage = (subpage: string) => {
-    return translateText(`${translation_base_path}.subpages.${subpage}.name`);
-  };
-
-  const translateSection = (subpage: string, section: string) => {
-    return section ? translateText(`${translation_base_path}.subpages.${subpage}.sections.${section}.name`) : undefined;
-  };
-  //#endregion
-
-  //#region Build Component
-
-  function buildComponent(
-    subpage: PageSection,
-    section: ContentSection,
-    componentDescriptor: ComponentDescriptor,
-    componentIndex: number,
-    parentDataSource: EntityModel<EntityTemplate> = undefined
-  ) {
-    // Extender handlers con funciones especiales del estado de ProfileTabsPage
-    const extendedHandlers = {
-      ...handlers,
-      lastVisibleTab,
-      setShowSpecificTab,
-      showSpecificFollowerType,
-    };
-
-    // Llamar al nuevo sistema de builders
-    return buildComponentFromRegistry({
-      componentDescriptor,
-      subpage,
-      section,
-      componentIndex,
-      entityData,
-      parentDataSource,
-      handlers: extendedHandlers,
-      translationBasePath: translation_base_path,
-    });
-  }
-
-  //#endregion
+  }, [tabbedPanelRef.current, footerRef.current]);
 
   const tabPanelHandlers = {
     onSelectedTab: (selectedTabIndex: any) => {
       setLastVisibleTab(currentVisibleTab);
       setCurrentVisibleTab(selectedTabIndex);
-      setHeaderShouldShowFollowerCounter(transformedConfigData?.[selectedTabIndex]?._name !== 'followers');
+      // Necesitamos acceder al nombre del tab de otra forma ya que no tenemos transformedConfigData
+      const selectedTabName = subpagesConfig?.[selectedTabIndex]?.name;
+      setHeaderShouldShowFollowerCounter(selectedTabName !== 'followers');
     },
   };
 
-  const transformedConfigData = transformedConfig();
+  // Crear el contexto del transformer por defecto
+  const defaultTransformerContext = {
+    entityData,
+    handlers: {
+      ...handlers,
+      lastVisibleTab,
+      setShowSpecificTab,
+      showSpecificFollowerType,
+    },
+    translationBasePath: translation_base_path,
+    translateText,
+    // buildComponent, // Comentado para usar el buildComponent por defecto de TabbedPanel
+  };
 
   return (
     <>
@@ -292,10 +170,10 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
 
           <div ref={tabbedPanelRef}>
             <TabbedPanel
-              tabs={transformedConfigData}
+              rawConfig={subpagesConfig}
+              defaultTransformerContext={defaultTransformerContext}
               handlers={tabPanelHandlers}
               showSpecificTab={showSpecificTab}
-              showSpecificFollowerType={showSpecificFollowerType}
             />
           </div>
           {profileFooter && <div ref={footerRef}>{profileFooter}</div>}
@@ -304,11 +182,11 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
             <Fab
               color="primary"
               aria-label="add"
-              size="medium"
+              size="large"
               className={!isFabVisible ? 'fab-hidden' : ''}
               onClick={() => fab.handler()}
             >
-              <DynamicIcons iconName={fab.icon || 'lu LuCalendarPlus'} size={30} color="#034d5b" />
+              <DynamicIcons iconName={fab.icon || 'lu LuCalendarPlus'} size={35} color="#034d5b" />
             </Fab>
           )}
         </div>

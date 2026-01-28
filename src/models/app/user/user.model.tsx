@@ -15,7 +15,7 @@ export interface EntityInstanceRoleMapTemplate {
   id: string;
   _id?: string;
   entity?: string;
-  roles: string[];
+  roles?: string[];
   profile_pic?: string;
   name?: string;
   stage_name?: string;
@@ -324,7 +324,7 @@ export class CurrentProfileInfoModel implements EntityInstanceRoleMapTemplate, S
   profile_pic?: string;
   subtitle?: string;
   verified_status: VerificationStatus;
-  roles: string[];
+  roles?: string[];
 
   constructor(template: EntityInstanceRoleMapTemplate) {
     this.entity = template.entity;

@@ -8,9 +8,20 @@ import {
   RequireAuthComponent,
   validateUserAuthorization,
 } from '~/components/shared/atoms/app/auth/RequiredAuth';
+import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
+import {
+  ComponentDescriptor,
+  ContentSection,
+  PageSection,
+} from '~/components/shared/organisms/gui/builders/component-types.def';
+import {
+  buildComponent as buildComponentFromRegistry,
+  registerAllBuilders,
+} from '~/components/shared/organisms/gui/builders/componentBuilders';
 import './index.scss';
 
 export interface TabbedPage {
+  _name?: string; // Internal name (not translated)
   name: string;
   tabContent: any;
   requireSession?: boolean;
@@ -18,8 +29,174 @@ export interface TabbedPage {
   hideMainMenu?: boolean;
 }
 
-export const TabbedPanel = (props: any) => {
-  const { tabs, allowedSections, handlers = {}, showSpecificTab } = props;
+export interface DefaultTransformerContext {
+  entityData?: any;
+  handlers?: any;
+  translationBasePath?: string;
+  translateText: (key: string) => string;
+  buildComponent?: (
+    subpage: PageSection,
+    section: ContentSection,
+    componentDescriptor: ComponentDescriptor,
+    componentIndex: number,
+    parentDataSource?: any
+  ) => JSX.Element;
+}
+
+export interface TabbedPanelProps<TConfig = any> {
+  tabs?: TabbedPage[];
+  rawConfig?: TConfig;
+  configTransformer?: (config: TConfig, context?: DefaultTransformerContext) => TabbedPage[];
+  defaultTransformerContext?: DefaultTransformerContext;
+  allowedSections?: any;
+  handlers?: { [key: string]: Function };
+  showSpecificTab?: number;
+}
+
+// Flag para registrar builders solo una vez
+let buildersRegistered = false;
+
+// Registrar builders al cargar el módulo
+if (!buildersRegistered) {
+  registerAllBuilders();
+  buildersRegistered = true;
+}
+
+// Default transformer function (moved from ProfileTabsPage)
+const defaultConfigTransformer = (subpagesConfig: PageSection[], context?: DefaultTransformerContext): TabbedPage[] => {
+  if (!context) return [];
+
+  const { translateText, translationBasePath, entityData, handlers } = context;
+
+  // Si no se proporciona buildComponent, usar el builder por defecto
+  let buildComponent = context.buildComponent;
+  if (!buildComponent) {
+    buildComponent = (
+      subpage: PageSection,
+      section: ContentSection,
+      componentDescriptor: ComponentDescriptor,
+      componentIndex: number,
+      parentDataSource?: any
+    ) => {
+      return buildComponentFromRegistry({
+        componentDescriptor,
+        subpage,
+        section,
+        componentIndex,
+        entityData,
+        parentDataSource,
+        handlers: handlers || {},
+        translationBasePath: translationBasePath || '',
+      });
+    };
+  }
+
+  const translateSubpage = (subpage: string) => {
+    return translateText(`${translationBasePath}.subpages.${subpage}.name`);
+  };
+
+  const translateSection = (subpage: string, section: string) => {
+    return section ? translateText(`${translationBasePath}.subpages.${subpage}.sections.${section}.name`) : undefined;
+  };
+
+  return (subpagesConfig || []).map((subpage, subPageIndex) => {
+    return {
+      _name: subpage.name,
+      name: translateSubpage(subpage.name),
+      hideMainMenu: subpage.hideMainMenu,
+      allowedRoles: subpage.allowedRoles,
+      requireSession: subpage.requireSession,
+      tabContent: () => {
+        return (
+          <RequireAuthComponent
+            requiredSession={subpage.requireSession}
+            key={`section_${subPageIndex}_${subpage.name}`}
+          >
+            {(subpage.sections || [])
+              .filter(
+                (section) =>
+                  section.hidden === undefined ||
+                  (typeof section.hidden === 'boolean' && !section.hidden) ||
+                  (typeof section.hidden === 'string' && section.hidden !== 'true') ||
+                  (section.hidden instanceof Function && entityData && !section.hidden(entityData))
+              )
+              .map((section, sectionIndex) => {
+                let contentComponents: any = <></>;
+                if (section.components && buildComponent) {
+                  contentComponents = (section.components || []).map(
+                    (componentDescriptor: ComponentDescriptor, componentIndex: number) => (
+                      <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
+                        {buildComponent(subpage, section, componentDescriptor, componentIndex, undefined)}
+                      </div>
+                    )
+                  );
+                }
+
+                const sectionContent = () => contentComponents;
+
+                const filteredSections = (subpage.sections || []).filter((section) => {
+                  const isHidden =
+                    section.hidden !== undefined &&
+                    ((typeof section.hidden === 'boolean' && section.hidden) ||
+                      (typeof section.hidden === 'string' && section.hidden === 'true') ||
+                      (section.hidden instanceof Function && entityData && section.hidden(entityData)));
+
+                  if (isHidden) return false;
+
+                  if (section.requireSession && !entityData) {
+                    return false;
+                  }
+
+                  return true;
+                });
+
+                return (
+                  <RequireAuthComponent
+                    key={`section-${section.name}-${sectionIndex}`}
+                    requiredSession={section.requireSession}
+                  >
+                    <SectionsPanel
+                      sectionName={section?.emptyTitle ? '' : translateSection(subpage.name, section?.name)}
+                      sectionContent={sectionContent}
+                      isCollapsible={filteredSections.length > 1}
+                    />
+                  </RequireAuthComponent>
+                );
+              })}
+          </RequireAuthComponent>
+        );
+      },
+    };
+  });
+};
+
+export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) => {
+  const {
+    tabs: providedTabs,
+    rawConfig,
+    configTransformer,
+    defaultTransformerContext,
+    allowedSections,
+    handlers = {},
+    showSpecificTab,
+  } = props;
+
+  // Si se proporciona rawConfig, usar el transformer personalizado o el default
+  let tabs: TabbedPage[];
+  if (rawConfig) {
+    if (configTransformer) {
+      // Usar transformer personalizado
+      tabs = configTransformer(rawConfig, defaultTransformerContext);
+    } else if (defaultTransformerContext) {
+      // Usar transformer por defecto
+      tabs = defaultConfigTransformer(rawConfig as unknown as PageSection[], defaultTransformerContext);
+    } else {
+      tabs = [];
+    }
+  } else {
+    // Usar tabs directamente si se proporcionaron
+    tabs = providedTabs || [];
+  }
 
   const currentUser = useSelector(selectCurrentUser);
 
@@ -105,8 +282,8 @@ export const TabbedPanel = (props: any) => {
             AuthorizationStates.ALLOWED && !subpage.hideMainMenu
       );
 
-    return filteredTabsWithOriginalIndex
-      .map(({ subpage, originalIndex }: { subpage: TabbedPage; originalIndex: number }, filteredIndex: number) => {
+    return filteredTabsWithOriginalIndex.map(
+      ({ subpage, originalIndex }: { subpage: TabbedPage; originalIndex: number }, filteredIndex: number) => {
         const classNames = ['subpage-tab'];
         if (activeSectionIndex === originalIndex) {
           classNames.push('active-tab-title');
@@ -122,7 +299,8 @@ export const TabbedPanel = (props: any) => {
             </div>
           </RequireAuthComponent>
         );
-      });
+      }
+    );
   };
 
   const tabContents = () => {

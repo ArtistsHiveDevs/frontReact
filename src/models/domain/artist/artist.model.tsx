@@ -266,7 +266,7 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
   declare mobility_range?: 'local' | 'national' | 'international' | 'worldwide';
 
   constructor(template: ArtistTemplate) {
-    super(template);
+    super({ ...template, entity: ArtistModel.name });
     this.events = template?.events?.map((event) => new EventModel(event)) || [];
 
     if (typeof template === 'object' && template !== null) {

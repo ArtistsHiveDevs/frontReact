@@ -1,10 +1,4 @@
-import { EntityModel, EntityTemplate } from '~/models/base';
-import {
-  ComponentDescriptor,
-  ComponentTypes,
-  PageSection,
-  ContentSection,
-} from '../component-types.def';
+import { ComponentDescriptor, ComponentTypes, ContentSection, PageSection } from '../component-types.def';
 
 /**
  * Parámetros base que reciben todos los builders
@@ -23,10 +17,10 @@ export interface ComponentBuilderParams {
   componentIndex: number;
 
   /** Entidad principal del perfil */
-  entityData: EntityModel<EntityTemplate>;
+  entityData: any;
 
   /** Data source opcional (para componentes anidados) */
-  parentDataSource?: EntityModel<EntityTemplate>;
+  parentDataSource?: any;
 
   /** Handlers de eventos del contexto */
   handlers?: { [handlerName: string]: Function };

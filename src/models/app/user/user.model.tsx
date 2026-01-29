@@ -1,6 +1,6 @@
 import { getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
 import { VerificationStatus } from '~/constants';
-import { ProfileModel, ProfileTemplate, SearchableTemplate } from '~/models/base';
+import { LocationTemplate, Model, ProfileModel, ProfileTemplate, SearchableTemplate } from '~/models/base';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel, EventTemplate } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
@@ -15,6 +15,7 @@ export interface EntityInstanceRoleMapTemplate {
   id: string;
   _id?: string;
   entity?: string;
+  entityType?: string;
   roles?: string[];
   profile_pic?: string;
   name?: string;
@@ -22,6 +23,8 @@ export interface EntityInstanceRoleMapTemplate {
   username?: string;
   shortId?: string;
   subtitle?: string;
+  //TODO verificar si se puede quitar
+  location?: string | LocationTemplate[];
   verified_status: VerificationStatus;
 }
 export interface UserAvailableEntityRole {
@@ -318,27 +321,25 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
   }
 }
 
-export class CurrentProfileInfoModel implements EntityInstanceRoleMapTemplate, SearchableTemplate {
-  entity: string;
-  id: string;
-  name: string;
-  username?: string;
-  shortId?: string;
-  profile_pic?: string;
-  subtitle?: string;
-  verified_status: VerificationStatus;
-  roles?: string[];
+export class CurrentProfileInfoModel
+  extends Model<EntityInstanceRoleMapTemplate>
+  implements EntityInstanceRoleMapTemplate, SearchableTemplate
+{
+  declare entity: string;
+  declare id: string;
+  declare name: string;
+  declare username?: string;
+  declare shortId?: string;
+  declare profile_pic?: string;
+  declare subtitle?: string;
+  declare verified_status: VerificationStatus;
+  declare roles?: string[];
+  declare location?: string | LocationTemplate[];
 
   constructor(template: EntityInstanceRoleMapTemplate) {
-    this.entity = template.entity;
+    super(template);
+    this.entity = template.entity || template.entityType;
     this.id = template.id || template._id;
-    this.name = template.name;
-    this.username = template.username;
-    this.shortId = template.shortId;
-    this.profile_pic = template.profile_pic;
-    this.subtitle = template.subtitle;
-    this.verified_status = template.verified_status;
-    this.roles = template.roles;
   }
 
   get identifier() {
@@ -347,6 +348,26 @@ export class CurrentProfileInfoModel implements EntityInstanceRoleMapTemplate, S
 
   async avatarURL(): Promise<string> {
     return await getUrlS3({ path: this.profile_pic });
+  }
+
+  get cityWithCountry() {
+    if (this.location && Array.isArray(this.location)) {
+      const locationObj = this.location[0]; // Si location es un array, tomamos el primer objeto
+      return [
+        locationObj.city,
+        locationObj.state,
+        locationObj.country_name, // Accedemos a country_name (en lugar de `country.location.name` ya que location es el objeto que contiene la propiedad country_name)
+      ]
+        .filter(Boolean)
+        .join(', ');
+    }
+
+    // Si no se puede obtener los datos, retornamos null
+    return null;
+  }
+
+  get hasFetchAllData(): boolean {
+    return !!this.id;
   }
 }
 

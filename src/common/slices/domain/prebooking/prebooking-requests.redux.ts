@@ -8,7 +8,7 @@ import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors'
 import { RootState } from '~/common/utils/redux-injectors/types';
 
 const sliceName = 'prebookingRequests';
-const resourceEndpoint = `/prebooking`;
+const resourceEndpoint = `/prebookings`;
 
 export const selectorPreBookingRequests = createEntitySelectors<
   typeof sliceName,
@@ -144,5 +144,5 @@ export const selectRequestsRequiringAction = createSelector(
  */
 export const selectRequestsRequiringActionCount = createSelector(
   [selectRequestsRequiringAction],
-  (requests) => requests.length
+  (requests) => Math.round(Math.random() * 100) //requests.length
 );

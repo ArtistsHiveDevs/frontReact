@@ -24,22 +24,31 @@ const flattenPaths = (paths: PathConfigMap, parentPath = '/', parentObject = '')
   return Object.entries(paths).reduce<PathConfig[]>((acc, [key, value]) => {
     const currentObject = parentObject ? `${parentObject}.${key}` : key;
     const config = value as PathConfig;
-    let currentPath = `${parentPath}${config.path || ''}`;
 
-    if (config.component || config.path || config.redirectToIfLoggedUser || config.redirectToIfNotLoggedUser) {
+    // Construir el path actual
+    let currentPath = parentPath;
+    if (config.path !== undefined && config.path !== '') {
+      // Si tiene path definido, lo agrega al parentPath
+      currentPath = `${parentPath}${config.path}`;
+    }
+
+    // Si tiene component o redirects, es una ruta final
+    if (config.component || config.redirectToIfLoggedUser || config.redirectToIfNotLoggedUser) {
       acc.push({
         ...config,
         object: currentObject,
         path: currentPath,
       });
-    } else {
-      acc.push({ object: currentObject });
+    } else if (!config.subpaths && !config.path) {
+      // Si no tiene component, subpaths ni path, es un contenedor de rutas
       acc = acc.concat(flattenPaths(value as PathConfigMap, currentPath, currentObject));
     }
 
+    // Procesar subpaths si existen
     if (config.subpaths) {
+      const separator = config.pathSeparator ?? '/';
       acc = acc.concat(
-        flattenPaths(config.subpaths as PathConfigMap, `${currentPath}${config.pathSeparator ?? '/'}`, currentObject)
+        flattenPaths(config.subpaths as PathConfigMap, `${currentPath}${separator}`, currentObject)
       );
     }
 
@@ -47,7 +56,7 @@ const flattenPaths = (paths: PathConfigMap, parentPath = '/', parentObject = '')
   }, []);
 };
 
-const generateRoutes = (userIsLoggedIn: boolean, possibleForcedNextPath: string, location: any) => {
+const generateRoutes = (userIsLoggedIn: boolean, possibleForcedNextPath: string) => {
   const routes: ReactElement[] = [];
 
   const flatPaths = flattenPaths(ROUTES_CONFIG);
@@ -108,7 +117,7 @@ export const RoutesApp: React.FC = () => {
     const datosCompletos = !!userID === !!loggedUser;
 
     if (datosCompletos) {
-      setGeneratedRoutes(generateRoutes(!!userID, nextPath, location) || []);
+      setGeneratedRoutes(generateRoutes(!!userID, nextPath) || []);
     }
   };
 

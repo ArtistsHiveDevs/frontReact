@@ -46,7 +46,8 @@ export interface DateRange {
  * Estado de aprobación por participante individual
  */
 export interface ParticipantApprovalStatus {
-  participant_id: string;
+  participant_profile_id: string;
+  participant_user_id: string;
   participant_type: string; // 'artist' | 'place' | 'booker' | etc.
   status: PrebookingParticipantStatus;
   responded_at?: Dayjs;
@@ -57,7 +58,8 @@ export interface ParticipantApprovalStatus {
  * Nota/comentario de un participante
  */
 export interface ParticipantNote {
-  author_id: string;
+  author_user_id: string;
+  author_profile_id: string;
   author_name: string;
   note: string;
   created_at: Dayjs;

@@ -1,0 +1,105 @@
+@import '~/variables.module.scss';
+
+.pb-list-top-header {
+  padding: 1rem;
+}
+
+.pb-lp-fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: $main-background-color;
+  z-index: 90;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  padding: 1rem;
+  border-bottom: solid 1px white;
+  //   justify-content: center;
+
+  &.visible {
+    transform: translateY(0);
+  }
+}
+
+.chip-filters {
+  margin: 1.5rem 0;
+}
+.chip-filter {
+  margin-right: 0.5rem;
+}
+.pb-card-description {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Number of lines to show */
+  -webkit-box-orient: vertical;
+  line-clamp: 3;
+}
+.pb-card-date {
+  display: flex;
+  align-items: center;
+}
+.pb-card-location {
+  display: flex;
+}
+
+.pb-card-response-box {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.pb-card-location-list {
+  // Ocultar viñeta cuando solo hay un elemento
+  .pb-card-location-element-list:only-child {
+    list-style-type: none;
+    margin-left: -2rem;
+  }
+  .pb-card-location-element-list:first-child:nth-last-child(2),
+  .pb-card-location-element-list:first-child:nth-last-child(2) ~ .pb-card-location-element-list {
+    margin-left: -1rem;
+  }
+}
+
+.pb-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  font-size: smaller;
+}
+
+.pb-card-container {
+  display: flex;
+  height: 100%;
+
+  > .MuiCard-root {
+    height: 100%;
+    width: 100%;
+    background-color: $app-background-50;
+    border-radius: 15px;
+
+    .MuiCardHeader-root {
+      background-color: $app-background-75;
+    }
+  }
+}
+
+.pb-card-content-container {
+  flex: 1;
+  padding: 0.7rem 1rem;
+}
+
+.pb-card-participants-container {
+  padding: 0.5rem 1rem;
+}
+
+.pb-card-participants-box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}

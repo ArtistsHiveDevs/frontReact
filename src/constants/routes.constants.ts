@@ -11,6 +11,8 @@ export enum PATHS {
   CULTURAL_AGENDA = 'agenda',
   MAIN = '',
   EVENTS = 'events',
+  CALENDAR = 'calendar',
+  PREBOOKING_REQUESTS_LIST = 'prebookings',
   BUSINESS = 'business',
   USERNAME = '@',
   NOT_FOUND = '',

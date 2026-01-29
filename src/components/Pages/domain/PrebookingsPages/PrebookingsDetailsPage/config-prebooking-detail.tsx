@@ -1,0 +1,237 @@
+import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
+
+export const PREBOOKING_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
+  {
+    name: 'general',
+    sections: [
+      {
+        name: 'gallery',
+        components: [
+          {
+            componentName: ComponentTypes.IMAGE_GALLERY,
+            data: { images: 'image_gallery' },
+            clickHandlerName: 'onClickGalleryImage',
+          },
+        ],
+      },
+      {
+        name: 'general',
+        components: [
+          {
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  name: 'description',
+                  emptyTitle: true,
+                },
+                {
+                  name: 'address',
+                  emptyTitle: true,
+                },
+                {
+                  name: 'cityWithCountry',
+                  icon: 'AiFillHome',
+                  emptyTitle: true,
+                },
+                {
+                  name: 'categories',
+                  icon: 'BsInfoCircleFill',
+                },
+                {
+                  name: 'since',
+                  icon: 'BsCalendar',
+                },
+                {
+                  name: 'spoken_languages',
+                  icon: 'BsTranslate',
+                },
+              ],
+            },
+          },
+          {
+            componentName: ComponentTypes.MAP,
+            data: { lat: 'latitude', lng: 'longitude' },
+          },
+        ],
+      },
+      {
+        name: 'contact',
+        components: [
+          {
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  name: 'website',
+                },
+                {
+                  name: 'email',
+                },
+                {
+                  name: 'phone',
+                },
+                {
+                  name: 'mobile_phone',
+                },
+                {
+                  name: 'whatsapp',
+                },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        name: 'social_networks',
+        components: [
+          {
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  name: 'facebook',
+                },
+                {
+                  name: 'twitter',
+                },
+                {
+                  name: 'instagram',
+                },
+                {
+                  name: 'spotify',
+                },
+                {
+                  name: 'youtube',
+                },
+                {
+                  name: 'wikipedia',
+                },
+              ],
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'social',
+    requireSession: true,
+    sections: [
+      {
+        name: 'social_network_presence',
+        attributes: [
+          {
+            name: 'facebook',
+            emptyTitle: true,
+          },
+          {
+            name: 'instagram',
+            emptyTitle: true,
+          },
+          {
+            name: 'twitter',
+            emptyTitle: true,
+          },
+          {
+            name: 'spotify',
+            emptyTitle: true,
+          },
+          {
+            name: 'deezer',
+            emptyTitle: true,
+          },
+          {
+            name: 'appleMusic',
+            emptyTitle: true,
+          },
+          {
+            name: 'youtube',
+            emptyTitle: true,
+          },
+        ],
+      },
+      {
+        name: 'stats',
+        attributes: [
+          {
+            name: 'general_rate',
+            icon: 'BsStarFill',
+          },
+          {
+            name: 'followers',
+            icon: 'FaUserFriends',
+          },
+          {
+            name: 'event_followers',
+            icon: 'FaUserFriends',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'shows',
+    sections: [
+      {
+        name: 'next_shows',
+        components: [
+          {
+            componentName: ComponentTypes.CALENDAR_SIMPLE_LAYOUT,
+            data: {
+              data_source: 'nextEvents',
+              fields: {
+                date: 'timetable__initial_date',
+                time: 'timetable__main_artist_time',
+                title: 'name',
+                subtitle: 'subtitle',
+              },
+            },
+            clickHandlerName: 'onClickNextEvent',
+          },
+        ],
+      },
+      {
+        name: 'past_shows',
+        components: [
+          {
+            componentName: ComponentTypes.CALENDAR_SIMPLE_LAYOUT,
+            data: {
+              data_source: 'pastEvents',
+              fields: {
+                date: 'timetable__initial_date',
+                title: 'name',
+                subtitle: 'subtitle',
+                picture: 'photo',
+              },
+            },
+            clickHandlerName: 'onClickPastEvent',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'backline',
+    requireSession: true,
+    sections: [
+      {
+        name: 'sound_backline',
+      },
+      {
+        name: 'light_backline',
+      },
+    ],
+  },
+  {
+    name: 'menu',
+    sections: [
+      {
+        name: 'main_course',
+      },
+      {
+        name: 'second_course',
+      },
+    ],
+  },
+];

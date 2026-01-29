@@ -3,6 +3,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { usePreBookingRequestsSlice } from '~/common/slices/domain/prebooking/prebooking-requests.redux';
 import { useSearchSlice } from '~/common/slices/search';
 import { selectEntitySearch, selectEntitySearchLoading } from '~/common/slices/search/selectors';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
@@ -16,6 +17,7 @@ import { ProfileModel, ProfileTemplate } from '~/models/base';
 import { getModelInfoFromClassName } from '~/models/base/modelHelpers';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
+import { ApprovalStatus, PreBookingRequestModel, PreBookingRequestStatus } from '~/models/domain/prebooking';
 import { SearchModel } from '~/models/domain/search/search.model';
 import './PreBookingRequestDialog.scss';
 
@@ -62,6 +64,8 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
   const queriedSearchList: SearchModel = useSelector(selectEntitySearch);
   const querySearchLoading: boolean = useSelector(selectEntitySearchLoading);
   const { actions: searchActions } = useSearchSlice();
+
+  const { actions: prebookingRequestActions } = usePreBookingRequestsSlice();
 
   useEffect(() => {
     setShowSearchLoader(querySearchLoading);
@@ -196,7 +200,7 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
 
       // Siempre agregar segundo mainRecipient.currentProfileInfo (si es diferente)
       if (mainRecipient && mainRecipient.identifier !== loggedUser?.currentProfileInfo?.identifier) {
-        initialParticipants.push(mainRecipient);
+        initialParticipants.push(mainRecipient.profileInfo);
       }
 
       // Cargar las URLs de los avatares de forma asíncrona
@@ -232,6 +236,59 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
         recipient_ids: participants.map((p: CurrentProfileInfoModel) => p.identifier),
         // mainRecipient,
       };
+
+      const typedData: PreBookingRequestModel = new PreBookingRequestModel({
+        // requester: loggedUser.currentProfileInfo,
+        // requester_user_id: loggedUser.identifier,
+        // requester_profile_id: loggedUser.currentProfileIdentifier,
+
+        recipients: participants,
+        recipient_ids: participants.map((p) => p.identifier),
+        participant_approvals: [],
+
+        requested_date_start: formDataWithParticipants.requested_date_start,
+        requested_date_end: formDataWithParticipants.requested_date_start,
+        request_type: 'single_date',
+        flexible_dates: formDataWithParticipants.flexible_dates,
+        // alternative_dates?: DateRange[]; // Rangos alternativos si flexible (también con hora)
+
+        // ===== DETALLES BÁSICOS =====
+        event_name: formDataWithParticipants.name,
+        description: formDataWithParticipants.description,
+        // expected_attendance?: number;   // Asistencia esperada
+
+        // ===== PRESUPUESTO (V2 - Removido por complejidad) =====
+        // estimated_cost?: CostRange;   // Postponed - Muy complejo
+        // currency?: string;             // Postponed
+
+        // ===== ESTADO =====
+        status: PreBookingRequestStatus.DRAFT,
+        overall_approval_status: ApprovalStatus.ALL_PENDING, // ALL_PENDING, PARTIAL, ALL_APPROVED, REJECTED
+
+        // Notas por participante
+        notes: !!formDataWithParticipants.notes
+          ? [
+              {
+                author_user_id: loggedUser.identifier,
+                author_profile_id: loggedUser.currentProfileIdentifier,
+                author_name: loggedUser.nameKnownAs,
+                note: formDataWithParticipants.notes,
+                created_at: dayjs(),
+                is_private: false,
+              },
+            ]
+          : [], // Cada uno puede agregar notas
+
+        // ===== METADATA =====
+        created_by: loggedUser.identifier, // user_id del creador
+        // event_id?: string; // Si se convierte en evento
+        response_deadline: '90', // Plazo para responder (DEFAULT: +90 días)
+        // created_at: dayjs(),
+        // updated_at: dayjs(),
+        // last_viewed_by?: Record<string, Dayjs | string>;
+      });
+
+      dispatch(prebookingRequestActions.createItem({ data: typedData }));
       onSubmit(formDataWithParticipants);
       methods.reset();
       onClose();
@@ -291,95 +348,98 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
           <DynamicForm
             formMethods={methods}
             fields={[
-                {
-                  fieldName: 'name',
-                  inputType: 'text',
-                  label: 'Name',
-                  config: { required: true },
+              {
+                fieldName: 'name',
+                inputType: 'text',
+                label: 'Name',
+                defaultValue: 'Evento',
+                config: { required: true },
+              },
+              {
+                fieldName: 'description',
+                inputType: 'textarea',
+                label: 'Description',
+                defaultValue: 'Evento de prueba',
+                config: { required: true },
+              },
+              {
+                fieldName: 'flexible_dates',
+                inputType: 'switch',
+                label: 'Flexible dates',
+                handlersNames: ['onClick'],
+              },
+              {
+                fieldName: 'date',
+                inputType: 'date',
+                label: 'date',
+                defaultValue: dayjs(),
+                config: { required: true },
+                componentParams: {
+                  disablePast: true,
                 },
-                {
-                  fieldName: 'description',
-                  inputType: 'textarea',
-                  label: 'Description',
-                  config: { required: true },
-                },
-                {
-                  fieldName: 'flexible_dates',
-                  inputType: 'switch',
-                  label: 'Flexible dates',
-                  handlersNames: ['onClick'],
-                },
-                {
-                  fieldName: 'date',
-                  inputType: 'date',
-                  label: 'date',
-                  config: { required: true },
-                  componentParams: {
-                    disablePast: true,
-                  },
-                },
-                {
-                  fieldName: 'recipients',
-                  inputType: 'hidden',
-                  label: 'Artists',
-                  componentParams: {
-                    render: (
-                      <div>
-                        {entities.map((entityName: string) => {
-                          const missingParticipant = isMissingParticipantForEntity(entityName);
-                          return (
-                            <div key={entityName}>
-                              <div className="pbrd-entity-type-participants">
-                                <FormLabel
-                                  required={true}
-                                  error={missingParticipant}
-                                  className="pbrd-entity-type-participants"
-                                >
-                                  {getModelInfoFromClassName(entityName).plural &&
-                                    translateGlobalDict(
-                                      `entities.${getModelInfoFromClassName(entityName).plural}.plural`
-                                    )}
-                                </FormLabel>
-                                <DynamicIcons
-                                  iconName="fa6 FaCirclePlus"
-                                  size={20}
-                                  color="white"
-                                  onClick={() => setSearchEntity(entityName)}
-                                />
-                              </div>
-                              <div className="pbrd-participants-box">
-                                {participants
-                                  .filter((p: CurrentProfileInfoModel) => p.entity === entityName)
-                                  .map((participant: CurrentProfileInfoModel) => (
-                                    <div key={participant.identifier}>
-                                      {ProfileIconWithName({
-                                        element: participant,
-                                        handlers: {
-                                          onTopRightClick: (element: any) => {
-                                            deleteParticipant(element.identifier);
-                                          },
-                                        },
-                                      })}
-                                    </div>
-                                  ))}
-                              </div>
+              },
+              {
+                fieldName: 'recipients',
+                inputType: 'hidden',
+                label: 'Artists',
+                componentParams: {
+                  render: (
+                    <div>
+                      {entities.map((entityName: string) => {
+                        const missingParticipant = isMissingParticipantForEntity(entityName);
+                        return (
+                          <div key={entityName}>
+                            <div className="pbrd-entity-type-participants">
+                              <FormLabel
+                                required={true}
+                                error={missingParticipant}
+                                className="pbrd-entity-type-participants"
+                              >
+                                {getModelInfoFromClassName(entityName).plural &&
+                                  translateGlobalDict(
+                                    `entities.${getModelInfoFromClassName(entityName).plural}.plural`
+                                  )}
+                              </FormLabel>
+                              <DynamicIcons
+                                iconName="fa6 FaCirclePlus"
+                                size={20}
+                                color="white"
+                                onClick={() => setSearchEntity(entityName)}
+                              />
                             </div>
-                          );
-                        })}
-                      </div>
-                    ),
-                  },
+                            <div className="pbrd-participants-box">
+                              {participants
+                                .filter((p: CurrentProfileInfoModel) => p.entity === entityName)
+                                .map((participant: CurrentProfileInfoModel) => (
+                                  <div key={participant.identifier}>
+                                    {ProfileIconWithName({
+                                      element: participant,
+                                      handlers: {
+                                        onTopRightClick: (element: any) => {
+                                          deleteParticipant(element.identifier);
+                                        },
+                                      },
+                                    })}
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ),
                 },
-                {
-                  fieldName: 'notes',
-                  inputType: 'textarea',
-                  label: 'Notes',
-                },
-              ]}
-              handlers={handlers}
-              translationBasePath=""
-              submitLabel="create"
-            />
+              },
+              {
+                fieldName: 'notes',
+                inputType: 'textarea',
+                label: 'Notes',
+              },
+            ]}
+            handlers={handlers}
+            translationBasePath=""
+            submitLabel="create"
+          />
         }
       />
       <AppDialog

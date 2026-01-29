@@ -1,3 +1,4 @@
+import { Badge } from '@mui/material';
 import { signOut } from 'aws-amplify/auth';
 import { useEffect, useState } from 'react';
 import { Container, Navbar, Offcanvas } from 'react-bootstrap';
@@ -102,8 +103,28 @@ const SideNav = () => {
             }}
             style={{ paddingLeft: `${level * 3}rem` }}
           >
-            <DynamicIcons iconName={menuOption.icon || 'AiFillFile'} size={20} />
-            <span className="menu-option-label">{translateText(menuOption.name)}</span>
+            {
+              <>
+                <DynamicIcons iconName={menuOption.icon || 'AiFillFile'} size={25} />
+                <span className="menu-option-label">{translateText(menuOption.name)}</span>
+                {menuOption.badge && menuOption.badge instanceof Function && menuOption.badge() > 0 && (
+                  <Badge
+                    badgeContent={menuOption.badge()}
+                    color="success"
+                    sx={{
+                      marginLeft: '1.5rem',
+                      '& .MuiBadge-badge': {
+                        fontSize: '1.1rem',
+                        // color: 'white',
+                        // height: '22px',
+                        // minWidth: '22px',
+                        // padding: '0 6px',
+                      },
+                    }}
+                  />
+                )}
+              </>
+            }{' '}
           </a>
 
           {menuOption.rightIcon && (

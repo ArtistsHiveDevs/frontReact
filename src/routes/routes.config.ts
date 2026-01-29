@@ -58,6 +58,10 @@ export const ROUTES_CONFIG: PathConfigMap = {
   },
   domain: {
     sections: {
+      Calendar: {
+        component: lazy(() => import('~/components/Pages/domain/CalendarPage/CalendarPage')),
+        path: PATHS.CALENDAR,
+      },
       CulturalAgendaPage: {
         component: lazy(() => import('~/components/Pages/domain/CulturalAgenda/home/cultural-agenda-page')),
         path: PATHS.CULTURAL_AGENDA,
@@ -128,6 +132,27 @@ export const ROUTES_CONFIG: PathConfigMap = {
             path: `${SUB_PATHS.CREATE}`,
             redirectToIfNotLoggedUser: PATHS.LOGIN,
           },
+        },
+      },
+      prebooking: {
+        path: PATHS.PREBOOKING_REQUESTS_LIST,
+        subpaths: {
+          PrebookingsListPage: {
+            component: lazy(
+              () => import('~/components/Pages/domain/PrebookingsPages/PrebookingsListPage/PrebookingsListPage')
+            ),
+          },
+          PrebookDetailsPage: {
+            component: lazy(
+              () => import('~/components/Pages/domain/PrebookingsPages/PrebookingsDetailsPage/PrebookingsDetailsPage')
+            ),
+            path: detailsPagePath,
+          },
+          // EventCreatePage: {
+          //   component: lazy(() => import('~/components/Pages/EventsPage/EventCreatePage/EventCreatePage')),
+          //   path: `${SUB_PATHS.CREATE}`,
+          //   redirectToIfNotLoggedUser: PATHS.LOGIN,
+          // },
         },
       },
       place: {

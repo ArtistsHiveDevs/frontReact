@@ -1,11 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
-import {
-  dayjsRecordToISO,
-  dayjsToISO,
-  ensureDayjs,
-  ensureDayjsRecord,
-  serializeDateFields,
-} from '~/common/utils/dates/dates.utils';
+import { dayjsToISO, ensureDayjs, ensureDayjsRecord, serializeDateFields } from '~/common/utils/dates/dates.utils';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { EntityModel } from '~/models/base/model';
 import { EntityTemplate, ProfileTemplate } from '~/models/base/template';
@@ -26,8 +20,9 @@ import {
 export interface PreBookingRequestTemplate extends EntityTemplate {
   // ===== PARTICIPANTES (Multi-party support) =====
   // Quien inicia la solicitud (puede ser artist, place, booker, etc.)
-  requester: CurrentProfileInfoModel; // Referencia completa al profile
-  requester_id: string; // ID para queries rápidos
+  requester?: CurrentProfileInfoModel; // Referencia completa al profile
+  requester_user_id?: string; // ID para queries rápidos
+  requester_profile_id?: string; // ID para queries rápidos
 
   // A quienes se solicita (puede ser múltiple: venue + varios artists)
   recipients: CurrentProfileInfoModel[]; // Array de perfiles involucrados
@@ -67,8 +62,8 @@ export interface PreBookingRequestTemplate extends EntityTemplate {
   created_by: string; // user_id del creador
   event_id?: string; // Si se convierte en evento
   response_deadline: Dayjs | string; // Plazo para responder (DEFAULT: +90 días)
-  created_at: Dayjs | string;
-  updated_at: Dayjs | string;
+  // created_at: Dayjs | string;
+  // updated_at: Dayjs | string;
   last_viewed_by?: Record<string, Dayjs | string>; // Tracking de vistas por user
 }
 
@@ -84,8 +79,9 @@ export interface PreBookingRequestTemplate extends EntityTemplate {
  */
 export class PreBookingRequestModel extends EntityModel<PreBookingRequestTemplate> {
   declare id: string;
-  declare requester: CurrentProfileInfoModel;
-  declare requester_id: string;
+  declare requester?: CurrentProfileInfoModel;
+  declare requester_user_id?: string;
+  declare requester_profile_id?: string;
   declare recipients: CurrentProfileInfoModel[];
   declare recipient_ids: string[];
   // declare additional_participants: ProfileTemplate[];
@@ -113,11 +109,12 @@ export class PreBookingRequestModel extends EntityModel<PreBookingRequestTemplat
     super(template);
 
     // Convertir fechas string a Dayjs usando helpers
+    this.requester = !!template.requester ? new CurrentProfileInfoModel(template.requester) : undefined;
     this.requested_date_start = ensureDayjs(template.requested_date_start)!;
     this.requested_date_end = ensureDayjs(template.requested_date_end)!;
     this.response_deadline = ensureDayjs(template.response_deadline)!;
-    this.created_at = ensureDayjs(template.created_at)!;
-    this.updated_at = ensureDayjs(template.updated_at)!;
+    // this.created_at = ensureDayjs(template.created_at)!;
+    // this.updated_at = ensureDayjs(template.updated_at)!;
 
     this.status = PreBookingRequestStatus.DRAFT;
 
@@ -125,7 +122,7 @@ export class PreBookingRequestModel extends EntityModel<PreBookingRequestTemplat
     this.last_viewed_by = ensureDayjsRecord(template.last_viewed_by);
 
     // Inicializar arrays vacíos si no existen
-    this.recipients = template.recipients || [];
+    this.recipients = template.recipients.map((recipient) => new CurrentProfileInfoModel(recipient)) || [];
     this.recipient_ids = template.recipient_ids || [];
     // this.additional_participants = template.additional_participants || [];
     // this.additional_participant_ids = template.additional_participant_ids || [];
@@ -136,6 +133,14 @@ export class PreBookingRequestModel extends EntityModel<PreBookingRequestTemplat
 
   get hasFetchAllData(): boolean {
     return !!this.id && !!this.event_name;
+  }
+
+  get artists(): CurrentProfileInfoModel[] {
+    return this.recipients.filter((recipient) => recipient.entity === 'Artist');
+  }
+
+  get venues(): CurrentProfileInfoModel[] {
+    return this.recipients.filter((recipient) => recipient.entity === 'Place');
   }
 
   // ===== MÉTODOS DE PERMISOS =====
@@ -188,14 +193,10 @@ export class PreBookingRequestModel extends EntityModel<PreBookingRequestTemplat
     }
 
     // Buscar en participant_approvals
-    const approval = this.participant_approvals.find((a) => a.participant_id === userId);
+    const approval = this.participant_approvals.find((a) => a.participant_profile_id === userId);
 
     // Puede aprobar si es participante y está en pending o viewed
-    return (
-      !!approval &&
-      (approval.status === PrebookingParticipantStatus.PENDING ||
-        approval.status === PrebookingParticipantStatus.VIEWED)
-    );
+    return !!approval && approval.status === PrebookingParticipantStatus.PENDING;
   }
 
   /**
@@ -216,7 +217,7 @@ export class PreBookingRequestModel extends EntityModel<PreBookingRequestTemplat
    * Obtiene el estado de aprobación de un usuario específico
    */
   getUserApprovalStatus(userId: string): ParticipantApprovalStatus | undefined {
-    return this.participant_approvals.find((a) => a.participant_id === userId);
+    return this.participant_approvals.find((a) => a.participant_profile_id === userId);
   }
 
   /**
@@ -295,7 +296,7 @@ export class PreBookingRequestModel extends EntityModel<PreBookingRequestTemplat
     const approvalsOfType = this.getApprovalsByProfileType(type);
 
     // Filtrar solo NO-requester
-    const nonRequesterApprovals = approvalsOfType.filter((a) => a.participant_id !== this.requester_id);
+    const nonRequesterApprovals = approvalsOfType.filter((a) => a.participant_profile_id !== this.requester_id);
 
     // Si no hay participantes no-requester de este tipo, no puede estar rechazado
     if (nonRequesterApprovals.length === 0) {
@@ -327,7 +328,7 @@ export class PreBookingRequestModel extends EntityModel<PreBookingRequestTemplat
    * Marca su ParticipantApprovalStatus como ACCEPTED
    */
   autoApproveRequester(): void {
-    const requesterApproval = this.participant_approvals.find((a) => a.participant_id === this.requester_id);
+    const requesterApproval = this.participant_approvals.find((a) => a.participant_profile_id === this.requester_id);
 
     if (requesterApproval) {
       requesterApproval.status = PrebookingParticipantStatus.INTERESTED;
@@ -360,7 +361,9 @@ export class PreBookingRequestModel extends EntityModel<PreBookingRequestTemplat
     }
 
     // Contar aprobaciones y respuestas (sin contar requester)
-    const nonRequesterApprovals = this.participant_approvals.filter((a) => a.participant_id !== this.requester_id);
+    const nonRequesterApprovals = this.participant_approvals.filter(
+      (a) => a.participant_profile_id !== this.requester_id
+    );
     const acceptedCount = nonRequesterApprovals.filter(
       (a) => a.status === PrebookingParticipantStatus.INTERESTED
     ).length;
@@ -405,18 +408,22 @@ export class PreBookingRequestModel extends EntityModel<PreBookingRequestTemplat
     this.last_viewed_by[userId] = dayjs();
 
     // Actualizar el estado del participante a 'viewed' si estaba en 'pending'
-    const approval = this.participant_approvals.find((a) => a.participant_id === userId);
-    if (approval && approval.status === PrebookingParticipantStatus.PENDING) {
-      approval.status = PrebookingParticipantStatus.VIEWED;
-    }
+    const approval = this.participant_approvals.find((a) => a.participant_profile_id === userId);
   }
 
   /**
    * Agrega una nota al thread de notas
    */
-  addNote(authorId: string, authorName: string, note: string, isPrivate: boolean = false): void {
+  addNote(
+    authorUserId: string,
+    authorProfileId: string,
+    authorName: string,
+    note: string,
+    isPrivate: boolean = false
+  ): void {
     this.notes.push({
-      author_id: authorId,
+      author_user_id: authorUserId,
+      author_profile_id: authorProfileId,
       author_name: authorName,
       note,
       created_at: dayjs(),
@@ -429,7 +436,7 @@ export class PreBookingRequestModel extends EntityModel<PreBookingRequestTemplat
    * (públicas + sus propias privadas)
    */
   getVisibleNotesForUser(userId: string): ParticipantNote[] {
-    return this.notes.filter((note) => !note.is_private || note.author_id === userId);
+    return this.notes.filter((note) => !note.is_private || note.author_profile_id === userId);
   }
 
   /**
@@ -438,13 +445,14 @@ export class PreBookingRequestModel extends EntityModel<PreBookingRequestTemplat
   toJSON(): any {
     return {
       id: this.id,
-      requester: this.requester,
-      requester_id: this.requester_id,
+      // requester: this.requester,
+      // requester_user_id: this.requester_user_id,
+      // requester_profile_id: this.requester_profile_id,
       recipients: this.recipients,
       recipient_ids: this.recipient_ids,
       // additional_participants: this.additional_participants,
       // additional_participant_ids: this.additional_participant_ids,
-      participant_approvals: serializeDateFields(this.participant_approvals, ['responded_at']),
+      // participant_approvals: serializeDateFields(this.participant_approvals, ['responded_at']),
       requested_date_start: dayjsToISO(this.requested_date_start),
       requested_date_end: dayjsToISO(this.requested_date_end),
       request_type: this.request_type,
@@ -452,16 +460,16 @@ export class PreBookingRequestModel extends EntityModel<PreBookingRequestTemplat
       alternative_dates: serializeDateFields(this.alternative_dates, ['start', 'end']),
       event_name: this.event_name,
       description: this.description,
-      expected_attendance: this.expected_attendance,
-      status: this.status,
-      overall_approval_status: this.overall_approval_status,
+      // expected_attendance: this.expected_attendance,
+      // status: this.status,
+      // overall_approval_status: this.overall_approval_status,
       notes: serializeDateFields(this.notes, ['created_at']),
-      created_by: this.created_by,
-      event_id: this.event_id,
+      // created_by: this.created_by,
+      // event_id: this.event_id,
       response_deadline: dayjsToISO(this.response_deadline),
-      created_at: dayjsToISO(this.created_at),
-      updated_at: dayjsToISO(this.updated_at),
-      last_viewed_by: dayjsRecordToISO(this.last_viewed_by),
+      // created_at: dayjsToISO(this.created_at),
+      // updated_at: dayjsToISO(this.updated_at),
+      // last_viewed_by: dayjsRecordToISO(this.last_viewed_by),
     };
   }
 }

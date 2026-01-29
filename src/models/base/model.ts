@@ -17,7 +17,7 @@ const DEFAULT_MAX_CACHE_TIME_TO_LIVE = 3 * 60 * 1000;
 /**
  *
  */
-abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
+export abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
   protected _data: any = {};
   private _template: any;
   public fetchTimestamp: number;

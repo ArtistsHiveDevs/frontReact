@@ -1235,6 +1235,7 @@ export const EsMessages = {
               my_profile: 'Mi perfil',
               my_bands: 'Mis bandas',
               'my_bands.nested': { create: 'Crear Banda' },
+              my_prebooking_requests: 'Pre-reservas',
               my_events: 'Mis eventos',
               'my_events.nested': { create: 'Crear Evento' },
               my_riders: 'Mis riders',

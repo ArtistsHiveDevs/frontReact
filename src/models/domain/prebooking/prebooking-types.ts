@@ -49,7 +49,7 @@ export interface ParticipantApprovalStatus {
   participant_profile_id: string;
   participant_user_id: string;
   participant_type: string; // 'artist' | 'place' | 'booker' | etc.
-  status: ParticipantStatus;
+  status: PrebookingParticipantStatus;
   responded_at?: Dayjs;
   response_notes?: string;
 }

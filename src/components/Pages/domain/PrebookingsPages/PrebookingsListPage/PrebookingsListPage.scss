@@ -1,11 +1,11 @@
 @import '~/variables.module.scss';
 
 .pb-list-top-header {
-  padding: 1rem;
+  // padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  // gap: 1rem;
 
   h3 {
     margin: 0;
@@ -16,9 +16,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  // gap: 0.5rem;
   flex-wrap: wrap;
   position: relative;
+
+  // .MuiFormControl-root,
+  // .MuiIconButton-root {
+  //   display: flex;
+  //   align-items: center;
+  //   height: 40px;
+  // }
 }
 
 .pb-header-filter-params {
@@ -51,12 +58,13 @@
   flex: 1 1 100%;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   animation: 0.3s anim-fadeIn ease-out;
+  justify-content: center;
 }
 
 .pb-date-field {
-  flex: 1;
+  flex: 0 1 auto;
   max-width: 140px;
   min-width: 120px;
 
@@ -78,8 +86,8 @@
 
 .pb-search-badge {
   position: absolute;
-  top: -2px;
-  right: -2px;
+  top: 2px;
+  right: 14px;
   width: 15px;
   height: 15px;
   border-radius: 50%;
@@ -109,7 +117,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    // gap: 1rem;
     width: 100%;
 
     h3 {
@@ -144,6 +152,7 @@
   margin-left: auto;
   display: flex;
   align-items: center;
+  max-width: 50%;
 }
 
 .pb-card-location-list {
@@ -218,4 +227,289 @@
   align-items: center;
   width: 100%;
   gap: 1rem;
+}
+
+// Estilos para vista de tabla
+.pb-table-container {
+  grid-column: 1 / -1;
+  width: 100%;
+  overflow-x: auto;
+  background-color: $app-background-50;
+  border-radius: 15px;
+  padding: 1rem;
+}
+
+.pb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+
+  thead {
+    background-color: $app-background-75;
+
+    th {
+      padding: 1rem;
+      text-align: center;
+      font-weight: 600;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+      white-space: nowrap;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.02);
+      }
+
+      td {
+        padding: 1rem;
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+.pb-table-event-name {
+  min-width: 200px;
+  max-width: 300px;
+
+  strong {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .MuiAvatarGroup-root {
+    padding-top: 0.5rem;
+    justify-content: start;
+
+    .MuiAvatar-root {
+      width: 28px !important;
+      height: 28px !important;
+    }
+
+    .MuiBadge-badge {
+      .dynamic-icon {
+        font-size: 14px !important;
+      }
+    }
+  }
+}
+
+.pb-table-description {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.pb-table-date {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.pb-table-venue {
+  min-width: 180px;
+  max-width: 220px;
+}
+
+.pb-table-participants {
+  min-width: 120px;
+  justify-content: end;
+}
+
+.pb-table-status {
+  min-width: 100px;
+}
+
+.pb-table-my-response {
+  min-width: 80px;
+  text-align: center;
+}
+
+.pb-table-actions {
+  width: 50px;
+  text-align: center;
+}
+
+// Estilos para paginación
+.pb-pagination-container {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 1rem;
+  flex-wrap: wrap;
+}
+
+.pb-pagination-info {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+// Media queries para responsive
+@media (max-width: 768px) {
+  .pb-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .pb-table-container {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .pb-table {
+    font-size: 0.8rem;
+
+    thead th,
+    tbody td {
+      padding: 0.5rem;
+    }
+  }
+
+  .pb-table-event-name {
+    min-width: 150px;
+    max-width: 200px;
+  }
+
+  .pb-pagination-container {
+    gap: 1rem;
+    padding: 1rem 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pb-list-top-header {
+    padding: 0.75rem 0.5rem;
+    // gap: 0.75rem;
+
+    h3 {
+      font-size: 1.25rem;
+    }
+  }
+
+  .pb-header-filters {
+    // gap: 0.5rem;
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    // padding: 0.25rem 0;
+
+    // Evitar que los botones se envuelvan
+    .MuiFormControl-root,
+    .MuiIconButton-root {
+      flex-shrink: 0;
+    }
+
+    // Ajustar tamaño de los selects
+    .MuiFormControl-root .MuiSelect-select {
+      padding: 4px 8px !important;
+    }
+  }
+
+  .pb-container {
+    padding: 0 0.25rem;
+    gap: 0.75rem;
+  }
+
+  .pb-card-content-container {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .pb-card-participants-container {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .pb-card-participants-box {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .pb-table-container {
+    padding: 0.25rem;
+    font-size: 0.75rem;
+  }
+
+  .pb-table {
+    font-size: 0.7rem;
+
+    thead th,
+    tbody td {
+      padding: 0.4rem 0.25rem;
+      font-size: 0.7rem;
+    }
+  }
+
+  .pb-table-event-name {
+    min-width: 120px;
+    max-width: 150px;
+
+    strong {
+      font-size: 0.75rem;
+    }
+  }
+
+  .pb-table-description {
+    font-size: 0.7rem;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+  }
+
+  .pb-table-my-response {
+    min-width: 60px;
+
+    .MuiFormControl-root {
+      min-width: 50px;
+    }
+
+    // Ajustar el loader en móvil
+    > div {
+      min-height: 30px !important;
+      padding: 0.2rem;
+    }
+  }
+
+  .pb-pagination-container {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem 0.5rem;
+  }
+
+  .pb-pagination-info {
+    font-size: 0.75rem;
+    text-align: center;
+  }
+
+  // Ajustar el tamaño de la paginación en móvil
+  .MuiPagination-root {
+    .MuiPaginationItem-root {
+      min-width: 28px;
+      height: 28px;
+      font-size: 0.75rem;
+    }
+  }
+
+  .pb-search-field {
+    max-width: 100%;
+  }
+
+  .pb-date-filter-container {
+    gap: 0.25rem;
+  }
+
+  .pb-date-field {
+    max-width: 130px;
+    min-width: 110px;
+  }
 }

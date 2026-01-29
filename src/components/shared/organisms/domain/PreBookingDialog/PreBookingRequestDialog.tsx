@@ -30,6 +30,10 @@ interface PreBookingFormData<T extends ProfileTemplate = ProfileTemplate> {
   event_type?: string;
   venue?: string;
   notes?: string;
+  date: Dayjs;
+  name: string;
+  description: string;
+  flexible_dates: boolean;
 }
 
 interface PreBookingRequestDialogProps<T extends ProfileTemplate = ProfileTemplate> {
@@ -108,6 +112,10 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
       event_type: '',
       venue: '',
       notes: '',
+      date: dayjs(),
+      name: 'Evento',
+      description: 'Evento de prueba',
+      flexible_dates: false,
     },
   });
 
@@ -246,8 +254,8 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
         recipient_ids: participants.map((p) => p.identifier),
         participant_approvals: [],
 
-        requested_date_start: formDataWithParticipants.requested_date_start,
-        requested_date_end: formDataWithParticipants.requested_date_start,
+        requested_date_start: formDataWithParticipants.date,
+        requested_date_end: formDataWithParticipants.date,
         request_type: 'single_date',
         flexible_dates: formDataWithParticipants.flexible_dates,
         // alternative_dates?: DateRange[]; // Rangos alternativos si flexible (también con hora)
@@ -352,14 +360,12 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
                 fieldName: 'name',
                 inputType: 'text',
                 label: 'Name',
-                defaultValue: 'Evento',
                 config: { required: true },
               },
               {
                 fieldName: 'description',
                 inputType: 'textarea',
                 label: 'Description',
-                defaultValue: 'Evento de prueba',
                 config: { required: true },
               },
               {
@@ -372,7 +378,6 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
                 fieldName: 'date',
                 inputType: 'date',
                 label: 'date',
-                defaultValue: dayjs(),
                 config: { required: true },
                 componentParams: {
                   disablePast: true,

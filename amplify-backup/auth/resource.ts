@@ -1,5 +1,4 @@
 import { defineAuth } from '@aws-amplify/backend';
-import { customMessage } from './custom-message/resource';
 
 /**
  * Define and configure your auth resource
@@ -8,14 +7,5 @@ import { customMessage } from './custom-message/resource';
 export const auth = defineAuth({
   loginWith: {
     email: true,
-  },
-  userAttributes: {
-    locale: {
-      mutable: true,
-      required: false,
-    },
-  },
-  triggers: {
-    customMessage,
   },
 });

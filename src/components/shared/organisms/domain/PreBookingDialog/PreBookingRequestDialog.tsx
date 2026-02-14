@@ -296,6 +296,8 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
         // last_viewed_by?: Record<string, Dayjs | string>;
       });
 
+      delete typedData.recipients;
+      
       dispatch(prebookingRequestActions.createItem({ data: typedData }));
       onSubmit(formDataWithParticipants);
       methods.reset();

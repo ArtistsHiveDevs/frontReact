@@ -16,13 +16,18 @@ import { selectApiKey } from '../app-base/APIKey/selectors';
 import { actionsArtists } from '../domain/artists/artist.redux';
 import { actionsPlaces } from '../domain/places/places.redux';
 
+export interface CidUserData {
+  email: string;
+  username: string | null;
+}
+
 /**
- * Helper function para obtener email por username durante el login
+ * Helper function para obtener email y username por username/email durante el login
  * Esta función NO es una saga, se puede llamar directamente desde componentes
  */
-export async function getEmailByUsername(username: string): Promise<string | null> {
+export async function getEmailByUsername(usernameOrEmail: string): Promise<CidUserData | null> {
   try {
-    const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/cid/${username}`;
+    const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/cid/${usernameOrEmail}`;
 
     const response = await request(requestURL, {
       headers: {
@@ -38,11 +43,14 @@ export async function getEmailByUsername(username: string): Promise<string | nul
     }
 
     // Type assertion para el tipo de respuesta exitosa
-    const successResponse = response as { data?: { status: UsernameAvailabilityStatus; email?: string } };
+    const successResponse = response as { data?: { status: UsernameAvailabilityStatus; email?: string; username?: string } };
 
-    // El endpoint retorna { data: { status: "TAKEN", email: "..." } } o { data: { status: "AVAILABLE" } }
+    // El endpoint retorna { data: { status: "TAKEN", email: "...", username: "..." } } o { data: { status: "AVAILABLE" } }
     if (successResponse?.data?.status === 'TAKEN' && successResponse?.data?.email) {
-      return successResponse.data.email;
+      return {
+        email: successResponse.data.email,
+        username: successResponse.data.username || null,
+      };
     }
 
     return null;

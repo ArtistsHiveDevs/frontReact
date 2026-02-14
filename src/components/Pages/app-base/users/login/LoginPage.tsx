@@ -1,12 +1,12 @@
 import { Grid, Paper } from '@mui/material';
 import { fetchUserAttributes, FetchUserAttributesOutput, signIn } from 'aws-amplify/auth';
 import { Hub } from 'aws-amplify/utils';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useApiKeySlice } from '~/common/slices/app-base/APIKey';
 import { selectError } from '~/common/slices/app-base/APIKey/selectors';
 import { useUsersSlice } from '~/common/slices/users';
-import { getEmailByUsername } from '~/common/slices/users/saga';
+import { CidUserData, getEmailByUsername } from '~/common/slices/users/saga';
 import { selectUsernameValidation, selectUsers } from '~/common/slices/users/selectors';
 import { I18nPaths, useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
@@ -58,7 +58,7 @@ export const LoginPage = () => {
   const [clicksEnLogo, setClicksEnLogo] = useState(0);
   const [defaultUserValue, setDefaultUser] = useState('');
 
-  const { translateText } = useI18n();
+  const { translateText, locale } = useI18n();
 
   const usersList: AppUserModel[] = useSelector(selectUsers);
   const usernameValidationResult: UsernameAvailabilityStatus = useSelector(selectUsernameValidation);
@@ -140,6 +140,14 @@ export const LoginPage = () => {
 
   const [cognitoUser, setCognitoUser] = useState<AuthUser>();
   const [userAttributes, setUserAttributes] = useState<FetchUserAttributesOutput>();
+  const [mongoUsername, setMongoUsername] = useState<string | null>(null);
+  const loginUserDataRef = useRef<CidUserData | null>(null);
+  const localeRef = useRef(locale);
+
+  // Mantener el ref actualizado con el locale actual
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   // Hub listener para eventos de autenticación
   useEffect(() => {
@@ -151,9 +159,18 @@ export const LoginPage = () => {
         try {
           const attributes = await fetchUserAttributes();
 
-          // Verificar si el usuario ya existe en MongoDB
+          // Si tenemos datos del login previo (handleSignIn), usarlos
+          if (loginUserDataRef.current) {
+            setMongoUsername(loginUserDataRef.current.username);
+            loginUserDataRef.current = null; // Limpiar ref
+            return;
+          }
+
+          // Si no (ej: signup nuevo o login con email), verificar si el usuario ya existe en MongoDB
+          // Intentar con preferred_username primero, si no con email
+          const cidParam = attributes.preferred_username || attributes.email;
           const checkResponse = await fetch(
-            `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/cid/${attributes.email}`,
+            `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/cid/${cidParam}`,
             {
               headers: {
                 'Content-Type': 'application/json',
@@ -186,7 +203,8 @@ export const LoginPage = () => {
               console.error('Failed to create user in MongoDB:', await createResponse.text());
             }
           } else {
-            console.log('User already exists in MongoDB');
+            // Usuario existe, guardar el username de MongoDB
+            setMongoUsername(checkData?.data?.username || null);
           }
         } catch (error) {
           console.error('Error in signedIn handler:', error);
@@ -213,8 +231,8 @@ export const LoginPage = () => {
       const info = await fetchUserAttributes();
       setUserAttributes(info);
 
-      if (cognitoUser && info.email) {
-        // Verificar existencia y disponibilidad
+      // Solo verificar disponibilidad si no tenemos ya el username de MongoDB
+      if (cognitoUser && info.email && !mongoUsername && !loginUserDataRef.current) {
         dispatch(usersActions.checkUsernameAvailability(info.preferred_username || info.email));
       }
     } catch (error) {
@@ -224,17 +242,17 @@ export const LoginPage = () => {
 
   useEffect(() => {
     if (cognitoUser && userAttributes) {
-      // Asumir que el usuario ya existe en MongoDB (creado al verificar email)
-      // Solo cargar el API key
+      // Usar el username de MongoDB si existe, sino usar preferred_username o email
+      const username = mongoUsername || userAttributes.preferred_username || userAttributes.email || cognitoUser.userId;
 
       dispatch(
         apiKeyActions.loadApiKey({
-          username: userAttributes.preferred_username || userAttributes.email || cognitoUser.userId,
+          username,
           sub: cognitoUser.userId,
         })
       );
     }
-  }, [cognitoUser, userAttributes]);
+  }, [cognitoUser, userAttributes, mongoUsername]);
 
   return (
     <>
@@ -317,6 +335,26 @@ export const LoginPage = () => {
               // socialProviders={['amazon', 'apple', 'facebook', 'google']}
               signUpAttributes={['email', 'given_name', 'family_name', 'phone_number']}
               services={{
+                async handleSignUp(formData) {
+                  const { username, password, options } = formData;
+                  const { signUp } = await import('aws-amplify/auth');
+                  const currentLocale = localeRef.current;
+
+                  return signUp({
+                    username,
+                    password,
+                    options: {
+                      ...options,
+                      userAttributes: {
+                        ...options?.userAttributes,
+                        locale: currentLocale,
+                      },
+                      clientMetadata: {
+                        locale: currentLocale,
+                      },
+                    },
+                  });
+                },
                 async handleSignIn(formData) {
                   const { username, password } = formData;
 
@@ -330,14 +368,16 @@ export const LoginPage = () => {
                   let emailToUse = username;
 
                   if (!isEmail(username)) {
-                    // Es un username, buscar el email
-                    const email = await getEmailByUsername(username);
+                    // Es un username, buscar el email y guardar datos
+                    const userData = await getEmailByUsername(username);
 
-                    if (!email) {
+                    if (!userData) {
                       throw new Error('Username not found');
                     }
 
-                    emailToUse = email;
+                    // Guardar datos para usarlos después del login
+                    loginUserDataRef.current = userData;
+                    emailToUse = userData.email;
                   }
 
                   // Hacer login con Cognito usando el email

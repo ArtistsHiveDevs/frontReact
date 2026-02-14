@@ -259,6 +259,7 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
 
   get isInPersonalProfile() {
     return this.currentProfileInfo?.identifier !== this?.identifier;
+    return this.currentProfileIdentifier === this?.identifier;
   }
 
   get hasIndustryProfiles() {
@@ -269,7 +270,7 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
   }
 
   get isIndustryMember() {
-    return !!this.roles.length;
+    return !!this.roles && !!this.roles.length;
   }
 
   checkPermissions(idResource: string): UserPermissionsTemplate {
@@ -294,6 +295,7 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
     }
 
     return { canEdit: ids.includes(idResource), isInProfile: idResource === this.currentProfileIdentifier };
+    return { canEdit: ids.includes(idResource), isInProfile: !this.currentProfileIdentifier || idResource === this.currentProfileIdentifier };
   }
 
   getMembershipsByEntity(entityType: string): CurrentProfileInfoModel[] {

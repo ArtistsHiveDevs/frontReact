@@ -44,7 +44,9 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                     return !user.isIndustryMember;
                   },
                   formMetaData: {
-                    hidden: false,
+                    hidden: (user: AppUserModel) => {
+                    return !user.isIndustryMember;
+                  },
                   },
                 },
                 {
@@ -83,7 +85,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                       disableFuture: true, // No puede ser futuro
                       minAgeInYears: 18, // Debe tener mínimo 18 años
                       maxAgeInYears: 120, // Máximo 120 años
-                      defaultToMinAge: true, // Preselecciona "hoy - 18 años"
+                      defaultToMinAge: false, // Preselecciona "hoy - 18 años"
                     },
                   },
                 },

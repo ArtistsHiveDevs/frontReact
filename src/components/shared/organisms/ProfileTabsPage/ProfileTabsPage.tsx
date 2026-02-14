@@ -65,7 +65,6 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
   const [hasSeenFollowers, setHasSeenFollowers] = useState(false);
   const [isFabVisible, setIsFabVisible] = useState(true);
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
-  const [currentUserIsInProfile, setCurrentUserIsInProfile] = useState(false);
 
   const tabbedPanelRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
@@ -83,13 +82,12 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
   useEffect(() => {
     if (loggedUser) {
       dispatch(profileActions.loadProfileEndpoint({ entity: entityData, endpoint: 'follow' }));
-      let permissions = { canEdit: false, isInProfile: false };
+      let permissions = { canEdit: false, isInProfile: true };
       if (loggedUser && entityData) {
         const userPermissions = loggedUser.checkPermissions(entityData.identifier);
         permissions = userPermissions;
       }
       setCurrentUserCanEdit(permissions.canEdit);
-      setCurrentUserIsInProfile(permissions.isInProfile);
     }
   }, [loggedUser]);
 
@@ -148,6 +146,8 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     // buildComponent, // Comentado para usar el buildComponent por defecto de TabbedPanel
   };
 
+  console.log("..... LOGGED USER", fab, loggedUser?.isInPersonalProfile)
+
   return (
     <>
       {!!entityData && (
@@ -178,7 +178,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           </div>
           {profileFooter && <div ref={footerRef}>{profileFooter}</div>}
           {!profileFooter && profileFooter}
-          {fab && !currentUserIsInProfile && (
+          {fab && !loggedUser?.isInPersonalProfile && (
             <Fab
               color="primary"
               aria-label="add"

@@ -152,7 +152,7 @@ const miInfo: SideMenuItem[] = [
     rightIcon: 'FaPlus',
     rightPath: `${PATHS.EVENTS}/${SUB_PATHS.CREATE}`,
     hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
-      return params?.user?.hasIndustryProfiles && !params?.user?.isInPersonalProfile;
+      return params?.user?.hasIndustryProfiles && params?.user?.isInPersonalProfile;
     },
     badge: () => Math.round(Math.random() * 100),
   },

@@ -92,7 +92,8 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     componentDescriptor: ComponentDescriptor,
     componentIndex: number,
     handlers: any,
-    formMethods: any
+    formMethods: any,
+    entityData: any
   ) => {
     // console.log('Generando secciones', relationshipsValues);
 
@@ -122,7 +123,15 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
 
     if (componentDescriptor.componentName === ComponentTypes.ATTRIBUTES_ICON_FIELDS) {
       (componentDescriptor.data?.attributes || [])
-        .filter((attributeInfo: AttributeConfiguration) => attributeInfo.formMetaData?.hidden !== true)
+        .filter(
+          (attributeInfo: AttributeConfiguration) =>
+            attributeInfo.formMetaData?.hidden === undefined ||
+            (typeof attributeInfo.formMetaData?.hidden === 'boolean' && !attributeInfo.formMetaData?.hidden) ||
+            (typeof attributeInfo.formMetaData?.hidden === 'string' && attributeInfo.formMetaData?.hidden !== 'true') ||
+            ((attributeInfo.formMetaData?.hidden as unknown) instanceof Function &&
+              entityData &&
+              !(attributeInfo.formMetaData!.hidden as unknown as Function)(entityData))
+        )
         .forEach((attributeInfo: AttributeConfiguration, index: number) => {
           const { formMetaData } = attributeInfo;
 
@@ -267,7 +276,8 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
                               componentDescriptor,
                               componentIndex,
                               handlers,
-                              formMethods
+                              formMethods,
+                              elementData
                             )}
                           </div>
                         )

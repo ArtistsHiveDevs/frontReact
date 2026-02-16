@@ -345,10 +345,6 @@ export const LoginPage = () => {
                     password,
                     options: {
                       ...options,
-                      userAttributes: {
-                        ...options?.userAttributes,
-                        locale: currentLocale,
-                      },
                       clientMetadata: {
                         locale: currentLocale,
                       },

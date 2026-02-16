@@ -9,12 +9,6 @@ export const auth = defineAuth({
   loginWith: {
     email: true,
   },
-  userAttributes: {
-    locale: {
-      mutable: true,
-      required: false,
-    },
-  },
   triggers: {
     customMessage,
   },

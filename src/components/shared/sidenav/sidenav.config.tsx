@@ -138,6 +138,7 @@ const miInfo: SideMenuItem[] = [
     updated: new Date('1/18/16'),
     randomId: false,
     requireSession: true,
+    forbiddenEnvironments: ['prod'],
     hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
       return !params?.user?.hasIndustryProfiles;
     },

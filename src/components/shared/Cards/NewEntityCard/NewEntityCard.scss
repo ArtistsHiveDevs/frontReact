@@ -168,3 +168,29 @@
 .thumbnail-username {
   font-size: x-small;
 }
+
+
+.activity-banner-entity-card {
+  display: flex;
+  align-items: center;
+  margin: 1rem;
+
+  &.probably-active {
+    background: $probably-active-profile-bg;
+    color: white;
+
+    .title {
+      font-weight: bold;
+    }
+  }
+
+  &.non-active {
+    background: $non-active-profile-bg;
+    color: white;
+
+    .title {
+      opacity: 0.8;
+    }
+  }
+}
+

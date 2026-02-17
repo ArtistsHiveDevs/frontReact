@@ -131,6 +131,13 @@ const NewEntityCard = (props: any) => {
                               </>
                             </span>
                           </p>
+                          {!!data?.activity && data.activity !== 'active' && (
+                            <div className={['activity-banner-entity-card', data.activity.replace('_', '-')].join(' ')}>
+                              <DynamicIcons iconName="PiWarningOctagonBold" size={25} color={'white'} />
+                              {data.activity === 'non_active' && 'Sin actividad'}
+                              {data.activity === 'probably_active' && 'Intermitente'}
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>

@@ -125,7 +125,11 @@ const ArtistDetailPage = () => {
   };
 
   const onFABClick = () => {
-    setOpenDialogBookDate(true);
+    if (!loggedUser) {
+      navigateToInnerPath({ path: PATHS.LOGIN });
+    } else {
+      setOpenDialogBookDate(true);
+    }
   };
 
   return (

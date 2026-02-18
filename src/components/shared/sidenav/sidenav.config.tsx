@@ -166,8 +166,9 @@ const miInfo: SideMenuItem[] = [
     allowedRoles: [{ entityName: 'Artist' }, { entityName: 'Place' }],
     rightIcon: 'FaPlus',
     rightPath: `${PATHS.EVENTS}/${SUB_PATHS.CREATE}`,
+    forbiddenEnvironments: ['prod'],
     hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
-      return params?.user?.hasIndustryProfiles && !params?.user?.isInPersonalProfile;
+      return params?.user?.hasIndustryProfiles && params?.user?.isInPersonalProfile;
     },
     // nestedMenuOptions: [
     //   {

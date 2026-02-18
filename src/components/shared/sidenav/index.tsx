@@ -453,7 +453,7 @@ const SideNav = () => {
                   <>
                     <div>
                       <section className="general-sec">
-                        {loggedUser?.isInPersonalProfile && (
+                        {!loggedUser?.isInPersonalProfile && (
                           <div
                             className={[
                               'menu-option',

@@ -258,7 +258,7 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
   }
 
   get isInPersonalProfile() {
-    return this.currentProfileInfo?.identifier !== this?.identifier;
+    // return this.currentProfileInfo?.identifier !== this?.identifier;
     return this.currentProfileIdentifier === this?.identifier;
   }
 
@@ -295,7 +295,10 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
     }
 
     return { canEdit: ids.includes(idResource), isInProfile: idResource === this.currentProfileIdentifier };
-    return { canEdit: ids.includes(idResource), isInProfile: !this.currentProfileIdentifier || idResource === this.currentProfileIdentifier };
+    return {
+      canEdit: ids.includes(idResource),
+      isInProfile: !this.currentProfileIdentifier || idResource === this.currentProfileIdentifier,
+    };
   }
 
   getMembershipsByEntity(entityType: string): CurrentProfileInfoModel[] {

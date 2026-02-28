@@ -1,9 +1,6 @@
 import Flag from 'react-world-flags';
 import { RatingStarsView } from '~/components/shared/atoms/gui/rating-stars-view/RatingStarsView';
-import {
-  ComponentTypes,
-  PageSection,
-} from '~/components/shared/organisms/gui/builders/component-types.def';
+import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 // import { CitySelectionLevel } from '~/components/shared/organisms/gui/dynamicForms/components/CitySelector';
 import { PlaceModel, PlaceRatingTemplate } from '~/models/domain/place/place.model';
 
@@ -99,6 +96,10 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   name: 'spoken_languages',
                   icon: 'BsTranslate',
                   formMetaData: { inputType: 'chipPicker' },
+                },
+                {
+                  name: 'total_audience_capacity',
+                  icon: 'md MdGroups',
                 },
                 {
                   name: 'has_open_mic',

@@ -1005,6 +1005,7 @@ export const DeMessages = {
                     arts_languages: 'Kunstsprachen',
                     activity: 'Ist es aktiv?',
                     has_open_mic: 'Hat es ein offenes Mikrofon?',
+                    total_audience_capacity: 'Max. Kapazität',
                     bookingRatesPolicy: 'Buchungsrichtlinien',
                   },
                 },

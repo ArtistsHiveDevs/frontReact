@@ -991,6 +991,7 @@ export const EnMessages = {
                     arts_languages: 'Arts Languages',
                     activity: 'Is active?',
                     has_open_mic: 'Has open mic?',
+                    total_audience_capacity: 'Max. capacity',
                     bookingRatesPolicy: 'Booking Policies',
                   },
                 },

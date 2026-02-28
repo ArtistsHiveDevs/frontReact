@@ -1007,6 +1007,7 @@ export const FrMessages = {
                     arts_languages: 'Langues artistiques',
                     activity: 'Est-ce actif ?',
                     has_open_mic: 'A-t-il un micro ouvert ?',
+                    total_audience_capacity: 'Capacité max.',
                     bookingRatesPolicy: 'Politiques de réservation',
                   },
                 },

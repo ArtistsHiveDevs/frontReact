@@ -29,7 +29,7 @@ export interface VenueStageTemplate {
   width: number;
   depth: number;
   seated_capacity?: number;
-  total_capacity?: number;
+  total_audience_capacity?: number;
   isMainStage: boolean;
 }
 
@@ -117,7 +117,7 @@ export interface PlaceTemplate extends ProfileTemplate {
   micCount?: number;
 
   // Capacidad total del venue
-  capacity?: number;
+  total_audience_capacity?: number;
 }
 
 export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemplate, LocatableTemplate {
@@ -169,7 +169,7 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
   declare ageRestriction?: string[];
   declare backlineTypes?: string[];
   declare micCount?: number;
-  declare capacity?: number;
+  declare total_audience_capacity?: number;
 
   constructor(template: PlaceTemplate) {
     super({ ...template, entity: PlaceModel.name });

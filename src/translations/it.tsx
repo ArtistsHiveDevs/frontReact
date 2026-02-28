@@ -1006,6 +1006,7 @@ export const ItMessages = {
                     arts_languages: 'Lingue nelle arti',
                     activity: 'È attivo?',
                     has_open_mic: 'Ha un microfono aperto?',
+                    total_audience_capacity: 'Capienza max.',
                     bookingRatesPolicy: 'Politiche di prenotazione',
                   },
                 },

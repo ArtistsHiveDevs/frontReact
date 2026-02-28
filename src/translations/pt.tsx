@@ -1003,6 +1003,7 @@ export const PtMessages = {
                     arts_languages: 'Idiomas nas artes',
                     activity: 'Está ativo?',
                     has_open_mic: 'Tem microfone aberto?',
+                    total_audience_capacity: 'Capacidade máx.',
                     bookingRatesPolicy: 'Políticas de reserva',
                   },
                 },

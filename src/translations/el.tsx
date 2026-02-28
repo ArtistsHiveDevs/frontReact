@@ -1006,6 +1006,7 @@ export const ElMessages = {
                     arts_languages: 'Καλλιτεχνικές γλώσσες',
                     activity: 'Είναι ενεργό;',
                     has_open_mic: 'Έχει ανοιχτό μικρόφωνο;',
+                    total_audience_capacity: 'Μέγ. χωρητικότητα',
                     bookingRatesPolicy: 'Πολιτικές κράτησης',
                   },
                 },

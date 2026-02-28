@@ -1005,6 +1005,7 @@ export const EsMessages = {
                     arts_languages: 'Idiomas en artes',
                     activity: '¿Está activo?',
                     has_open_mic: '¿Tiene micrófono abierto?',
+                    total_audience_capacity: 'Aforo máx.',
                     bookingRatesPolicy: 'Políticas de reserva',
                   },
                 },

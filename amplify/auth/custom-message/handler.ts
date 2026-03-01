@@ -14,6 +14,9 @@ interface Translation {
   termsOfUse: string;
   privacyPolicy: string;
   autoMessage: string;
+  forgotPasswordSubject: string;
+  forgotPasswordTitle: string;
+  forgotPasswordWelcome: string;
 }
 
 /* =========================
@@ -26,89 +29,98 @@ const translations: Record<string, Translation> = {
     title: 'Welcome to Artist Hive!',
     welcome: 'Thank you for registering. Use the following code to verify your account.',
     codeLabel: 'Verification Code',
-    footer:
-      'This code expires in 24 hours. If you did not request this code, please ignore this email.',
+    footer: 'This code expires in 24 hours. If you did not request this code, please ignore this email.',
     allRightsReserved: 'All rights reserved.',
     termsOfUse: 'Terms of Use',
     privacyPolicy: 'Privacy Policy',
     autoMessage: 'This is an automated message. Please do not reply to this email.',
+    forgotPasswordSubject: 'Reset your password',
+    forgotPasswordTitle: 'Reset your password',
+    forgotPasswordWelcome: 'We received a request to reset your password. Use the following code to proceed.',
   },
   es: {
     subject: 'Tu código de verificación',
     title: '¡Bienvenido a Artist Hive!',
     welcome: 'Gracias por registrarte. Usa el siguiente código para verificar tu cuenta.',
     codeLabel: 'Código de verificación',
-    footer:
-      'Este código expira en 24 horas. Si no solicitaste este código, ignora este correo.',
+    footer: 'Este código expira en 24 horas. Si no solicitaste este código, ignora este correo.',
     allRightsReserved: 'Todos los derechos reservados.',
     termsOfUse: 'Términos de uso',
     privacyPolicy: 'Política de privacidad',
     autoMessage: 'Este es un mensaje automático. No respondas a este correo.',
+    forgotPasswordSubject: 'Restablece tu contraseña',
+    forgotPasswordTitle: 'Restablece tu contraseña',
+    forgotPasswordWelcome: 'Recibimos una solicitud para restablecer tu contraseña. Usa el siguiente código para continuar.',
   },
   de: {
     subject: 'Ihr Bestätigungscode',
     title: 'Willkommen bei Artist Hive!',
-    welcome:
-      'Vielen Dank für Ihre Registrierung. Verwenden Sie den folgenden Code, um Ihr Konto zu bestätigen.',
+    welcome: 'Vielen Dank für Ihre Registrierung. Verwenden Sie den folgenden Code, um Ihr Konto zu bestätigen.',
     codeLabel: 'Bestätigungscode',
-    footer:
-      'Dieser Code läuft in 24 Stunden ab. Wenn Sie diesen Code nicht angefordert haben, ignorieren Sie diese E-Mail.',
+    footer: 'Dieser Code läuft in 24 Stunden ab. Wenn Sie diesen Code nicht angefordert haben, ignorieren Sie diese E-Mail.',
     allRightsReserved: 'Alle Rechte vorbehalten.',
     termsOfUse: 'Nutzungsbedingungen',
     privacyPolicy: 'Datenschutzrichtlinie',
     autoMessage: 'Dies ist eine automatische Nachricht. Bitte antworten Sie nicht auf diese E-Mail.',
+    forgotPasswordSubject: 'Passwort zurücksetzen',
+    forgotPasswordTitle: 'Passwort zurücksetzen',
+    forgotPasswordWelcome: 'Wir haben eine Anfrage zum Zurücksetzen Ihres Passworts erhalten. Verwenden Sie den folgenden Code.',
   },
   fr: {
     subject: 'Votre code de vérification',
     title: 'Bienvenue sur Artist Hive!',
-    welcome:
-      'Merci pour votre inscription. Utilisez le code suivant pour vérifier votre compte.',
+    welcome: 'Merci pour votre inscription. Utilisez le code suivant pour vérifier votre compte.',
     codeLabel: 'Code de vérification',
-    footer:
-      "Ce code expire dans 24 heures. Si vous n'avez pas demandé ce code, veuillez ignorer cet e-mail.",
+    footer: "Ce code expire dans 24 heures. Si vous n'avez pas demandé ce code, veuillez ignorer cet e-mail.",
     allRightsReserved: 'Tous droits réservés.',
     termsOfUse: "Conditions d'utilisation",
     privacyPolicy: 'Politique de confidentialité',
     autoMessage: 'Ceci est un message automatique. Veuillez ne pas répondre à cet e-mail.',
+    forgotPasswordSubject: 'Réinitialisez votre mot de passe',
+    forgotPasswordTitle: 'Réinitialisez votre mot de passe',
+    forgotPasswordWelcome: "Nous avons reçu une demande de réinitialisation de votre mot de passe. Utilisez le code suivant.",
   },
   it: {
     subject: 'Il tuo codice di verifica',
     title: 'Benvenuto su Artist Hive!',
-    welcome:
-      'Grazie per esserti registrato. Usa il seguente codice per verificare il tuo account.',
+    welcome: 'Grazie per esserti registrato. Usa il seguente codice per verificare il tuo account.',
     codeLabel: 'Codice di verifica',
-    footer:
-      'Questo codice scade tra 24 ore. Se non hai richiesto questo codice, ignora questa email.',
+    footer: 'Questo codice scade tra 24 ore. Se non hai richiesto questo codice, ignora questa email.',
     allRightsReserved: 'Tutti i diritti riservati.',
     termsOfUse: 'Termini di utilizzo',
     privacyPolicy: 'Informativa sulla privacy',
     autoMessage: 'Questo è un messaggio automatico. Si prega di non rispondere a questa email.',
+    forgotPasswordSubject: 'Reimposta la tua password',
+    forgotPasswordTitle: 'Reimposta la tua password',
+    forgotPasswordWelcome: 'Abbiamo ricevuto una richiesta di reimpostazione della password. Usa il codice seguente.',
   },
   pt: {
     subject: 'Seu código de verificação',
     title: 'Bem-vindo ao Artist Hive!',
-    welcome:
-      'Obrigado por se registrar. Use o código a seguir para verificar sua conta.',
+    welcome: 'Obrigado por se registrar. Use o código a seguir para verificar sua conta.',
     codeLabel: 'Código de verificação',
-    footer:
-      'Este código expira em 24 horas. Se você não solicitou este código, ignore este e-mail.',
+    footer: 'Este código expira em 24 horas. Se você não solicitou este código, ignore este e-mail.',
     allRightsReserved: 'Todos os direitos reservados.',
     termsOfUse: 'Termos de uso',
     privacyPolicy: 'Política de privacidade',
     autoMessage: 'Esta é uma mensagem automática. Por favor, não responda a este e-mail.',
+    forgotPasswordSubject: 'Redefina sua senha',
+    forgotPasswordTitle: 'Redefina sua senha',
+    forgotPasswordWelcome: 'Recebemos uma solicitação para redefinir sua senha. Use o código a seguir.',
   },
   el: {
     subject: 'Ο κωδικός επαλήθευσής σας',
     title: 'Καλώς ήρθατε στο Artist Hive!',
-    welcome:
-      'Ευχαριστούμε για την εγγραφή σας. Χρησιμοποιήστε τον παρακάτω κωδικό για να επαληθεύσετε τον λογαριασμό σας.',
+    welcome: 'Ευχαριστούμε για την εγγραφή σας. Χρησιμοποιήστε τον παρακάτω κωδικό για να επαληθεύσετε τον λογαριασμό σας.',
     codeLabel: 'Κωδικός επαλήθευσης',
-    footer:
-      'Αυτός ο κωδικός λήγει σε 24 ώρες. Εάν δεν ζητήσατε αυτόν τον κωδικό, αγνοήστε αυτό το email.',
+    footer: 'Αυτός ο κωδικός λήγει σε 24 ώρες. Εάν δεν ζητήσατε αυτόν τον κωδικό, αγνοήστε αυτό το email.',
     allRightsReserved: 'Με επιφύλαξη παντός δικαιώματος.',
     termsOfUse: 'Όροι χρήσης',
     privacyPolicy: 'Πολιτική απορρήτου',
     autoMessage: 'Αυτό είναι αυτόματο μήνυμα. Παρακαλούμε μην απαντήσετε σε αυτό το email.',
+    forgotPasswordSubject: 'Επαναφορά κωδικού πρόσβασης',
+    forgotPasswordTitle: 'Επαναφορά κωδικού πρόσβασης',
+    forgotPasswordWelcome: 'Λάβαμε αίτημα επαναφοράς του κωδικού σας. Χρησιμοποιήστε τον παρακάτω κωδικό.',
   },
 };
 
@@ -320,8 +332,13 @@ export const handler: CustomMessageTriggerHandler = async (event) => {
     event.triggerSource === 'CustomMessage_ResendCode'
   ) {
     event.response.emailSubject = t.subject;
+    event.response.emailMessage = buildEmailTemplate(t, event.request.codeParameter!);
+  }
+
+  if (event.triggerSource === 'CustomMessage_ForgotPassword') {
+    event.response.emailSubject = t.forgotPasswordSubject;
     event.response.emailMessage = buildEmailTemplate(
-      t,
+      { ...t, title: t.forgotPasswordTitle, welcome: t.forgotPasswordWelcome },
       event.request.codeParameter!
     );
   }

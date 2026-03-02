@@ -37,7 +37,7 @@ export const tableColumns: TableColumn[] = [
   { id: 'event', label: 'Evento', className: 'pb-table-event-name' },
   { id: 'date', label: 'Fecha', className: 'pb-table-date' },
   { id: 'venue', label: 'Lugar', className: 'pb-table-venue' },
-  { id: 'status', label: 'Estado', className: 'pb-table-status' },
+  // { id: 'status', label: 'Estado', className: 'pb-table-status' },
   { id: 'myResponse', label: 'Mi respuesta', className: 'pb-table-my-response' },
   { id: 'actions', label: '', className: 'pb-table-actions' },
 ];

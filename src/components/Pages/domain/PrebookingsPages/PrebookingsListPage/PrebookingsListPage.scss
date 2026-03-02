@@ -1,5 +1,38 @@
 @import '~/variables.module.scss';
 
+.pb-step-title {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+}
+
+.pb-step-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  color: inherit;
+  opacity: 0.55;
+  transition: opacity 0.2s, border-color 0.2s;
+  user-select: none;
+
+  span {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &--active {
+    opacity: 1;
+    border-bottom-color: currentColor;
+  }
+}
+
 .pb-list-top-header {
   // padding: 1rem;
   display: flex;

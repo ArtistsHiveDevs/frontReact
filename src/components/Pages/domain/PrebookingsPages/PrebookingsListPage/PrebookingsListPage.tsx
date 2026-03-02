@@ -60,6 +60,7 @@ const PrebookingsListPage = () => {
   const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
+  const [activeTab, setActiveTab] = useState<'proposals' | 'dialogs'>('proposals');
 
   const loggedUser = useSelector(selectCurrentUser);
   const allPreBookingRequests: PreBookingRequestModel[] = useSelector(selectorPreBookingRequests.selectItems);
@@ -125,19 +126,19 @@ const PrebookingsListPage = () => {
   ): PreBookingRequestModel[] => {
     let filtered = [...prebookings];
 
-    // Filtrar por estado general del prebooking
-    if (status !== 'all') {
-      filtered = filtered.filter((prebooking) => {
-        if (status === PrebookingParticipantStatus.PENDING) {
-          return prebooking.participant_approvals.some(
-            (approval) =>
-              approval.participant_profile_id === loggedUser?.currentProfileInfo.id &&
-              approval.status === PrebookingParticipantStatus.PENDING
-          );
-        }
-        return prebooking.status === status;
-      });
-    }
+    // // Filtrar por estado general del prebooking
+    // if (status !== 'all') {
+    //   filtered = filtered.filter((prebooking) => {
+    //     if (status === PrebookingParticipantStatus.PENDING) {
+    //       return prebooking.participant_approvals.some(
+    //         (approval) =>
+    //           approval.participant_profile_id === loggedUser?.currentProfileInfo.id &&
+    //           approval.status === PrebookingParticipantStatus.PENDING
+    //       );
+    //     }
+    //     return prebooking.status === status;
+    //   });
+    // }
 
     // Filtrar por mi estado de aprobación personal
     if (myApproval !== '') {
@@ -264,8 +265,8 @@ const PrebookingsListPage = () => {
         return sorted.sort((a, b) => (a.event_name || '').localeCompare(b.event_name || ''));
       case 'event_name_desc':
         return sorted.sort((a, b) => (b.event_name || '').localeCompare(a.event_name || ''));
-      case 'status':
-        return sorted.sort((a, b) => (a.status || '').localeCompare(b.status || ''));
+      // case 'status':
+      //   return sorted.sort((a, b) => (a.status || '').localeCompare(b.status || ''));
       case 'creator':
         return sorted.sort((a, b) => (a.requester?.name || '').localeCompare(b.requester?.name || ''));
       default:
@@ -462,7 +463,27 @@ const PrebookingsListPage = () => {
   const hasActiveMyApprovalFilter = myApprovalFilter !== '';
 
   const getHeaderTitle = () => {
-    return <h3>Prebookings</h3>;
+    return (
+      <>
+        <h3>Prebookings</h3>
+        <div className="pb-step-title">
+          <div
+            className={`pb-step-tab${activeTab === 'proposals' ? ' pb-step-tab--active' : ''}`}
+            onClick={() => setActiveTab('proposals')}
+          >
+            <DynamicIcons iconName="fa FaCalendarPlus" size={18} />
+            <span>Propuestas</span>
+          </div>
+          <div
+            className={`pb-step-tab${activeTab === 'dialogs' ? ' pb-step-tab--active' : ''}`}
+            onClick={() => setActiveTab('dialogs')}
+          >
+            <DynamicIcons iconName="io5 IoChatbubbles" size={18} />
+            <span>Diálogos</span>
+          </div>
+        </div>
+      </>
+    );
   };
 
   // Función helper para crear filtros de aprobación personal con opción "all"
@@ -697,9 +718,9 @@ const PrebookingsListPage = () => {
                       </div>
                     ))}
                   </td>
-                  <td className="pb-table-status">
+                  {/* <td className="pb-table-status">
                     <Chip label={prebooking.status} size="small" />
-                  </td>
+                  </td> */}
                   <td className="pb-table-my-response">
                     {isUpdatingStatus && prebooking.identifier === updatingPrebookingId ? (
                       <div
@@ -817,7 +838,7 @@ const PrebookingsListPage = () => {
     return (
       <>
         <div className="pb-header-filters">
-          <FormControl size="small">
+          {/* <FormControl size="small">
             <Select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
@@ -851,7 +872,7 @@ const PrebookingsListPage = () => {
                 </MenuItem>
               ))}
             </Select>
-          </FormControl>
+          </FormControl> */}
 
           <FormControl size="small">
             <Select

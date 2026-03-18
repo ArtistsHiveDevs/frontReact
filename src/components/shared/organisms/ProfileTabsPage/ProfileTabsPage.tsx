@@ -180,13 +180,13 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           {!profileFooter && profileFooter}
           {fab && !loggedUser?.isInPersonalProfile && (
             <Fab
-              color="primary"
+              color="white"
               aria-label="add"
               size="large"
               className={!isFabVisible ? 'fab-hidden' : ''}
               onClick={() => fab.handler()}
             >
-              <DynamicIcons iconName={fab.icon || 'lu LuCalendarPlus'} size={35} color="#034d5b" />
+              <DynamicIcons iconName={fab.icon || 'fa FaPlus'} size={35} color="#000" />
             </Fab>
           )}
         </div>

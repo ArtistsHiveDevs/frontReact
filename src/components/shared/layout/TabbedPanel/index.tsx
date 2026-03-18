@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useSwipeable } from 'react-swipeable';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
@@ -9,6 +9,7 @@ import {
   validateUserAuthorization,
 } from '~/components/shared/atoms/app/auth/RequiredAuth';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
+import { Menu, MenuItem } from '@mui/material';
 import {
   ComponentDescriptor,
   ContentSection,
@@ -19,6 +20,7 @@ import {
   registerAllBuilders,
 } from '~/components/shared/organisms/gui/builders/componentBuilders';
 import './index.scss';
+import { DynamicIcons } from '../../DynamicIcons';
 
 export interface TabbedPage {
   _name?: string; // Internal name (not translated)
@@ -210,6 +212,10 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
   const currentUser = useSelector(selectCurrentUser);
 
   const [activeSectionIndex, setSection] = useState(0);
+  const [hiddenTabIndices, setHiddenTabIndices] = useState<Set<number>>(new Set());
+  const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
   useEffect(() => {
     changeSection(0);
@@ -229,6 +235,27 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
       changeSection(showSpecificTab);
     }
   }, [showSpecificTab]);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        setHiddenTabIndices((prev) => {
+          const next = new Set(prev);
+          entries.forEach((entry) => {
+            const idx = Number((entry.target as HTMLElement).dataset.tabIndex);
+            if (entry.isIntersecting) next.delete(idx);
+            else next.add(idx);
+          });
+          return next;
+        });
+      },
+      { root: container, threshold: 1.0 }
+    );
+    tabRefs.current.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [tabs]);
 
   const handlePrev = (source?: any) => {
     let nextSection = activeSectionIndex - 1;
@@ -282,15 +309,15 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
     delta: (5 * window.screen.width) / 11,
   });
 
-  const tabTitles = () => {
-    const filteredTabsWithOriginalIndex: { subpage: TabbedPage; originalIndex: number }[] = tabs
-      .map((subpage: TabbedPage, originalIndex: number) => ({ subpage, originalIndex }))
-      .filter(
-        ({ subpage }: { subpage: TabbedPage; originalIndex: number }) =>
-          validateUserAuthorization(currentUser, subpage.allowedRoles, subpage.requireSession) ===
-            AuthorizationStates.ALLOWED && !subpage.hideMainMenu
-      );
+  const filteredTabsWithOriginalIndex: { subpage: TabbedPage; originalIndex: number }[] = tabs
+    .map((subpage: TabbedPage, originalIndex: number) => ({ subpage, originalIndex }))
+    .filter(
+      ({ subpage }: { subpage: TabbedPage; originalIndex: number }) =>
+        validateUserAuthorization(currentUser, subpage.allowedRoles, subpage.requireSession) ===
+          AuthorizationStates.ALLOWED && !subpage.hideMainMenu
+    );
 
+  const tabTitles = () => {
     return filteredTabsWithOriginalIndex.map(
       ({ subpage, originalIndex }: { subpage: TabbedPage; originalIndex: number }, filteredIndex: number) => {
         const classNames = ['subpage-tab'];
@@ -303,7 +330,15 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
             allowedRoles={subpage.allowedRoles}
             requiredSession={subpage.requireSession}
           >
-            <div className={classNames.join(' ')} onClick={() => changeSection(originalIndex)}>
+            <div
+              className={classNames.join(' ')}
+              data-tab-index={originalIndex}
+              ref={(el) => {
+                if (el) tabRefs.current.set(originalIndex, el);
+                else tabRefs.current.delete(originalIndex);
+              }}
+              onClick={() => changeSection(originalIndex)}
+            >
               <h5>{subpage.name}</h5>
             </div>
           </RequireAuthComponent>
@@ -322,7 +357,43 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
 
   return (
     <div {...swipeHandlers}>
-      {titles.length > 1 && !tabs[activeSectionIndex]?.hideMainMenu && <div className="subpages-tabs">{titles}</div>}
+      {titles.length > 1 && !tabs[activeSectionIndex]?.hideMainMenu && (
+        <div className="subpages-tabs-wrapper">
+          <div className="subpages-tabs" ref={scrollContainerRef}>
+            {titles}
+          </div>
+          {hiddenTabIndices.size > 0 && (
+            <>
+              <button className="subpages-tabs-more" onClick={(e) => setMenuAnchor(e.currentTarget)}>
+                <DynamicIcons
+                  iconName={Boolean(menuAnchor) ? 'fa FaChevronDown' : 'bs BsThreeDots'}
+                  color={'white'}
+                  size={25}
+                />
+              </button>
+              <Menu anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={() => setMenuAnchor(null)}>
+                {filteredTabsWithOriginalIndex
+                  .filter(({ originalIndex }) => hiddenTabIndices.has(originalIndex))
+                  .map(({ subpage, originalIndex }) => (
+                    <MenuItem
+                      key={originalIndex}
+                      selected={activeSectionIndex === originalIndex}
+                      onClick={() => {
+                        changeSection(originalIndex);
+                        setMenuAnchor(null);
+                        tabRefs.current
+                          .get(originalIndex)
+                          ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+                      }}
+                    >
+                      {subpage.name}
+                    </MenuItem>
+                  ))}
+              </Menu>
+            </>
+          )}
+        </div>
+      )}
       <div>{tabContents()}</div>
     </div>
   );

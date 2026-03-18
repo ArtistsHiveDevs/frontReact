@@ -143,26 +143,30 @@ const ArtistDetailPage = () => {
               translation_base_path={TRANSLATION_BASE_ARTIST_DETAIL_PAGE}
               subpagesConfig={subPagesInfo}
               handlers={handlers}
-              footer={<ClaimProfileBanner entityName="Artist" entityData={currentArtist} />}
-              fab={{ handler: onFABClick }}
+              footer={
+                <div>
+                  <ClaimProfileBanner entityName="Artist" entityData={currentArtist} />
+                  {currentArtist.arts?.music?.related_artists?.length ? (
+                    <MainSection
+                      description={'Estos son los artistas relacionados'}
+                      listView={currentArtist.arts?.music?.related_artists}
+                      params={{ useNewCard: true }}
+                      title={
+                        'Artistas relacionados'
+                        // translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)
+                      }
+                      callbacks={{
+                        onClickCard: (data: ArtistModel) =>
+                          navigateToEntity({ entityType: ArtistModel.name, id: data.identifier }),
+                      }}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              }
+              fab={{ icon: 'lu LuCalendarPlus', handler: onFABClick }}
             />
-            {currentArtist.arts?.music?.related_artists?.length ? (
-              <MainSection
-                description={'Estos son los artistas relacionados'}
-                listView={currentArtist.arts?.music?.related_artists}
-                params={{ useNewCard: true }}
-                title={
-                  'Artistas relacionados'
-                  // translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)
-                }
-                callbacks={{
-                  onClickCard: (data: ArtistModel) =>
-                    navigateToEntity({ entityType: ArtistModel.name, id: data.identifier }),
-                }}
-              />
-            ) : (
-              <></>
-            )}
           </>
         ) : (
           <>

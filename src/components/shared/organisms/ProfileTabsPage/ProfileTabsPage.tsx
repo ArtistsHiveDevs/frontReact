@@ -4,7 +4,7 @@ import { EntityModel, EntityTemplate } from '~/models/base';
 import './ProfileTabsPage.scss';
 
 import { Fab } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useProfilesSlice } from '~/common/slices/domain/profile/ProfileSlice';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
@@ -91,41 +91,49 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     }
   }, [loggedUser]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const tabbedPanelElement = tabbedPanelRef.current;
-      const footerElement = footerRef.current;
+  const handleScroll = useCallback(() => {
+    const tabbedPanelElement = tabbedPanelRef.current;
+    const footerElement = footerRef.current;
 
-      if (!tabbedPanelElement) return;
+    if (!tabbedPanelElement) return;
 
-      const tabbedPanelRect = tabbedPanelElement.getBoundingClientRect();
-      const tabbedPanelBottom = tabbedPanelRect.bottom;
+    const tabbedPanelRect = tabbedPanelElement.getBoundingClientRect();
+    const tabbedPanelBottom = tabbedPanelRect.bottom;
 
-      // Si hay footer, usar su posición, si no, usar el final del TabbedPanel
-      let limitPosition = tabbedPanelBottom;
+    // Si hay footer, usar su posición, si no, usar el final del TabbedPanel
+    let limitPosition = tabbedPanelBottom;
 
-      if (footerElement) {
-        const footerRect = footerElement.getBoundingClientRect();
-        limitPosition = Math.min(tabbedPanelBottom, footerRect.top);
-      }
+    if (footerElement) {
+      const footerRect = footerElement.getBoundingClientRect();
+      limitPosition = footerRect.bottom;
+    }
 
-      // El FAB está fijo en bottom: 24px, así que consideramos esa altura
-      const fabBottomPosition = window.innerHeight - 24;
+    const absoluteContentBottom = limitPosition + window.scrollY;
+    if (absoluteContentBottom <= window.innerHeight) {
+      setIsFabVisible(true);
+      return;
+    }
 
-      // Ocultar el FAB si alcanzó el límite
-      setIsFabVisible(fabBottomPosition < limitPosition);
-    };
+    // El FAB está fijo, consideramos su altura (3rem) y posición desde el bottom
+    const fabHeightPx = parseFloat(getComputedStyle(document.documentElement).fontSize) * 3;
+    const fabBottomPosition = window.innerHeight - fabHeightPx;
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Ejecutar al montar
-
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Ocultar el FAB si alcanzó el límite
+    setIsFabVisible(fabBottomPosition < limitPosition);
   }, [tabbedPanelRef.current, footerRef.current]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
 
   const tabPanelHandlers = {
     onSelectedTab: (selectedTabIndex: any) => {
       setLastVisibleTab(currentVisibleTab);
       setCurrentVisibleTab(selectedTabIndex);
+      setTimeout(handleScroll, 0);
+
       // Necesitamos acceder al nombre del tab de otra forma ya que no tenemos transformedConfigData
       const selectedTabName = subpagesConfig?.[selectedTabIndex]?.name;
       setHeaderShouldShowFollowerCounter(selectedTabName !== 'followers');
@@ -145,8 +153,6 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     translateText,
     // buildComponent, // Comentado para usar el buildComponent por defecto de TabbedPanel
   };
-
-  console.log("..... LOGGED USER", fab, loggedUser?.isInPersonalProfile)
 
   return (
     <>

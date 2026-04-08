@@ -709,6 +709,88 @@ export const ElMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Ενταχθείτε στη κοινότητα',
         },
+        PrebookingPages: {
+          EventNegotiationPages: {
+            EventNegociationDetailsPage: {
+              subpages: {
+                general: {
+                  name: 'Πληροφορίες',
+                  sections: {
+                    description: { name: 'Περιγραφή' },
+                    schedule: {
+                      name: 'Πρόγραμμα',
+                      attributes: {
+                        event_date: 'Ημερομηνία',
+                        load_in_time: 'Φόρτωση εξοπλισμού',
+                        soundcheck_time: 'Ηχοδοκιμή',
+                        doors_open_time: 'Άνοιγμα θυρών',
+                        show_start_time: 'Show',
+                        show_end_time: 'Τέλος show',
+                        load_out_time: 'Εκφόρτωση εξοπλισμού',
+                        regulatory_closing_time: 'Κανονιστικό κλείσιμο',
+                      },
+                    },
+                  },
+                },
+                parties: {
+                  name: 'Μέρη',
+                  sections: {
+                    participants: { name: 'Συμμετέχοντες' },
+                    setlist_tracks: {
+                      name: 'Setlist',
+                      attributes: {
+                        setlist_total_time: 'Κατά προσέγγιση διάρκεια',
+                      },
+                    },
+                  },
+                },
+                technical_rider: {
+                  name: 'Rider',
+                  sections: {
+                    sound_rider: { name: 'Ήχος' },
+                    backline_rider: { name: 'Backline' },
+                    light_rider: { name: 'Φωτισμός' },
+                    visuals_rider: { name: 'Οπτικά' },
+                  },
+                },
+                compensation: {
+                  name: 'Αποζημίωση',
+                  sections: {
+                    economic: {
+                      name: 'Οικονομικά',
+                      attributes: {
+                        contract_type: 'Συμβόλαιο',
+                      },
+                    },
+                    hospitality: { name: 'Φιλοξενία' },
+                  },
+                },
+                responsibilities: {
+                  name: 'Υπευθυνότητες',
+                  sections: {
+                    promotion_responsible: { name: 'Προώθηση' },
+                    ticketing_responsible: { name: 'Εισιτήρια' },
+                    security_responsible: { name: 'Ασφάλεια' },
+                    additional_staff_responsible: { name: 'Επιπλέον προσωπικό' },
+                  },
+                },
+                other: {
+                  name: 'Άλλα',
+                  sections: {
+                    other_notes: {
+                      name: 'Πρόσθετες σημειώσεις',
+                      attributes: {
+                        ticketing_responsible: { name: 'Εισιτήρια' },
+                        security_responsible: { name: 'Ασφάλεια' },
+                        additional_staff_responsible: { name: 'Επιπλέον προσωπικό' },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Η περιοδεία δεν βρέθηκε',

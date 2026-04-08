@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artist Hive - ¿Cómo funciona?</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+        :root {
+            --bg-dark: #12191F;
+            --bg-footer: #1C252D;
+            --yellow-neon: #FFB800;
+            --purple-neon: #8B5CF6;
+            --green-verify: #10B981;
+            --text-main: #FFFFFF;
+            --text-dim: #B0B0B0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 800px;
+            background-color: var(--bg-dark);
+            padding: 40px 0 0 0;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header .logo {
+            font-size: 1.4em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .header h1 {
+            font-size: 2.2em;
+            margin: 10px 0;
+            letter-spacing: 1px;
+        }
+        .header p {
+            color: var(--text-dim);
+            font-size: 1.1em;
+            font-style: italic;
+        }
+
+        /* PERFIL PERSONAL */
+        .personal-section {
+            max-width: 500px;
+            margin: 0 auto 40px auto;
+            padding: 25px 30px;
+            border: 1px solid #444;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .personal-section h2 {
+            font-size: 1.3em;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .personal-section h2 .material-icons {
+            font-size: 1.4em;
+            opacity: 0.8;
+        }
+        .personal-section .subtitle {
+            text-align: center;
+            font-size: 0.85em;
+            color: var(--text-dim);
+            margin-bottom: 15px;
+        }
+        .personal-section ul {
+            padding-left: 0;
+            list-style: none;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: #ddd;
+        }
+        .personal-section li::before {
+            content: "•";
+            margin-right: 8px;
+            color: inherit;
+        }
+
+        /* CARDS ARTISTAS Y VENUES */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 0 40px 40px 40px;
+        }
+
+        .card {
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card.artists {
+            border-color: var(--yellow-neon);
+            background-color: rgba(255, 184, 0, 0.07);
+            box-shadow:
+                0 0 10px rgba(255, 184, 0, 0.3),
+                0 0 25px rgba(255, 184, 0, 0.15),
+                0 0 50px rgba(255, 184, 0, 0.08),
+                inset 0 0 15px rgba(255, 184, 0, 0.05);
+        }
+
+        .card.venues {
+            border-color: var(--purple-neon);
+            background-color: rgba(139, 92, 246, 0.07);
+            box-shadow:
+                0 0 10px rgba(139, 92, 246, 0.3),
+                0 0 25px rgba(139, 92, 246, 0.15),
+                0 0 50px rgba(139, 92, 246, 0.08),
+                inset 0 0 15px rgba(139, 92, 246, 0.05);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card h3 .material-icons {
+            font-size: 1.3em;
+        }
+        .card.artists h3 { color: var(--yellow-neon); }
+        .card.venues h3 { color: var(--purple-neon); }
+
+        .card .card-subtitle {
+            font-size: 0.8em;
+            color: var(--text-dim);
+            margin-top: -8px;
+            margin-bottom: 12px;
+        }
+
+        .card ul {
+            padding-left: 0;
+            list-style: none;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+        .card li::before {
+            content: "•";
+            margin-right: 8px;
+            color: inherit;
+        }
+
+        /* BADGES */
+        .badges-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .badges-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+        .badge-item {
+            width: 130px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.75em;
+        }
+        .badge-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            font-size: 1.6em;
+        }
+        .icon-none {
+            border: 2px dashed #666;
+            color: #666;
+        }
+        .icon-outline {
+            border: 2px solid #FFF;
+            color: #FFF;
+        }
+        .icon-filled {
+            background-color: var(--green-verify);
+            color: #FFF;
+        }
+        .badge-item strong {
+            margin-bottom: 4px;
+        }
+        .badge-item .badge-label-red { color: #ef4444; }
+        .badge-item .badge-label-white { color: #FFF; }
+        .badge-item .badge-label-green { color: var(--green-verify); }
+
+        .tip-box {
+            max-width: 500px;
+            margin: 20px auto 0 auto;
+            padding: 12px 20px;
+            background: rgba(255, 184, 0, 0.08);
+            border: 1px solid rgba(255, 184, 0, 0.25);
+            border-radius: 10px;
+            font-size: 0.85em;
+            color: #ddd;
+        }
+
+        /* EJEMPLO REAL */
+        .example-section {
+            text-align: center;
+            margin: 0 40px 40px 40px;
+            padding: 25px;
+            border: 1px solid #333;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .example-section h3 {
+            margin-top: 0;
+        }
+        .example-section p {
+            font-size: 0.9em;
+            line-height: 1.7;
+            color: #ddd;
+            margin: 0;
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--bg-footer);
+            padding: 40px;
+            border-radius: 30px 30px 0 0;
+            text-align: center;
+        }
+        .footer .footer-logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .footer h2 {
+            margin-top: 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        .help-link {
+            color: var(--text-dim);
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+        .help-link a {
+            color: var(--text-dim);
+            text-decoration: none;
+        }
+        .help-link a:hover {
+            text-decoration: underline;
+        }
+        .socials {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 22px;
+        }
+        .socials a {
+            color: #FFFFFF;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .socials a:hover {
+            opacity: 1;
+        }
+        .socials svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.75em;
+            color: var(--text-dim);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">Artist Hive</div>
+        <h1>¿CÓMO FUNCIONA ARTIST HIVE?</h1>
+        <p>Crea, conecta y vuela... el ecosistema de la música independiente</p>
+    </div>
+
+    <div class="personal-section">
+        <h2><span class="material-icons">person</span> TU PERFIL PERSONAL</h2>
+        <div class="subtitle">Tu identidad en la plataforma</div>
+        <ul>
+            <li>Una cuenta = Una persona real</li>
+            <li>Puedes tener múltiples roles en diferentes bandas y venues</li>
+            <li>Email único y verificado</li>
+            <li>Control de privacidad y notificaciones</li>
+        </ul>
+    </div>
+
+    <div class="cards-grid">
+        <div class="card artists">
+            <h3><span class="material-icons">music_note</span> ARTISTAS Y BANDAS</h3>
+            <div class="card-subtitle">Los creadores de contenido</div>
+            <ul>
+                <li>Reclama o crea tu perfil profesional (o EPK)</li>
+                <li>Solicita fechas para tocar</li>
+                <li>Genera documentación profesional para convocatorias</li>
+                <li>Gestiona tu calendario</li>
+            </ul>
+        </div>
+        <div class="card venues">
+            <h3><span class="material-icons">account_balance</span> VENUES Y ESPACIOS</h3>
+            <div class="card-subtitle">Los que ofrecen escenarios</div>
+            <ul>
+                <li>Busca artistas verificados</li>
+                <li>Publica tus convocatorias y fechas disponibles</li>
+                <li>Invitar bandas a tocar</li>
+                <li>Gestiona tu calendario</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="badges-section">
+        <h3>TU BADGE DE VERIFICACIÓN</h3>
+        <div class="badges-container">
+            <div class="badge-item">
+                <div class="badge-icon icon-none">
+                    <span class="material-icons">close</span>
+                </div>
+                <strong class="badge-label-red">SIN VERIFICAR</strong>
+                <span style="color:#888">Perfil creado pero<br>no validado</span>
+            </div>
+            <div class="badge-item">
+                <div class="badge-icon icon-outline">
+                    <span class="material-icons-outlined">verified_user</span>
+                </div>
+                <strong class="badge-label-white">IDENTIFICADO</strong>
+                <span style="color:#888">Creado por AH (scraping)<br>Debes reclamarlo</span>
+            </div>
+            <div class="badge-item">
+                <div class="badge-icon icon-filled">
+                    <span class="material-icons">verified_user</span>
+                </div>
+                <strong class="badge-label-green">VERIFICADO</strong>
+                <span style="color:#888">Identidad confirmada<br>Listo para conectar!</span>
+            </div>
+        </div>
+        <div class="tip-box">
+            <strong>TIP:</strong> Verifica tu perfil para poder interactuar con otros usuarios.
+            Solo perfiles verificados pueden enviar solicitudes y chatear.
+        </div>
+    </div>
+
+    <div class="example-section">
+        <h3>EJEMPLO REAL</h3>
+        <p>
+            Juan (perfil personal) es:<br>
+            Guitarrista en 'Los Invisibles'<br>
+            Dueño de 'Estudio SoundLab'<br>
+            Fotógrafo freelance<br>
+            <strong>Todo desde una sola cuenta</strong>
+        </p>
+    </div>
+
+    <div class="footer">
+        <div class="footer-logo"><img alt="Artist Hive" class="img-logotipo" src="https://npcarlos.co/artistsHive_mocks/logo.png" width="200"></div>
+        <h2>¿Listo para empezar?</h2>
+        <div class="steps">
+            <span>1&#xFE0F;&#x20E3; Completa tu perfil</span>
+            <span>2&#xFE0F;&#x20E3; Verifica tu identidad</span>
+            <span>3&#xFE0F;&#x20E3; Empieza a conectar</span>
+        </div>
+        <div class="help-link">
+            ¿Tienes dudas? &rarr; <a href="https://help.artist-hive.com">help.artist-hive.com</a>
+        </div>
+        <div class="socials">
+            <!-- Instagram -->
+            <a href="https://instagram.com/artist_hive_" target="_blank" title="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+            </a>
+            <!-- Facebook -->
+            <a href="https://facebook.com/ArtistHiveApp" target="_blank" title="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06c0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 0 0 8.44-9.9c0-5.53-4.5-10.02-10-10.02z"/></svg>
+            </a>
+            <!-- X / Twitter -->
+            <a href="https://x.com/ArtistHiveApp" target="_blank" title="X">
+                <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <!-- TikTok -->
+            <a href="https://tiktok.com/@artist.hive" target="_blank" title="TikTok">
+                <svg viewBox="0 0 24 24"><path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/></svg>
+            </a>
+            <!-- YouTube -->
+            <a href="https://youtube.com/@ArtistHiveApp" target="_blank" title="YouTube">
+                <svg viewBox="0 0 24 24"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/></svg>
+            </a>
+        </div>
+        <p class="copyright">Artist Hive&reg; 2022&ndash;2026<br/>Todos los derechos reservados.</p>
+    </div>
+</div>
+
+</body>
+</html>

@@ -148,6 +148,13 @@ export const ROUTES_CONFIG: PathConfigMap = {
             ),
             path: detailsPagePath,
           },
+          EventNegociationDetailsPage: {
+            component: lazy(
+              () =>
+                import('~/components/Pages/domain/PrebookingsPages/EventNegotiationPage/EventNegotiationDetailsPage')
+            ),
+            path: `end/${detailsPagePath}`,
+          },
           // EventCreatePage: {
           //   component: lazy(() => import('~/components/Pages/EventsPage/EventCreatePage/EventCreatePage')),
           //   path: `${SUB_PATHS.CREATE}`,

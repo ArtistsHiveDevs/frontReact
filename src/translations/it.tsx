@@ -708,6 +708,88 @@ export const ItMessages = {
         IndustryOfferPage: {
           create_account_banner: "Unisciti all'alveare",
         },
+        PrebookingPages: {
+          EventNegotiationPages: {
+            EventNegociationDetailsPage: {
+              subpages: {
+                general: {
+                  name: 'Info',
+                  sections: {
+                    description: { name: 'Descrizione' },
+                    schedule: {
+                      name: 'Programma',
+                      attributes: {
+                        event_date: 'Data',
+                        load_in_time: 'Montaggio',
+                        soundcheck_time: 'Soundcheck',
+                        doors_open_time: 'Apertura',
+                        show_start_time: 'Show',
+                        show_end_time: 'Fine show',
+                        load_out_time: 'Smontaggio',
+                        regulatory_closing_time: 'Chiusura regolamentare',
+                      },
+                    },
+                  },
+                },
+                parties: {
+                  name: 'Parti',
+                  sections: {
+                    participants: { name: 'Partecipanti' },
+                    setlist_tracks: {
+                      name: 'Setlist',
+                      attributes: {
+                        setlist_total_time: 'Durata approssimativa',
+                      },
+                    },
+                  },
+                },
+                technical_rider: {
+                  name: 'Rider',
+                  sections: {
+                    sound_rider: { name: 'Audio' },
+                    backline_rider: { name: 'Backline' },
+                    light_rider: { name: 'Luci' },
+                    visuals_rider: { name: 'Visual' },
+                  },
+                },
+                compensation: {
+                  name: 'Compenso',
+                  sections: {
+                    economic: {
+                      name: 'Economico',
+                      attributes: {
+                        contract_type: 'Contratto',
+                      },
+                    },
+                    hospitality: { name: 'Ospitalità' },
+                  },
+                },
+                responsibilities: {
+                  name: 'Responsabilità',
+                  sections: {
+                    promotion_responsible: { name: 'Promozione' },
+                    ticketing_responsible: { name: 'Biglietteria' },
+                    security_responsible: { name: 'Sicurezza' },
+                    additional_staff_responsible: { name: 'Personale aggiuntivo' },
+                  },
+                },
+                other: {
+                  name: 'Altro',
+                  sections: {
+                    other_notes: {
+                      name: 'Note aggiuntive',
+                      attributes: {
+                        ticketing_responsible: { name: 'Biglietteria' },
+                        security_responsible: { name: 'Sicurezza' },
+                        additional_staff_responsible: { name: 'Personale aggiuntivo' },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour non trovato',

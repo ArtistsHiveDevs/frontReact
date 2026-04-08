@@ -25,6 +25,7 @@ import { DynamicIcons } from '../../DynamicIcons';
 export interface TabbedPage {
   _name?: string; // Internal name (not translated)
   name: string;
+  icon?: string | Promise<string>;
   tabContent: any;
   requireSession?: boolean;
   allowedRoles?: AllowedEntityRole[];

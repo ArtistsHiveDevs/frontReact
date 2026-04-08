@@ -1,3 +1,5 @@
+import EventNegociationDetailsPage from '~/components/Pages/domain/PrebookingsPages/EventNegotiationPage/EventNegotiationDetailsPage';
+
 export const EnMessages = {
   app: {
     name: 'App EN',
@@ -708,6 +710,89 @@ export const EnMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Join the hive',
         },
+        PrebookingPages: {
+          EventNegotiationPages: {
+            EventNegociationDetailsPage: {
+              subpages: {
+                general: {
+                  name: 'Info',
+                  sections: {
+                    description: { name: 'Description' },
+                    schedule: {
+                      name: 'Schedule',
+                      attributes: {
+                        event_date: 'Date',
+                        load_in_time: 'Load-in',
+                        soundcheck_time: 'Soundcheck',
+                        doors_open_time: 'Doors',
+                        show_start_time: 'Show',
+                        show_end_time: 'Show end',
+                        load_out_time: 'Load-out',
+                        regulatory_closing_time: 'Regulatory closing time',
+                      },
+                    },
+                  },
+                },
+                parties: {
+                  name: 'Parties',
+                  sections: {
+                    participants: { name: 'Participants' },
+                    setlist_tracks: {
+                      name: 'Setlist',
+                      attributes: {
+                        setlist_total_time: 'Approximate running time',
+                      },
+                    },
+                  },
+                },
+                technical_rider: {
+                  name: 'Rider',
+                  sections: {
+                    sound_rider: { name: 'Sound' },
+                    backline_rider: { name: 'Backline' },
+                    light_rider: { name: 'Lights' },
+                    visuals_rider: { name: 'Visuals' },
+                  },
+                },
+                compensation: {
+                  name: 'Compensation',
+                  sections: {
+                    economic: {
+                      name: 'Economic',
+                      attributes: {
+                        contract_type: 'Contract',
+                      },
+                    },
+                    hospitality: { name: 'Hospitality' },
+                  },
+                },
+                responsibilities: {
+                  name: 'Responsibilities',
+                  sections: {
+                    promotion_responsible: { name: 'Promotion' },
+                    ticketing_responsible: { name: 'Ticketing' },
+                    security_responsible: { name: 'Security' },
+                    additional_staff_responsible: { name: 'Additional Staff' },
+                  },
+                },
+                other: {
+                  name: 'Other',
+                  sections: {
+                    other_notes: {
+                      name: 'Additional notes',
+                      attributes: {
+                        ticketing_responsible: { name: 'Ticketing' },
+                        security_responsible: { name: 'Security' },
+                        additional_staff_responsible: { name: 'Additional Staff' },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour not found',
@@ -999,6 +1084,7 @@ export const EnMessages = {
                     has_open_mic: 'Has open mic?',
                     total_audience_capacity: 'Max. capacity',
                     bookingRatesPolicy: 'Booking Policies',
+                    regulatory_closing_time: 'Regulatory closing time',
                   },
                 },
                 genres: {

@@ -188,7 +188,7 @@ export abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
       const result = await urlPromise;
 
       // Guardar en caché con tiempo de expiración (50 minutos antes de que expire la URL)
-      const expiresAt = now + (50 * 60 * 1000); // 50 minutos (URLs de S3 expiran en ~1 hora)
+      const expiresAt = now + 50 * 60 * 1000; // 50 minutos (URLs de S3 expiran en ~1 hora)
       s3UrlCache.set(s3Path, { url: result, expiresAt });
 
       return result.url.href;

@@ -297,7 +297,7 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
       });
 
       delete typedData.recipients;
-      
+
       dispatch(prebookingRequestActions.createItem({ data: typedData }));
       onSubmit(formDataWithParticipants);
       methods.reset();
@@ -310,15 +310,14 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
     element: CurrentProfileInfoModel;
     styles?: { avatarSize?: number; topRightIcon?: string };
     handlers?: { [name: string]: Function };
+    showTopRightIcon?: boolean;
   }) => {
-    const { element, styles, handlers } = params;
+    const { element, styles, handlers, showTopRightIcon } = params;
     const avatarSizeREM = `${styles?.avatarSize || 4}rem`;
     return (
       <>
         <div key={element.identifier} className="pbrd-participant-avatar-name">
-          {![mainRecipient?.identifier || '', loggedUser?.currentProfileInfo?.identifier || ''].includes(
-            element.identifier
-          ) && (
+          {showTopRightIcon && (
             <div className="pbrd-delete-icon">
               <DynamicIcons
                 iconName={styles?.topRightIcon || 'IoMdRemoveCircleOutline'}
@@ -421,6 +420,10 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
                                   <div key={participant.identifier}>
                                     {ProfileIconWithName({
                                       element: participant,
+                                      showTopRightIcon: ![
+                                        mainRecipient?.identifier || '',
+                                        loggedUser?.currentProfileInfo?.identifier || '',
+                                      ].includes(participant.identifier),
                                       handlers: {
                                         onTopRightClick: (element: any) => {
                                           deleteParticipant(element.identifier);
@@ -468,11 +471,16 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
                   <div key={a.identifier}>
                     {ProfileIconWithName({
                       element: a,
+                      showTopRightIcon: ![
+                        mainRecipient?.identifier || '',
+                        loggedUser?.currentProfileInfo?.identifier || '',
+                      ].includes(a.identifier),
                       styles: { avatarSize: 3.5, topRightIcon: 'LuCirclePlus' },
                       handlers: {
                         onTopRightClick: (element: any) => {
                           addUniqueParticipant(element);
                           setSearchEntity(undefined);
+                          console.log(participants);
                         },
                       },
                     })}

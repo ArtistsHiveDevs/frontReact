@@ -705,6 +705,88 @@ export const DeMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Schließe dich dem Bienenstock an',
         },
+        PrebookingPages: {
+          EventNegotiationPages: {
+            EventNegociationDetailsPage: {
+              subpages: {
+                general: {
+                  name: 'Info',
+                  sections: {
+                    description: { name: 'Beschreibung' },
+                    schedule: {
+                      name: 'Zeitplan',
+                      attributes: {
+                        event_date: 'Datum',
+                        load_in_time: 'Aufbau',
+                        soundcheck_time: 'Soundcheck',
+                        doors_open_time: 'Einlass',
+                        show_start_time: 'Show',
+                        show_end_time: 'Showende',
+                        load_out_time: 'Abbau',
+                        regulatory_closing_time: 'Gesetzliche Schließzeit',
+                      },
+                    },
+                  },
+                },
+                parties: {
+                  name: 'Parteien',
+                  sections: {
+                    participants: { name: 'Teilnehmer' },
+                    setlist_tracks: {
+                      name: 'Setlist',
+                      attributes: {
+                        setlist_total_time: 'Ungefähre Spielzeit',
+                      },
+                    },
+                  },
+                },
+                technical_rider: {
+                  name: 'Rider',
+                  sections: {
+                    sound_rider: { name: 'Ton' },
+                    backline_rider: { name: 'Backline' },
+                    light_rider: { name: 'Licht' },
+                    visuals_rider: { name: 'Visuals' },
+                  },
+                },
+                compensation: {
+                  name: 'Vergütung',
+                  sections: {
+                    economic: {
+                      name: 'Wirtschaftlich',
+                      attributes: {
+                        contract_type: 'Vertrag',
+                      },
+                    },
+                    hospitality: { name: 'Verpflegung' },
+                  },
+                },
+                responsibilities: {
+                  name: 'Verantwortlichkeiten',
+                  sections: {
+                    promotion_responsible: { name: 'Promotion' },
+                    ticketing_responsible: { name: 'Ticketing' },
+                    security_responsible: { name: 'Sicherheit' },
+                    additional_staff_responsible: { name: 'Zusätzliches Personal' },
+                  },
+                },
+                other: {
+                  name: 'Sonstiges',
+                  sections: {
+                    other_notes: {
+                      name: 'Zusätzliche Hinweise',
+                      attributes: {
+                        ticketing_responsible: { name: 'Ticketing' },
+                        security_responsible: { name: 'Sicherheit' },
+                        additional_staff_responsible: { name: 'Zusätzliches Personal' },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour nicht gefunden',

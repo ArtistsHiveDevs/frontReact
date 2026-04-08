@@ -289,6 +289,13 @@ const config: SideMenuItem[] = [
     updated: new Date('2/20/16'),
     forbiddenEnvironments: ['prod'],
   },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'send_comments'),
+    path: `${PATHS.PREBOOKING_REQUESTS_LIST}/end/details/lasucursalvenue`,
+    icon: 'tb TbContract',
+    updated: new Date('2/20/16'),
+    forbiddenEnvironments: ['prod'],
+  },
 
   // {
   //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),

@@ -705,6 +705,88 @@ export const EsMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Únete a la colmena',
         },
+        PrebookingPages: {
+          EventNegotiationPages: {
+            EventNegociationDetailsPage: {
+              subpages: {
+                general: {
+                  name: 'Info',
+                  sections: {
+                    description: { name: 'Descripción' },
+                    schedule: {
+                      name: 'Horario',
+                      attributes: {
+                        event_date: 'Fecha',
+                        load_in_time: 'Montaje',
+                        soundcheck_time: 'Prueba de sonido',
+                        doors_open_time: 'Apertura',
+                        show_start_time: 'Show',
+                        show_end_time: 'Fin del show',
+                        load_out_time: 'Desmontaje',
+                        regulatory_closing_time: 'Cierre reglamentario',
+                      },
+                    },
+                  },
+                },
+                parties: {
+                  name: 'Partes',
+                  sections: {
+                    participants: { name: 'Participantes' },
+                    setlist_tracks: {
+                      name: 'Setlist',
+                      attributes: {
+                        setlist_total_time: 'Duración aproximada',
+                      },
+                    },
+                  },
+                },
+                technical_rider: {
+                  name: 'Rider',
+                  sections: {
+                    sound_rider: { name: 'Sonido' },
+                    backline_rider: { name: 'Backline' },
+                    light_rider: { name: 'Luces' },
+                    visuals_rider: { name: 'Visuales' },
+                  },
+                },
+                compensation: {
+                  name: 'Compensación',
+                  sections: {
+                    economic: {
+                      name: 'Económico',
+                      attributes: {
+                        contract_type: 'Contrato',
+                      },
+                    },
+                    hospitality: { name: 'Hospitalidad' },
+                  },
+                },
+                responsibilities: {
+                  name: 'Responsabilidades',
+                  sections: {
+                    promotion_responsible: { name: 'Promoción' },
+                    ticketing_responsible: { name: 'Taquilla' },
+                    security_responsible: { name: 'Seguridad' },
+                    additional_staff_responsible: { name: 'Personal adicional' },
+                  },
+                },
+                other: {
+                  name: 'Otros',
+                  sections: {
+                    other_notes: {
+                      name: 'Notas adicionales',
+                      attributes: {
+                        ticketing_responsible: { name: 'Taquilla' },
+                        security_responsible: { name: 'Seguridad' },
+                        additional_staff_responsible: { name: 'Personal adicional' },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour no encontrado',

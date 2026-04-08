@@ -1,5 +1,6 @@
 import { IconButton } from '@mui/material';
 import { numberFormatterThousands } from '~/common/utils/string-utils';
+import { useI18n } from '~/common/utils/hooks/useI18n';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { SocialNetworkTemplate } from '~/models/domain/social-networks-analytics';
 import './SocialNetworkCard.scss';
@@ -11,6 +12,9 @@ interface SocialNetworkCardProps {
 
 export const SocialNetworkCard = (props: SocialNetworkCardProps) => {
   const { network, onClick } = props;
+  const { translateGlobalDict } = useI18n();
+
+  const translateMetric = (key: string) => translateGlobalDict(`social_networks_analytics.metrics.${key}`);
 
   const handleClick = () => {
     if (network.hasDetail && onClick) {
@@ -26,7 +30,7 @@ export const SocialNetworkCard = (props: SocialNetworkCardProps) => {
   return (
     <div className={`social-network-card ${network.hasDetail ? 'clickable' : ''}`} onClick={handleClick}>
       <div className="card-header">
-        <span className="metric-label">{primaryMetric?.[0] || ''}</span>
+        <span className="metric-label">{primaryMetric ? translateMetric(primaryMetric[0]) : ''}</span>
         {network.hasDetail && (
           <IconButton className="search-icon" size="small">
             <DynamicIcons iconName="fa6 FaMagnifyingGlassChart" size={20} />
@@ -46,7 +50,7 @@ export const SocialNetworkCard = (props: SocialNetworkCardProps) => {
           <div className="secondary-metrics">
             {secondaryMetrics.map(([key, value]) => (
               <div key={key} className="metric-item">
-                <span className="metric-label">{key}</span>
+                <span className="metric-label">{translateMetric(key)}</span>
                 <span className="metric-value-small">{numberFormatterThousands(value, 1)}</span>
               </div>
             ))}

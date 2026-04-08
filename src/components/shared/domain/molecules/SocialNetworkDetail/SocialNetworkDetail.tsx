@@ -1,5 +1,6 @@
 import { IconButton } from '@mui/material';
 import { numberFormatterThousands } from '~/common/utils/string-utils';
+import { useI18n } from '~/common/utils/hooks/useI18n';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { SocialNetworkTemplate } from '~/models/domain/social-networks-analytics';
 import './SocialNetworkDetail.scss';
@@ -11,6 +12,9 @@ interface SocialNetworkDetailProps {
 
 export const SocialNetworkDetail = (props: SocialNetworkDetailProps) => {
   const { network, onBack } = props;
+  const { translateGlobalDict } = useI18n();
+
+  const translateMetric = (key: string) => translateGlobalDict(`social_networks_analytics.metrics.${key}`);
 
   const detailMetrics = network.detailMetrics || {};
   const metricsEntries = Object.entries(detailMetrics);
@@ -34,7 +38,7 @@ export const SocialNetworkDetail = (props: SocialNetworkDetailProps) => {
           <div className="metrics-grid">
             {metricsEntries.map(([key, value]) => (
               <div key={key} className="metric-card">
-                <span className="metric-label">{key}</span>
+                <span className="metric-label">{translateMetric(key)}</span>
                 <span className="metric-value">
                   {numberFormatterThousands(value, 1)}
                 </span>

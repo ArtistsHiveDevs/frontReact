@@ -23,18 +23,17 @@ const MOCK_DATA: SocialNetworksAnalyticsTemplate = {
       iconName: 'BsSpotify',
       hasDetail: true,
       mainMetrics: {
-        Seguidores: 6900000,
-        // Métricas adicionales que se mostrarán en el footer del card (comentadas por ahora)
-        // 'Oyentes mensuales': 16100000,
-        // 'Reproducciones totales': 361700000,
+        followers: 6900000,
+        // monthly_listeners: 16100000,
+        // total_streams: 361700000,
       },
       detailMetrics: {
-        'Alcance de la lista de reproducción': 145100000,
-        Seguidores: 6900000,
-        'Oyentes mensuales': 16100000,
-        'Reproducciones totales': 361700000,
-        'Tasa de guardado': 8500000,
-        'Streams de radio': 12300000,
+        playlist_reach: 145100000,
+        followers: 6900000,
+        monthly_listeners: 16100000,
+        total_streams: 361700000,
+        save_rate: 8500000,
+        radio_streams: 12300000,
       },
     },
     {
@@ -43,14 +42,14 @@ const MOCK_DATA: SocialNetworksAnalyticsTemplate = {
       iconName: 'BsInstagram',
       hasDetail: true,
       mainMetrics: {
-        'Seguidores IG': 8400000,
+        followers: 8400000,
       },
       detailMetrics: {
-        Seguidores: 8400000,
-        Publicaciones: 1245,
-        'Promedio de likes': 245000,
-        'Engagement rate': 3.2,
-        'Alcance promedio': 2100000,
+        followers: 8400000,
+        posts: 1245,
+        avg_likes: 245000,
+        engagement_rate: 3.2,
+        avg_reach: 2100000,
       },
     },
     {
@@ -59,18 +58,17 @@ const MOCK_DATA: SocialNetworksAnalyticsTemplate = {
       iconName: 'BsTiktok',
       hasDetail: true,
       mainMetrics: {
-        Seguidores: 2900000,
-        // Métricas adicionales que se mostrarán en el footer del card (comentadas por ahora)
-        // 'Me gusta': 16400000,
-        // 'Contenido publicaciones': 3800000,
+        followers: 2900000,
+        // total_likes: 16400000,
+        // posts_content: 3800000,
       },
       detailMetrics: {
-        Seguidores: 2900000,
-        'Total Me gusta': 16400000,
-        'Videos publicados': 587,
-        'Vistas de video': 6587300000,
-        'Contenido publicaciones': 3800000,
-        Compartidos: 890000,
+        followers: 2900000,
+        total_likes: 16400000,
+        videos_published: 587,
+        video_views: 6587300000,
+        posts_content: 3800000,
+        shares: 890000,
       },
     },
     {
@@ -79,18 +77,17 @@ const MOCK_DATA: SocialNetworksAnalyticsTemplate = {
       iconName: 'BsYoutube',
       hasDetail: true,
       mainMetrics: {
-        Suscriptores: 6300000,
-        // Métricas adicionales que se mostrarán en el footer del card (comentadas por ahora)
-        // 'Vistas totales': 6880100000,
-        // 'Videos vistos mensuales': 55700000,
+        subscribers: 6300000,
+        // total_views: 6880100000,
+        // monthly_video_views: 55700000,
       },
       detailMetrics: {
-        Suscriptores: 6300000,
-        'Vistas totales': 6880100000,
-        'Videos publicados': 432,
-        'Videos vistos mensuales': 55700000,
-        'Tiempo de visualización': 1700000,
-        'Nuevos suscriptores': 2069900000,
+        subscribers: 6300000,
+        total_views: 6880100000,
+        videos_published: 432,
+        monthly_video_views: 55700000,
+        watch_time: 1700000,
+        new_subscribers: 2069900000,
       },
     },
     {
@@ -99,14 +96,14 @@ const MOCK_DATA: SocialNetworksAnalyticsTemplate = {
       iconName: 'BsFacebook',
       hasDetail: true,
       mainMetrics: {
-        'Seguidores Facebook': 6200000,
+        followers: 6200000,
       },
       detailMetrics: {
-        Seguidores: 6200000,
-        'Me gusta de página': 5900000,
-        'Alcance semanal': 1200000,
-        Engagement: 245000,
-        Publicaciones: 892,
+        followers: 6200000,
+        page_likes: 5900000,
+        weekly_reach: 1200000,
+        engagement: 245000,
+        posts: 892,
       },
     },
     {
@@ -115,15 +112,14 @@ const MOCK_DATA: SocialNetworksAnalyticsTemplate = {
       iconName: 'BsTwitterX',
       hasDetail: true,
       mainMetrics: {
-        Seguidores: 4400000,
-        // Métricas adicionales que se mostrarán en el footer del card (comentadas por ahora)
+        followers: 4400000,
       },
       detailMetrics: {
-        Seguidores: 4400000,
-        Tweets: 12400,
-        'Impresiones mensuales': 8900000,
-        'Engagement rate': 2.8,
-        Menciones: 125000,
+        followers: 4400000,
+        tweets: 12400,
+        monthly_impressions: 8900000,
+        engagement_rate: 2.8,
+        mentions: 125000,
       },
     },
     {
@@ -132,15 +128,14 @@ const MOCK_DATA: SocialNetworksAnalyticsTemplate = {
       iconName: 'SiPandora',
       hasDetail: true,
       mainMetrics: {
-        'Oyentes mensuales': 413800,
-        // Métricas adicionales que se mostrarán en el footer del card (comentadas por ahora)
-        // 'Reproducciones': 766700000,
+        monthly_listeners: 413800,
+        // total_plays: 766700000,
       },
       detailMetrics: {
-        'Oyentes mensuales': 413800,
-        'Reproducciones totales': 766700000,
-        'Estaciones que incluyen artista': 15600,
-        'Thumbs up': 89000,
+        monthly_listeners: 413800,
+        total_plays: 766700000,
+        stations_featuring_artist: 15600,
+        thumbs_up: 89000,
       },
     },
     {
@@ -149,7 +144,7 @@ const MOCK_DATA: SocialNetworksAnalyticsTemplate = {
       iconName: 'SiShazam',
       hasDetail: false,
       mainMetrics: {
-        Shazams: 29100000,
+        shazams: 29100000,
       },
     },
   ],

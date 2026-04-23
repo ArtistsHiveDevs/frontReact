@@ -30,6 +30,7 @@ import {
 } from '~/components/shared/molecules/general/AttributesIconField';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import { AVAILABLE_I18N_LANGUAGES } from '~/translations';
+import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
 
 const TRANSLATION_BASE_SETTINGS_PAGE = 'app.pages.app.settings';
 
@@ -151,68 +152,72 @@ const AppSettingsPage = () => {
           );
         })}
       </p>
-      <h3>
-        <DynamicIcons iconName="FaUserAstronaut" size={20} />
-        {translate('user_profile.title')}{' '}
-      </h3>
-      <p>
-        {usersList.map((user) => {
-          const styles = [];
-          if (`${user.id}` === selectedUser?.id) {
-            styles.push('active-lang');
-          }
-          return (
-            <span key={`user_${user.id}`}>
-              <span className={styles.join(' ')} onClick={() => setCurrentUser(user)}>
-                {user.name}
-              </span>
-              {' | '}
-            </span>
-          );
-        })}
-        <span onClick={() => setCurrentUser(UNLOGGED_USER)}>{translate('user_profile.logout')}</span>
-      </p>
-      <p>{translate('user_profile.logged_user')}:</p>
+      {!isProdEnvironment() && (
+        <>
+          <h3>
+            <DynamicIcons iconName="FaUserAstronaut" size={20} />
+            {translate('user_profile.title')}{' '}
+          </h3>
+          <p>
+            {usersList.map((user) => {
+              const styles = [];
+              if (`${user.id}` === selectedUser?.id) {
+                styles.push('active-lang');
+              }
+              return (
+                <span key={`user_${user.id}`}>
+                  <span className={styles.join(' ')} onClick={() => setCurrentUser(user)}>
+                    {user.name}
+                  </span>
+                  {' | '}
+                </span>
+              );
+            })}
+            <span onClick={() => setCurrentUser(UNLOGGED_USER)}>{translate('user_profile.logout')}</span>
+          </p>
+          <p>{translate('user_profile.logged_user')}:</p>
 
-      {!selectedUser && <p>{translate('user_profile.empty_user')}</p>}
-      {selectedUser && (
-        <div className="logged-user-box">
-          <h5>{translate('user_profile.user_info')}:</h5>
-          <div className="logged-user-info">
-            <ProfilePicture src={selectedUser.profile_pic} />
-            <div>
-              <AttributesIconFieldReadOnly attributes={userAttributes} className="logged-user-info-data" />
+          {!selectedUser && <p>{translate('user_profile.empty_user')}</p>}
+          {selectedUser && (
+            <div className="logged-user-box">
+              <h5>{translate('user_profile.user_info')}:</h5>
+              <div className="logged-user-info">
+                <ProfilePicture src={selectedUser.profile_pic} />
+                <div>
+                  <AttributesIconFieldReadOnly attributes={userAttributes} className="logged-user-info-data" />
+                </div>
+              </div>
+              <h5>{translate('user_profile.roles')}:</h5>
+              {Object.keys(APP_DOMAIN_ROLES).map((roleKeyName, index) => {
+                const roleConfig: DomainRole = APP_DOMAIN_ROLES[roleKeyName];
+
+                let lista: any[] = [];
+                if (roleConfig.entityName === 'Artist') {
+                  lista = artistList;
+                } else if (roleConfig.entityName === 'Place') {
+                  lista = placesList;
+                }
+
+                const roles = selectedUser?.roles || [];
+                return roles
+                  .filter((userRoleEntity) => userRoleEntity.entityName === roleConfig.entityName)
+                  .map((availableEntity: UserAvailableEntityRole) => {
+                    const instances: EntityInstanceRoleMapTemplate[] = availableEntity.entityRoleMap;
+
+                    return (
+                      <EntityRoles
+                        key={`${roleConfig}-${index}`}
+                        roleConfig={roleConfig}
+                        instances={instances}
+                        dataSource={lista}
+                        handleClickRole={handleClickRole}
+                      />
+                    );
+                  });
+              })}
             </div>
-          </div>
-          <h5>{translate('user_profile.roles')}:</h5>
-          {Object.keys(APP_DOMAIN_ROLES).map((roleKeyName, index) => {
-            const roleConfig: DomainRole = APP_DOMAIN_ROLES[roleKeyName];
-
-            let lista: any[] = [];
-            if (roleConfig.entityName === 'Artist') {
-              lista = artistList;
-            } else if (roleConfig.entityName === 'Place') {
-              lista = placesList;
-            }
-
-            const roles = selectedUser?.roles || [];
-            return roles
-              .filter((userRoleEntity) => userRoleEntity.entityName === roleConfig.entityName)
-              .map((availableEntity: UserAvailableEntityRole) => {
-                const instances: EntityInstanceRoleMapTemplate[] = availableEntity.entityRoleMap;
-
-                return (
-                  <EntityRoles
-                    key={`${roleConfig}-${index}`}
-                    roleConfig={roleConfig}
-                    instances={instances}
-                    dataSource={lista}
-                    handleClickRole={handleClickRole}
-                  />
-                );
-              });
-          })}
-        </div>
+          )}
+        </>
       )}
     </>
   );

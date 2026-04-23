@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { useI18n } from '~/common/utils';
+import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 import { AppUserModel } from '~/models/app/user/user.model';
 
@@ -45,8 +46,8 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   },
                   formMetaData: {
                     hidden: (user: AppUserModel) => {
-                    return !user.isIndustryMember;
-                  },
+                      return !user.isIndustryMember;
+                    },
                   },
                 },
                 {
@@ -134,6 +135,9 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'arts',
     allowedRoles: [{ entityName: 'Artist' }],
+    fullyHidden: (data: AppUserModel) => {
+      return isProdEnvironment();
+    },
     sections: [
       {
         name: 'music',

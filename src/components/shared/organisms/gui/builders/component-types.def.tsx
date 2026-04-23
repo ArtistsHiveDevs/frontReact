@@ -31,6 +31,7 @@ export interface PageSection {
   requireSession?: boolean;
   clickHandlerName?: string;
   formMetaData?: FormMetadata;
+  fullyHidden?: boolean | Function;
   hideMainMenu?: boolean;
 }
 export interface ContentSection {

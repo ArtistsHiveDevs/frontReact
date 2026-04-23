@@ -99,75 +99,84 @@ const defaultConfigTransformer = (subpagesConfig: PageSection[], context?: Defau
     return section ? translateText(`${translationBasePath}.subpages.${subpage}.sections.${section}.name`) : undefined;
   };
 
-  return (subpagesConfig || []).map((subpage, subPageIndex) => {
-    return {
-      _name: subpage.name,
-      name: translateSubpage(subpage.name),
-      hideMainMenu: subpage.hideMainMenu,
-      allowedRoles: subpage.allowedRoles,
-      requireSession: subpage.requireSession,
-      tabContent: () => {
-        return (
-          <RequireAuthComponent
-            requiredSession={subpage.requireSession}
-            key={`section_${subPageIndex}_${subpage.name}`}
-          >
-            {(subpage.sections || [])
-              .filter(
-                (section) =>
-                  section.hidden === undefined ||
-                  (typeof section.hidden === 'boolean' && !section.hidden) ||
-                  (typeof section.hidden === 'string' && section.hidden !== 'true') ||
-                  (section.hidden instanceof Function && entityData && !section.hidden(entityData))
-              )
-              .map((section, sectionIndex) => {
-                let contentComponents: any = <></>;
-                if (section.components && buildComponent) {
-                  contentComponents = (section.components || []).map(
-                    (componentDescriptor: ComponentDescriptor, componentIndex: number) => (
-                      <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
-                        {buildComponent(subpage, section, componentDescriptor, componentIndex, undefined)}
-                      </div>
-                    )
-                  );
-                }
-
-                const sectionContent = () => contentComponents;
-
-                const filteredSections = (subpage.sections || []).filter((section) => {
-                  const isHidden =
-                    section.hidden !== undefined &&
-                    ((typeof section.hidden === 'boolean' && section.hidden) ||
-                      (typeof section.hidden === 'string' && section.hidden === 'true') ||
-                      (section.hidden instanceof Function && entityData && section.hidden(entityData)));
-
-                  if (isHidden) return false;
-
-                  if (section.requireSession && !entityData) {
-                    return false;
+  return (subpagesConfig || [])
+    .filter((subpage) => {
+      return (
+        subpage.fullyHidden === undefined ||
+        (typeof subpage.fullyHidden === 'boolean' && !subpage.fullyHidden) ||
+        (typeof subpage.fullyHidden === 'string' && subpage.fullyHidden !== 'true') ||
+        (subpage.fullyHidden instanceof Function && entityData && !subpage.fullyHidden(entityData))
+      );
+    })
+    .map((subpage, subPageIndex) => {
+      return {
+        _name: subpage.name,
+        name: translateSubpage(subpage.name),
+        hideMainMenu: subpage.hideMainMenu,
+        allowedRoles: subpage.allowedRoles,
+        requireSession: subpage.requireSession,
+        tabContent: () => {
+          return (
+            <RequireAuthComponent
+              requiredSession={subpage.requireSession}
+              key={`section_${subPageIndex}_${subpage.name}`}
+            >
+              {(subpage.sections || [])
+                .filter(
+                  (section) =>
+                    section.hidden === undefined ||
+                    (typeof section.hidden === 'boolean' && !section.hidden) ||
+                    (typeof section.hidden === 'string' && section.hidden !== 'true') ||
+                    (section.hidden instanceof Function && entityData && !section.hidden(entityData))
+                )
+                .map((section, sectionIndex) => {
+                  let contentComponents: any = <></>;
+                  if (section.components && buildComponent) {
+                    contentComponents = (section.components || []).map(
+                      (componentDescriptor: ComponentDescriptor, componentIndex: number) => (
+                        <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
+                          {buildComponent(subpage, section, componentDescriptor, componentIndex, undefined)}
+                        </div>
+                      )
+                    );
                   }
 
-                  return true;
-                });
+                  const sectionContent = () => contentComponents;
 
-                return (
-                  <RequireAuthComponent
-                    key={`section-${section.name}-${sectionIndex}`}
-                    requiredSession={section.requireSession}
-                  >
-                    <SectionsPanel
-                      sectionName={section?.emptyTitle ? '' : translateSection(subpage.name, section?.name)}
-                      sectionContent={sectionContent}
-                      isCollapsible={filteredSections.length > 1}
-                    />
-                  </RequireAuthComponent>
-                );
-              })}
-          </RequireAuthComponent>
-        );
-      },
-    };
-  });
+                  const filteredSections = (subpage.sections || []).filter((section) => {
+                    const isHidden =
+                      section.hidden !== undefined &&
+                      ((typeof section.hidden === 'boolean' && section.hidden) ||
+                        (typeof section.hidden === 'string' && section.hidden === 'true') ||
+                        (section.hidden instanceof Function && entityData && section.hidden(entityData)));
+
+                    if (isHidden) return false;
+
+                    if (section.requireSession && !entityData) {
+                      return false;
+                    }
+
+                    return true;
+                  });
+
+                  return (
+                    <RequireAuthComponent
+                      key={`section-${section.name}-${sectionIndex}`}
+                      requiredSession={section.requireSession}
+                    >
+                      <SectionsPanel
+                        sectionName={section?.emptyTitle ? '' : translateSection(subpage.name, section?.name)}
+                        sectionContent={sectionContent}
+                        isCollapsible={filteredSections.length > 1}
+                      />
+                    </RequireAuthComponent>
+                  );
+                })}
+            </RequireAuthComponent>
+          );
+        },
+      };
+    });
 };
 
 export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) => {

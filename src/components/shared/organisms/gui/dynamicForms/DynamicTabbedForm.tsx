@@ -157,7 +157,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
                   return previous ? previous[current as keyof typeof previous] : {};
                 }, element) || {};
             } else {
-              currentValue = elementData[fieldName as keyof typeof elementData];
+              currentValue = elementData[fieldName as keyof typeof elementData] ?? formMetaData?.defaultValue;
             }
           } else {
             currentValue = formMetaData?.defaultValue;

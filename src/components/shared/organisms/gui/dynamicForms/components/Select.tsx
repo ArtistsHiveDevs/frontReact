@@ -13,28 +13,31 @@ export const createSelect = (params: ComponentGeneratorParams) => {
   const hookContext = useFormContext();
   const finalContext = params.formContext || hookContext;
   const { formState, register, control, setValue } = finalContext;
+  const { errors: formErrors } = formState;
 
-  const { fieldData, errors, handlers } = params;
-  const {
-    label,
-    fieldName,
-    defaultValue,
-    placeholder = '',
-    options = [],
-    config = {},
-    componentParams = {},
-  } = fieldData;
+  const { fieldData, handlers } = params;
+  const { label, fieldName, defaultValue, placeholder = '', options = [], config = {} } = fieldData;
 
   const { required } = config || {};
+
+  const hasError = !!formErrors?.[fieldName];
 
   const darkTheme = useTheme();
 
   const customStyles = {
-    control: (styles: any) => ({
+    control: (styles: any, state: any) => ({
       ...styles,
       backgroundColor: darkTheme.palette.background.paper,
-      borderColor: darkTheme.palette.divider,
+      borderColor: hasError
+        ? darkTheme.palette.error.main
+        : state.isFocused
+        ? darkTheme.palette.primary.main
+        : darkTheme.palette.divider,
+      boxShadow: hasError ? `0 0 0 1px ${darkTheme.palette.error.main}` : styles.boxShadow,
       color: darkTheme.palette.text.primary,
+      '&:hover': {
+        borderColor: hasError ? darkTheme.palette.error.main : darkTheme.palette.text.primary,
+      },
     }),
     menu: (styles: any) => ({
       ...styles,
@@ -80,14 +83,31 @@ export const createSelect = (params: ComponentGeneratorParams) => {
   } = useController({
     name: fieldName,
     control,
-    defaultValue: defaultValue ?? null,
+    defaultValue:
+      defaultValue !== null &&
+      defaultValue !== undefined &&
+      !(typeof defaultValue === 'object' && Object.keys(defaultValue).length === 0)
+        ? defaultValue
+        : null,
+    rules: {
+      ...config,
+      validate: config?.required
+        ? (value) =>
+            (value !== null &&
+              value !== undefined &&
+              value !== '' &&
+              !(typeof value === 'object' && Object.keys(value).length === 0)) ||
+            'Este campo es requerido'
+        : undefined,
+    },
   });
 
   return (
     <div>
       <FormLabel
         required={required === true || required === 'true'}
-        error={!!Object.keys(errors || {}).find((key) => key === fieldName)}
+        error={hasError}
+        sx={hasError ? { color: darkTheme.palette.error.main } : {}}
       >
         {label}
       </FormLabel>

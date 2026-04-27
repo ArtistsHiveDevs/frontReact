@@ -1,5 +1,5 @@
 import { FormLabel } from '@mui/material';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectorCountries, useCountriesSlice } from '~/common/slices/parametrics/geo/country.redux';
@@ -30,8 +30,11 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
     register: externalRegister,
     errors: externalErrors,
   } = citySelectorParams;
-  const { componentParams = {} } = fieldData || {};
+
+  const { componentParams = {}, defaultValue, config: fieldConfig } = fieldData || {};
+
   const { maxLevel = 3, minLevel = 1, showCountrySelector = true, allowEmptyLevels = true } = componentParams;
+  const isFieldRequired = fieldConfig?.required === true || fieldConfig?.required === 'true';
 
   const hookContext = useFormContext();
   const finalContext = externalContext || hookContext;
@@ -42,15 +45,19 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
   const LevelSelector: React.FC<{
     fieldData: DynamicFieldData;
     handlers: any;
-  }> = ({ fieldData: levelFieldData, handlers: levelHandlers }) => {
-    // console.log('  >>  >>   ..... ', levelFieldData);
-    return createSelect({
-      fieldData: levelFieldData,
-      handlers: levelHandlers,
-      register,
-      errors,
-      formContext: finalContext,
-    });
+    indented?: boolean;
+  }> = ({ fieldData: levelFieldData, handlers: levelHandlers, indented = false }) => {
+    return (
+      <div style={indented ? { paddingLeft: '1.5rem' } : undefined}>
+        {createSelect({
+          fieldData: levelFieldData,
+          handlers: levelHandlers,
+          register,
+          errors,
+          formContext: finalContext,
+        })}
+      </div>
+    );
   };
 
   const dispatch = useDispatch();
@@ -65,6 +72,7 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
   const [selectedCountry, setSelectedCountry] = useState<CountryModel | null>(null);
   const [selections, setSelections] = useState<Record<number, LocationEntityModel | null>>({});
   const [loadingLevels, setLoadingLevels] = useState<Record<number, boolean>>({});
+  const autoSelectDoneRef = useRef<Record<number, boolean>>({});
 
   // === Load countries on mount
   useEffect(() => {
@@ -110,7 +118,47 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
       label: `${country.name}${country.name !== country.native ? ' (' + country.native + ')' : ''}`,
       value: country.identifier,
     })),
+    config: { required: isFieldRequired },
   };
+
+  // === Auto-select country from defaultValue
+  useEffect(() => {
+    if (!defaultValue?.country || !availableCountries.length) return;
+    const defaultCountry = availableCountries.find((country) => country.identifier === defaultValue.country);
+    if (defaultCountry) {
+      setSelectedCountry(defaultCountry);
+      setValue(countryFieldName, defaultCountry.identifier);
+      loadLocationEntitiesForLevel(defaultCountry, 1);
+    }
+  }, [availableCountries]);
+
+  // === Auto-select levels from defaultValue when entities become available
+  useEffect(() => {
+    if (!defaultValue || !selectedCountry || !relevantLevels.length) return;
+
+    relevantLevels.forEach((lvl) => {
+      if (autoSelectDoneRef.current[lvl.level]) return;
+
+      const defaultLevelValue = defaultValue[`level${lvl.level}`];
+      if (!defaultLevelValue) return;
+
+      const parent = lvl.level === 1 ? selectedCountry : selections[lvl.level - 1];
+      if (!parent) return;
+
+      const entity = allLocationEntities.find((e) => e.id === defaultLevelValue);
+      if (!entity) return;
+
+      const levelFieldName = `${fieldData?.fieldName}_level${lvl.level}`;
+      autoSelectDoneRef.current = { ...autoSelectDoneRef.current, [lvl.level]: true };
+      setSelections((prev) => ({ ...prev, [lvl.level]: entity }));
+      setValue(levelFieldName, entity.id);
+
+      const nextLevel = relevantLevels.find((l) => l.level > lvl.level);
+      if (nextLevel) {
+        loadLocationEntitiesForLevel(selectedCountry!, nextLevel.level, entity.id);
+      }
+    });
+  }, [allLocationEntities, selectedCountry, selections, relevantLevels]);
 
   const generateLevelFieldData = (level: number): DynamicFieldData | null => {
     if (!countryStructure) return null;
@@ -136,7 +184,7 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
       options,
       placeholder: 'Seleccione...',
       config: {
-        required: levelConfig.required && !allowEmptyLevels,
+        required: isFieldRequired && (levelConfig.required || !allowEmptyLevels),
         disabled: !parent,
       },
     };
@@ -214,15 +262,15 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
   };
 
   return (
-    <div>
-      <FormLabel>{fieldData?.label}</FormLabel>
-      {showCountrySelector && <LevelSelector fieldData={countryFieldData} handlers={countryHandlers} />}
+    <div style={{ marginBottom: '2rem' }}>
+      <FormLabel required={isFieldRequired}>{fieldData?.label}</FormLabel>
+      {showCountrySelector && <LevelSelector fieldData={countryFieldData} handlers={countryHandlers} indented />}
       {levelFieldsData.map(({ level, fieldData }) => {
         // 🚨 solo renderizo si su padre tiene selección
         if (level > 1 && !selections[level - 1]) return null;
         return (
           <div key={level}>
-            <LevelSelector fieldData={fieldData!} handlers={allHandlers} />
+            <LevelSelector fieldData={fieldData!} handlers={allHandlers} indented />
           </div>
         );
       })}

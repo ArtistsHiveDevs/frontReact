@@ -46,7 +46,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
         title: `${entityData.name}  ◃⬡▹  Artist Hive`,
         description: `${entityData.description || entityData.name}`,
         url: 'https://www.artist-hive.com/home',
-        image: `${entityData.profile_pic || 'https://npcarlos.co/artistsHive_mocks/logo.png'}`,
+        image: `${entityData.profile_pic || 'https://artist-hive.com/img/logo.png'}`,
         type: 'website',
       }
     : undefined;

@@ -16,6 +16,7 @@ import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForm
 import { AppUserModel } from '~/models/app/user/user.model';
 import { TRANSLATION_BASE_USER_DETAIL_PAGE, USER_DETAIL_SUB_PAGE_CONFIG } from '../UserDetails/config-user-detail';
 import './UserCreatePage.scss';
+import { Box } from '@mui/material';
 
 const UserCreatePage = () => {
   const loggedUser = useSelector(selectCurrentUser);
@@ -39,7 +40,7 @@ const UserCreatePage = () => {
   const [availableBloodGroups, updateAvailableBloodGroups] = useState([]);
   const [availableDietaryRestritions, updateAvailableDietaryRestrictions] = useState([]);
 
-  const [openDialogSelectInstrument, setOpenDialogFillProfileBanner] = useState(false);
+  const [openDialogCompleteProfile, setOpenDialogFillProfileBanner] = useState(false);
 
   useEffect(() => {
     dispatch(languageActions.loadItems({}));
@@ -188,10 +189,33 @@ const UserCreatePage = () => {
       <IndustrySignUpBanner />
       <AppDialog
         title="Completa tu perfil"
-        isOpenDialog={openDialogSelectInstrument}
+        isOpenDialog={openDialogCompleteProfile}
         onClose={() => setOpenDialogFillProfileBanner(false)}
-        content={translateText(`${TRANSLATION_BASE_USER_DETAIL_PAGE}.fillProfileBanner.content`)}
-        icon={'FaInfoCircle'}
+        content={
+          <>
+            {translateText(`${TRANSLATION_BASE_USER_DETAIL_PAGE}.fillProfileBanner.content`)}
+
+            <h5 style={{ marginTop: '1rem' }}>TIP:</h5>
+            <span style={{ margin: '1rem', fontSize: 22, textAlign: 'center' }}>
+              {' '}
+              <strong>Una</strong> cuenta personal <strong>Muchos</strong> roles
+            </span>
+            <Box
+              component="img"
+              sx={{
+                height: 'auto',
+                width: '90%',
+                maxWidth: { xs: '90%', md: '600px' },
+                display: 'block', // Necesario para que el margen funcione
+                mx: 'auto', // Centra horizontalmente
+                padding: '1rem',
+              }}
+              alt="Description"
+              src="/img/InfoPerfiles.png"
+            />
+          </>
+        }
+        // icon={'FaInfoCircle'}
       />
       {/* <Dialog id="zoomAlbumImg" open={openDialog} onClose={() => setOpenDialog(false)} fullWidth>
         <DialogTitle className="dialog-title">

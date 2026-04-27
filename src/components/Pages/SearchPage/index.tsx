@@ -473,7 +473,7 @@ export default function SearchPage() {
       {emptyResults()}
       {(!results || results.totalResults === 0) && (
         <div style={{ maxWidth: '10rem' }}>
-          <Image src="https://npcarlos.co/artistsHive_mocks/search.png" fluid />
+          <Image src="https://artist-hive.com/img/search.png" fluid />
         </div>
       )}
       {openModal()}

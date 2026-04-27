@@ -7,6 +7,7 @@ import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { PATHS } from '~/constants';
 import { AppDialog } from '../../molecules/general/Modals/Dialog/AppDialog';
 import './IndustrySignUpBanner.scss';
+import { Box } from '@mui/material';
 
 const TRANSLATION_BASE_USER_DETAIL_PAGE = 'app.pages.app_base.UsersPages';
 
@@ -50,7 +51,30 @@ export const IndustrySignUpBanner = () => {
         isOpenDialog={isOpenDialog}
         onClose={() => console.log('close')}
         title={translateText(`${TRANSLATION_BASE_USER_DETAIL_PAGE}.activate_industry_banner.banner.title`)}
-        content={<>{translateText(`${TRANSLATION_BASE_USER_DETAIL_PAGE}.activate_industry_banner.banner.content`)}</>}
+        content={
+          <>
+            {translateText(`${TRANSLATION_BASE_USER_DETAIL_PAGE}.activate_industry_banner.banner.content`)}
+
+            <h5 style={{ marginTop: '1rem' }}>TIP:</h5>
+            <span style={{ margin: '1rem', fontSize: 22, textAlign: 'center' }}>
+              {' '}
+              <strong>Una</strong> cuenta personal <strong>Muchos</strong> roles
+            </span>
+            <Box
+              component="img"
+              sx={{
+                height: 'auto',
+                width: '90%',
+                maxWidth: { xs: '90%', md: '600px' },
+                display: 'block', // Necesario para que el margen funcione
+                mx: 'auto', // Centra horizontalmente
+                padding: '1rem',
+              }}
+              alt="Description"
+              src="/img/InfoPerfiles.png"
+            />
+          </>
+        }
         actions={[
           { label: 'Soy miembro', handler: () => clickHandlerMember() },
           { label: 'Omitir', handler: () => clickHandlerNonMember() },

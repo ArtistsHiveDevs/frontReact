@@ -26,6 +26,9 @@ import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 
 const TRANSLATION_BASE_LOGIN_PAGE = 'app.pages.app_base.LoginPage';
 
+const SIGN_IN_OPTIONS =
+  import.meta.env.VITE_USE_LOCAL_COGNITO === 'true' ? { options: { authFlowType: 'USER_PASSWORD_AUTH' as const } } : {};
+
 const LIMITE_CLICKS = 3;
 
 // Helper function to check if input is email or username
@@ -169,15 +172,12 @@ export const LoginPage = () => {
           // Si no (ej: signup nuevo o login con email), verificar si el usuario ya existe en MongoDB
           // Intentar con preferred_username primero, si no con email
           const cidParam = attributes.preferred_username || attributes.email;
-          const checkResponse = await fetch(
-            `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/cid/${cidParam}`,
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                ...generatePreAuthHeaders('username_signin'),
-              },
-            }
-          );
+          const checkResponse = await fetch(`${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/cid/${cidParam}`, {
+            headers: {
+              'Content-Type': 'application/json',
+              ...generatePreAuthHeaders('username_signin'),
+            },
+          });
 
           const checkData = await checkResponse.json();
 
@@ -340,7 +340,7 @@ export const LoginPage = () => {
                   const { signUp } = await import('aws-amplify/auth');
                   const currentLocale = localeRef.current;
 
-                  return signUp({
+                  const result = await signUp({
                     username,
                     password,
                     options: {
@@ -350,6 +350,25 @@ export const LoginPage = () => {
                       },
                     },
                   });
+
+                  if (
+                    import.meta.env.VITE_USE_LOCAL_COGNITO === 'true' &&
+                    result.nextStep.signUpStep === 'CONFIRM_SIGN_UP'
+                  ) {
+                    const adminUrl = import.meta.env.VITE_COGNITO_ADMIN_URL;
+
+                    await fetch(`${adminUrl}/confirm`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ username }),
+                    });
+
+                    await signIn({ username, password, ...SIGN_IN_OPTIONS });
+
+                    return { ...result, isSignUpComplete: true, nextStep: { signUpStep: 'DONE' as const } };
+                  }
+
+                  return result;
                 },
                 async handleSignIn(formData) {
                   const { username, password } = formData;
@@ -377,7 +396,7 @@ export const LoginPage = () => {
                   }
 
                   // Hacer login con Cognito usando el email
-                  return signIn({ username: emailToUse, password });
+                  return signIn({ username: emailToUse, password, ...SIGN_IN_OPTIONS });
                 },
                 async handleConfirmSignUp(formData) {
                   const { username, confirmationCode } = formData;

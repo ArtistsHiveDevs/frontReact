@@ -1,4 +1,4 @@
-import { getUrl } from 'aws-amplify/storage';
+import { getUrl } from '~/common/utils/amplify/storage/storage.client';
 import { useEffect, useState } from 'react';
 
 // Caché global compartido - mismo que en model.ts

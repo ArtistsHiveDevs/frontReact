@@ -1,6 +1,6 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
-import { getUrl } from 'aws-amplify/storage';
 import { toCamelCase } from '~/common/utils/string-utils';
+import { getUrl } from '~/common/utils/amplify/storage/storage.client';
 import { VerificationStatus } from '~/constants';
 import { ProfileActiveStatus, ProfileNature } from '~/constants/domain/profile.constants';
 import { CurrentProfileInfoModel } from '../app/user/user.model';

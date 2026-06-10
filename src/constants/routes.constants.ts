@@ -32,6 +32,7 @@ export enum PATHS {
   TOURS_OUTLINE = 'toursOutline',
   FAQ = 'faq',
   PAYMENTS = 'payment',
+  OPEN_CALLS = 'open-calls',
   CC = 'cc',
   REDIRECT_UNAUTHORIZED_AND_UNLOGGED_USER = '/home',
   REDIRECT_UNAUTHORIZED_AND_LOGGED_USER = '/home',

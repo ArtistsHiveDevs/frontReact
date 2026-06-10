@@ -201,6 +201,17 @@ export const ROUTES_CONFIG: PathConfigMap = {
           },
         },
       },
+      openCall: {
+        path: PATHS.OPEN_CALLS,
+        subpaths: {
+          OpenCallApplicationPage: {
+            component: lazy(
+              () => import('~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/OpenCallsPage')
+            ),
+            path: `${SUB_PATHS.CREATE}`,
+          },
+        },
+      },
       tour: {
         path: PATHS.TOURS_OUTLINE,
         subpaths: {

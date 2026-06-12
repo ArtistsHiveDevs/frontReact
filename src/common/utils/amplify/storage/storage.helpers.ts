@@ -1,5 +1,5 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
-import { getUrl, uploadData } from 'aws-amplify/storage';
+import { getUrl, uploadData } from './storage.client';
 
 export const uploadImage = async (params: {
   file: File;

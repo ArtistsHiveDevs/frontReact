@@ -43,6 +43,7 @@ export enum SUB_PATHS {
   EDITOR = 'editor',
   ELEMENT_DETAILS = 'details',
   AGENDA = 'agenda',
+  APPLY = 'apply',
 }
 
 export enum URL_PARAMETER_NAMES {

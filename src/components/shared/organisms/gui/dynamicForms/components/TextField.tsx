@@ -1,5 +1,5 @@
 import { faMicrophoneLines } from '@fortawesome/free-solid-svg-icons';
-import { IconButton, InputAdornment, TextField } from '@mui/material';
+import { FormLabel, IconButton, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
@@ -128,9 +128,18 @@ export const createTextField = (params: ComponentGeneratorParams) => {
   }
   // console.log("¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿   ¿¿¿¿     ", fieldName, defaultValue);
   return (
+    <>
+    {label && (
+      <FormLabel
+        required={required === true || required === 'true'}
+        error={!!(errors && errors[fieldName])}
+        sx={{ mb: 0.5, display: 'block', color: '#fff' }}
+      >
+        {label}
+      </FormLabel>
+    )}
     <TextField
       required={required === true || required === 'true'}
-      label={label}
       type={inputType}
       {...(register ? register(fieldName, config) : {})}
       value={currentValue ?? ''}
@@ -173,6 +182,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
       variant={variant}
       fullWidth
     />
+    </>
   );
 };
 

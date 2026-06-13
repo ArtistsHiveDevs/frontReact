@@ -211,11 +211,27 @@ export const ROUTES_CONFIG: PathConfigMap = {
       openCall: {
         path: PATHS.OPEN_CALLS,
         subpaths: {
+          OpenCallsListPage: {
+            component: lazy(() => import('~/components/Pages/domain/OpenCallPage/OpenCallsListPage')),
+          },
+          OpenCallCreatePage: {
+            component: lazy(
+              () => import('~/components/Pages/domain/OpenCallPage/OpenCallCreatePage/OpenCallCreatePage')
+            ),
+            path: `${SUB_PATHS.CREATE}`,
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
+          },
           OpenCallApplicationPage: {
             component: lazy(
               () => import('~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/OpenCallsPage')
             ),
-            path: `${SUB_PATHS.CREATE}`,
+            path: `${SUB_PATHS.APPLY}/:${URL_PARAMETER_NAMES.ELEMENT_ID}`,
+          },
+          OpenCallDetailsPage: {
+            component: lazy(
+              () => import('~/components/Pages/domain/OpenCallPage/OpenCallDetailsPage/OpenCallDetailsPage')
+            ),
+            path: detailsPagePath,
           },
         },
       },

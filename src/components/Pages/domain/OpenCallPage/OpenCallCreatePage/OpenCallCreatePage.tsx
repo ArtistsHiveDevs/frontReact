@@ -1,8 +1,8 @@
 import { Stack } from '@mui/material';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { DynamicControl } from '~/components/shared/organisms/gui/dynamicForms/DynamicControl';
 import { AttributeConfiguration } from '~/components/shared/organisms/gui/builders/component-types.def';
 import {
@@ -10,18 +10,21 @@ import {
   getFieldNamesFromPageSection,
 } from '~/components/shared/organisms/gui/builders/page-section-form.utils';
 import { PATHS } from '~/constants';
-import { useOpenCallApplicationsSlice } from '~/common/slices/domain/open-calls/open-call-applications.redux';
-import { OPEN_CALL_PAGE_CONFIG, OPEN_CALL_STEP_META } from './config-open-call';
-import './index.scss';
+import { useOpenCallsSlice, selectorOpenCalls } from '~/common/slices/domain/open-calls/open-calls.redux';
+import { OPEN_CALL_CREATE_CONFIG, CREATE_OPEN_CALL_STEP_META } from './config-open-call-create';
+import '../OpenCallApplicationPage/index.scss';
 
-const OpenCallApplicationPage = () => {
+const OpenCallCreatePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { openCallId } = useParams<{ openCallId: string }>();
+  const [searchParams] = useSearchParams();
+  const placeId = searchParams.get('placeId');
   const [currentStep, setCurrentStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
 
-  const { actions: applicationActions } = useOpenCallApplicationsSlice();
+  const { actions: openCallActions } = useOpenCallsSlice();
+  const createdItem = useSelector(selectorOpenCalls.selectCreatedItem);
+  const loading = useSelector(selectorOpenCalls.selectLoading);
 
   const formMethods = useForm({ mode: 'onTouched' });
   const {
@@ -30,10 +33,16 @@ const OpenCallApplicationPage = () => {
     formState: { errors },
   } = formMethods;
 
-  const steps = OPEN_CALL_PAGE_CONFIG;
+  useEffect(() => {
+    if (submitted && createdItem) {
+      navigate(`/${PATHS.OPEN_CALLS}`);
+    }
+  }, [submitted, createdItem]);
+
+  const steps = OPEN_CALL_CREATE_CONFIG;
   const totalSteps = steps.length;
   const step = steps[currentStep];
-  const stepMeta = OPEN_CALL_STEP_META[step.name];
+  const stepMeta = CREATE_OPEN_CALL_STEP_META[step.name];
   const progress = Math.round(((currentStep + 1) / totalSteps) * 100);
 
   const handleNext = async () => {
@@ -72,47 +81,27 @@ const OpenCallApplicationPage = () => {
   };
 
   const onSubmit = (data: any) => {
-    const applicationData = {
-      open_call_id: openCallId,
-      artist_name: data.artist_name,
-      artist_city: data.city,
-      survey_responses: data,
+    const openCallData = {
+      ...data,
+      place_id: placeId,
+      status: 'OPEN',
     };
-    dispatch(applicationActions.createItem({ data: applicationData }));
+    dispatch(openCallActions.createItem({ data: openCallData }));
     setSubmitted(true);
-    window.scrollTo(0, 0);
   };
 
   const onError = () => {
     window.scrollTo(0, 0);
   };
 
-  if (submitted) {
-    return (
-      <div className="open-call-page">
-        <div className="submission-success">
-          <div className="success-icon">&#10003;</div>
-          <h2 className="success-title">Aplicación enviada</h2>
-          <p className="success-message">
-            Tu aplicación ha sido recibida correctamente. Revisaremos tu propuesta y nos pondremos en contacto contigo a
-            través del correo electrónico proporcionado.
-          </p>
-          <button className="success-btn" onClick={() => navigate(`/${PATHS.HOME}`)}>
-            Volver al inicio
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="open-call-page">
       {/* Header */}
       <div className="open-call-header">
-        <h1 className="open-call-title">Convocatoria Abierta</h1>
+        <h1 className="open-call-title">Crear Convocatoria</h1>
         <p className="open-call-subtitle">
-          Completa el formulario para aplicar como artista. Toda la información nos ayuda a evaluar tu propuesta y
-          coordinar la logística del evento.
+          Completa la información del evento y las fechas de la convocatoria. Los artistas podrán aplicar durante el
+          periodo que definas.
         </p>
       </div>
 
@@ -181,7 +170,7 @@ const OpenCallApplicationPage = () => {
               </button>
             ) : (
               <button type="submit" className="nav-btn btn-submit">
-                Enviar aplicación
+                Crear Convocatoria
               </button>
             )}
           </div>
@@ -193,4 +182,4 @@ const OpenCallApplicationPage = () => {
   );
 };
 
-export default OpenCallApplicationPage;
+export default OpenCallCreatePage;

@@ -1272,6 +1272,7 @@ export const PtMessages = {
               my_events: 'Meus eventos',
               'my_events.nested': { create: 'Criar um evento' },
               my_riders: 'Meus riders',
+              my_open_calls: 'Minhas Chamadas abertas',
               my_places: 'Meus lugares',
               'my_places.nested': { create: 'Criar local' },
               favourites: 'Favoritos',

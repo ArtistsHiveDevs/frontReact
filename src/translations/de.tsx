@@ -1275,6 +1275,7 @@ export const DeMessages = {
               my_events: 'Meine Veranstaltungen',
               'my_events.nested': { create: 'Veranstaltungen erstellen' },
               my_riders: 'Meine Rider',
+              my_open_calls: 'Meine Open-Calls',
               my_places: 'Meine Orte',
               'my_places.nested': { create: 'Ort erstellen' },
               favourites: 'Favoriten',

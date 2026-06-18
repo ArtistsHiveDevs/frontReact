@@ -1275,6 +1275,7 @@ export const ElMessages = {
               my_events: 'Οι εκδηλώσεις μου',
               'my_events.nested': { create: 'Δημιουργία εκδήλωσης' },
               my_riders: 'Τα riders μου',
+              my_open_calls: 'Οι ανοικτές προσκλήσεις μου',
               my_places: 'Οι χώροι μου',
               'my_places.nested': { create: 'Δημιουργία χώρου' },
               favourites: 'Αγαπημένα',

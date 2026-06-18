@@ -12,6 +12,15 @@ import { useListDataSource } from './hooks/useListDataSource';
 import { useListFilters } from './hooks/useListFilters';
 import { useListSorting } from './hooks/useListSorting';
 import { useListPagination } from './hooks/useListPagination';
+import { ListHeader } from './components/ListHeader';
+import { ListFiltersBar } from './components/ListFiltersBar';
+import { ListViewModeToggle } from './components/ListViewModeToggle';
+import { ListSortSelector } from './components/ListSortSelector';
+import { ListCardView } from './views/ListCardView';
+import { ListTableView } from './views/ListTableView';
+import { ListPagination } from './components/ListPagination';
+import { ListEmptyState } from './components/ListEmptyState';
+import { ListLoadingState } from './components/ListLoadingState';
 
 export interface GenericFilterableListProps<T> {
   /** Complete configuration for the list */
@@ -51,7 +60,7 @@ export function GenericFilterableList<T>({
     reload,
   } = useListDataSource<T>({
     config: config.dataSource,
-    fetchParams: {}, // TODO: will include filters, sort, pagination
+    fetchParams: {}, // TODO: will include filters, sort, pagination for server-side
   });
 
   // ========== FILTERS ==========
@@ -59,10 +68,7 @@ export function GenericFilterableList<T>({
     filtersState,
     filteredData,
     setFilter,
-    setFilters,
     resetFilters,
-    resetFilter,
-    activeFilters,
     hasActiveFilters,
     activeFilterCount,
   } = useListFilters<T>({
@@ -77,10 +83,6 @@ export function GenericFilterableList<T>({
     sortedData,
     setSortKey,
     toggleDirection,
-    setDirection,
-    setSort,
-    resetSort,
-    currentSortOption,
   } = useListSorting<T>({
     sorting: config.sorting,
     data: filteredData,
@@ -94,10 +96,6 @@ export function GenericFilterableList<T>({
     paginationState,
     paginatedData,
     goToPage,
-    nextPage,
-    previousPage,
-    firstPage,
-    lastPage,
     setItemsPerPage,
     canGoPrevious,
     canGoNext,
@@ -119,85 +117,173 @@ export function GenericFilterableList<T>({
   // ========== VIEW STATE ==========
   const [currentViewMode, setCurrentViewMode] = React.useState(config.views.default);
 
-  // ========== RENDER ==========
+  // Get available view modes
+  const availableViewModes = useMemo(() => {
+    const modes: Array<'cards' | 'table' | 'grid' | 'kanban'> = [];
+    if (config.views.cards) modes.push('cards');
+    if (config.views.table) modes.push('table');
+    if (config.views.grid) modes.push('grid');
+    if (config.views.kanban) modes.push('kanban');
+    return modes;
+  }, [config.views]);
+
+  // ========== RENDER HELPERS ==========
+
+  // Render view based on current mode
+  const renderView = () => {
+    if (dataLoading && !config.ui?.loadingState?.useSkeleton) {
+      return <ListLoadingState config={config.ui?.loadingState} />;
+    }
+
+    if (dataError) {
+      return (
+        <div className="gfl__error" role="alert">
+          <strong>Error:</strong> {dataError.message || 'An error occurred loading data'}
+        </div>
+      );
+    }
+
+    if (displayData.length === 0) {
+      return (
+        <ListEmptyState
+          config={hasActiveFilters ? config.ui?.noResultsState : config.ui?.emptyState}
+          variant={hasActiveFilters ? 'no-results' : 'empty'}
+        />
+      );
+    }
+
+    // Render appropriate view
+    switch (currentViewMode) {
+      case 'cards':
+        if (!config.views.cards) return null;
+        return (
+          <ListCardView<T>
+            config={config.views.cards}
+            data={displayData}
+            onItemClick={onItemClick}
+            loading={dataLoading}
+          />
+        );
+
+      case 'table':
+        if (!config.views.table) return null;
+        return (
+          <ListTableView<T>
+            config={config.views.table}
+            data={displayData}
+            onItemClick={onItemClick}
+            sortState={{
+              key: sortingState.sortKey || '',
+              direction: sortingState.direction,
+            }}
+            onColumnSort={setSortKey}
+            loading={dataLoading}
+          />
+        );
+
+      case 'grid':
+        // TODO: Implement in Sprint 9
+        return (
+          <div className="gfl__placeholder">
+            Grid view - Coming in Sprint 9
+          </div>
+        );
+
+      case 'kanban':
+        // TODO: Implement in Sprint 9
+        return (
+          <div className="gfl__placeholder">
+            Kanban view - Coming in Sprint 9
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  // Render header actions (view toggle + sort selector)
+  const renderHeaderActions = () => (
+    <div className="gfl__header-actions">
+      {/* Sort Selector */}
+      {config.sorting && config.sorting.options.length > 0 && (
+        <ListSortSelector
+          options={config.sorting.options}
+          currentSortKey={sortingState.sortKey}
+          currentDirection={sortingState.direction}
+          onSortChange={setSortKey}
+          onDirectionToggle={toggleDirection}
+          compact={true}
+        />
+      )}
+
+      {/* View Mode Toggle */}
+      {availableViewModes.length > 1 && (
+        <ListViewModeToggle
+          currentMode={currentViewMode}
+          availableModes={availableViewModes}
+          onModeChange={setCurrentViewMode}
+        />
+      )}
+    </div>
+  );
+
+  // Render filters bar
+  const renderFiltersBar = () => {
+    if (!config.filters || config.filters.length === 0) return null;
+
+    return (
+      <ListFiltersBar<T>
+        filters={config.filters}
+        filtersState={filtersState}
+        onFilterChange={setFilter}
+        onResetFilters={resetFilters}
+        activeFilterCount={activeFilterCount}
+        hasActiveFilters={hasActiveFilters}
+        layout="horizontal"
+        collapsible={true}
+        initiallyCollapsed={false}
+      />
+    );
+  };
+
+  // ========== MAIN RENDER ==========
   const rootClassName = `generic-filterable-list ${className} ${config.className || ''}`.trim();
 
   return (
     <div className={rootClassName} data-testid={testId || config.testId}>
-      {/* TODO: Render components in Sprint 4 */}
-      <div className="gfl-container">
-        {/* Header */}
-        <div className="gfl-header">
-          <h2>GenericFilterableList - Sprint 1 Complete</h2>
-          <p>Config loaded: {config.ui?.title || 'No title'}</p>
-        </div>
+      {/* Header */}
+      <ListHeader
+        title={config.ui?.title}
+        subtitle={config.ui?.subtitle}
+        icon={config.ui?.icon}
+        customComponent={config.ui?.headerComponent}
+        actions={renderHeaderActions()}
+        filterBar={renderFiltersBar()}
+      />
 
-        {/* Stats */}
-        <div className="gfl-stats">
-          <div>
-            <strong>Total Items:</strong> {sourceData.length}
-          </div>
-          <div>
-            <strong>Filtered:</strong> {filteredData.length}
-          </div>
-          <div>
-            <strong>Sorted:</strong> {sortedData.length}
-          </div>
-          <div>
-            <strong>Displayed:</strong> {displayData.length}
-          </div>
-          <div>
-            <strong>Active Filters:</strong> {activeFilterCount}
-          </div>
-          <div>
-            <strong>Loading:</strong> {dataLoading ? 'Yes' : 'No'}
-          </div>
-        </div>
-
-        {/* Loading State */}
-        {dataLoading && (
-          <div className="gfl-loading">
-            Loading...
-          </div>
-        )}
-
-        {/* Error State */}
-        {dataError && (
-          <div className="gfl-error">
-            Error: {dataError.message || 'An error occurred'}
-          </div>
-        )}
-
-        {/* Empty State */}
-        {!dataLoading && displayData.length === 0 && (
-          <div className="gfl-empty">
-            {hasActiveFilters
-              ? 'No results found with current filters'
-              : config.ui?.emptyState?.title || 'No items to display'}
-          </div>
-        )}
-
-        {/* Data Preview (temporary for Sprint 1) */}
-        {!dataLoading && displayData.length > 0 && (
-          <div className="gfl-preview">
-            <h3>Data Preview ({displayData.length} items)</h3>
-            <pre style={{ maxHeight: '300px', overflow: 'auto' }}>
-              {JSON.stringify(displayData.slice(0, 3), null, 2)}
-            </pre>
-          </div>
-        )}
-
-        {/* Pagination Info */}
-        {paginationMode !== 'none' && (
-          <div className="gfl-pagination-info">
-            <p>
-              Page {paginationState.currentPage} of {paginationState.totalPages}
-              {' - '}
-              Items {paginationState.startIndex + 1} to {paginationState.endIndex + 1} of {paginationState.totalItems}
-            </p>
-          </div>
-        )}
+      {/* Main Content */}
+      <div className="gfl__content">
+        {renderView()}
       </div>
+
+      {/* Pagination */}
+      {paginationMode !== 'none' && displayData.length > 0 && (
+        <ListPagination
+          paginationState={paginationState}
+          onPageChange={goToPage}
+          onItemsPerPageChange={setItemsPerPage}
+          canGoPrevious={canGoPrevious}
+          canGoNext={canGoNext}
+          itemsPerPageOptions={config.pagination?.itemsPerPageOptions}
+          showItemsPerPageSelector={config.pagination?.showItemsPerPageSelector !== false}
+        />
+      )}
+
+      {/* Loading Overlay (if using skeleton in view) */}
+      {dataLoading && config.ui?.loadingState?.overlay && (
+        <ListLoadingState config={config.ui.loadingState} overlay={true} />
+      )}
     </div>
   );
 }

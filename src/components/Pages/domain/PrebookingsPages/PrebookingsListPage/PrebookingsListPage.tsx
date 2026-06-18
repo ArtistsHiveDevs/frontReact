@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Chip,
   Divider,
   FormControl,
   IconButton,
@@ -534,7 +533,7 @@ const PrebookingsListPage = () => {
     }
     return {
       icon: 'TbCalendarQuestion',
-      title: 'No hay prebookings aún',
+      title: 'No hay prebookings aún AAAAA',
       description: 'Cuando tengas prebookings, aparecerán aquí',
     };
   };

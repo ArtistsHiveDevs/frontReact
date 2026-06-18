@@ -139,7 +139,7 @@ export const ROUTES_CONFIG: PathConfigMap = {
         subpaths: {
           PrebookingsListPage: {
             component: lazy(
-              () => import('~/components/Pages/domain/PrebookingsPages/PrebookingsListPage/PrebookingsListPage')
+              () => import('~/components/Pages/domain/PrebookingsPages/PrebookingsListPage/PrebookingsListPage.NEW')
             ),
           },
           PrebookDetailsPage: {

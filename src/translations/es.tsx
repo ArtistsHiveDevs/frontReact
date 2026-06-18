@@ -1373,6 +1373,7 @@ export const EsMessages = {
               my_events: 'Mis eventos',
               'my_events.nested': { create: 'Crear Evento' },
               my_riders: 'Mis riders',
+              my_open_calls: 'Mis Convocatorias',
               my_places: 'Mis lugares',
               'my_places.nested': { create: 'Crear lugar' },
               favourites: 'Favoritos',

@@ -1,5 +1,3 @@
-import EventNegociationDetailsPage from '~/components/Pages/domain/PrebookingsPages/EventNegotiationPage/EventNegotiationDetailsPage';
-
 export const EnMessages = {
   app: {
     name: 'App EN',
@@ -1361,6 +1359,7 @@ export const EnMessages = {
               my_events: 'My Events',
               'my_events.nested': { create: 'Create event' },
               my_riders: 'My Riders',
+              my_open_calls: 'My Open-calls',
               my_places: 'My Places',
               'my_places.nested': { create: 'Create Place' },
               favourites: 'Favorites',

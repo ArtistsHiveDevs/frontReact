@@ -24,8 +24,14 @@ export { ListSelectFilter } from './filters/ListSelectFilter';
 export { ListDateRangeFilter } from './filters/ListDateRangeFilter';
 export { ListFilterRenderer } from './filters/ListFilterRenderer';
 
+// View components
+export { ListCardView } from './views/ListCardView';
+export { ListTableView } from './views/ListTableView';
+export { ListStandardCard } from './views/ListStandardCard';
+
 // UI components
 export { ListFiltersBar } from './components/ListFiltersBar';
+export { ListViewModeToggle } from './components/ListViewModeToggle';
 
 // Utilities (for custom filters/sorting)
 export * from './utils/filterHelpers';

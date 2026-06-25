@@ -307,6 +307,13 @@ const config: SideMenuItem[] = [
     forbiddenEnvironments: ['prod'],
   },
   {
+    name: 'PAGOS = = =',
+    path: `${PATHS.PAYMENTS}`,
+    icon: 'MdAttachMoney',
+    updated: new Date('2/20/16'),
+    forbiddenEnvironments: ['prod'],
+  },
+  {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'send_comments'),
     path: `${PATHS.PREBOOKING_REQUESTS_LIST}/end/details/lasucursalvenue`,
     icon: 'tb TbContract',

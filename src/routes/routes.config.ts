@@ -273,9 +273,17 @@ export const ROUTES_CONFIG: PathConfigMap = {
     },
   },
   utils: {
-    PaymentsPage: {
-      component: lazy(() => import('~/components/Pages/utils/payments/Payment.page')),
+    payment: {
       path: PATHS.PAYMENTS,
+      subpaths: {
+        PaymentsPage: {
+          component: lazy(() => import('~/components/Pages/utils/payments/Payment.page')),
+        },
+        PaymentConfirmationPage: {
+          component: lazy(() => import('~/components/Pages/utils/payments/PaymentConfirmation.page')),
+          path: SUB_PATHS.CONFIRMATION,
+        },
+      },
     },
     CCPage: {
       component: lazy(() => import('~/components/Pages/utils/cc-qr/CC')),

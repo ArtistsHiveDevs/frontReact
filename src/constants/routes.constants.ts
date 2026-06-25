@@ -45,6 +45,7 @@ export enum SUB_PATHS {
   ELEMENT_DETAILS = 'details',
   AGENDA = 'agenda',
   APPLY = 'apply',
+  CONFIRMATION = 'confirmation',
 }
 
 export enum URL_PARAMETER_NAMES {

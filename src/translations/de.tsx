@@ -1007,6 +1007,7 @@ export const DeMessages = {
                     has_open_mic: 'Hat es ein offenes Mikrofon?',
                     total_audience_capacity: 'Max. Kapazität',
                     bookingRatesPolicy: 'Buchungsrichtlinien',
+                    regulatory_closing_time: 'Behördliche Schließzeit',
                   },
                 },
                 genres: {

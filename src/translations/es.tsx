@@ -1007,6 +1007,7 @@ export const EsMessages = {
                     has_open_mic: '¿Tiene micrófono abierto?',
                     total_audience_capacity: 'Aforo máx.',
                     bookingRatesPolicy: 'Políticas de reserva',
+                    regulatory_closing_time: 'Hora de cierre reglamentaria',
                   },
                 },
                 genres: {

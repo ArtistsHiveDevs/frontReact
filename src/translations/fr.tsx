@@ -1009,6 +1009,7 @@ export const FrMessages = {
                     has_open_mic: 'A-t-il un micro ouvert ?',
                     total_audience_capacity: 'Capacité max.',
                     bookingRatesPolicy: 'Politiques de réservation',
+                    regulatory_closing_time: 'Heure de fermeture réglementaire',
                   },
                 },
                 genres: {

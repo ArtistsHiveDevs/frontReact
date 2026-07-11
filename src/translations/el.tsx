@@ -1008,6 +1008,7 @@ export const ElMessages = {
                     has_open_mic: 'Έχει ανοιχτό μικρόφωνο;',
                     total_audience_capacity: 'Μέγ. χωρητικότητα',
                     bookingRatesPolicy: 'Πολιτικές κράτησης',
+                    regulatory_closing_time: 'Κανονιστική ώρα κλεισίματος',
                   },
                 },
                 genres: {

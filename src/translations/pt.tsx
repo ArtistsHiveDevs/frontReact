@@ -1005,6 +1005,7 @@ export const PtMessages = {
                     has_open_mic: 'Tem microfone aberto?',
                     total_audience_capacity: 'Capacidade máx.',
                     bookingRatesPolicy: 'Políticas de reserva',
+                    regulatory_closing_time: 'Horário regulamentar de encerramento',
                   },
                 },
                 genres: {

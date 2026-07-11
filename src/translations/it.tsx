@@ -1008,6 +1008,7 @@ export const ItMessages = {
                     has_open_mic: 'Ha un microfono aperto?',
                     total_audience_capacity: 'Capienza max.',
                     bookingRatesPolicy: 'Politiche di prenotazione',
+                    regulatory_closing_time: 'Orario di chiusura regolamentare',
                   },
                 },
                 genres: {

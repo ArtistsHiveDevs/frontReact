@@ -1,4 +1,4 @@
-import { PATHS } from '~/constants/routes.constants';
+import { PATHS } from "~/constants/routes.constants";
 
 export type EnvironmentType = 'prod' | 'uat' | 'sit' | 'dev';
 

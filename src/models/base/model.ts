@@ -11,6 +11,7 @@ import {
   ProfileTemplate,
   SearchableProfileTemplate,
 } from './template';
+import { buildSharedUrl } from '~/common/utils/app-utils/app-utils';
 
 const DEFAULT_MAX_CACHE_TIME_TO_LIVE = 3 * 60 * 1000;
 
@@ -204,14 +205,20 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
   [x: string]: any;
   declare id: string;
   declare shortId?: string;
+  declare sharedUrl?: any;
 
   constructor(template: T | any = {}) {
     super(template);
     this.id = template.id || template._id;
+    this.sharedUrl = !!template?.username ?  buildSharedUrl(template.username) : undefined;
   }
 
   get identifier(): string {
     return this.shortId || this.id;
+  }
+
+  get sharedUrlWhatsApp(): any {
+    return this.sharedUrl;
   }
 }
 

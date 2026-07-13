@@ -1,5 +1,5 @@
 import Flag from 'react-world-flags';
-import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
+import { isProdEnvironment, fullyHiddenSectionsByEnvironment } from '~/common/utils/app-utils/app-utils';
 import { RatingStarsView } from '~/components/shared/atoms/gui/rating-stars-view/RatingStarsView';
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 import { ArtistModel, ArtistRatingTemplate } from '~/models/domain/artist/artist.model';
@@ -243,9 +243,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'members',
     requireSession: true,
-    fullyHidden: (data: ArtistModel) => {
-      return isProdEnvironment();
-    },
+    fullyHidden: fullyHiddenSectionsByEnvironment(['prod', 'dev']),
     sections: [
       {
         name: 'music_performance',
@@ -365,7 +363,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
       },
       {
         name: 'gallery',
-        // hidden: true,
+        hidden: fullyHiddenSectionsByEnvironment(['prod', 'dev']),
         components: [
           {
             componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
@@ -413,6 +411,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
       },
       {
         name: 'awards',
+        hidden: fullyHiddenSectionsByEnvironment(['prod', 'dev']),
       },
     ],
   },
@@ -542,6 +541,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   },
   {
     name: 'shows',
+    fullyHidden: fullyHiddenSectionsByEnvironment(['prod', 'dev']),
     sections: [
       {
         name: 'summary',

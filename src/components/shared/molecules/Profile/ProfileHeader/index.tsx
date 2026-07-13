@@ -20,6 +20,7 @@ import {
   FavoriteSubscritionIconDefaultTypes,
 } from '../../general/favoriteSubscribe/favoriteSubscribe';
 import './index.scss';
+import BurgerProfileMenu from '../../general/burgerProfileMenu/burgerProfileMenu';
 
 export interface ProfileHeaderElement {
   name: string;
@@ -289,6 +290,7 @@ export const ProfileHeader = (props: any) => {
     setZoomProfilePic(false);
   };
 
+  console.log({element})
   return (
     <>
       {!!element?.activity && element.activity !== 'active' && (
@@ -399,6 +401,11 @@ export const ProfileHeader = (props: any) => {
           {/* {element?.followed_by_count !== undefined && ( */}
           {showFollowerCounter && !isEditable && <FollowerCounter element={element} handlers={parentHandlers} />}
         </div>
+
+        <div className='profile-menu-container ml-auto'>
+          <BurgerProfileMenu />
+        </div>
+        
       </div>
       {currentUserIsInProfile && (
         <div className="profile-header actions" onClick={() => setEditableMode(element)}>

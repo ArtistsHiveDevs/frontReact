@@ -25,6 +25,7 @@ import { ProfileModel } from '~/models/base';
 import { defaultTypesColors, getModelInfoFromInstance } from '~/models/base/modelHelpers';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import './index.scss';
+import BurgerProfileMenu from '../../general/burgerProfileMenu/burgerProfileMenu';
 
 export interface ProfileHeaderElement {
   name: string;

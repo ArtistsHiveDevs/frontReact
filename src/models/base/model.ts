@@ -221,7 +221,7 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
     const shareDomain = 'https://share.artist-hive.com';
     const env = isProdEnvironment() ? '' : `?a=${encryptEnvToken()}`;
     //TODO Revisar qué pasa cuando no tenga
-    return this.entityShareAcronym ? `${shareDomain}/r/${this.identifier}` : 'https://artist-hive.com';
+    return this.entityShareAcronym ? `${shareDomain}/r/${this.identifier}${env}` : 'https://artist-hive.com';
   }
 }
 
@@ -303,8 +303,10 @@ export abstract class ProfileModel<T extends ProfileTemplate>
 
   get sharedUrlSocialNetworks() {
     const shareDomain = 'https://share.artist-hive.com/';
-    //TODO Revisar qué pasa cuando no tenga
-    return `${shareDomain}/@${this.identifier}`;
+
+    const env = isProdEnvironment() ? '' : `?a=${encryptEnvToken()}`;
+
+    return `${shareDomain}/@${this.identifier}${env}`;
   }
 
   private async setAWSURL() {

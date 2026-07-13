@@ -56,6 +56,7 @@ export const DeMessages = {
           open: 'Öffnen',
           save: 'Speichern',
         },
+        share: 'Teilen',
         show_more: 'Mehr anzeigen',
         show_less: 'Weniger anzeigen',
         submit: 'Absenden',

@@ -56,6 +56,7 @@ export const EsMessages = {
           open: 'Abrir',
           save: 'Guardar',
         },
+        share: 'Compartir',
         show_more: 'Mostrar más',
         show_less: 'Mostrar menos',
         submit: 'Enviar',

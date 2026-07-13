@@ -56,6 +56,7 @@ export const ElMessages = {
           open: 'Άνοιγμα',
           save: 'Αποθήκευση',
         },
+        share: 'Κοινοποίηση',
         show_more: 'Περισσότερα',
         show_less: 'Λιγότερα',
         submit: 'Υποβολή',

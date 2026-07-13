@@ -290,7 +290,7 @@ export const ProfileHeader = (props: any) => {
     setZoomProfilePic(false);
   };
 
-  console.log({element})
+  console.log({ element });
   return (
     <>
       {!!element?.activity && element.activity !== 'active' && (
@@ -402,10 +402,11 @@ export const ProfileHeader = (props: any) => {
           {showFollowerCounter && !isEditable && <FollowerCounter element={element} handlers={parentHandlers} />}
         </div>
 
-        <div className='profile-menu-container ml-auto'>
+        <div className="profile-menu-container ml-auto">
           <BurgerProfileMenu />
+          <h1>{translateGlobalDict('actions.share')}</h1>
+          <p>{element.sharedUrlSocialNetworks}</p>
         </div>
-        
       </div>
       {currentUserIsInProfile && (
         <div className="profile-header actions" onClick={() => setEditableMode(element)}>

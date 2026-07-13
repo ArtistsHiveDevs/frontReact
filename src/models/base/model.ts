@@ -11,7 +11,8 @@ import {
   ProfileTemplate,
   SearchableProfileTemplate,
 } from './template';
-import { buildSharedUrl } from '~/common/utils/app-utils/app-utils';
+import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
+import { encryptEnvToken } from '~/common/utils/request';
 
 const DEFAULT_MAX_CACHE_TIME_TO_LIVE = 3 * 60 * 1000;
 
@@ -205,20 +206,22 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
   [x: string]: any;
   declare id: string;
   declare shortId?: string;
-  declare sharedUrl?: any;
+  declare entityShareAcronym?: any;
 
   constructor(template: T | any = {}) {
     super(template);
     this.id = template.id || template._id;
-    this.sharedUrl = !!template?.username ?  buildSharedUrl(template.username) : undefined;
   }
 
   get identifier(): string {
     return this.shortId || this.id;
   }
 
-  get sharedUrlWhatsApp(): any {
-    return this.sharedUrl;
+  get sharedUrlSocialNetworks() {
+    const shareDomain = 'https://share.artist-hive.com';
+    const env = isProdEnvironment() ? '' : `?a=${encryptEnvToken()}`;
+    //TODO Revisar qué pasa cuando no tenga
+    return this.entityShareAcronym ? `${shareDomain}/r/${this.identifier}` : 'https://artist-hive.com';
   }
 }
 
@@ -296,6 +299,12 @@ export abstract class ProfileModel<T extends ProfileTemplate>
 
   async avatarURL(): Promise<string> {
     return await this.getS3UrlWithCache(this.profile_pic);
+  }
+
+  get sharedUrlSocialNetworks() {
+    const shareDomain = 'https://share.artist-hive.com/';
+    //TODO Revisar qué pasa cuando no tenga
+    return `${shareDomain}/@${this.identifier}`;
   }
 
   private async setAWSURL() {

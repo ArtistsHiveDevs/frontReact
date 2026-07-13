@@ -56,6 +56,7 @@ export const ItMessages = {
           open: 'Apri',
           save: 'Salva',
         },
+        share: 'Condividi',
         show_more: 'Mostra di più',
         show_less: 'Mostra di meno',
         submit: 'Invia',

@@ -56,6 +56,7 @@ export const FrMessages = {
           open: 'Ouvrir',
           save: 'Enregistrer',
         },
+        share: 'Partager',
         show_more: 'Afficher plus',
         show_less: 'Afficher moins',
         submit: 'Soumettre',

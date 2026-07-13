@@ -211,7 +211,6 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
   constructor(template: T | any = {}) {
     super(template);
     this.id = template.id || template._id;
-    this.sharedUrl = !!template?.username ?  buildSharedUrl(template.username) : undefined;
   }
 
   get identifier(): string {

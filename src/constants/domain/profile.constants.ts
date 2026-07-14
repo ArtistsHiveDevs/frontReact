@@ -18,3 +18,15 @@ export const ProfileNature = {
 export const PROFILE_NATURE_VALUES = Object.values(ProfileNature);
 
 export type ProfileNature = typeof ProfileNature[keyof typeof ProfileNature];
+
+export const profileMenuOptions = [
+    {
+      option: 'SHARE',
+      id: 0,
+      translate: 'actions.share',
+      defalutText: 'share'
+    }
+]
+;
+
+export const PROFILE_MENU_OPTIONS_VALUES = Object.values(profileMenuOptions);

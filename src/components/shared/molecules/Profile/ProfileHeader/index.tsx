@@ -1,4 +1,4 @@
-import { Avatar, Button, Dialog, DialogContent, IconButton } from '@mui/material';
+import { Avatar, Button, Dialog, DialogContent, IconButton, Snackbar, SnackbarCloseReason } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { RegisterOptions } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,6 +21,7 @@ import {
 } from '../../general/favoriteSubscribe/favoriteSubscribe';
 import './index.scss';
 import BurgerProfileMenu from '../../general/burgerProfileMenu/burgerProfileMenu';
+import { profileMenuOptions } from '~/constants/domain/profile.constants';
 
 export interface ProfileHeaderElement {
   name: string;
@@ -100,6 +101,9 @@ export const ProfileHeader = (props: any) => {
   const [profilePictureConfig, setProfilePictureConfig] = useState({
     value: undefined,
   });
+
+  const [showSnackBar, setShowSnackBar] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState('This Snackbar will be dismissed in few seconds.');
 
   const loggedUser = useSelector(selectCurrentUser);
 
@@ -290,9 +294,38 @@ export const ProfileHeader = (props: any) => {
     setZoomProfilePic(false);
   };
 
-  console.log({ element });
+  const handleCloseSnackBar = (
+    event: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setShowSnackBar(false);
+  };
+
+  const copyShareSocialMediaUrl = () => {
+    navigator.clipboard.writeText(element.sharedUrlSocialNetworks);
+    // snackBarValues.message = 'texto copiado al portapapeles';
+    setSnackBarMessage('texto copiado al portapapeles');
+    setShowSnackBar(true);
+  }
+
+  const selectProfileMenuHandleClick = (event: number) => {
+    switch (event) {
+      case 0: copyShareSocialMediaUrl();
+      break;
+    }
+  }
+
   return (
     <>
+      <Snackbar
+        open={showSnackBar}
+        autoHideDuration={2000}
+        onClose={handleCloseSnackBar}
+        message={snackBarMessage}
+      />
       {!!element?.activity && element.activity !== 'active' && (
         <div className={['activity-banner', element.activity.replace('_', '-')].join(' ')}>
           <DynamicIcons iconName="PiWarningOctagonBold" size={25} color={'white'} />
@@ -403,9 +436,12 @@ export const ProfileHeader = (props: any) => {
         </div>
 
         <div className="profile-menu-container ml-auto">
-          <BurgerProfileMenu />
-          <h1>{translateGlobalDict('actions.share')}</h1>
-          <p>{element.sharedUrlSocialNetworks}</p>
+          <div className='profile-menu-container ml-auto'>
+            <BurgerProfileMenu
+              globalDictionary = {translateGlobalDict}
+              options = {profileMenuOptions}
+              onClickOption = {(e: number) => selectProfileMenuHandleClick(e)} />
+          </div>
         </div>
       </div>
       {currentUserIsInProfile && (

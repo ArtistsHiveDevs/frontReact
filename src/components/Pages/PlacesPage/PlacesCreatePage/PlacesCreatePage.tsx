@@ -85,15 +85,15 @@ const PlacesCreatePage = () => {
 
           dispatch(placesActions.createItem({ data }));
         } else {
-          dispatch(
-            placesActions.updateItem({
-              id: currentPlace.identifier,
-              newItem: {
-                ...data,
-              },
-              // newItem: { spotify: 'InstagramActualizado' },
-            })
-          );
+          const newInfo = {
+            id: currentPlace.identifier,
+            newItem: {
+              ...data,
+            },
+            // newItem: { spotify: 'InstagramActualizado' },
+          };
+          console.log('ACTALIZANDO.... ', newInfo);
+          dispatch(placesActions.updateItem(newInfo));
         }
       }
       setRequestHasBeenSended(true);

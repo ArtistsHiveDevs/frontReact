@@ -302,7 +302,7 @@ export abstract class ProfileModel<T extends ProfileTemplate>
   }
 
   get sharedUrlSocialNetworks() {
-    const shareDomain = 'https://share.artist-hive.com/';
+    const shareDomain = 'https://share.artist-hive.com';
 
     const env = isProdEnvironment() ? '' : `?a=${encryptEnvToken()}`;
 

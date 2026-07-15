@@ -40,8 +40,10 @@
     }
 
     &.expanded {
-      max-height: 1000px;
       opacity: 1;
     }
+    // &.maxHeight{
+    //   max-height: 1000px;
+    // }
   }
 }

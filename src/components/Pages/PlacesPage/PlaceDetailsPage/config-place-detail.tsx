@@ -72,10 +72,10 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                     inputType: 'address',
                   },
                 },
-                {
-                  name: 'categories',
-                  icon: 'BsInfoCircleFill',
-                },
+                // {
+                //   name: 'categories',
+                //   icon: 'BsInfoCircleFill',
+                // },
                 {
                   name: 'since',
                   icon: 'BsCalendar',
@@ -92,6 +92,13 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'activity',
                   icon: 'bs BsActivity',
+                  formMetaData: {
+                    inputType: 'switch',
+                    componentParams: {},
+                    config: {
+                      required: false,
+                    },
+                  },
                 },
                 {
                   name: 'spoken_languages',
@@ -107,6 +114,13 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   icon: 'lu LuMicVocal',
                   value: (place: PlaceModel) => {
                     return place.has_open_mic ? 'Sí' : 'No';
+                  },
+                  formMetaData: {
+                    inputType: 'switch',
+                    componentParams: {},
+                    config: {
+                      required: false,
+                    },
                   },
                   // formMetaData: { inputType: 'chipPicker' },
                 },
@@ -207,7 +221,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   },
   {
     name: 'stats',
-    // requireSession: true,
+    requireSession: true,
     sections: [
       // {
       //   name: 'social_network_presence',
@@ -469,14 +483,123 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
     requireSession: true,
     sections: [
       {
-        name: 'sound_backline',
+        name: 'backline_instruments',
+        components: [
+          {
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  name: 'venue_backline_instruments',
+                  emptyTitle: true,
+                  formMetaData: {
+                    inputType: 'textarea',
+                    placeholder: 'Ej: Batería completa, amplificadores de guitarra y bajo...',
+                    componentParams: {
+                      rows: 4,
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
       },
       {
-        name: 'light_backline',
+        name: 'backline_sound',
+        components: [
+          {
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  name: 'venue_backline_sound',
+                  emptyTitle: true,
+                  formMetaData: {
+                    inputType: 'textarea',
+                    placeholder: 'Ej: PA system, monitores de piso, mesa de mezcla de 32 canales...',
+                    componentParams: {
+                      rows: 4,
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        name: 'backline_lights',
+        components: [
+          {
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  name: 'venue_backline_lights',
+                  emptyTitle: true,
+                  formMetaData: {
+                    inputType: 'textarea',
+                    placeholder: 'Ej: Luces LED, seguidor, máquina de humo...',
+                    componentParams: {
+                      rows: 3,
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        name: 'backline_video',
+        components: [
+          {
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  name: 'venue_backline_video',
+                  emptyTitle: true,
+                  formMetaData: {
+                    inputType: 'textarea',
+                    placeholder: 'Ej: Reproducción de video 4K, formato MP4, VID, etc',
+                    componentParams: {
+                      rows: 4,
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        name: 'backline_additional_info',
+        components: [
+          {
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                {
+                  name: 'venue_backline_additional_info',
+                  emptyTitle: true,
+                  formMetaData: {
+                    inputType: 'textarea',
+                    placeholder: 'Notas adicionales sobre el equipo técnico...',
+                    componentParams: {
+                      rows: 3,
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
       },
     ],
     formMetaData: {
-      hidden: true,
+      // hidden: true,
     },
   },
   // {

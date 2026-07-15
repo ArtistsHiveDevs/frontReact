@@ -1055,11 +1055,20 @@ export const EsMessages = {
             backline: {
               name: 'Backline',
               sections: {
-                sound_backline: {
-                  name: 'Backline de sonido',
+                backline_instruments: {
+                  name: 'Instruments',
                 },
-                light_backline: {
-                  name: 'Backline de luces',
+                backline_sound: {
+                  name: 'Sound',
+                },
+                backline_lights: {
+                  name: 'Lights',
+                },
+                backline_video: {
+                  name: 'Video',
+                },
+                backline_additional_info: {
+                  name: 'Additional Info',
                 },
               },
             },

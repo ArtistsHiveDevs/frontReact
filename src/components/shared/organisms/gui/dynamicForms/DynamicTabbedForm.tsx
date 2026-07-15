@@ -72,18 +72,47 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       suffix
     );
   };
-  const getAttributeTitle = (subpageName: string, sectionName: string, attribute: AttributeConfiguration) => {
-    let title: string = '';
-    if (attribute.translationPath) {
-      title = translateText(`${attribute.translationPath}.${attribute.name}`, attribute.labelChild);
-    } else if (attribute.title) {
-      title = attribute.title;
-    } else {
-      // if (attribute.useTranslation || attribute.emptyTitle === undefined || attribute.emptyTitle === false) {
-      title = translateAttribute(subpageName, sectionName, attribute.name, attribute.labelChild);
+  // const getAttributeTitle = (subpageName: string, sectionName: string, attribute: AttributeConfiguration) => {
+  //   let title: string = '';
+  //   if (attribute.translationPath) {
+  //     title = translateText(`${attribute.translationPath}.${attribute.name}`, attribute.labelChild);
+  //   } else if (attribute.title) {
+  //     title = attribute.title;
+  //   } else {
+  //     // if (attribute.useTranslation || attribute.emptyTitle === undefined || attribute.emptyTitle === false) {
+  //     title = translateAttribute(subpageName, sectionName, attribute.name, attribute.labelChild);
+  //   }
+
+  //   return title;
+  // };
+
+  /**
+   * Obtiene el título traducido de un atributo
+   */
+  const getAttributeTitle = (
+    subpageName: string,
+    sectionName: string,
+    attribute: AttributeConfiguration
+    // translationBasePath: string,
+    // translateText: (path: string) => string
+  ): string => {
+    if (attribute.emptyTitle !== true) {
+      if (attribute.translationPath) {
+        return translateText(`${attribute.translationPath}.${attribute.name}`);
+      }
+
+      if (attribute.title) {
+        return attribute.title;
+      }
+
+      if (attribute.useTranslation || attribute.emptyTitle === undefined) {
+        return translateText(
+          `${translationBasePath}.subpages.${subpageName}.sections.${sectionName}.attributes.${attribute.name}`
+        );
+      }
     }
 
-    return title;
+    return '';
   };
 
   const generateSectionFormFields = (
@@ -208,7 +237,11 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     } else if (componentDescriptor.componentName === ComponentTypes.ARTS_GENRES) {
       componentFieldData.inputType = 'chipPicker';
       addComponentField = true;
-    } else if (componentDescriptor.componentName === ComponentTypes.IMAGE_GALLERY) {
+    } else if (
+      [ComponentTypes.IMAGE_GALLERY, ComponentTypes.HORIZONTAL_IMAGE_GALLERY].includes(
+        componentDescriptor.componentName
+      )
+    ) {
       componentFieldData.inputType = 'file';
       addComponentField = true;
     } else if (componentDescriptor.componentName === ComponentTypes.PROFILE_THUMBNAIL_CARD) {

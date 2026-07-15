@@ -1040,11 +1040,20 @@ export const EnMessages = {
             backline: {
               name: 'Backline',
               sections: {
-                sound_backline: {
-                  name: 'Sound Backline',
+                backline_instruments: {
+                  name: 'Instruments',
                 },
-                light_backline: {
-                  name: 'Light Backline',
+                backline_sound: {
+                  name: 'Sound',
+                },
+                backline_lights: {
+                  name: 'Lights',
+                },
+                backline_video: {
+                  name: 'Video',
+                },
+                backline_additional_info: {
+                  name: 'Additional Info',
                 },
               },
             },

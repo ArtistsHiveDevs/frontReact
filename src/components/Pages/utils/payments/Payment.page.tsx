@@ -12,13 +12,20 @@ import {
 import CryptoJS from 'crypto-js';
 import { useEffect, useRef, useState } from 'react';
 import Flag from 'react-world-flags';
+import { useSearchParams } from 'react-router-dom';
 import './Payment.page.scss';
 
-// Tasa fija usada únicamente para calcular el equivalente en COP cuando el monto se registra en otra moneda.
+type BaseCurrency = 'EUR' | 'COP';
+
+// Tasa fija usada para convertir entre EUR y COP cuando la moneda base es EUR.
 let EUR_TO_COP_RATE = 3900;
 
-// Precio por gramo: el monto en EUR se calcula a partir del peso de la pieza.
-let GRAM_TO_EUR_RATE = 15;
+// Precio por gramo en cada moneda base soportada: el monto en esa moneda se calcula a partir del peso de la pieza.
+// La moneda base activa se elige con el parámetro de URL ?baseCurrency=COP (por defecto EUR).
+const GRAM_RATE_BY_CURRENCY: Record<BaseCurrency, number> = {
+  EUR: 15,
+  COP: 40000,
+};
 
 const groupThousands = (digits: string): string => digits.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
@@ -40,6 +47,30 @@ const parseAmountDisplay = (raw: string): number | undefined => {
 };
 
 const roundTo2 = (value: number): number => Math.round(value * 100) / 100;
+
+// A partir del peso, calcula el monto en la moneda base y su equivalente en COP/EUR.
+const amountsFromGrams = (grams: number, baseCurrency: BaseCurrency, gramRate: number, eurToCopRate: number) => {
+  const baseAmount = roundTo2(grams * gramRate);
+  const cop = baseCurrency === 'COP' ? Math.round(baseAmount) : Math.round(baseAmount * eurToCopRate);
+  const eur = baseCurrency === 'EUR' ? baseAmount : roundTo2(cop / eurToCopRate);
+  return { cop, eur };
+};
+
+// A partir del monto en COP, calcula su equivalente en EUR y el peso correspondiente.
+const amountsFromCop = (cop: number, baseCurrency: BaseCurrency, gramRate: number, eurToCopRate: number) => {
+  const eur = roundTo2(cop / eurToCopRate);
+  const baseAmount = baseCurrency === 'COP' ? cop : eur;
+  const grams = roundTo2(baseAmount / gramRate);
+  return { eur, grams };
+};
+
+// A partir del monto en EUR, calcula su equivalente en COP y el peso correspondiente.
+const amountsFromEur = (eur: number, baseCurrency: BaseCurrency, gramRate: number, eurToCopRate: number) => {
+  const cop = Math.round(eur * eurToCopRate);
+  const baseAmount = baseCurrency === 'EUR' ? eur : cop;
+  const grams = roundTo2(baseAmount / gramRate);
+  return { cop, grams };
+};
 
 // Campo numérico con separador de miles visual; el valor almacenado sigue siendo number | undefined.
 // Si vale 0 o está vacío se muestra en blanco, para no obligar a borrar un "0" antes de escribir.
@@ -96,6 +127,11 @@ interface WompiWidgetConfig {
 }
 
 const PaymentPage = (props: any) => {
+  // Moneda base para el precio por gramo: ?baseCurrency=COP en la URL, por defecto EUR.
+  const [searchParams] = useSearchParams();
+  const baseCurrency: BaseCurrency = 'COP'; //searchParams.get('baseCurrency') === 'COP' ? 'COP' : 'EUR';
+  const gramRate = GRAM_RATE_BY_CURRENCY[baseCurrency];
+
   // Generate unique reference
   const generateReference = (): string => {
     const timestamp = Date.now();
@@ -234,37 +270,38 @@ const PaymentPage = (props: any) => {
   // Cuál de los tres campos (peso, EUR, COP) editó el usuario por última vez, para saber qué recalcular si cambia alguna tasa
   const [lastEdited, setLastEdited] = useState<'PESO' | 'EUR' | 'COP'>('PESO');
 
-  // Peso de la pieza en gramos; determina el monto en EUR (y por lo tanto en COP)
+  // Peso de la pieza en gramos; determina el monto en la moneda base (y por lo tanto en COP/EUR)
   const handleWeightChange = (value: number | undefined) => {
-    const eur = roundTo2((value ?? 0) * GRAM_TO_EUR_RATE);
+    const { cop, eur } = amountsFromGrams(value ?? 0, baseCurrency, gramRate, EUR_TO_COP_RATE);
     setPaymentData((prev) => ({
       ...prev,
       weightGrams: value,
       amountOtherCurrency: eur,
-      amount: Math.round(eur * EUR_TO_COP_RATE),
+      amount: cop,
     }));
     setLastEdited('PESO');
   };
 
   // Monto en EUR; se sincroniza siempre con su equivalente en peso y en COP, que es el que efectivamente se cobra en Wompi
   const handleOtherCurrencyAmountChange = (value: number | undefined) => {
+    const { cop, grams } = amountsFromEur(value ?? 0, baseCurrency, gramRate, EUR_TO_COP_RATE);
     setPaymentData((prev) => ({
       ...prev,
       amountOtherCurrency: value,
-      amount: Math.round((value ?? 0) * EUR_TO_COP_RATE),
-      weightGrams: roundTo2((value ?? 0) / GRAM_TO_EUR_RATE),
+      amount: cop,
+      weightGrams: grams,
     }));
     setLastEdited('EUR');
   };
 
   // Monto en COP; se sincroniza siempre con su equivalente en EUR y en peso
   const handleAmountChange = (value: number | undefined) => {
-    const eur = roundTo2((value ?? 0) / EUR_TO_COP_RATE);
+    const { eur, grams } = amountsFromCop(value ?? 0, baseCurrency, gramRate, EUR_TO_COP_RATE);
     setPaymentData((prev) => ({
       ...prev,
       amount: value ?? 0,
       amountOtherCurrency: eur,
-      weightGrams: roundTo2(eur / GRAM_TO_EUR_RATE),
+      weightGrams: grams,
     }));
     setLastEdited('COP');
   };
@@ -272,7 +309,7 @@ const PaymentPage = (props: any) => {
   const [numClics, setNumClics] = useState(0);
   const [currencyVisible, setVisible] = useState(false);
   const [rateInput, setRateInput] = useState<number | undefined>(EUR_TO_COP_RATE);
-  const [gramRateInput, setGramRateInput] = useState<number | undefined>(GRAM_TO_EUR_RATE);
+  const [gramRateInput, setGramRateInput] = useState<number | undefined>(gramRate);
 
   const rateField = useThousandsField(rateInput, setRateInput);
   const gramRateField = useThousandsField(gramRateInput, setGramRateInput);
@@ -284,7 +321,7 @@ const PaymentPage = (props: any) => {
     setNumClics(numClics + 1);
     if (numClics + 1 >= 4) {
       setRateInput(EUR_TO_COP_RATE);
-      setGramRateInput(GRAM_TO_EUR_RATE);
+      setGramRateInput(GRAM_RATE_BY_CURRENCY[baseCurrency]);
       setVisible(true);
     }
   };
@@ -294,21 +331,28 @@ const PaymentPage = (props: any) => {
       EUR_TO_COP_RATE = rateInput;
     }
     if (gramRateInput) {
-      GRAM_TO_EUR_RATE = gramRateInput;
+      GRAM_RATE_BY_CURRENCY[baseCurrency] = gramRateInput;
     }
+    const updatedGramRate = GRAM_RATE_BY_CURRENCY[baseCurrency];
     setPaymentData((prev) => {
       if (lastEdited === 'PESO') {
-        const eur = roundTo2((prev.weightGrams ?? 0) * GRAM_TO_EUR_RATE);
-        return { ...prev, amountOtherCurrency: eur, amount: Math.round(eur * EUR_TO_COP_RATE) };
+        const { cop, eur } = amountsFromGrams(prev.weightGrams ?? 0, baseCurrency, updatedGramRate, EUR_TO_COP_RATE);
+        return { ...prev, amountOtherCurrency: eur, amount: cop };
       }
       if (lastEdited === 'COP') {
-        const eur = roundTo2((prev.amount ?? 0) / EUR_TO_COP_RATE);
-        return { ...prev, amountOtherCurrency: eur, weightGrams: roundTo2(eur / GRAM_TO_EUR_RATE) };
+        const { eur, grams } = amountsFromCop(prev.amount ?? 0, baseCurrency, updatedGramRate, EUR_TO_COP_RATE);
+        return { ...prev, amountOtherCurrency: eur, weightGrams: grams };
       }
+      const { cop, grams } = amountsFromEur(
+        prev.amountOtherCurrency ?? 0,
+        baseCurrency,
+        updatedGramRate,
+        EUR_TO_COP_RATE
+      );
       return {
         ...prev,
-        amount: Math.round((prev.amountOtherCurrency ?? 0) * EUR_TO_COP_RATE),
-        weightGrams: roundTo2((prev.amountOtherCurrency ?? 0) / GRAM_TO_EUR_RATE),
+        amount: cop,
+        weightGrams: grams,
       };
     });
     setVisible(false);
@@ -350,7 +394,7 @@ const PaymentPage = (props: any) => {
                 sx={{ marginBottom: '15px' }}
               />
               <TextField
-                label="Precio por gramo (EUR)"
+                label={`Precio por gramo (${baseCurrency})`}
                 variant="outlined"
                 fullWidth
                 type="text"
@@ -382,7 +426,7 @@ const PaymentPage = (props: any) => {
           {scriptLoaded && (
             <>
               <Box sx={{ marginBottom: '20px' }}>
-                <TextField
+                {/* <TextField
                   label="Descripción del pago *"
                   variant="outlined"
                   fullWidth
@@ -390,7 +434,7 @@ const PaymentPage = (props: any) => {
                   onChange={(e) => handleInputChange('description', e.target.value)}
                   sx={{ marginBottom: '15px' }}
                   placeholder="Ej: Suscripción Premium"
-                />
+                /> */}
 
                 <TextField
                   label="Peso (g) *"
@@ -469,7 +513,7 @@ const PaymentPage = (props: any) => {
                     endAdornment: <InputAdornment position="end">$ COP</InputAdornment>,
                   }}
                 />
-
+                {/* 
                 <TextField
                   label="Email del cliente"
                   variant="outlined"
@@ -500,7 +544,7 @@ const PaymentPage = (props: any) => {
                     disabled
                     sx={{ marginBottom: '15px' }}
                   />
-                )}
+                )} */}
               </Box>
 
               {/* Wompi Widget Container */}

@@ -57,7 +57,15 @@ export const createSwitch = (
             }
             label={label}
             labelPlacement={labelPlacement}
-            sx={{ marginLeft: 0 }}
+            sx={{
+              marginLeft: 0,
+              justifyContent: 'space-between', // pushes label to one side, control to the other
+              // OR for pure left text alignment:
+              '& .MuiFormControlLabel-label': {
+                textAlign: 'left',
+                width: '100%', // makes the label take full width so text-align works
+              },
+            }}
           />
         )}
       />

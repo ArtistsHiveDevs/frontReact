@@ -249,7 +249,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
 
   const transformedConfig = (subpagesConfig: PageSection[], elementData?: EntityModel<EntityTemplate>) => {
     return (subpagesConfig || [])
-      .filter((subpageConfig) => subpageConfig.formMetaData?.hidden !== true)
+      .filter((subpageConfig) => subpageConfig.formMetaData?.hidden !== true && !subpageConfig.fullyHidden)
       .map((subpage, subPageIndex) => {
         return {
           name: subpage.title || translateSubpage(subpage.name),
@@ -284,7 +284,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
                       );
                     }
 
-                    const sectionContent = () => contentComponents;
+                    const sectionContent = () => <div style={{ paddingTop: '1rem' }}>{contentComponents}</div>;
 
                     const filteredSections = (subpage.sections || []).filter(
                       (section) => section.formMetaData?.hidden !== true

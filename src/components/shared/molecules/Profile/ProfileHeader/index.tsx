@@ -21,7 +21,11 @@ import {
 } from '../../general/favoriteSubscribe/favoriteSubscribe';
 import './index.scss';
 import BurgerProfileMenu from '../../general/burgerProfileMenu/burgerProfileMenu';
-import { profileMenuOptions } from '~/constants/domain/profile.constants';
+import {
+  ProfileMenuOptionsData,
+  ProfileMenuOptionsType,
+  ProfileSharedMenuLabel,
+} from '~/constants/domain/profile.constants';
 
 export interface ProfileHeaderElement {
   name: string;
@@ -107,6 +111,8 @@ export const ProfileHeader = (props: any) => {
 
   const loggedUser = useSelector(selectCurrentUser);
 
+  const [burgerProfileMenuOptions, setBurgerProfileMenuOptions] = useState(ProfileMenuOptionsData);
+
   const getProfilePicURL = async () => {
     const photoURL =
       element && !!element?.avatarURL ? await element.avatarURL() : element?.profile_pic || element?.photo;
@@ -150,6 +156,14 @@ export const ProfileHeader = (props: any) => {
         (type) => type.toLowerCase() === getModelInfoFromInstance(element).entityName?.toLowerCase()
       ) + 1;
     setBorderProfileColor(entityColorIndex);
+
+    const updateBurgerProfileMenuOptions = burgerProfileMenuOptions?.map((burgerOption) => 
+      burgerOption?.option == ProfileMenuOptionsType.EDIT
+        ? { ...burgerOption, show: permissions.isInProfile }
+        : burgerOption
+    );
+    setBurgerProfileMenuOptions(updateBurgerProfileMenuOptions);
+
   }, [element, loggedUser]);
 
   // Efecto para manejar el scroll y mostrar/ocultar el header fijo
@@ -294,10 +308,7 @@ export const ProfileHeader = (props: any) => {
     setZoomProfilePic(false);
   };
 
-  const handleCloseSnackBar = (
-    event: React.SyntheticEvent | Event,
-    reason?: SnackbarCloseReason,
-  ) => {
+  const handleCloseSnackBar = (event: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -306,26 +317,24 @@ export const ProfileHeader = (props: any) => {
 
   const copyShareSocialMediaUrl = () => {
     navigator.clipboard.writeText(element.sharedUrlSocialNetworks);
-    // snackBarValues.message = 'texto copiado al portapapeles';
-    setSnackBarMessage('texto copiado al portapapeles');
+    setSnackBarMessage(ProfileSharedMenuLabel);
     setShowSnackBar(true);
-  }
+  };
 
   const selectProfileMenuHandleClick = (event: number) => {
     switch (event) {
-      case 0: copyShareSocialMediaUrl();
-      break;
+      case 0:
+        copyShareSocialMediaUrl();
+        break;
+      case 1:
+        setEditableMode(element);
+        break;
     }
-  }
+  };
 
   return (
     <>
-      <Snackbar
-        open={showSnackBar}
-        autoHideDuration={2000}
-        onClose={handleCloseSnackBar}
-        message={snackBarMessage}
-      />
+      <Snackbar open={showSnackBar} autoHideDuration={2000} onClose={handleCloseSnackBar} message={snackBarMessage} />
       {!!element?.activity && element.activity !== 'active' && (
         <div className={['activity-banner', element.activity.replace('_', '-')].join(' ')}>
           <DynamicIcons iconName="PiWarningOctagonBold" size={25} color={'white'} />
@@ -436,19 +445,15 @@ export const ProfileHeader = (props: any) => {
         </div>
 
         <div className="profile-menu-container ml-auto">
-          <div className='profile-menu-container ml-auto'>
+          <div className="profile-menu-container ml-auto">
             <BurgerProfileMenu
-              globalDictionary = {translateGlobalDict}
-              options = {profileMenuOptions}
-              onClickOption = {(e: number) => selectProfileMenuHandleClick(e)} />
+              globalDictionary={translateGlobalDict}
+              options={burgerProfileMenuOptions}
+              onClickOption={(e: number) => selectProfileMenuHandleClick(e)}
+            />
           </div>
         </div>
       </div>
-      {currentUserIsInProfile && (
-        <div className="profile-header actions" onClick={() => setEditableMode(element)}>
-          <Button variant="contained">Edit</Button>
-        </div>
-      )}
       <Dialog open={zoomProfilePic} onClose={handleCloseZoomDialog} fullWidth>
         <DialogContent style={{ textAlign: 'center', position: 'relative', padding: 0 }}>
           <IconButton onClick={handleCloseZoomDialog} style={{ position: 'absolute', top: '0.5%', right: '0.5%' }}>

@@ -39,6 +39,7 @@ export const DeMessages = {
           username_or_email: 'Benutzername oder E-Mail',
         },
         create: 'Erstellen',
+        edit: 'Bearbeiten',
         follow_us: 'Folge uns',
         save: 'Speichern',
         cancel: 'Abbrechen',

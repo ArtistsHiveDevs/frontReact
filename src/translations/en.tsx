@@ -39,6 +39,7 @@ export const EnMessages = {
           username_or_email: 'Username or Email',
         },
         create: 'Create',
+        edit: 'Edit',
         follow_us: 'Follow us',
         save: 'Save',
         cancel: 'Cancel',

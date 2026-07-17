@@ -39,6 +39,7 @@ export const ItMessages = {
           username_or_email: 'Nome utente o email',
         },
         create: 'Crea',
+        edit: 'Modificare',
         follow_us: 'Seguici',
         save: 'Salva',
         cancel: 'Annulla',

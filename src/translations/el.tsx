@@ -39,6 +39,7 @@ export const ElMessages = {
           username_or_email: 'Όνομα χρήστη ή email',
         },
         create: 'Δημιουργία',
+        "edit": 'εκδίδω ',
         follow_us: 'Ακολουθήστε μας',
         save: 'Αποθήκευση',
         cancel: 'Ακύρωση',

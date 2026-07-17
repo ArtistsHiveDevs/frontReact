@@ -39,6 +39,7 @@ export const EsMessages = {
           username_or_email: 'Nombre de usuario o correo electrónico',
         },
         create: 'Crear',
+        edit: 'Editar',
         follow_us: 'Síguenos',
         save: 'Guardar',
         cancel: 'Cancelar',

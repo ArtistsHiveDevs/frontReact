@@ -39,6 +39,7 @@ export const FrMessages = {
           username_or_email: "Nom d'utilisateur ou email",
         },
         create: 'Créer',
+        edit: 'Modifier',
         follow_us: 'Suivez-nous',
         save: 'Enregistrer',
         cancel: 'Annuler',

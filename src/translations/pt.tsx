@@ -39,6 +39,7 @@ export const PtMessages = {
           username_or_email: 'Nome de usuário ou e-mail',
         },
         create: 'Criar',
+        edit: 'Editar',
         follow_us: 'Siga-nos',
         save: 'Salvar',
         cancel: 'Cancelar',

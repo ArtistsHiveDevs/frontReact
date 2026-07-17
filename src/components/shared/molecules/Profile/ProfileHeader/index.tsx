@@ -26,7 +26,11 @@ import { defaultTypesColors, getModelInfoFromInstance } from '~/models/base/mode
 import { PlaceModel } from '~/models/domain/place/place.model';
 import './index.scss';
 import BurgerProfileMenu from '../../general/burgerProfileMenu/burgerProfileMenu';
-import { profileMenuOptions } from '~/constants/domain/profile.constants';
+import {
+  ProfileMenuOptionsData,
+  ProfileMenuOptionsType,
+  ProfileSharedMenuLabel,
+} from '~/constants/domain/profile.constants';
 
 export interface ProfileHeaderElement {
   name: string;
@@ -161,12 +165,14 @@ export const ProfileHeader = (props: any) => {
         (type) => type.toLowerCase() === getModelInfoFromInstance(element).entityName?.toLowerCase()
       ) + 1;
     setBorderProfileColor(entityColorIndex);
-    const updateBurgerProfileMenuOptions = burgerProfileMenuOptions?.map((burgerOption) =>
+
+    const updateBurgerProfileMenuOptions = burgerProfileMenuOptions?.map((burgerOption) => 
       burgerOption?.option == ProfileMenuOptionsType.EDIT
         ? { ...burgerOption, show: permissions.isInProfile }
         : burgerOption
     );
     setBurgerProfileMenuOptions(updateBurgerProfileMenuOptions);
+
   }, [element, loggedUser]);
 
   // Efecto para manejar el scroll y mostrar/ocultar el header fijo

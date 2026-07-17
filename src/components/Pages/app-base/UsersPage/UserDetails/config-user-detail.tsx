@@ -54,7 +54,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   name: 'gender',
                   valueFieldName: 'genderEnum.value',
                   icon: 'BsGenderTrans',
-                  emptyTitle: true,
+                  // emptyTitle: true,
                   value: (user: AppUserModel) => {
                     const { translateText } = useI18n();
 
@@ -71,7 +71,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'birthdate',
                   icon: 'FaBirthdayCake',
-                  emptyTitle: true,
+                  // emptyTitle: true,
                   value: (user: AppUserModel) => {
                     // const { translateText } = useI18n();
 
@@ -94,7 +94,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'birthplace',
                   icon: 'FaCity',
-                  emptyTitle: true,
+                  // emptyTitle: true,
                   formMetaData: {
                     inputType: 'citySelector',
                     config: { required: true },
@@ -107,7 +107,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'home_city',
                   icon: 'FaMapMarkerAlt',
-                  emptyTitle: true,
+                  // emptyTitle: true,
                   formMetaData: {
                     inputType: 'citySelector',
                     config: { required: true },
@@ -268,13 +268,13 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'spoken_languages',
                   icon: 'FaGlobeAmericas',
-                  emptyTitle: true,
+                  // emptyTitle: true,
                   formMetaData: { inputType: 'chipPicker' },
                 },
                 {
                   name: 'blood_group',
                   icon: 'MdBloodtype',
-                  emptyTitle: true,
+                  // emptyTitle: true,
                   formMetaData: {
                     inputType: 'select',
                   },
@@ -284,7 +284,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   labelChild: 'label',
                   translationPath: 'app.global_dictionary.entities.users.attributes',
                   icon: 'BiDonateBlood',
-                  emptyTitle: true,
+                  // emptyTitle: true,
                   value: (user: AppUserModel) => {
                     const { translateGlobalDict } = useI18n();
                     if (user.agrees_to_a_blood_transfusion === undefined) {
@@ -302,7 +302,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'dietary_restrictions',
                   icon: 'ImSpoonKnife',
-                  emptyTitle: true,
+                  // emptyTitle: true,
                   formMetaData: {
                     inputType: 'select',
                   },
@@ -310,7 +310,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'allergies',
                   icon: 'MdOutlineSick',
-                  emptyTitle: true,
+                  // emptyTitle: true,
                   formMetaData: {
                     inputType: 'chipPicker',
                     componentParams: {
@@ -341,7 +341,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   value: (emergencyContactData: any) => (
                     <>{`${emergencyContactData?.given_names} ${emergencyContactData?.surnames}`}</>
                   ),
-                  emptyTitle: true,
+                  // emptyTitle: true,
                 },
                 { name: 'email' },
                 { name: 'phone_number' },
@@ -397,6 +397,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
         ],
       },
     ],
+    formMetaData: {hidden: true}
   },
   // {
   //   name: 'my_shows',

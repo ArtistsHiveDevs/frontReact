@@ -1,6 +1,6 @@
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 
-export const TRANSLATION_BASE_OPEN_CALLS_LIST_PAGE = '';
+export const TRANSLATION_BASE_OPEN_CALLS_LIST_PAGE = 'app.pages.OpenCallsListPage';
 
 export interface MyOpenCallsDataTemplate {
   active_calls: any[];
@@ -17,6 +17,7 @@ export const OPEN_CALLS_LIST_PLACE_CONFIG: PageSection[] = [
       {
         name: 'open_calls',
         emptyTitle: true,
+        clickHandlerName: 'onClickRow',
         components: [
           {
             componentName: ComponentTypes.TABLE,
@@ -27,7 +28,7 @@ export const OPEN_CALLS_LIST_PLACE_CONFIG: PageSection[] = [
                   columns: ['event_name', 'event_date', 'start_date', 'end_date', 'status', 'applications_count'],
                   rows: data.active_calls,
                   dense: true,
-                  translationBasePath: 'attributes',
+                  translationBasePath: `${TRANSLATION_BASE_OPEN_CALLS_LIST_PAGE}.attributes`,
                 };
               },
             },
@@ -64,6 +65,7 @@ export const OPEN_CALLS_LIST_ARTIST_CONFIG: PageSection[] = [
       {
         name: 'open_calls',
         emptyTitle: true,
+        clickHandlerName: 'onClickRow',
         components: [
           {
             componentName: ComponentTypes.TABLE,
@@ -74,7 +76,7 @@ export const OPEN_CALLS_LIST_ARTIST_CONFIG: PageSection[] = [
                   columns: ['event_name', 'event_date', 'end_date', 'city', 'genres'],
                   rows: data.active_calls,
                   dense: true,
-                  translationBasePath: 'attributes',
+                  translationBasePath: `${TRANSLATION_BASE_OPEN_CALLS_LIST_PAGE}.attributes`,
                 };
               },
             },
@@ -89,11 +91,27 @@ export const OPEN_CALLS_LIST_ARTIST_CONFIG: PageSection[] = [
       {
         name: 'my_applications',
         emptyTitle: true,
+        clickHandlerName: 'onClickApplicationRow',
         components: [
+          {
+            componentName: ComponentTypes.TABLE,
+            data: {
+              tableConfig: (data: MyOpenCallsDataTemplate) => {
+                if (!data?.applications?.length) return undefined;
+                return {
+                  columns: ['event_name', 'event_date', 'city', 'application_status'],
+                  rows: data.applications,
+                  dense: true,
+                  translationBasePath: `${TRANSLATION_BASE_OPEN_CALLS_LIST_PAGE}.attributes`,
+                };
+              },
+            },
+          },
           {
             componentName: ComponentTypes.HTML_CONTENT,
             data: {
-              content: '<p>Tus aplicaciones enviadas aparecerán aquí</p>',
+              render: (data: MyOpenCallsDataTemplate) =>
+                !data?.applications?.length ? 'Todavía no has aplicado a ninguna convocatoria.' : '',
             },
           },
         ],

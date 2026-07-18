@@ -8,6 +8,7 @@ export interface TableViewConfig {
 
   dense?: boolean;
   selectable?: boolean;
+  onRowClick?: (row: any) => void;
 }
 
 // export const TableView = (props: TableViewParams) => {
@@ -287,9 +288,7 @@ const VISIBLE_ROWS_PER_PAGE = 100;
 
 export const TableView = (props: { config: TableViewConfig }) => {
   const { config } = props || {};
-  const { dense, selectable, columns, rows, translationBasePath } = config || {};
-
-  console.log('XXXXX', columns, rows);
+  const { dense, selectable, columns, rows, translationBasePath, onRowClick } = config || {};
 
   const [order, setOrder] = React.useState<Order>('asc');
   // const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
@@ -378,13 +377,13 @@ export const TableView = (props: { config: TableViewConfig }) => {
                 return (
                   <TableRow
                     hover
-                    onClick={(event: any) => console.log(event)} //handleClick(event, row.id)}
+                    onClick={onRowClick ? () => onRowClick(row) : undefined}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
                     key={row.id}
                     selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}
+                    sx={{ cursor: onRowClick ? 'pointer' : 'default' }}
                   >
                     {selectable && (
                       <TableCell padding="checkbox">

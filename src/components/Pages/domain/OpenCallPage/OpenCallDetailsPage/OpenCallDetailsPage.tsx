@@ -1,140 +1,41 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Button, Stack } from '@mui/material';
+import { useI18n } from '~/common/utils';
+import { selectCurrentUser } from '~/common/slices/users/selectors';
+import { useOpenCallsSlice, selectorOpenCalls } from '~/common/slices/domain/open-calls/open-calls.redux';
+import {
+  useOpenCallApplicationsSlice,
+  selectorOpenCallApplications,
+} from '~/common/slices/domain/open-calls/open-call-applications.redux';
+import { OpenCallApplicationModel } from '~/models/domain/open-call/open-call-application.model';
+import { RootState } from '~/common/utils/redux-injectors/types';
+import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
+import NotFoundPage from '~/components/Pages/NotFoundPage';
 import { PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import OpenCallSurveyReadOnly from '../OpenCallApplicationPage/OpenCallSurveyReadOnly';
-import { OpenCallApplicationEntry, OpenCallDetailsDataTemplate } from './config-open-call-details';
+import { TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE } from './config-open-call-details';
 import '../OpenCallApplicationPage/index.scss';
 
-// Mock: datos de la convocatoria con las aplicaciones de artistas
-const MOCK_OPEN_CALL_DETAILS: OpenCallDetailsDataTemplate = {
-  open_call: {
-    id: 'oc_1',
-    event_name: 'Festival Rock Independiente 2026',
-    event_date: '2026-09-15',
-    start_date: '2026-06-01',
-    end_date: '2026-07-31',
-    status: 'OPEN',
-    description: 'Festival de rock independiente en La Sucursal Venue.',
-    city: 'Bogotá',
-    genres: ['rock', 'indie'],
-  },
-  applications: [
-    {
-      id: 'app_1',
-      artist_name: 'Los Amplificadores',
-      artist_profile_pic: '',
-      artist_city: 'Bogotá',
-      applied_at: '2026-06-15',
-      status: 'pending',
-      survey_responses: {
-        artist_name: 'Los Amplificadores',
-        manager_name: 'Carlos Rodríguez',
-        country: 'Colombia',
-        city: 'Bogotá',
-        email: 'amplificadores@email.com',
-        phone: '+57 300 111 2222',
-        genre: 'rock',
-        project_type: 'band_small',
-        synopsis: 'Rock alternativo con influencias de grunge y post-punk.',
-        music_link: 'https://open.spotify.com/artist/example1',
-        video_link: 'https://youtube.com/watch?v=example1',
-        social_instagram: 'https://instagram.com/losamplificadores',
-        show_duration: 60,
-        members_on_stage: 5,
-        show_description: 'Show energético de rock alternativo con visuales en vivo.',
-        past_events: 'Rock al Parque 2025, Festival Estéreo Picnic 2024',
-        availability: 'any',
-        sound_requirements: '4 monitores de piso, 2 DI box, mesa de mezclas de 16 canales',
-        backline_requirements: 'Batería completa, 2 amplificadores de guitarra',
-        setup_time: 30,
-        soundcheck_time: 20,
-        fee_currency: 'USD',
-        fee_amount: 2500,
-        fee_includes: 'show_only',
-        needs_travel: 'no',
-        needs_accommodation: 'no',
-        crew_count: 2,
-      },
-    },
-    {
-      id: 'app_2',
-      artist_name: 'Meridiano Cero',
-      artist_profile_pic: '',
-      artist_city: 'Bogotá',
-      applied_at: '2026-06-18',
-      status: 'pending',
-      survey_responses: {
-        artist_name: 'Meridiano Cero',
-        manager_name: 'Ana López',
-        country: 'Colombia',
-        city: 'Bogotá',
-        email: 'meridiano@email.com',
-        phone: '+57 310 333 4444',
-        genre: 'indie',
-        project_type: 'trio',
-        synopsis: 'Indie rock melódico con letras en español.',
-        music_link: 'https://open.spotify.com/artist/example2',
-        video_link: 'https://youtube.com/watch?v=example2',
-        show_duration: 45,
-        members_on_stage: 3,
-        show_description: 'Set acústico e íntimo con transiciones a eléctrico.',
-        availability: 'weekends',
-        sound_requirements: '3 monitores, 1 DI box',
-        fee_currency: 'USD',
-        fee_amount: 1800,
-        fee_includes: 'show_transport',
-        needs_travel: 'no',
-        needs_accommodation: 'no',
-        crew_count: 1,
-      },
-    },
-    {
-      id: 'app_3',
-      artist_name: 'Estática',
-      artist_profile_pic: '',
-      artist_city: 'Medellín',
-      applied_at: '2026-06-20',
-      status: 'pending',
-      survey_responses: {
-        artist_name: 'Estática',
-        country: 'Colombia',
-        city: 'Medellín',
-        email: 'estatica@email.com',
-        phone: '+57 320 555 6666',
-        genre: 'rock',
-        project_type: 'band_small',
-        synopsis: 'Rock progresivo instrumental con elementos electrónicos.',
-        music_link: 'https://open.spotify.com/artist/example3',
-        video_link: 'https://youtube.com/watch?v=example3',
-        show_duration: 50,
-        members_on_stage: 4,
-        show_description: 'Show instrumental con loops en vivo y proyecciones.',
-        availability: 'any',
-        sound_requirements: '4 monitores, 3 DI box, mesa de 24 canales',
-        lighting_requirements: 'Luces de colores, máquina de humo',
-        setup_time: 40,
-        soundcheck_time: 25,
-        fee_currency: 'USD',
-        fee_amount: 3000,
-        fee_includes: 'show_only',
-        needs_travel: 'domestic_flight',
-        needs_accommodation: '2_nights',
-        crew_count: 3,
-        hospitality_requirements: 'Comida para 7 personas, sin gluten para 2',
-      },
-    },
-  ],
+const STATUS_COLORS: Record<string, string> = {
+  pending: '#FFA726',
+  accepted: '#66BB6A',
+  rejected: '#EF5350',
 };
 
-const STATUS_LABELS: Record<string, { label: string; color: string }> = {
-  pending: { label: 'Pendiente', color: '#FFA726' },
-  accepted: { label: 'Aceptado', color: '#66BB6A' },
-  rejected: { label: 'Rechazado', color: '#EF5350' },
-};
+interface ApplicationCardProps {
+  application: OpenCallApplicationModel;
+  canModerate: boolean;
+  isUpdating: boolean;
+  onAccept: () => void;
+  onReject: () => void;
+}
 
-const ApplicationCard = ({ application }: { application: OpenCallApplicationEntry }) => {
+const ApplicationCard = ({ application, canModerate, isUpdating, onAccept, onReject }: ApplicationCardProps) => {
+  const { translateText } = useI18n();
   const [expanded, setExpanded] = useState(false);
-  const statusInfo = STATUS_LABELS[application.status] || STATUS_LABELS.pending;
+  const statusColor = STATUS_COLORS[application.status] || STATUS_COLORS.pending;
 
   return (
     <div
@@ -146,7 +47,6 @@ const ApplicationCard = ({ application }: { application: OpenCallApplicationEntr
         overflow: 'hidden',
       }}
     >
-      {/* Header — always visible, toggles expanded */}
       <div
         style={{
           display: 'flex',
@@ -159,33 +59,50 @@ const ApplicationCard = ({ application }: { application: OpenCallApplicationEntr
       >
         <div>
           <h4 style={{ margin: 0 }}>{application.artist_name}</h4>
-          <p style={{ margin: '4px 0', opacity: 0.7, fontSize: '0.9em' }}>
-            {application.artist_city} &middot; Aplicó el {application.applied_at}
-          </p>
+          <p style={{ margin: '4px 0', opacity: 0.7, fontSize: '0.9em' }}>{application.artist_city}</p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <span
             style={{
               padding: '4px 12px',
               borderRadius: '12px',
-              backgroundColor: statusInfo.color,
+              backgroundColor: statusColor,
               color: '#000',
               fontSize: '0.8em',
               fontWeight: 'bold',
             }}
           >
-            {statusInfo.label}
+            {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.status.${application.status}`)}
           </span>
-          <span style={{ fontSize: '1.2em', transition: 'transform 0.2s', transform: expanded ? 'rotate(180deg)' : 'rotate(0)' }}>
-            &#9660;
-          </span>
+          {canModerate && (
+            <Stack direction="row" spacing={1} onClick={(event: any) => event.stopPropagation()}>
+              <Button
+                size="small"
+                variant="outlined"
+                color="success"
+                disabled={isUpdating || application.status === 'accepted'}
+                onClick={onAccept}
+              >
+                {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.actions.accept`)}
+              </Button>
+              <Button
+                size="small"
+                variant="outlined"
+                color="error"
+                disabled={isUpdating || application.status === 'rejected'}
+                onClick={onReject}
+              >
+                {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.actions.reject`)}
+              </Button>
+            </Stack>
+          )}
+          <span style={{ fontSize: '1.2em', transform: expanded ? 'rotate(180deg)' : 'rotate(0)' }}>&#9660;</span>
         </div>
       </div>
 
-      {/* Survey responses — collapsible */}
       {expanded && (
         <div style={{ padding: '0 20px 20px 20px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-          <OpenCallSurveyReadOnly surveyResponses={application.survey_responses} />
+          <OpenCallSurveyReadOnly surveyResponses={application.survey_responses || {}} />
         </div>
       )}
     </div>
@@ -193,34 +110,135 @@ const ApplicationCard = ({ application }: { application: OpenCallApplicationEntr
 };
 
 const OpenCallDetailsPage = () => {
+  const { translateText } = useI18n();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const urlParameters = useParams();
   const openCallId = urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID];
 
-  const [entityData] = useState<OpenCallDetailsDataTemplate>(MOCK_OPEN_CALL_DETAILS);
-  const openCall = entityData.open_call;
+  const loggedUser = useSelector(selectCurrentUser);
+
+  const { actions: openCallActions } = useOpenCallsSlice();
+  const selectOpenCallById = selectorOpenCalls.makeSelectItemById();
+  const currentOpenCall = useSelector((state: RootState) =>
+    openCallId ? selectOpenCallById(state, openCallId) : undefined
+  );
+  const openCallLoading = useSelector(selectorOpenCalls.selectLoading);
+
+  const { actions: applicationActions } = useOpenCallApplicationsSlice();
+  const applications: OpenCallApplicationModel[] = useSelector(selectorOpenCallApplications.selectItems);
+  const applicationsLoading = useSelector(selectorOpenCallApplications.selectLoading);
+
+  const [updatingApplicationId, setUpdatingApplicationId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (openCallId) {
+      dispatch(openCallActions.getItemById({ id: openCallId }));
+      // La ruta /open-call-applications no filtra por query params server-side hoy; el filtro real ocurre abajo.
+      dispatch(applicationActions.loadItems({ queryParams: { open_call_id: openCallId } }));
+    }
+  }, [openCallId]);
+
+  const currentOpenCallPlaceId = currentOpenCall?.placeId;
+  const isPlaceOwner = !!loggedUser && !!currentOpenCallPlaceId && loggedUser.checkPermissions(currentOpenCallPlaceId).canEdit;
+  const isArtistProfile = !!loggedUser && loggedUser.currentProfileInfo?.entity === 'ArtistModel';
+  const currentArtistId = isArtistProfile ? loggedUser?.currentProfileInfo?.identifier : undefined;
+
+  const applicationsForThisOpenCall = applications.filter((app) => app.openCallId === openCallId);
+  const myApplication = currentArtistId
+    ? applicationsForThisOpenCall.find((app) => app.artistId === currentArtistId)
+    : undefined;
+
+  const handleSetStatus = (application: OpenCallApplicationModel, status: 'accepted' | 'rejected') => {
+    setUpdatingApplicationId(application.id);
+    dispatch(
+      applicationActions.postActionItem({
+        id: application.id,
+        action: 'setStatus',
+        newItem: {},
+        params: { status },
+      })
+    );
+  };
+
+  if (openCallLoading && !currentOpenCall) {
+    return <AppLoader />;
+  }
+
+  if (!currentOpenCall) {
+    return <NotFoundPage />;
+  }
 
   return (
     <div className="open-call-page">
       <div className="open-call-header">
-        <h1 className="open-call-title">{openCall.event_name}</h1>
+        <h1 className="open-call-title">{currentOpenCall.event_name}</h1>
         <p className="open-call-subtitle">
-          Evento: {openCall.event_date} &middot; Convocatoria abierta hasta: {openCall.end_date} &middot;{' '}
-          {entityData.applications.length} aplicaciones recibidas
+          {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.event_label`)}:{' '}
+          {currentOpenCall.event_date.format('DD/MM/YYYY')} &middot;{' '}
+          {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.open_until_label`)}:{' '}
+          {currentOpenCall.end_date.format('DD/MM/YYYY')} &middot; {applicationsForThisOpenCall.length}{' '}
+          {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.applications_received_suffix`)}
         </p>
       </div>
 
       <div className="step-content">
-        <h3 className="step-title">Aplicaciones Recibidas ({entityData.applications.length})</h3>
+        {isPlaceOwner && (
+          <>
+            <h3 className="step-title">
+              {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.applications_received_title`)} (
+              {applicationsForThisOpenCall.length})
+            </h3>
+            {applicationsLoading && (
+              <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.loading_applications`)}</p>
+            )}
+            {!applicationsLoading && applicationsForThisOpenCall.length === 0 && (
+              <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.no_applications_yet`)}</p>
+            )}
+            {applicationsForThisOpenCall.map((application) => (
+              <ApplicationCard
+                key={application.id}
+                application={application}
+                canModerate
+                isUpdating={applicationsLoading && updatingApplicationId === application.id}
+                onAccept={() => handleSetStatus(application, 'accepted')}
+                onReject={() => handleSetStatus(application, 'rejected')}
+              />
+            ))}
+          </>
+        )}
 
-        {entityData.applications.map((app) => (
-          <ApplicationCard key={app.id} application={app} />
-        ))}
+        {isArtistProfile && (
+          <>
+            <h3 className="step-title">
+              {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.your_application_title`)}
+            </h3>
+            {applicationsLoading && (
+              <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.loading_your_application`)}</p>
+            )}
+            {!applicationsLoading && !myApplication && (
+              <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.not_applied_yet`)}</p>
+            )}
+            {myApplication && (
+              <ApplicationCard
+                application={myApplication}
+                canModerate={false}
+                isUpdating={false}
+                onAccept={() => undefined}
+                onReject={() => undefined}
+              />
+            )}
+          </>
+        )}
+
+        {!isPlaceOwner && !isArtistProfile && (
+          <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.unauthorized_message`)}</p>
+        )}
       </div>
 
       <div className="step-navigation">
         <button type="button" className="nav-btn btn-prev" onClick={() => navigate(`/${PATHS.OPEN_CALLS}`)}>
-          Volver a Mis Convocatorias
+          {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.back_button`)}
         </button>
       </div>
     </div>

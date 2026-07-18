@@ -3,6 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useOpenCallsSlice, selectorOpenCalls } from '~/common/slices/domain/open-calls/open-calls.redux';
+import {
+  useOpenCallApplicationsSlice,
+  selectorOpenCallApplications,
+} from '~/common/slices/domain/open-calls/open-call-applications.redux';
+import { OpenCallApplicationModel } from '~/models/domain/open-call/open-call-application.model';
 import { useI18n } from '~/common/utils';
 import { DefaultTransformerContext, TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { PATHS, SUB_PATHS } from '~/constants';
@@ -21,16 +26,30 @@ const OpenCallsListPage = () => {
 
   const { actions: openCallActions } = useOpenCallsSlice();
   const openCalls = useSelector(selectorOpenCalls.selectItems);
-  const loading = useSelector(selectorOpenCalls.selectLoading);
+  const openCallsLoading = useSelector(selectorOpenCalls.selectLoading);
+
+  const { actions: openCallApplicationActions } = useOpenCallApplicationsSlice();
+  const applications: OpenCallApplicationModel[] = useSelector(selectorOpenCallApplications.selectItems);
+  const applicationsLoading = useSelector(selectorOpenCallApplications.selectLoading);
 
   const isPlaceProfile = loggedUser?.currentProfileInfo?.entity === 'PlaceModel';
+  const isArtistProfile = loggedUser?.currentProfileInfo?.entity === 'ArtistModel';
+  const currentArtistId = isArtistProfile ? loggedUser?.currentProfileInfo?.identifier : undefined;
 
   useEffect(() => {
     dispatch(openCallActions.loadItems({}));
   }, []);
 
+  useEffect(() => {
+    if (currentArtistId) {
+      // La ruta /open-call-applications no filtra por query params server-side hoy; el filtro real ocurre en `myApplications` abajo.
+      dispatch(openCallApplicationActions.loadItems({ queryParams: { artist_id: currentArtistId } }));
+    }
+  }, [currentArtistId]);
+
   const activeCalls = openCalls.filter((oc: any) => oc.status === 'OPEN');
   const pastCalls = openCalls.filter((oc: any) => oc.status !== 'OPEN');
+  const myApplications = currentArtistId ? applications.filter((app) => app.artistId === currentArtistId) : [];
 
   const entityData: MyOpenCallsDataTemplate = {
     active_calls: activeCalls.map((oc: any) => ({
@@ -50,7 +69,14 @@ const OpenCallsListPage = () => {
       event_date: oc.event_date,
       status: oc.status,
     })),
-    applications: [],
+    applications: myApplications.map((app) => ({
+      id: app.identifier,
+      open_call_id: app.openCallId,
+      event_name: app.openCallSummary?.event_name || '',
+      event_date: app.openCallSummary?.event_date || '',
+      city: app.openCallSummary?.city || '',
+      application_status: app.status,
+    })),
   };
 
   const config = isPlaceProfile ? OPEN_CALLS_LIST_PLACE_CONFIG : OPEN_CALLS_LIST_ARTIST_CONFIG;
@@ -63,6 +89,11 @@ const OpenCallsListPage = () => {
         navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.APPLY}/${row.id}`);
       }
     },
+    onClickApplicationRow: (row: any) => {
+      if (row.open_call_id) {
+        navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.ELEMENT_DETAILS}/${row.open_call_id}`);
+      }
+    },
   };
 
   const defaultTransformerContext: DefaultTransformerContext = {
@@ -71,6 +102,8 @@ const OpenCallsListPage = () => {
     translationBasePath: TRANSLATION_BASE_OPEN_CALLS_LIST_PAGE,
     translateText,
   };
+
+  const loading = openCallsLoading || (isArtistProfile && applicationsLoading);
 
   return (
     <>

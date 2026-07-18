@@ -36,9 +36,15 @@ export interface InjectSagaParams {
   mode?: SagaInjectionModes;
 }
 
+export interface RepoErrorPayload {
+  status?: number;
+  errorCode?: string;
+  message?: string;
+}
+
 export interface EntityStateTemplate<T extends EntityTemplate, M extends EntityModel<T>> {
   loading: boolean;
-  error: any;
+  error: RepoErrorPayload | null;
   items: string[];
   detailedItems: { [identifier: string]: M };
   queriedId?: string;

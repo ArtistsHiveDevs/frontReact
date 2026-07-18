@@ -167,14 +167,15 @@ const PlaceDetailPage = () => {
               </div>
             )}
             <ProfileTabsPage
-            entityName="Place"
-            entityData={currentPlace}
-            translation_base_path={TRANSLATION_BASE_PLACE_DETAIL_PAGE}
-            subpagesConfig={subPagesInfo}
-            handlers={handlers}
-            footer={<ClaimProfileBanner entityName="Place" entityData={currentPlace} />}
-            fab={{ icon: 'lu LuCalendarPlus', handler: onFABClick }}
-          />
+              entityName="Place"
+              entityData={currentPlace}
+              translation_base_path={TRANSLATION_BASE_PLACE_DETAIL_PAGE}
+              subpagesConfig={subPagesInfo}
+              handlers={handlers}
+              footer={<ClaimProfileBanner entityName="Place" entityData={currentPlace} />}
+              fab={{ icon: 'lu LuCalendarPlus', handler: onFABClick }}
+            />
+
           </>
         ) : (
           <NotFoundPage />

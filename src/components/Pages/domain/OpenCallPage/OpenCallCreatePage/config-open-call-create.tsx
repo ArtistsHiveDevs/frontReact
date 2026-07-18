@@ -1,5 +1,5 @@
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
-import { MUSIC_GENRE_OPTIONS, PROJECT_TYPE_OPTIONS, CURRENCY_OPTIONS, TRAVEL_OPTIONS, ACCOMMODATION_OPTIONS } from '../OpenCallApplicationPage/config-open-call';
+import { ACCOMMODATION_OPTIONS, CURRENCY_OPTIONS, TRAVEL_OPTIONS } from '../OpenCallApplicationPage/config-open-call';
 
 export const TRANSLATION_BASE_OPEN_CALL_CREATE_PAGE = 'app.pages.OpenCallCreatePage';
 
@@ -69,7 +69,10 @@ export const OPEN_CALL_CREATE_CONFIG: PageSection[] = [
                   title: 'Nombre del evento',
                   formMetaData: {
                     inputType: 'text',
-                    config: { required: 'Este campo es obligatorio', minLength: { value: 3, message: 'Mínimo 3 caracteres' } },
+                    config: {
+                      required: 'Este campo es obligatorio',
+                      minLength: { value: 3, message: 'Mínimo 3 caracteres' },
+                    },
                     componentParams: { placeholder: 'Ej: Festival Rock en el Parque 2026' },
                   },
                 },
@@ -82,39 +85,42 @@ export const OPEN_CALL_CREATE_CONFIG: PageSection[] = [
                     componentParams: { placeholder: 'Fecha del evento' },
                   },
                 },
-                {
-                  name: 'event_location',
-                  title: 'Lugar / Venue',
-                  formMetaData: {
-                    inputType: 'text',
-                    config: { required: 'Este campo es obligatorio' },
-                    componentParams: { placeholder: 'Ej: Parque Simón Bolívar' },
-                  },
-                },
-                {
-                  name: 'city',
-                  title: 'Ciudad',
-                  formMetaData: {
-                    inputType: 'text',
-                    config: { required: 'Este campo es obligatorio' },
-                    componentParams: { placeholder: 'Ej: Bogotá' },
-                  },
-                },
-                {
-                  name: 'country',
-                  title: 'País',
-                  formMetaData: {
-                    inputType: 'text',
-                    config: { required: 'Este campo es obligatorio' },
-                    componentParams: { placeholder: 'Ej: Colombia' },
-                  },
-                },
+                // {
+                //   name: 'event_location',
+                //   title: 'Lugar / Venue',
+                //   formMetaData: {
+                //     inputType: 'text',
+                //     config: { required: 'Este campo es obligatorio' },
+                //     componentParams: { placeholder: 'Ej: Parque Simón Bolívar' },
+                //   },
+                // },
+                // {
+                //   name: 'city',
+                //   title: 'Ciudad',
+                //   formMetaData: {
+                //     inputType: 'text',
+                //     config: { required: 'Este campo es obligatorio' },
+                //     componentParams: { placeholder: 'Ej: Bogotá' },
+                //   },
+                // },
+                // {
+                //   name: 'country',
+                //   title: 'País',
+                //   formMetaData: {
+                //     inputType: 'text',
+                //     config: { required: 'Este campo es obligatorio' },
+                //     componentParams: { placeholder: 'Ej: Colombia' },
+                //   },
+                // },
                 {
                   name: 'description',
                   title: 'Descripción del evento',
                   formMetaData: {
                     inputType: 'textarea',
-                    componentParams: { placeholder: 'Describe brevemente el evento y lo que buscas en los artistas...', rows: 4 },
+                    componentParams: {
+                      placeholder: 'Describe brevemente el evento y lo que buscas en los artistas...',
+                      rows: 4,
+                    },
                   },
                 },
               ],
@@ -137,23 +143,23 @@ export const OPEN_CALL_CREATE_CONFIG: PageSection[] = [
             componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
-                {
-                  name: 'genres',
-                  title: 'Géneros musicales aceptados',
-                  formMetaData: {
-                    inputType: 'select',
-                    config: { required: 'Selecciona al menos un género' },
-                    componentParams: { placeholder: 'Selecciona los géneros musicales', options: MUSIC_GENRE_OPTIONS },
-                  },
-                },
-                {
-                  name: 'accepted_project_types',
-                  title: 'Tipos de proyecto aceptados',
-                  formMetaData: {
-                    inputType: 'select',
-                    componentParams: { placeholder: 'Selecciona los tipos de proyecto', options: PROJECT_TYPE_OPTIONS },
-                  },
-                },
+                // {
+                //   name: 'genres',
+                //   title: 'Géneros musicales aceptados',
+                //   formMetaData: {
+                //     inputType: 'select',
+                //     config: { required: 'Selecciona al menos un género' },
+                //     componentParams: { placeholder: 'Selecciona los géneros musicales', options: MUSIC_GENRE_OPTIONS },
+                //   },
+                // },
+                // {
+                //   name: 'accepted_project_types',
+                //   title: 'Tipos de proyecto aceptados',
+                //   formMetaData: {
+                //     inputType: 'select',
+                //     componentParams: { placeholder: 'Selecciona los tipos de proyecto', options: PROJECT_TYPE_OPTIONS },
+                //   },
+                // },
                 {
                   name: 'start_date',
                   title: 'Fecha de apertura',
@@ -185,44 +191,11 @@ export const OPEN_CALL_CREATE_CONFIG: PageSection[] = [
                   title: 'Requisitos especiales',
                   formMetaData: {
                     inputType: 'textarea',
-                    componentParams: { placeholder: 'Requisitos o condiciones especiales para los artistas...', maxLength: 300, rows: 3 },
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    ],
-  },
-
-  // ─── Step 3: Escenario ───
-  {
-    name: 'stage',
-    title: CREATE_OPEN_CALL_STEP_META.stage.title,
-    sections: [
-      {
-        name: 'stage_info',
-        components: [
-          {
-            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [
-                {
-                  name: 'stage_type',
-                  title: 'Tipo de escenario',
-                  formMetaData: {
-                    inputType: 'select',
-                    config: { required: 'Este campo es obligatorio' },
-                    componentParams: { placeholder: 'Selecciona el tipo de escenario', options: STAGE_TYPE_OPTIONS },
-                  },
-                },
-                {
-                  name: 'stage_dimensions',
-                  title: 'Dimensiones del escenario',
-                  formMetaData: {
-                    inputType: 'text',
-                    componentParams: { placeholder: 'Ej: 8m x 6m' },
+                    componentParams: {
+                      placeholder: 'Requisitos o condiciones especiales para los artistas...',
+                      maxLength: 300,
+                      rows: 3,
+                    },
                   },
                 },
                 {
@@ -242,22 +215,6 @@ export const OPEN_CALL_CREATE_CONFIG: PageSection[] = [
                     componentParams: { placeholder: 'Ej: 60' },
                   },
                 },
-                {
-                  name: 'available_slots',
-                  title: 'Espacios disponibles',
-                  formMetaData: {
-                    inputType: 'number',
-                    componentParams: { placeholder: 'Ej: 10' },
-                  },
-                },
-                {
-                  name: 'expected_audience',
-                  title: 'Audiencia esperada',
-                  formMetaData: {
-                    inputType: 'number',
-                    componentParams: { placeholder: 'Ej: 5000' },
-                  },
-                },
               ],
             },
           },
@@ -265,6 +222,60 @@ export const OPEN_CALL_CREATE_CONFIG: PageSection[] = [
       },
     ],
   },
+
+  // // ─── Step 3: Escenario ───
+  // {
+  //   name: 'stage',
+  //   title: CREATE_OPEN_CALL_STEP_META.stage.title,
+  //   sections: [
+  //     {
+  //       name: 'stage_info',
+  //       components: [
+  //         {
+  //           componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+  //           data: {
+  //             attributes: [
+  //               {
+  //                 name: 'stage_type',
+  //                 title: 'Tipo de escenario',
+  //                 formMetaData: {
+  //                   inputType: 'select',
+  //                   config: { required: 'Este campo es obligatorio' },
+  //                   componentParams: { placeholder: 'Selecciona el tipo de escenario', options: STAGE_TYPE_OPTIONS },
+  //                 },
+  //               },
+  //               {
+  //                 name: 'stage_dimensions',
+  //                 title: 'Dimensiones del escenario',
+  //                 formMetaData: {
+  //                   inputType: 'text',
+  //                   componentParams: { placeholder: 'Ej: 8m x 6m' },
+  //                 },
+  //               },
+
+  //               {
+  //                 name: 'available_slots',
+  //                 title: 'Espacios disponibles',
+  //                 formMetaData: {
+  //                   inputType: 'number',
+  //                   componentParams: { placeholder: 'Ej: 10' },
+  //                 },
+  //               },
+  //               {
+  //                 name: 'expected_audience',
+  //                 title: 'Audiencia esperada',
+  //                 formMetaData: {
+  //                   inputType: 'number',
+  //                   componentParams: { placeholder: 'Ej: 5000' },
+  //                 },
+  //               },
+  //             ],
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
 
   // ─── Step 4: Técnico ───
   {
@@ -283,7 +294,10 @@ export const OPEN_CALL_CREATE_CONFIG: PageSection[] = [
                   title: 'Equipo de sonido disponible',
                   formMetaData: {
                     inputType: 'textarea',
-                    componentParams: { placeholder: 'Ej: PA system, monitores de piso, mesa de mezcla de 32 canales...', rows: 4 },
+                    componentParams: {
+                      placeholder: 'Ej: PA system, monitores de piso, mesa de mezcla de 32 canales...',
+                      rows: 4,
+                    },
                   },
                 },
                 {
@@ -291,7 +305,10 @@ export const OPEN_CALL_CREATE_CONFIG: PageSection[] = [
                   title: 'Backline disponible',
                   formMetaData: {
                     inputType: 'textarea',
-                    componentParams: { placeholder: 'Ej: Batería completa, amplificadores de guitarra y bajo...', rows: 4 },
+                    componentParams: {
+                      placeholder: 'Ej: Batería completa, amplificadores de guitarra y bajo...',
+                      rows: 4,
+                    },
                   },
                 },
                 {
@@ -387,7 +404,10 @@ export const OPEN_CALL_CREATE_CONFIG: PageSection[] = [
                   title: 'Notas adicionales',
                   formMetaData: {
                     inputType: 'textarea',
-                    componentParams: { placeholder: 'Cualquier información adicional para los artistas que apliquen...', rows: 4 },
+                    componentParams: {
+                      placeholder: 'Cualquier información adicional para los artistas que apliquen...',
+                      rows: 4,
+                    },
                   },
                 },
               ],

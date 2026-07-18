@@ -1008,6 +1008,7 @@ export const ItMessages = {
                     has_open_mic: 'Ha un microfono aperto?',
                     total_audience_capacity: 'Capienza max.',
                     bookingRatesPolicy: 'Politiche di prenotazione',
+                    regulatory_closing_time: 'Orario di chiusura regolamentare',
                   },
                 },
                 genres: {
@@ -1274,6 +1275,7 @@ export const ItMessages = {
               my_events: 'I miei eventi',
               'my_events.nested': { create: 'Crea un evento' },
               my_riders: 'I miei rider',
+              my_open_calls: 'Le mie Chiamate aperte',
               my_places: 'I miei luoghi',
               'my_places.nested': { create: 'Crea luogo' },
               favourites: 'Preferiti',

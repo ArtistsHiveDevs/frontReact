@@ -1007,6 +1007,7 @@ export const EsMessages = {
                     has_open_mic: '¿Tiene micrófono abierto?',
                     total_audience_capacity: 'Aforo máx.',
                     bookingRatesPolicy: 'Políticas de reserva',
+                    regulatory_closing_time: 'Hora de cierre reglamentaria',
                   },
                 },
                 genres: {
@@ -1052,11 +1053,20 @@ export const EsMessages = {
             backline: {
               name: 'Backline',
               sections: {
-                sound_backline: {
-                  name: 'Backline de sonido',
+                backline_instruments: {
+                  name: 'Instruments',
                 },
-                light_backline: {
-                  name: 'Backline de luces',
+                backline_sound: {
+                  name: 'Sound',
+                },
+                backline_lights: {
+                  name: 'Lights',
+                },
+                backline_video: {
+                  name: 'Video',
+                },
+                backline_additional_info: {
+                  name: 'Additional Info',
                 },
               },
             },
@@ -1274,6 +1284,7 @@ export const EsMessages = {
               my_events: 'Mis eventos',
               'my_events.nested': { create: 'Crear Evento' },
               my_riders: 'Mis riders',
+              my_open_calls: 'Mis Convocatorias',
               my_places: 'Mis lugares',
               'my_places.nested': { create: 'Crear lugar' },
               favourites: 'Favoritos',

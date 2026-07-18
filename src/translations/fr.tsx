@@ -1009,6 +1009,7 @@ export const FrMessages = {
                     has_open_mic: 'A-t-il un micro ouvert ?',
                     total_audience_capacity: 'Capacité max.',
                     bookingRatesPolicy: 'Politiques de réservation',
+                    regulatory_closing_time: 'Heure de fermeture réglementaire',
                   },
                 },
                 genres: {
@@ -1275,6 +1276,7 @@ export const FrMessages = {
               my_events: 'Mes événements',
               'my_events.nested': { create: 'Créer un événement' },
               my_riders: 'Mes riders',
+              my_open_calls: 'Mes Appels ouverts',
               my_places: 'Mes lieux',
               'my_places.nested': { create: 'Créer un lieu' },
               favourites: 'Favoris',

@@ -1,20 +1,20 @@
 import { Alert, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { DynamicControl } from '~/components/shared/organisms/gui/dynamicForms/DynamicControl';
+import { selectorOpenCalls, useOpenCallsSlice } from '~/common/slices/domain/open-calls/open-calls.redux';
+import { selectCurrentUser } from '~/common/slices/users/selectors';
+import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
 import { AttributeConfiguration } from '~/components/shared/organisms/gui/builders/component-types.def';
 import {
   attributeToDynamicField,
   getFieldNamesFromPageSection,
 } from '~/components/shared/organisms/gui/builders/page-section-form.utils';
+import { DynamicControl } from '~/components/shared/organisms/gui/dynamicForms/DynamicControl';
 import { PATHS } from '~/constants';
-import { useOpenCallsSlice, selectorOpenCalls } from '~/common/slices/domain/open-calls/open-calls.redux';
-import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
-import { selectCurrentUser } from '~/common/slices/users/selectors';
-import { OPEN_CALL_CREATE_CONFIG, CREATE_OPEN_CALL_STEP_META } from './config-open-call-create';
 import '../OpenCallApplicationPage/index.scss';
+import { CREATE_OPEN_CALL_STEP_META, OPEN_CALL_CREATE_CONFIG } from './config-open-call-create';
 
 const OpenCallCreatePage = () => {
   const navigate = useNavigate();

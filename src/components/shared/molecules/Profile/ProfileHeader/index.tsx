@@ -68,7 +68,7 @@ export const ProfileHeader = (props: any) => {
           config: { required: true, minLength: 3 },
           renderField: 'nameKnownAs',
         },
-        { name: 'subtitle', label: 'Subtitle', showPlaceHolderWhenEmpty: false },
+        // { name: 'subtitle', label: 'Subtitle', showPlaceHolderWhenEmpty: false },
         {
           name: 'username',
           label: 'username',
@@ -395,7 +395,7 @@ export const ProfileHeader = (props: any) => {
             </div>
           )}
 
-          <div className="profile-name">{generateEditableField('subtitle', element, isEditable)}</div>
+          {/* <div className="profile-name">{generateEditableField('subtitle', element, isEditable)}</div> */}
           {/* {element?.followed_by_count !== undefined && ( */}
           {showFollowerCounter && !isEditable && <FollowerCounter element={element} handlers={parentHandlers} />}
         </div>

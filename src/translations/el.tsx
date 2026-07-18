@@ -1008,6 +1008,7 @@ export const ElMessages = {
                     has_open_mic: 'Έχει ανοιχτό μικρόφωνο;',
                     total_audience_capacity: 'Μέγ. χωρητικότητα',
                     bookingRatesPolicy: 'Πολιτικές κράτησης',
+                    regulatory_closing_time: 'Κανονιστική ώρα κλεισίματος',
                   },
                 },
                 genres: {
@@ -1274,6 +1275,7 @@ export const ElMessages = {
               my_events: 'Οι εκδηλώσεις μου',
               'my_events.nested': { create: 'Δημιουργία εκδήλωσης' },
               my_riders: 'Τα riders μου',
+              my_open_calls: 'Οι ανοικτές προσκλήσεις μου',
               my_places: 'Οι χώροι μου',
               'my_places.nested': { create: 'Δημιουργία χώρου' },
               favourites: 'Αγαπημένα',

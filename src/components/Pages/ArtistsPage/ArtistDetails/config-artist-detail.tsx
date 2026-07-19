@@ -118,7 +118,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   value: (artist: ArtistModel) => {
                     return artist?.spoken_languages.map((l: LanguageModel) => l.name).join(', ');
                   },
-                  formMetaData: { inputType: 'chipPicker' },
+                  formMetaData: { inputType: 'chipPicker', hidden: true },
                 },
                 {
                   name: 'stage_languages',
@@ -127,7 +127,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   value: (artist: ArtistModel) => {
                     return artist?.stage_languages.map((l: LanguageModel) => l.name).join(', ');
                   },
-                  formMetaData: { inputType: 'chipPicker' },
+                  formMetaData: { inputType: 'chipPicker', hidden: true },
                 },
                 {
                   name: 'arts_languages',
@@ -139,6 +139,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   formMetaData: {
                     inputType: 'chipPicker',
                     config: { required: true },
+                    hidden: true,
                   },
                 },
               ],

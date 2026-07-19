@@ -156,14 +156,12 @@ export const ProfileHeader = (props: any) => {
         (type) => type.toLowerCase() === getModelInfoFromInstance(element).entityName?.toLowerCase()
       ) + 1;
     setBorderProfileColor(entityColorIndex);
-
-    const updateBurgerProfileMenuOptions = burgerProfileMenuOptions?.map((burgerOption) => 
+    const updateBurgerProfileMenuOptions = burgerProfileMenuOptions?.map((burgerOption) =>
       burgerOption?.option == ProfileMenuOptionsType.EDIT
         ? { ...burgerOption, show: permissions.isInProfile }
         : burgerOption
     );
     setBurgerProfileMenuOptions(updateBurgerProfileMenuOptions);
-
   }, [element, loggedUser]);
 
   // Efecto para manejar el scroll y mostrar/ocultar el header fijo
@@ -443,8 +441,7 @@ export const ProfileHeader = (props: any) => {
           {/* {element?.followed_by_count !== undefined && ( */}
           {showFollowerCounter && !isEditable && <FollowerCounter element={element} handlers={parentHandlers} />}
         </div>
-
-        <div className="profile-menu-container ml-auto">
+        {!isEditable && (
           <div className="profile-menu-container ml-auto">
             <BurgerProfileMenu
               globalDictionary={translateGlobalDict}
@@ -452,8 +449,9 @@ export const ProfileHeader = (props: any) => {
               onClickOption={(e: number) => selectProfileMenuHandleClick(e)}
             />
           </div>
-        </div>
+        )}
       </div>
+      <div className="profile-menu-container ml-auto"></div>
       <Dialog open={zoomProfilePic} onClose={handleCloseZoomDialog} fullWidth>
         <DialogContent style={{ textAlign: 'center', position: 'relative', padding: 0 }}>
           <IconButton onClick={handleCloseZoomDialog} style={{ position: 'absolute', top: '0.5%', right: '0.5%' }}>

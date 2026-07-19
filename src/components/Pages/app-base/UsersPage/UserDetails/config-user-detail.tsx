@@ -301,7 +301,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   name: 'spoken_languages',
                   icon: 'FaGlobeAmericas',
                   // emptyTitle: true,
-                  formMetaData: { inputType: 'chipPicker' },
+                  formMetaData: { inputType: 'chipPicker', hidden: true },
                 },
                 {
                   name: 'blood_group',

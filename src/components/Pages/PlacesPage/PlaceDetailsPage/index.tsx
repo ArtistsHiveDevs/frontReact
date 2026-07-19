@@ -147,7 +147,7 @@ const PlaceDetailPage = () => {
             subpagesConfig={subPagesInfo}
             handlers={handlers}
             footer={<ClaimProfileBanner entityName="Place" entityData={currentPlace} />}
-            fab={{ icon: 'lu LuCalendarPlus', handler: onFABClick }}
+            // fab={{ icon: 'lu LuCalendarPlus', handler: onFABClick }}
           />
         ) : (
           <NotFoundPage />

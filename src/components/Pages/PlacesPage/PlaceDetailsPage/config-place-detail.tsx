@@ -103,7 +103,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'spoken_languages',
                   icon: 'BsTranslate',
-                  formMetaData: { inputType: 'chipPicker' },
+                  formMetaData: { inputType: 'chipPicker', hidden: true },
                 },
                 {
                   name: 'total_audience_capacity',

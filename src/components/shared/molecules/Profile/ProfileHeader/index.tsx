@@ -447,6 +447,7 @@ export const ProfileHeader = (props: any) => {
           </div>
         )}
       </div>
+      <div className="profile-menu-container ml-auto"></div>
       <Dialog open={zoomProfilePic} onClose={handleCloseZoomDialog} fullWidth>
         <DialogContent style={{ textAlign: 'center', position: 'relative', padding: 0 }}>
           <IconButton onClick={handleCloseZoomDialog} style={{ position: 'absolute', top: '0.5%', right: '0.5%' }}>

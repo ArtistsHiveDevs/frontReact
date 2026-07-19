@@ -146,7 +146,7 @@ const miInfo: SideMenuItem[] = [
     updated: new Date('1/18/16'),
     randomId: false,
     requireSession: true,
-    forbiddenEnvironments: ['prod'],
+    forbiddenEnvironments: ['prod', 'dev'],
     hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
       return !params?.user?.hasIndustryProfiles;
     },
@@ -196,7 +196,7 @@ const miInfo: SideMenuItem[] = [
     icon: 'FaFileAlt',
     updated: new Date('2/20/16'),
     allowedRoles: [{ entityName: 'Artist' }],
-    forbiddenEnvironments: ['prod'],
+    forbiddenEnvironments: ['prod', 'dev'],
   },
   // {
   //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_places'),

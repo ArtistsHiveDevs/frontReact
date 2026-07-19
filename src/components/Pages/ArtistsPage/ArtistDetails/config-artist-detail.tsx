@@ -139,7 +139,6 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   formMetaData: {
                     inputType: 'autocompletePicker',
                     config: { required: true },
-                    hidden: true,
                   },
                 },
               ],

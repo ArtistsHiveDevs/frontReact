@@ -31,6 +31,10 @@ function generateEnvironmentHeader() {
   return { 'x-env': encryptedData };
 }
 
+export function encryptEnvToken() {
+  return encryptBrowser(generateKey(getEnvironment()));
+}
+
 /**
  * Genera headers para operaciones pre-autenticación (como verificar username durante login)
  * IMPORTANTE: Solo usar para operaciones específicas que requieren acceso antes del login

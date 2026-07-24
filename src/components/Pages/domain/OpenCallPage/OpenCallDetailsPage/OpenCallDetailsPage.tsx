@@ -141,8 +141,10 @@ const OpenCallDetailsPage = () => {
 
   const currentOpenCallPlaceId = currentOpenCall?.placeId;
   const isPlaceOwner = !!loggedUser && !!currentOpenCallPlaceId && loggedUser.checkPermissions(currentOpenCallPlaceId).canEdit;
-  const isArtistProfile = !!loggedUser && loggedUser.currentProfileInfo?.entity === 'ArtistModel';
-  const currentArtistId = isArtistProfile ? loggedUser?.currentProfileInfo?.identifier : undefined;
+  // `.id` en vez de `.entity`/`.identifier`: este último depende del username cacheado en
+  // roles[].entityRoleMap[], que puede quedar desincronizado con la entidad viva.
+  const isArtistProfile = !!loggedUser?.isArtistProfile;
+  const currentArtistId = isArtistProfile ? loggedUser?.currentProfileInfo?.id : undefined;
 
   const applicationsForThisOpenCall = applications.filter((app) => app.openCallId === openCallId);
   const myApplication = currentArtistId

@@ -6,6 +6,9 @@ export const ElMessages = {
       not_found_page: {
         title: 'Ούπς! Δεν μπορέσαμε να βρούμε αυτό που ψάχνετε',
       },
+      component_error: {
+        message: 'Δεν ήταν δυνατή η φόρτωση αυτού του στοιχείου.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -152,6 +155,12 @@ export const ElMessages = {
 
         // Άγνωστα Σφάλματα
         UNKNOWN_ERROR: 'Άγνωστο σφάλμα',
+      },
+      forms: {
+        validation_error: 'Ελέγξτε τα επισημασμένα πεδία πριν την υποβολή της φόρμας.',
+        submit_error: 'Δεν ήταν δυνατή η αποθήκευση των αλλαγών. Δοκιμάστε ξανά.',
+        submit_error_duplicate_key: 'Αυτό το όνομα χρήστη χρησιμοποιείται ήδη. Επιλέξτε ένα άλλο.',
+        submit_error_validation: 'Ορισμένα υποχρεωτικά πεδία λείπουν ή δεν είναι έγκυρα. Ελέγξτε τη φόρμα.',
       },
       follows: {
         followers: 'Followers',
@@ -366,6 +375,34 @@ export const ElMessages = {
       },
 
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Έλεγχος εκκρεμών προφίλ',
+          unauthorized: {
+            title: 'Δεν επιτρέπεται η πρόσβαση',
+            description: 'Δεν έχετε δικαίωμα να δείτε αυτή τη σελίδα.',
+          },
+          sections: {
+            artists: {
+              title: 'Εκκρεμείς καλλιτέχνες',
+            },
+            places: {
+              title: 'Εκκρεμείς χώροι',
+            },
+          },
+          table: {
+            name: 'Όνομα',
+            username: 'Όνομα χρήστη',
+            location: 'Τοποθεσία',
+            created_at: 'Υποβλήθηκε στις',
+            actions: 'Ενέργειες',
+          },
+          actions: {
+            approve: 'Έγκριση',
+            reject: 'Απόρριψη',
+          },
+          empty_state: 'Δεν υπάρχουν εκκρεμή προφίλ προς έλεγχο',
+          error: 'Παρουσιάστηκε σφάλμα. Δοκιμάστε ξανά.',
+        },
         LoginPage: {
           paragraph1:
             'Βλέπετε μια δοκιμαστική έκδοση της πλατφόρμας μας. Προς το παρόν η εγγραφή χρηστών είναι περιορισμένη.',
@@ -703,6 +740,33 @@ export const ElMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Ενταχθείτε στη κοινότητα',
         },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: 'Μέλος της βιομηχανίας',
+            intro:
+              'Ευχαριστούμε για το ενδιαφέρον σου να εγγραφείς ως μέλος της βιομηχανίας, είτε ως καλλιτέχνης, ατζέντης, ιδιοκτήτης χώρου, αίθουσας πρόβας ή άλλης οντότητας.',
+            intro_secondary: 'Αναζήτησε το προφίλ σου αν υπάρχει ήδη στο σύστημα, ή δημιούργησε ένα νέο για να ξεκινήσεις.',
+            search_section: {
+              title: 'Αναζήτησε το προφίλ σου',
+              input_placeholder: 'Όνομα καλλιτέχνη ή χώρου...',
+              search_button: 'Αναζήτηση',
+              artists_found: 'Αυτοί είναι οι σχετικοί καλλιτέχνες',
+              places_found: 'Αυτοί είναι οι σχετικοί χώροι',
+            },
+            create_section: {
+              title: 'Ή δημιούργησε νέο προφίλ',
+            },
+            reset_section: {
+              remove_artists_button: 'Αφαίρεση των προφίλ Καλλιτέχνη μου',
+              remove_places_button: 'Αφαίρεση των προφίλ Χώρου μου',
+              confirm_title: 'Επιβεβαίωση ενέργειας',
+              confirm_content:
+                'Αυτή η ενέργεια θα αφαιρέσει τη σύνδεση όλων των προφίλ αυτού του τύπου με τον λογαριασμό σου. Τα προφίλ δεν θα διαγραφούν, αλλά θα σταματήσουν να εμφανίζονται στις συμμετοχές σου. Θέλεις να συνεχίσεις;',
+              confirm_action: 'Ναι, αφαίρεση',
+              cancel_action: 'Ακύρωση',
+            },
+          },
+        },
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Η περιοδεία δεν βρέθηκε',
@@ -996,6 +1060,7 @@ export const ElMessages = {
                   name: 'Γενικές πληροφορίες',
                   attributes: {
                     description: 'Περιγραφή',
+                    place_type: 'Τύπος χώρου',
                     address: 'Διεύθυνση',
                     city: 'Πόλη',
                     cityWithCountry: 'Τοποθεσία',
@@ -1077,6 +1142,47 @@ export const ElMessages = {
               name: 'Followers',
             },
           },
+        },
+      },
+      OpenCallsListPage: {
+        subpages: {
+          active: { name: 'Ενεργές ανοικτές προσκλήσεις' },
+          past: { name: 'Παλαιότερες ανοικτές προσκλήσεις' },
+          available: { name: 'Διαθέσιμες' },
+          applications: { name: 'Οι αιτήσεις μου' },
+        },
+        attributes: {
+          event_name: 'Όνομα εκδήλωσης',
+          event_date: 'Ημερομηνία εκδήλωσης',
+          start_date: 'Έναρξη',
+          end_date: 'Λήξη',
+          status: 'Κατάσταση',
+          applications_count: 'Αιτήσεις',
+          city: 'Πόλη',
+          genres: 'Είδη',
+          application_status: 'Κατάσταση της αίτησής σου',
+        },
+      },
+      OpenCallDetailsPage: {
+        event_label: 'Εκδήλωση',
+        open_until_label: 'Οι αιτήσεις είναι ανοιχτές έως',
+        applications_received_suffix: 'αιτήσεις που ελήφθησαν',
+        applications_received_title: 'Αιτήσεις που Ελήφθησαν',
+        your_application_title: 'Η αίτησή σου',
+        no_applications_yet: 'Δεν υπάρχουν ακόμη αιτήσεις για αυτήν την πρόσκληση.',
+        not_applied_yet: 'Δεν έχεις υποβάλει ακόμη αίτηση για αυτήν την πρόσκληση.',
+        loading_applications: 'Φόρτωση αιτήσεων...',
+        loading_your_application: 'Φόρτωση της αίτησής σου...',
+        unauthorized_message: 'Συνδέσου με προφίλ Artist ή Place για να δεις τις αιτήσεις αυτής της πρόσκλησης.',
+        back_button: 'Πίσω στις προσκλήσεις μου',
+        status: {
+          pending: 'Σε εκκρεμότητα',
+          accepted: 'Αποδεκτή',
+          rejected: 'Απορρίφθηκε',
+        },
+        actions: {
+          accept: 'Αποδοχή',
+          reject: 'Απόρριψη',
         },
       },
     },
@@ -1299,39 +1405,10 @@ export const ElMessages = {
           },
         },
       },
-      OpenCallsListPage: {
-        attributes: {
-          event_name: 'Όνομα εκδήλωσης',
-          event_date: 'Ημερομηνία εκδήλωσης',
-          start_date: 'Έναρξη',
-          end_date: 'Λήξη',
-          status: 'Κατάσταση',
-          applications_count: 'Αιτήσεις',
-          city: 'Πόλη',
-          genres: 'Είδη',
-          application_status: 'Κατάσταση της αίτησής σου',
-        },
-      },
-      OpenCallDetailsPage: {
-        event_label: 'Εκδήλωση',
-        open_until_label: 'Οι αιτήσεις είναι ανοιχτές έως',
-        applications_received_suffix: 'αιτήσεις που ελήφθησαν',
-        applications_received_title: 'Αιτήσεις που Ελήφθησαν',
-        your_application_title: 'Η αίτησή σου',
-        no_applications_yet: 'Δεν υπάρχουν ακόμη αιτήσεις για αυτήν την πρόσκληση.',
-        not_applied_yet: 'Δεν έχεις υποβάλει ακόμη αίτηση για αυτήν την πρόσκληση.',
-        loading_applications: 'Φόρτωση αιτήσεων...',
-        loading_your_application: 'Φόρτωση της αίτησής σου...',
-        unauthorized_message: 'Συνδέσου με προφίλ Artist ή Place για να δεις τις αιτήσεις αυτής της πρόσκλησης.',
-        back_button: 'Πίσω στις προσκλήσεις μου',
-        status: {
-          pending: 'Σε εκκρεμότητα',
-          accepted: 'Αποδεκτή',
+      memberships_list: {
+        approval_status: {
+          pending: 'Εκκρεμεί έλεγχος',
           rejected: 'Απορρίφθηκε',
-        },
-        actions: {
-          accept: 'Αποδοχή',
-          reject: 'Απόρριψη',
         },
       },
     },

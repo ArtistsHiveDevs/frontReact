@@ -30,7 +30,7 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
   const { register, formState } = finalContext;
   const { errors } = formState || {};
 
-  const { label, fieldName, options = [], config, componentParams } = fieldData || {};
+  const { label, fieldName, options = [], config = {}, componentParams } = fieldData || {};
 
   const { multipleFiles, accept } = componentParams || {};
   const [selectedFiles, setSelectedFiles] = useState([]);

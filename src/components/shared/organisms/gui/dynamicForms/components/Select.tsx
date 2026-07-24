@@ -1,4 +1,4 @@
-import { FormLabel } from '@mui/material';
+import { FormHelperText, FormLabel } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useController, useFormContext } from 'react-hook-form';
 import Select from 'react-select';
@@ -18,9 +18,10 @@ export const createSelect = (params: ComponentGeneratorParams) => {
   const { fieldData, handlers } = params;
   const { label, fieldName, defaultValue, placeholder = '', options = [], config = {} } = fieldData;
 
-  const { required } = config || {};
+  const required = !!config?.required;
 
-  const hasError = !!formErrors?.[fieldName];
+  const fieldError = formErrors?.[fieldName];
+  const hasError = !!fieldError;
 
   const darkTheme = useTheme();
 
@@ -105,7 +106,7 @@ export const createSelect = (params: ComponentGeneratorParams) => {
   return (
     <div>
       <FormLabel
-        required={required === true || required === 'true'}
+        required={required}
         error={hasError}
         sx={hasError ? { color: darkTheme.palette.error.main } : {}}
       >
@@ -129,6 +130,9 @@ export const createSelect = (params: ComponentGeneratorParams) => {
           menuPortal: (base) => ({ ...base, zIndex: 3500 }),
         }}
       />
+      {hasError && fieldError?.message && (
+        <FormHelperText error>{fieldError.message.toString()}</FormHelperText>
+      )}
     </div>
   );
 };

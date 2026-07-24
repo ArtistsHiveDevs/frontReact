@@ -1,6 +1,6 @@
 import { FormLabel } from '@mui/material';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { FieldErrors, FieldValues, UseFormRegister, UseFormReturn, useFormContext } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectorCountries, useCountriesSlice } from '~/common/slices/parametrics/geo/country.redux';
 import {
@@ -22,6 +22,28 @@ export interface CitySelectorParams extends ComponentGeneratorParams {
   allowEmptyLevels?: boolean; // Allow skipping optional levels
 }
 
+// Fuera de la función: definirlo adentro remonta el Select en cada render y pierde el estado de menú abierto.
+const LevelSelector: React.FC<{
+  fieldData: DynamicFieldData;
+  handlers: any;
+  indented?: boolean;
+  register: UseFormRegister<FieldValues>;
+  errors: FieldErrors<FieldValues>;
+  formContext: UseFormReturn<FieldValues>;
+}> = ({ fieldData: levelFieldData, handlers: levelHandlers, indented = false, register, errors, formContext }) => {
+  return (
+    <div style={indented ? { paddingLeft: '1.5rem' } : undefined}>
+      {createSelect({
+        fieldData: levelFieldData,
+        handlers: levelHandlers,
+        register,
+        errors,
+        formContext,
+      })}
+    </div>
+  );
+};
+
 export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
   const {
     fieldData,
@@ -34,31 +56,15 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
   const { componentParams = {}, defaultValue, config: fieldConfig } = fieldData || {};
 
   const { maxLevel = 3, minLevel = 1, showCountrySelector = true, allowEmptyLevels = true } = componentParams;
-  const isFieldRequired = fieldConfig?.required === true || fieldConfig?.required === 'true';
+  // required acepta boolean (compat previa) o un string de mensaje (mismo patrón que Select.tsx/TextField.tsx).
+  const isFieldRequired =
+    fieldConfig?.required === true ||
+    (typeof fieldConfig?.required === 'string' && fieldConfig.required.trim().length > 0);
 
   const hookContext = useFormContext();
   const finalContext = externalContext || hookContext;
   const { setValue, watch, register, formState } = finalContext;
   const { errors } = formState || {};
-
-  // Helper component to render individual selectors
-  const LevelSelector: React.FC<{
-    fieldData: DynamicFieldData;
-    handlers: any;
-    indented?: boolean;
-  }> = ({ fieldData: levelFieldData, handlers: levelHandlers, indented = false }) => {
-    return (
-      <div style={indented ? { paddingLeft: '1.5rem' } : undefined}>
-        {createSelect({
-          fieldData: levelFieldData,
-          handlers: levelHandlers,
-          register,
-          errors,
-          formContext: finalContext,
-        })}
-      </div>
-    );
-  };
 
   const dispatch = useDispatch();
   const { translateText } = useI18n();
@@ -264,13 +270,29 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
   return (
     <div style={{ marginBottom: '2rem' }}>
       <FormLabel required={isFieldRequired}>{fieldData?.label}</FormLabel>
-      {showCountrySelector && <LevelSelector fieldData={countryFieldData} handlers={countryHandlers} indented />}
+      {showCountrySelector && (
+        <LevelSelector
+          fieldData={countryFieldData}
+          handlers={countryHandlers}
+          indented
+          register={register}
+          errors={errors}
+          formContext={finalContext}
+        />
+      )}
       {levelFieldsData.map(({ level, fieldData }) => {
         // 🚨 solo renderizo si su padre tiene selección
         if (level > 1 && !selections[level - 1]) return null;
         return (
           <div key={level}>
-            <LevelSelector fieldData={fieldData!} handlers={allHandlers} indented />
+            <LevelSelector
+              fieldData={fieldData!}
+              handlers={allHandlers}
+              indented
+              register={register}
+              errors={errors}
+              formContext={finalContext}
+            />
           </div>
         );
       })}

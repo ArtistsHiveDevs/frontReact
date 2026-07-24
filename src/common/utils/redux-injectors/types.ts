@@ -42,6 +42,13 @@ export interface RepoErrorPayload {
   message?: string;
 }
 
+// errorCode que devuelve el CRUD genérico del backend (createCRUDRoutes) en RepoErrorPayload.errorCode,
+// compartido por todas las entidades (Place, OpenCall, Country, etc.).
+export enum GenericCrudErrorCode {
+  VALIDATION_ERROR = 'VALIDATION_ERROR',
+  VALIDATION_DUPLICATE_KEY = 'VALIDATION_DUPLICATE_KEY',
+}
+
 export interface EntityStateTemplate<T extends EntityTemplate, M extends EntityModel<T>> {
   loading: boolean;
   error: RepoErrorPayload | null;

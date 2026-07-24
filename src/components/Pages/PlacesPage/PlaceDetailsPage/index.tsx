@@ -141,12 +141,14 @@ const PlaceDetailPage = () => {
     if (!loggedUser) {
       navigateToInnerPath({ path: PATHS.LOGIN });
     } else {
-      navigateToInnerPath({ path: `${PATHS.OPEN_CALLS}/${SUB_PATHS.CREATE}?placeId=${currentPlace?.identifier}` });
+      // El backend hace PlaceModel.findById(place_id): necesita el ObjectId real, no el username (currentPlace.identifier).
+      navigateToInnerPath({ path: `${PATHS.OPEN_CALLS}/${SUB_PATHS.CREATE}?placeId=${currentPlace?.id}` });
     }
   };
 
-  const isPlaceOwner =
-    loggedUser && currentPlace && loggedUser.currentProfileInfo?.identifier === currentPlace.identifier;
+  // Se compara por `.id` (estable) y no por `.identifier`: este último depende del username cacheado en
+  // roles[].entityRoleMap[], que puede quedar desincronizado si el Place cambia su username después de creado.
+  const isPlaceOwner = loggedUser && currentPlace && loggedUser.currentProfileInfo?.id === currentPlace.id;
 
   return (
     <>

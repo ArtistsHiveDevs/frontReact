@@ -206,8 +206,9 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
         initialParticipants.push(loggedUser.currentProfileInfo);
       }
 
-      // Siempre agregar segundo mainRecipient.currentProfileInfo (si es diferente)
-      if (mainRecipient && mainRecipient.identifier !== loggedUser?.currentProfileInfo?.identifier) {
+      // Siempre agregar segundo mainRecipient.currentProfileInfo (si es diferente).
+      // Se compara por `.id` (estable) y no por `.identifier`, sensible al username cacheado en entityRoleMap[].
+      if (mainRecipient && mainRecipient.id !== loggedUser?.currentProfileInfo?.id) {
         initialParticipants.push(mainRecipient.profileInfo);
       }
 
@@ -316,9 +317,8 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
     return (
       <>
         <div key={element.identifier} className="pbrd-participant-avatar-name">
-          {![mainRecipient?.identifier || '', loggedUser?.currentProfileInfo?.identifier || ''].includes(
-            element.identifier
-          ) && (
+          {/* `.id` en vez de `.identifier`: estable frente al username cacheado en entityRoleMap[]. */}
+          {![mainRecipient?.id || '', loggedUser?.currentProfileInfo?.id || ''].includes(element.id) && (
             <div className="pbrd-delete-icon">
               <DynamicIcons
                 iconName={styles?.topRightIcon || 'IoMdRemoveCircleOutline'}

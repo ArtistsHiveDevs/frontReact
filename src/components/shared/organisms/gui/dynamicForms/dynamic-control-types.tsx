@@ -24,6 +24,7 @@ export type ControlType =
   | 'file'
   | 'citySelector'
   | 'chipPicker'
+  | 'autocompletePicker'
   | 'relationship'
   | 'hidden'
   | 'instrumentSelector'

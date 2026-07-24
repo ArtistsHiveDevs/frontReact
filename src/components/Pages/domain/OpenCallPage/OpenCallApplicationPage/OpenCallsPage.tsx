@@ -26,8 +26,10 @@ const OpenCallApplicationPage = () => {
   const loggedUser = useSelector(selectCurrentUser);
   const { actions: applicationActions } = useOpenCallApplicationsSlice();
 
-  const isArtistProfile = !!loggedUser && loggedUser.currentProfileInfo?.entity === 'ArtistModel';
-  const currentArtistId = isArtistProfile ? loggedUser?.currentProfileInfo?.identifier : undefined;
+  // `.id` en vez de `.entity`/`.identifier`: este último depende del username cacheado en
+  // roles[].entityRoleMap[], que puede quedar desincronizado con la entidad viva.
+  const isArtistProfile = !!loggedUser?.isArtistProfile;
+  const currentArtistId = isArtistProfile ? loggedUser?.currentProfileInfo?.id : undefined;
   const currentArtistProfilePic = isArtistProfile ? loggedUser?.currentProfileInfo?.profile_pic : undefined;
 
   const formMethods = useForm({ mode: 'onTouched' });

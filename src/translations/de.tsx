@@ -6,6 +6,9 @@ export const DeMessages = {
       not_found_page: {
         title: 'Hoppla! Wir konnten nicht finden, wonach Sie suchen',
       },
+      component_error: {
+        message: 'Diese Komponente konnte nicht geladen werden.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -152,6 +155,12 @@ export const DeMessages = {
 
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Unbekannter Fehler',
+      },
+      forms: {
+        validation_error: 'Bitte überprüfe die markierten Felder, bevor du das Formular sendest.',
+        submit_error: 'Wir konnten die Änderungen nicht speichern. Bitte versuche es erneut.',
+        submit_error_duplicate_key: 'Dieser Benutzername ist bereits vergeben. Bitte wähle einen anderen.',
+        submit_error_validation: 'Einige Pflichtfelder fehlen oder sind ungültig. Bitte überprüfe das Formular.',
       },
       follows: {
         followers: 'Follower',
@@ -366,6 +375,34 @@ export const DeMessages = {
       },
 
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Überprüfung ausstehender Profile',
+          unauthorized: {
+            title: 'Zugriff verweigert',
+            description: 'Sie haben keine Berechtigung, diese Seite anzuzeigen.',
+          },
+          sections: {
+            artists: {
+              title: 'Ausstehende Künstler',
+            },
+            places: {
+              title: 'Ausstehende Orte',
+            },
+          },
+          table: {
+            name: 'Name',
+            username: 'Benutzername',
+            location: 'Standort',
+            created_at: 'Eingereicht am',
+            actions: 'Aktionen',
+          },
+          actions: {
+            approve: 'Genehmigen',
+            reject: 'Ablehnen',
+          },
+          empty_state: 'Keine ausstehenden Profile zur Überprüfung',
+          error: 'Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.',
+        },
         LoginPage: {
           paragraph1:
             'Du siehst gerade eine Testversion unserer Plattform. Derzeit ist die Benutzerregistrierung begrenzt.',
@@ -702,6 +739,33 @@ export const DeMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Schließe dich dem Bienenstock an',
         },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: 'Mitglied der Musikindustrie',
+            intro:
+              'Danke für dein Interesse, dich als Mitglied der Musikindustrie zu registrieren, sei es als Künstler, Agent, Venue-Besitzer, Probenraum oder andere Einrichtung.',
+            intro_secondary: 'Suche dein Profil, falls es bereits im System existiert, oder erstelle ein neues, um loszulegen.',
+            search_section: {
+              title: 'Suche dein Profil',
+              input_placeholder: 'Name des Künstlers oder Ortes...',
+              search_button: 'Suchen',
+              artists_found: 'Das sind die verwandten Künstler',
+              places_found: 'Das sind die verwandten Orte',
+            },
+            create_section: {
+              title: 'Oder erstelle ein neues Profil',
+            },
+            reset_section: {
+              remove_artists_button: 'Meine Künstlerprofile entfernen',
+              remove_places_button: 'Meine Ortsprofile entfernen',
+              confirm_title: 'Aktion bestätigen',
+              confirm_content:
+                'Diese Aktion entfernt die Verknüpfung aller deiner Profile dieses Typs mit deinem Konto. Die Profile selbst werden nicht gelöscht, erscheinen aber nicht mehr in deinen Mitgliedschaften. Möchtest du fortfahren?',
+              confirm_action: 'Ja, entfernen',
+              cancel_action: 'Abbrechen',
+            },
+          },
+        },
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour nicht gefunden',
@@ -995,6 +1059,7 @@ export const DeMessages = {
                   name: 'Allgemeine Informationen',
                   attributes: {
                     description: 'Beschreibung',
+                    place_type: 'Ortstyp',
                     address: 'Adresse',
                     city: 'Stadt',
                     cityWithCountry: 'Ort',
@@ -1076,6 +1141,47 @@ export const DeMessages = {
               name: 'Followers',
             },
           },
+        },
+      },
+      OpenCallsListPage: {
+        subpages: {
+          active: { name: 'Aktive Open-Calls' },
+          past: { name: 'Vergangene Open-Calls' },
+          available: { name: 'Verfügbar' },
+          applications: { name: 'Meine Bewerbungen' },
+        },
+        attributes: {
+          event_name: 'Name der Veranstaltung',
+          event_date: 'Veranstaltungsdatum',
+          start_date: 'Beginn',
+          end_date: 'Ende',
+          status: 'Status',
+          applications_count: 'Bewerbungen',
+          city: 'Stadt',
+          genres: 'Genres',
+          application_status: 'Status deiner Bewerbung',
+        },
+      },
+      OpenCallDetailsPage: {
+        event_label: 'Veranstaltung',
+        open_until_label: 'Bewerbungen offen bis',
+        applications_received_suffix: 'erhaltene Bewerbungen',
+        applications_received_title: 'Erhaltene Bewerbungen',
+        your_application_title: 'Deine Bewerbung',
+        no_applications_yet: 'Für diese Ausschreibung liegen noch keine Bewerbungen vor.',
+        not_applied_yet: 'Du hast dich für diese Ausschreibung noch nicht beworben.',
+        loading_applications: 'Bewerbungen werden geladen...',
+        loading_your_application: 'Deine Bewerbung wird geladen...',
+        unauthorized_message: 'Melde dich mit einem Artist- oder Place-Profil an, um die Bewerbungen dieser Ausschreibung zu sehen.',
+        back_button: 'Zurück zu meinen Ausschreibungen',
+        status: {
+          pending: 'Ausstehend',
+          accepted: 'Angenommen',
+          rejected: 'Abgelehnt',
+        },
+        actions: {
+          accept: 'Annehmen',
+          reject: 'Ablehnen',
         },
       },
     },
@@ -1299,39 +1405,10 @@ export const DeMessages = {
           },
         },
       },
-      OpenCallsListPage: {
-        attributes: {
-          event_name: 'Name der Veranstaltung',
-          event_date: 'Veranstaltungsdatum',
-          start_date: 'Beginn',
-          end_date: 'Ende',
-          status: 'Status',
-          applications_count: 'Bewerbungen',
-          city: 'Stadt',
-          genres: 'Genres',
-          application_status: 'Status deiner Bewerbung',
-        },
-      },
-      OpenCallDetailsPage: {
-        event_label: 'Veranstaltung',
-        open_until_label: 'Bewerbungen offen bis',
-        applications_received_suffix: 'erhaltene Bewerbungen',
-        applications_received_title: 'Erhaltene Bewerbungen',
-        your_application_title: 'Deine Bewerbung',
-        no_applications_yet: 'Für diese Ausschreibung liegen noch keine Bewerbungen vor.',
-        not_applied_yet: 'Du hast dich für diese Ausschreibung noch nicht beworben.',
-        loading_applications: 'Bewerbungen werden geladen...',
-        loading_your_application: 'Deine Bewerbung wird geladen...',
-        unauthorized_message: 'Melde dich mit einem Artist- oder Place-Profil an, um die Bewerbungen dieser Ausschreibung zu sehen.',
-        back_button: 'Zurück zu meinen Ausschreibungen',
-        status: {
-          pending: 'Ausstehend',
-          accepted: 'Angenommen',
+      memberships_list: {
+        approval_status: {
+          pending: 'Ausstehende Überprüfung',
           rejected: 'Abgelehnt',
-        },
-        actions: {
-          accept: 'Annehmen',
-          reject: 'Ablehnen',
         },
       },
     },

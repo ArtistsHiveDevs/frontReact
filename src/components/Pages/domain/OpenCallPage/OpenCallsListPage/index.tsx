@@ -32,9 +32,12 @@ const OpenCallsListPage = () => {
   const applications: OpenCallApplicationModel[] = useSelector(selectorOpenCallApplications.selectItems);
   const applicationsLoading = useSelector(selectorOpenCallApplications.selectLoading);
 
-  const isPlaceProfile = loggedUser?.currentProfileInfo?.entity === 'PlaceModel';
-  const isArtistProfile = loggedUser?.currentProfileInfo?.entity === 'ArtistModel';
-  const currentArtistId = isArtistProfile ? loggedUser?.currentProfileInfo?.identifier : undefined;
+  // `.id` en vez de `.entity`/`.identifier`: estos últimos dependen de que el username cacheado en
+  // roles[].entityRoleMap[] esté sincronizado con la entidad viva, lo que hoy no ocurre para Place.
+  const isPlaceProfile = !!loggedUser?.isPlaceProfile;
+  const isArtistProfile = !!loggedUser?.isArtistProfile;
+  const currentArtistId = isArtistProfile ? loggedUser?.currentProfileInfo?.id : undefined;
+  const currentPlaceId = isPlaceProfile ? loggedUser?.currentProfileInfo?.id : undefined;
 
   useEffect(() => {
     dispatch(openCallActions.loadItems({}));
@@ -47,8 +50,10 @@ const OpenCallsListPage = () => {
     }
   }, [currentArtistId]);
 
-  const activeCalls = openCalls.filter((oc: any) => oc.status === 'OPEN');
-  const pastCalls = openCalls.filter((oc: any) => oc.status !== 'OPEN');
+  // `oc.placeId` resuelve tanto `place_id` string como el sub-documento populado por Mongoose, siempre por id real.
+  const myOpenCalls = currentPlaceId ? openCalls.filter((oc) => oc.placeId === currentPlaceId) : openCalls;
+  const activeCalls = myOpenCalls.filter((oc) => oc.status === 'OPEN');
+  const pastCalls = myOpenCalls.filter((oc) => oc.status !== 'OPEN');
   const myApplications = currentArtistId ? applications.filter((app) => app.artistId === currentArtistId) : [];
 
   const entityData: MyOpenCallsDataTemplate = {

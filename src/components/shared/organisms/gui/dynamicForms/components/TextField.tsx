@@ -119,7 +119,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
   const onBlurHandler = (handlers && handlers['onBlur']) || emptyFunction;
   const variant = componentParams?.variant || 'outlined';
 
-  const { required } = config || {};
+  const required = !!config.required;
   config.value = currentValue;
   if (inputType === 'number') {
     if (config.value) {
@@ -131,7 +131,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
     <>
     {label && (
       <FormLabel
-        required={required === true || required === 'true'}
+        required={required}
         error={!!(errors && errors[fieldName])}
         sx={{ mb: 0.5, display: 'block', color: '#fff' }}
       >
@@ -139,7 +139,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
       </FormLabel>
     )}
     <TextField
-      required={required === true || required === 'true'}
+      required={required}
       type={inputType}
       {...(register ? register(fieldName, config) : {})}
       value={currentValue ?? ''}

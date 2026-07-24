@@ -7,6 +7,7 @@ import {
   UseFormWatch,
   useFormContext,
 } from 'react-hook-form';
+import { createAutocompletePicker } from './components/AutocompletePicker';
 import { createCheckbox } from './components/Checkbox';
 import { createChipPicker } from './components/ChipPicker';
 import { createCitySelect } from './components/CitySelector';
@@ -89,6 +90,8 @@ export const DynamicControl = (params: {
     // Opciones y selección múltiple
     case 'chipPicker':
       return createChipPicker(fieldParams);
+    case 'autocompletePicker':
+      return createAutocompletePicker(fieldParams);
     case 'select':
       return createSelect(fieldParams);
     case 'checkbox':

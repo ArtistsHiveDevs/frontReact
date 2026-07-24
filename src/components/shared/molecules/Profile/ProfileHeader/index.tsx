@@ -1,4 +1,4 @@
-import { Avatar, Button, Dialog, DialogContent, IconButton } from '@mui/material';
+import { Avatar, Dialog, DialogContent, IconButton, Snackbar, SnackbarCloseReason } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { RegisterOptions } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,14 +11,16 @@ import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import { FollowerCounter } from '~/components/shared/molecules/Profile/FollowerCounter/FollowerCounter';
-import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
-import { ProfileModel } from '~/models/base';
-import { defaultTypesColors, getModelInfoFromInstance } from '~/models/base/modelHelpers';
-import { PlaceModel } from '~/models/domain/place/place.model';
+import BurgerProfileMenu from '~/components/shared/molecules/general/burgerProfileMenu/burgerProfileMenu';
 import {
   FavoriteSubscription,
   FavoriteSubscritionIconDefaultTypes,
-} from '../../general/favoriteSubscribe/favoriteSubscribe';
+} from '~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe';
+import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
+import { ProfileMenuOptionsData, ProfileMenuOptionsType } from '~/constants/domain/profile.constants';
+import { ProfileModel } from '~/models/base';
+import { defaultTypesColors, getModelInfoFromInstance } from '~/models/base/modelHelpers';
+import { PlaceModel } from '~/models/domain/place/place.model';
 import './index.scss';
 
 export interface ProfileHeaderElement {
@@ -100,7 +102,12 @@ export const ProfileHeader = (props: any) => {
     value: undefined,
   });
 
+  const [showSnackBar, setShowSnackBar] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState('');
+
   const loggedUser = useSelector(selectCurrentUser);
+
+  const [burgerProfileMenuOptions, setBurgerProfileMenuOptions] = useState(ProfileMenuOptionsData);
 
   const getProfilePicURL = async () => {
     const photoURL =
@@ -145,6 +152,12 @@ export const ProfileHeader = (props: any) => {
         (type) => type.toLowerCase() === getModelInfoFromInstance(element).entityName?.toLowerCase()
       ) + 1;
     setBorderProfileColor(entityColorIndex);
+    const updateBurgerProfileMenuOptions = burgerProfileMenuOptions?.map((burgerOption) =>
+      burgerOption?.option == ProfileMenuOptionsType.EDIT
+        ? { ...burgerOption, show: permissions.isInProfile }
+        : burgerOption
+    );
+    setBurgerProfileMenuOptions(updateBurgerProfileMenuOptions);
   }, [element, loggedUser]);
 
   // Efecto para manejar el scroll y mostrar/ocultar el header fijo
@@ -289,8 +302,33 @@ export const ProfileHeader = (props: any) => {
     setZoomProfilePic(false);
   };
 
+  const handleCloseSnackBar = (event: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setShowSnackBar(false);
+  };
+
+  const copyShareSocialMediaUrl = () => {
+    navigator.clipboard.writeText(element.sharedUrlSocialNetworks);
+    setSnackBarMessage(translateGlobalDict('actions.link_copied_to_clipboard'));
+    setShowSnackBar(true);
+  };
+
+  const selectProfileMenuHandleClick = (event: number) => {
+    switch (event) {
+      case 0:
+        copyShareSocialMediaUrl();
+        break;
+      case 1:
+        setEditableMode(element);
+        break;
+    }
+  };
+
   return (
     <>
+      <Snackbar open={showSnackBar} autoHideDuration={2000} onClose={handleCloseSnackBar} message={snackBarMessage} />
       {!!element?.activity && element.activity !== 'active' && (
         <div className={['activity-banner', element.activity.replace('_', '-')].join(' ')}>
           <DynamicIcons iconName="PiWarningOctagonBold" size={25} color={'white'} />
@@ -399,12 +437,16 @@ export const ProfileHeader = (props: any) => {
           {/* {element?.followed_by_count !== undefined && ( */}
           {showFollowerCounter && !isEditable && <FollowerCounter element={element} handlers={parentHandlers} />}
         </div>
+        {!isEditable && (
+          <div className="profile-menu-container ml-auto">
+            <BurgerProfileMenu
+              globalDictionary={translateGlobalDict}
+              options={burgerProfileMenuOptions}
+              onClickOption={(e: number) => selectProfileMenuHandleClick(e)}
+            />
+          </div>
+        )}
       </div>
-      {currentUserIsInProfile && (
-        <div className="profile-header actions" onClick={() => setEditableMode(element)}>
-          <Button variant="contained">Edit</Button>
-        </div>
-      )}
       <Dialog open={zoomProfilePic} onClose={handleCloseZoomDialog} fullWidth>
         <DialogContent style={{ textAlign: 'center', position: 'relative', padding: 0 }}>
           <IconButton onClick={handleCloseZoomDialog} style={{ position: 'absolute', top: '0.5%', right: '0.5%' }}>

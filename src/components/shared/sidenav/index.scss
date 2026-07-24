@@ -5,6 +5,10 @@
   display: none;
 }
 
+.sidebar-header {
+  cursor: pointer;
+}
+
 .toolbar-header {
   top: 0;
   left: 0;
@@ -16,6 +20,7 @@
   font-weight: 600;
 
   .nav-menu-opt {
+    cursor: pointer;
     order: 1;
     .icon-burger {
       background-color: $nav-bar-burguer-background-color;
@@ -28,6 +33,7 @@
   }
 
   .nav-login-opt {
+    cursor: pointer;
     order: 3;
     display: flex;
     flex-direction: row;

@@ -61,6 +61,7 @@ const general: SideMenuItem[] = [
     path: `${PATHS.CULTURAL_AGENDA}`,
     icon: 'FaBullhorn',
     updated: new Date('2/20/16'),
+    forbiddenEnvironments: ['prod'],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, 'search'),
@@ -113,6 +114,7 @@ const miInfo: SideMenuItem[] = [
     icon: 'FaRegEnvelope',
     updated: new Date('2/20/16'),
     requireSession: true,
+    forbiddenEnvironments: ['prod'],
     allowedRoles: [{ entityName: 'Artist' }, { entityName: 'Place' }],
     // nestedMenuOptions: [
     //   {
@@ -152,6 +154,7 @@ const miInfo: SideMenuItem[] = [
     allowedRoles: [{ entityName: 'Artist' }, { entityName: 'Place' }],
     rightIcon: 'FaPlus',
     rightPath: `${PATHS.EVENTS}/${SUB_PATHS.CREATE}`,
+    forbiddenEnvironments: ['prod'],
     hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
       return params?.user?.hasIndustryProfiles && params?.user?.isInPersonalProfile;
     },

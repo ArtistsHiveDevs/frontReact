@@ -1,4 +1,5 @@
 import Flag from 'react-world-flags';
+import { fullyHiddenSectionsByEnvironment } from '~/common/utils/app-utils/app-utils';
 import { RatingStarsView } from '~/components/shared/atoms/gui/rating-stars-view/RatingStarsView';
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 // import { CitySelectionLevel } from '~/components/shared/organisms/gui/dynamicForms/components/CitySelector';
@@ -125,7 +126,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'spoken_languages',
                   icon: 'BsTranslate',
-                  formMetaData: { inputType: 'chipPicker' },
+                  formMetaData: { inputType: 'chipPicker', hidden: true },
                 },
                 {
                   name: 'total_audience_capacity',
@@ -469,6 +470,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   },
   {
     name: 'shows',
+    fullyHidden: fullyHiddenSectionsByEnvironment(['prod']),
     sections: [
       {
         name: 'next_shows',

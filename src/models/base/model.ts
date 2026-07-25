@@ -11,6 +11,8 @@ import {
   ProfileTemplate,
   SearchableProfileTemplate,
 } from './template';
+import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
+import { encryptEnvToken } from '~/common/utils/request';
 
 const DEFAULT_MAX_CACHE_TIME_TO_LIVE = 3 * 60 * 1000;
 
@@ -204,6 +206,7 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
   [x: string]: any;
   declare id: string;
   declare shortId?: string;
+  declare entityShareAcronym?: any;
 
   constructor(template: T | any = {}) {
     super(template);
@@ -212,6 +215,13 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
 
   get identifier(): string {
     return this.shortId || this.id;
+  }
+
+  get sharedUrlSocialNetworks() {
+    const shareDomain = 'https://share.artist-hive.com';
+    const env = isProdEnvironment() ? '' : `?a=${encryptEnvToken()}`;
+    //TODO Revisar qué pasa cuando no tenga
+    return this.entityShareAcronym ? `${shareDomain}/r/${this.identifier}${env}` : 'https://artist-hive.com';
   }
 }
 
@@ -291,6 +301,14 @@ export abstract class ProfileModel<T extends ProfileTemplate>
 
   async avatarURL(): Promise<string> {
     return await this.getS3UrlWithCache(this.profile_pic);
+  }
+
+  get sharedUrlSocialNetworks() {
+    const shareDomain = 'https://share.artist-hive.com';
+
+    const env = isProdEnvironment() ? '' : `?a=${encryptEnvToken()}`;
+
+    return `${shareDomain}/@${this.identifier}${env}`;
   }
 
   private async setAWSURL() {

@@ -155,3 +155,13 @@
   padding: 1rem;
   padding-left: 2rem;
 }
+
+.profile-menu-container {
+  display: flex;
+  justify-content: end;
+  align-items: flex-start;
+  align-self: flex-start;
+  margin-top: 1rem;
+  // min-height: 150px;
+  margin-left: auto;
+}

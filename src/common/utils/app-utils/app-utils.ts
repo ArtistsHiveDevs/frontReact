@@ -7,3 +7,8 @@ export function getEnvironment(): EnvironmentType {
 export function isProdEnvironment(): boolean {
   return ['prod'].includes(getEnvironment());
 }
+
+export function fullyHiddenSectionsByEnvironment(forbiddenEnvironments: string[] | string | undefined): boolean {
+  const envs = Array.isArray(forbiddenEnvironments) ? forbiddenEnvironments : [forbiddenEnvironments];
+  return forbiddenEnvironments?.includes(getEnvironment());
+}

@@ -22,29 +22,7 @@ export interface CitySelectorParams extends ComponentGeneratorParams {
   allowEmptyLevels?: boolean; // Allow skipping optional levels
 }
 
-// Fuera de la función: definirlo adentro remonta el Select en cada render y pierde el estado de menú abierto.
-const LevelSelector: React.FC<{
-  fieldData: DynamicFieldData;
-  handlers: any;
-  indented?: boolean;
-  register: UseFormRegister<FieldValues>;
-  errors: FieldErrors<FieldValues>;
-  formContext: UseFormReturn<FieldValues>;
-}> = ({ fieldData: levelFieldData, handlers: levelHandlers, indented = false, register, errors, formContext }) => {
-  return (
-    <div style={indented ? { paddingLeft: '1.5rem' } : undefined}>
-      {createSelect({
-        fieldData: levelFieldData,
-        handlers: levelHandlers,
-        register,
-        errors,
-        formContext,
-      })}
-    </div>
-  );
-};
-
-export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
+const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams) => {
   const {
     fieldData,
     handlers,
@@ -128,19 +106,29 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
   };
 
   // === Auto-select country from defaultValue
+  const initializedCountryRef = useRef(false);
   useEffect(() => {
+    if (initializedCountryRef.current) return;
     if (!defaultValue?.country || !availableCountries.length) return;
+
     const defaultCountry = availableCountries.find((country) => country.identifier === defaultValue.country);
-    if (defaultCountry) {
-      setSelectedCountry(defaultCountry);
-      setValue(countryFieldName, defaultCountry.identifier);
-      loadLocationEntitiesForLevel(defaultCountry, 1);
+    if (defaultCountry && selectedCountry?.identifier !== defaultCountry.identifier) {
+      initializedCountryRef.current = true;
+
+      // Usar queueMicrotask para asegurar que setValue se ejecute DESPUÉS del render
+      queueMicrotask(() => {
+        setSelectedCountry(defaultCountry);
+        setValue(countryFieldName, defaultCountry.identifier);
+        loadLocationEntitiesForLevel(defaultCountry, 1);
+      });
     }
-  }, [availableCountries]);
+  }, [availableCountries, defaultValue?.country, selectedCountry?.identifier, countryFieldName, setValue, loadLocationEntitiesForLevel]);
 
   // === Auto-select levels from defaultValue when entities become available
   useEffect(() => {
     if (!defaultValue || !selectedCountry || !relevantLevels.length) return;
+
+    const updates: Array<() => void> = [];
 
     relevantLevels.forEach((lvl) => {
       if (autoSelectDoneRef.current[lvl.level]) return;
@@ -155,16 +143,26 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
       if (!entity) return;
 
       const levelFieldName = `${fieldData?.fieldName}_level${lvl.level}`;
-      autoSelectDoneRef.current = { ...autoSelectDoneRef.current, [lvl.level]: true };
-      setSelections((prev) => ({ ...prev, [lvl.level]: entity }));
-      setValue(levelFieldName, entity.id);
 
-      const nextLevel = relevantLevels.find((l) => l.level > lvl.level);
-      if (nextLevel) {
-        loadLocationEntitiesForLevel(selectedCountry!, nextLevel.level, entity.id);
-      }
+      updates.push(() => {
+        autoSelectDoneRef.current = { ...autoSelectDoneRef.current, [lvl.level]: true };
+        setSelections((prev) => ({ ...prev, [lvl.level]: entity }));
+        setValue(levelFieldName, entity.id);
+
+        const nextLevel = relevantLevels.find((l) => l.level > lvl.level);
+        if (nextLevel) {
+          loadLocationEntitiesForLevel(selectedCountry, nextLevel.level, entity.id);
+        }
+      });
     });
-  }, [allLocationEntities, selectedCountry, selections, relevantLevels]);
+
+    if (updates.length > 0) {
+      // Ejecutar después del render para evitar el warning
+      queueMicrotask(() => {
+        updates.forEach(update => update());
+      });
+    }
+  }, [allLocationEntities, selectedCountry, relevantLevels, defaultValue, fieldData?.fieldName, setValue, loadLocationEntitiesForLevel, selections]);
 
   const generateLevelFieldData = (level: number): DynamicFieldData | null => {
     if (!countryStructure) return null;
@@ -298,4 +296,8 @@ export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
       })}
     </div>
   );
+};
+
+export const createCitySelect = (citySelectorParams: CitySelectorParams) => {
+  return <CitySelectorComponent {...citySelectorParams} />;
 };

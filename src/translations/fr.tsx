@@ -1255,6 +1255,7 @@ export const FrMessages = {
             options: {
               home: 'Accueil',
               cultural_agenda: 'Agenda culturel',
+              opportunities: 'Opportunités',
               search: 'Rechercher',
             },
           },

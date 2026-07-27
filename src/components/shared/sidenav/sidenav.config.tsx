@@ -69,6 +69,12 @@ const general: SideMenuItem[] = [
     icon: 'ImSearch',
     updated: new Date('2/20/16'),
   },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, 'opportunities'),
+    path: `${PATHS.OPPORTUNITIES}`,
+    icon: 'md MdRocketLaunch',
+    updated: new Date('2/20/16'),
+  },
   // {
   //   name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, 'artists'),
   //   path: `${PATHS.SEARCH}`,

@@ -7,6 +7,7 @@ import { Fab } from '@mui/material';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useProfilesSlice } from '~/common/slices/domain/profile/ProfileSlice';
+import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
@@ -184,7 +185,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
           </div>
           {profileFooter && <div ref={footerRef}>{profileFooter}</div>}
           {!profileFooter && profileFooter}
-          {fab && !loggedUser?.isInPersonalProfile && (
+          {!isProdEnvironment() && fab && !loggedUser?.isInPersonalProfile && (
             <Fab
               color="white"
               aria-label="add"

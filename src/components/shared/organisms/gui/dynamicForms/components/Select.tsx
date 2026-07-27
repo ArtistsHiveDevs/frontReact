@@ -7,6 +7,7 @@ import { ComponentGeneratorParams } from '../DynamicControl';
 interface OptionType {
   value: string;
   label: string;
+  icon?: React.ReactNode; // Optional icon to show before the label
 }
 
 export const createSelect = (params: ComponentGeneratorParams) => {
@@ -68,6 +69,14 @@ export const createSelect = (params: ComponentGeneratorParams) => {
     }
   };
 
+  // Custom option label renderer to support icons
+  const formatOptionLabel = (option: OptionType) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      {option.icon && <span style={{ display: 'flex', alignItems: 'center' }}>{option.icon}</span>}
+      <span>{option.label}</span>
+    </div>
+  );
+
   const handleChange = (data?: any) => {
     const newValue = data?.value || null;
     config.value = newValue;
@@ -122,6 +131,7 @@ export const createSelect = (params: ComponentGeneratorParams) => {
         onChange={(option) => {
           handleChange(option || { value: null });
         }}
+        formatOptionLabel={formatOptionLabel}
         {...restSelectField}
         menuPortalTarget={document.body}
         styles={{

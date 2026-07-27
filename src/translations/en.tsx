@@ -1353,6 +1353,7 @@ export const EnMessages = {
             options: {
               home: 'Home',
               cultural_agenda: 'Cultural agenda',
+              opportunities: 'Opportunities',
               search: 'Search',
             },
           },

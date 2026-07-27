@@ -19,6 +19,7 @@ export enum PATHS {
   SHOWS = 'shows',
   INDUSTRY_OFFER = 'offer',
   INDUSTRY = 'industry',
+  OPPORTUNITIES = 'opportunities',
   PROFILE = 'profile',
   PLACES = 'places',
   PROMOTERS = 'promoters',

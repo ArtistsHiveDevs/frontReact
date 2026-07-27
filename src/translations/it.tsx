@@ -1360,6 +1360,7 @@ export const ItMessages = {
             options: {
               home: 'Home',
               cultural_agenda: 'Agenda culturale',
+              opportunities: 'Opportunità',
               search: 'Cercare',
             },
           },

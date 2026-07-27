@@ -1357,6 +1357,7 @@ export const PtMessages = {
             options: {
               home: 'Início',
               cultural_agenda: 'Agenda cultural',
+              opportunities: 'Oportunidades',
               search: 'Pesquisar',
             },
           },

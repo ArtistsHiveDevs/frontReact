@@ -1254,6 +1254,7 @@ export const ElMessages = {
             options: {
               home: 'Αρχική',
               cultural_agenda: 'Πολιτιστικό ημερολόγιο',
+              opportunities: 'Ευκαιρίες',
               search: 'Αναζήτηση',
             },
           },

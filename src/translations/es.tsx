@@ -1262,6 +1262,7 @@ export const EsMessages = {
             options: {
               home: 'Inicio',
               cultural_agenda: 'Agenda cultural',
+              opportunities: 'Oportunidades',
               search: 'Buscar',
             },
           },

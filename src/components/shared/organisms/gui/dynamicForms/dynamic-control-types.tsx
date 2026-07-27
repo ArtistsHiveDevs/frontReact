@@ -1,4 +1,5 @@
 import { FieldErrors, FieldValues, RegisterOptions } from 'react-hook-form';
+import React from 'react';
 
 export type ControlType =
   | 'address'
@@ -33,7 +34,7 @@ export type ControlType =
 export interface SelectOption {
   label: string;
   value: string;
-  icon?: string;
+  icon?: React.ReactNode; // Can be a JSX element (like <Flag />) or a string
   iconColor?: string;
   required?: boolean;
   selected?: boolean;

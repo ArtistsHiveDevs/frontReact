@@ -2,7 +2,10 @@ import { Button, Stack } from '@mui/material';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { I18nPaths, useI18n } from '~/common/utils';
-import { createDebouncedUsernameValidation } from '~/common/utils/validation/username-validation';
+import {
+  USERNAME_FORMAT_PATTERN,
+  createDebouncedUsernameValidation,
+} from '~/common/utils/validation/username-validation';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
@@ -384,6 +387,12 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
         config: {
           required: true,
           minLength: 3,
+          pattern: {
+            value: USERNAME_FORMAT_PATTERN,
+            message: translateText(
+              `${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ERROR_CODES}.VALIDATION_USERNAME_FORMAT`
+            ),
+          },
           ...(enableUsernameValidation && {
             validate: {
               available: createDebouncedUsernameValidation(originalUsername),

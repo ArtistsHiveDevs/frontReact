@@ -115,6 +115,8 @@ export const ItMessages = {
         VALIDATION_PASSWORD_WEAK: 'Password debole',
         VALIDATION_FIELD_REQUIRED: 'Campo obbligatorio',
         VALIDATION_USERNAME_TAKEN: 'Nome utente già in uso',
+        VALIDATION_USERNAME_FORMAT:
+          'Il nome utente può contenere solo lettere minuscole, numeri, trattini bassi e punti (3-24 caratteri, senza spazi).',
 
         // Errori di Utente
         USER_PROFILE_NOT_FOUND: 'Profilo utente non trovato',

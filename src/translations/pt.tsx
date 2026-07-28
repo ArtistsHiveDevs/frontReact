@@ -705,6 +705,33 @@ export const PtMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Junte-se à colmeia',
         },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: 'Membro da indústria',
+            intro:
+              'Obrigado pelo seu interesse em se registrar como membro da indústria, seja como artista, agente, dono de um local, sala de ensaio ou outra entidade.',
+            intro_secondary: 'Procure seu perfil se ele já existir no sistema, ou crie um novo para começar.',
+            search_section: {
+              title: 'Procure seu perfil',
+              input_placeholder: 'Nome do artista ou lugar...',
+              search_button: 'Buscar',
+              artists_found: 'Estes são os artistas relacionados',
+              places_found: 'Estes são os lugares relacionados',
+            },
+            create_section: {
+              title: 'Ou crie um novo perfil',
+            },
+            reset_section: {
+              remove_artists_button: 'Remover meus perfis de Artista',
+              remove_places_button: 'Remover meus perfis de Lugar',
+              confirm_title: 'Confirmar ação',
+              confirm_content:
+                'Esta ação removerá a associação de todos os seus perfis deste tipo com sua conta. Os perfis não serão excluídos, mas deixarão de aparecer nas suas associações. Deseja continuar?',
+              confirm_action: 'Sim, remover',
+              cancel_action: 'Cancelar',
+            },
+          },
+        },
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour não encontrado',

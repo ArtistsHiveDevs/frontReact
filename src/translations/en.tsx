@@ -707,6 +707,33 @@ export const EnMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Join the hive',
         },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: 'Industry member',
+            intro:
+              'Thanks for your interest in registering as an industry member, whether as an artist, agent, venue owner, rehearsal space or other entity.',
+            intro_secondary: 'Search for your profile if it already exists in the system, or create a new one to get started.',
+            search_section: {
+              title: 'Search for your profile',
+              input_placeholder: 'Artist or place name...',
+              search_button: 'Search',
+              artists_found: 'These are the related artists',
+              places_found: 'These are the related places',
+            },
+            create_section: {
+              title: 'Or create a new profile',
+            },
+            reset_section: {
+              remove_artists_button: 'Remove my Artist profiles',
+              remove_places_button: 'Remove my Place profiles',
+              confirm_title: 'Confirm action',
+              confirm_content:
+                'This action will remove the association of all your profiles of this type with your account. The profiles themselves will not be deleted, but they will stop appearing in your memberships. Do you want to continue?',
+              confirm_action: 'Yes, remove',
+              cancel_action: 'Cancel',
+            },
+          },
+        },
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour not found',

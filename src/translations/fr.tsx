@@ -709,6 +709,34 @@ export const FrMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Rejoins la ruche',
         },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: "Membre de l'industrie",
+            intro:
+              "Merci de ton intérêt pour t'inscrire en tant que membre de l'industrie, que ce soit comme artiste, agent, propriétaire de salle, local de répétition ou autre entité.",
+            intro_secondary:
+              "Recherche ton profil s'il existe déjà dans le système, ou crées-en un nouveau pour commencer.",
+            search_section: {
+              title: 'Recherche ton profil',
+              input_placeholder: "Nom de l'artiste ou du lieu...",
+              search_button: 'Rechercher',
+              artists_found: 'Voici les artistes correspondants',
+              places_found: 'Voici les lieux correspondants',
+            },
+            create_section: {
+              title: 'Ou crée un nouveau profil',
+            },
+            reset_section: {
+              remove_artists_button: 'Retirer mes profils Artiste',
+              remove_places_button: 'Retirer mes profils Lieu',
+              confirm_title: "Confirmer l'action",
+              confirm_content:
+                "Cette action retirera l'association de tous tes profils de ce type avec ton compte. Les profils eux-mêmes ne seront pas supprimés, mais ils n'apparaîtront plus dans tes adhésions. Veux-tu continuer ?",
+              confirm_action: 'Oui, retirer',
+              cancel_action: 'Annuler',
+            },
+          },
+        },
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour non trouvé',

@@ -707,6 +707,33 @@ export const DeMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Schließe dich dem Bienenstock an',
         },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: 'Mitglied der Musikindustrie',
+            intro:
+              'Danke für dein Interesse, dich als Mitglied der Musikindustrie zu registrieren, sei es als Künstler, Agent, Venue-Besitzer, Probenraum oder andere Einrichtung.',
+            intro_secondary: 'Suche dein Profil, falls es bereits im System existiert, oder erstelle ein neues, um loszulegen.',
+            search_section: {
+              title: 'Suche dein Profil',
+              input_placeholder: 'Name des Künstlers oder Ortes...',
+              search_button: 'Suchen',
+              artists_found: 'Das sind die verwandten Künstler',
+              places_found: 'Das sind die verwandten Orte',
+            },
+            create_section: {
+              title: 'Oder erstelle ein neues Profil',
+            },
+            reset_section: {
+              remove_artists_button: 'Meine Künstlerprofile entfernen',
+              remove_places_button: 'Meine Ortsprofile entfernen',
+              confirm_title: 'Aktion bestätigen',
+              confirm_content:
+                'Diese Aktion entfernt die Verknüpfung aller deiner Profile dieses Typs mit deinem Konto. Die Profile selbst werden nicht gelöscht, erscheinen aber nicht mehr in deinen Mitgliedschaften. Möchtest du fortfahren?',
+              confirm_action: 'Ja, entfernen',
+              cancel_action: 'Abbrechen',
+            },
+          },
+        },
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour nicht gefunden',

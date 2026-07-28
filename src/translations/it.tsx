@@ -707,6 +707,33 @@ export const ItMessages = {
         IndustryOfferPage: {
           create_account_banner: "Unisciti all'alveare",
         },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: "Membro dell'industria",
+            intro:
+              "Grazie per il tuo interesse a registrarti come membro dell'industria, sia come artista, agente, proprietario di un locale, sala prove o altra entità.",
+            intro_secondary: 'Cerca il tuo profilo se esiste già nel sistema, oppure creane uno nuovo per iniziare.',
+            search_section: {
+              title: 'Cerca il tuo profilo',
+              input_placeholder: "Nome dell'artista o del luogo...",
+              search_button: 'Cerca',
+              artists_found: 'Questi sono gli artisti correlati',
+              places_found: 'Questi sono i luoghi correlati',
+            },
+            create_section: {
+              title: 'Oppure crea un nuovo profilo',
+            },
+            reset_section: {
+              remove_artists_button: 'Rimuovi i miei profili Artista',
+              remove_places_button: 'Rimuovi i miei profili Luogo',
+              confirm_title: 'Conferma azione',
+              confirm_content:
+                "Questa azione rimuoverà l'associazione di tutti i tuoi profili di questo tipo con il tuo account. I profili non verranno eliminati, ma smetteranno di comparire nelle tue affiliazioni. Vuoi continuare?",
+              confirm_action: 'Sì, rimuovi',
+              cancel_action: 'Annulla',
+            },
+          },
+        },
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour non trovato',

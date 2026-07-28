@@ -567,28 +567,14 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
     <div style={{ marginBottom: '2rem' }}>
       <FormLabel required={isFieldRequired}>{fieldData?.label}</FormLabel>
       {showCountrySelector && (
-        <LevelSelector
-          fieldData={countryFieldData}
-          handlers={countryHandlers}
-          indented
-          register={register}
-          errors={errors}
-          formContext={finalContext}
-        />
+        <LevelSelector fieldData={countryFieldData} handlers={countryHandlers} indented />
       )}
       {levelFieldsData.map(({ level, fieldData }) => {
         // 🚨 solo renderizo si su padre tiene selección
         if (level > 1 && !selections[level - 1]) return null;
         return (
           <div key={level}>
-            <LevelSelector
-              fieldData={fieldData!}
-              handlers={allHandlers}
-              indented
-              register={register}
-              errors={errors}
-              formContext={finalContext}
-            />
+            <LevelSelector fieldData={fieldData!} handlers={allHandlers} indented />
           </div>
         );
       })}

@@ -19,6 +19,7 @@ import {
   buildComponent as buildComponentFromRegistry,
   registerAllBuilders,
 } from '~/components/shared/organisms/gui/builders/componentBuilders';
+import { ErrorBoundary } from '~/components/shared/atoms/ErrorBoundary';
 import './index.scss';
 import { DynamicIcons } from '../../DynamicIcons';
 
@@ -137,7 +138,9 @@ const defaultConfigTransformer = (subpagesConfig: PageSection[], context?: Defau
                     contentComponents = (section.components || []).map(
                       (componentDescriptor: ComponentDescriptor, componentIndex: number) => (
                         <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
-                          {buildComponent(subpage, section, componentDescriptor, componentIndex, undefined)}
+                          <ErrorBoundary fallbackMessageId="app.general.component_error.message">
+                            {buildComponent(subpage, section, componentDescriptor, componentIndex, undefined)}
+                          </ErrorBoundary>
                         </div>
                       )
                     );

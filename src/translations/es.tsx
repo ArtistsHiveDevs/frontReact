@@ -6,6 +6,9 @@ export const EsMessages = {
       not_found_page: {
         title: 'Ups! No encontramos lo que buscas',
       },
+      component_error: {
+        message: 'No se pudo cargar este componente.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -155,6 +158,12 @@ export const EsMessages = {
 
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Error desconocido',
+      },
+      forms: {
+        validation_error: 'Revisa los campos resaltados antes de enviar el formulario.',
+        submit_error: 'No pudimos guardar los cambios. Inténtalo nuevamente.',
+        submit_error_duplicate_key: 'El nombre de usuario ya está en uso. Elegí otro.',
+        submit_error_validation: 'Hay campos obligatorios sin completar o con datos inválidos. Revisá el formulario.',
       },
       follows: {
         followers: 'Seguidores',
@@ -369,6 +378,34 @@ export const EsMessages = {
       },
 
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Revisión de perfiles pendientes',
+          unauthorized: {
+            title: 'Acceso denegado',
+            description: 'No tienes permiso para ver esta página.',
+          },
+          sections: {
+            artists: {
+              title: 'Artistas pendientes',
+            },
+            places: {
+              title: 'Lugares pendientes',
+            },
+          },
+          table: {
+            name: 'Nombre',
+            username: 'Usuario',
+            location: 'Ubicación',
+            created_at: 'Enviado el',
+            actions: 'Acciones',
+          },
+          actions: {
+            approve: 'Aprobar',
+            reject: 'Rechazar',
+          },
+          empty_state: 'No hay perfiles pendientes por revisar',
+          error: 'Ocurrió un error. Inténtalo de nuevo.',
+        },
         LoginPage: {
           paragraph1:
             'Estás viendo una versión de prueba de nuestra plataforma. Actualmente estamos con el registro de usuarios limitado.',
@@ -705,6 +742,33 @@ export const EsMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Únete a la colmena',
         },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: 'Miembro de la industria',
+            intro:
+              'Gracias por tu interés en registrarte como miembro de la industria, ya sea como artista, agente, dueño de un venue, sala de ensayo u otra entidad.',
+            intro_secondary: 'Busca tu perfil si ya existe en el sistema, o crea uno nuevo para comenzar.',
+            search_section: {
+              title: 'Busca tu perfil',
+              input_placeholder: 'Nombre del artista o lugar...',
+              search_button: 'Buscar',
+              artists_found: 'Estos son los artistas relacionados',
+              places_found: 'Estos son los lugares relacionados',
+            },
+            create_section: {
+              title: 'O crea un perfil nuevo',
+            },
+            reset_section: {
+              remove_artists_button: 'Quitar mis perfiles de Artista',
+              remove_places_button: 'Quitar mis perfiles de Lugar',
+              confirm_title: 'Confirmar acción',
+              confirm_content:
+                'Esta acción quitará la asociación de todos tus perfiles de este tipo con tu cuenta. Los perfiles no se eliminarán, pero dejarán de aparecer en tus membresías. ¿Deseas continuar?',
+              confirm_action: 'Sí, quitar',
+              cancel_action: 'Cancelar',
+            },
+          },
+        },
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour no encontrado',
@@ -998,6 +1062,7 @@ export const EsMessages = {
                   name: 'Información General',
                   attributes: {
                     description: 'Descripción',
+                    place_type: 'Tipo de lugar',
                     address: 'Dirección',
                     city: 'Ciudad',
                     cityWithCountry: 'Ubicación',
@@ -1088,6 +1153,47 @@ export const EsMessages = {
               name: 'Seguidores',
             },
           },
+        },
+      },
+      OpenCallsListPage: {
+        subpages: {
+          active: { name: 'Convocatorias activas' },
+          past: { name: 'Convocatorias pasadas' },
+          available: { name: 'Disponibles' },
+          applications: { name: 'Mis aplicaciones' },
+        },
+        attributes: {
+          event_name: 'Nombre del evento',
+          event_date: 'Fecha del evento',
+          start_date: 'Apertura',
+          end_date: 'Cierre',
+          status: 'Estado',
+          applications_count: 'Aplicaciones',
+          city: 'Ciudad',
+          genres: 'Géneros',
+          application_status: 'Estado de tu aplicación',
+        },
+      },
+      OpenCallDetailsPage: {
+        event_label: 'Evento',
+        open_until_label: 'Convocatoria abierta hasta',
+        applications_received_suffix: 'aplicaciones recibidas',
+        applications_received_title: 'Aplicaciones Recibidas',
+        your_application_title: 'Tu aplicación',
+        no_applications_yet: 'Todavía no hay aplicaciones para esta convocatoria.',
+        not_applied_yet: 'Todavía no has aplicado a esta convocatoria.',
+        loading_applications: 'Cargando aplicaciones...',
+        loading_your_application: 'Cargando tu aplicación...',
+        unauthorized_message: 'Inicia sesión con un perfil de Artist o de Place para ver las aplicaciones de esta convocatoria.',
+        back_button: 'Volver a Mis Convocatorias',
+        status: {
+          pending: 'Pendiente',
+          accepted: 'Aceptado',
+          rejected: 'Rechazado',
+        },
+        actions: {
+          accept: 'Aceptar',
+          reject: 'Rechazar',
         },
       },
     },
@@ -1288,6 +1394,7 @@ export const EsMessages = {
               my_events: 'Mis eventos',
               'my_events.nested': { create: 'Crear Evento' },
               my_riders: 'Mis riders',
+              my_open_calls: 'Mis Convocatorias',
               my_places: 'Mis lugares',
               'my_places.nested': { create: 'Crear lugar' },
               favourites: 'Favoritos',
@@ -1308,6 +1415,12 @@ export const EsMessages = {
               logout: 'Cerrar sesión',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'Pendiente de revisión',
+          rejected: 'Rechazado',
         },
       },
     },

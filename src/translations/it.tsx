@@ -6,6 +6,9 @@ export const ItMessages = {
       not_found_page: {
         title: 'Oops! Non siamo riusciti a trovare quello che stai cercando',
       },
+      component_error: {
+        message: 'Impossibile caricare questo componente.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -155,6 +158,12 @@ export const ItMessages = {
 
         // Errori Sconosciuti
         UNKNOWN_ERROR: 'Errore sconosciuto',
+      },
+      forms: {
+        validation_error: "Controlla i campi evidenziati prima di inviare il modulo.",
+        submit_error: 'Non è stato possibile salvare le modifiche. Riprova.',
+        submit_error_duplicate_key: 'Questo nome utente è già in uso. Scegline un altro.',
+        submit_error_validation: 'Alcuni campi obbligatori sono mancanti o non validi. Controlla il modulo.',
       },
       follows: {
         followers: 'Follower',
@@ -369,6 +378,34 @@ export const ItMessages = {
       },
 
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Revisione profili in attesa',
+          unauthorized: {
+            title: 'Accesso negato',
+            description: 'Non hai il permesso di visualizzare questa pagina.',
+          },
+          sections: {
+            artists: {
+              title: 'Artisti in attesa',
+            },
+            places: {
+              title: 'Luoghi in attesa',
+            },
+          },
+          table: {
+            name: 'Nome',
+            username: 'Nome utente',
+            location: 'Posizione',
+            created_at: 'Inviato il',
+            actions: 'Azioni',
+          },
+          actions: {
+            approve: 'Approva',
+            reject: 'Rifiuta',
+          },
+          empty_state: 'Nessun profilo in attesa di revisione',
+          error: 'Si è verificato un errore. Riprova.',
+        },
         LoginPage: {
           paragraph1:
             'Stai visualizzando una versione di prova della nostra piattaforma. Attualmente, la registrazione degli utenti è limitata.',
@@ -705,6 +742,33 @@ export const ItMessages = {
         IndustryOfferPage: {
           create_account_banner: "Unisciti all'alveare",
         },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: "Membro dell'industria",
+            intro:
+              "Grazie per il tuo interesse a registrarti come membro dell'industria, sia come artista, agente, proprietario di un locale, sala prove o altra entità.",
+            intro_secondary: 'Cerca il tuo profilo se esiste già nel sistema, oppure creane uno nuovo per iniziare.',
+            search_section: {
+              title: 'Cerca il tuo profilo',
+              input_placeholder: "Nome dell'artista o del luogo...",
+              search_button: 'Cerca',
+              artists_found: 'Questi sono gli artisti correlati',
+              places_found: 'Questi sono i luoghi correlati',
+            },
+            create_section: {
+              title: 'Oppure crea un nuovo profilo',
+            },
+            reset_section: {
+              remove_artists_button: 'Rimuovi i miei profili Artista',
+              remove_places_button: 'Rimuovi i miei profili Luogo',
+              confirm_title: 'Conferma azione',
+              confirm_content:
+                "Questa azione rimuoverà l'associazione di tutti i tuoi profili di questo tipo con il tuo account. I profili non verranno eliminati, ma smetteranno di comparire nelle tue affiliazioni. Vuoi continuare?",
+              confirm_action: 'Sì, rimuovi',
+              cancel_action: 'Annulla',
+            },
+          },
+        },
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour non trovato',
@@ -999,6 +1063,7 @@ export const ItMessages = {
                   name: 'Informazioni Generali',
                   attributes: {
                     description: 'Descrizione',
+                    place_type: 'Tipo di luogo',
                     address: 'Indirizzo',
                     city: 'Città',
                     cityWithCountry: 'Posizione',
@@ -1080,6 +1145,47 @@ export const ItMessages = {
               name: 'Followers',
             },
           },
+        },
+      },
+      OpenCallsListPage: {
+        subpages: {
+          active: { name: 'Chiamate aperte attive' },
+          past: { name: 'Chiamate aperte passate' },
+          available: { name: 'Disponibili' },
+          applications: { name: 'Le mie candidature' },
+        },
+        attributes: {
+          event_name: "Nome dell'evento",
+          event_date: "Data dell'evento",
+          start_date: 'Apertura',
+          end_date: 'Chiusura',
+          status: 'Stato',
+          applications_count: 'Candidature',
+          city: 'Città',
+          genres: 'Generi',
+          application_status: 'Stato della tua candidatura',
+        },
+      },
+      OpenCallDetailsPage: {
+        event_label: 'Evento',
+        open_until_label: 'Candidature aperte fino al',
+        applications_received_suffix: 'candidature ricevute',
+        applications_received_title: 'Candidature Ricevute',
+        your_application_title: 'La tua candidatura',
+        no_applications_yet: 'Non ci sono ancora candidature per questo bando.',
+        not_applied_yet: 'Non hai ancora fatto domanda per questo bando.',
+        loading_applications: 'Caricamento candidature...',
+        loading_your_application: 'Caricamento della tua candidatura...',
+        unauthorized_message: 'Accedi con un profilo Artist o Place per vedere le candidature di questo bando.',
+        back_button: 'Torna ai miei bandi',
+        status: {
+          pending: 'In attesa',
+          accepted: 'Accettata',
+          rejected: 'Rifiutata',
+        },
+        actions: {
+          accept: 'Accetta',
+          reject: 'Rifiuta',
         },
       },
     },
@@ -1279,6 +1385,7 @@ export const ItMessages = {
               my_events: 'I miei eventi',
               'my_events.nested': { create: 'Crea un evento' },
               my_riders: 'I miei rider',
+              my_open_calls: 'Le mie Chiamate aperte',
               my_places: 'I miei luoghi',
               'my_places.nested': { create: 'Crea luogo' },
               favourites: 'Preferiti',
@@ -1300,6 +1407,12 @@ export const ItMessages = {
               logout: 'Esci',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'In attesa di revisione',
+          rejected: 'Rifiutato',
         },
       },
     },

@@ -48,3 +48,14 @@ export const ProfileMenuOptionsData = [
 ];
 
 export const PROFILE_MENU_OPTIONS_VALUES = Object.values(ProfileMenuOptionsType);
+
+// Estado de revisión del perfil por parte del equipo de Artist Hive; hoy es solo informativo, no bloquea acciones.
+export const ProfileApprovalStatus = {
+  PENDING: 'pending',
+  APPROVED: 'approved',
+  REJECTED: 'rejected',
+} as const;
+
+export const PROFILE_APPROVAL_STATUS_VALUES = Object.values(ProfileApprovalStatus);
+
+export type ProfileApprovalStatus = typeof ProfileApprovalStatus[keyof typeof ProfileApprovalStatus];

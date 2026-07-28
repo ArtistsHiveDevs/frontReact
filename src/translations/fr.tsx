@@ -6,6 +6,9 @@ export const FrMessages = {
       not_found_page: {
         title: "Oups ! Nous n'avons pas trouvé ce que vous cherchez",
       },
+      component_error: {
+        message: "Ce composant n'a pas pu être chargé.",
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -155,6 +158,12 @@ export const FrMessages = {
 
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Erreur inconnue',
+      },
+      forms: {
+        validation_error: "Merci de vérifier les champs surlignés avant d'envoyer le formulaire.",
+        submit_error: "Nous n'avons pas pu enregistrer les modifications. Veuillez réessayer.",
+        submit_error_duplicate_key: "Ce nom d'utilisateur est déjà utilisé. Veuillez en choisir un autre.",
+        submit_error_validation: 'Certains champs obligatoires sont manquants ou invalides. Veuillez vérifier le formulaire.',
       },
       follows: {
         followers: 'Abonnés',
@@ -368,6 +377,34 @@ export const FrMessages = {
         },
       },
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Révision des profils en attente',
+          unauthorized: {
+            title: 'Accès refusé',
+            description: "Vous n'avez pas l'autorisation de consulter cette page.",
+          },
+          sections: {
+            artists: {
+              title: 'Artistes en attente',
+            },
+            places: {
+              title: 'Lieux en attente',
+            },
+          },
+          table: {
+            name: 'Nom',
+            username: "Nom d'utilisateur",
+            location: 'Emplacement',
+            created_at: 'Soumis le',
+            actions: 'Actions',
+          },
+          actions: {
+            approve: 'Approuver',
+            reject: 'Rejeter',
+          },
+          empty_state: 'Aucun profil en attente de révision',
+          error: "Une erreur s'est produite. Veuillez réessayer.",
+        },
         LoginPage: {
           paragraph1:
             "Vous consultez une version de test de notre plateforme. Actuellement, l'inscription des utilisateurs est limitée.",
@@ -707,6 +744,34 @@ export const FrMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Rejoins la ruche',
         },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: "Membre de l'industrie",
+            intro:
+              "Merci de ton intérêt pour t'inscrire en tant que membre de l'industrie, que ce soit comme artiste, agent, propriétaire de salle, local de répétition ou autre entité.",
+            intro_secondary:
+              "Recherche ton profil s'il existe déjà dans le système, ou crées-en un nouveau pour commencer.",
+            search_section: {
+              title: 'Recherche ton profil',
+              input_placeholder: "Nom de l'artiste ou du lieu...",
+              search_button: 'Rechercher',
+              artists_found: 'Voici les artistes correspondants',
+              places_found: 'Voici les lieux correspondants',
+            },
+            create_section: {
+              title: 'Ou crée un nouveau profil',
+            },
+            reset_section: {
+              remove_artists_button: 'Retirer mes profils Artiste',
+              remove_places_button: 'Retirer mes profils Lieu',
+              confirm_title: "Confirmer l'action",
+              confirm_content:
+                "Cette action retirera l'association de tous tes profils de ce type avec ton compte. Les profils eux-mêmes ne seront pas supprimés, mais ils n'apparaîtront plus dans tes adhésions. Veux-tu continuer ?",
+              confirm_action: 'Oui, retirer',
+              cancel_action: 'Annuler',
+            },
+          },
+        },
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour non trouvé',
@@ -1000,6 +1065,7 @@ export const FrMessages = {
                   name: 'Infos Générales',
                   attributes: {
                     description: 'Description',
+                    place_type: 'Type de lieu',
                     address: 'Adresse',
                     city: 'Ville',
                     cityWithCountry: 'Localisation',
@@ -1081,6 +1147,48 @@ export const FrMessages = {
               name: 'Abonnés',
             },
           },
+        },
+      },
+      OpenCallsListPage: {
+        subpages: {
+          active: { name: 'Appels ouverts actifs' },
+          past: { name: 'Appels ouverts passés' },
+          available: { name: 'Disponibles' },
+          applications: { name: 'Mes candidatures' },
+        },
+        attributes: {
+          event_name: "Nom de l'événement",
+          event_date: "Date de l'événement",
+          start_date: 'Ouverture',
+          end_date: 'Clôture',
+          status: 'Statut',
+          applications_count: 'Candidatures',
+          city: 'Ville',
+          genres: 'Genres',
+          application_status: 'Statut de ta candidature',
+        },
+      },
+      OpenCallDetailsPage: {
+        event_label: 'Événement',
+        open_until_label: "Candidatures ouvertes jusqu'au",
+        applications_received_suffix: 'candidatures reçues',
+        applications_received_title: 'Candidatures Reçues',
+        your_application_title: 'Ta candidature',
+        no_applications_yet: "Aucune candidature reçue pour cet appel à candidatures pour l'instant.",
+        not_applied_yet: "Tu n'as pas encore postulé à cet appel à candidatures.",
+        loading_applications: 'Chargement des candidatures...',
+        loading_your_application: 'Chargement de ta candidature...',
+        unauthorized_message:
+          "Connecte-toi avec un profil Artist ou Place pour voir les candidatures de cet appel à candidatures.",
+        back_button: 'Retour à mes appels à candidatures',
+        status: {
+          pending: 'En attente',
+          accepted: 'Acceptée',
+          rejected: 'Refusée',
+        },
+        actions: {
+          accept: 'Accepter',
+          reject: 'Refuser',
         },
       },
     },
@@ -1280,6 +1388,7 @@ export const FrMessages = {
               my_events: 'Mes événements',
               'my_events.nested': { create: 'Créer un événement' },
               my_riders: 'Mes riders',
+              my_open_calls: 'Mes Appels ouverts',
               my_places: 'Mes lieux',
               'my_places.nested': { create: 'Créer un lieu' },
               favourites: 'Favoris',
@@ -1301,6 +1410,12 @@ export const FrMessages = {
               logout: 'Déconnexion',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'En attente de validation',
+          rejected: 'Refusé',
         },
       },
     },

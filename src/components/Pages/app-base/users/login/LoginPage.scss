@@ -51,3 +51,14 @@ p {
 .login-form-footer button:hover {
   text-decoration: underline;
 }
+
+[data-amplify-router] .amplify-tabs__list {
+  display: none;
+}
+
+.login-auth-tabs {
+  background-color: var(--amplify-components-authenticator-router-background-color, #fff);
+  border-top-left-radius: var(--amplify-components-authenticator-router-border-radius, 6px);
+  border-top-right-radius: var(--amplify-components-authenticator-router-border-radius, 6px);
+  overflow: hidden;
+}

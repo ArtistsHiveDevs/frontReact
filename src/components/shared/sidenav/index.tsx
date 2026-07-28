@@ -154,6 +154,8 @@ const SideNav = () => {
     logout: async () => {
       await signOut();
       dispatch(usersActions.logout());
+      // El logout saga hace window.location.reload() al final; navegamos antes para que ese reload ya ocurra en home.
+      navigateToInnerPath({ path: PATHS.HOME });
       setOpenStatusSearchInputText(false);
       handleClose();
     },

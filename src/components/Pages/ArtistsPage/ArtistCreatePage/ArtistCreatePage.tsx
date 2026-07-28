@@ -66,19 +66,11 @@ const ArtistsCreatePage = () => {
     getURL();
   }, [urlParameters]);
 
-  // useEffect(() => {
-  //   if (requestHasBeenSended && !!createdItem) {
-  //     console.log()
-  //     dispatch(userActions.switchProfile({ id: createdItem.identifier }));
-  //     setHasSwitchedProfile(true);
-  //   }
-  // }, [createdItem]);
-
   useEffect(() => {
-    if (requestHasBeenSended && loggedUser?.currentProfileIdentifier) {
-      navigateToEntity({ entityType: ArtistModel.name, id: loggedUser?.currentProfileIdentifier });
+    if (requestHasBeenSended && !currentArtist && createdItem) {
+      navigateToEntity({ entityType: ArtistModel.name, id: createdItem.identifier });
     }
-  }, [loggedUser, requestHasBeenSended]);
+  }, [createdItem, requestHasBeenSended]);
 
   useEffect(() => {
     if (!availableLanguages || availableLanguages.length === 0) {

@@ -6,6 +6,9 @@ export const PtMessages = {
       not_found_page: {
         title: 'Oops! Não conseguimos encontrar o que está a procurar',
       },
+      component_error: {
+        message: 'Não foi possível carregar este componente.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -155,6 +158,12 @@ export const PtMessages = {
 
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Erro desconhecido',
+      },
+      forms: {
+        validation_error: 'Revise os campos destacados antes de enviar o formulário.',
+        submit_error: 'Não foi possível salvar as alterações. Tente novamente.',
+        submit_error_duplicate_key: 'Esse nome de usuário já está em uso. Escolha outro.',
+        submit_error_validation: 'Alguns campos obrigatórios estão faltando ou inválidos. Revise o formulário.',
       },
       follows: {
         followers: 'Seguidores',
@@ -368,6 +377,34 @@ export const PtMessages = {
         },
       },
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Revisão de perfis pendentes',
+          unauthorized: {
+            title: 'Acesso negado',
+            description: 'Você não tem permissão para ver esta página.',
+          },
+          sections: {
+            artists: {
+              title: 'Artistas pendentes',
+            },
+            places: {
+              title: 'Locais pendentes',
+            },
+          },
+          table: {
+            name: 'Nome',
+            username: 'Usuário',
+            location: 'Localização',
+            created_at: 'Enviado em',
+            actions: 'Ações',
+          },
+          actions: {
+            approve: 'Aprovar',
+            reject: 'Rejeitar',
+          },
+          empty_state: 'Nenhum perfil pendente para revisão',
+          error: 'Ocorreu um erro. Tente novamente.',
+        },
         LoginPage: {
           paragraph1:
             'Você está visualizando uma versão de teste da nossa plataforma. Atualmente, o registro de usuários está limitado.',
@@ -703,6 +740,33 @@ export const PtMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Junte-se à colmeia',
         },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: 'Membro da indústria',
+            intro:
+              'Obrigado pelo seu interesse em se registrar como membro da indústria, seja como artista, agente, dono de um local, sala de ensaio ou outra entidade.',
+            intro_secondary: 'Procure seu perfil se ele já existir no sistema, ou crie um novo para começar.',
+            search_section: {
+              title: 'Procure seu perfil',
+              input_placeholder: 'Nome do artista ou lugar...',
+              search_button: 'Buscar',
+              artists_found: 'Estes são os artistas relacionados',
+              places_found: 'Estes são os lugares relacionados',
+            },
+            create_section: {
+              title: 'Ou crie um novo perfil',
+            },
+            reset_section: {
+              remove_artists_button: 'Remover meus perfis de Artista',
+              remove_places_button: 'Remover meus perfis de Lugar',
+              confirm_title: 'Confirmar ação',
+              confirm_content:
+                'Esta ação removerá a associação de todos os seus perfis deste tipo com sua conta. Os perfis não serão excluídos, mas deixarão de aparecer nas suas associações. Deseja continuar?',
+              confirm_action: 'Sim, remover',
+              cancel_action: 'Cancelar',
+            },
+          },
+        },
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour não encontrado',
@@ -996,6 +1060,7 @@ export const PtMessages = {
                   name: 'Informações Gerais',
                   attributes: {
                     description: 'Descrição',
+                    place_type: 'Tipo de local',
                     address: 'Endereço',
                     city: 'Cidade',
                     cityWithCountry: 'Localização',
@@ -1077,6 +1142,47 @@ export const PtMessages = {
               name: 'Seguidores',
             },
           },
+        },
+      },
+      OpenCallsListPage: {
+        subpages: {
+          active: { name: 'Chamadas abertas ativas' },
+          past: { name: 'Chamadas abertas passadas' },
+          available: { name: 'Disponíveis' },
+          applications: { name: 'Minhas candidaturas' },
+        },
+        attributes: {
+          event_name: 'Nome do evento',
+          event_date: 'Data do evento',
+          start_date: 'Abertura',
+          end_date: 'Encerramento',
+          status: 'Status',
+          applications_count: 'Candidaturas',
+          city: 'Cidade',
+          genres: 'Gêneros',
+          application_status: 'Status da tua candidatura',
+        },
+      },
+      OpenCallDetailsPage: {
+        event_label: 'Evento',
+        open_until_label: 'Candidaturas abertas até',
+        applications_received_suffix: 'candidaturas recebidas',
+        applications_received_title: 'Candidaturas Recebidas',
+        your_application_title: 'Tua candidatura',
+        no_applications_yet: 'Ainda não há candidaturas para esta convocatória.',
+        not_applied_yet: 'Ainda não te candidataste a esta convocatória.',
+        loading_applications: 'Carregando candidaturas...',
+        loading_your_application: 'Carregando tua candidatura...',
+        unauthorized_message: 'Entra com um perfil de Artist ou de Place para ver as candidaturas desta convocatória.',
+        back_button: 'Voltar às Minhas Convocatórias',
+        status: {
+          pending: 'Pendente',
+          accepted: 'Aceita',
+          rejected: 'Rejeitada',
+        },
+        actions: {
+          accept: 'Aceitar',
+          reject: 'Rejeitar',
         },
       },
     },
@@ -1276,6 +1382,7 @@ export const PtMessages = {
               my_events: 'Meus eventos',
               'my_events.nested': { create: 'Criar um evento' },
               my_riders: 'Meus riders',
+              my_open_calls: 'Minhas Chamadas abertas',
               my_places: 'Meus lugares',
               'my_places.nested': { create: 'Criar local' },
               favourites: 'Favoritos',
@@ -1297,6 +1404,12 @@ export const PtMessages = {
               logout: 'Sair',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'Pendente de revisão',
+          rejected: 'Rejeitado',
         },
       },
     },

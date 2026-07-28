@@ -49,7 +49,7 @@ export const SocialNetworks: {
     icon: 'MdEmail',
     title: 'e-mail',
     emptyTitle: true,
-    usernamePattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+    usernamePattern: /^[\w.+-]+@([\w-]+\.)+[\w-]{2,4}$/,
   },
   facebook: {
     url: 'https://www.facebook.com',

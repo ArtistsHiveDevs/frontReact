@@ -238,17 +238,18 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
   get latitude() {
     if (typeof this.location === 'string') {
       return parseFloat(this.location?.split(',')[0] || '0');
-    } else {
-      return this.location[0].latitude;
     }
+
+    // location puede venir undefined/null/[] cuando el Place no tiene ubicación seteada
+    return this.location?.[0]?.latitude ?? 0;
   }
 
   get longitude() {
     if (typeof this.location === 'string') {
       return parseFloat(this.location?.split(',')[1] || '0');
-    } else {
-      return this.location[0].longitude;
     }
+
+    return this.location?.[0]?.longitude ?? 0;
   }
 
   get aa() {

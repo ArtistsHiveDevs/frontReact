@@ -1,8 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 import { defaultLang } from '~/common/context';
-import { EntityStateTemplate } from '~/common/utils/redux-injectors/types';
-import { APIResponse, buildQueryString, deleteRequest, postRequest, putRequest, request } from '~/common/utils/request';
+import { EntityStateTemplate, RepoErrorPayload } from '~/common/utils/redux-injectors/types';
+import {
+  APIError,
+  APIResponse,
+  buildQueryString,
+  deleteRequest,
+  postRequest,
+  putRequest,
+  request,
+  ResponseError,
+} from '~/common/utils/request';
 import { AVAILABLE_ENTITY_MEMBERSHIPS } from '~/constants/app.constants';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { EntityModel, EntityTemplate, ProfileModel } from '~/models/base';
@@ -16,6 +25,34 @@ export interface CustomOperations<S> {
   sagas?: {
     [key: string]: (action: PayloadAction<any>) => Generator<any, void, unknown>;
   };
+}
+
+function buildErrorPayloadFromAPIError(apiError?: APIError): RepoErrorPayload {
+  return {
+    status: apiError?.errorNumber,
+    errorCode: apiError?.errorCode,
+    message: apiError?.message,
+  };
+}
+
+/**
+ * Extrae el status HTTP real y el contenido del body de un `ResponseError` lanzado por
+ * `~/common/utils/request`, para que los consumidores puedan diferenciar (ej. 403 vs 500)
+ * en vez de recibir siempre un código genérico.
+ */
+function* buildErrorPayloadFromCaughtError(err: unknown): Generator<any, RepoErrorPayload, any> {
+  const responseError = err as ResponseError;
+
+  if (responseError?.response) {
+    const content: APIError = yield call(() => responseError.content);
+    return {
+      status: responseError.response.status,
+      errorCode: content?.errorCode,
+      message: content?.message,
+    };
+  }
+
+  return { message: err instanceof Error ? err.message : undefined };
 }
 
 export function createEntitySlice<T extends EntityTemplate, M extends EntityModel<T>>({
@@ -111,6 +148,7 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
         : {
             createItem(state: EntityStateTemplate<T, M>, action: PayloadAction<{ data: T }>) {
               state.loading = true;
+              state.error = null;
               state.newItemRQ = action.payload.data;
               state.createdItem = undefined;
               if ('prebookingRequests' === name) {
@@ -172,7 +210,7 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
               console.log('terminamos....');
             },
           }),
-      repoError(state: EntityStateTemplate<T, M>, action: PayloadAction<number>) {
+      repoError(state: EntityStateTemplate<T, M>, action: PayloadAction<RepoErrorPayload>) {
         state.error = action.payload;
         state.loading = false;
       },
@@ -198,7 +236,7 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
           });
 
           if (response.error) {
-            yield put(slice.actions.repoError(1));
+            yield put(slice.actions.repoError(buildErrorPayloadFromAPIError(response.error)));
           } else if (response.data) {
             let resultInfo = response.data;
             if (!Array.isArray(resultInfo)) {
@@ -206,11 +244,12 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
             }
             yield put(slice.actions.itemsLoaded(<T[]>resultInfo));
           } else {
-            yield put(slice.actions.repoError(1));
+            yield put(slice.actions.repoError({}));
           }
         } catch (err) {
           console.log(err);
-          yield put(slice.actions.repoError(1));
+          const errorPayload: RepoErrorPayload = yield call(buildErrorPayloadFromCaughtError, err);
+          yield put(slice.actions.repoError(errorPayload));
         }
       }
     );
@@ -249,7 +288,8 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
           yield put(slice.actions.itemByIdLoaded({ id: requestedItemID, item: itemById }));
         } catch (err) {
           console.log(JSON.stringify(err));
-          yield put(slice.actions.repoError(1));
+          const errorPayload: RepoErrorPayload = yield call(buildErrorPayloadFromCaughtError, err);
+          yield put(slice.actions.repoError(errorPayload));
         }
       }
     );
@@ -277,7 +317,8 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
             yield put(slice.actions.itemCreated(response.data));
           }
         } catch (err) {
-          yield put(slice.actions.repoError(1));
+          const errorPayload: RepoErrorPayload = yield call(buildErrorPayloadFromCaughtError, err);
+          yield put(slice.actions.repoError(errorPayload));
         }
       });
     }
@@ -306,7 +347,8 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
               }
             }
           } catch (err) {
-            yield put(slice.actions.repoError(1));
+            const errorPayload: RepoErrorPayload = yield call(buildErrorPayloadFromCaughtError, err);
+            yield put(slice.actions.repoError(errorPayload));
           }
         }
       );
@@ -344,7 +386,8 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
             }
           } catch (err) {
             console.log(err);
-            yield put(slice.actions.repoError(1));
+            const errorPayload: RepoErrorPayload = yield call(buildErrorPayloadFromCaughtError, err);
+            yield put(slice.actions.repoError(errorPayload));
           }
         }
       );
@@ -378,12 +421,13 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
                 yield put(slice.actions.deletedItem({ id, item: { id } as T }));
               } else {
                 console.error('Delete falló:', response);
-                yield put(slice.actions.repoError(response.status || 1));
+                yield put(slice.actions.repoError({ status: response.status }));
               }
             }
           } catch (err) {
             console.error('Error en delete:', err);
-            yield put(slice.actions.repoError(1));
+            const errorPayload: RepoErrorPayload = yield call(buildErrorPayloadFromCaughtError, err);
+            yield put(slice.actions.repoError(errorPayload));
           }
         }
       );

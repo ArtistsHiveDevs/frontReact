@@ -30,7 +30,7 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
   const { register, formState } = finalContext;
   const { errors } = formState || {};
 
-  const { label, fieldName, options = [], config, componentParams } = fieldData || {};
+  const { label, fieldName, options = [], config = {}, componentParams } = fieldData || {};
 
   const { multipleFiles, accept } = componentParams || {};
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -40,6 +40,7 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
     const values = Object.values(newList);
 
     setSelectedFiles(values);
+    console.log('Archivos.... ', values);
   };
 
   const avatarSize = 70;
@@ -50,7 +51,6 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
       <InputLabel id={`label_${fieldName}`} required={!!config?.required} error={!!errors[fieldName]}>
         {label}
       </InputLabel>
-
       <AvatarGroup max={4}>
         {!!selectedFiles &&
           selectedFiles.map((file, index) => (
@@ -63,7 +63,6 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
             />
           ))}
       </AvatarGroup>
-
       <Button component="label" variant="contained" startIcon={<DynamicIcons iconName="BsCloudArrowUp" />}>
         {translateText(`${TRANSLATION_BASE_GLOBAL_DICT_ACTIONS}.upload`)}
         <VisuallyHiddenInput

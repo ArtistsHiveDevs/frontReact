@@ -191,6 +191,21 @@ const miInfo: SideMenuItem[] = [
     // ],
   },
   {
+    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_open_calls'),
+    path: `${PATHS.OPEN_CALLS}`,
+    icon: 'LuMegaphone',
+    updated: new Date('1/18/16'),
+    randomId: false,
+    allowedRoles: [{ entityName: 'Artist' }, { entityName: 'Place' }],
+    rightIcon: 'FaPlus',
+    rightPath: `${PATHS.OPEN_CALLS}/${SUB_PATHS.CREATE}`,
+    rightAllowedRoles: [{ entityName: 'Place' }],
+    forbiddenEnvironments: ['prod'],
+    hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
+      return params?.user?.hasIndustryProfiles && params?.user?.isInPersonalProfile;
+    },
+  },
+  {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),
     path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/rid_2`,
     icon: 'FaFileAlt',

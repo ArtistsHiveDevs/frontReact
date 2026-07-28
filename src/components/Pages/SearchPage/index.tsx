@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSearchSlice } from '~/common/slices/search';
 import { selectSearch, selectSearchLoading } from '~/common/slices/search/selectors';
 import { useI18n } from '~/common/utils';
+import { trackSearchResultClick } from '~/common/utils/analytics';
+import { EntityType } from '~/common/utils/analytics/events';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { ResultElement } from '~/components/shared/search/result-element';
 import consts from '~/components/shared/search/search-constants';

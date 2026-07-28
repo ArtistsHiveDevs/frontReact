@@ -115,6 +115,8 @@ export const FrMessages = {
         VALIDATION_PASSWORD_WEAK: 'Mot de passe faible',
         VALIDATION_FIELD_REQUIRED: 'Champ requis',
         VALIDATION_USERNAME_TAKEN: "Nom d'utilisateur déjà pris",
+        VALIDATION_USERNAME_FORMAT:
+          "Le nom d'utilisateur ne peut contenir que des minuscules, des chiffres, des underscores et des points (3 à 24 caractères, sans espaces).",
 
         // Errores de Usuario
         USER_PROFILE_NOT_FOUND: 'Profil utilisateur non trouvé',

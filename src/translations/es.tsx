@@ -115,6 +115,8 @@ export const EsMessages = {
         VALIDATION_PASSWORD_WEAK: 'Contraseña débil',
         VALIDATION_FIELD_REQUIRED: 'Campo requerido',
         VALIDATION_USERNAME_TAKEN: 'Nombre de usuario ya tomado',
+        VALIDATION_USERNAME_FORMAT:
+          'El nombre de usuario solo puede contener minúsculas, números, guion bajo y punto (3-24 caracteres, sin espacios).',
 
         // Errores de Usuario
         USER_PROFILE_NOT_FOUND: 'Perfil de usuario no encontrado',

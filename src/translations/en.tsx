@@ -115,6 +115,8 @@ export const EnMessages = {
         VALIDATION_PASSWORD_WEAK: 'Weak password',
         VALIDATION_FIELD_REQUIRED: 'Field required',
         VALIDATION_USERNAME_TAKEN: 'Username already taken',
+        VALIDATION_USERNAME_FORMAT:
+          'Username can only contain lowercase letters, numbers, dots and underscores (3-24 characters, no spaces).',
 
         // User Errors
         USER_PROFILE_NOT_FOUND: 'User profile not found',

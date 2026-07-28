@@ -1,6 +1,12 @@
 import { generatePreAuthHeaders } from '../request';
 
 /**
+ * Formato válido de username: solo minúsculas, dígitos, guión bajo y punto, 3-24 caracteres.
+ * Debe mantenerse en sync con la validación equivalente del backend.
+ */
+export const USERNAME_FORMAT_PATTERN = /^[a-z0-9_.]{3,24}$/;
+
+/**
  * Verifica si un username está disponible consultando el endpoint de checkId
  * @param username - El username a verificar
  * @param originalUsername - El username original (si está editando)

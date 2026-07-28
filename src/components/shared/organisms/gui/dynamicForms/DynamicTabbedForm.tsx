@@ -1,4 +1,4 @@
-import { Button, Stack } from '@mui/material';
+import { Alert, Button, Stack } from '@mui/material';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { I18nPaths, useI18n } from '~/common/utils';
@@ -6,6 +6,7 @@ import {
   USERNAME_FORMAT_PATTERN,
   createDebouncedUsernameValidation,
 } from '~/common/utils/validation/username-validation';
+import { ErrorBoundary } from '~/components/shared/atoms/ErrorBoundary';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
@@ -51,6 +52,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
 
   const [relationshipsValues, setRelationshipsValues] = useState<{ [relationship: string]: any[] }>({});
   const [timeValues, setTimeValues] = useState<{ [relationship: string]: any }>({});
+  const [hasValidationErrors, setHasValidationErrors] = useState(false);
 
   const { translateText } = useI18n();
   const formMethods = useForm({
@@ -306,15 +308,17 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
                       contentComponents = (section.components || []).map(
                         (componentDescriptor: ComponentDescriptor, componentIndex: number) => (
                           <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
-                            {generateSectionFormFields(
-                              subpage,
-                              section,
-                              componentDescriptor,
-                              componentIndex,
-                              handlers,
-                              formMethods,
-                              elementData
-                            )}
+                            <ErrorBoundary fallbackMessageId="app.general.component_error.message">
+                              {generateSectionFormFields(
+                                subpage,
+                                section,
+                                componentDescriptor,
+                                componentIndex,
+                                handlers,
+                                formMethods,
+                                elementData
+                              )}
+                            </ErrorBoundary>
                           </div>
                         )
                       );
@@ -347,22 +351,14 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     formState: { errors },
   } = formMethods;
 
-  // 🔍 Logging de errores para debugging
   const handleFormSubmit = (data: any) => {
+    setHasValidationErrors(false);
     return onSubmit(data);
   };
 
-  const handleFormErrors = (errors: any) => {
+  const handleFormErrors = () => {
+    setHasValidationErrors(true);
     window.scrollTo(0, 0);
-    // console.log('❌ Form validation failed. Errors by field:');
-    // console.table(
-    //   Object.entries(errors).map(([fieldName, error]: [string, any]) => ({
-    //     Campo: fieldName,
-    //     Mensaje: error?.message || 'Error sin mensaje',
-    //     Tipo: error?.type || 'unknown',
-    //   }))
-    // );
-    // console.log('Full errors object:', errors);
   };
 
   // customHeaderConfig = undefined;
@@ -422,6 +418,11 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
           />
         </div>
       </FormProvider>
+      {hasValidationErrors && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY}.forms.validation_error`)}
+        </Alert>
+      )}
       <Button type="submit" variant="contained" fullWidth>
         {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.${submitLabel || 'submit'}`)}
       </Button>

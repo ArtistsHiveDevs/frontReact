@@ -6,6 +6,9 @@ export const EnMessages = {
       not_found_page: {
         title: "Oops! We couldn't find what you're looking for",
       },
+      component_error: {
+        message: 'This component could not be loaded.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -157,6 +160,9 @@ export const EnMessages = {
 
         // Unknown Errors
         UNKNOWN_ERROR: 'Unknown error',
+      },
+      forms: {
+        validation_error: 'Please review the highlighted fields before submitting.',
       },
       follows: {
         followers: 'Followers',

@@ -6,6 +6,9 @@ export const ItMessages = {
       not_found_page: {
         title: 'Oops! Non siamo riusciti a trovare quello che stai cercando',
       },
+      component_error: {
+        message: 'Impossibile caricare questo componente.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -157,6 +160,9 @@ export const ItMessages = {
 
         // Errori Sconosciuti
         UNKNOWN_ERROR: 'Errore sconosciuto',
+      },
+      forms: {
+        validation_error: "Controlla i campi evidenziati prima di inviare il modulo.",
       },
       follows: {
         followers: 'Follower',

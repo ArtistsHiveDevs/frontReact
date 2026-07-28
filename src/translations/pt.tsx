@@ -6,6 +6,9 @@ export const PtMessages = {
       not_found_page: {
         title: 'Oops! Não conseguimos encontrar o que está a procurar',
       },
+      component_error: {
+        message: 'Não foi possível carregar este componente.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -157,6 +160,9 @@ export const PtMessages = {
 
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Erro desconhecido',
+      },
+      forms: {
+        validation_error: 'Revise os campos destacados antes de enviar o formulário.',
       },
       follows: {
         followers: 'Seguidores',

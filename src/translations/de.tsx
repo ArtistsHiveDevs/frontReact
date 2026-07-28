@@ -6,6 +6,9 @@ export const DeMessages = {
       not_found_page: {
         title: 'Hoppla! Wir konnten nicht finden, wonach Sie suchen',
       },
+      component_error: {
+        message: 'Diese Komponente konnte nicht geladen werden.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -157,6 +160,9 @@ export const DeMessages = {
 
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Unbekannter Fehler',
+      },
+      forms: {
+        validation_error: 'Bitte überprüfe die markierten Felder, bevor du das Formular sendest.',
       },
       follows: {
         followers: 'Follower',

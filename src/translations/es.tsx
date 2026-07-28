@@ -6,6 +6,9 @@ export const EsMessages = {
       not_found_page: {
         title: 'Ups! No encontramos lo que buscas',
       },
+      component_error: {
+        message: 'No se pudo cargar este componente.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -157,6 +160,9 @@ export const EsMessages = {
 
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Error desconocido',
+      },
+      forms: {
+        validation_error: 'Revisa los campos resaltados antes de enviar el formulario.',
       },
       follows: {
         followers: 'Seguidores',

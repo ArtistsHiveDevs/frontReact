@@ -6,6 +6,9 @@ export const FrMessages = {
       not_found_page: {
         title: "Oups ! Nous n'avons pas trouvé ce que vous cherchez",
       },
+      component_error: {
+        message: "Ce composant n'a pas pu être chargé.",
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -157,6 +160,9 @@ export const FrMessages = {
 
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Erreur inconnue',
+      },
+      forms: {
+        validation_error: "Merci de vérifier les champs surlignés avant d'envoyer le formulaire.",
       },
       follows: {
         followers: 'Abonnés',

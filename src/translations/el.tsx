@@ -6,6 +6,9 @@ export const ElMessages = {
       not_found_page: {
         title: 'Ούπς! Δεν μπορέσαμε να βρούμε αυτό που ψάχνετε',
       },
+      component_error: {
+        message: 'Δεν ήταν δυνατή η φόρτωση αυτού του στοιχείου.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -157,6 +160,9 @@ export const ElMessages = {
 
         // Άγνωστα Σφάλματα
         UNKNOWN_ERROR: 'Άγνωστο σφάλμα',
+      },
+      forms: {
+        validation_error: 'Ελέγξτε τα επισημασμένα πεδία πριν την υποβολή της φόρμας.',
       },
       follows: {
         followers: 'Followers',

@@ -39,9 +39,11 @@ export const ItMessages = {
           username_or_email: 'Nome utente o email',
         },
         create: 'Crea',
+        edit: 'Modificare',
         follow_us: 'Seguici',
         save: 'Salva',
         cancel: 'Annulla',
+        link_copied_to_clipboard: 'Link copiato negli appunti',
         navigation: {
           back: 'Indietro',
           first: 'Primo',
@@ -56,6 +58,7 @@ export const ItMessages = {
           open: 'Apri',
           save: 'Salva',
         },
+        share: 'Condividi',
         show_more: 'Mostra di più',
         show_less: 'Mostra di meno',
         submit: 'Invia',
@@ -1008,6 +1011,7 @@ export const ItMessages = {
                     has_open_mic: 'Ha un microfono aperto?',
                     total_audience_capacity: 'Capienza max.',
                     bookingRatesPolicy: 'Politiche di prenotazione',
+                    regulatory_closing_time: 'Orario di chiusura regolamentare',
                   },
                 },
                 genres: {
@@ -1250,6 +1254,7 @@ export const ItMessages = {
             options: {
               home: 'Home',
               cultural_agenda: 'Agenda culturale',
+              opportunities: 'Opportunità',
               search: 'Cercare',
             },
           },

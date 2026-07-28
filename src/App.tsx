@@ -81,7 +81,9 @@ const App = () => {
         dispatch(apiKeyActions.loadApiKey({ username: preferredUsername, sub: userId }));
       }
     } catch (error) {
-      console.error('Error verifying user session:', error);
+      if ((error as Error).name !== 'UserUnAuthenticatedException') {
+        console.error('Error verifying user session:', error);
+      }
     }
   };
 

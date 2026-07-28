@@ -39,9 +39,11 @@ export const EnMessages = {
           username_or_email: 'Username or Email',
         },
         create: 'Create',
+        edit: 'Edit',
         follow_us: 'Follow us',
         save: 'Save',
         cancel: 'Cancel',
+        link_copied_to_clipboard: 'Link copied to clipboard',
         navigation: {
           back: 'Back',
           first: 'First',
@@ -56,6 +58,7 @@ export const EnMessages = {
           open: 'Open',
           save: 'Save',
         },
+        share: 'Share',
         show_more: 'Show more',
         show_less: 'Show less',
         submit: 'Submit',
@@ -1038,11 +1041,20 @@ export const EnMessages = {
             backline: {
               name: 'Backline',
               sections: {
-                sound_backline: {
-                  name: 'Sound Backline',
+                backline_instruments: {
+                  name: 'Instruments',
                 },
-                light_backline: {
-                  name: 'Light Backline',
+                backline_sound: {
+                  name: 'Sound',
+                },
+                backline_lights: {
+                  name: 'Lights',
+                },
+                backline_video: {
+                  name: 'Video',
+                },
+                backline_additional_info: {
+                  name: 'Additional Info',
                 },
               },
             },
@@ -1235,6 +1247,7 @@ export const EnMessages = {
             options: {
               home: 'Home',
               cultural_agenda: 'Cultural agenda',
+              opportunities: 'Opportunities',
               search: 'Search',
             },
           },

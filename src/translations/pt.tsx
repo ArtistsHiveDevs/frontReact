@@ -39,9 +39,11 @@ export const PtMessages = {
           username_or_email: 'Nome de usuário ou e-mail',
         },
         create: 'Criar',
+        edit: 'Editar',
         follow_us: 'Siga-nos',
         save: 'Salvar',
         cancel: 'Cancelar',
+        link_copied_to_clipboard: 'Link copiado para a área de transferência',
         navigation: {
           back: 'Voltar',
           first: 'Primeiro',
@@ -56,6 +58,7 @@ export const PtMessages = {
           open: 'Abrir',
           save: 'Salvar',
         },
+        share: 'Partilhar',
         show_more: 'Mostrar mais',
         show_less: 'Mostrar menos',
         submit: 'Enviar',
@@ -1005,6 +1008,7 @@ export const PtMessages = {
                     has_open_mic: 'Tem microfone aberto?',
                     total_audience_capacity: 'Capacidade máx.',
                     bookingRatesPolicy: 'Políticas de reserva',
+                    regulatory_closing_time: 'Horário regulamentar de encerramento',
                   },
                 },
                 genres: {
@@ -1247,6 +1251,7 @@ export const PtMessages = {
             options: {
               home: 'Início',
               cultural_agenda: 'Agenda cultural',
+              opportunities: 'Oportunidades',
               search: 'Pesquisar',
             },
           },

@@ -6,6 +6,7 @@ import { selectorEvents, useEventsSlice } from '~/common/slices/domain/events/ev
 import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
+import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { PATHS, SUB_PATHS } from '~/constants';
 import { AppUserModel } from '~/models/app/user/user.model';
@@ -143,14 +144,16 @@ const HomePage = () => {
         callbacks={{ onClickCard: onClickCardArtist }}
       />
 
-      <MainSection
-        // description={'Próximos eventos cercanos a ti'}
-        listView={eventsList}
-        params={{ useNewCard: true }}
-        title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.events`)}
-        titleColor={3}
-        callbacks={{ onClickCard: onClickCardEventos }}
-      />
+      {!isProdEnvironment() && (
+        <MainSection
+          // description={'Próximos eventos cercanos a ti'}
+          listView={eventsList}
+          params={{ useNewCard: true }}
+          title={translateText(`${TRANSLATION_BASE_HOME_PAGE}.events`)}
+          titleColor={3}
+          callbacks={{ onClickCard: onClickCardEventos }}
+        />
+      )}
 
       <MainSection
         // description={'Estos son los lugares más cercanos a tu ubicación que están buscando artistas'}

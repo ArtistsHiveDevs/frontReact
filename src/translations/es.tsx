@@ -39,9 +39,11 @@ export const EsMessages = {
           username_or_email: 'Nombre de usuario o correo electrónico',
         },
         create: 'Crear',
+        edit: 'Editar',
         follow_us: 'Síguenos',
         save: 'Guardar',
         cancel: 'Cancelar',
+        link_copied_to_clipboard: 'Enlace copiado al portapapeles',
         navigation: {
           back: 'Atrás',
           first: 'Primero',
@@ -56,6 +58,7 @@ export const EsMessages = {
           open: 'Abrir',
           save: 'Guardar',
         },
+        share: 'Compartir',
         show_more: 'Mostrar más',
         show_less: 'Mostrar menos',
         submit: 'Enviar',
@@ -1007,6 +1010,7 @@ export const EsMessages = {
                     has_open_mic: '¿Tiene micrófono abierto?',
                     total_audience_capacity: 'Aforo máx.',
                     bookingRatesPolicy: 'Políticas de reserva',
+                    regulatory_closing_time: 'Hora de cierre reglamentaria',
                   },
                 },
                 genres: {
@@ -1052,11 +1056,20 @@ export const EsMessages = {
             backline: {
               name: 'Backline',
               sections: {
-                sound_backline: {
-                  name: 'Backline de sonido',
+                backline_instruments: {
+                  name: 'Instruments',
                 },
-                light_backline: {
-                  name: 'Backline de luces',
+                backline_sound: {
+                  name: 'Sound',
+                },
+                backline_lights: {
+                  name: 'Lights',
+                },
+                backline_video: {
+                  name: 'Video',
+                },
+                backline_additional_info: {
+                  name: 'Additional Info',
                 },
               },
             },
@@ -1249,6 +1262,7 @@ export const EsMessages = {
             options: {
               home: 'Inicio',
               cultural_agenda: 'Agenda cultural',
+              opportunities: 'Oportunidades',
               search: 'Buscar',
             },
           },

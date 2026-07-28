@@ -39,9 +39,11 @@ export const ElMessages = {
           username_or_email: 'Όνομα χρήστη ή email',
         },
         create: 'Δημιουργία',
+        edit: 'εκδίδω ',
         follow_us: 'Ακολουθήστε μας',
         save: 'Αποθήκευση',
         cancel: 'Ακύρωση',
+        link_copied_to_clipboard: 'Ο σύνδεσμος αντιγράφηκε στο πρόχειρο',
         navigation: {
           back: 'Πίσω',
           first: 'Πρώτο',
@@ -56,6 +58,7 @@ export const ElMessages = {
           open: 'Άνοιγμα',
           save: 'Αποθήκευση',
         },
+        share: 'Κοινοποίηση',
         show_more: 'Περισσότερα',
         show_less: 'Λιγότερα',
         submit: 'Υποβολή',
@@ -1008,6 +1011,7 @@ export const ElMessages = {
                     has_open_mic: 'Έχει ανοιχτό μικρόφωνο;',
                     total_audience_capacity: 'Μέγ. χωρητικότητα',
                     bookingRatesPolicy: 'Πολιτικές κράτησης',
+                    regulatory_closing_time: 'Κανονιστική ώρα κλεισίματος',
                   },
                 },
                 genres: {
@@ -1250,6 +1254,7 @@ export const ElMessages = {
             options: {
               home: 'Αρχική',
               cultural_agenda: 'Πολιτιστικό ημερολόγιο',
+              opportunities: 'Ευκαιρίες',
               search: 'Αναζήτηση',
             },
           },

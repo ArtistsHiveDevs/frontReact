@@ -39,9 +39,11 @@ export const DeMessages = {
           username_or_email: 'Benutzername oder E-Mail',
         },
         create: 'Erstellen',
+        edit: 'Bearbeiten',
         follow_us: 'Folge uns',
         save: 'Speichern',
         cancel: 'Abbrechen',
+        link_copied_to_clipboard: 'Link in die Zwischenablage kopiert',
         navigation: {
           back: 'Zurück',
           first: 'Erste',
@@ -56,6 +58,7 @@ export const DeMessages = {
           open: 'Öffnen',
           save: 'Speichern',
         },
+        share: 'Teilen',
         show_more: 'Mehr anzeigen',
         show_less: 'Weniger anzeigen',
         submit: 'Absenden',
@@ -1007,6 +1010,7 @@ export const DeMessages = {
                     has_open_mic: 'Hat es ein offenes Mikrofon?',
                     total_audience_capacity: 'Max. Kapazität',
                     bookingRatesPolicy: 'Buchungsrichtlinien',
+                    regulatory_closing_time: 'Behördliche Schließzeit',
                   },
                 },
                 genres: {
@@ -1250,6 +1254,7 @@ export const DeMessages = {
             options: {
               home: 'Home',
               cultural_agenda: 'Kulturagenda',
+              opportunities: 'Gelegenheiten',
               search: 'Suchen',
             },
           },

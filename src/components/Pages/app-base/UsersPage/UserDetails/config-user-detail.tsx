@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
+import Flag from 'react-world-flags';
 import { useI18n } from '~/common/utils';
-import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
+import { fullyHiddenSectionsByEnvironment } from '~/common/utils/app-utils/app-utils';
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 import { AppUserModel } from '~/models/app/user/user.model';
 
@@ -54,7 +55,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   name: 'gender',
                   valueFieldName: 'genderEnum.value',
                   icon: 'BsGenderTrans',
-                  emptyTitle: true,
+                  // emptyTitle: true,
                   value: (user: AppUserModel) => {
                     const { translateText } = useI18n();
 
@@ -71,7 +72,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'birthdate',
                   icon: 'FaBirthdayCake',
-                  emptyTitle: true,
+                  // emptyTitle: true,
                   value: (user: AppUserModel) => {
                     // const { translateText } = useI18n();
 
@@ -94,7 +95,38 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'birthplace',
                   icon: 'FaCity',
-                  emptyTitle: true,
+                  // emptyTitle: true,
+                  value: (user: AppUserModel) => {
+                    if (
+                      !user.birthplaceData ||
+                      !Array.isArray(user.birthplaceData) ||
+                      user.birthplaceData.length === 0
+                    ) {
+                      return '';
+                    }
+
+                    // Ordenar por nivel: city, state, country
+                    const levelOrder = ['city', 'state', 'country'];
+                    const sorted = [...user.birthplaceData].sort((a, b) => {
+                      return levelOrder.indexOf(a.level) - levelOrder.indexOf(b.level);
+                    });
+
+                    // Extraer labels y unir con comas
+                    const labels = sorted.map((item) => item.label).filter(Boolean);
+
+                    let flag = <></>;
+                    let countryAlpha = sorted.find((item) => item.level === 'country')?.value || '';
+                    if (!!countryAlpha) {
+                      flag = <Flag code={countryAlpha} height="20" style={{ border: '1px solid #999' }} />;
+                    }
+                    return (
+                      <>
+                        {labels.join(', ')}
+                        {'  '}
+                        {flag}
+                      </>
+                    );
+                  },
                   formMetaData: {
                     inputType: 'citySelector',
                     config: { required: true },
@@ -107,7 +139,34 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'home_city',
                   icon: 'FaMapMarkerAlt',
-                  emptyTitle: true,
+                  // emptyTitle: true,
+                  value: (user: AppUserModel) => {
+                    if (!user.homeCityData || !Array.isArray(user.homeCityData) || user.homeCityData.length === 0) {
+                      return '';
+                    }
+
+                    // Ordenar por nivel: city, state, country
+                    const levelOrder = ['city', 'state', 'country'];
+                    const sorted = [...user.homeCityData].sort((a, b) => {
+                      return levelOrder.indexOf(a.level) - levelOrder.indexOf(b.level);
+                    });
+
+                    // Extraer labels y unir con comas
+                    const labels = sorted.map((item) => item.label).filter(Boolean);
+
+                    let flag = <></>;
+                    let countryAlpha = sorted.find((item) => item.level === 'country')?.value || '';
+                    if (!!countryAlpha) {
+                      flag = <Flag code={countryAlpha} height="20" style={{ border: '1px solid #999' }} />;
+                    }
+                    return (
+                      <>
+                        {labels.join(', ')}
+                        {'  '}
+                        {flag}
+                      </>
+                    );
+                  },
                   formMetaData: {
                     inputType: 'citySelector',
                     config: { required: true },
@@ -146,9 +205,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'arts',
     allowedRoles: [{ entityName: 'Artist' }],
-    fullyHidden: (data: AppUserModel) => {
-      return isProdEnvironment();
-    },
+    fullyHidden: fullyHiddenSectionsByEnvironment(['prod']),
     sections: [
       {
         name: 'music',
@@ -268,13 +325,13 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'spoken_languages',
                   icon: 'FaGlobeAmericas',
-                  emptyTitle: true,
-                  formMetaData: { inputType: 'chipPicker' },
+                  // emptyTitle: true,
+                  formMetaData: { inputType: 'chipPicker', hidden: true },
                 },
                 {
                   name: 'blood_group',
                   icon: 'MdBloodtype',
-                  emptyTitle: true,
+                  // emptyTitle: true,
                   formMetaData: {
                     inputType: 'select',
                   },
@@ -284,7 +341,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   labelChild: 'label',
                   translationPath: 'app.global_dictionary.entities.users.attributes',
                   icon: 'BiDonateBlood',
-                  emptyTitle: true,
+                  // emptyTitle: true,
                   value: (user: AppUserModel) => {
                     const { translateGlobalDict } = useI18n();
                     if (user.agrees_to_a_blood_transfusion === undefined) {
@@ -302,7 +359,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'dietary_restrictions',
                   icon: 'ImSpoonKnife',
-                  emptyTitle: true,
+                  // emptyTitle: true,
                   formMetaData: {
                     inputType: 'select',
                   },
@@ -310,7 +367,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'allergies',
                   icon: 'MdOutlineSick',
-                  emptyTitle: true,
+                  // emptyTitle: true,
                   formMetaData: {
                     inputType: 'chipPicker',
                     componentParams: {
@@ -341,7 +398,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   value: (emergencyContactData: any) => (
                     <>{`${emergencyContactData?.given_names} ${emergencyContactData?.surnames}`}</>
                   ),
-                  emptyTitle: true,
+                  // emptyTitle: true,
                 },
                 { name: 'email' },
                 { name: 'phone_number' },
@@ -397,6 +454,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
         ],
       },
     ],
+    formMetaData: { hidden: true },
   },
   // {
   //   name: 'my_shows',

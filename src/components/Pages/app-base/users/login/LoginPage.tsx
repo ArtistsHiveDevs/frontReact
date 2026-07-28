@@ -18,13 +18,46 @@ import { SocialNetworks, SocialNetworkTemplate } from '~/constants/social-networ
 import { AppUserModel } from '~/models/app/user/user.model';
 import './LoginPage.scss';
 
-import { Authenticator } from '@aws-amplify/ui-react';
+import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { AuthUser } from 'aws-amplify/auth';
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 
 const TRANSLATION_BASE_LOGIN_PAGE = 'app.pages.app_base.LoginPage';
+
+const LoginAuthTabs = () => {
+  const { route, toSignIn, toSignUp } = useAuthenticator(({ route, toSignIn, toSignUp }) => [
+    route,
+    toSignIn,
+    toSignUp,
+  ]);
+
+  return (
+    <div className="login-auth-tabs">
+      <div className="amplify-tabs__list amplify-tabs__list--top amplify-tabs__list--equal" role="tablist">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={route === 'signIn'}
+          className={`amplify-tabs__item${route === 'signIn' ? ' amplify-tabs__item--active' : ''}`}
+          onClick={toSignIn}
+        >
+          Sign In
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={route === 'signUp'}
+          className={`amplify-tabs__item${route === 'signUp' ? ' amplify-tabs__item--active' : ''}`}
+          onClick={toSignUp}
+        >
+          Create Account
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const SIGN_IN_OPTIONS =
   import.meta.env.VITE_USE_LOCAL_COGNITO === 'true' ? { options: { authFlowType: 'USER_PASSWORD_AUTH' as const } } : {};
@@ -330,145 +363,148 @@ export const LoginPage = () => {
             {/* <Typography variant="h4" gutterBottom padding={'1rem'}>
               Usuario o email:
             </Typography> */}
-            <Authenticator
-              loginMechanisms={['email']}
-              // socialProviders={['amazon', 'apple', 'facebook', 'google']}
-              signUpAttributes={['email', 'given_name', 'family_name', 'phone_number']}
-              services={{
-                async handleSignUp(formData) {
-                  const { username, password, options } = formData;
-                  const { signUp } = await import('aws-amplify/auth');
-                  const currentLocale = localeRef.current;
+            <Authenticator.Provider>
+              <LoginAuthTabs />
+              <Authenticator
+                loginMechanisms={['email']}
+                // socialProviders={['amazon', 'apple', 'facebook', 'google']}
+                signUpAttributes={['email', 'given_name', 'family_name', 'phone_number']}
+                services={{
+                  async handleSignUp(formData) {
+                    const { username, password, options } = formData;
+                    const { signUp } = await import('aws-amplify/auth');
+                    const currentLocale = localeRef.current;
 
-                  const result = await signUp({
-                    username,
-                    password,
-                    options: {
-                      ...options,
-                      clientMetadata: {
-                        locale: currentLocale,
+                    const result = await signUp({
+                      username,
+                      password,
+                      options: {
+                        ...options,
+                        clientMetadata: {
+                          locale: currentLocale,
+                        },
                       },
-                    },
-                  });
-
-                  if (
-                    import.meta.env.VITE_USE_LOCAL_COGNITO === 'true' &&
-                    result.nextStep.signUpStep === 'CONFIRM_SIGN_UP'
-                  ) {
-                    const adminUrl = import.meta.env.VITE_COGNITO_ADMIN_URL;
-
-                    await fetch(`${adminUrl}/confirm`, {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ username }),
                     });
 
-                    await signIn({ username, password, ...SIGN_IN_OPTIONS });
+                    if (
+                      import.meta.env.VITE_USE_LOCAL_COGNITO === 'true' &&
+                      result.nextStep.signUpStep === 'CONFIRM_SIGN_UP'
+                    ) {
+                      const adminUrl = import.meta.env.VITE_COGNITO_ADMIN_URL;
 
-                    return { ...result, isSignUpComplete: true, nextStep: { signUpStep: 'DONE' as const } };
-                  }
+                      await fetch(`${adminUrl}/confirm`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username }),
+                      });
 
-                  return result;
-                },
-                async handleSignIn(formData) {
-                  const { username, password } = formData;
+                      await signIn({ username, password, ...SIGN_IN_OPTIONS });
 
-                  // Validar password
-                  const passwordValidation = validatePassword(password);
-                  if (!passwordValidation.valid) {
-                    throw new Error(passwordValidation.message);
-                  }
-
-                  // Detectar si es email o username
-                  let emailToUse = username;
-
-                  if (!isEmail(username)) {
-                    // Es un username, buscar el email y guardar datos
-                    const userData = await getEmailByUsername(username);
-
-                    if (!userData) {
-                      throw new Error('Username not found');
+                      return { ...result, isSignUpComplete: true, nextStep: { signUpStep: 'DONE' as const } };
                     }
 
-                    // Guardar datos para usarlos después del login
-                    loginUserDataRef.current = userData;
-                    emailToUse = userData.email;
-                  }
+                    return result;
+                  },
+                  async handleSignIn(formData) {
+                    const { username, password } = formData;
 
-                  // Hacer login con Cognito usando el email
-                  return signIn({ username: emailToUse, password, ...SIGN_IN_OPTIONS });
-                },
-                async handleConfirmSignUp(formData) {
-                  const { username, confirmationCode } = formData;
+                    // Validar password
+                    const passwordValidation = validatePassword(password);
+                    if (!passwordValidation.valid) {
+                      throw new Error(passwordValidation.message);
+                    }
 
-                  // Confirmar el email en Cognito
-                  const { confirmSignUp } = await import('aws-amplify/auth');
+                    // Detectar si es email o username
+                    let emailToUse = username;
 
-                  // Cognito hace autoSignIn después de confirmar
-                  // El evento se manejará en el Hub listener
-                  return confirmSignUp({ username, confirmationCode });
-                },
-              }}
-              formFields={{
-                signIn: {
-                  username: {
-                    label: 'Email o Username',
-                    placeholder: 'Ingresa tu email o username',
-                    isRequired: true,
-                    type: 'text',
+                    if (!isEmail(username)) {
+                      // Es un username, buscar el email y guardar datos
+                      const userData = await getEmailByUsername(username);
+
+                      if (!userData) {
+                        throw new Error('Username not found');
+                      }
+
+                      // Guardar datos para usarlos después del login
+                      loginUserDataRef.current = userData;
+                      emailToUse = userData.email;
+                    }
+
+                    // Hacer login con Cognito usando el email
+                    return signIn({ username: emailToUse, password, ...SIGN_IN_OPTIONS });
                   },
-                  password: {
-                    label: 'Password',
-                    placeholder: 'Ingresa tu password',
-                    isRequired: true,
+                  async handleConfirmSignUp(formData) {
+                    const { username, confirmationCode } = formData;
+
+                    // Confirmar el email en Cognito
+                    const { confirmSignUp } = await import('aws-amplify/auth');
+
+                    // Cognito hace autoSignIn después de confirmar
+                    // El evento se manejará en el Hub listener
+                    return confirmSignUp({ username, confirmationCode });
                   },
-                },
-                signUp: {
-                  given_name: {
-                    label: 'First Name',
-                    placeholder: 'Enter your first name',
-                    isRequired: true,
-                    order: 1,
+                }}
+                formFields={{
+                  signIn: {
+                    username: {
+                      label: 'Email o Username',
+                      placeholder: 'Ingresa tu email o username',
+                      isRequired: true,
+                      type: 'text',
+                    },
+                    password: {
+                      label: 'Password',
+                      placeholder: 'Ingresa tu password',
+                      isRequired: true,
+                    },
                   },
-                  family_name: {
-                    label: 'Last Name',
-                    placeholder: 'Enter your last name',
-                    isRequired: true,
-                    order: 2,
+                  signUp: {
+                    given_name: {
+                      label: 'First Name',
+                      placeholder: 'Enter your first name',
+                      isRequired: true,
+                      order: 1,
+                    },
+                    family_name: {
+                      label: 'Last Name',
+                      placeholder: 'Enter your last name',
+                      isRequired: true,
+                      order: 2,
+                    },
+                    email: {
+                      label: 'Email',
+                      placeholder: 'Enter your Email',
+                      isRequired: true,
+                      order: 3,
+                    },
+                    password: {
+                      label: 'Password',
+                      placeholder: 'Enter your Password',
+                      isRequired: true,
+                      order: 4,
+                    },
+                    confirm_password: {
+                      label: 'Confirm Password',
+                      placeholder: 'Please confirm your Password',
+                      isRequired: true,
+                      order: 5,
+                    },
+                    phone_number: {
+                      label: 'Phone Number',
+                      placeholder: '1234567890',
+                      isRequired: false,
+                      order: 6,
+                    },
                   },
-                  email: {
-                    label: 'Email',
-                    placeholder: 'Enter your Email',
-                    isRequired: true,
-                    order: 3,
-                  },
-                  password: {
-                    label: 'Password',
-                    placeholder: 'Enter your Password',
-                    isRequired: true,
-                    order: 4,
-                  },
-                  confirm_password: {
-                    label: 'Confirm Password',
-                    placeholder: 'Please confirm your Password',
-                    isRequired: true,
-                    order: 5,
-                  },
-                  phone_number: {
-                    label: 'Phone Number',
-                    placeholder: '1234567890',
-                    isRequired: false,
-                    order: 6,
-                  },
-                },
-              }}
-              components={{}}
-            >
-              {({ signOut, user }) => {
-                setCognitoUser(user);
-                return <AppLoader height="100%" />;
-              }}
-            </Authenticator>
+                }}
+                components={{}}
+              >
+                {({ signOut, user }) => {
+                  setCognitoUser(user);
+                  return <AppLoader height="100%" />;
+                }}
+              </Authenticator>
+            </Authenticator.Provider>
             {/* <Button onClick={() => crearAlgo()}> POR FIN </Button> */}
           </Paper>
         </Grid>

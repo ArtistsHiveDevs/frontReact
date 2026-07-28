@@ -252,7 +252,6 @@ const miInfo: SideMenuItem[] = [
     //   requireSession: true,
     // },
     // ],
-    forbiddenEnvironments: ['prod'],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'logout'),

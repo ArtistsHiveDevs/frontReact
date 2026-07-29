@@ -43,6 +43,7 @@ export const DeMessages = {
         follow_us: 'Folge uns',
         save: 'Speichern',
         cancel: 'Abbrechen',
+        link_copied_to_clipboard: 'Link in die Zwischenablage kopiert',
         navigation: {
           back: 'Zurück',
           first: 'Erste',
@@ -1264,6 +1265,7 @@ export const DeMessages = {
             options: {
               home: 'Home',
               cultural_agenda: 'Kulturagenda',
+              opportunities: 'Gelegenheiten',
               search: 'Suchen',
             },
           },

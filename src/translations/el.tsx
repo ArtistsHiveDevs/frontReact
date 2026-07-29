@@ -43,6 +43,7 @@ export const ElMessages = {
         follow_us: 'Ακολουθήστε μας',
         save: 'Αποθήκευση',
         cancel: 'Ακύρωση',
+        link_copied_to_clipboard: 'Ο σύνδεσμος αντιγράφηκε στο πρόχειρο',
         navigation: {
           back: 'Πίσω',
           first: 'Πρώτο',
@@ -1264,6 +1265,7 @@ export const ElMessages = {
             options: {
               home: 'Αρχική',
               cultural_agenda: 'Πολιτιστικό ημερολόγιο',
+              opportunities: 'Ευκαιρίες',
               search: 'Αναζήτηση',
             },
           },

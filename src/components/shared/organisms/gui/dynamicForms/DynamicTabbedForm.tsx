@@ -217,7 +217,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
             config: formMetaData?.config || {},
             options: fieldOptions[attributeInfo.name] || [],
             defaultValue: currentValue,
-            externalData: fieldExternalData,
+            externalData: { ...fieldExternalData, elementData: entityData },
           };
 
           const field = (

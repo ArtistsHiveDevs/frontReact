@@ -10,6 +10,7 @@ export function isProdEnvironment(): boolean {
   return ['prod'].includes(getEnvironment());
 }
 
-export function fullyHiddenSectionsByEnvironment(forbiddenEnvironments: string[] | undefined): boolean {
+export function fullyHiddenSectionsByEnvironment(forbiddenEnvironments: string[] | string | undefined): boolean {
+  const envs = Array.isArray(forbiddenEnvironments) ? forbiddenEnvironments : [forbiddenEnvironments];
   return forbiddenEnvironments?.includes(getEnvironment());
 }

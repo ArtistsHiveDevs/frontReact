@@ -11,20 +11,19 @@ import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import { FollowerCounter } from '~/components/shared/molecules/Profile/FollowerCounter/FollowerCounter';
+import BurgerProfileMenu from '~/components/shared/molecules/general/burgerProfileMenu/burgerProfileMenu';
+import {
+  FavoriteSubscription,
+  FavoriteSubscritionIconDefaultTypes,
+} from '~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
 import { ProfileModel } from '~/models/base';
 import { defaultTypesColors, getModelInfoFromInstance } from '~/models/base/modelHelpers';
 import { PlaceModel } from '~/models/domain/place/place.model';
-import {
-  FavoriteSubscription,
-  FavoriteSubscritionIconDefaultTypes,
-} from '../../general/favoriteSubscribe/favoriteSubscribe';
 import './index.scss';
-import BurgerProfileMenu from '../../general/burgerProfileMenu/burgerProfileMenu';
 import {
   ProfileMenuOptionsData,
   ProfileMenuOptionsType,
-  ProfileSharedMenuLabel,
 } from '~/constants/domain/profile.constants';
 
 export interface ProfileHeaderElement {
@@ -107,7 +106,7 @@ export const ProfileHeader = (props: any) => {
   });
 
   const [showSnackBar, setShowSnackBar] = useState(false);
-  const [snackBarMessage, setSnackBarMessage] = useState('This Snackbar will be dismissed in few seconds.');
+  const [snackBarMessage, setSnackBarMessage] = useState('');
 
   const loggedUser = useSelector(selectCurrentUser);
 
@@ -315,7 +314,7 @@ export const ProfileHeader = (props: any) => {
 
   const copyShareSocialMediaUrl = () => {
     navigator.clipboard.writeText(element.sharedUrlSocialNetworks);
-    setSnackBarMessage(ProfileSharedMenuLabel);
+    setSnackBarMessage(translateGlobalDict('actions.link_copied_to_clipboard'));
     setShowSnackBar(true);
   };
 

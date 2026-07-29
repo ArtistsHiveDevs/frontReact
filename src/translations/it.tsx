@@ -43,6 +43,7 @@ export const ItMessages = {
         follow_us: 'Seguici',
         save: 'Salva',
         cancel: 'Annulla',
+        link_copied_to_clipboard: 'Link copiato negli appunti',
         navigation: {
           back: 'Indietro',
           first: 'Primo',
@@ -1264,6 +1265,7 @@ export const ItMessages = {
             options: {
               home: 'Home',
               cultural_agenda: 'Agenda culturale',
+              opportunities: 'Opportunità',
               search: 'Cercare',
             },
           },

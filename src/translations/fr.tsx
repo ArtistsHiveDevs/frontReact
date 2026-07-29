@@ -43,6 +43,7 @@ export const FrMessages = {
         follow_us: 'Suivez-nous',
         save: 'Enregistrer',
         cancel: 'Annuler',
+        link_copied_to_clipboard: 'Lien copié dans le presse-papiers',
         navigation: {
           back: 'Retour',
           first: 'Premier',
@@ -1265,6 +1266,7 @@ export const FrMessages = {
             options: {
               home: 'Accueil',
               cultural_agenda: 'Agenda culturel',
+              opportunities: 'Opportunités',
               search: 'Rechercher',
             },
           },

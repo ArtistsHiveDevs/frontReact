@@ -43,6 +43,7 @@ export const PtMessages = {
         follow_us: 'Siga-nos',
         save: 'Salvar',
         cancel: 'Cancelar',
+        link_copied_to_clipboard: 'Link copiado para a área de transferência',
         navigation: {
           back: 'Voltar',
           first: 'Primeiro',
@@ -1261,6 +1262,7 @@ export const PtMessages = {
             options: {
               home: 'Início',
               cultural_agenda: 'Agenda cultural',
+              opportunities: 'Oportunidades',
               search: 'Pesquisar',
             },
           },

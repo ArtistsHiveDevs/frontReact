@@ -69,6 +69,12 @@ const general: SideMenuItem[] = [
     icon: 'ImSearch',
     updated: new Date('2/20/16'),
   },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, 'opportunities'),
+    path: `${PATHS.OPPORTUNITIES}`,
+    icon: 'md MdRocketLaunch',
+    updated: new Date('2/20/16'),
+  },
   // {
   //   name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, 'artists'),
   //   path: `${PATHS.SEARCH}`,
@@ -154,6 +160,7 @@ const miInfo: SideMenuItem[] = [
     allowedRoles: [{ entityName: 'Artist' }, { entityName: 'Place' }],
     rightIcon: 'FaPlus',
     rightPath: `${PATHS.EVENTS}/${SUB_PATHS.CREATE}`,
+    forbiddenEnvironments: ['prod'],
     hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
       return params?.user?.hasIndustryProfiles && params?.user?.isInPersonalProfile;
     },
@@ -230,7 +237,6 @@ const miInfo: SideMenuItem[] = [
     //   requireSession: true,
     // },
     // ],
-    forbiddenEnvironments: ['prod'],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'logout'),

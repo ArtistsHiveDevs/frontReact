@@ -1,5 +1,5 @@
 import Flag from 'react-world-flags';
-import { isProdEnvironment, fullyHiddenSectionsByEnvironment } from '~/common/utils/app-utils/app-utils';
+import { fullyHiddenSectionsByEnvironment } from '~/common/utils/app-utils/app-utils';
 import { RatingStarsView } from '~/components/shared/atoms/gui/rating-stars-view/RatingStarsView';
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 import { ArtistModel, ArtistRatingTemplate } from '~/models/domain/artist/artist.model';
@@ -118,7 +118,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   value: (artist: ArtistModel) => {
                     return artist?.spoken_languages.map((l: LanguageModel) => l.name).join(', ');
                   },
-                  formMetaData: { inputType: 'chipPicker', hidden: true },
+                  formMetaData: { inputType: 'autocompletePicker' },
                 },
                 {
                   name: 'stage_languages',
@@ -127,7 +127,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   value: (artist: ArtistModel) => {
                     return artist?.stage_languages.map((l: LanguageModel) => l.name).join(', ');
                   },
-                  formMetaData: { inputType: 'chipPicker', hidden: true },
+                  formMetaData: { inputType: 'autocompletePicker' },
                 },
                 {
                   name: 'arts_languages',
@@ -137,7 +137,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                     return artist?.arts_languages.map((l: LanguageModel) => l.name).join(', ');
                   },
                   formMetaData: {
-                    inputType: 'chipPicker',
+                    inputType: 'autocompletePicker',
                     config: { required: true },
                     hidden: true,
                   },

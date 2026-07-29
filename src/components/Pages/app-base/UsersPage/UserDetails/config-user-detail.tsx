@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import Flag from 'react-world-flags';
 import { useI18n } from '~/common/utils';
 import { fullyHiddenSectionsByEnvironment } from '~/common/utils/app-utils/app-utils';
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
@@ -112,7 +113,19 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
 
                     // Extraer labels y unir con comas
                     const labels = sorted.map((item) => item.label).filter(Boolean);
-                    return labels.join(', ');
+
+                    let flag = <></>;
+                    let countryAlpha = sorted.find((item) => item.level === 'country')?.value || '';
+                    if (!!countryAlpha) {
+                      flag = <Flag code={countryAlpha} height="20" style={{ border: '1px solid #999' }} />;
+                    }
+                    return (
+                      <>
+                        {labels.join(', ')}
+                        {'  '}
+                        {flag}
+                      </>
+                    );
                   },
                   formMetaData: {
                     inputType: 'citySelector',
@@ -140,7 +153,19 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
 
                     // Extraer labels y unir con comas
                     const labels = sorted.map((item) => item.label).filter(Boolean);
-                    return labels.join(', ');
+
+                    let flag = <></>;
+                    let countryAlpha = sorted.find((item) => item.level === 'country')?.value || '';
+                    if (!!countryAlpha) {
+                      flag = <Flag code={countryAlpha} height="20" style={{ border: '1px solid #999' }} />;
+                    }
+                    return (
+                      <>
+                        {labels.join(', ')}
+                        {'  '}
+                        {flag}
+                      </>
+                    );
                   },
                   formMetaData: {
                     inputType: 'citySelector',

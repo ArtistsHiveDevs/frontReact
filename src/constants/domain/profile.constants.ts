@@ -48,5 +48,3 @@ export const ProfileMenuOptionsData = [
 ];
 
 export const PROFILE_MENU_OPTIONS_VALUES = Object.values(ProfileMenuOptionsType);
-
-export const ProfileSharedMenuLabel = 'Enlace copiado al portapapeles';

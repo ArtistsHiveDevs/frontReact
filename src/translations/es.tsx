@@ -43,6 +43,7 @@ export const EsMessages = {
         follow_us: 'Síguenos',
         save: 'Guardar',
         cancel: 'Cancelar',
+        link_copied_to_clipboard: 'Enlace copiado al portapapeles',
         navigation: {
           back: 'Atrás',
           first: 'Primero',
@@ -1272,6 +1273,7 @@ export const EsMessages = {
             options: {
               home: 'Inicio',
               cultural_agenda: 'Agenda cultural',
+              opportunities: 'Oportunidades',
               search: 'Buscar',
             },
           },

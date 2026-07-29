@@ -43,6 +43,7 @@ export const EnMessages = {
         follow_us: 'Follow us',
         save: 'Save',
         cancel: 'Cancel',
+        link_copied_to_clipboard: 'Link copied to clipboard',
         navigation: {
           back: 'Back',
           first: 'First',
@@ -1257,6 +1258,7 @@ export const EnMessages = {
             options: {
               home: 'Home',
               cultural_agenda: 'Cultural agenda',
+              opportunities: 'Opportunities',
               search: 'Search',
             },
           },

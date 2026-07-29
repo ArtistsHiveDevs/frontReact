@@ -105,8 +105,14 @@ const SideNav = () => {
           >
             {
               <>
-                <DynamicIcons iconName={menuOption.icon || 'AiFillFile'} size={25} />
-                <span className="menu-option-label">{translateText(menuOption.name)}</span>
+                <DynamicIcons
+                  iconName={menuOption.icon || 'AiFillFile'}
+                  size={25}
+                  color={menuOption?.color || 'white'}
+                />
+                <span className="menu-option-label" style={{ color: menuOption?.color }}>
+                  {translateText(menuOption.name)}
+                </span>
                 {menuOption.badge && menuOption.badge instanceof Function && menuOption.badge() > 0 && (
                   <Badge
                     badgeContent={menuOption.badge()}

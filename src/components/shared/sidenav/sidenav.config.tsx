@@ -31,6 +31,7 @@ export interface SideMenuItem {
   updated: Date;
   path?: string;
   icon?: string;
+  color?: string;
   handler?: string;
   randomId?: boolean;
   allowedRoles?: AllowedEntityRole[];

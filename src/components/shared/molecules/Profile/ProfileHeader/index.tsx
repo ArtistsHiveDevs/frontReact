@@ -330,6 +330,9 @@ export const ProfileHeader = (props: any) => {
       case 1:
         setEditableMode(element);
         break;
+      case 2:
+        setEditableMode(element);
+        break;
     }
   };
 

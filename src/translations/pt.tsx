@@ -58,6 +58,7 @@ export const PtMessages = {
           open: 'Abrir',
           save: 'Salvar',
         },
+        report: 'Reportar',
         share: 'Partilhar',
         show_more: 'Mostrar mais',
         show_less: 'Mostrar menos',

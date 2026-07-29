@@ -58,6 +58,7 @@ export const EsMessages = {
           open: 'Abrir',
           save: 'Guardar',
         },
+        report: 'Denunciar',
         share: 'Compartir',
         show_more: 'Mostrar más',
         show_less: 'Mostrar menos',

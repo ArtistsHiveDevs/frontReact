@@ -58,6 +58,7 @@ export const EnMessages = {
           open: 'Open',
           save: 'Save',
         },
+        report: 'Report',
         share: 'Share',
         show_more: 'Show more',
         show_less: 'Show less',

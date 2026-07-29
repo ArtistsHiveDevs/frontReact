@@ -52,10 +52,13 @@
   border-right: 2px solid $gray-dark;
   height: 20px;
   align-items: center;
+  flex-shrink: 0;
+  white-space: nowrap;
   h5 {
     color: $main-font-color !important;
     font-size: 1.2rem;
     font-weight: 600;
+    white-space: nowrap;
   }
 }
 

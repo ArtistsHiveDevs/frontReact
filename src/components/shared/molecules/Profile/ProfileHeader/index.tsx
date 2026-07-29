@@ -356,7 +356,7 @@ export const ProfileHeader = (props: any) => {
           <div className="fixed-header-content">
             <AvatarWithIcon
               image={image}
-              name={element?.name}
+              name={element?.nameKnownAs || element?.name}
               avatarSize={50}
               bottomBadgeSize={30}
               buttonIcon={currentUserCanEdit && !currentUserIsInProfile && 'PiUserSwitch'}
@@ -367,7 +367,7 @@ export const ProfileHeader = (props: any) => {
               <div className="fixed-username">
                 @{element?.username} <VerifiedArtist verifiedStatus={element?.verified_status} />
               </div>
-              <div className="fixed-name">{element?.name}</div>
+              <div className="fixed-name">{element?.nameKnownAs || element?.name}</div>
             </div>
             {element && !currentUserIsInProfile && (
               <div className="fixed-like-button">

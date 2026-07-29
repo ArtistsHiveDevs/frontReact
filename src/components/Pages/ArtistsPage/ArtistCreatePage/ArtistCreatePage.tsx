@@ -6,7 +6,7 @@ import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists
 import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
-import { getImageURL, uploadImage } from '~/common/utils/amplify/storage/storage.helpers';
+import { getImageURL, uploadImage, uploadImages } from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
@@ -19,6 +19,7 @@ import {
   ARTIST_DETAIL_SUB_PAGE_CONFIG,
   TRANSLATION_BASE_ARTIST_DETAIL_PAGE,
 } from '../ArtistDetails/config-artist-detail';
+import { FileUploaderOptions } from '~/components/shared/organisms/gui/dynamicForms/components/FileUpload';
 
 const ArtistsCreatePage = () => {
   const { navigateToEntity, navigateToInnerPath } = useNavigation();
@@ -48,6 +49,9 @@ const ArtistsCreatePage = () => {
       return undefined;
     }
   });
+
+  const [artistGalleryImagesData, setArtistGalleryImagesData] = useState([]);
+  const [artistRidersData, setArtistRidersData] = useState([]);
 
   useEffect(() => {
     const currentUserIsAwolled = loggedUser && (!artistId || loggedUser.checkPermissions(artistId).canEdit);
@@ -115,7 +119,8 @@ const ArtistsCreatePage = () => {
 
   const handlers = {
     onSubmit: async (data: any, error?: any) => {
-      console.log('#####----------->>>>  !!! ', data);
+      setTimeout(()=>{console.log('terminó')}, 500);
+      console.log('#####----------->>>>  !!! ', {data, requestHasBeenSended, currentArtist, loggedUser});
       if (!requestHasBeenSended) {
         if (!currentArtist) {
           console.log('ANTES DE SUBIR FOTO', data);
@@ -125,6 +130,7 @@ const ArtistsCreatePage = () => {
           dispatch(artistsActions.createItem({ data }));
         } else {
           console.log('Actualizando  un nuevo artista ', currentArtist.identifier, data);
+          console.log({artistGalleryImagesData, artistRidersData})
           dispatch(
             artistsActions.updateItem({
               id: currentArtist.identifier,
@@ -135,8 +141,8 @@ const ArtistsCreatePage = () => {
             })
           );
         }
+        setRequestHasBeenSended(true); // -> Trabajar en esta parte
       }
-      setRequestHasBeenSended(true);
     },
     onChangecountry: (data: any) => {
       console.log('#####----------->>>>  !!! ', data);
@@ -156,6 +162,28 @@ const ArtistsCreatePage = () => {
       // updateFields(fields);
       // updateCiudades(ciudades);
     },
+    artist_gallery_filesChanged: async (handledUploadFileData : any) => {
+      console.log({handledUploadFileData})
+      const {files, optionType, destinationPath} = handledUploadFileData;
+      if(optionType === FileUploaderOptions.addItem) {
+        const responses = await uploadImages({ files, path: `${loggedUser.currentProfileIdentifier}${destinationPath}`});
+        if(responses?.length > 0) {
+          const extractArtistGalleryImagesPaths = responses?.map(response => `s3://${response.customPath}`);
+          setArtistGalleryImagesData(extractArtistGalleryImagesPaths);
+        }
+      }
+    },
+    
+    riders_data_filesChanged: async (handledUploadFileData : any) => {
+      const {files, optionType, destinationPath} = handledUploadFileData;
+      if(optionType === FileUploaderOptions.addItem) {
+        const responses = await uploadImages({ files, path: `${loggedUser.currentProfileIdentifier}${destinationPath}`});
+        if(responses?.length > 0) {
+          const extractArtistRidersPaths = responses?.map(response => `s3://${response.customPath}`);
+          setArtistRidersData(extractArtistRidersPaths);
+        }
+      }
+    }
   };
 
   const getURL = async () => {

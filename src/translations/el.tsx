@@ -39,7 +39,7 @@ export const ElMessages = {
           username_or_email: 'Όνομα χρήστη ή email',
         },
         create: 'Δημιουργία',
-        "edit": 'εκδίδω ',
+        edit: 'εκδίδω ',
         follow_us: 'Ακολουθήστε μας',
         save: 'Αποθήκευση',
         cancel: 'Ακύρωση',
@@ -770,6 +770,9 @@ export const ElMessages = {
             general: {
               name: 'Γενικά',
               sections: {
+                artist_gallery: {
+                  name: 'Γκαλερί του καλλιτέχνη',
+                },
                 general: {
                   name: 'Γενικές πληροφορίες',
                   attributes: {
@@ -894,6 +897,14 @@ export const ElMessages = {
             },
             followers: {
               name: 'Followers',
+            },
+            riders: {
+              name: 'Riders',
+              sections: {
+                riders_data: {
+                  name: 'Riders',
+                },
+              },
             },
           },
         },

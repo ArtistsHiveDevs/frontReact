@@ -35,6 +35,7 @@ import { createAttributesIconFieldsComponent } from './builders/AttributesIconFi
 import { createCalendarSimpleLayoutComponent } from './builders/CalendarSimpleLayoutBuilder';
 import { createCrewListRiderViewComponent } from './builders/CrewListRiderViewBuilder';
 import { createDiscographyListViewComponent } from './builders/DiscographyListViewBuilder';
+import { createDocumentFileViewerModuleComponent } from './builders/DocumentFileViewerBuilder';
 import { createEventThumbnailCardComponent } from './builders/EventThumbnailCardBuilder';
 import { createHorizontalImageGalleryComponent } from './builders/HorizontalImageGalleryBuilder';
 import { createHtmlContentComponent } from './builders/HtmlContentBuilder';
@@ -76,6 +77,7 @@ const BUILDER_CONFIG = {
   [ComponentTypes.PROFILE_THUMBNAIL_CARD]: createProfileThumbnailCardComponent,
   [ComponentTypes.EVENT_THUMBNAIL_CARD]: createEventThumbnailCardComponent,
   [ComponentTypes.PROFILE_FOLLOWERS_COMPONENT]: createProfileFollowersComponent,
+  [ComponentTypes.DOCUMENT_FILE_VIEWER]: createDocumentFileViewerModuleComponent,
 } as const;
 
 /**

@@ -11,7 +11,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
     name: 'general',
     sections: [
       {
-        name: 'general',
+        name: 'artist_gallery',
         emptyTitle: true,
         components: [
           {
@@ -21,7 +21,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             formMetaData: {
               inputType: 'file',
               fieldName: 'image_gallery',
-              componentParams: { multipleFiles: true, accept: 'image/*' },
+              componentParams: { multipleFiles: true, accept: 'image/*', destinationPath: '/img' },
             },
           },
         ],
@@ -618,4 +618,24 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
       },
     ],
   },
+  {
+    name: 'riders',
+    sections: [
+      {
+        name: 'riders_data',
+        emptyTitle: true,
+        components: [
+          {
+            componentName: ComponentTypes.DOCUMENT_FILE_VIEWER,
+            data: { images: 'image_gallery', placeholder: 'Foto de los integrantes' },
+            clickHandlerName: 'onClickGalleryImage',
+            formMetaData: {
+              inputType: 'file',
+              fieldName: 'rider_data',
+              componentParams: { multipleFiles: true, accept: '.pdf, application/pdf', useIcons: true, iconName: 'FaFilePdf', destinationPath: '/documents' },
+            },
+          },
+        ],
+      },]
+  }
 ];

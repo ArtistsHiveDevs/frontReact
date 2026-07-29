@@ -11,20 +11,21 @@ export const uploadImage = async (params: {
     let { file, access_level, path, prefferedFilename } = params || {};
 
     const fileName = prefferedFilename || `${Date.now()}-${file.name.replace('-min.', '')}`; // Crea un nombre único para el archivo
-
-    console.log(path, `${path ? path + '/' : 'public'}/${fileName}`);
+    const customPath = `public/${path ? path + '/' : ''}${fileName}`;
+    console.log(path, customPath);
     const result = await uploadData({
-      path: `${path ? path + '/' : 'public'}/${fileName}`,
+      path: customPath,
       data: file,
     });
-
-    return result;
+    return {result, fileName, customPath};
   } catch (error) {
     console.error('Error al subir la imagen:', error);
   }
 };
 
-export const uploadImages = async (files: File[], access_level?: 'public' | 'protected' | 'private', path?: string) => {
+export const uploadImages = async (params:{files: File[], access_level?: 'public' | 'protected' | 'private', path?: string}) => {
+  const {files, access_level, path} = params;
+  console.log({params})
   try {
     // Usa Promise.all para cargar todos los archivos en paralelo
     const results = await Promise.all(files.map((file) => uploadImage({ file, access_level, path })));

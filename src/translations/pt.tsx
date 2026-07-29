@@ -767,6 +767,9 @@ export const PtMessages = {
             general: {
               name: 'Geral',
               sections: {
+                artist_gallery: {
+                  name: 'Galeria do artista',
+                },
                 general: {
                   name: 'Informações gerais',
                   attributes: {
@@ -891,6 +894,14 @@ export const PtMessages = {
             },
             followers: {
               name: 'Seguidores',
+            },
+            riders: {
+              name: 'Riders',
+              sections: {
+                riders_data: {
+                  name: 'Riders',
+                },
+              },
             },
           },
         },

@@ -755,6 +755,9 @@ export const EnMessages = {
             general: {
               name: 'General',
               sections: {
+                artist_gallery: {
+                  name: 'Artist gallery'
+                },
                 general: {
                   name: 'General Info',
                   attributes: {
@@ -879,6 +882,14 @@ export const EnMessages = {
             },
             followers: {
               name: 'Followers',
+            },
+            riders: {
+              name: 'Riders',
+              sections: {
+                riders_data: {
+                  name: 'Riders',
+                },
+              },
             },
           },
         },

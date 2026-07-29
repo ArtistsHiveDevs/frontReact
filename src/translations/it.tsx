@@ -769,6 +769,9 @@ export const ItMessages = {
             general: {
               name: 'Generale',
               sections: {
+                artist_gallery: {
+                  name: "Galleria dell'artista",
+                },
                 general: {
                   name: 'Info generale',
                   attributes: {
@@ -895,6 +898,14 @@ export const ItMessages = {
             followers: {
               name: 'Followers',
             },
+            riders: {
+              name: 'Riders',
+              sections: {
+                riders_data: {
+                  name: 'Riders',
+                },
+              },
+            },            
           },
         },
       },

@@ -771,6 +771,9 @@ export const FrMessages = {
             general: {
               name: 'Général',
               sections: {
+                artist_gallery: {
+                  name: "Galerie de l'artiste",
+                },
                 general: {
                   name: 'Info Générale',
                   attributes: {
@@ -896,6 +899,14 @@ export const FrMessages = {
             followers: {
               name: 'Abonnés',
             },
+            riders: {
+              name: 'Riders',
+              sections: {
+                riders_data: {
+                  name: 'Riders',
+                },
+              },
+            },            
           },
         },
       },

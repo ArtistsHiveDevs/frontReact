@@ -260,6 +260,15 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       componentFieldData.inputType = 'textarea';
       addComponentField = true;
     }
+    else if (
+      [ComponentTypes.IMAGE_GALLERY, ComponentTypes.DOCUMENT_FILE_VIEWER].includes(
+        componentDescriptor.componentName
+      )
+    ) {
+      componentFieldData.inputType = 'file';
+      addComponentField = true;
+    }
+
 
     if (addComponentField) {
       const field = (

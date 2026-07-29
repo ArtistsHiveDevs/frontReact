@@ -769,6 +769,9 @@ export const DeMessages = {
             general: {
               name: 'Allgemeine',
               sections: {
+                artist_gallery: {
+                  name: 'Galerie des Künstlers',
+                },
                 general: {
                   name: 'Allgemeine Informationen',
                   attributes: {
@@ -893,6 +896,14 @@ export const DeMessages = {
             },
             followers: {
               name: 'Followers',
+            },
+            riders: {
+              name: 'Riders',
+              sections: {
+                riders_data: {
+                  name: 'Riders',
+                },
+              },
             },
           },
         },

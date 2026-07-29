@@ -769,6 +769,9 @@ export const EsMessages = {
             general: {
               name: 'General',
               sections: {
+                artist_gallery: {
+                  name: 'Galería del artista'
+                },
                 general: {
                   name: 'Info General',
                   attributes: {
@@ -893,6 +896,14 @@ export const EsMessages = {
             },
             followers: {
               name: 'Seguidores',
+            },
+            riders: {
+              name: 'Riders',
+              sections: {
+                riders_data: {
+                  name: 'Riders',
+                },
+              },
             },
           },
         },

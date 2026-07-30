@@ -25,11 +25,13 @@ const BurgerProfileMenu = (proops: any) => {
                     }}
                   >
                     {!!option?.icon && option?.icon?.length > 0 && (
-                      <DynamicIcons iconName={option.icon} color={'white'} size={20} />
+                      <DynamicIcons iconName={option.icon} color={option?.color || 'white'} size={19} />
                     )}
-                    {!!option?.translate && option?.translate?.length > 0
-                      ? globalDictionary(option?.translate)
-                      : option?.defalutText}
+                    <span style={{ color: option?.color }}>
+                      {!!option?.translate && option?.translate?.length > 0
+                        ? globalDictionary(option?.translate)
+                        : option?.defalutText}
+                    </span>
                   </MenuItem>
                 )
             )}

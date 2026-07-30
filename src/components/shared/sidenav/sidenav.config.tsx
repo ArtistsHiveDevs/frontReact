@@ -31,6 +31,7 @@ export interface SideMenuItem {
   updated: Date;
   path?: string;
   icon?: string;
+  color?: string;
   handler?: string;
   randomId?: boolean;
   allowedRoles?: AllowedEntityRole[];
@@ -263,7 +264,8 @@ const config: SideMenuItem[] = [
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'report'),
     path: '',
-    icon: 'FaRegFlag',
+    color: '#eb0000',
+    icon: 'TbAlertHexagonFilled',
     updated: new Date('2/20/16'),
     requireSession: true,
   },

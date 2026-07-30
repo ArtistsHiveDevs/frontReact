@@ -141,12 +141,14 @@ export const ROUTES_CONFIG: PathConfigMap = {
             component: lazy(
               () => import('~/components/Pages/domain/PrebookingsPages/PrebookingsListPage/PrebookingsListPage')
             ),
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
           },
           PrebookDetailsPage: {
             component: lazy(
               () => import('~/components/Pages/domain/PrebookingsPages/PrebookingsDetailsPage/PrebookingsDetailsPage')
             ),
             path: detailsPagePath,
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
           },
           // EventCreatePage: {
           //   component: lazy(() => import('~/components/Pages/EventsPage/EventCreatePage/EventCreatePage')),
@@ -197,7 +199,7 @@ export const ROUTES_CONFIG: PathConfigMap = {
           creator: {
             component: lazy(() => import('~/components/Pages/domain/RidersPage/StagePlot/StagePlotEditor')),
             path: `${SUB_PATHS.EDITOR}/:${URL_PARAMETER_NAMES.ELEMENT_ID}`,
-            // redirectToIfNotLoggedUser: PATHS.LOGIN,
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
           },
         },
       },
@@ -242,6 +244,7 @@ export const ROUTES_CONFIG: PathConfigMap = {
     PaymentsPage: {
       component: lazy(() => import('~/components/Pages/utils/payments/Payment.page')),
       path: PATHS.PAYMENTS,
+      redirectToIfNotLoggedUser: PATHS.LOGIN,
     },
     CCPage: {
       component: lazy(() => import('~/components/Pages/utils/cc-qr/CC')),

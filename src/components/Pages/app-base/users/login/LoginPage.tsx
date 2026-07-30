@@ -7,7 +7,7 @@ import { useApiKeySlice } from '~/common/slices/app-base/APIKey';
 import { selectError } from '~/common/slices/app-base/APIKey/selectors';
 import { useUsersSlice } from '~/common/slices/users';
 import { CidUserData, getEmailByUsername } from '~/common/slices/users/saga';
-import { selectUsernameValidation, selectUsers } from '~/common/slices/users/selectors';
+import { selectUsers } from '~/common/slices/users/selectors';
 import { I18nPaths, useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { generatePreAuthHeaders } from '~/common/utils/request';
@@ -22,7 +22,6 @@ import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { AuthUser } from 'aws-amplify/auth';
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
-import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 
 const TRANSLATION_BASE_LOGIN_PAGE = 'app.pages.app_base.LoginPage';
 
@@ -97,7 +96,6 @@ export const LoginPage = () => {
   const { translateText, locale } = useI18n();
 
   const usersList: AppUserModel[] = useSelector(selectUsers);
-  const usernameValidationResult: UsernameAvailabilityStatus = useSelector(selectUsernameValidation);
   const { actions: usersActions } = useUsersSlice();
 
   const fields: DynamicFieldData[] = [
@@ -177,7 +175,14 @@ export const LoginPage = () => {
   const [cognitoUser, setCognitoUser] = useState<AuthUser>();
   const [userAttributes, setUserAttributes] = useState<FetchUserAttributesOutput>();
   const [mongoUsername, setMongoUsername] = useState<string | null>(null);
+  // Arranca en true: cubre el caso de sesión ya autenticada al cargar la página
+  // (Amplify resuelve la sesión existente sin disparar el evento 'signedIn' del
+  // Hub, así que nunca pasaría por el listener que lo pondría en true). Solo se
+  // pone en false explícitamente cuando justSignedUpRef marca un signup fresco.
+  const [userReadyInBackend, setUserReadyInBackend] = useState(true);
+  const justSignedUpRef = useRef(false);
   const loginUserDataRef = useRef<CidUserData | null>(null);
+  const latestAuthUserRef = useRef<AuthUser>();
   const localeRef = useRef(locale);
 
   // Mantener el ref actualizado con el locale actual
@@ -192,13 +197,35 @@ export const LoginPage = () => {
 
       // Evento que se dispara después de hacer login (manual o automático después de verificar email)
       if (event === 'signedIn') {
+        // Solo un signup recién confirmado necesita esperar a que el backend
+        // termine de crear el usuario en Mongo antes de pedir la API key.
+        const isFreshSignUp = justSignedUpRef.current;
+        justSignedUpRef.current = false;
+
+        if (isFreshSignUp) {
+          setUserReadyInBackend(false);
+        }
+
         try {
+          // No depender del render prop del <Authenticator> para saber que hay un
+          // usuario logueado: cuando el signup local confirma y hace signIn() de
+          // forma manual (ver handleSignUp), Cognito sí queda autenticado pero la
+          // máquina de estados del Authenticator no siempre lo refleja y se queda
+          // mostrando el formulario de Sign In. El evento del Hub es la fuente de
+          // verdad real, así que seteamos cognitoUser directamente acá.
+          const { getCurrentUser } = await import('aws-amplify/auth');
+          const currentAuthUser = await getCurrentUser();
+          setCognitoUser(currentAuthUser);
+
           const attributes = await fetchUserAttributes();
 
           // Si tenemos datos del login previo (handleSignIn), usarlos
           if (loginUserDataRef.current) {
             setMongoUsername(loginUserDataRef.current.username);
             loginUserDataRef.current = null; // Limpiar ref
+            if (isFreshSignUp) {
+              setUserReadyInBackend(true);
+            }
             return;
           }
 
@@ -239,8 +266,17 @@ export const LoginPage = () => {
             // Usuario existe, guardar el username de MongoDB
             setMongoUsername(checkData?.data?.username || null);
           }
+
+          // El usuario ya existe (o se acaba de crear) en MongoDB: recién ahora
+          // es seguro pedir la API key sin correr contra la creación en el backend.
+          if (isFreshSignUp) {
+            setUserReadyInBackend(true);
+          }
         } catch (error) {
           console.error('Error in signedIn handler:', error);
+          if (isFreshSignUp) {
+            setUserReadyInBackend(true);
+          }
         }
       }
     });
@@ -249,6 +285,16 @@ export const LoginPage = () => {
       hubListenerCancelToken();
     };
   }, []);
+
+  // El Authenticator invoca su render prop durante el render de AuthenticatorInternal;
+  // llamar a setCognitoUser ahí mismo es un setState-durante-render de otro componente
+  // (React lo advierte en consola) y puede dejar la UI colgada. Este efecto, sin
+  // dependencias, corre después de cada render y aplica el valor de forma segura.
+  useEffect(() => {
+    if (latestAuthUserRef.current && latestAuthUserRef.current !== cognitoUser) {
+      setCognitoUser(latestAuthUserRef.current);
+    }
+  });
 
   useEffect(() => {
     if (cognitoUser) {
@@ -263,18 +309,17 @@ export const LoginPage = () => {
     try {
       const info = await fetchUserAttributes();
       setUserAttributes(info);
-
-      // Solo verificar disponibilidad si no tenemos ya el username de MongoDB
-      if (cognitoUser && info.email && !mongoUsername && !loginUserDataRef.current) {
-        dispatch(usersActions.checkUsernameAvailability(info.preferred_username || info.email));
-      }
     } catch (error) {
       console.error('Error fetching user attributes:', error);
     }
   };
 
   useEffect(() => {
-    if (cognitoUser && userAttributes) {
+    // Espera a que el listener del Hub confirme que el usuario ya existe (o fue
+    // creado) en MongoDB; si se pide la API key antes, /api/generate-key responde
+    // 404 porque todavía no encuentra el usuario por sub, y el login nunca se
+    // completa (ni redirige a home) tras un signup recién confirmado.
+    if (cognitoUser && userAttributes && userReadyInBackend) {
       // Usar el username de MongoDB si existe, sino usar preferred_username o email
       const username = mongoUsername || userAttributes.preferred_username || userAttributes.email || cognitoUser.userId;
 
@@ -285,7 +330,7 @@ export const LoginPage = () => {
         })
       );
     }
-  }, [cognitoUser, userAttributes, mongoUsername]);
+  }, [cognitoUser, userAttributes, mongoUsername, userReadyInBackend]);
 
   return (
     <>
@@ -374,6 +419,12 @@ export const LoginPage = () => {
                     const { username, password, options } = formData;
                     const { signUp } = await import('aws-amplify/auth');
                     const currentLocale = localeRef.current;
+
+                    // Marca que el próximo evento 'signedIn' viene de una cuenta
+                    // recién creada (autoSignIn tras confirmar), para que el listener
+                    // del Hub espere a que el usuario exista en Mongo antes de pedir
+                    // la API key.
+                    justSignedUpRef.current = true;
 
                     const result = await signUp({
                       username,
@@ -500,7 +551,7 @@ export const LoginPage = () => {
                 components={{}}
               >
                 {({ signOut, user }) => {
-                  setCognitoUser(user);
+                  latestAuthUserRef.current = user;
                   return <AppLoader height="100%" />;
                 }}
               </Authenticator>

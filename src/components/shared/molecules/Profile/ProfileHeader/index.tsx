@@ -14,6 +14,7 @@ import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import { FollowerCounter } from '~/components/shared/molecules/Profile/FollowerCounter/FollowerCounter';
+import { ReportProfileForm } from '~/components/shared/molecules/Profile/ReportProfileForm/ReportProfileForm';
 import BurgerProfileMenu from '~/components/shared/molecules/general/burgerProfileMenu/burgerProfileMenu';
 import {
   FavoriteSubscription,
@@ -96,6 +97,7 @@ export const ProfileHeader = (props: any) => {
   });
 
   const [zoomProfilePic, setZoomProfilePic] = useState(false);
+  const [showReportForm, setShowReportForm] = useState(false);
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
   const [currentUserIsInProfile, setCurrentUserIsInProfile] = useState(false);
   const [borderProfileColor, setBorderProfileColor] = useState(undefined);
@@ -331,7 +333,7 @@ export const ProfileHeader = (props: any) => {
         setEditableMode(element);
         break;
       case 2:
-        setEditableMode(element);
+        setShowReportForm(true);
         break;
     }
   };
@@ -457,6 +459,7 @@ export const ProfileHeader = (props: any) => {
           </div>
         )}
       </div>
+      <ReportProfileForm open={showReportForm} onClose={() => setShowReportForm(false)} entity={element} />
       <Dialog open={zoomProfilePic} onClose={handleCloseZoomDialog} fullWidth>
         <DialogContent style={{ textAlign: 'center', position: 'relative', padding: 0 }}>
           <IconButton onClick={handleCloseZoomDialog} style={{ position: 'absolute', top: '0.5%', right: '0.5%' }}>

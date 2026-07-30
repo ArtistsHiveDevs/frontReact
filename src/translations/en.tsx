@@ -1172,6 +1172,24 @@ export const EnMessages = {
           'Your request has been successfully submitted. We will contact you via email or through social media as soon as it is resolved.',
         CLAIM_BUTTON: 'Claim your profile',
       },
+      reportProfileForm: {
+        title: 'Report profile',
+        reason_label: 'Report reason',
+        reasons: {
+          DUPLICATE: 'Duplicate profile',
+          FAKE: 'Fake profile',
+          WRONG_INFO: 'Incorrect information',
+          BELONGS_TO_ME: 'This profile belongs to me but is assigned to someone else',
+          INAPPROPRIATE_CONTENT: 'Inappropriate content',
+          OTHER: 'Other',
+        },
+        description_label: 'Description (optional)',
+        description_placeholder: 'Tell us more details about this report',
+        submit_button: 'Send report',
+        success_message: 'Your report has been sent. Thank you for helping us keep the platform safe.',
+        error_message: 'An error occurred while sending your report. Please try again.',
+        duplicate_pending_error: 'You already have a pending report for this profile.',
+      },
       footer: {
         columns: {
           what_we_do: {

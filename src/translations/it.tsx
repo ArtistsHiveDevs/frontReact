@@ -1179,6 +1179,25 @@ export const ItMessages = {
           'La tua richiesta è stata registrata con successo. Ti contatteremo via email o tramite i social media non appena sarà risolta.',
         CLAIM_BUTTON: 'Richiedi il profilo',
       },
+      reportProfileForm: {
+        title: 'Segnala profilo',
+        reason_label: 'Motivo della segnalazione',
+        reasons: {
+          DUPLICATE: 'Profilo duplicato',
+          FAKE: 'Profilo falso',
+          WRONG_INFO: 'Informazioni errate',
+          BELONGS_TO_ME: "Questo profilo mi appartiene ma è assegnato a un'altra persona",
+          INAPPROPRIATE_CONTENT: 'Contenuto inappropriato',
+          OTHER: 'Altro',
+        },
+        description_label: 'Descrizione (opzionale)',
+        description_placeholder: 'Raccontaci maggiori dettagli su questa segnalazione',
+        submit_button: 'Invia segnalazione',
+        success_message:
+          'La tua segnalazione è stata inviata. Grazie per averci aiutato a mantenere la piattaforma sicura.',
+        error_message: "Si è verificato un errore durante l'invio della tua segnalazione. Riprova.",
+        duplicate_pending_error: 'Hai già una segnalazione in sospeso per questo profilo.',
+      },
       footer: {
         columns: {
           what_we_do: {

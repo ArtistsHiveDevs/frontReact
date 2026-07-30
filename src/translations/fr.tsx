@@ -1182,6 +1182,24 @@ export const FrMessages = {
           "Votre demande a été enregistrée avec succès. Nous vous contacterons par email ou via les réseaux sociaux dès qu'elle sera traitée.",
         CLAIM_BUTTON: 'Prenez le contrôle',
       },
+      reportProfileForm: {
+        title: 'Signaler le profil',
+        reason_label: 'Motif du signalement',
+        reasons: {
+          DUPLICATE: 'Profil en double',
+          FAKE: 'Faux profil',
+          WRONG_INFO: 'Informations erronées',
+          BELONGS_TO_ME: "Ce profil m'appartient mais est attribué à quelqu'un d'autre",
+          INAPPROPRIATE_CONTENT: 'Contenu inapproprié',
+          OTHER: 'Autre',
+        },
+        description_label: 'Description (facultatif)',
+        description_placeholder: 'Donnez-nous plus de détails sur ce signalement',
+        submit_button: 'Envoyer le signalement',
+        success_message: 'Votre signalement a été envoyé. Merci de nous aider à garder la plateforme sûre.',
+        error_message: "Une erreur s'est produite lors de l'envoi de votre signalement. Veuillez réessayer.",
+        duplicate_pending_error: 'Vous avez déjà un signalement en attente pour ce profil.',
+      },
       footer: {
         columns: {
           what_we_do: {

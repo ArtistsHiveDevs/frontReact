@@ -1187,6 +1187,24 @@ export const EsMessages = {
           'Tu solicitud ha sido registrada exitosamente. Te contactaremos vía email o a través de las redes sociales tan pronto sea resuelta.',
         CLAIM_BUTTON: 'Reclamar perfil',
       },
+      reportProfileForm: {
+        title: 'Reportar perfil',
+        reason_label: 'Motivo del reporte',
+        reasons: {
+          DUPLICATE: 'Perfil duplicado',
+          FAKE: 'Perfil falso',
+          WRONG_INFO: 'Información errónea',
+          BELONGS_TO_ME: 'Este perfil me pertenece pero está asignado a otra persona',
+          INAPPROPRIATE_CONTENT: 'Contenido inapropiado',
+          OTHER: 'Otro',
+        },
+        description_label: 'Descripción (opcional)',
+        description_placeholder: 'Cuéntanos más detalles sobre este reporte',
+        submit_button: 'Enviar reporte',
+        success_message: 'Tu reporte ha sido enviado. Gracias por ayudarnos a mantener la plataforma segura.',
+        error_message: 'Ocurrió un error al enviar tu reporte. Inténtalo nuevamente.',
+        duplicate_pending_error: 'Ya tienes un reporte pendiente para este perfil.',
+      },
       footer: {
         columns: {
           what_we_do: {

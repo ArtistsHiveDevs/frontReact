@@ -1181,6 +1181,24 @@ export const PtMessages = {
           'Sua solicitação foi registrada com sucesso. Entraremos em contato por e-mail ou pelas redes sociais assim que for resolvida.',
         CLAIM_BUTTON: 'Solicitar perfil',
       },
+      reportProfileForm: {
+        title: 'Denunciar perfil',
+        reason_label: 'Motivo da denúncia',
+        reasons: {
+          DUPLICATE: 'Perfil duplicado',
+          FAKE: 'Perfil falso',
+          WRONG_INFO: 'Informações incorretas',
+          BELONGS_TO_ME: 'Este perfil é meu, mas está atribuído a outra pessoa',
+          INAPPROPRIATE_CONTENT: 'Conteúdo inadequado',
+          OTHER: 'Outro',
+        },
+        description_label: 'Descrição (opcional)',
+        description_placeholder: 'Conte-nos mais detalhes sobre esta denúncia',
+        submit_button: 'Enviar denúncia',
+        success_message: 'Sua denúncia foi enviada. Obrigado por nos ajudar a manter a plataforma segura.',
+        error_message: 'Ocorreu um erro ao enviar sua denúncia. Tente novamente.',
+        duplicate_pending_error: 'Você já tem uma denúncia pendente para este perfil.',
+      },
       footer: {
         columns: {
           what_we_do: {

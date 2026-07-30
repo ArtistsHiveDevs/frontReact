@@ -55,6 +55,12 @@ export const ROUTES_CONFIG: PathConfigMap = {
       component: lazy(() => import('~/components/shared/organisms/app/PlansOffer/PlansOfferPage/PlansOfferPage')),
       path: PATHS.PLANS,
     },
+    // Gating de is_platform_admin lo maneja la propia página; esta ruta solo exige sesión iniciada.
+    AdminPendingProfilesPage: {
+      component: lazy(() => import('~/components/Pages/domain/AdminPages/PendingProfilesPage')),
+      path: PATHS.ADMIN_PENDING_PROFILES,
+      redirectToIfNotLoggedUser: PATHS.LOGIN,
+    },
   },
   domain: {
     sections: {

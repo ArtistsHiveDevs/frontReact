@@ -381,6 +381,34 @@ export const DeMessages = {
       },
 
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Überprüfung ausstehender Profile',
+          unauthorized: {
+            title: 'Zugriff verweigert',
+            description: 'Sie haben keine Berechtigung, diese Seite anzuzeigen.',
+          },
+          sections: {
+            artists: {
+              title: 'Ausstehende Künstler',
+            },
+            places: {
+              title: 'Ausstehende Orte',
+            },
+          },
+          table: {
+            name: 'Name',
+            username: 'Benutzername',
+            location: 'Standort',
+            created_at: 'Eingereicht am',
+            actions: 'Aktionen',
+          },
+          actions: {
+            approve: 'Genehmigen',
+            reject: 'Ablehnen',
+          },
+          empty_state: 'Keine ausstehenden Profile zur Überprüfung',
+          error: 'Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.',
+        },
         LoginPage: {
           paragraph1:
             'Du siehst gerade eine Testversion unserer Plattform. Derzeit ist die Benutzerregistrierung begrenzt.',
@@ -1399,6 +1427,12 @@ export const DeMessages = {
               logout: 'Abmelden',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'Ausstehende Überprüfung',
+          rejected: 'Abgelehnt',
         },
       },
     },

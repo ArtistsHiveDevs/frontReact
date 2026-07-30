@@ -380,6 +380,34 @@ export const PtMessages = {
         },
       },
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Revisão de perfis pendentes',
+          unauthorized: {
+            title: 'Acesso negado',
+            description: 'Você não tem permissão para ver esta página.',
+          },
+          sections: {
+            artists: {
+              title: 'Artistas pendentes',
+            },
+            places: {
+              title: 'Locais pendentes',
+            },
+          },
+          table: {
+            name: 'Nome',
+            username: 'Usuário',
+            location: 'Localização',
+            created_at: 'Enviado em',
+            actions: 'Ações',
+          },
+          actions: {
+            approve: 'Aprovar',
+            reject: 'Rejeitar',
+          },
+          empty_state: 'Nenhum perfil pendente para revisão',
+          error: 'Ocorreu um erro. Tente novamente.',
+        },
         LoginPage: {
           paragraph1:
             'Você está visualizando uma versão de teste da nossa plataforma. Atualmente, o registro de usuários está limitado.',
@@ -1396,6 +1424,12 @@ export const PtMessages = {
               logout: 'Sair',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'Pendente de revisão',
+          rejected: 'Rejeitado',
         },
       },
     },

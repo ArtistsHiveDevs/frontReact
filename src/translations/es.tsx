@@ -381,6 +381,34 @@ export const EsMessages = {
       },
 
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Revisión de perfiles pendientes',
+          unauthorized: {
+            title: 'Acceso denegado',
+            description: 'No tienes permiso para ver esta página.',
+          },
+          sections: {
+            artists: {
+              title: 'Artistas pendientes',
+            },
+            places: {
+              title: 'Lugares pendientes',
+            },
+          },
+          table: {
+            name: 'Nombre',
+            username: 'Usuario',
+            location: 'Ubicación',
+            created_at: 'Enviado el',
+            actions: 'Acciones',
+          },
+          actions: {
+            approve: 'Aprobar',
+            reject: 'Rechazar',
+          },
+          empty_state: 'No hay perfiles pendientes por revisar',
+          error: 'Ocurrió un error. Inténtalo de nuevo.',
+        },
         LoginPage: {
           paragraph1:
             'Estás viendo una versión de prueba de nuestra plataforma. Actualmente estamos con el registro de usuarios limitado.',
@@ -1407,6 +1435,12 @@ export const EsMessages = {
               logout: 'Cerrar sesión',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'Pendiente de revisión',
+          rejected: 'Rechazado',
         },
       },
     },

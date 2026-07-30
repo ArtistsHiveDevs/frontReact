@@ -381,6 +381,34 @@ export const ItMessages = {
       },
 
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Revisione profili in attesa',
+          unauthorized: {
+            title: 'Accesso negato',
+            description: 'Non hai il permesso di visualizzare questa pagina.',
+          },
+          sections: {
+            artists: {
+              title: 'Artisti in attesa',
+            },
+            places: {
+              title: 'Luoghi in attesa',
+            },
+          },
+          table: {
+            name: 'Nome',
+            username: 'Nome utente',
+            location: 'Posizione',
+            created_at: 'Inviato il',
+            actions: 'Azioni',
+          },
+          actions: {
+            approve: 'Approva',
+            reject: 'Rifiuta',
+          },
+          empty_state: 'Nessun profilo in attesa di revisione',
+          error: 'Si è verificato un errore. Riprova.',
+        },
         LoginPage: {
           paragraph1:
             'Stai visualizzando una versione di prova della nostra piattaforma. Attualmente, la registrazione degli utenti è limitata.',
@@ -1400,6 +1428,12 @@ export const ItMessages = {
               logout: 'Esci',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'In attesa di revisione',
+          rejected: 'Rifiutato',
         },
       },
     },

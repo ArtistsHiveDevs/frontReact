@@ -381,6 +381,34 @@ export const EnMessages = {
       },
 
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Pending Profiles Review',
+          unauthorized: {
+            title: 'Access denied',
+            description: "You don't have permission to view this page.",
+          },
+          sections: {
+            artists: {
+              title: 'Pending Artists',
+            },
+            places: {
+              title: 'Pending Places',
+            },
+          },
+          table: {
+            name: 'Name',
+            username: 'Username',
+            location: 'Location',
+            created_at: 'Submitted on',
+            actions: 'Actions',
+          },
+          actions: {
+            approve: 'Approve',
+            reject: 'Reject',
+          },
+          empty_state: 'No pending profiles to review',
+          error: 'Something went wrong. Please try again.',
+        },
         LoginPage: {
           paragraph1: 'You are viewing a trial version of our platform. Currently, user registration is limited.',
           paragraph2:
@@ -1392,6 +1420,12 @@ export const EnMessages = {
               logout: 'Logout',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'Pending review',
+          rejected: 'Rejected',
         },
       },
     },

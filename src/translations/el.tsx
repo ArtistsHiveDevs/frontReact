@@ -381,6 +381,34 @@ export const ElMessages = {
       },
 
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Έλεγχος εκκρεμών προφίλ',
+          unauthorized: {
+            title: 'Δεν επιτρέπεται η πρόσβαση',
+            description: 'Δεν έχετε δικαίωμα να δείτε αυτή τη σελίδα.',
+          },
+          sections: {
+            artists: {
+              title: 'Εκκρεμείς καλλιτέχνες',
+            },
+            places: {
+              title: 'Εκκρεμείς χώροι',
+            },
+          },
+          table: {
+            name: 'Όνομα',
+            username: 'Όνομα χρήστη',
+            location: 'Τοποθεσία',
+            created_at: 'Υποβλήθηκε στις',
+            actions: 'Ενέργειες',
+          },
+          actions: {
+            approve: 'Έγκριση',
+            reject: 'Απόρριψη',
+          },
+          empty_state: 'Δεν υπάρχουν εκκρεμή προφίλ προς έλεγχο',
+          error: 'Παρουσιάστηκε σφάλμα. Δοκιμάστε ξανά.',
+        },
         LoginPage: {
           paragraph1:
             'Βλέπετε μια δοκιμαστική έκδοση της πλατφόρμας μας. Προς το παρόν η εγγραφή χρηστών είναι περιορισμένη.',
@@ -1400,6 +1428,12 @@ export const ElMessages = {
               logout: 'Αποσύνδεση',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'Εκκρεμεί έλεγχος',
+          rejected: 'Απορρίφθηκε',
         },
       },
     },

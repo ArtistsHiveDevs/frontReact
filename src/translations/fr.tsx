@@ -380,6 +380,34 @@ export const FrMessages = {
         },
       },
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Révision des profils en attente',
+          unauthorized: {
+            title: 'Accès refusé',
+            description: "Vous n'avez pas l'autorisation de consulter cette page.",
+          },
+          sections: {
+            artists: {
+              title: 'Artistes en attente',
+            },
+            places: {
+              title: 'Lieux en attente',
+            },
+          },
+          table: {
+            name: 'Nom',
+            username: "Nom d'utilisateur",
+            location: 'Emplacement',
+            created_at: 'Soumis le',
+            actions: 'Actions',
+          },
+          actions: {
+            approve: 'Approuver',
+            reject: 'Rejeter',
+          },
+          empty_state: 'Aucun profil en attente de révision',
+          error: "Une erreur s'est produite. Veuillez réessayer.",
+        },
         LoginPage: {
           paragraph1:
             "Vous consultez une version de test de notre plateforme. Actuellement, l'inscription des utilisateurs est limitée.",
@@ -1402,6 +1430,12 @@ export const FrMessages = {
               logout: 'Déconnexion',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'En attente de validation',
+          rejected: 'Refusé',
         },
       },
     },

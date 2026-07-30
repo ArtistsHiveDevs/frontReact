@@ -6,7 +6,10 @@ import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
-import { debouncedUsernameValidation } from '~/common/utils/validation/username-validation';
+import {
+  USERNAME_FORMAT_PATTERN,
+  debouncedUsernameValidation,
+} from '~/common/utils/validation/username-validation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
@@ -77,6 +80,10 @@ export const ProfileHeader = (props: any) => {
           config: {
             required: true,
             minLength: 3,
+            pattern: {
+              value: USERNAME_FORMAT_PATTERN,
+              message: translateGlobalDict('errors.VALIDATION_USERNAME_FORMAT'),
+            },
             ...(enableUsernameValidation && {
               validate: {
                 available: debouncedUsernameValidation,
@@ -323,6 +330,9 @@ export const ProfileHeader = (props: any) => {
       case 1:
         setEditableMode(element);
         break;
+      case 2:
+        setEditableMode(element);
+        break;
     }
   };
 
@@ -349,7 +359,7 @@ export const ProfileHeader = (props: any) => {
           <div className="fixed-header-content">
             <AvatarWithIcon
               image={image}
-              name={element?.name}
+              name={element?.nameKnownAs || element?.name}
               avatarSize={50}
               bottomBadgeSize={30}
               buttonIcon={currentUserCanEdit && !currentUserIsInProfile && 'PiUserSwitch'}
@@ -360,7 +370,7 @@ export const ProfileHeader = (props: any) => {
               <div className="fixed-username">
                 @{element?.username} <VerifiedArtist verifiedStatus={element?.verified_status} />
               </div>
-              <div className="fixed-name">{element?.name}</div>
+              <div className="fixed-name">{element?.nameKnownAs || element?.name}</div>
             </div>
             {element && !currentUserIsInProfile && (
               <div className="fixed-like-button">

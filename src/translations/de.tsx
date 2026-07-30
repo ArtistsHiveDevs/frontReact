@@ -58,6 +58,7 @@ export const DeMessages = {
           open: 'Öffnen',
           save: 'Speichern',
         },
+        report: 'Bericht',
         share: 'Teilen',
         show_more: 'Mehr anzeigen',
         show_less: 'Weniger anzeigen',
@@ -115,6 +116,8 @@ export const DeMessages = {
         VALIDATION_PASSWORD_WEAK: 'Schwaches Passwort',
         VALIDATION_FIELD_REQUIRED: 'Feld erforderlich',
         VALIDATION_USERNAME_TAKEN: 'Benutzername bereits vergeben',
+        VALIDATION_USERNAME_FORMAT:
+          'Der Benutzername darf nur Kleinbuchstaben, Ziffern, Unterstriche und Punkte enthalten (3-24 Zeichen, keine Leerzeichen).',
 
         // Errores de Usuario
         USER_PROFILE_NOT_FOUND: 'Benutzerprofil nicht gefunden',

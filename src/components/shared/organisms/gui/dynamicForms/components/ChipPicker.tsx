@@ -1,5 +1,5 @@
 import { Backdrop, Box, Chip, Fade, FormLabel, Modal, Stack } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { isValidElement, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useI18n } from '~/common/utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
@@ -7,6 +7,17 @@ import { ComponentGeneratorParams } from '../DynamicControl';
 import { DynamicFieldData } from '../dynamic-control-types';
 
 export const MAX_VISIBLE_ELEMENTS = 15;
+
+// option.icon puede venir como nombre de ícono (string, para DynamicIcons) o ya como un elemento JSX (ej. <Flag />).
+const resolveOptionIcon = (icon?: ReactNode): ReactElement => {
+  if (typeof icon === 'string' && icon) {
+    return <DynamicIcons iconName={icon} />;
+  }
+  if (isValidElement(icon)) {
+    return icon;
+  }
+  return <></>;
+};
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -114,7 +125,7 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
           <Chip
             key={`option-${fieldName}-${option.value}`}
             label={option.label}
-            icon={(option?.icon && <DynamicIcons iconName={option?.icon} />) || <></>}
+            icon={resolveOptionIcon(option?.icon)}
             color="primary"
             variant={selectedOptions.find((selectedValue) => selectedValue === option.value) ? 'filled' : 'outlined'}
             onClick={() => handleClickInChip(option)}
@@ -195,7 +206,7 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
                     <Chip
                       key={`option-${fieldName}-${option.value}`}
                       label={option.label}
-                      icon={(option?.icon && <DynamicIcons iconName={option?.icon} />) || <></>}
+                      icon={resolveOptionIcon(option?.icon)}
                       color="primary"
                       variant={
                         selectedOptions.find((selectedValue) => selectedValue === option.value) ? 'filled' : 'outlined'

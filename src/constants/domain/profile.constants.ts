@@ -22,6 +22,7 @@ export type ProfileNature = typeof ProfileNature[keyof typeof ProfileNature];
 export const ProfileMenuOptionsType = {
   SHARE: 'SHARE',
   EDIT: 'EDIT',
+  REPORT: 'REPORT',
 };
 
 export const PROFILE_MENU_OPTIONS = Object.values(ProfileMenuOptionsType);
@@ -43,6 +44,15 @@ export const ProfileMenuOptionsData = [
     translate: 'actions.share',
     defalutText: 'share',
     icon: 'FaShareAlt',
+    show: true,
+  },
+  {
+    option: ProfileMenuOptionsType.REPORT,
+    id: 2,
+    translate: 'actions.report',
+    defalutText: 'report',
+    icon: 'TbAlertHexagonFilled',
+    color: '#eb0000',
     show: true,
   },
 ];

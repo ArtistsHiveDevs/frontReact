@@ -58,6 +58,7 @@ export const ElMessages = {
           open: 'Άνοιγμα',
           save: 'Αποθήκευση',
         },
+        report: 'Αναφορά',
         share: 'Κοινοποίηση',
         show_more: 'Περισσότερα',
         show_less: 'Λιγότερα',
@@ -115,6 +116,8 @@ export const ElMessages = {
         VALIDATION_PASSWORD_WEAK: 'Αδύναμος κωδικός',
         VALIDATION_FIELD_REQUIRED: 'Απαιτούμενο πεδίο',
         VALIDATION_USERNAME_TAKEN: 'Το όνομα χρήστη είναι ήδη σε χρήση',
+        VALIDATION_USERNAME_FORMAT:
+          'Το όνομα χρήστη μπορεί να περιέχει μόνο πεζά γράμματα, αριθμούς, κάτω παύλα και τελεία (3-24 χαρακτήρες, χωρίς κενά).',
 
         // Σφάλματα Χρήστη
         USER_PROFILE_NOT_FOUND: 'Το προφίλ χρήστη δεν βρέθηκε',

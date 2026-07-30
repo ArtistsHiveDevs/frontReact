@@ -58,6 +58,7 @@ export const PtMessages = {
           open: 'Abrir',
           save: 'Salvar',
         },
+        report: 'Reportar',
         share: 'Partilhar',
         show_more: 'Mostrar mais',
         show_less: 'Mostrar menos',
@@ -115,6 +116,8 @@ export const PtMessages = {
         VALIDATION_PASSWORD_WEAK: 'Senha fraca',
         VALIDATION_FIELD_REQUIRED: 'Campo obrigatório',
         VALIDATION_USERNAME_TAKEN: 'Nome de usuário já em uso',
+        VALIDATION_USERNAME_FORMAT:
+          'O nome de usuário só pode conter letras minúsculas, números, sublinhado e ponto (3-24 caracteres, sem espaços).',
 
         // Errores de Usuario
         USER_PROFILE_NOT_FOUND: 'Perfil do usuário não encontrado',

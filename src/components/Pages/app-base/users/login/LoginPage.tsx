@@ -31,10 +31,17 @@ const LoginAuthTabs = () => {
     toSignIn,
     toSignUp,
   ]);
+  const isSignUp = route === 'signUp';
 
   return (
     <div className="login-auth-tabs">
-      <div className="amplify-tabs__list amplify-tabs__list--top amplify-tabs__list--equal" role="tablist">
+      <div
+        className={`amplify-tabs__list amplify-tabs__list--top amplify-tabs__list--equal${
+          isSignUp ? ' amplify-tabs__list--signup' : ''
+        }`}
+        role="tablist"
+      >
+        <span className="amplify-tabs__thumb" aria-hidden="true" />
         <button
           type="button"
           role="tab"
@@ -404,7 +411,7 @@ export const LoginPage = () => {
           </Paper>
         </Grid> } */}
         <Grid item xs={12} md={6}>
-          <Paper elevation={3} sx={{ padding: 2 }} className={'login-form-container'}>
+          <Paper elevation={0} sx={{ padding: 0, backgroundColor: 'transparent', boxShadow: 'none' }} className={'login-form-container'}>
             {/* <Typography variant="h4" gutterBottom padding={'1rem'}>
               Usuario o email:
             </Typography> */}

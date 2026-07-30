@@ -164,6 +164,9 @@ export const EnMessages = {
       },
       forms: {
         validation_error: 'Please review the highlighted fields before submitting.',
+        submit_error: "We couldn't save your changes. Please try again.",
+        submit_error_duplicate_key: 'That username is already taken. Please choose another one.',
+        submit_error_validation: 'Some required fields are missing or invalid. Please review the form.',
       },
       follows: {
         followers: 'Followers',

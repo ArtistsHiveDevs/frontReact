@@ -35,6 +35,7 @@ export interface DynamicTabbedFormParams {
   customHeaderConfig?: any;
   submitLabel?: string;
   enableUsernameValidation?: boolean;
+  submitErrorMessage?: string; // Error de servidor (ej. falló el create/update); lo controla la página, no este componente.
 }
 export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
   let {
@@ -48,6 +49,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     submitLabel,
     customHeaderConfig,
     enableUsernameValidation = true,
+    submitErrorMessage,
   } = params;
 
   const [relationshipsValues, setRelationshipsValues] = useState<{ [relationship: string]: any[] }>({});
@@ -421,6 +423,11 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       {hasValidationErrors && (
         <Alert severity="error" sx={{ mb: 2 }}>
           {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY}.forms.validation_error`)}
+        </Alert>
+      )}
+      {submitErrorMessage && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {submitErrorMessage}
         </Alert>
       )}
       <Button type="submit" variant="contained" fullWidth>

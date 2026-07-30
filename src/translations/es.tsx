@@ -164,6 +164,9 @@ export const EsMessages = {
       },
       forms: {
         validation_error: 'Revisa los campos resaltados antes de enviar el formulario.',
+        submit_error: 'No pudimos guardar los cambios. Inténtalo nuevamente.',
+        submit_error_duplicate_key: 'El nombre de usuario ya está en uso. Elegí otro.',
+        submit_error_validation: 'Hay campos obligatorios sin completar o con datos inválidos. Revisá el formulario.',
       },
       follows: {
         followers: 'Seguidores',

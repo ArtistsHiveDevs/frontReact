@@ -164,6 +164,9 @@ export const ElMessages = {
       },
       forms: {
         validation_error: 'Ελέγξτε τα επισημασμένα πεδία πριν την υποβολή της φόρμας.',
+        submit_error: 'Δεν ήταν δυνατή η αποθήκευση των αλλαγών. Δοκιμάστε ξανά.',
+        submit_error_duplicate_key: 'Αυτό το όνομα χρήστη χρησιμοποιείται ήδη. Επιλέξτε ένα άλλο.',
+        submit_error_validation: 'Ορισμένα υποχρεωτικά πεδία λείπουν ή δεν είναι έγκυρα. Ελέγξτε τη φόρμα.',
       },
       follows: {
         followers: 'Followers',

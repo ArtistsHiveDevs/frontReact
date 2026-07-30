@@ -164,6 +164,9 @@ export const ItMessages = {
       },
       forms: {
         validation_error: "Controlla i campi evidenziati prima di inviare il modulo.",
+        submit_error: 'Non è stato possibile salvare le modifiche. Riprova.',
+        submit_error_duplicate_key: 'Questo nome utente è già in uso. Scegline un altro.',
+        submit_error_validation: 'Alcuni campi obbligatori sono mancanti o non validi. Controlla il modulo.',
       },
       follows: {
         followers: 'Follower',

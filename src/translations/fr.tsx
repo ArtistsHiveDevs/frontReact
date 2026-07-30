@@ -164,6 +164,9 @@ export const FrMessages = {
       },
       forms: {
         validation_error: "Merci de vérifier les champs surlignés avant d'envoyer le formulaire.",
+        submit_error: "Nous n'avons pas pu enregistrer les modifications. Veuillez réessayer.",
+        submit_error_duplicate_key: "Ce nom d'utilisateur est déjà utilisé. Veuillez en choisir un autre.",
+        submit_error_validation: 'Certains champs obligatoires sont manquants ou invalides. Veuillez vérifier le formulaire.',
       },
       follows: {
         followers: 'Abonnés',

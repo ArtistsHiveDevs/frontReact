@@ -164,6 +164,9 @@ export const DeMessages = {
       },
       forms: {
         validation_error: 'Bitte überprüfe die markierten Felder, bevor du das Formular sendest.',
+        submit_error: 'Wir konnten die Änderungen nicht speichern. Bitte versuche es erneut.',
+        submit_error_duplicate_key: 'Dieser Benutzername ist bereits vergeben. Bitte wähle einen anderen.',
+        submit_error_validation: 'Einige Pflichtfelder fehlen oder sind ungültig. Bitte überprüfe das Formular.',
       },
       follows: {
         followers: 'Follower',

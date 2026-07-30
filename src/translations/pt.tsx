@@ -164,6 +164,9 @@ export const PtMessages = {
       },
       forms: {
         validation_error: 'Revise os campos destacados antes de enviar o formulário.',
+        submit_error: 'Não foi possível salvar as alterações. Tente novamente.',
+        submit_error_duplicate_key: 'Esse nome de usuário já está em uso. Escolha outro.',
+        submit_error_validation: 'Alguns campos obrigatórios estão faltando ou inválidos. Revise o formulário.',
       },
       follows: {
         followers: 'Seguidores',

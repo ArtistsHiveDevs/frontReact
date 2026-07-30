@@ -1051,6 +1051,7 @@ export const EnMessages = {
                   name: 'General Info',
                   attributes: {
                     description: 'Description',
+                    place_type: 'Venue Type',
                     address: 'Address',
                     city: 'City',
                     cityWithCountry: 'Location',

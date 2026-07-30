@@ -1065,6 +1065,7 @@ export const DeMessages = {
                   name: 'Allgemeine Informationen',
                   attributes: {
                     description: 'Beschreibung',
+                    place_type: 'Ortstyp',
                     address: 'Adresse',
                     city: 'Stadt',
                     cityWithCountry: 'Ort',

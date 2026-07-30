@@ -1063,6 +1063,7 @@ export const PtMessages = {
                   name: 'Informações Gerais',
                   attributes: {
                     description: 'Descrição',
+                    place_type: 'Tipo de local',
                     address: 'Endereço',
                     city: 'Cidade',
                     cityWithCountry: 'Localização',

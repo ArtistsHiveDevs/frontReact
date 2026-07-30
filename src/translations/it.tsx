@@ -1066,6 +1066,7 @@ export const ItMessages = {
                   name: 'Informazioni Generali',
                   attributes: {
                     description: 'Descrizione',
+                    place_type: 'Tipo di luogo',
                     address: 'Indirizzo',
                     city: 'Città',
                     cityWithCountry: 'Posizione',

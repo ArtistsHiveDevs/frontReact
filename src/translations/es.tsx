@@ -1065,6 +1065,7 @@ export const EsMessages = {
                   name: 'Información General',
                   attributes: {
                     description: 'Descripción',
+                    place_type: 'Tipo de lugar',
                     address: 'Dirección',
                     city: 'Ciudad',
                     cityWithCountry: 'Ubicación',

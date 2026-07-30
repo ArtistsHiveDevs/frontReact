@@ -1066,6 +1066,7 @@ export const ElMessages = {
                   name: 'Γενικές πληροφορίες',
                   attributes: {
                     description: 'Περιγραφή',
+                    place_type: 'Τύπος χώρου',
                     address: 'Διεύθυνση',
                     city: 'Πόλη',
                     cityWithCountry: 'Τοποθεσία',

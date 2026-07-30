@@ -1068,6 +1068,7 @@ export const FrMessages = {
                   name: 'Infos Générales',
                   attributes: {
                     description: 'Description',
+                    place_type: 'Type de lieu',
                     address: 'Adresse',
                     city: 'Ville',
                     cityWithCountry: 'Localisation',

@@ -14,6 +14,7 @@ import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/P
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { PreBookingRequestDialog } from '~/components/shared/organisms/domain/PreBookingDialog';
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
+import { Button } from '@mui/material';
 import { getClassFromModelName } from '~/models/base/modelHelpers';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
@@ -136,19 +137,48 @@ const PlaceDetailPage = () => {
     }
   };
 
+  const onCreateOpenCall = () => {
+    if (!loggedUser) {
+      navigateToInnerPath({ path: PATHS.LOGIN });
+    } else {
+      // El backend hace PlaceModel.findById(place_id): necesita el ObjectId real, no el username (currentPlace.identifier).
+      navigateToInnerPath({ path: `${PATHS.OPEN_CALLS}/${SUB_PATHS.CREATE}?placeId=${currentPlace?.id}` });
+    }
+  };
+
+  // Se compara por `.id` (estable) y no por `.identifier`: este último depende del username cacheado en
+  // roles[].entityRoleMap[], que puede quedar desincronizado si el Place cambia su username después de creado.
+  const isPlaceOwner = loggedUser && currentPlace && loggedUser.currentProfileInfo?.id === currentPlace.id;
+
   return (
     <>
       {finishedRequest ? (
         currentPlace ? (
-          <ProfileTabsPage
-            entityName="Place"
-            entityData={currentPlace}
-            translation_base_path={TRANSLATION_BASE_PLACE_DETAIL_PAGE}
-            subpagesConfig={subPagesInfo}
-            handlers={handlers}
-            footer={<ClaimProfileBanner entityName="Place" entityData={currentPlace} />}
-            fab={{ icon: 'lu LuCalendarPlus', handler: onFABClick }}
-          />
+          <>
+            {isPlaceOwner && (
+              <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '8px 16px' }}>
+                <Button
+                  variant="outlined"
+                  color="success"
+                  size="small"
+                  onClick={onCreateOpenCall}
+                  startIcon={<span style={{ fontSize: '1.1em' }}>&#128227;</span>}
+                >
+                  Crear Convocatoria
+                </Button>
+              </div>
+            )}
+            <ProfileTabsPage
+              entityName="Place"
+              entityData={currentPlace}
+              translation_base_path={TRANSLATION_BASE_PLACE_DETAIL_PAGE}
+              subpagesConfig={subPagesInfo}
+              handlers={handlers}
+              footer={<ClaimProfileBanner entityName="Place" entityData={currentPlace} />}
+              fab={{ icon: 'lu LuCalendarPlus', handler: onFABClick }}
+            />
+
+          </>
         ) : (
           <NotFoundPage />
         )

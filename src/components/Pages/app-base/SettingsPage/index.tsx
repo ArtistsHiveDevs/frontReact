@@ -132,6 +132,7 @@ const AppSettingsPage = () => {
 
   return (
     <>
+      <p>Julio de 2026</p>
       <h2>{translate('title')}</h2>
       <h3>
         <DynamicIcons iconName="FaGlobeAmericas" size={20} /> {translate('language_selection.title')}{' '}

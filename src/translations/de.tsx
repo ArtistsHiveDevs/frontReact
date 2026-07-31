@@ -1166,6 +1166,47 @@ export const DeMessages = {
           },
         },
       },
+      OpenCallsListPage: {
+        subpages: {
+          active: { name: 'Aktive Open-Calls' },
+          past: { name: 'Vergangene Open-Calls' },
+          available: { name: 'Verfügbar' },
+          applications: { name: 'Meine Bewerbungen' },
+        },
+        attributes: {
+          event_name: 'Name der Veranstaltung',
+          event_date: 'Veranstaltungsdatum',
+          start_date: 'Beginn',
+          end_date: 'Ende',
+          status: 'Status',
+          applications_count: 'Bewerbungen',
+          city: 'Stadt',
+          genres: 'Genres',
+          application_status: 'Status deiner Bewerbung',
+        },
+      },
+      OpenCallDetailsPage: {
+        event_label: 'Veranstaltung',
+        open_until_label: 'Bewerbungen offen bis',
+        applications_received_suffix: 'erhaltene Bewerbungen',
+        applications_received_title: 'Erhaltene Bewerbungen',
+        your_application_title: 'Deine Bewerbung',
+        no_applications_yet: 'Für diese Ausschreibung liegen noch keine Bewerbungen vor.',
+        not_applied_yet: 'Du hast dich für diese Ausschreibung noch nicht beworben.',
+        loading_applications: 'Bewerbungen werden geladen...',
+        loading_your_application: 'Deine Bewerbung wird geladen...',
+        unauthorized_message: 'Melde dich mit einem Artist- oder Place-Profil an, um die Bewerbungen dieser Ausschreibung zu sehen.',
+        back_button: 'Zurück zu meinen Ausschreibungen',
+        status: {
+          pending: 'Ausstehend',
+          accepted: 'Angenommen',
+          rejected: 'Abgelehnt',
+        },
+        actions: {
+          accept: 'Annehmen',
+          reject: 'Ablehnen',
+        },
+      },
     },
     appbase: {
       betabar: {

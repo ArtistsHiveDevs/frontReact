@@ -1167,6 +1167,47 @@ export const ItMessages = {
           },
         },
       },
+      OpenCallsListPage: {
+        subpages: {
+          active: { name: 'Chiamate aperte attive' },
+          past: { name: 'Chiamate aperte passate' },
+          available: { name: 'Disponibili' },
+          applications: { name: 'Le mie candidature' },
+        },
+        attributes: {
+          event_name: "Nome dell'evento",
+          event_date: "Data dell'evento",
+          start_date: 'Apertura',
+          end_date: 'Chiusura',
+          status: 'Stato',
+          applications_count: 'Candidature',
+          city: 'Città',
+          genres: 'Generi',
+          application_status: 'Stato della tua candidatura',
+        },
+      },
+      OpenCallDetailsPage: {
+        event_label: 'Evento',
+        open_until_label: 'Candidature aperte fino al',
+        applications_received_suffix: 'candidature ricevute',
+        applications_received_title: 'Candidature Ricevute',
+        your_application_title: 'La tua candidatura',
+        no_applications_yet: 'Non ci sono ancora candidature per questo bando.',
+        not_applied_yet: 'Non hai ancora fatto domanda per questo bando.',
+        loading_applications: 'Caricamento candidature...',
+        loading_your_application: 'Caricamento della tua candidatura...',
+        unauthorized_message: 'Accedi con un profilo Artist o Place per vedere le candidature di questo bando.',
+        back_button: 'Torna ai miei bandi',
+        status: {
+          pending: 'In attesa',
+          accepted: 'Accettata',
+          rejected: 'Rifiutata',
+        },
+        actions: {
+          accept: 'Accetta',
+          reject: 'Rifiuta',
+        },
+      },
     },
     appbase: {
       betabar: {

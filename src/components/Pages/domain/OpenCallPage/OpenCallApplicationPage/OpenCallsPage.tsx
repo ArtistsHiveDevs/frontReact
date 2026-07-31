@@ -1,6 +1,6 @@
 import { Stack } from '@mui/material';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DynamicControl } from '~/components/shared/organisms/gui/dynamicForms/DynamicControl';
@@ -9,19 +9,28 @@ import {
   attributeToDynamicField,
   getFieldNamesFromPageSection,
 } from '~/components/shared/organisms/gui/builders/page-section-form.utils';
-import { PATHS } from '~/constants';
+import { PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { useOpenCallApplicationsSlice } from '~/common/slices/domain/open-calls/open-call-applications.redux';
+import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { OPEN_CALL_PAGE_CONFIG, OPEN_CALL_STEP_META } from './config-open-call';
 import './index.scss';
 
 const OpenCallApplicationPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { openCallId } = useParams<{ openCallId: string }>();
+  const urlParameters = useParams();
+  const openCallId = urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID];
   const [currentStep, setCurrentStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
 
+  const loggedUser = useSelector(selectCurrentUser);
   const { actions: applicationActions } = useOpenCallApplicationsSlice();
+
+  // `.id` en vez de `.entity`/`.identifier`: este último depende del username cacheado en
+  // roles[].entityRoleMap[], que puede quedar desincronizado con la entidad viva.
+  const isArtistProfile = !!loggedUser?.isArtistProfile;
+  const currentArtistId = isArtistProfile ? loggedUser?.currentProfileInfo?.id : undefined;
+  const currentArtistProfilePic = isArtistProfile ? loggedUser?.currentProfileInfo?.profile_pic : undefined;
 
   const formMethods = useForm({ mode: 'onTouched' });
   const {
@@ -74,8 +83,10 @@ const OpenCallApplicationPage = () => {
   const onSubmit = (data: any) => {
     const applicationData = {
       open_call_id: openCallId,
+      artist_id: currentArtistId,
       artist_name: data.artist_name,
       artist_city: data.city,
+      artist_profile_pic: currentArtistProfilePic,
       survey_responses: data,
     };
     dispatch(applicationActions.createItem({ data: applicationData }));
@@ -86,6 +97,20 @@ const OpenCallApplicationPage = () => {
   const onError = () => {
     window.scrollTo(0, 0);
   };
+
+  if (!isArtistProfile) {
+    return (
+      <div className="open-call-page">
+        <div className="open-call-header">
+          <h1 className="open-call-title">No tienes un perfil de artista activo</h1>
+          <p className="open-call-subtitle">
+            Solo se puede aplicar a una convocatoria desde un perfil de Artista. Verifica que hayas ingresado con el
+            perfil correcto.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (submitted) {
     return (

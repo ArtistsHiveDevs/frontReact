@@ -8,6 +8,7 @@ export interface TableViewConfig {
 
   dense?: boolean;
   selectable?: boolean;
+  onRowClick?: (row: any) => void;
 }
 
 // export const TableView = (props: TableViewParams) => {
@@ -56,8 +57,22 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { alpha } from '@mui/material/styles';
 import { visuallyHidden } from '@mui/utils';
+import { isDayjs } from 'dayjs';
 import * as React from 'react';
 import { useI18n } from '~/common/utils';
+
+// Mismo formato usado para estas mismas columnas en OpenCallDetailsPage/PrebookingsListPage.
+// No se usa 'LL' (como en dataExtraction.getData) porque requiere el plugin
+// dayjs/plugin/localizedFormat, que no está registrado en este repo.
+const formatCellValue = (value: any): React.ReactNode => {
+  if (isDayjs(value)) {
+    return value.format('DD/MM/YYYY');
+  }
+  if (Array.isArray(value) && value.length && (typeof value[0] === 'string' || typeof value[0] === 'number')) {
+    return value.join(', ');
+  }
+  return value;
+};
 
 interface Data {
   id: number;
@@ -287,9 +302,7 @@ const VISIBLE_ROWS_PER_PAGE = 100;
 
 export const TableView = (props: { config: TableViewConfig }) => {
   const { config } = props || {};
-  const { dense, selectable, columns, rows, translationBasePath } = config || {};
-
-  console.log('XXXXX', columns, rows);
+  const { dense, selectable, columns, rows, translationBasePath, onRowClick } = config || {};
 
   const [order, setOrder] = React.useState<Order>('asc');
   // const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
@@ -378,13 +391,13 @@ export const TableView = (props: { config: TableViewConfig }) => {
                 return (
                   <TableRow
                     hover
-                    onClick={(event: any) => console.log(event)} //handleClick(event, row.id)}
+                    onClick={onRowClick ? () => onRowClick(row) : undefined}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
                     key={row.id}
                     selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}
+                    sx={{ cursor: onRowClick ? 'pointer' : 'default' }}
                   >
                     {selectable && (
                       <TableCell padding="checkbox">
@@ -400,8 +413,13 @@ export const TableView = (props: { config: TableViewConfig }) => {
                     {/* <TableCell component="th" id={labelId} scope="row" padding="none">
                       {row.name}
                     </TableCell> */}
-                    {Object.keys(row).map((key: any) => {
-                      return <TableCell align="center">{row[key]}</TableCell>;
+                    {columns.map((column: any) => {
+                      const columnKey = typeof column === 'string' ? column : column.id;
+                      return (
+                        <TableCell key={columnKey} align="center">
+                          {formatCellValue(row[columnKey])}
+                        </TableCell>
+                      );
                     })}
                   </TableRow>
                 );
@@ -412,7 +430,7 @@ export const TableView = (props: { config: TableViewConfig }) => {
                     height: (dense ? 33 : 53) * emptyRows,
                   }}
                 >
-                  <TableCell colSpan={6} />
+                  <TableCell colSpan={columns.length + (selectable ? 1 : 0)} />
                 </TableRow>
               )}
             </TableBody>

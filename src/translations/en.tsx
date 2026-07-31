@@ -1162,6 +1162,47 @@ export const EnMessages = {
           },
         },
       },
+      OpenCallsListPage: {
+        subpages: {
+          active: { name: 'Active Open-calls' },
+          past: { name: 'Past Open-calls' },
+          available: { name: 'Available' },
+          applications: { name: 'My Applications' },
+        },
+        attributes: {
+          event_name: 'Event Name',
+          event_date: 'Event Date',
+          start_date: 'Opens On',
+          end_date: 'Closes On',
+          status: 'Status',
+          applications_count: 'Applications',
+          city: 'City',
+          genres: 'Genres',
+          application_status: 'Application Status',
+        },
+      },
+      OpenCallDetailsPage: {
+        event_label: 'Event',
+        open_until_label: 'Applications open until',
+        applications_received_suffix: 'applications received',
+        applications_received_title: 'Applications Received',
+        your_application_title: 'Your Application',
+        no_applications_yet: 'No applications yet for this Open Call.',
+        not_applied_yet: "You haven't applied to this Open Call yet.",
+        loading_applications: 'Loading applications...',
+        loading_your_application: 'Loading your application...',
+        unauthorized_message: "Log in with an Artist or Place profile to see this Open Call's applications.",
+        back_button: 'Back to My Open Calls',
+        status: {
+          pending: 'Pending',
+          accepted: 'Accepted',
+          rejected: 'Rejected',
+        },
+        actions: {
+          accept: 'Accept',
+          reject: 'Reject',
+        },
+      },
     },
     appbase: {
       betabar: {

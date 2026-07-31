@@ -1168,6 +1168,48 @@ export const FrMessages = {
           },
         },
       },
+      OpenCallsListPage: {
+        subpages: {
+          active: { name: 'Appels ouverts actifs' },
+          past: { name: 'Appels ouverts passés' },
+          available: { name: 'Disponibles' },
+          applications: { name: 'Mes candidatures' },
+        },
+        attributes: {
+          event_name: "Nom de l'événement",
+          event_date: "Date de l'événement",
+          start_date: 'Ouverture',
+          end_date: 'Clôture',
+          status: 'Statut',
+          applications_count: 'Candidatures',
+          city: 'Ville',
+          genres: 'Genres',
+          application_status: 'Statut de ta candidature',
+        },
+      },
+      OpenCallDetailsPage: {
+        event_label: 'Événement',
+        open_until_label: "Candidatures ouvertes jusqu'au",
+        applications_received_suffix: 'candidatures reçues',
+        applications_received_title: 'Candidatures Reçues',
+        your_application_title: 'Ta candidature',
+        no_applications_yet: "Aucune candidature reçue pour cet appel à candidatures pour l'instant.",
+        not_applied_yet: "Tu n'as pas encore postulé à cet appel à candidatures.",
+        loading_applications: 'Chargement des candidatures...',
+        loading_your_application: 'Chargement de ta candidature...',
+        unauthorized_message:
+          "Connecte-toi avec un profil Artist ou Place pour voir les candidatures de cet appel à candidatures.",
+        back_button: 'Retour à mes appels à candidatures',
+        status: {
+          pending: 'En attente',
+          accepted: 'Acceptée',
+          rejected: 'Refusée',
+        },
+        actions: {
+          accept: 'Accepter',
+          reject: 'Refuser',
+        },
+      },
     },
     appbase: {
       betabar: {

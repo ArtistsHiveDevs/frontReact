@@ -262,6 +262,19 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
     return this.currentProfileIdentifier === this?.identifier;
   }
 
+  // Comparan por `id` (el _id de Mongo cacheado en roles[].entityRoleMap[], que nunca cambia) en vez de
+  // por `.entity`/`.identifier`: estos últimos dependen de que el username cacheado esté sincronizado con
+  // el de la entidad viva, cosa que hoy no ocurre para Place cuando se edita después de creado.
+  get isArtistProfile(): boolean {
+    const currentId = this.currentProfileInfo?.id;
+    return !!currentId && this.artistMemberships.some((membership) => membership.id === currentId);
+  }
+
+  get isPlaceProfile(): boolean {
+    const currentId = this.currentProfileInfo?.id;
+    return !!currentId && this.placeMemberships.some((membership) => membership.id === currentId);
+  }
+
   get hasIndustryProfiles() {
     return !!this.roles.find(
       (role: UserAvailableEntityRole) =>

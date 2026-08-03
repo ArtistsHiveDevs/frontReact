@@ -20,9 +20,10 @@ const OpenCallCreatePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
-  const placeId = searchParams.get('placeId');
+  const [placeId, setPlaceId] = useState(undefined);
   const [currentStep, setCurrentStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [canCreateOpenCall, setCanCreateOpenCall] = useState(true);
 
   const loggedUser = useSelector(selectCurrentUser);
   const { actions: openCallActions } = useOpenCallsSlice();
@@ -33,7 +34,12 @@ const OpenCallCreatePage = () => {
   // Solo el dueño o un administrador del Place indicado en `placeId` puede crear la convocatoria.
   // El backend ya rechaza esto server-side; esta validación evita mostrar el formulario completo
   // a un usuario que de todas formas no podrá enviarlo.
-  const canCreateOpenCall = !!loggedUser && !!placeId && loggedUser.checkPermissions(placeId).canEdit;
+
+  useEffect(() => {
+    setPlaceId(loggedUser?.currentProfileInfo?.id);
+    console.log('Actualizando el effect', loggedUser, placeId, loggedUser?.currentProfileInfo?.id);
+    // setCanCreateOpenCall(!!loggedUser && !!placeId && loggedUser.checkPermissions(placeId).canEdit);
+  }, [loggedUser, placeId]);
 
   const formMethods = useForm({ mode: 'onTouched' });
   const {
@@ -128,8 +134,8 @@ const OpenCallCreatePage = () => {
             <div className="open-call-header">
               <h1 className="open-call-title">Crear Convocatoria</h1>
               <p className="open-call-subtitle">
-                Completa la información del evento y las fechas de la convocatoria. Los artistas podrán aplicar
-                durante el periodo que definas.
+                Completa la información del evento y las fechas de la convocatoria. Los artistas podrán aplicar durante
+                el periodo que definas.
               </p>
             </div>
 
@@ -190,12 +196,7 @@ const OpenCallCreatePage = () => {
 
                 {/* Navigation */}
                 <div className="step-navigation">
-                  <button
-                    type="button"
-                    className="nav-btn btn-prev"
-                    onClick={handlePrev}
-                    disabled={currentStep === 0}
-                  >
+                  <button type="button" className="nav-btn btn-prev" onClick={handlePrev} disabled={currentStep === 0}>
                     Anterior
                   </button>
 

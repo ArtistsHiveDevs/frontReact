@@ -72,7 +72,7 @@ const general: SideMenuItem[] = [
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, 'opportunities'),
-    path: `${PATHS.OPPORTUNITIES}`,
+    path: `${PATHS.OPEN_CALLS}`,
     icon: 'md MdRocketLaunch',
     updated: new Date('2/20/16'),
   },
@@ -276,14 +276,14 @@ const config: SideMenuItem[] = [
     icon: 'FaQuestionCircle',
     updated: new Date('2/20/16'),
   },
-  {
-    name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'report'),
-    path: '',
-    color: '#eb0000',
-    icon: 'TbAlertHexagonFilled',
-    updated: new Date('2/20/16'),
-    requireSession: true,
-  },
+  // {
+  //   name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'report'),
+  //   path: '',
+  //   color: '#eb0000',
+  //   icon: 'TbAlertHexagonFilled',
+  //   updated: new Date('2/20/16'),
+  //   requireSession: true,
+  // },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'send_comments'),
     path: '',

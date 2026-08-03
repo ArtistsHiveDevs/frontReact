@@ -1169,8 +1169,8 @@ export const ItMessages = {
       },
       OpenCallsListPage: {
         subpages: {
-          active: { name: 'Chiamate aperte attive' },
-          past: { name: 'Chiamate aperte passate' },
+          active: { name: 'Attive' },
+          past: { name: 'Passate' },
           available: { name: 'Disponibili' },
           applications: { name: 'Le mie candidature' },
         },

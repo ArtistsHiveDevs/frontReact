@@ -1,17 +1,20 @@
 import { Stack } from '@mui/material';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { DynamicControl } from '~/components/shared/organisms/gui/dynamicForms/DynamicControl';
+import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
+import { useOpenCallApplicationsSlice } from '~/common/slices/domain/open-calls/open-call-applications.redux';
+import { selectorOpenCalls, useOpenCallsSlice } from '~/common/slices/domain/open-calls/open-calls.redux';
+import { selectCurrentUser } from '~/common/slices/users/selectors';
+import { RootState } from '~/common/utils/redux-injectors/types';
 import { AttributeConfiguration } from '~/components/shared/organisms/gui/builders/component-types.def';
 import {
   attributeToDynamicField,
   getFieldNamesFromPageSection,
 } from '~/components/shared/organisms/gui/builders/page-section-form.utils';
+import { DynamicControl } from '~/components/shared/organisms/gui/dynamicForms/DynamicControl';
 import { PATHS, URL_PARAMETER_NAMES } from '~/constants';
-import { useOpenCallApplicationsSlice } from '~/common/slices/domain/open-calls/open-call-applications.redux';
-import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { OPEN_CALL_PAGE_CONFIG, OPEN_CALL_STEP_META } from './config-open-call';
 import './index.scss';
 
@@ -19,18 +22,80 @@ const OpenCallApplicationPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const urlParameters = useParams();
-  const openCallId = urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID];
+  const [openCallId, setOpenCallId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
   const [currentStep, setCurrentStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [isArtistProfile, setIsArtistProfile] = useState(false);
+  const [currentArtistId, setCurrentArtistId] = useState<string>();
+  const [currentArtistProfilePic, setCurrentArtistProfilePic] = useState<string>();
 
   const loggedUser = useSelector(selectCurrentUser);
-  const { actions: applicationActions } = useOpenCallApplicationsSlice();
 
-  // `.id` en vez de `.entity`/`.identifier`: este último depende del username cacheado en
-  // roles[].entityRoleMap[], que puede quedar desincronizado con la entidad viva.
-  const isArtistProfile = !!loggedUser?.isArtistProfile;
-  const currentArtistId = isArtistProfile ? loggedUser?.currentProfileInfo?.id : undefined;
-  const currentArtistProfilePic = isArtistProfile ? loggedUser?.currentProfileInfo?.profile_pic : undefined;
+  const selectArtistById = selectorArtists.makeSelectItemById();
+
+  const currentArtist = useSelector((state: RootState) => {
+    if (loggedUser?.currentProfileInfo?.identifier) {
+      return selectArtistById(state, loggedUser?.currentProfileInfo?.identifier);
+    } else {
+      return undefined;
+    }
+  });
+
+  const selectOpenCallById = selectorOpenCalls.makeSelectItemById();
+
+  const currentOpenCall = useSelector((state: RootState) => {
+    if (openCallId) {
+      return selectOpenCallById(state, openCallId);
+    } else {
+      return undefined;
+    }
+  });
+
+  const { actions: openCallActions } = useOpenCallsSlice();
+  const { actions: applicationActions } = useOpenCallApplicationsSlice();
+  const { actions: artistActions } = useArtistsSlice();
+
+  useEffect(() => {
+    if (!!openCallId) {
+      dispatch(openCallActions.getItemById({ id: openCallId }));
+    }
+  }, [openCallId]);
+
+  useEffect(() => {
+    setIsArtistProfile(!!loggedUser?.isArtistProfile);
+    setCurrentArtistId(isArtistProfile ? loggedUser?.currentProfileInfo?.id : undefined);
+    setCurrentArtistProfilePic(isArtistProfile ? loggedUser?.currentProfileInfo?.profile_pic : undefined);
+    if (!!loggedUser?.currentProfileInfo?.identifier) {
+      dispatch(artistActions.getItemById({ id: loggedUser?.currentProfileInfo?.identifier }));
+    }
+  }, [loggedUser]);
+
+  // Función para obtener el valor inicial de un campo desde currentArtist
+  const getInitialValue = (fieldName: string) => {
+    if (!currentArtist) return undefined;
+
+    console.log(currentArtist);
+    const fieldMapping: { [key: string]: any } = {
+      // Step 1
+      artist_name: currentArtist.name,
+      country: currentArtist.country?.name,
+      city: currentArtist.city,
+      email: currentArtist.email,
+      phone: currentArtist.phone || currentArtist.whatsapp,
+      genre: currentArtist.genre,
+      synopsis: currentArtist.synopsis,
+      social_instagram: currentArtist.instagram,
+      social_facebook: currentArtist.facebook,
+      social_tiktok: currentArtist.tiktok,
+      website: currentArtist.website,
+
+      // Step 2
+      music_link: currentArtist.spotify,
+      video_link: currentArtist.youtube,
+    };
+
+    return fieldMapping[fieldName];
+  };
 
   const formMethods = useForm({ mode: 'onTouched' });
   const {
@@ -112,6 +177,18 @@ const OpenCallApplicationPage = () => {
     );
   }
 
+  // Esperar a que currentArtist se cargue antes de mostrar el formulario
+  if (!currentArtist) {
+    return (
+      <div className="open-call-page">
+        <div className="open-call-header">
+          <h1 className="open-call-title">Cargando...</h1>
+          <p className="open-call-subtitle">Estamos preparando tu información</p>
+        </div>
+      </div>
+    );
+  }
+
   if (submitted) {
     return (
       <div className="open-call-page">
@@ -122,7 +199,7 @@ const OpenCallApplicationPage = () => {
             Tu aplicación ha sido recibida correctamente. Revisaremos tu propuesta y nos pondremos en contacto contigo a
             través del correo electrónico proporcionado.
           </p>
-          <button className="success-btn" onClick={() => navigate(`/${PATHS.HOME}`)}>
+          <button className="success-btn" onClick={() => navigate(`/${PATHS.OPEN_CALLS}`)}>
             Volver al inicio
           </button>
         </div>
@@ -135,10 +212,12 @@ const OpenCallApplicationPage = () => {
       {/* Header */}
       <div className="open-call-header">
         <h1 className="open-call-title">Convocatoria Abierta</h1>
-        <p className="open-call-subtitle">
-          Completa el formulario para aplicar como artista. Toda la información nos ayuda a evaluar tu propuesta y
-          coordinar la logística del evento.
-        </p>
+        {currentOpenCall && (
+          <>
+            <h1 className="open-call-title">{currentOpenCall.event_name}</h1>
+            <p className="open-call-subtitle">{currentOpenCall.description}</p>
+          </>
+        )}
       </div>
 
       {/* Stepper progress */}
@@ -180,15 +259,21 @@ const OpenCallApplicationPage = () => {
             {(step.sections || []).map((section) => (
               <Stack key={section.name} spacing={2} sx={{ mb: 3 }}>
                 {(section.components || []).map((component) =>
-                  (component.data?.attributes || []).map((attr: AttributeConfiguration, attrIdx: number) => (
-                    <div key={`${section.name}-${attr.name}-${attrIdx}`}>
-                      <DynamicControl
-                        fieldData={attributeToDynamicField(attr)}
-                        errors={errors}
-                        handlers={{}}
-                      />
-                    </div>
-                  ))
+                  (component.data?.attributes || []).map((attr: AttributeConfiguration, attrIdx: number) => {
+                    const fieldData = attributeToDynamicField(attr);
+                    const initialValue = getInitialValue(attr.name);
+
+                    // Si hay un valor inicial del artista, usarlo
+                    if (initialValue !== undefined) {
+                      fieldData.defaultValue = initialValue;
+                    }
+
+                    return (
+                      <div key={`${section.name}-${attr.name}-${attrIdx}`}>
+                        <DynamicControl fieldData={fieldData} errors={errors} handlers={{}} />
+                      </div>
+                    );
+                  })
                 )}
               </Stack>
             ))}

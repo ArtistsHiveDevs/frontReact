@@ -1177,8 +1177,8 @@ export const EsMessages = {
       },
       OpenCallsListPage: {
         subpages: {
-          active: { name: 'Convocatorias activas' },
-          past: { name: 'Convocatorias pasadas' },
+          active: { name: 'Activas' },
+          past: { name: 'Pasadas' },
           available: { name: 'Disponibles' },
           applications: { name: 'Mis aplicaciones' },
         },
@@ -1204,7 +1204,8 @@ export const EsMessages = {
         not_applied_yet: 'Todavía no has aplicado a esta convocatoria.',
         loading_applications: 'Cargando aplicaciones...',
         loading_your_application: 'Cargando tu aplicación...',
-        unauthorized_message: 'Inicia sesión con un perfil de Artist o de Place para ver las aplicaciones de esta convocatoria.',
+        unauthorized_message:
+          'Inicia sesión con un perfil de Artist o de Place para ver las aplicaciones de esta convocatoria.',
         back_button: 'Volver a Mis Convocatorias',
         status: {
           pending: 'Pendiente',

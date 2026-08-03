@@ -1170,8 +1170,8 @@ export const FrMessages = {
       },
       OpenCallsListPage: {
         subpages: {
-          active: { name: 'Appels ouverts actifs' },
-          past: { name: 'Appels ouverts passés' },
+          active: { name: 'Actifs' },
+          past: { name: 'Passés' },
           available: { name: 'Disponibles' },
           applications: { name: 'Mes candidatures' },
         },
@@ -1198,7 +1198,7 @@ export const FrMessages = {
         loading_applications: 'Chargement des candidatures...',
         loading_your_application: 'Chargement de ta candidature...',
         unauthorized_message:
-          "Connecte-toi avec un profil Artist ou Place pour voir les candidatures de cet appel à candidatures.",
+          'Connecte-toi avec un profil Artist ou Place pour voir les candidatures de cet appel à candidatures.',
         back_button: 'Retour à mes appels à candidatures',
         status: {
           pending: 'En attente',

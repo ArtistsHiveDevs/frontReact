@@ -47,7 +47,7 @@ export const OPEN_CALLS_LIST_PLACE_CONFIG: PageSection[] = [
           {
             componentName: ComponentTypes.HTML_CONTENT,
             data: {
-              content: '<p>Convocatorias cerradas aparecerán aquí</p>',
+              content: 'Convocatorias cerradas aparecerán aquí',
             },
           },
         ],

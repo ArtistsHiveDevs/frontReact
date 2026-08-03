@@ -1164,8 +1164,8 @@ export const EnMessages = {
       },
       OpenCallsListPage: {
         subpages: {
-          active: { name: 'Active Open-calls' },
-          past: { name: 'Past Open-calls' },
+          active: { name: 'Active' },
+          past: { name: 'Past' },
           available: { name: 'Available' },
           applications: { name: 'My Applications' },
         },

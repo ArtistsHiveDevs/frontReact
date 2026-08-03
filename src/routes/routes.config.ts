@@ -223,7 +223,7 @@ export const ROUTES_CONFIG: PathConfigMap = {
           },
           OpenCallApplicationPage: {
             component: lazy(
-              () => import('~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/OpenCallsPage')
+              () => import('~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/OpenCallsApplicationPage')
             ),
             path: `${SUB_PATHS.APPLY}/:${URL_PARAMETER_NAMES.ELEMENT_ID}`,
           },

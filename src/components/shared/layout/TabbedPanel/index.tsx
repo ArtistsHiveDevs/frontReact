@@ -357,7 +357,7 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
   const titles = tabTitles();
 
   return (
-    <div {...swipeHandlers}>
+    <div className="tabbed-panel-container" {...swipeHandlers}>
       {titles.length > 1 && !tabs[activeSectionIndex]?.hideMainMenu && (
         <div className="subpages-tabs-wrapper">
           <div className="subpages-tabs" ref={scrollContainerRef}>

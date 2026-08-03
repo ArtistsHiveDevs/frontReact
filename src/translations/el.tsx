@@ -1169,8 +1169,8 @@ export const ElMessages = {
       },
       OpenCallsListPage: {
         subpages: {
-          active: { name: 'Ενεργές ανοικτές προσκλήσεις' },
-          past: { name: 'Παλαιότερες ανοικτές προσκλήσεις' },
+          active: { name: 'Ενεργές' },
+          past: { name: 'Παλαιότερες' },
           available: { name: 'Διαθέσιμες' },
           applications: { name: 'Οι αιτήσεις μου' },
         },

@@ -233,9 +233,9 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             />
           </TableCell>
         )}
-        {columns.map((headCell) => (
+        {columns.map((headCell, index) => (
           <TableCell
-            key={headCell.id}
+            key={`${headCell.id}_${index}`}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}

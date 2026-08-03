@@ -1,9 +1,16 @@
 @import '~/variables.module.scss';
 
+.tabbed-panel-container {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 .full-content {
   text-align: justify;
   min-height: 20rem;
   padding-bottom: 3rem;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .subpages-tabs-wrapper {

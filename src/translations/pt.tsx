@@ -1166,8 +1166,8 @@ export const PtMessages = {
       },
       OpenCallsListPage: {
         subpages: {
-          active: { name: 'Chamadas abertas ativas' },
-          past: { name: 'Chamadas abertas passadas' },
+          active: { name: 'Ativas' },
+          past: { name: 'Passadas' },
           available: { name: 'Disponíveis' },
           applications: { name: 'Minhas candidaturas' },
         },

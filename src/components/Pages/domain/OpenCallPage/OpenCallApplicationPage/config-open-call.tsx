@@ -127,7 +127,10 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
                   title: 'Nombre del proyecto / Artista',
                   formMetaData: {
                     inputType: 'text',
-                    config: { required: 'Este campo es obligatorio', minLength: { value: 2, message: 'Mínimo 2 caracteres' } },
+                    config: {
+                      required: 'Este campo es obligatorio',
+                      minLength: { value: 2, message: 'Mínimo 2 caracteres' },
+                    },
                     componentParams: { placeholder: 'Ej: Los Amplificadores' },
                   },
                 },
@@ -225,7 +228,11 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
                   title: 'Sinopsis del espectáculo',
                   formMetaData: {
                     inputType: 'textarea',
-                    componentParams: { placeholder: 'Describe brevemente tu propuesta artística...', maxLength: 150, rows: 3 },
+                    componentParams: {
+                      placeholder: 'Describe brevemente tu propuesta artística...',
+                      maxLength: 150,
+                      rows: 3,
+                    },
                   },
                 },
               ],
@@ -310,22 +317,22 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
             componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
-                {
-                  name: 'press_kit',
-                  title: 'Press kit / EPK',
-                  formMetaData: {
-                    inputType: 'file',
-                    componentParams: { accept: '.pdf,image/*', multipleFiles: false },
-                  },
-                },
-                {
-                  name: 'photos',
-                  title: 'Fotos promocionales',
-                  formMetaData: {
-                    inputType: 'file',
-                    componentParams: { accept: 'image/*', multipleFiles: true },
-                  },
-                },
+                // {
+                //   name: 'press_kit',
+                //   title: 'Press kit / EPK',
+                //   formMetaData: {
+                //     inputType: 'file',
+                //     componentParams: { accept: '.pdf,image/*', multipleFiles: false },
+                //   },
+                // },
+                // {
+                //   name: 'photos',
+                //   title: 'Fotos promocionales',
+                //   formMetaData: {
+                //     inputType: 'file',
+                //     componentParams: { accept: 'image/*', multipleFiles: true },
+                //   },
+                // },
               ],
             },
           },
@@ -370,7 +377,10 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
                   formMetaData: {
                     inputType: 'textarea',
                     config: { required: 'Describe brevemente tu show' },
-                    componentParams: { placeholder: 'Describe qué puede esperar el público de tu presentación en vivo...', rows: 4 },
+                    componentParams: {
+                      placeholder: 'Describe qué puede esperar el público de tu presentación en vivo...',
+                      rows: 4,
+                    },
                   },
                 },
                 {
@@ -424,7 +434,10 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
                   formMetaData: {
                     inputType: 'textarea',
                     config: { required: 'Indica tus requerimientos de sonido' },
-                    componentParams: { placeholder: 'Ej: 4 monitores de piso, 2 DI box, mesa de mezclas de 16 canales...', rows: 4 },
+                    componentParams: {
+                      placeholder: 'Ej: 4 monitores de piso, 2 DI box, mesa de mezclas de 16 canales...',
+                      rows: 4,
+                    },
                   },
                 },
                 {
@@ -432,7 +445,10 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
                   title: 'Requerimientos de backline',
                   formMetaData: {
                     inputType: 'textarea',
-                    componentParams: { placeholder: 'Ej: Batería completa, amplificador de bajo, 2 amplificadores de guitarra...', rows: 4 },
+                    componentParams: {
+                      placeholder: 'Ej: Batería completa, amplificador de bajo, 2 amplificadores de guitarra...',
+                      rows: 4,
+                    },
                   },
                 },
                 {
@@ -483,22 +499,22 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
             componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
-                {
-                  name: 'technical_rider',
-                  title: 'Rider técnico (PDF)',
-                  formMetaData: {
-                    inputType: 'file',
-                    componentParams: { accept: '.pdf', multipleFiles: false },
-                  },
-                },
-                {
-                  name: 'stage_plot_file',
-                  title: 'Stage plot',
-                  formMetaData: {
-                    inputType: 'file',
-                    componentParams: { accept: '.pdf,image/*', multipleFiles: false },
-                  },
-                },
+                // {
+                //   name: 'technical_rider',
+                //   title: 'Rider técnico (PDF)',
+                //   formMetaData: {
+                //     inputType: 'file',
+                //     componentParams: { accept: '.pdf', multipleFiles: false },
+                //   },
+                // },
+                // {
+                //   name: 'stage_plot_file',
+                //   title: 'Stage plot',
+                //   formMetaData: {
+                //     inputType: 'file',
+                //     componentParams: { accept: '.pdf,image/*', multipleFiles: false },
+                //   },
+                // },
               ],
             },
           },
@@ -601,7 +617,10 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
                   title: 'Requerimientos de hospitalidad',
                   formMetaData: {
                     inputType: 'textarea',
-                    componentParams: { placeholder: 'Ej: Agua, comida para 6 personas, restricciones alimentarias...', rows: 3 },
+                    componentParams: {
+                      placeholder: 'Ej: Agua, comida para 6 personas, restricciones alimentarias...',
+                      rows: 3,
+                    },
                   },
                 },
                 {
@@ -609,7 +628,10 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
                   title: 'Notas adicionales',
                   formMetaData: {
                     inputType: 'textarea',
-                    componentParams: { placeholder: 'Cualquier información adicional relevante para tu aplicación...', rows: 4 },
+                    componentParams: {
+                      placeholder: 'Cualquier información adicional relevante para tu aplicación...',
+                      rows: 4,
+                    },
                   },
                 },
               ],

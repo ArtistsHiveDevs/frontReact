@@ -157,17 +157,24 @@ const SideNav = () => {
           </a>
 
           {menuOption.rightIcon && (
-            <span
-              onClick={() => {
-                if (menuOption?.rightPath) {
-                  navigateTo({ path: menuOption?.rightPath, useRandomId: menuOption.randomId, state: {} });
-                } else if (menuOption?.rightHandler && Object.keys(handlers).includes(menuOption?.rightHandler)) {
-                  handlers[menuOption?.rightHandler]();
-                }
-              }}
+            <RequireAuthComponent
+              allowedRoles={menuOption.rightAllowedRoles}
+              requiredSession={menuOption.requireSession}
+              name={menuOption.name}
+              key={`${idx}_rightIcon`}
             >
-              <DynamicIcons iconName={menuOption.rightIcon} size={17} color="white" />
-            </span>
+              <span
+                onClick={() => {
+                  if (menuOption?.rightPath) {
+                    navigateTo({ path: menuOption?.rightPath, useRandomId: menuOption.randomId, state: {} });
+                  } else if (menuOption?.rightHandler && Object.keys(handlers).includes(menuOption?.rightHandler)) {
+                    handlers[menuOption?.rightHandler]();
+                  }
+                }}
+              >
+                <DynamicIcons iconName={menuOption.rightIcon} size={17} color="white" />
+              </span>
+            </RequireAuthComponent>
           )}
         </div>
         {menuOption.nestedMenuOptions &&

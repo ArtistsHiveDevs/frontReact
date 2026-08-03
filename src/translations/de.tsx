@@ -1168,8 +1168,8 @@ export const DeMessages = {
       },
       OpenCallsListPage: {
         subpages: {
-          active: { name: 'Aktive Open-Calls' },
-          past: { name: 'Vergangene Open-Calls' },
+          active: { name: 'Aktive' },
+          past: { name: 'Vergangene' },
           available: { name: 'Verfügbar' },
           applications: { name: 'Meine Bewerbungen' },
         },
@@ -1195,7 +1195,8 @@ export const DeMessages = {
         not_applied_yet: 'Du hast dich für diese Ausschreibung noch nicht beworben.',
         loading_applications: 'Bewerbungen werden geladen...',
         loading_your_application: 'Deine Bewerbung wird geladen...',
-        unauthorized_message: 'Melde dich mit einem Artist- oder Place-Profil an, um die Bewerbungen dieser Ausschreibung zu sehen.',
+        unauthorized_message:
+          'Melde dich mit einem Artist- oder Place-Profil an, um die Bewerbungen dieser Ausschreibung zu sehen.',
         back_button: 'Zurück zu meinen Ausschreibungen',
         status: {
           pending: 'Ausstehend',

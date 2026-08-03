@@ -39,6 +39,7 @@ export enum PATHS {
 }
 
 export enum SUB_PATHS {
+  CONFIRMATION = 'confirmation',
   CREATE = 'new',
   EDIT = 'edit',
   EDITOR = 'editor',

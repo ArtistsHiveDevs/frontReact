@@ -67,6 +67,7 @@ export const ElMessages = {
           unsubscribe: 'Διαγραφή',
         },
         upload: 'Μεταφόρτωση',
+        files_limit_exceded: 'Υπέρβαση του μέγιστου επιτρεπόμενου αριθμού αρχείων',
       },
       entities: {
         academies: { plural: 'Ακαδημίες', singular: 'Ακαδημία' },
@@ -773,6 +774,9 @@ export const ElMessages = {
               sections: {
                 artist_gallery: {
                   name: 'Γκαλερί του καλλιτέχνη',
+                },
+                live_gallery: {
+                  name: 'Ζωντανή γκαλερί'
                 },
                 general: {
                   name: 'Γενικές πληροφορίες',

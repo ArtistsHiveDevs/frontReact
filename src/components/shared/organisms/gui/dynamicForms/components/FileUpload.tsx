@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Box, IconButton, InputLabel, Paper } from '@mui/material';
+import { Avatar, AvatarGroup, Box, IconButton, InputLabel, Paper, Snackbar, SnackbarCloseReason } from '@mui/material';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
@@ -11,8 +11,8 @@ export const TRANSLATION_BASE_GLOBAL_DICT_ACTIONS = 'app.global_dictionary.actio
 
 export enum FileUploaderOptions {
   addItem,
-  removeItem
-} 
+  removeItem,
+}
 
 export const createFileUpload = (params: ComponentGeneratorParams) => {
   const { translateText } = useI18n();
@@ -38,8 +38,39 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
 
   const { label, fieldName, options = [], config, componentParams } = fieldData || {};
 
-  const { multipleFiles, accept, useIcons, iconName, destinationPath = '' } = componentParams || {};
+  const {
+    multipleFiles,
+    accept,
+    useIcons,
+    iconName,
+    destinationPath = '',
+    filesDataType = 'default',
+    filesLimit = 10,
+  } = componentParams || {};
+
   const [selectedFiles, setSelectedFiles] = useState([]);
+
+  const [showSnackBar, setShowSnackBar] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState('');
+  const [maxFiles, setMaxFiles] = useState(filesLimit);
+
+  const validateFilesLimitExceded = (selectedFiles: any) => {
+    let validation = false;
+    if (selectedFiles?.length > filesLimit) {
+      validation = true;
+      setSnackBarMessage(`${translateText(`${TRANSLATION_BASE_GLOBAL_DICT_ACTIONS}.files_limit_exceded`)}: ${maxFiles}`);
+      setShowSnackBar(true);
+    }
+    return validation;
+  };
+
+  const handleCloseSnackBar = (event: any) => {
+    setShowSnackBar(false);
+  };
+
+  const formattedDestinationPath = (pathToFormat: string) => {
+    return pathToFormat?.length > 0 ? `/${pathToFormat}` : pathToFormat;
+  };
 
   const handleChange = (event: any) => {
     const newList = event?.target?.files || {};
@@ -50,15 +81,29 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
       return file;
     });
 
-    setSelectedFiles(tempValues);
-    if (handlers && handlers[`${fieldName}_filesChanged`]) {
-      handlers[`${fieldName}_filesChanged`]({files: values, optionType: FileUploaderOptions.addItem, destinationPath });
+    const filesLimitExceded = validateFilesLimitExceded(tempValues);
+
+    if (!filesLimitExceded && handlers && handlers[`${fieldName}_filesChanged`]) {
+      setSelectedFiles(tempValues);
+      handlers[`${fieldName}_filesChanged`]({
+        files: values,
+        optionType: FileUploaderOptions.addItem,
+        destinationPath: formattedDestinationPath(destinationPath),
+        filesDataType,
+      });
+      setMaxFiles(filesLimit - values.length);
     }
   };
 
   const handleRemoveItem = (index: number) => {
     selectedFiles.splice(index, 1);
-    handlers[`${fieldName}_filesChanged`]({files: selectedFiles, optionType: FileUploaderOptions.removeItem, destinationPath});
+    handlers[`${fieldName}_filesChanged`]({
+      files: selectedFiles,
+      optionType: FileUploaderOptions.removeItem,
+      destinationPath: formattedDestinationPath(destinationPath),
+      filesDataType,
+    });
+    setMaxFiles(filesLimit - selectedFiles.length);
   };
 
   const avatarSize = 100;
@@ -97,10 +142,10 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
             justifyContent: 'center',
             borderRadius: 2,
             transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-              '&:hover': {
-                transform: 'scale(1.05)', // Increases size by 5%
-                boxShadow: 6, // Mimics rising elevation
-              },
+            '&:hover': {
+              transform: 'scale(1.05)', // Increases size by 5%
+              boxShadow: 6, // Mimics rising elevation
+            },
           }}
         >
           <Button
@@ -191,13 +236,9 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
                 top: -15,
                 right: -8,
               }}
+              onClick={() => handleRemoveItem(index)}
             >
-              <DynamicIcons
-                iconName="FaTimesCircle"
-                size={25}
-                customStyle={{ cursor: 'pointer' }}
-                onClick={() => handleRemoveItem(index)}
-              />
+              <DynamicIcons iconName="FaTimesCircle" size={25} customStyle={{ cursor: 'pointer' }} />
             </IconButton>
           </Paper>
         ))}
@@ -206,6 +247,7 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
       <InputLabel id={`label_${fieldName}`} required={!!config?.required} error={!!errors[fieldName]}>
         {label}
       </InputLabel>
+      <Snackbar open={showSnackBar} autoHideDuration={2000} onClose={handleCloseSnackBar} message={snackBarMessage} />
       {/* <AvatarGroup max={4}>
         {!!selectedFiles &&
           selectedFiles.map((file, index) => (

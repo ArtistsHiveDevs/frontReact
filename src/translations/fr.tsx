@@ -67,6 +67,7 @@ export const FrMessages = {
           unsubscribe: 'Se désabonner',
         },
         upload: 'Télécharger',
+        files_limit_exceded: 'Nombre maximum de fichiers autorisés dépassé',
       },
       entities: {
         academies: { plural: 'Académies', singular: 'Académie' },
@@ -774,6 +775,9 @@ export const FrMessages = {
               sections: {
                 artist_gallery: {
                   name: "Galerie de l'artiste",
+                },
+                live_gallery: {
+                  name: 'Galerie live'
                 },
                 general: {
                   name: 'Info Générale',

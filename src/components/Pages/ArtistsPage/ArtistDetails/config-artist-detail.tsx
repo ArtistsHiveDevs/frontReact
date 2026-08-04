@@ -19,6 +19,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             data: { images: 'image_gallery', placeholder: 'Foto de los integrantes' },
             clickHandlerName: 'onClickGalleryImage',
             formMetaData: {
+              hidden: true,
               inputType: 'file',
               fieldName: 'image_gallery',
               componentParams: { multipleFiles: true, accept: 'image/*', destinationPath: '/img' },
@@ -26,6 +27,38 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
           },
         ],
       },
+      {
+        name: 'live_gallery',
+        hidden: true,
+        components: [
+          {
+            componentName: ComponentTypes.HORIZONTAL_IMAGE_GALLERY,
+            data: { images: 'image_gallery', placeholder: 'Foto de eventos en vivo' },
+            clickHandlerName: 'onClickGalleryLiveImage',
+            formMetaData: {
+              inputType: 'file',
+              fieldName: 'image_live_gallery',
+              componentParams: { multipleFiles: true, accept: 'image/*', destinationPath: 'images', filesDataType: 'live', filesLimit:3 },
+            },
+          },
+        ],
+      },
+      // {
+      //   name: 'artist_members',
+      //   hidden: true,
+      //   components: [
+      //     {
+      //       componentName: ComponentTypes.HORIZONTAL_IMAGE_GALLERY,
+      //       data: { images: 'image_gallery', placeholder: 'Foto de los integrantes' },
+      //       clickHandlerName: 'onClickGalleryMemberImage',
+      //       formMetaData: {
+      //         inputType: 'file',
+      //         fieldName: 'image_members',
+      //         componentParams: { multipleFiles: true, accept: 'image/*', destinationPath: 'images', filesDataType: 'members' },
+      //       },
+      //     },
+      //   ],
+      // },
       {
         name: 'general',
         components: [

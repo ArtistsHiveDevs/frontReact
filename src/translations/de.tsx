@@ -67,6 +67,7 @@ export const DeMessages = {
           unsubscribe: 'Abbestellen',
         },
         upload: 'Hochladen',
+        files_limit_exceded: 'Maximale Anzahl erlaubter Dateien überschritten'
       },
       entities: {
         academies: { plural: 'Akademien', singular: 'Akademie' },
@@ -772,6 +773,9 @@ export const DeMessages = {
               sections: {
                 artist_gallery: {
                   name: 'Galerie des Künstlers',
+                },
+                live_gallery: {
+                  name: 'Live-Galerie'
                 },
                 general: {
                   name: 'Allgemeine Informationen',

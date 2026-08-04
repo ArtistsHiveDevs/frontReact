@@ -67,6 +67,7 @@ export const EnMessages = {
           unsubscribe: 'Unsubscribe',
         },
         upload: 'Upload',
+        files_limit_exceded: 'Maximum number of allowed files exceeded',
       },
       entities: {
         academies: { plural: 'Academies', singular: 'Academy' },
@@ -758,6 +759,9 @@ export const EnMessages = {
               sections: {
                 artist_gallery: {
                   name: 'Artist gallery'
+                },
+                live_gallery: {
+                  name: 'Live Gallery'
                 },
                 general: {
                   name: 'General Info',

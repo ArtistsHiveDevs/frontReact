@@ -67,6 +67,7 @@ export const PtMessages = {
           unsubscribe: 'Cancelar',
         },
         upload: 'Carregar',
+        files_limit_exceded: 'Número máximo de arquivos permitidos excedido',
       },
       entities: {
         academies: { plural: 'Academias', singular: 'Academia' },
@@ -770,6 +771,9 @@ export const PtMessages = {
               sections: {
                 artist_gallery: {
                   name: 'Galeria do artista',
+                },
+                live_gallery: {
+                  name: 'Galeria ao vivo'
                 },
                 general: {
                   name: 'Informações gerais',

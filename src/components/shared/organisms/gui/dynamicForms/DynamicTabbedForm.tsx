@@ -240,7 +240,10 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     } else if (
       [ComponentTypes.IMAGE_GALLERY, ComponentTypes.HORIZONTAL_IMAGE_GALLERY].includes(
         componentDescriptor.componentName
-      )
+      ) &&
+      componentDescriptor.formMetaData?.hidden === undefined ||
+      (typeof componentDescriptor.formMetaData?.hidden === 'boolean' && !componentDescriptor.formMetaData?.hidden) ||
+      (typeof componentDescriptor.formMetaData?.hidden === 'string' && componentDescriptor.formMetaData?.hidden !== 'true')
     ) {
       componentFieldData.inputType = 'file';
       addComponentField = true;
@@ -334,7 +337,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
 
                     return (
                       <SectionsPanel
-                        sectionName={translateSection(subpage.name, section?.name)}
+                        sectionName={!section?.emptyTitle ? translateSection(subpage.name, section?.name): undefined}
                         sectionContent={sectionContent}
                         isCollapsible={filteredSections.length > 1}
                         key={`${subpage.name}-${section?.name}`}

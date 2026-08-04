@@ -30,6 +30,29 @@ const TRANSLATION_BASE_SIDENAV = 'app.appbase.sidenav';
 
 type RIGHT_SIDENAV_VIEWS = 'actions' | 'memberships_list';
 
+const LogoWithBetaBadge = () => (
+  <div style={{ position: 'relative', display: 'inline-block' }}>
+    <img alt="Artist Hive" className="img-logotipo" src={import.meta.env.VITE_LOGO_URL} width="100" />
+    <Badge
+      badgeContent="β"
+      color="primary"
+      sx={{
+        position: 'absolute',
+        bottom: '7px',
+        right: '1px',
+        '& .MuiBadge-badge': {
+          fontSize: '0.5rem',
+          // fontWeight: 'bold',
+          height: '12px',
+          minWidth: '12px',
+          padding: '0 2px',
+          borderRadius: '4px',
+        },
+      }}
+    />
+  </div>
+);
+
 const SideNav = () => {
   const loggedUser = useSelector(selectCurrentUser);
   const location = useLocation();
@@ -254,7 +277,7 @@ const SideNav = () => {
           <div className="nav-menu-opt">
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand`} className="icon-burger" onClick={handleShow} />
             <a onClick={goToHome}>
-              <img alt="Artist Hive" className="img-logotipo" src={import.meta.env.VITE_LOGO_URL} width="100" />
+              <LogoWithBetaBadge />
             </a>
           </div>
 
@@ -287,7 +310,7 @@ const SideNav = () => {
             <Navbar.Offcanvas placement="start" show={show} onHide={handleClose}>
               <Offcanvas.Header closeButton className="sidebar-header" closeVariant="white">
                 <a onClick={goToHome}>
-                  <img alt="Artist Hive" className="img-logotipo" src={import.meta.env.VITE_LOGO_URL} width="100" />
+                  <LogoWithBetaBadge />
                 </a>
                 <h4 className="menu-title">{translateText(`${TRANSLATION_BASE_SIDENAV}.name`)}</h4>
               </Offcanvas.Header>

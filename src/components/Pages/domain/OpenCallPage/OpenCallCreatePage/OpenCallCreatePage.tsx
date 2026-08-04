@@ -1,5 +1,5 @@
 import { Alert, Stack } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -24,6 +24,7 @@ const OpenCallCreatePage = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [canCreateOpenCall, setCanCreateOpenCall] = useState(true);
+  const isNavigatingRef = useRef(false);
 
   const loggedUser = useSelector(selectCurrentUser);
   const { actions: openCallActions } = useOpenCallsSlice();
@@ -37,7 +38,7 @@ const OpenCallCreatePage = () => {
 
   useEffect(() => {
     setPlaceId(loggedUser?.currentProfileInfo?.id);
-    console.log('Actualizando el effect', loggedUser, placeId, loggedUser?.currentProfileInfo?.id);
+    // console.log('Actualizando el effect', loggedUser, placeId, loggedUser?.currentProfileInfo?.id);
     // setCanCreateOpenCall(!!loggedUser && !!placeId && loggedUser.checkPermissions(placeId).canEdit);
   }, [loggedUser, placeId]);
 
@@ -69,11 +70,31 @@ const OpenCallCreatePage = () => {
   const progress = Math.round(((currentStep + 1) / totalSteps) * 100);
 
   const handleNext = async () => {
-    const fieldNames = getFieldNamesFromPageSection(steps[currentStep]);
-    const isValid = await trigger(fieldNames);
-    if (isValid && currentStep < totalSteps - 1) {
-      setCurrentStep((prev) => prev + 1);
-      window.scrollTo(0, 0);
+    if (isNavigatingRef.current) {
+      console.log('⏸️ Already navigating, ignoring');
+      return;
+    }
+
+    console.log('📍 handleNext called', { currentStep, totalSteps, stepsLength: steps.length });
+    isNavigatingRef.current = true;
+
+    try {
+      const fieldNames = getFieldNamesFromPageSection(steps[currentStep]);
+      const isValid = await trigger(fieldNames);
+      console.log('✅ Validation result:', isValid);
+
+      if (isValid && currentStep < totalSteps - 1) {
+        console.log('➡️ Moving to next step');
+        setCurrentStep((prev) => prev + 1);
+        window.scrollTo(0, 0);
+      } else {
+        console.log('⚠️ Not moving:', { isValid, condition: currentStep < totalSteps - 1 });
+      }
+    } finally {
+      // Esperar un momento antes de permitir otra navegación
+      setTimeout(() => {
+        isNavigatingRef.current = false;
+      }, 300);
     }
   };
 
@@ -85,25 +106,48 @@ const OpenCallCreatePage = () => {
   };
 
   const goToStep = async (targetStep: number) => {
-    if (targetStep < currentStep) {
-      setCurrentStep(targetStep);
-      window.scrollTo(0, 0);
+    console.log('🎯 goToStep called', { currentStep, targetStep });
+
+    if (isNavigatingRef.current) {
+      console.log('⏸️ goToStep: Already navigating, ignoring');
       return;
     }
-    for (let i = currentStep; i < targetStep; i++) {
-      const fieldNames = getFieldNamesFromPageSection(steps[i]);
-      const isValid = await trigger(fieldNames);
-      if (!isValid) {
-        setCurrentStep(i);
+
+    isNavigatingRef.current = true;
+
+    try {
+      if (targetStep < currentStep + 1) {
+        console.log('⬅️ Going backwards to', targetStep);
+        setCurrentStep(targetStep);
         window.scrollTo(0, 0);
         return;
       }
+
+      console.log('➡️ Validating steps from', currentStep, 'to', targetStep);
+      for (let i = currentStep; i < targetStep + 1; i++) {
+        const fieldNames = getFieldNamesFromPageSection(steps[i]);
+        const isValid = await trigger(fieldNames);
+        console.log(`Step ${i} validation:`, isValid);
+        if (!isValid) {
+          console.log('❌ Validation failed at step', i);
+          setCurrentStep(i);
+          window.scrollTo(0, 0);
+          return;
+        }
+      }
+      console.log('✅ All validations passed, moving to step', targetStep);
+      setCurrentStep(targetStep);
+      window.scrollTo(0, 0);
+    } finally {
+      setTimeout(() => {
+        isNavigatingRef.current = false;
+      }, 300);
     }
-    setCurrentStep(targetStep);
-    window.scrollTo(0, 0);
   };
 
   const onSubmit = (data: any) => {
+    console.log('🚀 onSubmit called', { currentStep, totalSteps, data });
+    console.trace('Submit stack trace');
     const openCallData = {
       ...data,
       place_id: placeId,
@@ -115,6 +159,33 @@ const OpenCallCreatePage = () => {
 
   const onError = () => {
     window.scrollTo(0, 0);
+  };
+
+  // Prevenir submit al presionar Enter en campos de texto
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLFormElement>) => {
+    const target = event.target as HTMLElement;
+
+    // Solo procesar si la tecla es Enter
+    if (event.key === 'Enter') {
+      // Si es un textarea, permitir el comportamiento normal (salto de línea)
+      if (target.tagName === 'TEXTAREA') {
+        return;
+      }
+
+      // Si es el botón de submit en el último paso, permitir el submit
+      if (target.tagName === 'BUTTON' && (target as HTMLButtonElement).type === 'submit') {
+        return;
+      }
+
+      // En cualquier otro caso, prevenir el submit por defecto
+      event.preventDefault();
+      event.stopPropagation();
+
+      // Si no estamos en el último paso, avanzar al siguiente
+      if (currentStep < totalSteps - 1) {
+        handleNext();
+      }
+    }
   };
 
   return (
@@ -169,7 +240,7 @@ const OpenCallCreatePage = () => {
 
             {/* Form */}
             <FormProvider {...formMethods}>
-              <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
+              <form onSubmit={handleSubmit(onSubmit, onError)} onKeyDown={handleKeyDown} noValidate>
                 <div className="step-content">
                   <h3 className="step-title">{stepMeta?.title || step.title || step.name}</h3>
                   <p className="step-description">{stepMeta?.description}</p>
@@ -201,7 +272,16 @@ const OpenCallCreatePage = () => {
                   </button>
 
                   {currentStep < totalSteps - 1 ? (
-                    <button type="button" className="nav-btn btn-next" onClick={handleNext}>
+                    <button
+                      type="button"
+                      className="nav-btn btn-next"
+                      onClick={(e) => {
+                        console.log('🖱️ Next button clicked', { currentStep, totalSteps });
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleNext();
+                      }}
+                    >
                       Siguiente
                     </button>
                   ) : (

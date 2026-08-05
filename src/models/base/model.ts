@@ -13,8 +13,6 @@ import {
   ProfileTemplate,
   SearchableProfileTemplate,
 } from './template';
-import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
-import { encryptEnvToken } from '~/common/utils/request';
 
 const DEFAULT_MAX_CACHE_TIME_TO_LIVE = 3 * 60 * 1000;
 

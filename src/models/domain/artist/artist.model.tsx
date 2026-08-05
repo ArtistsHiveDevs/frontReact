@@ -324,6 +324,6 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
   }
 
   get epkGallery() {
-    return [...this.image_members, ...this.image_live_gallery];
+    return [...(this.image_members || []), ...(this.image_live_gallery || [])];
   }
 }

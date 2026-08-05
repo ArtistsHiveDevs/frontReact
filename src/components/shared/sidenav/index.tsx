@@ -11,6 +11,7 @@ import { useI18n } from '~/common/utils';
 import { getEnvironment } from '~/common/utils/app-utils/app-utils';
 import { resolveNavigateToEntityPath } from '~/common/utils/hooks/navigation/navigateToEntityResolver';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { isVisible } from '~/common/utils/visibility-utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
@@ -317,12 +318,7 @@ const SideNav = () => {
               <Offcanvas.Body>
                 <hr />
                 {LEFT_SIDENAV_MENU_CONFIG.filter((sidenavSection, index) => {
-                  const isHidden =
-                    sidenavSection.hidden === undefined ||
-                    (typeof sidenavSection.hidden === 'boolean' && !sidenavSection.hidden) ||
-                    (typeof sidenavSection.hidden === 'string' && sidenavSection.hidden !== 'true') ||
-                    (sidenavSection.hidden instanceof Function &&
-                      !sidenavSection.hidden({ user: loggedUser, section: sidenavSection }));
+                  const isVisibleByHiddenProp = isVisible(sidenavSection, { user: loggedUser, section: sidenavSection });
 
                   const isAllowedByEnvironment =
                     (!sidenavSection.allowedEnvironments ||
@@ -330,7 +326,7 @@ const SideNav = () => {
                     (!sidenavSection.forbiddenEnvironments ||
                       !sidenavSection.forbiddenEnvironments.includes(getEnvironment()));
 
-                  return isHidden && isAllowedByEnvironment;
+                  return isVisibleByHiddenProp && isAllowedByEnvironment;
                 }).map((sidenavSection, index) => {
                   const sectionOptions = sidenavSection.options || [];
                   return (
@@ -346,12 +342,7 @@ const SideNav = () => {
                           <div className="option-menu-list">
                             {sectionOptions
                               .filter((option, index) => {
-                                const isHidden =
-                                  option.hidden === undefined ||
-                                  (typeof option.hidden === 'boolean' && !option.hidden) ||
-                                  (typeof option.hidden === 'string' && option.hidden !== 'true') ||
-                                  (option.hidden instanceof Function &&
-                                    !option.hidden({ user: loggedUser, option: option }));
+                                const isVisibleByHiddenProp = isVisible(option, { user: loggedUser, option: option });
 
                                 const isAllowedByEnvironment =
                                   (!option.allowedEnvironments ||
@@ -359,7 +350,7 @@ const SideNav = () => {
                                   (!option.forbiddenEnvironments ||
                                     !option.forbiddenEnvironments.includes(getEnvironment()));
 
-                                return isHidden && isAllowedByEnvironment;
+                                return isVisibleByHiddenProp && isAllowedByEnvironment;
                               })
                               .map((option: SideMenuItem, idx) => {
                                 return liMenuElement('general', option, idx);
@@ -422,12 +413,7 @@ const SideNav = () => {
                   <>
                     <hr />
                     {RIGHT_SIDENAV_MENU_CONFIG.filter((sidenavSection, index) => {
-                      const isHidden =
-                        sidenavSection.hidden === undefined ||
-                        (typeof sidenavSection.hidden === 'boolean' && !sidenavSection.hidden) ||
-                        (typeof sidenavSection.hidden === 'string' && sidenavSection.hidden !== 'true') ||
-                        (sidenavSection.hidden instanceof Function &&
-                          !sidenavSection.hidden({ user: loggedUser, section: sidenavSection }));
+                      const isVisibleByHiddenProp = isVisible(sidenavSection, { user: loggedUser, section: sidenavSection });
 
                       const isAllowedByEnvironment =
                         (!sidenavSection.allowedEnvironments ||
@@ -435,7 +421,7 @@ const SideNav = () => {
                         (!sidenavSection.forbiddenEnvironments ||
                           !sidenavSection.forbiddenEnvironments.includes(getEnvironment()));
 
-                      return isHidden && isAllowedByEnvironment;
+                      return isVisibleByHiddenProp && isAllowedByEnvironment;
                     }).map((sidenavSection, index) => {
                       const sectionOptions = sidenavSection.options || [];
                       return (
@@ -451,12 +437,7 @@ const SideNav = () => {
                               <div className="option-menu-list">
                                 {sectionOptions
                                   .filter((option, index) => {
-                                    const isHidden =
-                                      option.hidden === undefined ||
-                                      (typeof option.hidden === 'boolean' && !option.hidden) ||
-                                      (typeof option.hidden === 'string' && option.hidden !== 'true') ||
-                                      (option.hidden instanceof Function &&
-                                        !option.hidden({ user: loggedUser, option: option }));
+                                    const isVisibleByHiddenProp = isVisible(option, { user: loggedUser, option: option });
 
                                     const isAllowedByEnvironment =
                                       (!option.allowedEnvironments ||
@@ -464,7 +445,7 @@ const SideNav = () => {
                                       (!option.forbiddenEnvironments ||
                                         !option.forbiddenEnvironments.includes(getEnvironment()));
 
-                                    return isHidden && isAllowedByEnvironment;
+                                    return isVisibleByHiddenProp && isAllowedByEnvironment;
                                   })
                                   .map((option: SideMenuItem, idx) => {
                                     return liMenuElement('general', option, idx);

@@ -54,6 +54,7 @@ export interface ComponentDescriptor {
   clickHandlerName?: string;
   requireSession?: boolean;
   formMetaData?: FormMetadata;
+  hidden?: boolean | Function;
 }
 export interface AttributeConfiguration {
   name: string;

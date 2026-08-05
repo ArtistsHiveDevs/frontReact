@@ -3,22 +3,15 @@ import { HorizontalImageGallery } from '~/components/shared/atoms/ImageGallery/H
 import { ComponentBuilderParams } from '../types';
 import { getData } from '../utils/dataExtraction';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import { CustomPDFViewer } from '~/components/shared/atoms/CustomPDFViewer/CustomPDFViewer';
 
 export const createDocumentFileViewerModuleComponent = (params: ComponentBuilderParams): JSX.Element => {
   const { componentDescriptor, entityData } = params;
-
-  let images: GalleryImageParams[] = [];
-
-  if (componentDescriptor.data?.images) {
-    images = getData(componentDescriptor.data?.images, entityData);
-  }
-  if (componentDescriptor.data?.image) {
-    images = [{ src: getData(componentDescriptor.data?.image, entityData) }];
-  }
+  
+  let files = getData(componentDescriptor.data?.fileSource, entityData);
 
   return <>
-  <div>{componentDescriptor?.formMetaData?.fieldName}</div>
-  <DynamicIcons iconName='BiSolidFilePdf' size={40} />
-    {/* <HorizontalImageGallery imagesInfo={images} data={componentDescriptor.data} /> */}
+  <h3>{componentDescriptor?.data?.placeholder}</h3>
+    <CustomPDFViewer fileSources = {files} />
   </>;
 };

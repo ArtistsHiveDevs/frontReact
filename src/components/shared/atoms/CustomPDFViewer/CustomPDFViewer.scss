@@ -1,0 +1,97 @@
+
+
+.box-document-avatar {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 16px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+
+  .card-document-avatar {
+    min-width: 150px;
+    height: 150px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    .button-document-avatar {
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        
+        .MuiButton-startIcon {
+          margin: 0;
+        }
+}
+}
+}
+
+.box-pdf-viewer {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  border-radius: 8px; // MUI borderRadius: 2 (2 * 4px)
+  overflow: hidden;
+
+  .render-pdf-container {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+}
+
+
+
+
+// 1. Primer snippet (ej. contenedor de botón o componente flex)
+.custom-button-wrapper {
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+
+  // MUI automáticamente aplica display: flex al botón, 
+  // pero asegúrate de que el contenedor lo tenga si no es un botón de MUI.
+  
+  .MuiButton-startIcon {
+    margin: 0;
+  }
+}
+
+// 2. Segundo snippet (ej. un contenedor principal o tarjeta grande)
+.relative-container {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  border-radius: 8px; // MUI borderRadius: 2 (2 * 4px)
+  overflow: hidden;
+
+  // MUI boxShadow: 3 (elevación 3 por defecto)
+  box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2),
+              0px 3px 4px 0px rgba(0, 0, 0, 0.14),
+              0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+}
+
+// 3. Tercer snippet (ej. un iframe, imagen o elemento de fondo)
+.full-size-borderless {
+  width: 100%;
+  height: 100%;
+  border: none;
+}

@@ -659,8 +659,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
         components: [
           {
             componentName: ComponentTypes.DOCUMENT_FILE_VIEWER,
-            data: { images: 'image_gallery', placeholder: 'Foto de los integrantes' },
-            clickHandlerName: 'onClickGalleryImage',
+            data: { fileSource: 'technical_epk', placeholder: 'EPK técnico' },
             formMetaData: {
               inputType: 'file',
               fieldName: 'technical_epk',
@@ -675,8 +674,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
           },
           {
             componentName: ComponentTypes.DOCUMENT_FILE_VIEWER,
-            data: { images: 'image_gallery', placeholder: 'Foto de los integrantes' },
-            clickHandlerName: 'onClickGalleryImage',
+            data: { fileSource: 'technical_rider', placeholder: 'Rider técnico' },
             formMetaData: {
               inputType: 'file',
               fieldName: 'technical_rider',
@@ -691,8 +689,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
           },
           {
             componentName: ComponentTypes.DOCUMENT_FILE_VIEWER,
-            data: { images: 'image_gallery', placeholder: 'Foto de los integrantes' },
-            clickHandlerName: 'onClickGalleryImage',
+            data: { fileSource: 'stage_plot', placeholder: 'Stage plot' },
             formMetaData: {
               inputType: 'file',
               fieldName: 'stage_plot',

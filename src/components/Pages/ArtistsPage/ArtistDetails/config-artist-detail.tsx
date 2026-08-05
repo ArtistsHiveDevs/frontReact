@@ -12,7 +12,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
     sections: [
       {
         name: 'artist_gallery',
-        emptyTitle: false,
+        emptyTitle: true,
         components: [
           {
             componentName: ComponentTypes.HORIZONTAL_IMAGE_GALLERY,
@@ -28,24 +28,37 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             componentName: ComponentTypes.HORIZONTAL_IMAGE_GALLERY,
             data: { images: 'image_gallery', placeholder: 'Foto de los integrantes' },
             clickHandlerName: 'onClickGalleryMemberImage',
+            hidden: true,
             formMetaData: {
               inputType: 'file',
               fieldName: 'image_members',
-              componentParams: { multipleFiles: true, accept: 'image/*', destinationPath: 'images', filesDataType: 'members', filesLimit: 3 },
+              componentParams: {
+                multipleFiles: true,
+                accept: 'image/*',
+                destinationPath: 'images',
+                filesDataType: 'members',
+                filesLimit: 3,
+              },
             },
           },
           {
             componentName: ComponentTypes.HORIZONTAL_IMAGE_GALLERY,
             data: { images: 'image_gallery', placeholder: 'Foto de eventos en vivo' },
             clickHandlerName: 'onClickGalleryLiveImage',
+            hidden: true,
             formMetaData: {
               inputType: 'file',
               fieldName: 'image_live_gallery',
-              componentParams: { multipleFiles: false, accept: 'image/*', destinationPath: 'images', filesDataType: 'live' },
+              componentParams: {
+                multipleFiles: false,
+                accept: 'image/*',
+                destinationPath: 'images',
+                filesDataType: 'live',
+              },
             },
           },
         ],
-       },
+      },
       {
         name: 'general',
         components: [
@@ -651,7 +664,13 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             formMetaData: {
               inputType: 'file',
               fieldName: 'technical_epk',
-              componentParams: { multipleFiles: false, accept: '.pdf, application/pdf', useIcons: true, iconName: 'FaFilePdf', destinationPath: '/documents' },
+              componentParams: {
+                multipleFiles: false,
+                accept: '.pdf, application/pdf',
+                useIcons: true,
+                iconName: 'FaFilePdf',
+                destinationPath: '/documents',
+              },
             },
           },
           {
@@ -661,7 +680,13 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             formMetaData: {
               inputType: 'file',
               fieldName: 'technical_rider',
-              componentParams: { multipleFiles: false, accept: '.pdf, application/pdf', useIcons: true, iconName: 'FaFilePdf', destinationPath: '/documents' },
+              componentParams: {
+                multipleFiles: false,
+                accept: '.pdf, application/pdf',
+                useIcons: true,
+                iconName: 'FaFilePdf',
+                destinationPath: '/documents',
+              },
             },
           },
           {
@@ -671,10 +696,17 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             formMetaData: {
               inputType: 'file',
               fieldName: 'stage_plot',
-              componentParams: { multipleFiles: false, accept: '.pdf, application/pdf', useIcons: true, iconName: 'FaFilePdf', destinationPath: '/documents' },
+              componentParams: {
+                multipleFiles: false,
+                accept: '.pdf, application/pdf',
+                useIcons: true,
+                iconName: 'FaFilePdf',
+                destinationPath: '/documents',
+              },
             },
           },
         ],
-      },]
-  }
+      },
+    ],
+  },
 ];

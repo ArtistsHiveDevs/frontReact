@@ -11,6 +11,14 @@
   padding-bottom: 3rem;
   max-width: 100%;
   overflow-x: hidden;
+
+  &.hidden {
+    display: none;
+  }
+
+  &.active {
+    display: block;
+  }
 }
 
 .subpages-tabs-wrapper {

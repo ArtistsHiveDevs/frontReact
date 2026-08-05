@@ -452,7 +452,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   },
   {
     name: 'shows',
-    fullyHidden: fullyHiddenSectionsByEnvironment(['prod']),
+    fullyHidden: fullyHiddenSectionsByEnvironment(['prod', 'dev']),
     sections: [
       {
         name: 'next_shows',

@@ -1,6 +1,8 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
-import { toCamelCase } from '~/common/utils/string-utils';
 import { getUrl } from '~/common/utils/amplify/storage/storage.client';
+import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
+import { encryptEnvToken } from '~/common/utils/request';
+import { toCamelCase } from '~/common/utils/string-utils';
 import { VerificationStatus } from '~/constants';
 import { ProfileActiveStatus, ProfileNature } from '~/constants/domain/profile.constants';
 import { CurrentProfileInfoModel } from '../app/user/user.model';
@@ -11,8 +13,6 @@ import {
   ProfileTemplate,
   SearchableProfileTemplate,
 } from './template';
-import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
-import { encryptEnvToken } from '~/common/utils/request';
 
 const DEFAULT_MAX_CACHE_TIME_TO_LIVE = 3 * 60 * 1000;
 

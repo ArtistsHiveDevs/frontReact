@@ -16,9 +16,10 @@ const BurgerProfileMenu = (proops: any) => {
           </button>
           <Menu anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={() => setMenuAnchor(null)}>
             {options?.map(
-              (option: any) =>
+              (option: any, index:number) =>
                 option?.show && (
                   <MenuItem
+                    key={`bureger-option-${option?.option}-${index}`}
                     onClick={() => {
                       setMenuAnchor(null);
                       onClickOption(option?.id);

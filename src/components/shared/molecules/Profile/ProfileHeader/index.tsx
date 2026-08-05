@@ -1,4 +1,4 @@
-import { Avatar, Dialog, DialogContent, IconButton, Snackbar, SnackbarCloseReason } from '@mui/material';
+import { Avatar, Button, Dialog, DialogContent, IconButton, Snackbar, SnackbarCloseReason } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { RegisterOptions } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,11 +18,14 @@ import {
   FavoriteSubscritionIconDefaultTypes,
 } from '~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
-import { ProfileMenuOptionsData, ProfileMenuOptionsType } from '~/constants/domain/profile.constants';
 import { ProfileModel } from '~/models/base';
 import { defaultTypesColors, getModelInfoFromInstance } from '~/models/base/modelHelpers';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import './index.scss';
+import {
+  ProfileMenuOptionsData,
+  ProfileMenuOptionsType,
+} from '~/constants/domain/profile.constants';
 
 export interface ProfileHeaderElement {
   name: string;

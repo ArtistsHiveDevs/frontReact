@@ -24,6 +24,7 @@ export enum ComponentTypes {
   EVENT_THUMBNAIL_CARD,
   VISITED_COUNTRIES_CITIES_LIST_VIEW,
   GENERIC_TECH_RIDER_REQUIREMENTS_VIEW,
+  DOCUMENT_FILE_VIEWER,
 }
 export interface PageSection {
   name: string;
@@ -56,6 +57,7 @@ export interface ComponentDescriptor {
   clickHandlerName?: string;
   requireSession?: boolean;
   formMetaData?: FormMetadata;
+  hidden?: boolean | Function;
 }
 export interface AttributeConfiguration {
   name: string;

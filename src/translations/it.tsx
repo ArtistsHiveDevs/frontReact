@@ -68,6 +68,7 @@ export const ItMessages = {
           unsubscribe: 'Disiscriviti',
         },
         upload: 'Carica',
+        files_limit_exceded: 'Numero massimo di file consentiti superato',
       },
       entities: {
         academies: { plural: 'Accademie', singular: 'Accademia' },
@@ -855,6 +856,12 @@ export const ItMessages = {
             general: {
               name: 'Generale',
               sections: {
+                artist_gallery: {
+                  name: "Galleria dell'artista",
+                },
+                live_gallery: {
+                  name: 'Galleria live'
+                },
                 general: {
                   name: 'Info generale',
                   attributes: {
@@ -981,6 +988,14 @@ export const ItMessages = {
             followers: {
               name: 'Followers',
             },
+            riders: {
+              name: 'Riders',
+              sections: {
+                riders_data: {
+                  name: 'Riders',
+                },
+              },
+            },            
           },
         },
       },

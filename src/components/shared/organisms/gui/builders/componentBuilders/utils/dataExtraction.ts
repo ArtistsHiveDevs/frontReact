@@ -1,4 +1,5 @@
 import { isDayjs } from 'dayjs';
+import { isVisible } from '~/common/utils/visibility-utils';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import { AttributeConfiguration, ComponentDescriptor } from '../../component-types.def';
 
@@ -80,11 +81,8 @@ export const getDataSource = (
 
 /**
  * Helper para determinar si un atributo está oculto
+ * @deprecated Use isVisible from '~/common/utils/visibility-utils' instead
  */
 export const isAttributeHidden = (attribute: any, dataSource: any): boolean => {
-  if (attribute.hidden === undefined) return false;
-  if (typeof attribute.hidden === 'boolean') return attribute.hidden;
-  if (typeof attribute.hidden === 'string') return attribute.hidden === 'true';
-  if (attribute.hidden instanceof Function) return attribute.hidden(dataSource);
-  return false;
+  return !isVisible(attribute, dataSource);
 };

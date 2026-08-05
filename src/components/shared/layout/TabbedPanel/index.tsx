@@ -1,7 +1,9 @@
+import { Menu, MenuItem } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useSwipeable } from 'react-swipeable';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
+import { isVisible } from '~/common/utils/visibility-utils';
 import {
   AllowedEntityRole,
   AuthorizationStates,
@@ -9,7 +11,6 @@ import {
   validateUserAuthorization,
 } from '~/components/shared/atoms/app/auth/RequiredAuth';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
-import { Menu, MenuItem } from '@mui/material';
 import {
   ComponentDescriptor,
   ContentSection,
@@ -19,8 +20,8 @@ import {
   buildComponent as buildComponentFromRegistry,
   registerAllBuilders,
 } from '~/components/shared/organisms/gui/builders/componentBuilders';
-import './index.scss';
 import { DynamicIcons } from '../../DynamicIcons';
+import './index.scss';
 
 export interface TabbedPage {
   _name?: string; // Internal name (not translated)
@@ -104,12 +105,7 @@ const defaultConfigTransformer = (subpagesConfig: PageSection[], context?: Defau
 
   return (subpagesConfig || [])
     .filter((subpage) => {
-      return (
-        subpage.fullyHidden === undefined ||
-        (typeof subpage.fullyHidden === 'boolean' && !subpage.fullyHidden) ||
-        (typeof subpage.fullyHidden === 'string' && subpage.fullyHidden !== 'true') ||
-        (subpage.fullyHidden instanceof Function && entityData && !subpage.fullyHidden(entityData))
-      );
+      return isVisible(subpage, entityData, 'fullyHidden');
     })
     .map((subpage, subPageIndex) => {
       return {
@@ -125,35 +121,23 @@ const defaultConfigTransformer = (subpagesConfig: PageSection[], context?: Defau
               key={`section_${subPageIndex}_${subpage.name}`}
             >
               {(subpage.sections || [])
-                .filter(
-                  (section) =>
-                    section.hidden === undefined ||
-                    (typeof section.hidden === 'boolean' && !section.hidden) ||
-                    (typeof section.hidden === 'string' && section.hidden !== 'true') ||
-                    (section.hidden instanceof Function && entityData && !section.hidden(entityData))
-                )
+                .filter((section) => isVisible(section, entityData))
                 .map((section, sectionIndex) => {
                   let contentComponents: any = <></>;
                   if (section.components && buildComponent) {
-                    contentComponents = (section.components || []).map(
-                      (componentDescriptor: ComponentDescriptor, componentIndex: number) => (
+                    contentComponents = (section.components || [])
+                      .filter((componentDescriptor: ComponentDescriptor) => isVisible(componentDescriptor, entityData))
+                      .map((componentDescriptor: ComponentDescriptor, componentIndex: number) => (
                         <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
                           {buildComponent(subpage, section, componentDescriptor, componentIndex, undefined)}
                         </div>
-                      )
-                    );
+                      ));
                   }
 
                   const sectionContent = () => contentComponents;
 
                   const filteredSections = (subpage.sections || []).filter((section) => {
-                    const isHidden =
-                      section.hidden !== undefined &&
-                      ((typeof section.hidden === 'boolean' && section.hidden) ||
-                        (typeof section.hidden === 'string' && section.hidden === 'true') ||
-                        (section.hidden instanceof Function && entityData && section.hidden(entityData)));
-
-                    if (isHidden) return false;
+                    if (!isVisible(section, entityData)) return false;
 
                     if (section.requireSession && !entityData) {
                       return false;
@@ -349,9 +333,14 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
   };
 
   const tabContents = () => {
-    const subpage = tabs[activeSectionIndex]?.tabContent;
-
-    return subpage && <div className="full-content">{subpage()}</div>;
+    return tabs.map((tab, index) => {
+      const isActive = index === activeSectionIndex;
+      return (
+        <div key={`tab-content-${index}`} className={`full-content ${isActive ? 'active' : 'hidden'}`}>
+          {tab.tabContent && tab.tabContent()}
+        </div>
+      );
+    });
   };
 
   const titles = tabTitles();

@@ -205,7 +205,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'arts',
     allowedRoles: [{ entityName: 'Artist' }],
-    fullyHidden: fullyHiddenSectionsByEnvironment(['prod']),
+    fullyHidden: fullyHiddenSectionsByEnvironment(['prod', 'dev']),
     sections: [
       {
         name: 'music',

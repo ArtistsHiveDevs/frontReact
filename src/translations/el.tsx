@@ -68,6 +68,7 @@ export const ElMessages = {
           unsubscribe: 'Διαγραφή',
         },
         upload: 'Μεταφόρτωση',
+        files_limit_exceded: 'Υπέρβαση του μέγιστου επιτρεπόμενου αριθμού αρχείων',
       },
       entities: {
         academies: { plural: 'Ακαδημίες', singular: 'Ακαδημία' },
@@ -856,6 +857,12 @@ export const ElMessages = {
             general: {
               name: 'Γενικά',
               sections: {
+                artist_gallery: {
+                  name: 'Γκαλερί του καλλιτέχνη',
+                },
+                live_gallery: {
+                  name: 'Ζωντανή γκαλερί'
+                },
                 general: {
                   name: 'Γενικές πληροφορίες',
                   attributes: {
@@ -980,6 +987,14 @@ export const ElMessages = {
             },
             followers: {
               name: 'Followers',
+            },
+            riders: {
+              name: 'Riders',
+              sections: {
+                riders_data: {
+                  name: 'Riders',
+                },
+              },
             },
           },
         },

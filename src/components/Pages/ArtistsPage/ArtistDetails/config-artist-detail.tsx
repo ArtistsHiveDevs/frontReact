@@ -16,7 +16,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
         components: [
           {
             componentName: ComponentTypes.HORIZONTAL_IMAGE_GALLERY,
-            data: { images: 'image_gallery', placeholder: 'Foto de los integrantes' },
+            data: { images: 'epkGallery', placeholder: 'Foto de los integrantes', size: 200 },
             clickHandlerName: 'onClickGalleryImage',
             formMetaData: {
               hidden: true,
@@ -46,18 +46,6 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
           },
         ],
        },
-      // {
-      //   name: 'live_gallery',
-      //   hidden: true,
-      //   components: [
-      //   ],
-      // },
-      // {
-      //   name: 'artist_members',
-      //   hidden: true,
-      //   components: [
-      //   ],
-      // },
       {
         name: 'general',
         components: [
@@ -662,7 +650,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             clickHandlerName: 'onClickGalleryImage',
             formMetaData: {
               inputType: 'file',
-              fieldName: 'epk',
+              fieldName: 'technical_epk',
               componentParams: { multipleFiles: false, accept: '.pdf, application/pdf', useIcons: true, iconName: 'FaFilePdf', destinationPath: '/documents' },
             },
           },

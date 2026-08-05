@@ -132,7 +132,8 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       formState: { errors },
     } = formMethods;
 
-    const fieldNameComponent = section.name || componentDescriptor?.formMetaData?.fieldName;
+    // const fieldNameComponent = section.name || componentDescriptor?.formMetaData?.fieldName;
+    const fieldNameComponent = componentDescriptor?.formMetaData?.fieldName;
     let componentParamsComponent = componentDescriptor?.formMetaData?.componentParams || {};
     let fieldExternalData = externalData || {};
     if (fieldExternalData && fieldExternalData[fieldNameComponent]) {

@@ -6,7 +6,7 @@ import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists
 import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
-import { getImageURL, uploadImage, uploadImages } from '~/common/utils/amplify/storage/storage.helpers';
+import { getImageURL, removeImages, uploadImage, uploadImages } from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
@@ -50,8 +50,12 @@ const ArtistsCreatePage = () => {
     }
   });
 
-  const [artistGalleryImagesData, setArtistGalleryImagesData] = useState([]);
-  const [artistRidersData, setArtistRidersData] = useState([]);
+  // const [artistGalleryImages, setArtistGallleryImages] = useState(undefined);
+  const [filesWrapperData, setFilesWrapperData] = useState(undefined);
+
+  const [artistLiveGalleryImagesData, setArtistLiveGalleryImagesData] = useState(undefined);
+  const [artistMembersGalleryImagesData, setArtistMembersGalleryImagesData] = useState(undefined);
+  const [artistRidersData, setArtistRidersData] = useState(undefined);
 
   useEffect(() => {
     const currentUserIsAwolled = loggedUser && (!artistId || loggedUser.checkPermissions(artistId).canEdit);
@@ -117,10 +121,59 @@ const ArtistsCreatePage = () => {
     ]);
   }, []);
 
+  const updateFileUploadAddElements = (filesData: any, fieldName: string) => {
+    const extractFilesDataPaths = filesData?.map((fileData: any) => {
+      return {
+        src: `s3://${fileData.customPath}`,
+        path: fileData?.customPath,
+        fileName: fileData?.fileName,
+      };
+    });
+
+    const previousData =
+      filesWrapperData?.[`${fieldName}`]?.length > 0 ? filesWrapperData?.[`${fieldName}`] : [];
+    const formattedFileImageElement = [...previousData, ...extractFilesDataPaths];
+    setFilesWrapperData((previousData: any) => ({
+      ...previousData,
+      [`${fieldName}`]: formattedFileImageElement,
+    }));
+  };
+
+  const findRemovalFilesPath = (fileData: any, fieldName: string) => {
+    const removalPaths = filesWrapperData[`${fieldName}`]
+      ?.filter((imageData: any) => imageData.fileName?.includes(fileData.name))
+      .map((pathElement: any) => pathElement?.path);
+    return removalPaths;
+  };
+
+  const updateFileUploadRemoveElements = (paths: any, fieldName: string) => {
+    paths?.forEach((path: string) => {
+      const indexToRemove = filesWrapperData?.[`$fieldName`]?.findIndex(
+        (artistGalleryImage: any) => artistGalleryImage?.path == path
+      );
+      console.log({
+        indexToRemove,
+        path,
+        artisgalleryImg: filesWrapperData?.[`$fieldName`],
+        fieldName: fieldName,
+        artistGalleryImages: filesWrapperData,
+      });
+      if (indexToRemove != -1) {
+        const dataAfterRemove = filesWrapperData?.[`$fieldName`]?.splice(indexToRemove, 1);
+        setArtistRidersData((previousData: any) => ({
+          ...previousData,
+          [`${fieldName}`]: dataAfterRemove,
+        }));
+      }
+    });
+  };
+
   const handlers = {
     onSubmit: async (data: any, error?: any) => {
-      setTimeout(()=>{console.log('terminó')}, 500);
-      console.log('#####----------->>>>  !!! ', {data, requestHasBeenSended, currentArtist, loggedUser});
+      setTimeout(() => {
+        console.log('terminó');
+      }, 500);
+      // console.log('#####----------->>>>  !!! ', {data, requestHasBeenSended, currentArtist, loggedUser});
       if (!requestHasBeenSended) {
         if (!currentArtist) {
           console.log('ANTES DE SUBIR FOTO', data);
@@ -130,18 +183,22 @@ const ArtistsCreatePage = () => {
           dispatch(artistsActions.createItem({ data }));
         } else {
           console.log('Actualizando  un nuevo artista ', currentArtist.identifier, data);
-          console.log({artistGalleryImagesData, artistRidersData})
-          dispatch(
-            artistsActions.updateItem({
-              id: currentArtist.identifier,
-              newItem: {
-                ...data,
-              },
-              // newItem: { spotify: 'InstagramActualizado' },
-            })
-          );
+          let newItem = { ...data };
+          console.log({
+            filesWrapperData,
+            newItem,
+          });
+          // dispatch(
+          //   artistsActions.updateItem({
+          //     id: currentArtist.identifier,
+          //     newItem: {
+          //       ...data,
+          //     },
+          //     // newItem: { spotify: 'InstagramActualizado' },
+          //   })
+          // );
         }
-        setRequestHasBeenSended(true); // -> Trabajar en esta parte
+        // setRequestHasBeenSended(true); // -> Trabajar en esta parte
       }
     },
     onChangecountry: (data: any) => {
@@ -162,28 +219,27 @@ const ArtistsCreatePage = () => {
       // updateFields(fields);
       // updateCiudades(ciudades);
     },
-    artist_gallery_filesChanged: async (handledUploadFileData : any) => {
-      console.log({handledUploadFileData})
-      const {files, optionType, destinationPath} = handledUploadFileData;
-      if(optionType === FileUploaderOptions.addItem) {
-        const responses = await uploadImages({ files, path: `${loggedUser.currentProfileIdentifier}${destinationPath}`});
-        if(responses?.length > 0) {
-          const extractArtistGalleryImagesPaths = responses?.map(response => `s3://${response.customPath}`);
-          setArtistGalleryImagesData(extractArtistGalleryImagesPaths);
+    fileUploadfilesChanged: async (handledUploadFileData: any) => {
+      console.log({ handledUploadFileData });
+      const { files, optionType, destinationPath, fieldName } = handledUploadFileData;
+      if (optionType === FileUploaderOptions.addItem) {
+        const responses = await uploadImages({
+          files,
+          path: `profiles/${loggedUser.currentProfileIdentifier}${destinationPath}`,
+        });
+        if (responses?.length > 0) {
+          updateFileUploadAddElements(responses, fieldName);
+        }
+      } else if (optionType === FileUploaderOptions.removeItem) {
+
+        const findPaths = findRemovalFilesPath(files, fieldName);
+        const responses = await removeImages({ paths: findPaths });
+
+        if (responses?.length > 0) {
+          updateFileUploadRemoveElements(findPaths, fieldName);
         }
       }
     },
-    
-    riders_data_filesChanged: async (handledUploadFileData : any) => {
-      const {files, optionType, destinationPath} = handledUploadFileData;
-      if(optionType === FileUploaderOptions.addItem) {
-        const responses = await uploadImages({ files, path: `${loggedUser.currentProfileIdentifier}${destinationPath}`});
-        if(responses?.length > 0) {
-          const extractArtistRidersPaths = responses?.map(response => `s3://${response.customPath}`);
-          setArtistRidersData(extractArtistRidersPaths);
-        }
-      }
-    }
   };
 
   const getURL = async () => {

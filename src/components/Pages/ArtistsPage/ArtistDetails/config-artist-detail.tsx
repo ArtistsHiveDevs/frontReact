@@ -12,7 +12,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
     sections: [
       {
         name: 'artist_gallery',
-        emptyTitle: true,
+        emptyTitle: false,
         components: [
           {
             componentName: ComponentTypes.HORIZONTAL_IMAGE_GALLERY,
@@ -22,15 +22,18 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
               hidden: true,
               inputType: 'file',
               fieldName: 'image_gallery',
-              componentParams: { multipleFiles: true, accept: 'image/*', destinationPath: '/img' },
             },
           },
-        ],
-      },
-      {
-        name: 'live_gallery',
-        hidden: true,
-        components: [
+          {
+            componentName: ComponentTypes.HORIZONTAL_IMAGE_GALLERY,
+            data: { images: 'image_gallery', placeholder: 'Foto de los integrantes' },
+            clickHandlerName: 'onClickGalleryMemberImage',
+            formMetaData: {
+              inputType: 'file',
+              fieldName: 'image_members',
+              componentParams: { multipleFiles: true, accept: 'image/*', destinationPath: 'images', filesDataType: 'members', filesLimit: 3 },
+            },
+          },
           {
             componentName: ComponentTypes.HORIZONTAL_IMAGE_GALLERY,
             data: { images: 'image_gallery', placeholder: 'Foto de eventos en vivo' },
@@ -38,25 +41,21 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             formMetaData: {
               inputType: 'file',
               fieldName: 'image_live_gallery',
-              componentParams: { multipleFiles: true, accept: 'image/*', destinationPath: 'images', filesDataType: 'live', filesLimit:3 },
+              componentParams: { multipleFiles: false, accept: 'image/*', destinationPath: 'images', filesDataType: 'live' },
             },
           },
         ],
-      },
+       },
+      // {
+      //   name: 'live_gallery',
+      //   hidden: true,
+      //   components: [
+      //   ],
+      // },
       // {
       //   name: 'artist_members',
       //   hidden: true,
       //   components: [
-      //     {
-      //       componentName: ComponentTypes.HORIZONTAL_IMAGE_GALLERY,
-      //       data: { images: 'image_gallery', placeholder: 'Foto de los integrantes' },
-      //       clickHandlerName: 'onClickGalleryMemberImage',
-      //       formMetaData: {
-      //         inputType: 'file',
-      //         fieldName: 'image_members',
-      //         componentParams: { multipleFiles: true, accept: 'image/*', destinationPath: 'images', filesDataType: 'members' },
-      //       },
-      //     },
       //   ],
       // },
       {
@@ -652,11 +651,10 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
     ],
   },
   {
-    name: 'riders',
+    name: 'shows',
     sections: [
       {
-        name: 'riders_data',
-        emptyTitle: true,
+        name: 'summary',
         components: [
           {
             componentName: ComponentTypes.DOCUMENT_FILE_VIEWER,
@@ -664,8 +662,28 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             clickHandlerName: 'onClickGalleryImage',
             formMetaData: {
               inputType: 'file',
-              fieldName: 'rider_data',
-              componentParams: { multipleFiles: true, accept: '.pdf, application/pdf', useIcons: true, iconName: 'FaFilePdf', destinationPath: '/documents' },
+              fieldName: 'epk',
+              componentParams: { multipleFiles: false, accept: '.pdf, application/pdf', useIcons: true, iconName: 'FaFilePdf', destinationPath: '/documents' },
+            },
+          },
+          {
+            componentName: ComponentTypes.DOCUMENT_FILE_VIEWER,
+            data: { images: 'image_gallery', placeholder: 'Foto de los integrantes' },
+            clickHandlerName: 'onClickGalleryImage',
+            formMetaData: {
+              inputType: 'file',
+              fieldName: 'technical_rider',
+              componentParams: { multipleFiles: false, accept: '.pdf, application/pdf', useIcons: true, iconName: 'FaFilePdf', destinationPath: '/documents' },
+            },
+          },
+          {
+            componentName: ComponentTypes.DOCUMENT_FILE_VIEWER,
+            data: { images: 'image_gallery', placeholder: 'Foto de los integrantes' },
+            clickHandlerName: 'onClickGalleryImage',
+            formMetaData: {
+              inputType: 'file',
+              fieldName: 'stage_plot',
+              componentParams: { multipleFiles: false, accept: '.pdf, application/pdf', useIcons: true, iconName: 'FaFilePdf', destinationPath: '/documents' },
             },
           },
         ],

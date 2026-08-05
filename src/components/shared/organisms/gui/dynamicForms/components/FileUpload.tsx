@@ -44,8 +44,7 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
     useIcons,
     iconName,
     destinationPath = '',
-    filesDataType = 'default',
-    filesLimit = 10,
+    filesLimit = 1,
   } = componentParams || {};
 
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -54,14 +53,24 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
   const [snackBarMessage, setSnackBarMessage] = useState('');
   const [maxFiles, setMaxFiles] = useState(filesLimit);
 
+  const [addButtonIsVisible, setAddButtonIsVisible] = useState(true);
+
   const validateFilesLimitExceded = (selectedFiles: any) => {
     let validation = false;
     if (selectedFiles?.length > filesLimit) {
       validation = true;
-      setSnackBarMessage(`${translateText(`${TRANSLATION_BASE_GLOBAL_DICT_ACTIONS}.files_limit_exceded`)}: ${maxFiles}`);
+      setSnackBarMessage(
+        `${translateText(`${TRANSLATION_BASE_GLOBAL_DICT_ACTIONS}.files_limit_exceded`)}: ${maxFiles}`
+      );
       setShowSnackBar(true);
     }
     return validation;
+  };
+
+  const removeDupplicatedFiles = (newFiles: any) => {
+    return newFiles?.filter(
+      (newFile: any) => !selectedFiles?.find((selectedFile) => selectedFile?.name == newFile.name)
+    );
   };
 
   const handleCloseSnackBar = (event: any) => {
@@ -73,37 +82,66 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
   };
 
   const handleChange = (event: any) => {
-    const newList = event?.target?.files || {};
-    const values = [...selectedFiles, ...Object.values(newList)];
+    const newList = Object.values(event?.target?.files || {});
+    const values = removeDupplicatedFiles(newList);
 
-    const tempValues = values.map((file: any) => {
+    const tempValues = values?.map((file: any) => {
       file['customUrl'] = URL.createObjectURL(file);
       return file;
     });
 
-    const filesLimitExceded = validateFilesLimitExceded(tempValues);
+    const totalFiles = [...selectedFiles, ...tempValues];
 
-    if (!filesLimitExceded && handlers && handlers[`${fieldName}_filesChanged`]) {
-      setSelectedFiles(tempValues);
-      handlers[`${fieldName}_filesChanged`]({
+    const filesLimitExceded = validateFilesLimitExceded(totalFiles);
+
+    console.log({ handlers, fieldName, fieldData });
+
+    // if (!filesLimitExceded && values?.length > 0 && handlers && handlers[`${fieldName}_filesChanged`]) {
+    //   // setSelectedFiles(tempValues);
+    //   setSelectedFiles(totalFiles);
+    //   handlers[`${fieldName}_filesChanged`]({
+    //     files: values,
+    //     optionType: FileUploaderOptions.addItem,
+    //     destinationPath: formattedDestinationPath(destinationPath),
+    //     filesDataType: fieldName,
+    //   });
+    //   setMaxFiles(filesLimit - values.length);
+    //   setAddButtonIsVisible(totalFiles?.length < filesLimit);
+    // }
+    if (!filesLimitExceded && values?.length > 0 && handlers[`fileUploadfilesChanged`]) {
+      // setSelectedFiles(tempValues);
+      setSelectedFiles(totalFiles);
+      handlers[`fileUploadfilesChanged`]({
         files: values,
         optionType: FileUploaderOptions.addItem,
         destinationPath: formattedDestinationPath(destinationPath),
-        filesDataType,
+        fieldName,
       });
       setMaxFiles(filesLimit - values.length);
+      setAddButtonIsVisible(totalFiles?.length < filesLimit);
     }
   };
 
   const handleRemoveItem = (index: number) => {
+    const fileToRemove = selectedFiles[index];
     selectedFiles.splice(index, 1);
-    handlers[`${fieldName}_filesChanged`]({
-      files: selectedFiles,
-      optionType: FileUploaderOptions.removeItem,
-      destinationPath: formattedDestinationPath(destinationPath),
-      filesDataType,
-    });
+    if ( handlers[`fileUploadfilesChanged`]) {
+      handlers[`fileUploadfilesChanged`]({
+        files: fileToRemove,
+        optionType: FileUploaderOptions.removeItem,
+        destinationPath: formattedDestinationPath(destinationPath),
+        filesDataType: fieldName,
+      });
+    }
+    // handlers[`${fieldName}_filesChanged`]({
+    //   files: fileToRemove,
+    //   optionType: FileUploaderOptions.removeItem,
+    //   destinationPath: formattedDestinationPath(destinationPath),
+    //   filesDataType: fieldName,
+    // });
     setMaxFiles(filesLimit - selectedFiles.length);
+    setAddButtonIsVisible(selectedFiles?.length !== filesLimit);
+    console.log({selectedFiles, validacion: selectedFiles?.length === filesLimit, lgt: selectedFiles?.length, filesLimit});
   };
 
   const avatarSize = 100;
@@ -131,7 +169,7 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
           '&::-webkit-scrollbar-thumb': { backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: 4 },
         }}
       >
-        <Paper
+        {addButtonIsVisible && <Paper
           variant="outlined"
           sx={{
             minWidth: 150,
@@ -148,35 +186,35 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
             },
           }}
         >
-          <Button
-            sx={{
-              width: '100%',
-              height: '100%',
-              flexDirection: 'column',
-              '& .MuiButton-startIcon': {
-                margin: 0,
-              },
-            }}
-            component="label"
-            startIcon={
-              <DynamicIcons
-                iconName={!useIcons ? 'md MdAddPhotoAlternate' : 'BiSolidFilePlus'}
-                size={uploadIconSize}
-                customStyle={{ padding: 0 }}
+            <Button
+              sx={{
+                width: '100%',
+                height: '100%',
+                flexDirection: 'column',
+                '& .MuiButton-startIcon': {
+                  margin: 0,
+                },
+              }}
+              component="label"
+              startIcon={
+                <DynamicIcons
+                  iconName={!useIcons ? 'md MdAddPhotoAlternate' : 'BiSolidFilePlus'}
+                  size={uploadIconSize}
+                  customStyle={{ padding: 0 }}
+                />
+              }
+            >
+              {translateText(`${TRANSLATION_BASE_GLOBAL_DICT_ACTIONS}.upload`)}
+              <input
+                accept={accept}
+                type="file"
+                multiple={multipleFiles}
+                {...register(fieldName, config)}
+                hidden
+                onChange={(event) => handleChange(event)}
               />
-            }
-          >
-            {translateText(`${TRANSLATION_BASE_GLOBAL_DICT_ACTIONS}.upload`)}
-            <input
-              accept={accept}
-              type="file"
-              multiple={multipleFiles}
-              {...register(fieldName, config)}
-              hidden
-              onChange={(event) => handleChange(event)}
-            />
-          </Button>
-        </Paper>
+            </Button>
+        </Paper>}
 
         {selectedFiles.map((file, index) => (
           <Paper

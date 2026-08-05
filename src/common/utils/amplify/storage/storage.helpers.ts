@@ -1,5 +1,5 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
-import { getUrl, uploadData } from './storage.client';
+import { getUrl, removeData, uploadData } from './storage.client';
 
 export const uploadImage = async (params: {
   file: File;
@@ -17,15 +17,19 @@ export const uploadImage = async (params: {
       path: customPath,
       data: file,
     });
-    return {result, fileName, customPath};
+    return { result, fileName, customPath };
   } catch (error) {
     console.error('Error al subir la imagen:', error);
   }
 };
 
-export const uploadImages = async (params:{files: File[], access_level?: 'public' | 'protected' | 'private', path?: string}) => {
-  const {files, access_level, path} = params;
-  console.log({params})
+export const uploadImages = async (params: {
+  files: File[];
+  access_level?: 'public' | 'protected' | 'private';
+  path?: string;
+}) => {
+  const { files, access_level, path } = params;
+  console.log({ params });
   try {
     // Usa Promise.all para cargar todos los archivos en paralelo
     const results = await Promise.all(files.map((file) => uploadImage({ file, access_level, path })));
@@ -64,4 +68,31 @@ export const getImagesURL = async (params: { fileNames: string[]; path?: string 
 
   // Mapea los resultados a un formato adecuado
   return urls;
+};
+
+export const removeImage = async (params: { path?: string }) => {
+  try {
+    let { path } = params || {};
+    const result = await removeData({
+      path,
+    });
+
+    return { result, path };
+  } catch (error) {
+    console.error('Error al remover la imagen:', error);
+  }
+};
+
+export const removeImages = async (params: { paths: string[] }) => {
+  const { paths } = params;
+  console.log(paths)
+  try {
+    // Usa Promise.all para cargar todos los archivos en paralelo
+    const results = await Promise.all(paths.map((path) => removeImage({ path })));
+
+    return results;
+  } catch (error) {
+    console.error('Error al remover imágenes:', error);
+    throw error; // Lanza el error para que pueda ser manejado en la llamada
+  }
 };

@@ -68,6 +68,7 @@ export const EsMessages = {
           unsubscribe: 'Cancelar',
         },
         upload: 'Cargar',
+        files_limit_exceded: 'Número máximo de archivos permitidos superado'
       },
       entities: {
         academies: { plural: 'Academias', singular: 'Academia' },
@@ -773,6 +774,15 @@ export const EsMessages = {
             general: {
               name: 'General',
               sections: {
+                artist_gallery: {
+                  name: 'Galería del artista'
+                },
+                live_gallery: {
+                  name: 'Galería en vivo'
+                },
+                artist_members: {
+                  name: 'Galería de miembros'
+                },
                 general: {
                   name: 'Info General',
                   attributes: {
@@ -897,6 +907,14 @@ export const EsMessages = {
             },
             followers: {
               name: 'Seguidores',
+            },
+            riders: {
+              name: 'Riders',
+              sections: {
+                riders_data: {
+                  name: 'Riders',
+                },
+              },
             },
           },
         },

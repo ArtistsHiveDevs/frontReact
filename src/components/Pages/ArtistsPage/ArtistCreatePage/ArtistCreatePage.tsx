@@ -6,7 +6,7 @@ import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists
 import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
-import { getImageURL, uploadImage } from '~/common/utils/amplify/storage/storage.helpers';
+import { getImageURL, removeImages, uploadImage, uploadImages } from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
@@ -19,6 +19,7 @@ import {
   ARTIST_DETAIL_SUB_PAGE_CONFIG,
   TRANSLATION_BASE_ARTIST_DETAIL_PAGE,
 } from '../ArtistDetails/config-artist-detail';
+import { FileUploaderOptions } from '~/components/shared/organisms/gui/dynamicForms/components/FileUpload';
 
 const ArtistsCreatePage = () => {
   const { navigateToEntity, navigateToInnerPath } = useNavigation();
@@ -48,6 +49,8 @@ const ArtistsCreatePage = () => {
       return undefined;
     }
   });
+
+  const [filesWrapperData, setFilesWrapperData] = useState(undefined);
 
   useEffect(() => {
     const currentUserIsAwolled = loggedUser && (!artistId || loggedUser.checkPermissions(artistId).canEdit);
@@ -113,9 +116,63 @@ const ArtistsCreatePage = () => {
     ]);
   }, []);
 
+  const updateFileUploadAddElements = (filesData: any, fieldName: string) => {
+    const extractFilesDataPaths = filesData?.map((fileData: any) => {
+      return {
+        src: `s3://${fileData.customPath}`,
+        path: fileData?.customPath,
+        fileName: fileData?.fileName,
+      };
+    });
+
+    const previousData =
+      filesWrapperData?.[`${fieldName}`]?.length > 0 ? filesWrapperData?.[`${fieldName}`] : [];
+    const formattedFileImageElement = [...previousData, ...extractFilesDataPaths];
+    setFilesWrapperData((previousData: any) => ({
+      ...previousData,
+      [`${fieldName}`]: formattedFileImageElement,
+    }));
+  };
+
+  const findRemovalFilesPath = (fileData: any, fieldName: string) => {
+
+    const removalPaths = filesWrapperData[`${fieldName}`]
+      ?.filter((imageData: any) => imageData.fileName?.includes(fileData.name))
+      .map((pathElement: any) => pathElement?.path);
+    return removalPaths;
+  };
+
+  const updateFileUploadRemoveElements = (paths: any, fieldName: string) => {
+    paths?.forEach((path: string) => {
+      const filterFileWrapperData = filesWrapperData?.[`${fieldName}`];
+      const indexToRemove = filterFileWrapperData?.findIndex(
+        (fileElement: any) => fileElement?.path == path
+      );
+      if (indexToRemove != -1) {
+        const dataAfterRemove = filesWrapperData?.[`$fieldName`]?.splice(indexToRemove, 1);
+        if(dataAfterRemove?.length > 0) {
+          setFilesWrapperData((previousData: any) => ({
+            ...previousData,
+            [`${fieldName}`]: dataAfterRemove,
+          }));
+        }
+        else {
+          setFilesWrapperData((previousData: any) => {
+            const clonePrev = {...previousData};
+            delete clonePrev?.[`${fieldName}`];
+            return clonePrev;
+          });
+        }
+      }
+    });
+  };
+
   const handlers = {
     onSubmit: async (data: any, error?: any) => {
-      console.log('#####----------->>>>  !!! ', data);
+      setTimeout(() => {
+        console.log('terminó');
+      }, 500);
+      // console.log('#####----------->>>>  !!! ', {data, requestHasBeenSended, currentArtist, loggedUser});
       if (!requestHasBeenSended) {
         if (!currentArtist) {
           console.log('ANTES DE SUBIR FOTO', data);
@@ -125,18 +182,20 @@ const ArtistsCreatePage = () => {
           dispatch(artistsActions.createItem({ data }));
         } else {
           console.log('Actualizando  un nuevo artista ', currentArtist.identifier, data);
+          // let newItem = { ...data, ...filesWrapperData };
           dispatch(
             artistsActions.updateItem({
               id: currentArtist.identifier,
               newItem: {
                 ...data,
+                ...filesWrapperData
               },
               // newItem: { spotify: 'InstagramActualizado' },
             })
           );
         }
+        // setRequestHasBeenSended(true); // -> Trabajar en esta parte
       }
-      setRequestHasBeenSended(true);
     },
     onChangecountry: (data: any) => {
       console.log('#####----------->>>>  !!! ', data);
@@ -155,6 +214,27 @@ const ArtistsCreatePage = () => {
 
       // updateFields(fields);
       // updateCiudades(ciudades);
+    },
+    fileUploadfilesChanged: async (handledUploadFileData: any) => {
+      console.log({ handledUploadFileData });
+      const { files, optionType, destinationPath, fieldName } = handledUploadFileData;
+      if (optionType === FileUploaderOptions.addItem) {
+        const responses = await uploadImages({
+          files,
+          path: `profiles/${loggedUser.currentProfileIdentifier}${destinationPath}`,
+        });
+        if (responses?.length > 0) {
+          updateFileUploadAddElements(responses, fieldName);
+        }
+      } else if (optionType === FileUploaderOptions.removeItem) {
+
+        const findPaths = findRemovalFilesPath(files, fieldName);
+        const responses = await removeImages({ paths: findPaths });
+
+        if (responses?.length > 0) {
+          updateFileUploadRemoveElements(findPaths, fieldName);
+        }
+      }
     },
   };
 

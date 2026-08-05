@@ -165,7 +165,7 @@ const ArtistDetailPage = () => {
                   )}
                 </div>
               }
-              fab={{ icon: 'lu LuCalendarPlus', handler: onFABClick }}
+              // fab={{ icon: 'lu LuCalendarPlus', handler: onFABClick }}
             />
           </>
         ) : (

@@ -68,6 +68,7 @@ export const DeMessages = {
           unsubscribe: 'Abbestellen',
         },
         upload: 'Hochladen',
+        files_limit_exceded: 'Maximale Anzahl erlaubter Dateien überschritten'
       },
       entities: {
         academies: { plural: 'Akademien', singular: 'Akademie' },
@@ -773,6 +774,12 @@ export const DeMessages = {
             general: {
               name: 'Allgemeine',
               sections: {
+                artist_gallery: {
+                  name: 'Galerie des Künstlers',
+                },
+                live_gallery: {
+                  name: 'Live-Galerie'
+                },
                 general: {
                   name: 'Allgemeine Informationen',
                   attributes: {
@@ -897,6 +904,14 @@ export const DeMessages = {
             },
             followers: {
               name: 'Followers',
+            },
+            riders: {
+              name: 'Riders',
+              sections: {
+                riders_data: {
+                  name: 'Riders',
+                },
+              },
             },
           },
         },

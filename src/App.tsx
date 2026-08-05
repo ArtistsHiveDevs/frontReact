@@ -46,7 +46,9 @@ const App = () => {
 
   const [userAWSAttributes, setUserAWSAttributes] = useState<FetchUserAttributesOutput>();
 
-  const onError = (error: any) => console.log(`Error Messages: ${error}`);
+  const onError = (error: any) => {
+    // console.log(`Error Messages: ${error}`)
+  };
 
   const guii18nData = geti18nGUILanguage(appLang.lang);
   const darkTheme = createTheme({

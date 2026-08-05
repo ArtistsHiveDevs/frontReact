@@ -62,7 +62,7 @@ const general: SideMenuItem[] = [
     path: `${PATHS.CULTURAL_AGENDA}`,
     icon: 'FaBullhorn',
     updated: new Date('2/20/16'),
-    forbiddenEnvironments: ['prod'],
+    forbiddenEnvironments: ['prod', 'dev'],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, 'search'),
@@ -121,7 +121,7 @@ const miInfo: SideMenuItem[] = [
     icon: 'FaRegEnvelope',
     updated: new Date('2/20/16'),
     requireSession: true,
-    forbiddenEnvironments: ['prod'],
+    forbiddenEnvironments: ['prod', 'dev'],
     allowedRoles: [{ entityName: 'Artist' }, { entityName: 'Place' }],
     // nestedMenuOptions: [
     //   {
@@ -147,7 +147,7 @@ const miInfo: SideMenuItem[] = [
     updated: new Date('1/18/16'),
     randomId: false,
     requireSession: true,
-    forbiddenEnvironments: ['prod'],
+    forbiddenEnvironments: ['prod', 'dev'],
     hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
       return !params?.user?.hasIndustryProfiles;
     },
@@ -197,7 +197,7 @@ const miInfo: SideMenuItem[] = [
     icon: 'FaFileAlt',
     updated: new Date('2/20/16'),
     allowedRoles: [{ entityName: 'Artist' }],
-    forbiddenEnvironments: ['prod'],
+    forbiddenEnvironments: ['prod', 'dev'],
   },
   // {
   //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_places'),
@@ -275,21 +275,21 @@ const config: SideMenuItem[] = [
     icon: 'MdFeedback',
     updated: new Date('2/20/16'),
     requireSession: true,
-    forbiddenEnvironments: ['prod'],
+    forbiddenEnvironments: ['prod', 'dev'],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'send_comments'),
     path: `${PATHS.STAGE_PLOT}/editor/ahgd`,
     icon: 'BsPinMapFill',
     updated: new Date('2/20/16'),
-    forbiddenEnvironments: ['prod'],
+    forbiddenEnvironments: ['prod', 'dev'],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'send_comments'),
     path: `${PATHS.PLANS}`,
     icon: 'MdAttachMoney',
     updated: new Date('2/20/16'),
-    forbiddenEnvironments: ['prod'],
+    forbiddenEnvironments: ['prod', 'dev'],
   },
 
   // {

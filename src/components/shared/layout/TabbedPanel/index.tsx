@@ -1,3 +1,4 @@
+import { Menu, MenuItem } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useSwipeable } from 'react-swipeable';
@@ -10,7 +11,6 @@ import {
   validateUserAuthorization,
 } from '~/components/shared/atoms/app/auth/RequiredAuth';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
-import { Menu, MenuItem } from '@mui/material';
 import {
   ComponentDescriptor,
   ContentSection,
@@ -20,8 +20,8 @@ import {
   buildComponent as buildComponentFromRegistry,
   registerAllBuilders,
 } from '~/components/shared/organisms/gui/builders/componentBuilders';
-import './index.scss';
 import { DynamicIcons } from '../../DynamicIcons';
+import './index.scss';
 
 export interface TabbedPage {
   _name?: string; // Internal name (not translated)
@@ -332,9 +332,14 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
   };
 
   const tabContents = () => {
-    const subpage = tabs[activeSectionIndex]?.tabContent;
-
-    return subpage && <div className="full-content">{subpage()}</div>;
+    return tabs.map((tab, index) => {
+      const isActive = index === activeSectionIndex;
+      return (
+        <div key={`tab-content-${index}`} className={`full-content ${isActive ? 'active' : 'hidden'}`}>
+          {tab.tabContent && tab.tabContent()}
+        </div>
+      );
+    });
   };
 
   const titles = tabTitles();

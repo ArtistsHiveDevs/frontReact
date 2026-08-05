@@ -68,6 +68,7 @@ export const PtMessages = {
           unsubscribe: 'Cancelar',
         },
         upload: 'Carregar',
+        files_limit_exceded: 'Número máximo de arquivos permitidos excedido',
       },
       entities: {
         academies: { plural: 'Academias', singular: 'Academia' },
@@ -771,6 +772,12 @@ export const PtMessages = {
             general: {
               name: 'Geral',
               sections: {
+                artist_gallery: {
+                  name: 'Galeria do artista',
+                },
+                live_gallery: {
+                  name: 'Galeria ao vivo'
+                },
                 general: {
                   name: 'Informações gerais',
                   attributes: {
@@ -895,6 +902,14 @@ export const PtMessages = {
             },
             followers: {
               name: 'Seguidores',
+            },
+            riders: {
+              name: 'Riders',
+              sections: {
+                riders_data: {
+                  name: 'Riders',
+                },
+              },
             },
           },
         },

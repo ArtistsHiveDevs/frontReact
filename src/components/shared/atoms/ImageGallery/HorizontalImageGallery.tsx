@@ -13,7 +13,7 @@ interface HorizontalImageGalleryProps {
 
 export const HorizontalImageGallery: React.FC<HorizontalImageGalleryProps> = (params: HorizontalImageGalleryProps) => {
   const { imagesInfo, data } = params;
-  const { placeholder } = data || {};
+  const { placeholder, size = 100 } = data || {};
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [profilePicturesURLs, setProfilePicturesURLs] = useState<{ [profileIdentifier: string]: string }>({});
 
@@ -79,18 +79,27 @@ export const HorizontalImageGallery: React.FC<HorizontalImageGalleryProps> = (pa
     <>
       {Object.keys(profilePicturesURLs).length > 0 && (
         <Box>
-          <Grid container spacing={2} direction="row" wrap="nowrap" style={{ overflowX: 'auto' }}>
+          <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
+            direction="row"
+            wrap="nowrap"
+            style={{ overflowX: 'auto' }}
+          >
             {(imagesInfo || []).map((image, index) => {
               const { src, alt } = image;
               return (
                 <Grid item key={index}>
                   <Box
                     sx={{
-                      width: '100px',
-                      paddingTop: '100px',
+                      width: `${size}px`,
+                      paddingTop: `${size}px`,
                       position: 'relative',
                       backgroundColor: 'black',
                       cursor: 'pointer',
+                      borderRadius: '10px',
                     }}
                     onClick={() => handleClickOpen(index)}
                   >

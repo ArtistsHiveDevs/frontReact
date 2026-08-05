@@ -94,8 +94,6 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
 
     const filesLimitExceded = validateFilesLimitExceded(totalFiles);
 
-    console.log({ handlers, fieldName, fieldData });
-
     // if (!filesLimitExceded && values?.length > 0 && handlers && handlers[`${fieldName}_filesChanged`]) {
     //   // setSelectedFiles(tempValues);
     //   setSelectedFiles(totalFiles);
@@ -130,7 +128,7 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
         files: fileToRemove,
         optionType: FileUploaderOptions.removeItem,
         destinationPath: formattedDestinationPath(destinationPath),
-        filesDataType: fieldName,
+        fieldName,
       });
     }
     // handlers[`${fieldName}_filesChanged`]({

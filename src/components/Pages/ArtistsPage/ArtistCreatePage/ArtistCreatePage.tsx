@@ -50,12 +50,7 @@ const ArtistsCreatePage = () => {
     }
   });
 
-  // const [artistGalleryImages, setArtistGallleryImages] = useState(undefined);
   const [filesWrapperData, setFilesWrapperData] = useState(undefined);
-
-  const [artistLiveGalleryImagesData, setArtistLiveGalleryImagesData] = useState(undefined);
-  const [artistMembersGalleryImagesData, setArtistMembersGalleryImagesData] = useState(undefined);
-  const [artistRidersData, setArtistRidersData] = useState(undefined);
 
   useEffect(() => {
     const currentUserIsAwolled = loggedUser && (!artistId || loggedUser.checkPermissions(artistId).canEdit);
@@ -140,6 +135,7 @@ const ArtistsCreatePage = () => {
   };
 
   const findRemovalFilesPath = (fileData: any, fieldName: string) => {
+
     const removalPaths = filesWrapperData[`${fieldName}`]
       ?.filter((imageData: any) => imageData.fileName?.includes(fileData.name))
       .map((pathElement: any) => pathElement?.path);
@@ -148,22 +144,25 @@ const ArtistsCreatePage = () => {
 
   const updateFileUploadRemoveElements = (paths: any, fieldName: string) => {
     paths?.forEach((path: string) => {
-      const indexToRemove = filesWrapperData?.[`$fieldName`]?.findIndex(
-        (artistGalleryImage: any) => artistGalleryImage?.path == path
+      const filterFileWrapperData = filesWrapperData?.[`${fieldName}`];
+      const indexToRemove = filterFileWrapperData?.findIndex(
+        (fileElement: any) => fileElement?.path == path
       );
-      console.log({
-        indexToRemove,
-        path,
-        artisgalleryImg: filesWrapperData?.[`$fieldName`],
-        fieldName: fieldName,
-        artistGalleryImages: filesWrapperData,
-      });
       if (indexToRemove != -1) {
         const dataAfterRemove = filesWrapperData?.[`$fieldName`]?.splice(indexToRemove, 1);
-        setArtistRidersData((previousData: any) => ({
-          ...previousData,
-          [`${fieldName}`]: dataAfterRemove,
-        }));
+        if(dataAfterRemove?.length > 0) {
+          setFilesWrapperData((previousData: any) => ({
+            ...previousData,
+            [`${fieldName}`]: dataAfterRemove,
+          }));
+        }
+        else {
+          setFilesWrapperData((previousData: any) => {
+            const clonePrev = {...previousData};
+            delete clonePrev?.[`${fieldName}`];
+            return clonePrev;
+          });
+        }
       }
     });
   };
@@ -183,20 +182,17 @@ const ArtistsCreatePage = () => {
           dispatch(artistsActions.createItem({ data }));
         } else {
           console.log('Actualizando  un nuevo artista ', currentArtist.identifier, data);
-          let newItem = { ...data };
-          console.log({
-            filesWrapperData,
-            newItem,
-          });
-          // dispatch(
-          //   artistsActions.updateItem({
-          //     id: currentArtist.identifier,
-          //     newItem: {
-          //       ...data,
-          //     },
-          //     // newItem: { spotify: 'InstagramActualizado' },
-          //   })
-          // );
+          // let newItem = { ...data, ...filesWrapperData };
+          dispatch(
+            artistsActions.updateItem({
+              id: currentArtist.identifier,
+              newItem: {
+                ...data,
+                ...filesWrapperData
+              },
+              // newItem: { spotify: 'InstagramActualizado' },
+            })
+          );
         }
         // setRequestHasBeenSended(true); // -> Trabajar en esta parte
       }

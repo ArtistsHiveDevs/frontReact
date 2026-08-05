@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { I18nPaths, useI18n } from '~/common/utils';
 import { createDebouncedUsernameValidation } from '~/common/utils/validation/username-validation';
+import { isVisible } from '~/common/utils/visibility-utils';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
@@ -153,15 +154,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
 
     if (componentDescriptor.componentName === ComponentTypes.ATTRIBUTES_ICON_FIELDS) {
       (componentDescriptor.data?.attributes || [])
-        .filter(
-          (attributeInfo: AttributeConfiguration) =>
-            attributeInfo.formMetaData?.hidden === undefined ||
-            (typeof attributeInfo.formMetaData?.hidden === 'boolean' && !attributeInfo.formMetaData?.hidden) ||
-            (typeof attributeInfo.formMetaData?.hidden === 'string' && attributeInfo.formMetaData?.hidden !== 'true') ||
-            ((attributeInfo.formMetaData?.hidden as unknown) instanceof Function &&
-              entityData &&
-              !(attributeInfo.formMetaData!.hidden as unknown as Function)(entityData))
-        )
+        .filter((attributeInfo: AttributeConfiguration) => isVisible(attributeInfo.formMetaData, entityData))
         .forEach((attributeInfo: AttributeConfiguration, index: number) => {
           const { formMetaData } = attributeInfo;
 
@@ -242,9 +235,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       [ComponentTypes.IMAGE_GALLERY, ComponentTypes.HORIZONTAL_IMAGE_GALLERY].includes(
         componentDescriptor.componentName
       ) &&
-      componentDescriptor.formMetaData?.hidden === undefined ||
-      (typeof componentDescriptor.formMetaData?.hidden === 'boolean' && !componentDescriptor.formMetaData?.hidden) ||
-      (typeof componentDescriptor.formMetaData?.hidden === 'string' && componentDescriptor.formMetaData?.hidden !== 'true')
+      isVisible(componentDescriptor.formMetaData)
     ) {
       componentFieldData.inputType = 'file';
       addComponentField = true;
@@ -295,7 +286,10 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
 
   const transformedConfig = (subpagesConfig: PageSection[], elementData?: EntityModel<EntityTemplate>) => {
     return (subpagesConfig || [])
-      .filter((subpageConfig) => subpageConfig.formMetaData?.hidden !== true && !subpageConfig.fullyHidden)
+      .filter(
+        (subpageConfig) =>
+          isVisible(subpageConfig.formMetaData, elementData) && isVisible(subpageConfig, elementData, 'fullyHidden')
+      )
       .map((subpage, subPageIndex) => {
         return {
           name: subpage.title || translateSubpage(subpage.name),
@@ -307,7 +301,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
             return (
               <>
                 {(subpage.sections || [])
-                  .filter((subpage) => subpage.formMetaData?.hidden !== true)
+                  .filter((section) => isVisible(section.formMetaData, elementData))
                   .map((section, sectionIndex) => {
                     // Icon Detailed Attributes
 
@@ -332,13 +326,13 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
 
                     const sectionContent = () => <div style={{ paddingTop: '1rem' }}>{contentComponents}</div>;
 
-                    const filteredSections = (subpage.sections || []).filter(
-                      (section) => section.formMetaData?.hidden !== true
+                    const filteredSections = (subpage.sections || []).filter((section) =>
+                      isVisible(section.formMetaData, elementData)
                     );
 
                     return (
                       <SectionsPanel
-                        sectionName={!section?.emptyTitle ? translateSection(subpage.name, section?.name): undefined}
+                        sectionName={!section?.emptyTitle ? translateSection(subpage.name, section?.name) : undefined}
                         sectionContent={sectionContent}
                         isCollapsible={filteredSections.length > 1}
                         key={`${subpage.name}-${section?.name}`}

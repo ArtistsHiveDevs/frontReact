@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useSwipeable } from 'react-swipeable';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
+import { isVisible } from '~/common/utils/visibility-utils';
 import {
   AllowedEntityRole,
   AuthorizationStates,
@@ -103,12 +104,7 @@ const defaultConfigTransformer = (subpagesConfig: PageSection[], context?: Defau
 
   return (subpagesConfig || [])
     .filter((subpage) => {
-      return (
-        subpage.fullyHidden === undefined ||
-        (typeof subpage.fullyHidden === 'boolean' && !subpage.fullyHidden) ||
-        (typeof subpage.fullyHidden === 'string' && subpage.fullyHidden !== 'true') ||
-        (subpage.fullyHidden instanceof Function && entityData && !subpage.fullyHidden(entityData))
-      );
+      return isVisible(subpage, entityData, 'fullyHidden');
     })
     .map((subpage, subPageIndex) => {
       return {
@@ -124,35 +120,23 @@ const defaultConfigTransformer = (subpagesConfig: PageSection[], context?: Defau
               key={`section_${subPageIndex}_${subpage.name}`}
             >
               {(subpage.sections || [])
-                .filter(
-                  (section) =>
-                    section.hidden === undefined ||
-                    (typeof section.hidden === 'boolean' && !section.hidden) ||
-                    (typeof section.hidden === 'string' && section.hidden !== 'true') ||
-                    (section.hidden instanceof Function && entityData && !section.hidden(entityData))
-                )
+                .filter((section) => isVisible(section, entityData))
                 .map((section, sectionIndex) => {
                   let contentComponents: any = <></>;
                   if (section.components && buildComponent) {
-                    contentComponents = (section.components || []).map(
-                      (componentDescriptor: ComponentDescriptor, componentIndex: number) => (
+                    contentComponents = (section.components || [])
+                      .filter((componentDescriptor: ComponentDescriptor) => isVisible(componentDescriptor, entityData))
+                      .map((componentDescriptor: ComponentDescriptor, componentIndex: number) => (
                         <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
                           {buildComponent(subpage, section, componentDescriptor, componentIndex, undefined)}
                         </div>
-                      )
-                    );
+                      ));
                   }
 
                   const sectionContent = () => contentComponents;
 
                   const filteredSections = (subpage.sections || []).filter((section) => {
-                    const isHidden =
-                      section.hidden !== undefined &&
-                      ((typeof section.hidden === 'boolean' && section.hidden) ||
-                        (typeof section.hidden === 'string' && section.hidden === 'true') ||
-                        (section.hidden instanceof Function && entityData && section.hidden(entityData)));
-
-                    if (isHidden) return false;
+                    if (!isVisible(section, entityData)) return false;
 
                     if (section.requireSession && !entityData) {
                       return false;

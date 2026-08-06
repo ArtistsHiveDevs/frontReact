@@ -1,8 +1,9 @@
-import './CustomPDFViewer.scss';
+import { Box, Button, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { DynamicIcons } from '../../DynamicIcons';
-import { Box, Button, Fade, IconButton, Paper } from '@mui/material';
 import { getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
+import './CustomPDFViewer.scss';
 
 export const CustomPDFViewer = (props: any) => {
   const { fileSources } = props;
@@ -45,7 +46,7 @@ export const CustomPDFViewer = (props: any) => {
     setShowPDF(true);
   };
 
-  const handleClickPDFHidde = () => {
+  const handleClickPDFHide = () => {
     setPDFUrl('');
     setShowPDF(false);
   };
@@ -53,18 +54,12 @@ export const CustomPDFViewer = (props: any) => {
   return (
     <>
       {!!filesUrls && !showPDF && (
-        <Box
-          className = 'box-document-avatar'
-        >
+        <Box className="box-document-avatar">
           {fileSources?.map((file: any, index: number) => (
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <Paper
-                key = {`${file?.fileName}-${index}`}
-                variant="outlined"
-                className = 'card-document-avatar'
-              >
+            <div key={`pdf_${file}_${index}`} style={{ display: 'flex', flexDirection: 'column' }}>
+              <Paper key={`${file?.fileName}-${index}`} variant="outlined" className="card-document-avatar">
                 <Button
-                  className = 'button-document-avatar'
+                  className="button-document-avatar"
                   component="label"
                   startIcon={<DynamicIcons iconName="BiSolidFilePdf" size={iconSize} customStyle={{ padding: 0 }} />}
                   onClick={() => handleClickPDFShow(file?.src)}
@@ -76,23 +71,13 @@ export const CustomPDFViewer = (props: any) => {
         </Box>
       )}
 
-      {showPDF && (
-        <Box
-          className = 'box-pdf-viewer'
-        >
-          <div style={{ display: 'flex', justifyContent: 'flex-end', background: 'black' }}>
-            <IconButton size="small" aria-label="delete image" onClick={() => handleClickPDFHidde()}>
-              <DynamicIcons iconName="FaTimesCircle" size={25} customStyle={{ cursor: 'pointer' }} />
-            </IconButton>
-          </div>
-          <Box
-            component="iframe"
-            src={pdfUrl}
-            title="Overlay Example"
-            className = 'render-pdf-container'
-          />
-        </Box>
-      )}
+      <AppDialog
+        title="Visor de PDF"
+        fullScreen
+        isOpenDialog={showPDF}
+        onClose={handleClickPDFHide}
+        content={<Box component="iframe" src={pdfUrl} title="Overlay Example" className="render-pdf-container" />}
+      />
     </>
   );
 };

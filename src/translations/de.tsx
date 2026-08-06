@@ -987,6 +987,19 @@ export const DeMessages = {
             followers: {
               name: 'Followers',
             },
+            documents: {
+              name: 'Dokumente',
+              sections: {
+                technical_docs: {
+                  name: 'Technische Dokumente',
+                  docs:{
+                    technical_epk: "EPK",
+                    technical_rider: "Technischer Rider",
+                    stage_plot: "Bühnenplan",
+                  }
+                },
+              },
+            },
             riders: {
               name: 'Riders',
               sections: {

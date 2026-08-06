@@ -974,11 +974,16 @@ export const EnMessages = {
             followers: {
               name: 'Followers',
             },
-            riders: {
-              name: 'Riders',
+            documents: {
+              name: 'Docs',
               sections: {
-                riders_data: {
-                  name: 'Riders',
+                technical_docs: {
+                  name: 'Technical Documents',
+                  docs:{
+                    technical_epk: "EPK",
+                    technical_rider: "Technical Rider",
+                    stage_plot: "Stage Plot",
+                  }
                 },
               },
             },

@@ -1,5 +1,5 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
@@ -11,7 +11,11 @@ import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
-import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
+import { FileUploaderOptions } from '~/components/shared/organisms/gui/dynamicForms/components/FileUpload';
+import {
+  DynamicTabbedForm,
+  DynamicTabbedFormRef,
+} from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { LanguageModel } from '~/models/parametrics/geo/language.model';
@@ -19,7 +23,6 @@ import {
   ARTIST_DETAIL_SUB_PAGE_CONFIG,
   TRANSLATION_BASE_ARTIST_DETAIL_PAGE,
 } from '../ArtistDetails/config-artist-detail';
-import { FileUploaderOptions } from '~/components/shared/organisms/gui/dynamicForms/components/FileUpload';
 
 const ArtistsCreatePage = () => {
   const { navigateToEntity, navigateToInnerPath } = useNavigation();
@@ -28,6 +31,7 @@ const ArtistsCreatePage = () => {
   const { actions: userActions } = useUsersSlice();
   const { actions: languageActions } = useLanguagesSlice();
   const urlParameters = useParams();
+  const formRef = useRef<DynamicTabbedFormRef>(null);
 
   const [artistId, setCurrentArtistId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
   // const [availableLanguages, updateAvailableLanguages] = useState([]);
@@ -125,8 +129,7 @@ const ArtistsCreatePage = () => {
       };
     });
 
-    const previousData =
-      filesWrapperData?.[`${fieldName}`]?.length > 0 ? filesWrapperData?.[`${fieldName}`] : [];
+    const previousData = filesWrapperData?.[`${fieldName}`]?.length > 0 ? filesWrapperData?.[`${fieldName}`] : [];
     const formattedFileImageElement = [...previousData, ...extractFilesDataPaths];
     setFilesWrapperData((previousData: any) => ({
       ...previousData,
@@ -135,7 +138,6 @@ const ArtistsCreatePage = () => {
   };
 
   const findRemovalFilesPath = (fileData: any, fieldName: string) => {
-
     const removalPaths = filesWrapperData[`${fieldName}`]
       ?.filter((imageData: any) => imageData.fileName?.includes(fileData.name))
       .map((pathElement: any) => pathElement?.path);
@@ -145,20 +147,17 @@ const ArtistsCreatePage = () => {
   const updateFileUploadRemoveElements = (paths: any, fieldName: string) => {
     paths?.forEach((path: string) => {
       const filterFileWrapperData = filesWrapperData?.[`${fieldName}`];
-      const indexToRemove = filterFileWrapperData?.findIndex(
-        (fileElement: any) => fileElement?.path == path
-      );
+      const indexToRemove = filterFileWrapperData?.findIndex((fileElement: any) => fileElement?.path == path);
       if (indexToRemove != -1) {
         const dataAfterRemove = filesWrapperData?.[`$fieldName`]?.splice(indexToRemove, 1);
-        if(dataAfterRemove?.length > 0) {
+        if (dataAfterRemove?.length > 0) {
           setFilesWrapperData((previousData: any) => ({
             ...previousData,
             [`${fieldName}`]: dataAfterRemove,
           }));
-        }
-        else {
+        } else {
           setFilesWrapperData((previousData: any) => {
-            const clonePrev = {...previousData};
+            const clonePrev = { ...previousData };
             delete clonePrev?.[`${fieldName}`];
             return clonePrev;
           });
@@ -169,32 +168,19 @@ const ArtistsCreatePage = () => {
 
   const handlers = {
     onSubmit: async (data: any, error?: any) => {
-      setTimeout(() => {
-        console.log('terminó');
-      }, 500);
-      // console.log('#####----------->>>>  !!! ', {data, requestHasBeenSended, currentArtist, loggedUser});
-      if (!requestHasBeenSended) {
-        if (!currentArtist) {
-          console.log('ANTES DE SUBIR FOTO', data);
+      if (!currentArtist) {
+        await uploadImage({ file: data.profile_pic });
+        dispatch(artistsActions.createItem({ data }));
+      } else {
+        const updatePayload = {
+          id: currentArtist.identifier,
+          newItem: {
+            ...data,
+            ...filesWrapperData,
+          },
+        };
 
-          const response = await uploadImage({ file: data.profile_pic });
-          console.log('DESPUÉS de SUBIR FOTO, ', response);
-          dispatch(artistsActions.createItem({ data }));
-        } else {
-          console.log('Actualizando  un nuevo artista ', currentArtist.identifier, data);
-          // let newItem = { ...data, ...filesWrapperData };
-          dispatch(
-            artistsActions.updateItem({
-              id: currentArtist.identifier,
-              newItem: {
-                ...data,
-                ...filesWrapperData
-              },
-              // newItem: { spotify: 'InstagramActualizado' },
-            })
-          );
-        }
-        // setRequestHasBeenSended(true); // -> Trabajar en esta parte
+        dispatch(artistsActions.updateItem(updatePayload));
       }
     },
     onChangecountry: (data: any) => {
@@ -227,7 +213,6 @@ const ArtistsCreatePage = () => {
           updateFileUploadAddElements(responses, fieldName);
         }
       } else if (optionType === FileUploaderOptions.removeItem) {
-
         const findPaths = findRemovalFilesPath(files, fieldName);
         const responses = await removeImages({ paths: findPaths });
 
@@ -250,12 +235,24 @@ const ArtistsCreatePage = () => {
   };
   const [url, setURL] = useState<StorageGetUrlOutput>();
 
+  const backHandler = async () => {
+    if (formRef.current) {
+      try {
+        await formRef.current.submit();
+        // Esperar a que el saga complete
+        await new Promise(resolve => setTimeout(resolve, 1500));
+      } catch (error) {
+        console.error('Error en submit:', error);
+      }
+    }
+  };
+
   return (
     <>
       <RequireAuthComponent requiredSession={true}>
-        <BackButton />
         {currentUserCanEdit && (
           <>
+            <BackButton onClick={backHandler} />
             {/* <h1>IMAGEN 2</h1>
             <FileUploader acceptedFileTypes={['image/*']} path="galeria/" maxFileCount={500} isResumable />
             <h2>FIN</h2>
@@ -264,6 +261,7 @@ const ArtistsCreatePage = () => {
             <br /> */}
             {/* {url?.expiresAt} */}
             <DynamicTabbedForm
+              ref={formRef}
               tabsInfo={ARTIST_DETAIL_SUB_PAGE_CONFIG}
               handlers={handlers}
               translationBasePath={TRANSLATION_BASE_ARTIST_DETAIL_PAGE}
@@ -276,6 +274,7 @@ const ArtistsCreatePage = () => {
                 stage_languages: availableLanguages,
               }}
               submitLabel={!currentArtist ? 'create' : 'save'}
+              onlyModifiedFields={true}
             />
           </>
         )}

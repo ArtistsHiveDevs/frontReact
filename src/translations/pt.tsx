@@ -985,6 +985,19 @@ export const PtMessages = {
             followers: {
               name: 'Seguidores',
             },
+            documents: {
+              name: 'Documentos',
+              sections: {
+                technical_docs: {
+                  name: 'Documentos Técnicos',
+                  docs:{
+                    technical_epk: "EPK",
+                    technical_rider: "Rider Técnico",
+                    stage_plot: "Planta do Palco",
+                  }
+                },
+              },
+            },
             riders: {
               name: 'Riders',
               sections: {

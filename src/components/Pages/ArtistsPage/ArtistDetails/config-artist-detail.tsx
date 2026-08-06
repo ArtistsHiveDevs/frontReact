@@ -6,6 +6,8 @@ import { ArtistModel, ArtistRatingTemplate } from '~/models/domain/artist/artist
 import { LanguageModel } from '~/models/parametrics/geo/language.model';
 
 export const TRANSLATION_BASE_ARTIST_DETAIL_PAGE = 'app.pages.ArtistsPages.ArtistsDetailsPage';
+const TRANSLATION_BASE_TECHNICAL_DOCS = 'subpages.documents.sections.technical_docs.docs';
+
 export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'general',
@@ -16,7 +18,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
         components: [
           {
             componentName: ComponentTypes.HORIZONTAL_IMAGE_GALLERY,
-            data: { images: 'epkGallery', placeholder: 'Foto de los integrantes', size: 200 },
+            data: { images: 'epkGallery', placeholder: 'Foto de los integrantes', size: 150 },
             clickHandlerName: 'onClickGalleryImage',
             formMetaData: {
               hidden: true,
@@ -635,31 +637,17 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
     formMetaData: { hidden: true },
   },
   {
-    name: 'followers',
-    hideMainMenu: true,
+    name: 'documents',
     sections: [
       {
-        components: [
-          {
-            componentName: ComponentTypes.PROFILE_FOLLOWERS_COMPONENT,
-            // data: {
-            //   data_source: 'nextEvents',
-            // },
-            clickHandlerName: 'onClickBackButtonFollowers',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: 'shows',
-    sections: [
-      {
-        name: 'summary',
+        name: 'technical_docs',
         components: [
           {
             componentName: ComponentTypes.DOCUMENT_FILE_VIEWER,
-            data: { fileSource: 'technical_epk', placeholder: 'EPK técnico' },
+            data: {
+              fileSource: 'technical_epk',
+              translationPath: `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.${TRANSLATION_BASE_TECHNICAL_DOCS}`,
+            },
             formMetaData: {
               inputType: 'file',
               fieldName: 'technical_epk',
@@ -674,7 +662,10 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
           },
           {
             componentName: ComponentTypes.DOCUMENT_FILE_VIEWER,
-            data: { fileSource: 'technical_rider', placeholder: 'Rider técnico' },
+            data: {
+              fileSource: 'technical_rider',
+              translationPath: `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.${TRANSLATION_BASE_TECHNICAL_DOCS}`,
+            },
             formMetaData: {
               inputType: 'file',
               fieldName: 'technical_rider',
@@ -689,7 +680,10 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
           },
           {
             componentName: ComponentTypes.DOCUMENT_FILE_VIEWER,
-            data: { fileSource: 'stage_plot', placeholder: 'Stage plot' },
+            data: {
+              fileSource: 'stage_plot',
+              translationPath: `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.${TRANSLATION_BASE_TECHNICAL_DOCS}`,
+            },
             formMetaData: {
               inputType: 'file',
               fieldName: 'stage_plot',
@@ -701,6 +695,23 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 destinationPath: '/documents',
               },
             },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'followers',
+    hideMainMenu: true,
+    sections: [
+      {
+        components: [
+          {
+            componentName: ComponentTypes.PROFILE_FOLLOWERS_COMPONENT,
+            // data: {
+            //   data_source: 'nextEvents',
+            // },
+            clickHandlerName: 'onClickBackButtonFollowers',
           },
         ],
       },

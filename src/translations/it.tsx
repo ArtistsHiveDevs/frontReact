@@ -988,6 +988,19 @@ export const ItMessages = {
             followers: {
               name: 'Followers',
             },
+            documents: {
+              name: 'Documenti',
+              sections: {
+                technical_docs: {
+                  name: 'Documenti Tecnici',
+                  docs:{
+                    technical_epk: "EPK",
+                    technical_rider: "Rider Tecnico",
+                    stage_plot: "Piantina Palco",
+                  }
+                },
+              },
+            },
             riders: {
               name: 'Riders',
               sections: {
@@ -995,7 +1008,7 @@ export const ItMessages = {
                   name: 'Riders',
                 },
               },
-            },            
+            },
           },
         },
       },

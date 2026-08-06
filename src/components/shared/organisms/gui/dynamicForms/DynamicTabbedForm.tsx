@@ -1,5 +1,5 @@
 import { Button, Stack } from '@mui/material';
-import { useState } from 'react';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { I18nPaths, useI18n } from '~/common/utils';
 import {
@@ -35,8 +35,15 @@ export interface DynamicTabbedFormParams {
   customHeaderConfig?: any;
   submitLabel?: string;
   enableUsernameValidation?: boolean;
+  onlyModifiedFields?: boolean;
 }
-export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
+
+export interface DynamicTabbedFormRef {
+  submit: () => Promise<void> | void;
+  getModifiedFields: () => any;
+}
+
+export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedFormParams>((params, ref) => {
   let {
     tabsInfo,
     elementData,
@@ -48,6 +55,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     submitLabel,
     customHeaderConfig,
     enableUsernameValidation = true,
+    onlyModifiedFields = false,
   } = params;
 
   const [relationshipsValues, setRelationshipsValues] = useState<{ [relationship: string]: any[] }>({});
@@ -351,12 +359,49 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
 
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { errors, dirtyFields },
+    getValues,
   } = formMethods;
 
+  // Función para obtener solo los campos modificados
+  const getModifiedFields = () => {
+    const allValues = getValues();
+    const modifiedData: any = {};
+
+    Object.keys(dirtyFields).forEach((key) => {
+      modifiedData[key] = allValues[key];
+    });
+
+    return modifiedData;
+  };
+
+  // Exponer métodos al ref
+  useImperativeHandle(ref, () => ({
+    submit: async () => {
+      return new Promise<void>((resolve, reject) => {
+        handleSubmit(
+          async (data) => {
+            try {
+              await handleFormSubmit(data);
+              resolve();
+            } catch (error) {
+              reject(error);
+            }
+          },
+          (errors) => {
+            handleFormErrors(errors);
+            reject(new Error('Form validation failed'));
+          }
+        )();
+      });
+    },
+    getModifiedFields,
+  }));
+
   // 🔍 Logging de errores para debugging
-  const handleFormSubmit = (data: any) => {
-    return onSubmit(data);
+  const handleFormSubmit = async (data: any) => {
+    const dataToSubmit = onlyModifiedFields ? getModifiedFields() : data;
+    return await onSubmit(dataToSubmit);
   };
 
   const handleFormErrors = (errors: any) => {
@@ -434,7 +479,9 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       </Button>
     </form>
   );
-};
+});
+
+DynamicTabbedForm.displayName = 'DynamicTabbedForm';
 
 export const findFieldMetadata = (fieldName: string, fieldsForm: any) => {
   let searchedField: any;

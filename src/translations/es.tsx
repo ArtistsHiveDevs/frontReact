@@ -908,6 +908,19 @@ export const EsMessages = {
             followers: {
               name: 'Seguidores',
             },
+            documents: {
+              name: 'Documentos',
+              sections: {
+                technical_docs: {
+                  name: 'Documentos Técnicos',
+                  docs:{
+                    technical_epk: "EPK",
+                    technical_rider: "Rider Técnico",
+                    stage_plot: "Plano de Escenario",
+                  }
+                },
+              },
+            },
             riders: {
               name: 'Riders',
               sections: {

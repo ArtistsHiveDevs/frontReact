@@ -39,7 +39,7 @@ export interface DynamicTabbedFormParams {
 }
 
 export interface DynamicTabbedFormRef {
-  submit: () => void;
+  submit: () => Promise<void> | void;
   getModifiedFields: () => any;
 }
 
@@ -377,16 +377,31 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
 
   // Exponer métodos al ref
   useImperativeHandle(ref, () => ({
-    submit: () => {
-      handleSubmit(handleFormSubmit, handleFormErrors)();
+    submit: async () => {
+      return new Promise<void>((resolve, reject) => {
+        handleSubmit(
+          async (data) => {
+            try {
+              await handleFormSubmit(data);
+              resolve();
+            } catch (error) {
+              reject(error);
+            }
+          },
+          (errors) => {
+            handleFormErrors(errors);
+            reject(new Error('Form validation failed'));
+          }
+        )();
+      });
     },
     getModifiedFields,
   }));
 
   // 🔍 Logging de errores para debugging
-  const handleFormSubmit = (data: any) => {
+  const handleFormSubmit = async (data: any) => {
     const dataToSubmit = onlyModifiedFields ? getModifiedFields() : data;
-    return onSubmit(dataToSubmit);
+    return await onSubmit(dataToSubmit);
   };
 
   const handleFormErrors = (errors: any) => {

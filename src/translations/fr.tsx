@@ -907,6 +907,19 @@ export const FrMessages = {
             followers: {
               name: 'Abonnés',
             },
+            documents: {
+              name: 'Documents',
+              sections: {
+                technical_docs: {
+                  name: 'Documents Techniques',
+                  docs:{
+                    technical_epk: "EPK",
+                    technical_rider: "Fiche Technique",
+                    stage_plot: "Plan de Scène",
+                  }
+                },
+              },
+            },
             riders: {
               name: 'Riders',
               sections: {
@@ -914,7 +927,7 @@ export const FrMessages = {
                   name: 'Riders',
                 },
               },
-            },            
+            },
           },
         },
       },

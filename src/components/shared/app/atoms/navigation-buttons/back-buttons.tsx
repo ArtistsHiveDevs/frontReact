@@ -12,9 +12,9 @@ export const BackButton = (params: BackButtonParams) => {
   const { goBack } = useNavigation();
   const { translateText, translateGlobalDict } = useI18n();
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (!!onClick && onClick instanceof Function) {
-      onClick();
+      await onClick();
     }
 
     goBack();

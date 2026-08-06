@@ -906,6 +906,19 @@ export const ElMessages = {
             followers: {
               name: 'Followers',
             },
+            documents: {
+              name: 'Έγγραφα',
+              sections: {
+                technical_docs: {
+                  name: 'Τεχνικά Έγγραφα',
+                  docs:{
+                    technical_epk: "EPK",
+                    technical_rider: "Τεχνικό Rider",
+                    stage_plot: "Σχέδιο Σκηνής",
+                  }
+                },
+              },
+            },
             riders: {
               name: 'Riders',
               sections: {

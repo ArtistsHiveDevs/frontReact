@@ -15,12 +15,12 @@ export const CustomPDFViewer = (props: any) => {
   const subtitleCardLimits = 25;
 
   useEffect(() => {
-    if (!!fileSources) {
+    if (fileSources && Array.isArray(fileSources)) {
       getProfilePicURLs();
     }
   }, [fileSources]);
   const getProfilePicURLs = async () => {
-    if (!!fileSources) {
+    if (fileSources && Array.isArray(fileSources)) {
       const urlsObject: { [identifier: string]: string } = {};
 
       // Mapeamos las URLs a promesas y usamos Promise.all para esperar a que todas se resuelvan
@@ -38,7 +38,7 @@ export const CustomPDFViewer = (props: any) => {
   };
 
   const substringTextFormat = (text: string, limit: number) => {
-    return text.length <= limit ? text : text.substr(0, limit) + '...';
+    return text.length <= limit ? text : text.substring(0, limit) + '...';
   };
 
   const handleClickPDFShow = (fileSource: string) => {
@@ -55,7 +55,7 @@ export const CustomPDFViewer = (props: any) => {
     <>
       {!!filesUrls && !showPDF && (
         <Box className="box-document-avatar">
-          {fileSources?.map((file: any, index: number) => (
+          {fileSources && Array.isArray(fileSources) && fileSources.map((file: any, index: number) => (
             <div key={`pdf_${file}_${index}`} style={{ display: 'flex', flexDirection: 'column' }}>
               <Paper key={`${file?.fileName}-${index}`} variant="outlined" className="card-document-avatar">
                 <Button

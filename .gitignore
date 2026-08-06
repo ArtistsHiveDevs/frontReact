@@ -53,3 +53,7 @@ amplifytools.xcconfig
 #amplify-do-not-edit-end
 
 public/robots.txt
+
+env/.env
+env/.env.production
+env/.env.remote

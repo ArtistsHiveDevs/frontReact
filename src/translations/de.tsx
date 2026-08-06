@@ -1149,6 +1149,48 @@ export const DeMessages = {
           },
         },
       },
+      OpenCallPage: {
+        title: 'Open Call',
+        subtitle:
+          'Fill in the form to apply as an artist. Every detail helps us evaluate your proposal and coordinate the logistics of the event.',
+        step_counter: 'Step {current} of {total}',
+        step_progress: '{progress}% completed',
+        required_notice: 'Fields marked with * are required',
+        prev_button: 'Previous',
+        next_button: 'Next',
+        submit_button: 'Submit application',
+        submitting_button: 'Sending...',
+        save_notice: 'You can save and continue later',
+        no_artist_profile: {
+          title: 'You have no active artist profile',
+          message:
+            'You can only apply to an Open Call from an Artist profile. Check that you are logged in with the right profile.',
+        },
+        success: {
+          title: 'Application sent',
+          message:
+            'We have received your application. We will review your proposal and contact you at the email address you provided.',
+          back_button: 'Back to home',
+        },
+        already_applied: {
+          title: 'You have already applied to this Open Call',
+          message: 'You can only send one application per Open Call.',
+          status_label: 'Your application status:',
+          details_button: 'View the Open Call',
+        },
+        application_status: {
+          pending: 'Pending',
+          accepted: 'Accepted',
+          rejected: 'Rejected',
+        },
+        submit_errors: {
+          duplicate: 'You have already applied to this Open Call.',
+          not_accepting_applications:
+            'This Open Call is not accepting applications: it is closed or past its deadline.',
+          open_call_not_found: 'We could not find this Open Call. It may have been removed.',
+          generic: 'We could not send your application. Please try again later.',
+        },
+      },
       OpenCallsListPage: {
         subpages: {
           active: { name: 'Aktive Open-Calls' },
@@ -1169,9 +1211,6 @@ export const DeMessages = {
         },
       },
       OpenCallDetailsPage: {
-        event_label: 'Veranstaltung',
-        open_until_label: 'Bewerbungen offen bis',
-        applications_received_suffix: 'erhaltene Bewerbungen',
         applications_received_title: 'Erhaltene Bewerbungen',
         your_application_title: 'Deine Bewerbung',
         no_applications_yet: 'Für diese Ausschreibung liegen noch keine Bewerbungen vor.',
@@ -1180,6 +1219,47 @@ export const DeMessages = {
         loading_your_application: 'Deine Bewerbung wird geladen...',
         unauthorized_message: 'Melde dich mit einem Artist- oder Place-Profil an, um die Bewerbungen dieser Ausschreibung zu sehen.',
         back_button: 'Zurück zu meinen Ausschreibungen',
+        apply_button: 'Apply to this Open Call',
+        open_call_status: {
+          DRAFT: 'Draft',
+          OPEN: 'Open',
+          CLOSED: 'Closed',
+          CANCELLED: 'Cancelled',
+        },
+        presentation: {
+          open_badge: 'Applications open',
+          expired_badge: 'Applications closed',
+          apply_deadline_title: 'Application period',
+          event_date_label: 'Event date',
+          minutes_suffix: 'min',
+          sections: {
+            about: 'About this Open Call',
+            conditions: 'Conditions and requirements',
+            technical: 'Technical details',
+            compensation: 'Compensation and logistics',
+          },
+          fields: {
+            description: 'Description',
+            genres: 'Genres',
+            accepted_project_types: 'Accepted project types',
+            requirements_description: 'Requirements',
+            set_duration: 'Set duration',
+            max_applications: 'Maximum applications',
+            available_slots: 'Available slots',
+            expected_audience: 'Expected audience',
+            stage_type: 'Stage type',
+            stage_dimensions: 'Stage dimensions',
+            provided_sound: 'Sound provided',
+            provided_backline: 'Backline provided',
+            provided_lighting: 'Lighting provided',
+            technical_notes: 'Technical notes',
+            fee: 'Fee',
+            travel_support: 'Travel support',
+            accommodation_provided: 'Accommodation',
+            meals_provided: 'Meals',
+            additional_notes: 'Additional notes',
+          },
+        },
         status: {
           pending: 'Ausstehend',
           accepted: 'Angenommen',

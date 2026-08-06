@@ -542,6 +542,61 @@ export const ElMessages = {
         },
       },
       domain: {
+        CalendarPage: {
+          title: 'My calendar',
+          empty_state: 'There are no events in this date range',
+          error: 'Something went wrong while loading your calendar. Please try again.',
+          deadline_label: 'Deadline',
+          types: {
+            concert: 'Concerts',
+            call: 'Open call deadlines',
+            activity: 'Activities',
+          },
+          meta: {
+            expired: 'Expired open call',
+            city: 'City',
+            event_date: 'Event date',
+            applications_count: 'Applications',
+            notes: 'Notes',
+          },
+          actions: {
+            today: 'Today',
+            month: 'Month',
+            week: 'Week',
+            day: 'Day',
+            delete: 'Delete',
+            cancel: 'Cancel',
+          },
+          activity_form: {
+            create_title: 'New activity',
+            edit_title: 'Edit activity',
+            save_error: 'The activity could not be saved. Please try again.',
+            fields: {
+              title: 'Title',
+              type: 'Type',
+              all_day: 'All day',
+              start_date: 'Start date',
+              start_time: 'Start time',
+              end_date: 'End date',
+              end_time: 'End time',
+              notes: 'Notes',
+            },
+            types: {
+              rehearsal: 'Rehearsal',
+              soundcheck: 'Soundcheck',
+              other: 'Other',
+            },
+            validation: {
+              title_required: 'Title is required',
+              start_date_required: 'Start date is required',
+              start_time_required: 'Start time is required',
+            },
+            delete_confirmation: {
+              title: 'Delete activity',
+              message: 'Are you sure you want to delete this activity? This action cannot be undone.',
+            },
+          },
+        },
         CulturalAgenda: {
           title: 'Πολιτιστικό ημερολόγιο',
         },

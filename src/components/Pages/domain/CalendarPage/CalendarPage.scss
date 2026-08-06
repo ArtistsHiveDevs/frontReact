@@ -1,1 +1,499 @@
 @import '~/variables.module.scss';
+
+$agenda-event-concert-color: #228963;
+$agenda-event-call-color: #b1240e;
+$agenda-event-activity-color: #f58f1a;
+$agenda-event-expired-color: #6b6b6b;
+
+$calendar-accent-color: $secondary-background-light;
+$calendar-surface: $app-background;
+$calendar-surface-raised: $app-background-75;
+$calendar-border: rgba($main-font-color, 0.12);
+$calendar-border-strong: rgba($main-font-color, 0.2);
+$calendar-muted-font-color: rgba($main-font-color, 0.62);
+$calendar-hover-surface: rgba($main-font-color, 0.06);
+$calendar-transition: 120ms ease;
+
+@mixin agenda-event-chip($background, $text-color) {
+  background-color: $background;
+  border-color: $background;
+  color: $text-color;
+
+  .fc-event-main {
+    color: $text-color;
+  }
+}
+
+.calendar-page {
+  color: $main-font-color;
+  padding: 1.5rem;
+
+  &__title {
+    font-size: rem-calc(28);
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    margin: 0 0 1.25rem;
+  }
+
+  &__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+  }
+
+  &__legend-item {
+    align-items: center;
+    background-color: rgba($main-font-color, 0.08);
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: $main-font-color;
+    cursor: pointer;
+    display: flex;
+    font-family: inherit;
+    font-size: rem-calc(13);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    padding: 0.45rem 0.85rem;
+    transition: background-color $calendar-transition, border-color $calendar-transition, color $calendar-transition,
+      opacity $calendar-transition;
+
+    &::before {
+      border-radius: 50%;
+      content: '';
+      display: inline-block;
+      height: 0.6rem;
+      margin-right: 0.5rem;
+      transition: background-color $calendar-transition, box-shadow $calendar-transition;
+      width: 0.6rem;
+    }
+
+    &:hover {
+      background-color: rgba($main-font-color, 0.14);
+    }
+
+    &--concert::before {
+      background-color: $agenda-event-concert-color;
+    }
+
+    &--call::before {
+      background-color: lighten($agenda-event-call-color, 8%);
+    }
+
+    &--activity::before {
+      background-color: $agenda-event-activity-color;
+    }
+
+    &--off {
+      background-color: transparent;
+      border-color: $calendar-border-strong;
+      color: $calendar-muted-font-color;
+
+      &::before {
+        background-color: transparent;
+        box-shadow: inset 0 0 0 1px $calendar-muted-font-color;
+      }
+
+      &:hover {
+        background-color: $calendar-hover-surface;
+      }
+    }
+  }
+
+  &__empty {
+    color: $calendar-muted-font-color;
+    margin-bottom: 0.75rem;
+  }
+
+  &__calendar {
+    --fc-small-font-size: #{rem-calc(12)};
+    --fc-page-bg-color: #{$calendar-surface};
+    --fc-neutral-bg-color: #{$calendar-surface-raised};
+    --fc-neutral-text-color: #{$calendar-muted-font-color};
+    --fc-border-color: #{$calendar-border};
+    --fc-today-bg-color: transparent;
+    --fc-highlight-color: #{rgba($calendar-accent-color, 0.22)};
+    --fc-now-indicator-color: #{lighten($agenda-event-call-color, 18%)};
+    --fc-non-business-color: #{rgba($main-background-color, 0.35)};
+
+    --fc-button-text-color: #{$main-font-color};
+    --fc-button-bg-color: transparent;
+    --fc-button-border-color: transparent;
+    --fc-button-hover-bg-color: #{$calendar-hover-surface};
+    --fc-button-hover-border-color: transparent;
+    --fc-button-active-bg-color: #{rgba($calendar-accent-color, 0.28)};
+    --fc-button-active-border-color: transparent;
+
+    --fc-event-bg-color: #{$calendar-accent-color};
+    --fc-event-border-color: #{$calendar-accent-color};
+    --fc-event-text-color: #{$main-title-color};
+    --fc-event-selected-overlay-color: #{rgba($main-font-color, 0.16)};
+
+    --fc-more-link-bg-color: #{$calendar-hover-surface};
+    --fc-more-link-text-color: #{$main-font-color};
+    --fc-list-event-hover-bg-color: #{$calendar-hover-surface};
+
+    background-color: $calendar-surface;
+    border: 1px solid $calendar-border;
+    border-radius: rem-calc(12);
+    overflow: hidden;
+    padding: 0.75rem 0.75rem 0.5rem;
+  }
+
+  .fc {
+    color: $main-font-color;
+    font-size: rem-calc(13);
+  }
+
+  .fc .fc-toolbar.fc-header-toolbar {
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .fc .fc-toolbar-chunk {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: rem-calc(22);
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    margin: 0 0 0 0.25rem;
+    text-transform: capitalize;
+  }
+
+  .fc .fc-button {
+    border-radius: 999px;
+    box-shadow: none;
+    font-size: rem-calc(13);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 0.4rem 0.9rem;
+    text-transform: none;
+    transition: background-color $calendar-transition, color $calendar-transition, border-color $calendar-transition;
+
+    &:focus,
+    &:focus-visible {
+      box-shadow: 0 0 0 2px rgba($calendar-accent-color, 0.45);
+      outline: none;
+    }
+
+    &:disabled {
+      color: $calendar-muted-font-color;
+      opacity: 1;
+    }
+  }
+
+  .fc .fc-button-group {
+    gap: 0;
+  }
+
+  .fc .fc-today-button {
+    border: 1px solid $calendar-border-strong;
+
+    &:not(:disabled):hover {
+      background-color: $calendar-hover-surface;
+      border-color: $calendar-border-strong;
+    }
+  }
+
+  .fc .fc-prev-button,
+  .fc .fc-next-button {
+    align-items: center;
+    border-radius: 50%;
+    color: $calendar-muted-font-color;
+    display: inline-flex;
+    height: rem-calc(34);
+    justify-content: center;
+    padding: 0;
+    width: rem-calc(34);
+
+    &:not(:disabled):hover {
+      background-color: $calendar-hover-surface;
+      color: $main-font-color;
+    }
+  }
+
+  .fc .fc-toolbar-chunk:last-child .fc-button-group {
+    background-color: rgba($main-font-color, 0.07);
+    border-radius: 999px;
+    padding: rem-calc(3);
+  }
+
+  .fc .fc-toolbar-chunk:last-child .fc-button-group .fc-button {
+    border-radius: 999px;
+    color: $calendar-muted-font-color;
+    margin: 0;
+    padding: 0.35rem 0.9rem;
+
+    &:not(.fc-button-active):hover {
+      color: $main-font-color;
+    }
+
+    &.fc-button-active {
+      background-color: $calendar-accent-color;
+      color: $main-title-color;
+    }
+  }
+
+  .fc .fc-scrollgrid,
+  .fc .fc-scrollgrid-section > td {
+    border-color: $calendar-border;
+  }
+
+  .fc .fc-scrollgrid {
+    border-left-width: 0;
+    border-top-width: 0;
+  }
+
+  .fc .fc-col-header-cell {
+    background-color: transparent;
+    border-bottom-color: $calendar-border-strong;
+    padding: 0.5rem 0;
+  }
+
+  .fc .fc-col-header-cell-cushion {
+    color: $calendar-muted-font-color;
+    font-size: rem-calc(11);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 0.35rem 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .fc .fc-col-header-cell.fc-day-today .fc-col-header-cell-cushion {
+    color: $calendar-accent-color;
+  }
+
+  .fc .fc-daygrid-day-frame {
+    min-height: rem-calc(96);
+    padding: 0.15rem;
+    transition: background-color $calendar-transition;
+
+    &:hover {
+      background-color: $calendar-hover-surface;
+    }
+  }
+
+  .fc .fc-daygrid-day-top {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .fc .fc-daygrid-day-number {
+    align-items: center;
+    border-radius: 50%;
+    color: $main-font-color;
+    display: inline-flex;
+    font-size: rem-calc(12);
+    font-weight: 500;
+    height: rem-calc(26);
+    justify-content: center;
+    margin: rem-calc(2);
+    min-width: rem-calc(26);
+    padding: 0;
+    text-decoration: none;
+    transition: background-color $calendar-transition, color $calendar-transition;
+  }
+
+  .fc .fc-day-other .fc-daygrid-day-number {
+    color: rgba($main-font-color, 0.35);
+  }
+
+  .fc .fc-day-today .fc-daygrid-day-number {
+    background-color: $calendar-accent-color;
+    color: $main-title-color;
+    font-weight: 600;
+  }
+
+  .fc .fc-daygrid-day-events {
+    margin-top: rem-calc(2);
+  }
+
+  .fc .fc-daygrid-event-harness + .fc-daygrid-event-harness {
+    margin-top: rem-calc(3);
+  }
+
+  .fc .fc-daygrid-more-link {
+    border-radius: rem-calc(4);
+    color: $calendar-muted-font-color;
+    font-size: rem-calc(11);
+    font-weight: 500;
+    margin-top: rem-calc(3);
+    padding: rem-calc(2) rem-calc(6);
+    transition: background-color $calendar-transition, color $calendar-transition;
+
+    &:hover {
+      background-color: $calendar-hover-surface;
+      color: $main-font-color;
+    }
+  }
+
+  .fc .fc-popover {
+    background-color: $calendar-surface-raised;
+    border: 1px solid $calendar-border-strong;
+    border-radius: rem-calc(10);
+    box-shadow: 0 rem-calc(8) rem-calc(24) rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+  }
+
+  .fc .fc-popover-header {
+    background-color: transparent;
+    color: $main-font-color;
+    font-size: rem-calc(12);
+    font-weight: 500;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .fc .fc-timegrid-slot-label-cushion,
+  .fc .fc-timegrid-axis-cushion {
+    color: $calendar-muted-font-color;
+    font-size: rem-calc(11);
+    letter-spacing: 0.03em;
+    text-transform: lowercase;
+  }
+
+  .fc .fc-timegrid-col-frame:hover {
+    background-color: rgba($main-font-color, 0.03);
+  }
+
+  .fc .fc-event {
+    box-shadow: none;
+    outline: none;
+  }
+
+  .fc .fc-daygrid-event-dot {
+    display: none;
+  }
+
+  .agenda-event {
+    border: none;
+    border-radius: rem-calc(6);
+    cursor: pointer;
+    font-size: rem-calc(12);
+    font-weight: 500;
+    line-height: 1.25;
+    margin: 0;
+    min-height: rem-calc(20);
+    overflow: hidden;
+    padding: rem-calc(1) 0;
+    transition: filter $calendar-transition, box-shadow $calendar-transition;
+
+    &:hover {
+      filter: brightness(1.12);
+    }
+
+    &.fc-event-selected::after,
+    &.fc-event-dragging::after {
+      border-radius: rem-calc(6);
+    }
+
+    &--concert {
+      @include agenda-event-chip(lighten($agenda-event-concert-color, 3%), $main-title-color);
+    }
+
+    &--call {
+      @include agenda-event-chip(lighten($agenda-event-call-color, 7%), $main-title-color);
+    }
+
+    &--activity {
+      @include agenda-event-chip($agenda-event-activity-color, $main-background-color);
+    }
+
+    &--expired {
+      @include agenda-event-chip(rgba($agenda-event-expired-color, 0.45), $calendar-muted-font-color);
+
+      opacity: 1;
+    }
+
+    &__content {
+      align-items: baseline;
+      display: flex;
+      gap: rem-calc(4);
+      min-width: 0;
+      overflow: hidden;
+      padding: rem-calc(3) rem-calc(8);
+      white-space: nowrap;
+    }
+
+    &__time {
+      flex: none;
+      font-weight: 400;
+      opacity: 0.85;
+    }
+
+    &__title {
+      font-weight: 500;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  @media (max-width: map-get($grid-breakpoints, md)) {
+    padding: 1rem 0.75rem;
+
+    &__title {
+      font-size: rem-calc(22);
+    }
+
+    &__calendar {
+      padding: 0.5rem 0.5rem 0.25rem;
+    }
+
+    .fc .fc-toolbar.fc-header-toolbar {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .fc .fc-toolbar-chunk {
+      flex-wrap: wrap;
+      max-width: 100%;
+
+      &:empty {
+        display: none;
+      }
+    }
+
+    .fc .fc-toolbar-title {
+      font-size: rem-calc(18);
+    }
+
+    .fc .fc-button {
+      font-size: rem-calc(12);
+      padding: 0.35rem 0.7rem;
+    }
+
+    .fc .fc-toolbar-chunk:last-child .fc-button-group .fc-button {
+      padding: 0.3rem 0.65rem;
+    }
+
+    .fc .fc-daygrid-day-frame {
+      min-height: rem-calc(78);
+    }
+
+    .fc .fc-col-header-cell-cushion {
+      font-size: rem-calc(10);
+      letter-spacing: 0.05em;
+      padding: 0.3rem 0.15rem;
+    }
+
+    .fc .fc-daygrid-day-number {
+      font-size: rem-calc(11);
+      height: rem-calc(22);
+      min-width: rem-calc(22);
+    }
+
+    .agenda-event__content {
+      padding: rem-calc(2) rem-calc(5);
+    }
+  }
+}

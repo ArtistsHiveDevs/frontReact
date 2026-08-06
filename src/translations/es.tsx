@@ -541,6 +541,61 @@ export const EsMessages = {
         },
       },
       domain: {
+        CalendarPage: {
+          title: 'Mi calendario',
+          empty_state: 'No hay eventos en este rango de fechas',
+          error: 'Algo salió mal al cargar tu calendario. Inténtalo de nuevo.',
+          deadline_label: 'Vencimiento',
+          types: {
+            concert: 'Conciertos',
+            call: 'Vencimientos de convocatorias',
+            activity: 'Actividades',
+          },
+          meta: {
+            expired: 'Convocatoria vencida',
+            city: 'Ciudad',
+            event_date: 'Fecha del evento',
+            applications_count: 'Postulaciones',
+            notes: 'Notas',
+          },
+          actions: {
+            today: 'Hoy',
+            month: 'Mes',
+            week: 'Semana',
+            day: 'Día',
+            delete: 'Eliminar',
+            cancel: 'Cancelar',
+          },
+          activity_form: {
+            create_title: 'Nueva actividad',
+            edit_title: 'Editar actividad',
+            save_error: 'No se pudo guardar la actividad. Inténtalo de nuevo.',
+            fields: {
+              title: 'Título',
+              type: 'Tipo',
+              all_day: 'Todo el día',
+              start_date: 'Fecha de inicio',
+              start_time: 'Hora de inicio',
+              end_date: 'Fecha de fin',
+              end_time: 'Hora de fin',
+              notes: 'Notas',
+            },
+            types: {
+              rehearsal: 'Ensayo',
+              soundcheck: 'Prueba de sonido',
+              other: 'Otra',
+            },
+            validation: {
+              title_required: 'El título es obligatorio',
+              start_date_required: 'La fecha de inicio es obligatoria',
+              start_time_required: 'La hora de inicio es obligatoria',
+            },
+            delete_confirmation: {
+              title: 'Eliminar actividad',
+              message: '¿Seguro que quieres eliminar esta actividad? Esta acción no se puede deshacer.',
+            },
+          },
+        },
         CulturalAgenda: {
           title: 'Agenda cultural',
         },

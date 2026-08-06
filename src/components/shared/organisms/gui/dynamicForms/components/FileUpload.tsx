@@ -1,11 +1,12 @@
 import { Avatar, AvatarGroup, Box, IconButton, InputLabel, Paper, Snackbar, SnackbarCloseReason } from '@mui/material';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useI18n } from '~/common/utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { ComponentGeneratorParams } from '../DynamicControl';
+import { getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
 
 export const TRANSLATION_BASE_GLOBAL_DICT_ACTIONS = 'app.global_dictionary.actions';
 
@@ -36,16 +37,11 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
   const { register, formState } = finalContext;
   const { errors } = formState || {};
 
-  const { label, fieldName, options = [], config, componentParams } = fieldData || {};
+  const { label, fieldName, options = [], config, componentParams, externalData } = fieldData || {};
 
-  const {
-    multipleFiles,
-    accept,
-    useIcons,
-    iconName,
-    destinationPath = '',
-    filesLimit = 1,
-  } = componentParams || {};
+  // console.log({externalData})
+
+  const { multipleFiles, accept, useIcons, iconName, destinationPath = '', filesLimit = 1 } = componentParams || {};
 
   const [selectedFiles, setSelectedFiles] = useState([]);
 
@@ -54,6 +50,8 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
   const [maxFiles, setMaxFiles] = useState(filesLimit);
 
   const [addButtonIsVisible, setAddButtonIsVisible] = useState(true);
+
+  const [filesUrls, setFilesUrls] = useState<{ [profileIdentifier: string]: string }>(undefined);
 
   const validateFilesLimitExceded = (selectedFiles: any) => {
     let validation = false;
@@ -123,7 +121,7 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
   const handleRemoveItem = (index: number) => {
     const fileToRemove = selectedFiles[index];
     selectedFiles.splice(index, 1);
-    if ( handlers[`fileUploadfilesChanged`]) {
+    if (handlers[`fileUploadfilesChanged`]) {
       handlers[`fileUploadfilesChanged`]({
         files: fileToRemove,
         optionType: FileUploaderOptions.removeItem,
@@ -139,7 +137,12 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
     // });
     setMaxFiles(filesLimit - selectedFiles.length);
     setAddButtonIsVisible(selectedFiles?.length !== filesLimit);
-    console.log({selectedFiles, validacion: selectedFiles?.length === filesLimit, lgt: selectedFiles?.length, filesLimit});
+    console.log({
+      selectedFiles,
+      validacion: selectedFiles?.length === filesLimit,
+      lgt: selectedFiles?.length,
+      filesLimit,
+    });
   };
 
   const avatarSize = 100;
@@ -151,6 +154,35 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
   const substringTextFormat = (text: string, limit: number) => {
     return text.length <= limit ? text : text.substr(0, limit) + '...';
   };
+
+  const getFilesURLs = async () => {
+    if (externalData && Array.isArray(externalData)) {
+      const urlsObject: { [identifier: string]: string } = {};
+
+      // Mapeamos las URLs a promesas y usamos Promise.all para esperar a que todas se resuelvan
+      const urlPromises = externalData.map(async (imageParams: any) => {
+        const url = await getUrlS3({ path: imageParams.src });
+        urlsObject[imageParams.src] = url;
+      });
+
+      // Esperamos a que todas las promesas terminen
+      await Promise.all(urlPromises);
+
+      const formattedInputData = externalData?.map((externalFile: any) => {
+        return { ...externalFile, src: urlsObject[externalFile.src] };
+      });
+      setSelectedFiles(formattedInputData);
+      setAddButtonIsVisible(formattedInputData?.length < filesLimit);
+      // Una vez que se resuelvan, actualizamos el estado
+      setFilesUrls(urlsObject);
+    }
+  };
+
+  useEffect(() => {
+    if (externalData?.length > 0 && externalData && Array.isArray(externalData) && !filesUrls) {
+      getFilesURLs();
+    }
+  }, [externalData]);
 
   return (
     <>
@@ -167,23 +199,24 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
           '&::-webkit-scrollbar-thumb': { backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: 4 },
         }}
       >
-        {addButtonIsVisible && <Paper
-          variant="outlined"
-          sx={{
-            minWidth: 150,
-            height: 150,
-            flexShrink: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 2,
-            transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-            '&:hover': {
-              transform: 'scale(1.05)', // Increases size by 5%
-              boxShadow: 6, // Mimics rising elevation
-            },
-          }}
-        >
+        {addButtonIsVisible && (
+          <Paper
+            variant="outlined"
+            sx={{
+              minWidth: 150,
+              height: 150,
+              flexShrink: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 2,
+              transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+              '&:hover': {
+                transform: 'scale(1.05)', // Increases size by 5%
+                boxShadow: 6, // Mimics rising elevation
+              },
+            }}
+          >
             <Button
               sx={{
                 width: '100%',
@@ -212,7 +245,8 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
                 onChange={(event) => handleChange(event)}
               />
             </Button>
-        </Paper>}
+          </Paper>
+        )}
 
         {selectedFiles.map((file, index) => (
           <Paper
@@ -254,11 +288,11 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
                   }}
                   onClick={() => handleRemoveItem(index)}
                 />
-                <span>{substringTextFormat(file.name, subtitleCardLimits)}</span>
+                <span>{substringTextFormat(file?.name || file?.fileName, subtitleCardLimits)}</span>
               </div>
             ) : (
               <img
-                src={file?.customUrl || null}
+                src={file?.customUrl || file?.src || null}
                 alt={`gallery-item-${index}`}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />

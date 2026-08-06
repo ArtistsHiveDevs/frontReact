@@ -39,7 +39,6 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 accept: 'image/*',
                 destinationPath: 'images',
                 filesDataType: 'members',
-                filesLimit: 3,
               },
             },
           },

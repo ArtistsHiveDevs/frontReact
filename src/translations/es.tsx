@@ -1206,6 +1206,48 @@ export const EsMessages = {
           },
         },
       },
+      OpenCallPage: {
+        title: 'Convocatoria Abierta',
+        subtitle:
+          'Completa el formulario para aplicar como artista. Toda la información nos ayuda a evaluar tu propuesta y coordinar la logística del evento.',
+        step_counter: 'Paso {current} de {total}',
+        step_progress: '{progress}% completado',
+        required_notice: 'Los campos marcados con * son obligatorios',
+        prev_button: 'Anterior',
+        next_button: 'Siguiente',
+        submit_button: 'Enviar aplicación',
+        submitting_button: 'Enviando...',
+        save_notice: 'Puedes guardar y continuar más tarde',
+        no_artist_profile: {
+          title: 'No tienes un perfil de artista activo',
+          message:
+            'Solo se puede aplicar a una convocatoria desde un perfil de Artista. Verifica que hayas ingresado con el perfil correcto.',
+        },
+        success: {
+          title: 'Aplicación enviada',
+          message:
+            'Tu aplicación ha sido recibida correctamente. Revisaremos tu propuesta y nos pondremos en contacto contigo a través del correo electrónico proporcionado.',
+          back_button: 'Volver al inicio',
+        },
+        already_applied: {
+          title: 'Ya has aplicado a esta convocatoria',
+          message: 'Solo puedes enviar una aplicación por convocatoria.',
+          status_label: 'Estado de tu aplicación:',
+          details_button: 'Ver la convocatoria',
+        },
+        application_status: {
+          pending: 'Pendiente',
+          accepted: 'Aceptada',
+          rejected: 'Rechazada',
+        },
+        submit_errors: {
+          duplicate: 'Ya has aplicado a esta convocatoria.',
+          not_accepting_applications:
+            'Esta convocatoria no admite aplicaciones: está cerrada o fuera del plazo de postulación.',
+          open_call_not_found: 'No encontramos esta convocatoria. Es posible que haya sido eliminada.',
+          generic: 'No se pudo enviar tu aplicación. Inténtalo nuevamente más tarde.',
+        },
+      },
       OpenCallsListPage: {
         subpages: {
           active: { name: 'Activas' },
@@ -1226,9 +1268,6 @@ export const EsMessages = {
         },
       },
       OpenCallDetailsPage: {
-        event_label: 'Evento',
-        open_until_label: 'Convocatoria abierta hasta',
-        applications_received_suffix: 'aplicaciones recibidas',
         applications_received_title: 'Aplicaciones Recibidas',
         your_application_title: 'Tu aplicación',
         no_applications_yet: 'Todavía no hay aplicaciones para esta convocatoria.',
@@ -1238,6 +1277,47 @@ export const EsMessages = {
         unauthorized_message:
           'Inicia sesión con un perfil de Artist o de Place para ver las aplicaciones de esta convocatoria.',
         back_button: 'Volver a Mis Convocatorias',
+        apply_button: 'Aplicar a esta convocatoria',
+        open_call_status: {
+          DRAFT: 'Borrador',
+          OPEN: 'Abierta',
+          CLOSED: 'Cerrada',
+          CANCELLED: 'Cancelada',
+        },
+        presentation: {
+          open_badge: 'Convocatoria abierta',
+          expired_badge: 'Convocatoria cerrada',
+          apply_deadline_title: 'Plazo para aplicar',
+          event_date_label: 'Fecha del evento',
+          minutes_suffix: 'min',
+          sections: {
+            about: 'De qué se trata',
+            conditions: 'Condiciones y requisitos',
+            technical: 'Detalles técnicos',
+            compensation: 'Compensación y logística',
+          },
+          fields: {
+            description: 'Descripción',
+            genres: 'Géneros',
+            accepted_project_types: 'Tipos de proyecto aceptados',
+            requirements_description: 'Requisitos',
+            set_duration: 'Duración del set',
+            max_applications: 'Máximo de aplicaciones',
+            available_slots: 'Plazas disponibles',
+            expected_audience: 'Audiencia esperada',
+            stage_type: 'Tipo de escenario',
+            stage_dimensions: 'Dimensiones del escenario',
+            provided_sound: 'Sonido proporcionado',
+            provided_backline: 'Backline proporcionado',
+            provided_lighting: 'Iluminación proporcionada',
+            technical_notes: 'Notas técnicas',
+            fee: 'Caché',
+            travel_support: 'Apoyo con viajes',
+            accommodation_provided: 'Alojamiento',
+            meals_provided: 'Comidas',
+            additional_notes: 'Notas adicionales',
+          },
+        },
         status: {
           pending: 'Pendiente',
           accepted: 'Aceptado',

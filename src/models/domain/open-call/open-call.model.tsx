@@ -103,6 +103,10 @@ export class OpenCallModel extends EntityModel<OpenCallTemplate> implements Open
     return this.status === OpenCallStatus.OPEN && now.isAfter(this.start_date) && now.isBefore(this.end_date);
   }
 
+  get isExpired(): boolean {
+    return dayjs().isAfter(this.end_date, 'day');
+  }
+
   get placeId(): string | undefined {
     return resolvePopulatedRefId(this.place_id);
   }

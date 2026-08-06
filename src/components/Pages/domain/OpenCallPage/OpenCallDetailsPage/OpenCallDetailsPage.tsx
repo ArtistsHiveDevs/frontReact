@@ -13,9 +13,10 @@ import { OpenCallApplicationModel } from '~/models/domain/open-call/open-call-ap
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import NotFoundPage from '~/components/Pages/NotFoundPage';
-import { PATHS, URL_PARAMETER_NAMES } from '~/constants';
+import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import OpenCallSurveyReadOnly from '../OpenCallApplicationPage/OpenCallSurveyReadOnly';
 import { TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE } from './config-open-call-details';
+import OpenCallPresentation from './OpenCallPresentation';
 import '../OpenCallApplicationPage/index.scss';
 
 const STATUS_COLORS: Record<string, string> = {
@@ -171,18 +172,18 @@ const OpenCallDetailsPage = () => {
     return <NotFoundPage />;
   }
 
+  const canApplyToOpenCall = isArtistProfile && !applicationsLoading && !myApplication && !currentOpenCall.isExpired;
+
   return (
     <div className="open-call-page">
-      <div className="open-call-header">
-        <h1 className="open-call-title">{currentOpenCall.event_name}</h1>
-        <p className="open-call-subtitle">
-          {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.event_label`)}:{' '}
-          {currentOpenCall.event_date.format('DD/MM/YYYY')} &middot;{' '}
-          {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.open_until_label`)}:{' '}
-          {currentOpenCall.end_date.format('DD/MM/YYYY')} &middot; {applicationsForThisOpenCall.length}{' '}
-          {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.applications_received_suffix`)}
-        </p>
-      </div>
+      <OpenCallPresentation
+        openCall={currentOpenCall}
+        onApply={
+          canApplyToOpenCall
+            ? () => navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.APPLY}/${openCallId}`)
+            : undefined
+        }
+      />
 
       <div className="step-content">
         {isPlaceOwner && (

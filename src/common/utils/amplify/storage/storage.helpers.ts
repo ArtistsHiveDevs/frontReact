@@ -1,8 +1,10 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
 import { getUrl, removeData, uploadData } from './storage.client';
+import { UploadFileToServerResponse } from './storage.types';
+import { FileUploadCustomFile } from '~/components/shared/organisms/gui/dynamicForms';
 
 export const uploadFileToServer = async (params: {
-  file: File;
+  file: FileUploadCustomFile;
   access_level?: 'public' | 'protected' | 'private';
   path?: string;
   prefferedFilename?: string;
@@ -17,14 +19,17 @@ export const uploadFileToServer = async (params: {
       path: customPath,
       data: file,
     });
-    return { result, fileName, customPath };
+
+    const response: UploadFileToServerResponse = { result, fileName, customPath };
+
+    return response;
   } catch (error) {
     console.error('Error al subir la imagen:', error);
   }
 };
 
 export const uploadFilesToServer = async (params: {
-  files: File[];
+  files: FileUploadCustomFile[];
   access_level?: 'public' | 'protected' | 'private';
   path?: string;
 }) => {

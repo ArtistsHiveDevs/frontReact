@@ -6,12 +6,21 @@ import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists
 import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
-import { getImageURL, removeFilesFromServer, uploadFileToServer, uploadFilesToServer } from '~/common/utils/amplify/storage/storage.helpers';
+import {
+  getImageURL,
+  removeFilesFromServer,
+  uploadFileToServer,
+  uploadFilesToServer,
+} from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
-import { FileUploaderOptions } from '~/components/shared/organisms/gui/dynamicForms/components/FileUpload';
+import {
+  FileUploadCustomFile,
+  FileUploaderOptions,
+  FileUploadHandleEvent,
+} from '~/components/shared/organisms/gui/dynamicForms/components/FileUpload';
 import {
   DynamicTabbedForm,
   DynamicTabbedFormRef,
@@ -23,6 +32,7 @@ import {
   ARTIST_DETAIL_SUB_PAGE_CONFIG,
   TRANSLATION_BASE_ARTIST_DETAIL_PAGE,
 } from '../ArtistDetails/config-artist-detail';
+import { DBFileDataItem, UploadFileToServerResponse } from '~/common/utils/amplify/storage/storage.types';
 
 const ArtistsCreatePage = () => {
   const { navigateToEntity, navigateToInnerPath } = useNavigation();
@@ -120,7 +130,7 @@ const ArtistsCreatePage = () => {
     ]);
   }, []);
 
-  const updateFileUploadAddElements = (filesData: any, fieldName: string) => {
+  const updateFileUploadAddElements = (filesData: UploadFileToServerResponse[], fieldName: string) => {
     const extractFilesDataPaths = filesData?.map((fileData: any) => {
       return {
         src: `s3://${fileData.customPath}`,
@@ -137,16 +147,18 @@ const ArtistsCreatePage = () => {
     }));
   };
 
-  const findRemovalFilesPath = (fileData: any, fieldName: string) => {
-    const removalPaths = fileData?.path
-      ? [fileData.path]
-      : filesWrapperData?.[`${fieldName}`]
-          ?.filter((imageData: any) => imageData.fileName?.includes(fileData.name))
-          .map((pathElement: any) => pathElement?.path);
+  const findRemovalFilesPath = (fileData: FileUploadCustomFile[], fieldName: string) => {
+    const removalPaths = fileData?.map((fileData: FileUploadCustomFile) =>
+      fileData?.path
+        ? [fileData.path]
+        : filesWrapperData?.[`${fieldName}`]
+            ?.filter((imageData: any) => imageData.fileName?.includes(fileData.name))
+            .map((pathElement: any) => pathElement?.path)
+    );
     return removalPaths;
   };
 
-  const updateFileUploadRemoveElements = (paths: any, fieldName: string) => {
+  const updateFileUploadRemoveElements = (paths: string[], fieldName: string) => {
     paths?.forEach((path: string) => {
       const filterFileWrapperData = filesWrapperData?.[`${fieldName}`];
       const indexToRemove = filterFileWrapperData?.findIndex((fileElement: any) => fileElement?.path == path);
@@ -203,7 +215,7 @@ const ArtistsCreatePage = () => {
       // updateFields(fields);
       // updateCiudades(ciudades);
     },
-    fileUploadfilesChanged: async (handledUploadFileData: any) => {
+    fileUploadfilesChanged: async (handledUploadFileData: FileUploadHandleEvent) => {
       console.log({ handledUploadFileData });
       const { files, optionType, destinationPath, fieldName } = handledUploadFileData;
       if (optionType === FileUploaderOptions.addItem) {

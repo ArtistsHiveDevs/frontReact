@@ -14,6 +14,7 @@ export enum AuthorizationStates {
 export interface AllowedEntityRole {
   entityName: string;
   allowedEntityInstances?: AllowedEntityInstanceRole[];
+  checkCurrentProfileInfo?: boolean;
 }
 
 export interface AllowedEntityInstanceRole {
@@ -49,7 +50,11 @@ export function validateUserAuthorization(
             );
           }
 
-          if (checkCurrentProfileInfo) {
+          const shouldCheckCurrentProfile = allowedRole.checkCurrentProfileInfo !== undefined
+            ? allowedRole.checkCurrentProfileInfo
+            : checkCurrentProfileInfo;
+
+          if (shouldCheckCurrentProfile) {
             const currentProfileEntityName = getModelInfoFromClassName(user.currentProfileInfo?.entity)?.entityName;
             return currentProfileEntityName === allowedRole.entityName;
           }

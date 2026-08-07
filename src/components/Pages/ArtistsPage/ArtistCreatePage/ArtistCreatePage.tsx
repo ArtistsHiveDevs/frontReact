@@ -6,7 +6,7 @@ import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists
 import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
-import { getImageURL, removeImages, uploadImage, uploadImages } from '~/common/utils/amplify/storage/storage.helpers';
+import { getImageURL, removeFilesFromServer, uploadFileToServer, uploadFilesToServer } from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
@@ -171,7 +171,7 @@ const ArtistsCreatePage = () => {
   const handlers = {
     onSubmit: async (data: any, error?: any) => {
       if (!currentArtist) {
-        await uploadImage({ file: data.profile_pic });
+        await uploadFileToServer({ file: data.profile_pic });
         dispatch(artistsActions.createItem({ data }));
       } else {
         const updatePayload = {
@@ -207,7 +207,7 @@ const ArtistsCreatePage = () => {
       console.log({ handledUploadFileData });
       const { files, optionType, destinationPath, fieldName } = handledUploadFileData;
       if (optionType === FileUploaderOptions.addItem) {
-        const responses = await uploadImages({
+        const responses = await uploadFilesToServer({
           files,
           path: `profiles/${loggedUser.currentProfileIdentifier}${destinationPath}`,
         });
@@ -216,7 +216,7 @@ const ArtistsCreatePage = () => {
         }
       } else if (optionType === FileUploaderOptions.removeItem) {
         const findPaths = findRemovalFilesPath(files, fieldName);
-        const responses = await removeImages({ paths: findPaths });
+        const responses = await removeFilesFromServer({ paths: findPaths });
 
         if (responses?.length > 0) {
           updateFileUploadRemoveElements(findPaths, fieldName);

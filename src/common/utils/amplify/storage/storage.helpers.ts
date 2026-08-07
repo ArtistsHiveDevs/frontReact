@@ -1,7 +1,7 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
 import { getUrl, removeData, uploadData } from './storage.client';
 
-export const uploadImage = async (params: {
+export const uploadFileToServer = async (params: {
   file: File;
   access_level?: 'public' | 'protected' | 'private';
   path?: string;
@@ -23,7 +23,7 @@ export const uploadImage = async (params: {
   }
 };
 
-export const uploadImages = async (params: {
+export const uploadFilesToServer = async (params: {
   files: File[];
   access_level?: 'public' | 'protected' | 'private';
   path?: string;
@@ -32,7 +32,7 @@ export const uploadImages = async (params: {
   console.log({ params });
   try {
     // Usa Promise.all para cargar todos los archivos en paralelo
-    const results = await Promise.all(files.map((file) => uploadImage({ file, access_level, path })));
+    const results = await Promise.all(files.map((file) => uploadFileToServer({ file, access_level, path })));
 
     return results;
   } catch (error) {
@@ -70,7 +70,7 @@ export const getImagesURL = async (params: { fileNames: string[]; path?: string 
   return urls;
 };
 
-export const removeImage = async (params: { path?: string }) => {
+export const removeFileFromServer = async (params: { path?: string }) => {
   try {
     let { path } = params || {};
     const result = await removeData({
@@ -83,12 +83,12 @@ export const removeImage = async (params: { path?: string }) => {
   }
 };
 
-export const removeImages = async (params: { paths: string[] }) => {
+export const removeFilesFromServer = async (params: { paths: string[] }) => {
   const { paths } = params;
   console.log(paths)
   try {
     // Usa Promise.all para cargar todos los archivos en paralelo
-    const results = await Promise.all(paths.map((path) => removeImage({ path })));
+    const results = await Promise.all(paths.map((path) => removeFileFromServer({ path })));
 
     return results;
   } catch (error) {

@@ -6,7 +6,7 @@ import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametric
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
-import { uploadImage } from '~/common/utils/amplify/storage/storage.helpers';
+import { uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
 import { IndustrySignUpBanner } from '~/components/shared/atoms/IndustrySignUpBanner/IndustrySignUpBanner';
@@ -138,7 +138,7 @@ const UserCreatePage = () => {
       // console.log('#####----------->>>>  !!! ', data);
       if (!!data.profile_pic) {
         const prefferedFilename = `${loggedUser.sub}.${data.profile_pic.name.split('.').pop()}`;
-        const response = await uploadImage({
+        const response = await uploadFileToServer({
           file: data.profile_pic,
           prefferedFilename,
         });

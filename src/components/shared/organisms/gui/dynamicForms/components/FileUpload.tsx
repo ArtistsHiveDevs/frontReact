@@ -6,7 +6,7 @@ import { useFormContext } from 'react-hook-form';
 import { useI18n } from '~/common/utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { ComponentGeneratorParams } from '../DynamicControl';
-import { getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
+import { getFilesUrls, getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
 
 export const TRANSLATION_BASE_GLOBAL_DICT_ACTIONS = 'app.global_dictionary.actions';
 
@@ -156,25 +156,14 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
   };
 
   const getFilesURLs = async () => {
-    if (externalData && Array.isArray(externalData)) {
-      const urlsObject: { [identifier: string]: string } = {};
-
-      // Mapeamos las URLs a promesas y usamos Promise.all para esperar a que todas se resuelvan
-      const urlPromises = externalData.map(async (imageParams: any) => {
-        const url = await getUrlS3({ path: imageParams.src });
-        urlsObject[imageParams.src] = url;
-      });
-
-      // Esperamos a que todas las promesas terminen
-      await Promise.all(urlPromises);
-
+    let handleServerUrls = await getFilesUrls(externalData);
+    if (externalData && handleServerUrls) {
       const formattedInputData = externalData?.map((externalFile: any) => {
-        return { ...externalFile, customUrl: urlsObject[externalFile.src], name: externalFile?.fileName };
+        return { ...externalFile, customUrl: handleServerUrls[externalFile.src], name: externalFile?.fileName };
       });
       setSelectedFiles(formattedInputData);
       setAddButtonIsVisible(formattedInputData?.length < filesLimit);
-      // Una vez que se resuelvan, actualizamos el estado
-      setFilesUrls(urlsObject);
+      setFilesUrls(handleServerUrls);
     }
   };
 

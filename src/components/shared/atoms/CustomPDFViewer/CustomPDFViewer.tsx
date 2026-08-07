@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
-import { getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
+import { getFilesUrls, getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import './CustomPDFViewer.scss';
@@ -30,21 +30,11 @@ export const CustomPDFViewer = (props: any) => {
       getProfilePicURLs();
     }
   }, [fileSources]);
+  
   const getProfilePicURLs = async () => {
-    if (fileSources && Array.isArray(fileSources)) {
-      const urlsObject: { [identifier: string]: string } = {};
-
-      // Mapeamos las URLs a promesas y usamos Promise.all para esperar a que todas se resuelvan
-      const urlPromises = fileSources.map(async (imageParams: any) => {
-        const url = await getUrlS3({ path: imageParams.src });
-        urlsObject[imageParams.src] = url;
-      });
-
-      // Esperamos a que todas las promesas terminen
-      await Promise.all(urlPromises);
-
-      // Una vez que se resuelvan, actualizamos el estado
-      setFilesUrls(urlsObject);
+    let handleServerUrls = await getFilesUrls(fileSources);
+    if (fileSources && handleServerUrls) {
+      setFilesUrls(handleServerUrls);
     }
   };
 

@@ -96,3 +96,21 @@ export const removeImages = async (params: { paths: string[] }) => {
     throw error; // Lanza el error para que pueda ser manejado en la llamada
   }
 };
+
+export const getFilesUrls = async (referenceData: any) => {
+  let formattedUrls = undefined;
+  if (referenceData && Array.isArray(referenceData)) {
+        const urlsObject: { [identifier: string]: string } = {};
+  
+        // Mapeamos las URLs a promesas y usamos Promise.all para esperar a que todas se resuelvan
+        const urlPromises = referenceData.map(async (imageParams: any) => {
+          const url = await getUrlS3({ path: imageParams.src });
+          urlsObject[imageParams.src] = url;
+        });
+  
+        // Esperamos a que todas las promesas terminen
+        await Promise.all(urlPromises);
+        formattedUrls = urlsObject;
+  }
+  return formattedUrls;
+}

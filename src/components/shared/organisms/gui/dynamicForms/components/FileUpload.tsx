@@ -169,7 +169,7 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
       await Promise.all(urlPromises);
 
       const formattedInputData = externalData?.map((externalFile: any) => {
-        return { ...externalFile, src: urlsObject[externalFile.src] };
+        return { ...externalFile, customUrl: urlsObject[externalFile.src], name: externalFile?.fileName };
       });
       setSelectedFiles(formattedInputData);
       setAddButtonIsVisible(formattedInputData?.length < filesLimit);
@@ -288,7 +288,7 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
                   }}
                   onClick={() => handleRemoveItem(index)}
                 />
-                <span>{substringTextFormat(file?.name || file?.fileName, subtitleCardLimits)}</span>
+                <span>{substringTextFormat(file?.name , subtitleCardLimits)}</span>
               </div>
             ) : (
               <img

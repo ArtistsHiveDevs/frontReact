@@ -138,9 +138,11 @@ const ArtistsCreatePage = () => {
   };
 
   const findRemovalFilesPath = (fileData: any, fieldName: string) => {
-    const removalPaths = filesWrapperData[`${fieldName}`]
-      ?.filter((imageData: any) => imageData.fileName?.includes(fileData.name))
-      .map((pathElement: any) => pathElement?.path);
+    const removalPaths = fileData?.path
+      ? [fileData.path]
+      : filesWrapperData?.[`${fieldName}`]
+          ?.filter((imageData: any) => imageData.fileName?.includes(fileData.name))
+          .map((pathElement: any) => pathElement?.path);
     return removalPaths;
   };
 
@@ -240,7 +242,7 @@ const ArtistsCreatePage = () => {
       try {
         await formRef.current.submit();
         // Esperar a que el saga complete
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        await new Promise((resolve) => setTimeout(resolve, 1500));
       } catch (error) {
         console.error('Error en submit:', error);
       }

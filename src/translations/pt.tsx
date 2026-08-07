@@ -856,6 +856,10 @@ export const PtMessages = {
               sections: {
                 artist_gallery: {
                   name: 'Galeria do artista',
+                  attributes: {
+                    members: 'Membros',
+                    live: 'Ao vivo',
+                  },
                 },
                 live_gallery: {
                   name: 'Galeria ao vivo'

@@ -857,7 +857,11 @@ export const EsMessages = {
               name: 'General',
               sections: {
                 artist_gallery: {
-                  name: 'Galería del artista'
+                  name: 'Galería del artista',
+                  attributes: {
+                    members: 'Miembros',
+                    live: 'En vivo',
+                  },
                 },
                 live_gallery: {
                   name: 'Galería en vivo'

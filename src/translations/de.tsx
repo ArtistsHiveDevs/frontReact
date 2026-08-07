@@ -858,6 +858,10 @@ export const DeMessages = {
               sections: {
                 artist_gallery: {
                   name: 'Galerie des Künstlers',
+                  attributes: {
+                    members: 'Mitglieder',
+                    live: 'Live',
+                  },
                 },
                 live_gallery: {
                   name: 'Live-Galerie'

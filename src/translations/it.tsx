@@ -858,6 +858,10 @@ export const ItMessages = {
               sections: {
                 artist_gallery: {
                   name: "Galleria dell'artista",
+                  attributes: {
+                    members: 'Membri',
+                    live: 'Dal vivo',
+                  },
                 },
                 live_gallery: {
                   name: 'Galleria live'

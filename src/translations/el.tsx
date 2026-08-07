@@ -859,6 +859,10 @@ export const ElMessages = {
               sections: {
                 artist_gallery: {
                   name: 'Γκαλερί του καλλιτέχνη',
+                  attributes: {
+                    members: 'Μέλη',
+                    live: 'Ζωντανά',
+                  },
                 },
                 live_gallery: {
                   name: 'Ζωντανή γκαλερί'

@@ -3,15 +3,16 @@ import { useEffect, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
-import { getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
+import { getFilesUrls, getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import './CustomPDFViewer.scss';
+import { DBFileDataItem } from '~/common/utils/amplify/storage/storage.types';
 
 // Configurar worker de PDF.js
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-export const CustomPDFViewer = (props: any) => {
+export const CustomPDFViewer = (props: {fileSources:DBFileDataItem[]}) => {
   const { fileSources } = props;
   const [showPDF, setShowPDF] = useState(false);
   const [pdfUrl, setPDFUrl] = useState('');
@@ -30,21 +31,11 @@ export const CustomPDFViewer = (props: any) => {
       getProfilePicURLs();
     }
   }, [fileSources]);
+  
   const getProfilePicURLs = async () => {
-    if (fileSources && Array.isArray(fileSources)) {
-      const urlsObject: { [identifier: string]: string } = {};
-
-      // Mapeamos las URLs a promesas y usamos Promise.all para esperar a que todas se resuelvan
-      const urlPromises = fileSources.map(async (imageParams: any) => {
-        const url = await getUrlS3({ path: imageParams.src });
-        urlsObject[imageParams.src] = url;
-      });
-
-      // Esperamos a que todas las promesas terminen
-      await Promise.all(urlPromises);
-
-      // Una vez que se resuelvan, actualizamos el estado
-      setFilesUrls(urlsObject);
+    let handleServerUrls = await getFilesUrls(fileSources);
+    if (fileSources && handleServerUrls) {
+      setFilesUrls(handleServerUrls);
     }
   };
 
@@ -94,7 +85,7 @@ export const CustomPDFViewer = (props: any) => {
     if (!pdfUrl) return;
 
     // Obtener el nombre del archivo desde fileSources
-    const currentFile = fileSources?.find((file: any) => filesUrls[file?.src] === pdfUrl);
+    const currentFile = fileSources?.find((file: DBFileDataItem) => filesUrls[file?.src] === pdfUrl);
     const fileName = currentFile?.fileName || 'documento.pdf';
 
     // Crear un enlace temporal para descargar
@@ -129,7 +120,7 @@ export const CustomPDFViewer = (props: any) => {
         <Box className="box-document-avatar">
           {fileSources &&
             Array.isArray(fileSources) &&
-            fileSources.map((file: any, index: number) => (
+            fileSources.map((file: DBFileDataItem, index: number) => (
               <div key={`pdf_${file}_${index}`} style={{ display: 'flex', flexDirection: 'column' }}>
                 <Paper key={`${file?.fileName}-${index}`} variant="outlined" className="card-document-avatar">
                   <Button

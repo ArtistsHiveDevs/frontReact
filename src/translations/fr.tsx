@@ -860,6 +860,10 @@ export const FrMessages = {
               sections: {
                 artist_gallery: {
                   name: "Galerie de l'artiste",
+                  attributes: {
+                    members: 'Membres',
+                    live: 'En direct',
+                  },
                 },
                 live_gallery: {
                   name: 'Galerie live'

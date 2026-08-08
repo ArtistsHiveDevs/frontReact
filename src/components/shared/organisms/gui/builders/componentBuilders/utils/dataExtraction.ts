@@ -40,7 +40,8 @@ export const getAttributeTitle = (
 ): string => {
   if (attribute.emptyTitle !== true) {
     if (attribute.translationPath) {
-      return translateText(`${attribute.translationPath}.${attribute.name}`);
+      const labelSuffix = attribute.labelChild ? `.${attribute.labelChild}` : '';
+      return translateText(`${attribute.translationPath}.${attribute.name}${labelSuffix}`);
     }
 
     if (attribute.title) {

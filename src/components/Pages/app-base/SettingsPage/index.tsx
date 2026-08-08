@@ -22,6 +22,7 @@ import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/pl
 import { useUsersSlice } from '~/common/slices/users';
 import { selectUsers } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
+import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
 import { ProfilePicture } from '~/components/shared/atoms/gui/ProfilePicture/ProfilePicture';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import {
@@ -30,7 +31,6 @@ import {
 } from '~/components/shared/molecules/general/AttributesIconField';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import { AVAILABLE_I18N_LANGUAGES } from '~/translations';
-import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
 
 const TRANSLATION_BASE_SETTINGS_PAGE = 'app.pages.app.settings';
 

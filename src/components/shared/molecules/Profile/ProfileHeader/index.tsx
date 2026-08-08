@@ -147,6 +147,7 @@ export const ProfileHeader = (props: any) => {
 
   useEffect(() => {
     const userID = getStoredUserIdToken();
+
     let permissions = { canEdit: false, isInProfile: false };
     if (userID && loggedUser && element && parentHandlers && parentHandlers['onEditProfile']) {
       const userPermissions = loggedUser.checkPermissions(element.identifier);
@@ -159,12 +160,29 @@ export const ProfileHeader = (props: any) => {
         (type) => type.toLowerCase() === getModelInfoFromInstance(element).entityName?.toLowerCase()
       ) + 1;
     setBorderProfileColor(entityColorIndex);
-    const updateBurgerProfileMenuOptions = burgerProfileMenuOptions?.map((burgerOption) =>
-      burgerOption?.option == ProfileMenuOptionsType.EDIT
-        ? { ...burgerOption, show: permissions.isInProfile }
-        : burgerOption
-    );
-    setBurgerProfileMenuOptions(updateBurgerProfileMenuOptions);
+
+    // Determinar qué opciones del menú mostrar basado en permisos
+    const isOwnProfile = permissions.isInProfile;
+    const hasMembership = permissions.canEdit;
+    const canShowReport = !isOwnProfile && !hasMembership;
+
+    const updatedMenuOptions = burgerProfileMenuOptions?.map((menuOption) => {
+      switch (menuOption.option) {
+        case ProfileMenuOptionsType.SHARE:
+          // SHARE: Todos los perfiles pueden compartir
+          return { ...menuOption, show: true };
+
+        case ProfileMenuOptionsType.EDIT:
+          // EDIT: Solo si estoy en mi propio perfil
+          return { ...menuOption, show: isOwnProfile };
+
+
+        default:
+          return menuOption;
+      }
+    });
+
+    setBurgerProfileMenuOptions(updatedMenuOptions);
   }, [element, loggedUser]);
 
   // Efecto para manejar el scroll y mostrar/ocultar el header fijo

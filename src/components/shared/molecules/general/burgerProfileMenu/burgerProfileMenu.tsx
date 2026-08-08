@@ -12,13 +12,14 @@ const BurgerProfileMenu = (proops: any) => {
       {!!options && options?.length > 0 && (
         <div>
           <button className="subpages-tabs-more" onClick={(e) => setMenuAnchor(e.currentTarget)}>
-            <DynamicIcons iconName={'BsThreeDotsVertical'} color={'white'} size={20} />
+            <DynamicIcons iconName={'BsThreeDotsVertical'} color={'white'} size={18} />
           </button>
           <Menu anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={() => setMenuAnchor(null)}>
             {options?.map(
-              (option: any) =>
+              (option: any, index: number) =>
                 option?.show && (
                   <MenuItem
+                    key={`burger-option-${option?.option}-${index}`}
                     onClick={() => {
                       setMenuAnchor(null);
                       onClickOption(option?.id);

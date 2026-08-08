@@ -23,6 +23,7 @@ export enum ComponentTypes {
   PROFILE_THUMBNAIL_CARD,
   EVENT_THUMBNAIL_CARD,
   VISITED_COUNTRIES_CITIES_LIST_VIEW,
+  DOCUMENT_FILE_VIEWER,
 }
 export interface PageSection {
   name: string;

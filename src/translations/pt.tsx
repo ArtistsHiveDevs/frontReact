@@ -68,6 +68,7 @@ export const PtMessages = {
           unsubscribe: 'Cancelar',
         },
         upload: 'Carregar',
+        files_limit_exceded: 'Número máximo de arquivos permitidos excedido',
       },
       entities: {
         academies: { plural: 'Academias', singular: 'Academia' },

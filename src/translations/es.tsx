@@ -68,6 +68,7 @@ export const EsMessages = {
           unsubscribe: 'Cancelar',
         },
         upload: 'Cargar',
+        files_limit_exceded: 'Número máximo de archivos permitidos superado',
       },
       entities: {
         academies: { plural: 'Academias', singular: 'Academia' },

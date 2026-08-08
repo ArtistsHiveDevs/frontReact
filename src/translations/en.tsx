@@ -68,6 +68,7 @@ export const EnMessages = {
           unsubscribe: 'Unsubscribe',
         },
         upload: 'Upload',
+        files_limit_exceded: 'Maximum number of allowed files exceeded',
       },
       entities: {
         academies: { plural: 'Academies', singular: 'Academy' },

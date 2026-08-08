@@ -1101,6 +1101,24 @@ export const DeMessages = {
           'Deine Anfrage wurde erfolgreich registriert. Wir werden dich per E-Mail oder über soziale Netzwerke kontaktieren, sobald sie bearbeitet wurde.',
         CLAIM_BUTTON: 'Profil übernehmen',
       },
+      reportProfileForm: {
+        title: 'Profil melden',
+        reason_label: 'Grund der Meldung',
+        reasons: {
+          DUPLICATE: 'Doppeltes Profil',
+          FAKE: 'Gefälschtes Profil',
+          WRONG_INFO: 'Falsche Informationen',
+          BELONGS_TO_ME: 'Dieses Profil gehört mir, ist aber einer anderen Person zugewiesen',
+          INAPPROPRIATE_CONTENT: 'Unangemessener Inhalt',
+          OTHER: 'Sonstiges',
+        },
+        description_label: 'Beschreibung',
+        description_placeholder: 'Erzähl uns mehr Details zu dieser Meldung',
+        submit_button: 'Meldung senden',
+        success_message: 'Deine Meldung wurde gesendet. Danke, dass du hilfst, die Plattform sicher zu halten.',
+        error_message: 'Beim Senden deiner Meldung ist ein Fehler aufgetreten. Bitte versuche es erneut.',
+        duplicate_pending_error: 'Du hast bereits eine ausstehende Meldung für dieses Profil.',
+      },
       footer: {
         columns: {
           what_we_do: {

@@ -1,0 +1,11 @@
+@import '~/variables.module.scss';
+
+.report-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.report-profile-form-error {
+  color: #eb0000;
+}

@@ -6,6 +6,9 @@ export const EnMessages = {
       not_found_page: {
         title: "Oops! We couldn't find what you're looking for",
       },
+      component_error: {
+        message: 'This component could not be loaded.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -159,6 +162,12 @@ export const EnMessages = {
 
         // Unknown Errors
         UNKNOWN_ERROR: 'Unknown error',
+      },
+      forms: {
+        validation_error: 'Please review the highlighted fields before submitting.',
+        submit_error: "We couldn't save your changes. Please try again.",
+        submit_error_duplicate_key: 'That username is already taken. Please choose another one.',
+        submit_error_validation: 'Some required fields are missing or invalid. Please review the form.',
       },
       follows: {
         followers: 'Followers',
@@ -373,6 +382,34 @@ export const EnMessages = {
       },
 
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Pending Profiles Review',
+          unauthorized: {
+            title: 'Access denied',
+            description: "You don't have permission to view this page.",
+          },
+          sections: {
+            artists: {
+              title: 'Pending Artists',
+            },
+            places: {
+              title: 'Pending Places',
+            },
+          },
+          table: {
+            name: 'Name',
+            username: 'Username',
+            location: 'Location',
+            created_at: 'Submitted on',
+            actions: 'Actions',
+          },
+          actions: {
+            approve: 'Approve',
+            reject: 'Reject',
+          },
+          empty_state: 'No pending profiles to review',
+          error: 'Something went wrong. Please try again.',
+        },
         LoginPage: {
           paragraph1: 'You are viewing a trial version of our platform. Currently, user registration is limited.',
           paragraph2:
@@ -504,6 +541,61 @@ export const EnMessages = {
         },
       },
       domain: {
+        CalendarPage: {
+          title: 'My calendar',
+          empty_state: 'There are no events in this date range',
+          error: 'Something went wrong while loading your calendar. Please try again.',
+          deadline_label: 'Deadline',
+          types: {
+            concert: 'Concerts',
+            call: 'Open call deadlines',
+            activity: 'Activities',
+          },
+          meta: {
+            expired: 'Expired open call',
+            city: 'City',
+            event_date: 'Event date',
+            applications_count: 'Applications',
+            notes: 'Notes',
+          },
+          actions: {
+            today: 'Today',
+            month: 'Month',
+            week: 'Week',
+            day: 'Day',
+            delete: 'Delete',
+            cancel: 'Cancel',
+          },
+          activity_form: {
+            create_title: 'New activity',
+            edit_title: 'Edit activity',
+            save_error: 'The activity could not be saved. Please try again.',
+            fields: {
+              title: 'Title',
+              type: 'Type',
+              all_day: 'All day',
+              start_date: 'Start date',
+              start_time: 'Start time',
+              end_date: 'End date',
+              end_time: 'End time',
+              notes: 'Notes',
+            },
+            types: {
+              rehearsal: 'Rehearsal',
+              soundcheck: 'Soundcheck',
+              other: 'Other',
+            },
+            validation: {
+              title_required: 'Title is required',
+              start_date_required: 'Start date is required',
+              start_time_required: 'Start time is required',
+            },
+            delete_confirmation: {
+              title: 'Delete activity',
+              message: 'Are you sure you want to delete this activity? This action cannot be undone.',
+            },
+          },
+        },
         CulturalAgenda: {
           title: 'Cultural Agenda',
         },
@@ -708,6 +800,33 @@ export const EnMessages = {
         },
         IndustryOfferPage: {
           create_account_banner: 'Join the hive',
+        },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: 'Industry member',
+            intro:
+              'Thanks for your interest in registering as an industry member, whether as an artist, agent, venue owner, rehearsal space or other entity.',
+            intro_secondary: 'Search for your profile if it already exists in the system, or create a new one to get started.',
+            search_section: {
+              title: 'Search for your profile',
+              input_placeholder: 'Artist or place name...',
+              search_button: 'Search',
+              artists_found: 'These are the related artists',
+              places_found: 'These are the related places',
+            },
+            create_section: {
+              title: 'Or create a new profile',
+            },
+            reset_section: {
+              remove_artists_button: 'Remove my Artist profiles',
+              remove_places_button: 'Remove my Place profiles',
+              confirm_title: 'Confirm action',
+              confirm_content:
+                'This action will remove the association of all your profiles of this type with your account. The profiles themselves will not be deleted, but they will stop appearing in your memberships. Do you want to continue?',
+              confirm_action: 'Yes, remove',
+              cancel_action: 'Cancel',
+            },
+          },
         },
         PrebookingPages: {
           EventNegotiationPages: {
@@ -1094,6 +1213,7 @@ export const EnMessages = {
                   name: 'General Info',
                   attributes: {
                     description: 'Description',
+                    place_type: 'Venue Type',
                     address: 'Address',
                     city: 'City',
                     cityWithCountry: 'Location',
@@ -1230,8 +1350,8 @@ export const EnMessages = {
       },
       OpenCallsListPage: {
         subpages: {
-          active: { name: 'Active' },
-          past: { name: 'Past' },
+          active: { name: 'Active Open-calls' },
+          past: { name: 'Past Open-calls' },
           available: { name: 'Available' },
           applications: { name: 'My Applications' },
         },
@@ -1544,6 +1664,12 @@ export const EnMessages = {
               logout: 'Logout',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'Pending review',
+          rejected: 'Rejected',
         },
       },
     },

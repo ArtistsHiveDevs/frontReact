@@ -4,19 +4,17 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
   ReportClaimErrorType,
-  reportClaimActions,
   selectReportClaimError,
-  selectReportClaimErrorContent,
   selectReportClaimLoading,
   selectReportClaimSuccess,
   useReportClaimSlice,
 } from '~/common/slices/domain/reportClaim.redux';
-import { ReportClaimEntityType } from '~/models/domain/reportClaim/reportClaim.model';
 import { useI18n } from '~/common/utils';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
 import { REPORT_CLAIM_REASON_OPTIONS } from '~/constants/domain/reportClaim.constants';
 import { getModelInfoFromInstance } from '~/models/base/modelHelpers';
+import { ReportClaimEntityType } from '~/models/domain/reportClaim/reportClaim.model';
 
 import './ReportProfileForm.scss';
 
@@ -32,10 +30,11 @@ export const ReportProfileForm = ({ open, onClose, entity }: ReportProfileFormPr
   const { translateText, translateGlobalDict } = useI18n();
   const dispatch = useDispatch();
 
-  useReportClaimSlice();
+  const { actions: reportClaimActions } = useReportClaimSlice();
   const loading = useSelector(selectReportClaimLoading);
   const success = useSelector(selectReportClaimSuccess);
-  const errorType = useSelector(selectReportClaimError);
+  const reportClaimError = useSelector(selectReportClaimError);
+  const errorType = reportClaimError?.errorType;
 
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);

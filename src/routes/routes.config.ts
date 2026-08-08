@@ -55,6 +55,12 @@ export const ROUTES_CONFIG: PathConfigMap = {
       component: lazy(() => import('~/components/shared/organisms/app/PlansOffer/PlansOfferPage/PlansOfferPage')),
       path: PATHS.PLANS,
     },
+    // Gating de is_platform_admin lo maneja la propia página; esta ruta solo exige sesión iniciada.
+    AdminPendingProfilesPage: {
+      component: lazy(() => import('~/components/Pages/domain/AdminPages/PendingProfilesPage')),
+      path: PATHS.ADMIN_PENDING_PROFILES,
+      redirectToIfNotLoggedUser: PATHS.LOGIN,
+    },
   },
   domain: {
     sections: {
@@ -141,12 +147,14 @@ export const ROUTES_CONFIG: PathConfigMap = {
             component: lazy(
               () => import('~/components/Pages/domain/PrebookingsPages/PrebookingsListPage/PrebookingsListPage')
             ),
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
           },
           PrebookDetailsPage: {
             component: lazy(
               () => import('~/components/Pages/domain/PrebookingsPages/PrebookingsDetailsPage/PrebookingsDetailsPage')
             ),
             path: detailsPagePath,
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
           },
           EventNegociationDetailsPage: {
             component: lazy(
@@ -204,7 +212,7 @@ export const ROUTES_CONFIG: PathConfigMap = {
           creator: {
             component: lazy(() => import('~/components/Pages/domain/RidersPage/StagePlot/StagePlotEditor')),
             path: `${SUB_PATHS.EDITOR}/:${URL_PARAMETER_NAMES.ELEMENT_ID}`,
-            // redirectToIfNotLoggedUser: PATHS.LOGIN,
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
           },
         },
       },
@@ -223,9 +231,10 @@ export const ROUTES_CONFIG: PathConfigMap = {
           },
           OpenCallApplicationPage: {
             component: lazy(
-              () => import('~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/OpenCallsApplicationPage')
+              () => import('~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/OpenCallsPage')
             ),
             path: `${SUB_PATHS.APPLY}/:${URL_PARAMETER_NAMES.ELEMENT_ID}`,
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
           },
           OpenCallDetailsPage: {
             component: lazy(

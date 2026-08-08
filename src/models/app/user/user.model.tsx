@@ -1,4 +1,5 @@
 import { VerificationStatus } from '~/constants';
+import { ProfileApprovalStatus } from '~/constants/domain/profile.constants';
 import { LocationTemplate, Model, ProfileModel, ProfileTemplate, SearchableTemplate } from '~/models/base';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel, EventTemplate } from '~/models/domain/event/event.model';
@@ -25,6 +26,7 @@ export interface EntityInstanceRoleMapTemplate {
   //TODO verificar si se puede quitar
   location?: string | LocationTemplate[];
   verified_status: VerificationStatus;
+  approval_status?: ProfileApprovalStatus;
 }
 export interface UserAvailableEntityRole {
   entityName: string;
@@ -113,6 +115,9 @@ export interface AppUserTemplate extends ProfileTemplate {
 
   show_industry_member_banner: boolean;
   request_industry_member: number;
+
+  // Se asigna manualmente en la base de datos por ahora; no hay endpoint/UI para setearlo (ver /admin/pending-profiles).
+  is_platform_admin?: boolean;
 }
 
 export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUserTemplate, SearchableTemplate {
@@ -160,6 +165,8 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
 
   declare show_industry_member_banner: boolean;
   declare request_industry_member: number;
+
+  declare is_platform_admin?: boolean;
 
   artistMemberships: CurrentProfileInfoModel[];
   placeMemberships: CurrentProfileInfoModel[];
@@ -350,6 +357,7 @@ export class CurrentProfileInfoModel
   declare profile_pic?: string;
   declare subtitle?: string;
   declare verified_status: VerificationStatus;
+  declare approval_status?: ProfileApprovalStatus;
   declare roles?: string[];
   declare location?: string | LocationTemplate[];
 

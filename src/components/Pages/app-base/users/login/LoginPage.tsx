@@ -7,7 +7,7 @@ import { useApiKeySlice } from '~/common/slices/app-base/APIKey';
 import { selectError } from '~/common/slices/app-base/APIKey/selectors';
 import { useUsersSlice } from '~/common/slices/users';
 import { CidUserData, getEmailByUsername } from '~/common/slices/users/saga';
-import { selectUsernameValidation, selectUsers } from '~/common/slices/users/selectors';
+import { selectUsers } from '~/common/slices/users/selectors';
 import { I18nPaths, useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { generatePreAuthHeaders } from '~/common/utils/request';
@@ -18,13 +18,52 @@ import { SocialNetworks, SocialNetworkTemplate } from '~/constants/social-networ
 import { AppUserModel } from '~/models/app/user/user.model';
 import './LoginPage.scss';
 
-import { Authenticator } from '@aws-amplify/ui-react';
+import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { AuthUser } from 'aws-amplify/auth';
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
-import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 
 const TRANSLATION_BASE_LOGIN_PAGE = 'app.pages.app_base.LoginPage';
+
+const LoginAuthTabs = () => {
+  const { route, toSignIn, toSignUp } = useAuthenticator(({ route, toSignIn, toSignUp }) => [
+    route,
+    toSignIn,
+    toSignUp,
+  ]);
+  const isSignUp = route === 'signUp';
+
+  return (
+    <div className="login-auth-tabs">
+      <div
+        className={`amplify-tabs__list amplify-tabs__list--top amplify-tabs__list--equal${
+          isSignUp ? ' amplify-tabs__list--signup' : ''
+        }`}
+        role="tablist"
+      >
+        <span className="amplify-tabs__thumb" aria-hidden="true" />
+        <button
+          type="button"
+          role="tab"
+          aria-selected={route === 'signIn'}
+          className={`amplify-tabs__item${route === 'signIn' ? ' amplify-tabs__item--active' : ''}`}
+          onClick={toSignIn}
+        >
+          Sign In
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={route === 'signUp'}
+          className={`amplify-tabs__item${route === 'signUp' ? ' amplify-tabs__item--active' : ''}`}
+          onClick={toSignUp}
+        >
+          Create Account
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const SIGN_IN_OPTIONS =
   import.meta.env.VITE_USE_LOCAL_COGNITO === 'true' ? { options: { authFlowType: 'USER_PASSWORD_AUTH' as const } } : {};
@@ -64,7 +103,6 @@ export const LoginPage = () => {
   const { translateText, locale } = useI18n();
 
   const usersList: AppUserModel[] = useSelector(selectUsers);
-  const usernameValidationResult: UsernameAvailabilityStatus = useSelector(selectUsernameValidation);
   const { actions: usersActions } = useUsersSlice();
 
   const fields: DynamicFieldData[] = [
@@ -144,7 +182,14 @@ export const LoginPage = () => {
   const [cognitoUser, setCognitoUser] = useState<AuthUser>();
   const [userAttributes, setUserAttributes] = useState<FetchUserAttributesOutput>();
   const [mongoUsername, setMongoUsername] = useState<string | null>(null);
+  // Arranca en true: cubre el caso de sesión ya autenticada al cargar la página
+  // (Amplify resuelve la sesión existente sin disparar el evento 'signedIn' del
+  // Hub, así que nunca pasaría por el listener que lo pondría en true). Solo se
+  // pone en false explícitamente cuando justSignedUpRef marca un signup fresco.
+  const [userReadyInBackend, setUserReadyInBackend] = useState(true);
+  const justSignedUpRef = useRef(false);
   const loginUserDataRef = useRef<CidUserData | null>(null);
+  const latestAuthUserRef = useRef<AuthUser>();
   const localeRef = useRef(locale);
 
   // Mantener el ref actualizado con el locale actual
@@ -159,13 +204,35 @@ export const LoginPage = () => {
 
       // Evento que se dispara después de hacer login (manual o automático después de verificar email)
       if (event === 'signedIn') {
+        // Solo un signup recién confirmado necesita esperar a que el backend
+        // termine de crear el usuario en Mongo antes de pedir la API key.
+        const isFreshSignUp = justSignedUpRef.current;
+        justSignedUpRef.current = false;
+
+        if (isFreshSignUp) {
+          setUserReadyInBackend(false);
+        }
+
         try {
+          // No depender del render prop del <Authenticator> para saber que hay un
+          // usuario logueado: cuando el signup local confirma y hace signIn() de
+          // forma manual (ver handleSignUp), Cognito sí queda autenticado pero la
+          // máquina de estados del Authenticator no siempre lo refleja y se queda
+          // mostrando el formulario de Sign In. El evento del Hub es la fuente de
+          // verdad real, así que seteamos cognitoUser directamente acá.
+          const { getCurrentUser } = await import('aws-amplify/auth');
+          const currentAuthUser = await getCurrentUser();
+          setCognitoUser(currentAuthUser);
+
           const attributes = await fetchUserAttributes();
 
           // Si tenemos datos del login previo (handleSignIn), usarlos
           if (loginUserDataRef.current) {
             setMongoUsername(loginUserDataRef.current.username);
             loginUserDataRef.current = null; // Limpiar ref
+            if (isFreshSignUp) {
+              setUserReadyInBackend(true);
+            }
             return;
           }
 
@@ -206,8 +273,17 @@ export const LoginPage = () => {
             // Usuario existe, guardar el username de MongoDB
             setMongoUsername(checkData?.data?.username || null);
           }
+
+          // El usuario ya existe (o se acaba de crear) en MongoDB: recién ahora
+          // es seguro pedir la API key sin correr contra la creación en el backend.
+          if (isFreshSignUp) {
+            setUserReadyInBackend(true);
+          }
         } catch (error) {
           console.error('Error in signedIn handler:', error);
+          if (isFreshSignUp) {
+            setUserReadyInBackend(true);
+          }
         }
       }
     });
@@ -216,6 +292,16 @@ export const LoginPage = () => {
       hubListenerCancelToken();
     };
   }, []);
+
+  // El Authenticator invoca su render prop durante el render de AuthenticatorInternal;
+  // llamar a setCognitoUser ahí mismo es un setState-durante-render de otro componente
+  // (React lo advierte en consola) y puede dejar la UI colgada. Este efecto, sin
+  // dependencias, corre después de cada render y aplica el valor de forma segura.
+  useEffect(() => {
+    if (latestAuthUserRef.current && latestAuthUserRef.current !== cognitoUser) {
+      setCognitoUser(latestAuthUserRef.current);
+    }
+  });
 
   useEffect(() => {
     if (cognitoUser) {
@@ -230,18 +316,17 @@ export const LoginPage = () => {
     try {
       const info = await fetchUserAttributes();
       setUserAttributes(info);
-
-      // Solo verificar disponibilidad si no tenemos ya el username de MongoDB
-      if (cognitoUser && info.email && !mongoUsername && !loginUserDataRef.current) {
-        dispatch(usersActions.checkUsernameAvailability(info.preferred_username || info.email));
-      }
     } catch (error) {
       console.error('Error fetching user attributes:', error);
     }
   };
 
   useEffect(() => {
-    if (cognitoUser && userAttributes) {
+    // Espera a que el listener del Hub confirme que el usuario ya existe (o fue
+    // creado) en MongoDB; si se pide la API key antes, /api/generate-key responde
+    // 404 porque todavía no encuentra el usuario por sub, y el login nunca se
+    // completa (ni redirige a home) tras un signup recién confirmado.
+    if (cognitoUser && userAttributes && userReadyInBackend) {
       // Usar el username de MongoDB si existe, sino usar preferred_username o email
       const username = mongoUsername || userAttributes.preferred_username || userAttributes.email || cognitoUser.userId;
 
@@ -252,7 +337,7 @@ export const LoginPage = () => {
         })
       );
     }
-  }, [cognitoUser, userAttributes, mongoUsername]);
+  }, [cognitoUser, userAttributes, mongoUsername, userReadyInBackend]);
 
   return (
     <>
@@ -326,149 +411,158 @@ export const LoginPage = () => {
           </Paper>
         </Grid> } */}
         <Grid item xs={12} md={6}>
-          <Paper elevation={3} sx={{ padding: 2 }} className={'login-form-container'}>
+          <Paper elevation={0} sx={{ padding: 0, backgroundColor: 'transparent', boxShadow: 'none' }} className={'login-form-container'}>
             {/* <Typography variant="h4" gutterBottom padding={'1rem'}>
               Usuario o email:
             </Typography> */}
-            <Authenticator
-              loginMechanisms={['email']}
-              // socialProviders={['amazon', 'apple', 'facebook', 'google']}
-              signUpAttributes={['email', 'given_name', 'family_name', 'phone_number']}
-              services={{
-                async handleSignUp(formData) {
-                  const { username, password, options } = formData;
-                  const { signUp } = await import('aws-amplify/auth');
-                  const currentLocale = localeRef.current;
+            <Authenticator.Provider>
+              <LoginAuthTabs />
+              <Authenticator
+                loginMechanisms={['email']}
+                // socialProviders={['amazon', 'apple', 'facebook', 'google']}
+                signUpAttributes={['email', 'given_name', 'family_name', 'phone_number']}
+                services={{
+                  async handleSignUp(formData) {
+                    const { username, password, options } = formData;
+                    const { signUp } = await import('aws-amplify/auth');
+                    const currentLocale = localeRef.current;
 
-                  const result = await signUp({
-                    username,
-                    password,
-                    options: {
-                      ...options,
-                      clientMetadata: {
-                        locale: currentLocale,
+                    // Marca que el próximo evento 'signedIn' viene de una cuenta
+                    // recién creada (autoSignIn tras confirmar), para que el listener
+                    // del Hub espere a que el usuario exista en Mongo antes de pedir
+                    // la API key.
+                    justSignedUpRef.current = true;
+
+                    const result = await signUp({
+                      username,
+                      password,
+                      options: {
+                        ...options,
+                        clientMetadata: {
+                          locale: currentLocale,
+                        },
                       },
-                    },
-                  });
-
-                  if (
-                    import.meta.env.VITE_USE_LOCAL_COGNITO === 'true' &&
-                    result.nextStep.signUpStep === 'CONFIRM_SIGN_UP'
-                  ) {
-                    const adminUrl = import.meta.env.VITE_COGNITO_ADMIN_URL;
-
-                    await fetch(`${adminUrl}/confirm`, {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ username }),
                     });
 
-                    await signIn({ username, password, ...SIGN_IN_OPTIONS });
+                    if (
+                      import.meta.env.VITE_USE_LOCAL_COGNITO === 'true' &&
+                      result.nextStep.signUpStep === 'CONFIRM_SIGN_UP'
+                    ) {
+                      const adminUrl = import.meta.env.VITE_COGNITO_ADMIN_URL;
 
-                    return { ...result, isSignUpComplete: true, nextStep: { signUpStep: 'DONE' as const } };
-                  }
+                      await fetch(`${adminUrl}/confirm`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username }),
+                      });
 
-                  return result;
-                },
-                async handleSignIn(formData) {
-                  const { username, password } = formData;
+                      await signIn({ username, password, ...SIGN_IN_OPTIONS });
 
-                  // Validar password
-                  const passwordValidation = validatePassword(password);
-                  if (!passwordValidation.valid) {
-                    throw new Error(passwordValidation.message);
-                  }
-
-                  // Detectar si es email o username
-                  let emailToUse = username;
-
-                  if (!isEmail(username)) {
-                    // Es un username, buscar el email y guardar datos
-                    const userData = await getEmailByUsername(username);
-
-                    if (!userData) {
-                      throw new Error('Username not found');
+                      return { ...result, isSignUpComplete: true, nextStep: { signUpStep: 'DONE' as const } };
                     }
 
-                    // Guardar datos para usarlos después del login
-                    loginUserDataRef.current = userData;
-                    emailToUse = userData.email;
-                  }
+                    return result;
+                  },
+                  async handleSignIn(formData) {
+                    const { username, password } = formData;
 
-                  // Hacer login con Cognito usando el email
-                  return signIn({ username: emailToUse, password, ...SIGN_IN_OPTIONS });
-                },
-                async handleConfirmSignUp(formData) {
-                  const { username, confirmationCode } = formData;
+                    // Validar password
+                    const passwordValidation = validatePassword(password);
+                    if (!passwordValidation.valid) {
+                      throw new Error(passwordValidation.message);
+                    }
 
-                  // Confirmar el email en Cognito
-                  const { confirmSignUp } = await import('aws-amplify/auth');
+                    // Detectar si es email o username
+                    let emailToUse = username;
 
-                  // Cognito hace autoSignIn después de confirmar
-                  // El evento se manejará en el Hub listener
-                  return confirmSignUp({ username, confirmationCode });
-                },
-              }}
-              formFields={{
-                signIn: {
-                  username: {
-                    label: 'Email o Username',
-                    placeholder: 'Ingresa tu email o username',
-                    isRequired: true,
-                    type: 'text',
+                    if (!isEmail(username)) {
+                      // Es un username, buscar el email y guardar datos
+                      const userData = await getEmailByUsername(username);
+
+                      if (!userData) {
+                        throw new Error('Username not found');
+                      }
+
+                      // Guardar datos para usarlos después del login
+                      loginUserDataRef.current = userData;
+                      emailToUse = userData.email;
+                    }
+
+                    // Hacer login con Cognito usando el email
+                    return signIn({ username: emailToUse, password, ...SIGN_IN_OPTIONS });
                   },
-                  password: {
-                    label: 'Password',
-                    placeholder: 'Ingresa tu password',
-                    isRequired: true,
+                  async handleConfirmSignUp(formData) {
+                    const { username, confirmationCode } = formData;
+
+                    // Confirmar el email en Cognito
+                    const { confirmSignUp } = await import('aws-amplify/auth');
+
+                    // Cognito hace autoSignIn después de confirmar
+                    // El evento se manejará en el Hub listener
+                    return confirmSignUp({ username, confirmationCode });
                   },
-                },
-                signUp: {
-                  given_name: {
-                    label: 'First Name',
-                    placeholder: 'Enter your first name',
-                    isRequired: true,
-                    order: 1,
+                }}
+                formFields={{
+                  signIn: {
+                    username: {
+                      label: 'Email o Username',
+                      placeholder: 'Ingresa tu email o username',
+                      isRequired: true,
+                      type: 'text',
+                    },
+                    password: {
+                      label: 'Password',
+                      placeholder: 'Ingresa tu password',
+                      isRequired: true,
+                    },
                   },
-                  family_name: {
-                    label: 'Last Name',
-                    placeholder: 'Enter your last name',
-                    isRequired: true,
-                    order: 2,
+                  signUp: {
+                    given_name: {
+                      label: 'First Name',
+                      placeholder: 'Enter your first name',
+                      isRequired: true,
+                      order: 1,
+                    },
+                    family_name: {
+                      label: 'Last Name',
+                      placeholder: 'Enter your last name',
+                      isRequired: true,
+                      order: 2,
+                    },
+                    email: {
+                      label: 'Email',
+                      placeholder: 'Enter your Email',
+                      isRequired: true,
+                      order: 3,
+                    },
+                    password: {
+                      label: 'Password',
+                      placeholder: 'Enter your Password',
+                      isRequired: true,
+                      order: 4,
+                    },
+                    confirm_password: {
+                      label: 'Confirm Password',
+                      placeholder: 'Please confirm your Password',
+                      isRequired: true,
+                      order: 5,
+                    },
+                    phone_number: {
+                      label: 'Phone Number',
+                      placeholder: '1234567890',
+                      isRequired: false,
+                      order: 6,
+                    },
                   },
-                  email: {
-                    label: 'Email',
-                    placeholder: 'Enter your Email',
-                    isRequired: true,
-                    order: 3,
-                  },
-                  password: {
-                    label: 'Password',
-                    placeholder: 'Enter your Password',
-                    isRequired: true,
-                    order: 4,
-                  },
-                  confirm_password: {
-                    label: 'Confirm Password',
-                    placeholder: 'Please confirm your Password',
-                    isRequired: true,
-                    order: 5,
-                  },
-                  phone_number: {
-                    label: 'Phone Number',
-                    placeholder: '1234567890',
-                    isRequired: false,
-                    order: 6,
-                  },
-                },
-              }}
-              components={{}}
-            >
-              {({ signOut, user }) => {
-                setCognitoUser(user);
-                return <AppLoader height="100%" />;
-              }}
-            </Authenticator>
+                }}
+                components={{}}
+              >
+                {({ signOut, user }) => {
+                  latestAuthUserRef.current = user;
+                  return <AppLoader height="100%" />;
+                }}
+              </Authenticator>
+            </Authenticator.Provider>
             {/* <Button onClick={() => crearAlgo()}> POR FIN </Button> */}
           </Paper>
         </Grid>

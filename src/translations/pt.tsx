@@ -6,6 +6,9 @@ export const PtMessages = {
       not_found_page: {
         title: 'Oops! Não conseguimos encontrar o que está a procurar',
       },
+      component_error: {
+        message: 'Não foi possível carregar este componente.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -159,6 +162,12 @@ export const PtMessages = {
 
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Erro desconhecido',
+      },
+      forms: {
+        validation_error: 'Revise os campos destacados antes de enviar o formulário.',
+        submit_error: 'Não foi possível salvar as alterações. Tente novamente.',
+        submit_error_duplicate_key: 'Esse nome de usuário já está em uso. Escolha outro.',
+        submit_error_validation: 'Alguns campos obrigatórios estão faltando ou inválidos. Revise o formulário.',
       },
       follows: {
         followers: 'Seguidores',
@@ -372,6 +381,34 @@ export const PtMessages = {
         },
       },
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Revisão de perfis pendentes',
+          unauthorized: {
+            title: 'Acesso negado',
+            description: 'Você não tem permissão para ver esta página.',
+          },
+          sections: {
+            artists: {
+              title: 'Artistas pendentes',
+            },
+            places: {
+              title: 'Locais pendentes',
+            },
+          },
+          table: {
+            name: 'Nome',
+            username: 'Usuário',
+            location: 'Localização',
+            created_at: 'Enviado em',
+            actions: 'Ações',
+          },
+          actions: {
+            approve: 'Aprovar',
+            reject: 'Rejeitar',
+          },
+          empty_state: 'Nenhum perfil pendente para revisão',
+          error: 'Ocorreu um erro. Tente novamente.',
+        },
         LoginPage: {
           paragraph1:
             'Você está visualizando uma versão de teste da nossa plataforma. Atualmente, o registro de usuários está limitado.',
@@ -504,6 +541,61 @@ export const PtMessages = {
         },
       },
       domain: {
+        CalendarPage: {
+          title: 'My calendar',
+          empty_state: 'There are no events in this date range',
+          error: 'Something went wrong while loading your calendar. Please try again.',
+          deadline_label: 'Deadline',
+          types: {
+            concert: 'Concerts',
+            call: 'Open call deadlines',
+            activity: 'Activities',
+          },
+          meta: {
+            expired: 'Expired open call',
+            city: 'City',
+            event_date: 'Event date',
+            applications_count: 'Applications',
+            notes: 'Notes',
+          },
+          actions: {
+            today: 'Today',
+            month: 'Month',
+            week: 'Week',
+            day: 'Day',
+            delete: 'Delete',
+            cancel: 'Cancel',
+          },
+          activity_form: {
+            create_title: 'New activity',
+            edit_title: 'Edit activity',
+            save_error: 'The activity could not be saved. Please try again.',
+            fields: {
+              title: 'Title',
+              type: 'Type',
+              all_day: 'All day',
+              start_date: 'Start date',
+              start_time: 'Start time',
+              end_date: 'End date',
+              end_time: 'End time',
+              notes: 'Notes',
+            },
+            types: {
+              rehearsal: 'Rehearsal',
+              soundcheck: 'Soundcheck',
+              other: 'Other',
+            },
+            validation: {
+              title_required: 'Title is required',
+              start_date_required: 'Start date is required',
+              start_time_required: 'Start time is required',
+            },
+            delete_confirmation: {
+              title: 'Delete activity',
+              message: 'Are you sure you want to delete this activity? This action cannot be undone.',
+            },
+          },
+        },
         CulturalAgenda: {
           title: 'Agenda Cultural',
         },
@@ -706,6 +798,33 @@ export const PtMessages = {
         },
         IndustryOfferPage: {
           create_account_banner: 'Junte-se à colmeia',
+        },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: 'Membro da indústria',
+            intro:
+              'Obrigado pelo seu interesse em se registrar como membro da indústria, seja como artista, agente, dono de um local, sala de ensaio ou outra entidade.',
+            intro_secondary: 'Procure seu perfil se ele já existir no sistema, ou crie um novo para começar.',
+            search_section: {
+              title: 'Procure seu perfil',
+              input_placeholder: 'Nome do artista ou lugar...',
+              search_button: 'Buscar',
+              artists_found: 'Estes são os artistas relacionados',
+              places_found: 'Estes são os lugares relacionados',
+            },
+            create_section: {
+              title: 'Ou crie um novo perfil',
+            },
+            reset_section: {
+              remove_artists_button: 'Remover meus perfis de Artista',
+              remove_places_button: 'Remover meus perfis de Lugar',
+              confirm_title: 'Confirmar ação',
+              confirm_content:
+                'Esta ação removerá a associação de todos os seus perfis deste tipo com sua conta. Os perfis não serão excluídos, mas deixarão de aparecer nas suas associações. Deseja continuar?',
+              confirm_action: 'Sim, remover',
+              cancel_action: 'Cancelar',
+            },
+          },
         },
         PrebookingPages: {
           EventNegotiationPages: {
@@ -1113,6 +1232,7 @@ export const PtMessages = {
                   name: 'Informações Gerais',
                   attributes: {
                     description: 'Descrição',
+                    place_type: 'Tipo de local',
                     address: 'Endereço',
                     city: 'Cidade',
                     cityWithCountry: 'Localização',
@@ -1240,8 +1360,8 @@ export const PtMessages = {
       },
       OpenCallsListPage: {
         subpages: {
-          active: { name: 'Ativas' },
-          past: { name: 'Passadas' },
+          active: { name: 'Chamadas abertas ativas' },
+          past: { name: 'Chamadas abertas passadas' },
           available: { name: 'Disponíveis' },
           applications: { name: 'Minhas candidaturas' },
         },
@@ -1554,6 +1674,12 @@ export const PtMessages = {
               logout: 'Sair',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'Pendente de revisão',
+          rejected: 'Rejeitado',
         },
       },
     },

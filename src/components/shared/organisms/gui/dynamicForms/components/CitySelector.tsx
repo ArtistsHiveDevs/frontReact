@@ -1,6 +1,6 @@
 import { FormLabel } from '@mui/material';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { FieldErrors, FieldValues, UseFormRegister, UseFormReturn, useFormContext } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import Flag from 'react-world-flags';
 import { selectorCountries, useCountriesSlice } from '~/common/slices/parametrics/geo/country.redux';
@@ -126,7 +126,10 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
   }, [initialDefaultValue, externalData?.elementData, fieldData?.fieldName]);
 
   const { maxLevel = 3, minLevel = 1, showCountrySelector = true, allowEmptyLevels = true } = componentParams;
-  const isFieldRequired = fieldConfig?.required === true || fieldConfig?.required === 'true';
+  // required acepta boolean (compat previa) o un string de mensaje (mismo patrón que Select.tsx/TextField.tsx).
+  const isFieldRequired =
+    fieldConfig?.required === true ||
+    (typeof fieldConfig?.required === 'string' && fieldConfig.required.trim().length > 0);
 
   const hookContext = useFormContext();
   const finalContext = externalContext || hookContext;
@@ -563,7 +566,9 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
   return (
     <div style={{ marginBottom: '2rem' }}>
       <FormLabel required={isFieldRequired}>{fieldData?.label}</FormLabel>
-      {showCountrySelector && <LevelSelector fieldData={countryFieldData} handlers={countryHandlers} indented />}
+      {showCountrySelector && (
+        <LevelSelector fieldData={countryFieldData} handlers={countryHandlers} indented />
+      )}
       {levelFieldsData.map(({ level, fieldData }) => {
         // 🚨 solo renderizo si su padre tiene selección
         if (level > 1 && !selections[level - 1]) return null;

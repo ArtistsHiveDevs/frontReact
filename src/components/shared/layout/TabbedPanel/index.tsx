@@ -10,6 +10,8 @@ import {
   RequireAuthComponent,
   validateUserAuthorization,
 } from '~/components/shared/atoms/app/auth/RequiredAuth';
+import { ErrorBoundary } from '~/components/shared/atoms/ErrorBoundary';
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import {
   ComponentDescriptor,
@@ -20,7 +22,6 @@ import {
   buildComponent as buildComponentFromRegistry,
   registerAllBuilders,
 } from '~/components/shared/organisms/gui/builders/componentBuilders';
-import { DynamicIcons } from '../../DynamicIcons';
 import './index.scss';
 
 export interface TabbedPage {
@@ -132,7 +133,9 @@ const defaultConfigTransformer = (subpagesConfig: PageSection[], context?: Defau
                       .filter((componentDescriptor: ComponentDescriptor) => isVisible(componentDescriptor, entityData))
                       .map((componentDescriptor: ComponentDescriptor, componentIndex: number) => (
                         <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
-                          {buildComponent(subpage, section, componentDescriptor, componentIndex, undefined)}
+                          <ErrorBoundary fallbackMessageId="app.general.component_error.message">
+                            {buildComponent(subpage, section, componentDescriptor, componentIndex, undefined)}
+                          </ErrorBoundary>
                         </div>
                       ));
                   }

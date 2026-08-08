@@ -6,6 +6,9 @@ export const FrMessages = {
       not_found_page: {
         title: "Oups ! Nous n'avons pas trouvé ce que vous cherchez",
       },
+      component_error: {
+        message: "Ce composant n'a pas pu être chargé.",
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -159,6 +162,12 @@ export const FrMessages = {
 
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Erreur inconnue',
+      },
+      forms: {
+        validation_error: "Merci de vérifier les champs surlignés avant d'envoyer le formulaire.",
+        submit_error: "Nous n'avons pas pu enregistrer les modifications. Veuillez réessayer.",
+        submit_error_duplicate_key: "Ce nom d'utilisateur est déjà utilisé. Veuillez en choisir un autre.",
+        submit_error_validation: 'Certains champs obligatoires sont manquants ou invalides. Veuillez vérifier le formulaire.',
       },
       follows: {
         followers: 'Abonnés',
@@ -372,6 +381,34 @@ export const FrMessages = {
         },
       },
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Révision des profils en attente',
+          unauthorized: {
+            title: 'Accès refusé',
+            description: "Vous n'avez pas l'autorisation de consulter cette page.",
+          },
+          sections: {
+            artists: {
+              title: 'Artistes en attente',
+            },
+            places: {
+              title: 'Lieux en attente',
+            },
+          },
+          table: {
+            name: 'Nom',
+            username: "Nom d'utilisateur",
+            location: 'Emplacement',
+            created_at: 'Soumis le',
+            actions: 'Actions',
+          },
+          actions: {
+            approve: 'Approuver',
+            reject: 'Rejeter',
+          },
+          empty_state: 'Aucun profil en attente de révision',
+          error: "Une erreur s'est produite. Veuillez réessayer.",
+        },
         LoginPage: {
           paragraph1:
             "Vous consultez une version de test de notre plateforme. Actuellement, l'inscription des utilisateurs est limitée.",
@@ -504,6 +541,61 @@ export const FrMessages = {
         },
       },
       domain: {
+        CalendarPage: {
+          title: 'My calendar',
+          empty_state: 'There are no events in this date range',
+          error: 'Something went wrong while loading your calendar. Please try again.',
+          deadline_label: 'Deadline',
+          types: {
+            concert: 'Concerts',
+            call: 'Open call deadlines',
+            activity: 'Activities',
+          },
+          meta: {
+            expired: 'Expired open call',
+            city: 'City',
+            event_date: 'Event date',
+            applications_count: 'Applications',
+            notes: 'Notes',
+          },
+          actions: {
+            today: 'Today',
+            month: 'Month',
+            week: 'Week',
+            day: 'Day',
+            delete: 'Delete',
+            cancel: 'Cancel',
+          },
+          activity_form: {
+            create_title: 'New activity',
+            edit_title: 'Edit activity',
+            save_error: 'The activity could not be saved. Please try again.',
+            fields: {
+              title: 'Title',
+              type: 'Type',
+              all_day: 'All day',
+              start_date: 'Start date',
+              start_time: 'Start time',
+              end_date: 'End date',
+              end_time: 'End time',
+              notes: 'Notes',
+            },
+            types: {
+              rehearsal: 'Rehearsal',
+              soundcheck: 'Soundcheck',
+              other: 'Other',
+            },
+            validation: {
+              title_required: 'Title is required',
+              start_date_required: 'Start date is required',
+              start_time_required: 'Start time is required',
+            },
+            delete_confirmation: {
+              title: 'Delete activity',
+              message: 'Are you sure you want to delete this activity? This action cannot be undone.',
+            },
+          },
+        },
         CulturalAgenda: {
           title: 'Agenda culturel',
         },
@@ -710,6 +802,34 @@ export const FrMessages = {
         },
         IndustryOfferPage: {
           create_account_banner: 'Rejoins la ruche',
+        },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: "Membre de l'industrie",
+            intro:
+              "Merci de ton intérêt pour t'inscrire en tant que membre de l'industrie, que ce soit comme artiste, agent, propriétaire de salle, local de répétition ou autre entité.",
+            intro_secondary:
+              "Recherche ton profil s'il existe déjà dans le système, ou crées-en un nouveau pour commencer.",
+            search_section: {
+              title: 'Recherche ton profil',
+              input_placeholder: "Nom de l'artiste ou du lieu...",
+              search_button: 'Rechercher',
+              artists_found: 'Voici les artistes correspondants',
+              places_found: 'Voici les lieux correspondants',
+            },
+            create_section: {
+              title: 'Ou crée un nouveau profil',
+            },
+            reset_section: {
+              remove_artists_button: 'Retirer mes profils Artiste',
+              remove_places_button: 'Retirer mes profils Lieu',
+              confirm_title: "Confirmer l'action",
+              confirm_content:
+                "Cette action retirera l'association de tous tes profils de ce type avec ton compte. Les profils eux-mêmes ne seront pas supprimés, mais ils n'apparaîtront plus dans tes adhésions. Veux-tu continuer ?",
+              confirm_action: 'Oui, retirer',
+              cancel_action: 'Annuler',
+            },
+          },
         },
         PrebookingPages: {
           EventNegotiationPages: {
@@ -1117,6 +1237,7 @@ export const FrMessages = {
                   name: 'Infos Générales',
                   attributes: {
                     description: 'Description',
+                    place_type: 'Type de lieu',
                     address: 'Adresse',
                     city: 'Ville',
                     cityWithCountry: 'Localisation',
@@ -1244,8 +1365,8 @@ export const FrMessages = {
       },
       OpenCallsListPage: {
         subpages: {
-          active: { name: 'Actifs' },
-          past: { name: 'Passés' },
+          active: { name: 'Appels ouverts actifs' },
+          past: { name: 'Appels ouverts passés' },
           available: { name: 'Disponibles' },
           applications: { name: 'Mes candidatures' },
         },
@@ -1269,7 +1390,7 @@ export const FrMessages = {
         loading_applications: 'Chargement des candidatures...',
         loading_your_application: 'Chargement de ta candidature...',
         unauthorized_message:
-          'Connecte-toi avec un profil Artist ou Place pour voir les candidatures de cet appel à candidatures.',
+          "Connecte-toi avec un profil Artist ou Place pour voir les candidatures de cet appel à candidatures.",
         back_button: 'Retour à mes appels à candidatures',
         apply_button: 'Apply to this Open Call',
         open_call_status: {
@@ -1559,6 +1680,12 @@ export const FrMessages = {
               logout: 'Déconnexion',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'En attente de validation',
+          rejected: 'Refusé',
         },
       },
     },

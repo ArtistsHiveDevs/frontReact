@@ -29,7 +29,8 @@ export class LanguageModel extends EntityModel<LanguageTemplate> implements Lang
     return this.name;
   }
 
+  // El backend referencia idiomas por ObjectId (ver AllergyModel para el mismo patrón); `key` es solo el código legible.
   get value() {
-    return this.key;
+    return this.id;
   }
 }

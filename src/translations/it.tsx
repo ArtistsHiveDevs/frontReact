@@ -6,6 +6,9 @@ export const ItMessages = {
       not_found_page: {
         title: 'Oops! Non siamo riusciti a trovare quello che stai cercando',
       },
+      component_error: {
+        message: 'Impossibile caricare questo componente.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -159,6 +162,12 @@ export const ItMessages = {
 
         // Errori Sconosciuti
         UNKNOWN_ERROR: 'Errore sconosciuto',
+      },
+      forms: {
+        validation_error: "Controlla i campi evidenziati prima di inviare il modulo.",
+        submit_error: 'Non è stato possibile salvare le modifiche. Riprova.',
+        submit_error_duplicate_key: 'Questo nome utente è già in uso. Scegline un altro.',
+        submit_error_validation: 'Alcuni campi obbligatori sono mancanti o non validi. Controlla il modulo.',
       },
       follows: {
         followers: 'Follower',
@@ -373,6 +382,34 @@ export const ItMessages = {
       },
 
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Revisione profili in attesa',
+          unauthorized: {
+            title: 'Accesso negato',
+            description: 'Non hai il permesso di visualizzare questa pagina.',
+          },
+          sections: {
+            artists: {
+              title: 'Artisti in attesa',
+            },
+            places: {
+              title: 'Luoghi in attesa',
+            },
+          },
+          table: {
+            name: 'Nome',
+            username: 'Nome utente',
+            location: 'Posizione',
+            created_at: 'Inviato il',
+            actions: 'Azioni',
+          },
+          actions: {
+            approve: 'Approva',
+            reject: 'Rifiuta',
+          },
+          empty_state: 'Nessun profilo in attesa di revisione',
+          error: 'Si è verificato un errore. Riprova.',
+        },
         LoginPage: {
           paragraph1:
             'Stai visualizzando una versione di prova della nostra piattaforma. Attualmente, la registrazione degli utenti è limitata.',
@@ -505,6 +542,61 @@ export const ItMessages = {
         },
       },
       domain: {
+        CalendarPage: {
+          title: 'My calendar',
+          empty_state: 'There are no events in this date range',
+          error: 'Something went wrong while loading your calendar. Please try again.',
+          deadline_label: 'Deadline',
+          types: {
+            concert: 'Concerts',
+            call: 'Open call deadlines',
+            activity: 'Activities',
+          },
+          meta: {
+            expired: 'Expired open call',
+            city: 'City',
+            event_date: 'Event date',
+            applications_count: 'Applications',
+            notes: 'Notes',
+          },
+          actions: {
+            today: 'Today',
+            month: 'Month',
+            week: 'Week',
+            day: 'Day',
+            delete: 'Delete',
+            cancel: 'Cancel',
+          },
+          activity_form: {
+            create_title: 'New activity',
+            edit_title: 'Edit activity',
+            save_error: 'The activity could not be saved. Please try again.',
+            fields: {
+              title: 'Title',
+              type: 'Type',
+              all_day: 'All day',
+              start_date: 'Start date',
+              start_time: 'Start time',
+              end_date: 'End date',
+              end_time: 'End time',
+              notes: 'Notes',
+            },
+            types: {
+              rehearsal: 'Rehearsal',
+              soundcheck: 'Soundcheck',
+              other: 'Other',
+            },
+            validation: {
+              title_required: 'Title is required',
+              start_date_required: 'Start date is required',
+              start_time_required: 'Start time is required',
+            },
+            delete_confirmation: {
+              title: 'Delete activity',
+              message: 'Are you sure you want to delete this activity? This action cannot be undone.',
+            },
+          },
+        },
         CulturalAgenda: {
           title: 'Agenda culturale',
         },
@@ -708,6 +800,33 @@ export const ItMessages = {
         },
         IndustryOfferPage: {
           create_account_banner: "Unisciti all'alveare",
+        },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: "Membro dell'industria",
+            intro:
+              "Grazie per il tuo interesse a registrarti come membro dell'industria, sia come artista, agente, proprietario di un locale, sala prove o altra entità.",
+            intro_secondary: 'Cerca il tuo profilo se esiste già nel sistema, oppure creane uno nuovo per iniziare.',
+            search_section: {
+              title: 'Cerca il tuo profilo',
+              input_placeholder: "Nome dell'artista o del luogo...",
+              search_button: 'Cerca',
+              artists_found: 'Questi sono gli artisti correlati',
+              places_found: 'Questi sono i luoghi correlati',
+            },
+            create_section: {
+              title: 'Oppure crea un nuovo profilo',
+            },
+            reset_section: {
+              remove_artists_button: 'Rimuovi i miei profili Artista',
+              remove_places_button: 'Rimuovi i miei profili Luogo',
+              confirm_title: 'Conferma azione',
+              confirm_content:
+                "Questa azione rimuoverà l'associazione di tutti i tuoi profili di questo tipo con il tuo account. I profili non verranno eliminati, ma smetteranno di comparire nelle tue affiliazioni. Vuoi continuare?",
+              confirm_action: 'Sì, rimuovi',
+              cancel_action: 'Annulla',
+            },
+          },
         },
         PrebookingPages: {
           EventNegotiationPages: {
@@ -1116,6 +1235,7 @@ export const ItMessages = {
                   name: 'Informazioni Generali',
                   attributes: {
                     description: 'Descrizione',
+                    place_type: 'Tipo di luogo',
                     address: 'Indirizzo',
                     city: 'Città',
                     cityWithCountry: 'Posizione',
@@ -1243,8 +1363,8 @@ export const ItMessages = {
       },
       OpenCallsListPage: {
         subpages: {
-          active: { name: 'Attive' },
-          past: { name: 'Passate' },
+          active: { name: 'Chiamate aperte attive' },
+          past: { name: 'Chiamate aperte passate' },
           available: { name: 'Disponibili' },
           applications: { name: 'Le mie candidature' },
         },
@@ -1558,6 +1678,12 @@ export const ItMessages = {
               logout: 'Esci',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'In attesa di revisione',
+          rejected: 'Rifiutato',
         },
       },
     },

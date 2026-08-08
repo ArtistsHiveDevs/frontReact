@@ -6,6 +6,9 @@ export const ElMessages = {
       not_found_page: {
         title: 'Ούπς! Δεν μπορέσαμε να βρούμε αυτό που ψάχνετε',
       },
+      component_error: {
+        message: 'Δεν ήταν δυνατή η φόρτωση αυτού του στοιχείου.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -159,6 +162,12 @@ export const ElMessages = {
 
         // Άγνωστα Σφάλματα
         UNKNOWN_ERROR: 'Άγνωστο σφάλμα',
+      },
+      forms: {
+        validation_error: 'Ελέγξτε τα επισημασμένα πεδία πριν την υποβολή της φόρμας.',
+        submit_error: 'Δεν ήταν δυνατή η αποθήκευση των αλλαγών. Δοκιμάστε ξανά.',
+        submit_error_duplicate_key: 'Αυτό το όνομα χρήστη χρησιμοποιείται ήδη. Επιλέξτε ένα άλλο.',
+        submit_error_validation: 'Ορισμένα υποχρεωτικά πεδία λείπουν ή δεν είναι έγκυρα. Ελέγξτε τη φόρμα.',
       },
       follows: {
         followers: 'Followers',
@@ -373,6 +382,34 @@ export const ElMessages = {
       },
 
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Έλεγχος εκκρεμών προφίλ',
+          unauthorized: {
+            title: 'Δεν επιτρέπεται η πρόσβαση',
+            description: 'Δεν έχετε δικαίωμα να δείτε αυτή τη σελίδα.',
+          },
+          sections: {
+            artists: {
+              title: 'Εκκρεμείς καλλιτέχνες',
+            },
+            places: {
+              title: 'Εκκρεμείς χώροι',
+            },
+          },
+          table: {
+            name: 'Όνομα',
+            username: 'Όνομα χρήστη',
+            location: 'Τοποθεσία',
+            created_at: 'Υποβλήθηκε στις',
+            actions: 'Ενέργειες',
+          },
+          actions: {
+            approve: 'Έγκριση',
+            reject: 'Απόρριψη',
+          },
+          empty_state: 'Δεν υπάρχουν εκκρεμή προφίλ προς έλεγχο',
+          error: 'Παρουσιάστηκε σφάλμα. Δοκιμάστε ξανά.',
+        },
         LoginPage: {
           paragraph1:
             'Βλέπετε μια δοκιμαστική έκδοση της πλατφόρμας μας. Προς το παρόν η εγγραφή χρηστών είναι περιορισμένη.',
@@ -506,6 +543,61 @@ export const ElMessages = {
         },
       },
       domain: {
+        CalendarPage: {
+          title: 'My calendar',
+          empty_state: 'There are no events in this date range',
+          error: 'Something went wrong while loading your calendar. Please try again.',
+          deadline_label: 'Deadline',
+          types: {
+            concert: 'Concerts',
+            call: 'Open call deadlines',
+            activity: 'Activities',
+          },
+          meta: {
+            expired: 'Expired open call',
+            city: 'City',
+            event_date: 'Event date',
+            applications_count: 'Applications',
+            notes: 'Notes',
+          },
+          actions: {
+            today: 'Today',
+            month: 'Month',
+            week: 'Week',
+            day: 'Day',
+            delete: 'Delete',
+            cancel: 'Cancel',
+          },
+          activity_form: {
+            create_title: 'New activity',
+            edit_title: 'Edit activity',
+            save_error: 'The activity could not be saved. Please try again.',
+            fields: {
+              title: 'Title',
+              type: 'Type',
+              all_day: 'All day',
+              start_date: 'Start date',
+              start_time: 'Start time',
+              end_date: 'End date',
+              end_time: 'End time',
+              notes: 'Notes',
+            },
+            types: {
+              rehearsal: 'Rehearsal',
+              soundcheck: 'Soundcheck',
+              other: 'Other',
+            },
+            validation: {
+              title_required: 'Title is required',
+              start_date_required: 'Start date is required',
+              start_time_required: 'Start time is required',
+            },
+            delete_confirmation: {
+              title: 'Delete activity',
+              message: 'Are you sure you want to delete this activity? This action cannot be undone.',
+            },
+          },
+        },
         CulturalAgenda: {
           title: 'Πολιτιστικό ημερολόγιο',
         },
@@ -709,6 +801,33 @@ export const ElMessages = {
         },
         IndustryOfferPage: {
           create_account_banner: 'Ενταχθείτε στη κοινότητα',
+        },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: 'Μέλος της βιομηχανίας',
+            intro:
+              'Ευχαριστούμε για το ενδιαφέρον σου να εγγραφείς ως μέλος της βιομηχανίας, είτε ως καλλιτέχνης, ατζέντης, ιδιοκτήτης χώρου, αίθουσας πρόβας ή άλλης οντότητας.',
+            intro_secondary: 'Αναζήτησε το προφίλ σου αν υπάρχει ήδη στο σύστημα, ή δημιούργησε ένα νέο για να ξεκινήσεις.',
+            search_section: {
+              title: 'Αναζήτησε το προφίλ σου',
+              input_placeholder: 'Όνομα καλλιτέχνη ή χώρου...',
+              search_button: 'Αναζήτηση',
+              artists_found: 'Αυτοί είναι οι σχετικοί καλλιτέχνες',
+              places_found: 'Αυτοί είναι οι σχετικοί χώροι',
+            },
+            create_section: {
+              title: 'Ή δημιούργησε νέο προφίλ',
+            },
+            reset_section: {
+              remove_artists_button: 'Αφαίρεση των προφίλ Καλλιτέχνη μου',
+              remove_places_button: 'Αφαίρεση των προφίλ Χώρου μου',
+              confirm_title: 'Επιβεβαίωση ενέργειας',
+              confirm_content:
+                'Αυτή η ενέργεια θα αφαιρέσει τη σύνδεση όλων των προφίλ αυτού του τύπου με τον λογαριασμό σου. Τα προφίλ δεν θα διαγραφούν, αλλά θα σταματήσουν να εμφανίζονται στις συμμετοχές σου. Θέλεις να συνεχίσεις;',
+              confirm_action: 'Ναι, αφαίρεση',
+              cancel_action: 'Ακύρωση',
+            },
+          },
         },
         PrebookingPages: {
           EventNegotiationPages: {
@@ -1116,6 +1235,7 @@ export const ElMessages = {
                   name: 'Γενικές πληροφορίες',
                   attributes: {
                     description: 'Περιγραφή',
+                    place_type: 'Τύπος χώρου',
                     address: 'Διεύθυνση',
                     city: 'Πόλη',
                     cityWithCountry: 'Τοποθεσία',
@@ -1243,8 +1363,8 @@ export const ElMessages = {
       },
       OpenCallsListPage: {
         subpages: {
-          active: { name: 'Ενεργές' },
-          past: { name: 'Παλαιότερες' },
+          active: { name: 'Ενεργές ανοικτές προσκλήσεις' },
+          past: { name: 'Παλαιότερες ανοικτές προσκλήσεις' },
           available: { name: 'Διαθέσιμες' },
           applications: { name: 'Οι αιτήσεις μου' },
         },
@@ -1558,6 +1678,12 @@ export const ElMessages = {
               logout: 'Αποσύνδεση',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'Εκκρεμεί έλεγχος',
+          rejected: 'Απορρίφθηκε',
         },
       },
     },

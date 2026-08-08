@@ -34,10 +34,6 @@ export function validateUserAuthorization(
 
   const shouldVerifyUserAuthorization = requiredSession || (allowedRoles && allowedRoles.length);
 
-  if (name === 'members') {
-    console.log({ resourceEntity, user, allowedRoles, requiredSession, name, checkCurrentProfileInfo });
-  }
-
   if (!shouldVerifyUserAuthorization) {
     authorizationResult = AuthorizationStates.ALLOWED;
   } else {
@@ -60,10 +56,6 @@ export function validateUserAuthorization(
               ? allowedRole.checkCurrentProfileInfo
               : checkCurrentProfileInfo;
 
-          if (name === 'members') {
-            console.log('should check...', shouldCheckCurrentProfile);
-          }
-
           if (shouldCheckCurrentProfile) {
             const currentProfileInfo = user.currentProfileInfo;
             const currentProfileEntityName = getModelInfoFromClassName(currentProfileInfo?.entity)?.entityName;
@@ -82,8 +74,10 @@ export function validateUserAuthorization(
 
             // Verificar si el resourceEntity.identifier coincide con el currentProfileInfo.identifier
             if (entityMatches && resourceEntity?.identifier) {
-              return resourceEntity.identifier === currentProfileInfo?.identifier ||
-                     resourceEntity.identifier === currentProfileInfo?.id;
+              return (
+                resourceEntity.identifier === currentProfileInfo?.identifier ||
+                resourceEntity.identifier === currentProfileInfo?.id
+              );
             }
 
             return entityMatches;
@@ -138,7 +132,10 @@ export const RequireAuthComponent = (props: RequireAuthParameters) => {
   return nextPage;
 };
 
-export const RequireAuthPageNavigation = ({ resourceEntity, allowedRoles = [] }: RequireAuthPageNavigationParameters) => {
+export const RequireAuthPageNavigation = ({
+  resourceEntity,
+  allowedRoles = [],
+}: RequireAuthPageNavigationParameters) => {
   const loggedUser = useSelector(selectCurrentUser);
   const authAppUser: AppUserModel = loggedUser;
   const location = useLocation();

@@ -6,6 +6,9 @@ export const DeMessages = {
       not_found_page: {
         title: 'Hoppla! Wir konnten nicht finden, wonach Sie suchen',
       },
+      component_error: {
+        message: 'Diese Komponente konnte nicht geladen werden.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -159,6 +162,12 @@ export const DeMessages = {
 
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Unbekannter Fehler',
+      },
+      forms: {
+        validation_error: 'Bitte überprüfe die markierten Felder, bevor du das Formular sendest.',
+        submit_error: 'Wir konnten die Änderungen nicht speichern. Bitte versuche es erneut.',
+        submit_error_duplicate_key: 'Dieser Benutzername ist bereits vergeben. Bitte wähle einen anderen.',
+        submit_error_validation: 'Einige Pflichtfelder fehlen oder sind ungültig. Bitte überprüfe das Formular.',
       },
       follows: {
         followers: 'Follower',
@@ -373,6 +382,34 @@ export const DeMessages = {
       },
 
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Überprüfung ausstehender Profile',
+          unauthorized: {
+            title: 'Zugriff verweigert',
+            description: 'Sie haben keine Berechtigung, diese Seite anzuzeigen.',
+          },
+          sections: {
+            artists: {
+              title: 'Ausstehende Künstler',
+            },
+            places: {
+              title: 'Ausstehende Orte',
+            },
+          },
+          table: {
+            name: 'Name',
+            username: 'Benutzername',
+            location: 'Standort',
+            created_at: 'Eingereicht am',
+            actions: 'Aktionen',
+          },
+          actions: {
+            approve: 'Genehmigen',
+            reject: 'Ablehnen',
+          },
+          empty_state: 'Keine ausstehenden Profile zur Überprüfung',
+          error: 'Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.',
+        },
         LoginPage: {
           paragraph1:
             'Du siehst gerade eine Testversion unserer Plattform. Derzeit ist die Benutzerregistrierung begrenzt.',
@@ -505,6 +542,61 @@ export const DeMessages = {
         },
       },
       domain: {
+        CalendarPage: {
+          title: 'My calendar',
+          empty_state: 'There are no events in this date range',
+          error: 'Something went wrong while loading your calendar. Please try again.',
+          deadline_label: 'Deadline',
+          types: {
+            concert: 'Concerts',
+            call: 'Open call deadlines',
+            activity: 'Activities',
+          },
+          meta: {
+            expired: 'Expired open call',
+            city: 'City',
+            event_date: 'Event date',
+            applications_count: 'Applications',
+            notes: 'Notes',
+          },
+          actions: {
+            today: 'Today',
+            month: 'Month',
+            week: 'Week',
+            day: 'Day',
+            delete: 'Delete',
+            cancel: 'Cancel',
+          },
+          activity_form: {
+            create_title: 'New activity',
+            edit_title: 'Edit activity',
+            save_error: 'The activity could not be saved. Please try again.',
+            fields: {
+              title: 'Title',
+              type: 'Type',
+              all_day: 'All day',
+              start_date: 'Start date',
+              start_time: 'Start time',
+              end_date: 'End date',
+              end_time: 'End time',
+              notes: 'Notes',
+            },
+            types: {
+              rehearsal: 'Rehearsal',
+              soundcheck: 'Soundcheck',
+              other: 'Other',
+            },
+            validation: {
+              title_required: 'Title is required',
+              start_date_required: 'Start date is required',
+              start_time_required: 'Start time is required',
+            },
+            delete_confirmation: {
+              title: 'Delete activity',
+              message: 'Are you sure you want to delete this activity? This action cannot be undone.',
+            },
+          },
+        },
         CulturalAgenda: {
           title: 'Kulturelle Agenda',
         },
@@ -708,6 +800,33 @@ export const DeMessages = {
         },
         IndustryOfferPage: {
           create_account_banner: 'Schließe dich dem Bienenstock an',
+        },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: 'Mitglied der Musikindustrie',
+            intro:
+              'Danke für dein Interesse, dich als Mitglied der Musikindustrie zu registrieren, sei es als Künstler, Agent, Venue-Besitzer, Probenraum oder andere Einrichtung.',
+            intro_secondary: 'Suche dein Profil, falls es bereits im System existiert, oder erstelle ein neues, um loszulegen.',
+            search_section: {
+              title: 'Suche dein Profil',
+              input_placeholder: 'Name des Künstlers oder Ortes...',
+              search_button: 'Suchen',
+              artists_found: 'Das sind die verwandten Künstler',
+              places_found: 'Das sind die verwandten Orte',
+            },
+            create_section: {
+              title: 'Oder erstelle ein neues Profil',
+            },
+            reset_section: {
+              remove_artists_button: 'Meine Künstlerprofile entfernen',
+              remove_places_button: 'Meine Ortsprofile entfernen',
+              confirm_title: 'Aktion bestätigen',
+              confirm_content:
+                'Diese Aktion entfernt die Verknüpfung aller deiner Profile dieses Typs mit deinem Konto. Die Profile selbst werden nicht gelöscht, erscheinen aber nicht mehr in deinen Mitgliedschaften. Möchtest du fortfahren?',
+              confirm_action: 'Ja, entfernen',
+              cancel_action: 'Abbrechen',
+            },
+          },
         },
         PrebookingPages: {
           EventNegotiationPages: {
@@ -1115,6 +1234,7 @@ export const DeMessages = {
                   name: 'Allgemeine Informationen',
                   attributes: {
                     description: 'Beschreibung',
+                    place_type: 'Ortstyp',
                     address: 'Adresse',
                     city: 'Stadt',
                     cityWithCountry: 'Ort',
@@ -1242,8 +1362,8 @@ export const DeMessages = {
       },
       OpenCallsListPage: {
         subpages: {
-          active: { name: 'Aktive' },
-          past: { name: 'Vergangene' },
+          active: { name: 'Aktive Open-Calls' },
+          past: { name: 'Vergangene Open-Calls' },
           available: { name: 'Verfügbar' },
           applications: { name: 'Meine Bewerbungen' },
         },
@@ -1266,8 +1386,7 @@ export const DeMessages = {
         not_applied_yet: 'Du hast dich für diese Ausschreibung noch nicht beworben.',
         loading_applications: 'Bewerbungen werden geladen...',
         loading_your_application: 'Deine Bewerbung wird geladen...',
-        unauthorized_message:
-          'Melde dich mit einem Artist- oder Place-Profil an, um die Bewerbungen dieser Ausschreibung zu sehen.',
+        unauthorized_message: 'Melde dich mit einem Artist- oder Place-Profil an, um die Bewerbungen dieser Ausschreibung zu sehen.',
         back_button: 'Zurück zu meinen Ausschreibungen',
         apply_button: 'Apply to this Open Call',
         open_call_status: {
@@ -1558,6 +1677,12 @@ export const DeMessages = {
               logout: 'Abmelden',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'Ausstehende Überprüfung',
+          rejected: 'Abgelehnt',
         },
       },
     },

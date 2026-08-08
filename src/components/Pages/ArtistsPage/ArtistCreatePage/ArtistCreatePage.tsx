@@ -172,7 +172,7 @@ const ArtistsCreatePage = () => {
 
   return (
     <>
-      <RequireAuthComponent requiredSession={true}>
+      <RequireAuthComponent resourceEntity={currentArtist} requiredSession={true}>
         <BackButton />
         {currentUserCanEdit && (
           <>

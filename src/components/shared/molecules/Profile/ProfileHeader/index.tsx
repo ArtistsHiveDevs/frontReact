@@ -6,20 +6,20 @@ import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
-import {
-  USERNAME_FORMAT_PATTERN,
-  debouncedUsernameValidation,
-} from '~/common/utils/validation/username-validation';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { USERNAME_FORMAT_PATTERN, debouncedUsernameValidation } from '~/common/utils/validation/username-validation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import { FollowerCounter } from '~/components/shared/molecules/Profile/FollowerCounter/FollowerCounter';
+import { ReportProfileForm } from '~/components/shared/molecules/Profile/ReportProfileForm/ReportProfileForm';
 import BurgerProfileMenu from '~/components/shared/molecules/general/burgerProfileMenu/burgerProfileMenu';
 import {
   FavoriteSubscription,
   FavoriteSubscritionIconDefaultTypes,
 } from '~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
+import { PATHS } from '~/constants';
 import { ProfileMenuOptionsData, ProfileMenuOptionsType } from '~/constants/domain/profile.constants';
 import { ProfileModel } from '~/models/base';
 import { defaultTypesColors, getModelInfoFromInstance } from '~/models/base/modelHelpers';
@@ -43,6 +43,8 @@ interface FieldInfo {
 }
 export const ProfileHeader = (props: any) => {
   const { translateGlobalDict } = useI18n();
+  const { navigateToInnerPath } = useNavigation();
+
   const {
     element,
     formMethods,
@@ -96,6 +98,7 @@ export const ProfileHeader = (props: any) => {
   });
 
   const [zoomProfilePic, setZoomProfilePic] = useState(false);
+  const [showReportForm, setShowReportForm] = useState(false);
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
   const [currentUserIsInProfile, setCurrentUserIsInProfile] = useState(false);
   const [borderProfileColor, setBorderProfileColor] = useState(undefined);
@@ -176,6 +179,9 @@ export const ProfileHeader = (props: any) => {
           // EDIT: Solo si estoy en mi propio perfil
           return { ...menuOption, show: isOwnProfile };
 
+        case ProfileMenuOptionsType.REPORT:
+          // REPORT: Solo si NO es mi perfil Y NO tengo membresía en ese perfil
+          return { ...menuOption, show: canShowReport };
 
         default:
           return menuOption;
@@ -349,7 +355,10 @@ export const ProfileHeader = (props: any) => {
         setEditableMode(element);
         break;
       case 2:
-        setEditableMode(element);
+        if (!loggedUser) {
+          navigateToInnerPath({ path: PATHS.LOGIN });
+        }
+        setShowReportForm(true);
         break;
     }
   };
@@ -475,6 +484,9 @@ export const ProfileHeader = (props: any) => {
           </div>
         )}
       </div>
+      {loggedUser && (
+        <ReportProfileForm open={showReportForm} onClose={() => setShowReportForm(false)} entity={element} />
+      )}
       <Dialog open={zoomProfilePic} onClose={handleCloseZoomDialog} fullWidth>
         <DialogContent style={{ textAlign: 'center', position: 'relative', padding: 0 }}>
           <IconButton onClick={handleCloseZoomDialog} style={{ position: 'absolute', top: '0.5%', right: '0.5%' }}>

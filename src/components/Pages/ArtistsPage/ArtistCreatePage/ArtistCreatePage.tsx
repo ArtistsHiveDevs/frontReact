@@ -263,7 +263,7 @@ const ArtistsCreatePage = () => {
 
   return (
     <>
-      <RequireAuthComponent requiredSession={true}>
+      <RequireAuthComponent resourceEntity={currentArtist} requiredSession={true}>
         {currentUserCanEdit && (
           <>
             <BackButton onClick={backHandler} />

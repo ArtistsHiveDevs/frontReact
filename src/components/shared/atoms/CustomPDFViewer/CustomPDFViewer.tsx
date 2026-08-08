@@ -1,18 +1,18 @@
-import { Box, Button, IconButton, Paper } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box, Button, IconButton, Paper, TextField } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
-import { getFilesUrls, getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
+import { getFilesUrls } from '~/common/utils/amplify/storage/storage.helpers';
+import { DBFileDataItem } from '~/common/utils/amplify/storage/storage.types';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import './CustomPDFViewer.scss';
-import { DBFileDataItem } from '~/common/utils/amplify/storage/storage.types';
 
 // Configurar worker de PDF.js
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-export const CustomPDFViewer = (props: {fileSources:DBFileDataItem[]}) => {
+export const CustomPDFViewer = (props: { fileSources: DBFileDataItem[] }) => {
   const { fileSources } = props;
   const [showPDF, setShowPDF] = useState(false);
   const [pdfUrl, setPDFUrl] = useState('');
@@ -20,8 +20,9 @@ export const CustomPDFViewer = (props: {fileSources:DBFileDataItem[]}) => {
   const [numPages, setNumPages] = useState<number>(0);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [scale, setScale] = useState<number>(1.0);
-  const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
   const [fitMode, setFitMode] = useState<'width' | 'page'>('width');
+
+  const pageRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
   const iconSize = 60;
   const subtitleCardLimits = 25;
@@ -31,7 +32,7 @@ export const CustomPDFViewer = (props: {fileSources:DBFileDataItem[]}) => {
       getProfilePicURLs();
     }
   }, [fileSources]);
-  
+
   const getProfilePicURLs = async () => {
     let handleServerUrls = await getFilesUrls(fileSources);
     if (fileSources && handleServerUrls) {
@@ -46,7 +47,6 @@ export const CustomPDFViewer = (props: {fileSources:DBFileDataItem[]}) => {
   const handleClickPDFShow = (fileSource: string) => {
     setPDFUrl(filesUrls[fileSource]);
     setShowPDF(true);
-    setPageNumber(1);
   };
 
   const handleClickPDFHide = () => {
@@ -54,24 +54,45 @@ export const CustomPDFViewer = (props: {fileSources:DBFileDataItem[]}) => {
     setShowPDF(false);
     setPageNumber(1);
     setScale(1.0);
+    setFitMode('width');
   };
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
-    setPageNumber(1);
   };
 
-  const changePage = (offset: number) => {
-    setPageNumber((prevPageNumber) => prevPageNumber + offset);
-  };
+  // Observer para detectar la página visible durante el scroll
+  useEffect(() => {
+    if (!showPDF || numPages === 0) return;
 
-  const previousPage = () => {
-    changePage(-1);
-  };
+    const observerOptions: IntersectionObserverInit = {
+      root: null,
+      rootMargin: '-50% 0px -50% 0px', // Detecta cuando la página está en el centro de la vista
+      threshold: 0,
+    };
 
-  const nextPage = () => {
-    changePage(1);
-  };
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const pageNum = parseInt(entry.target.getAttribute('data-page-number') || '1', 10);
+          setPageNumber(pageNum);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Observar todas las páginas
+    Object.values(pageRefs.current).forEach((pageElement) => {
+      if (pageElement) {
+        observer.observe(pageElement);
+      }
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [showPDF, numPages]);
 
   const zoomIn = () => {
     setScale((prevScale) => Math.min(prevScale + 0.2, 3.0));
@@ -98,20 +119,35 @@ export const CustomPDFViewer = (props: {fileSources:DBFileDataItem[]}) => {
     document.body.removeChild(link);
   };
 
-  const toggleFullScreen = () => {
-    const elem = document.documentElement;
+  const toggleFitMode = () => {
+    setFitMode((prev) => (prev === 'width' ? 'page' : 'width'));
+  };
 
-    if (!document.fullscreenElement) {
-      elem.requestFullscreen?.();
-      setIsFullScreen(true);
-    } else {
-      document.exitFullscreen?.();
-      setIsFullScreen(false);
+  const scrollToPage = (page: number) => {
+    const pageElement = pageRefs.current[page];
+    if (pageElement) {
+      pageElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
-  const toggleFitMode = () => {
-    setFitMode((prev) => (prev === 'width' ? 'page' : 'width'));
+  const goToPreviousPage = () => {
+    const newPage = Math.max(pageNumber - 1, 1);
+    setPageNumber(newPage);
+    scrollToPage(newPage);
+  };
+
+  const goToNextPage = () => {
+    const newPage = Math.min(pageNumber + 1, numPages);
+    setPageNumber(newPage);
+    scrollToPage(newPage);
+  };
+
+  const handlePageInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(event.target.value, 10);
+    if (!isNaN(value) && value >= 1 && value <= numPages) {
+      setPageNumber(value);
+      scrollToPage(value);
+    }
   };
 
   return (
@@ -137,7 +173,7 @@ export const CustomPDFViewer = (props: {fileSources:DBFileDataItem[]}) => {
       )}
 
       <AppDialog
-        title="PDF"
+        title={fileSources?.find((file: DBFileDataItem) => filesUrls[file?.src] === pdfUrl)?.fileName || 'PDF'}
         fullScreen
         isOpenDialog={showPDF}
         onClose={handleClickPDFHide}
@@ -146,25 +182,48 @@ export const CustomPDFViewer = (props: {fileSources:DBFileDataItem[]}) => {
             <Box className="pdf-controls">
               {/* Navegación de páginas */}
               <Box className="pdf-controls-group">
-                <IconButton onClick={previousPage} disabled={pageNumber <= 1} size="small">
-                  <DynamicIcons iconName="io5 IoChevronBackOutline" size={18} />
+                <IconButton onClick={goToPreviousPage} disabled={pageNumber <= 1} size="small" title="Página anterior">
+                  <DynamicIcons iconName="md MdNavigateBefore" size={14} customStyle={{ padding: 0, margin: 0 }} />
                 </IconButton>
-                <span className="page-info">
-                  {pageNumber} / {numPages}
-                </span>
-                <IconButton onClick={nextPage} disabled={pageNumber >= numPages} size="small">
-                  <DynamicIcons iconName="io5 IoChevronForwardOutline" size={18} />
+                <TextField
+                  type="number"
+                  value={pageNumber}
+                  onChange={handlePageInputChange}
+                  size="small"
+                  inputProps={{
+                    min: 1,
+                    max: numPages,
+                    style: { textAlign: 'center', width: '30px', padding: '1px' },
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      fontSize: '10px',
+                      height: '20px',
+                    },
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderWidth: '1px',
+                    },
+                  }}
+                />
+                <span className="page-info">de {numPages}</span>
+                <IconButton
+                  onClick={goToNextPage}
+                  disabled={pageNumber >= numPages}
+                  size="small"
+                  title="Página siguiente"
+                >
+                  <DynamicIcons iconName="md MdNavigateNext" size={14} customStyle={{ padding: 0, margin: 0 }} />
                 </IconButton>
               </Box>
 
               {/* Controles de zoom */}
               <Box className="pdf-controls-group">
-                <IconButton onClick={zoomOut} disabled={scale <= 0.5} size="small">
-                  <DynamicIcons iconName="ai AiOutlineZoomOut" size={18} />
+                <IconButton onClick={zoomOut} disabled={scale <= 0.5} size="small" title="Alejar">
+                  <DynamicIcons iconName="ai AiOutlineZoomOut" size={14} customStyle={{ padding: 0, margin: 0 }} />
                 </IconButton>
                 <span className="zoom-info">{Math.round(scale * 100)}%</span>
-                <IconButton onClick={zoomIn} disabled={scale >= 3.0} size="small">
-                  <DynamicIcons iconName="ai AiOutlineZoomIn" size={18} />
+                <IconButton onClick={zoomIn} disabled={scale >= 3.0} size="small" title="Acercar">
+                  <DynamicIcons iconName="ai AiOutlineZoomIn" size={14} customStyle={{ padding: 0, margin: 0 }} />
                 </IconButton>
               </Box>
 
@@ -175,33 +234,42 @@ export const CustomPDFViewer = (props: {fileSources:DBFileDataItem[]}) => {
                   size="small"
                   title={fitMode === 'width' ? 'Ajustar a la página' : 'Ajustar al ancho'}
                 >
-                  <DynamicIcons iconName={fitMode === 'width' ? 'md MdFitScreen' : 'bi BiFullscreen'} size={18} />
+                  <DynamicIcons
+                    iconName={fitMode === 'width' ? 'md MdFitScreen' : 'bi BiFullscreen'}
+                    size={14}
+                    customStyle={{ padding: 0, margin: 0 }}
+                  />
                 </IconButton>
               </Box>
 
               {/* Acciones */}
               <Box className="pdf-controls-group">
-                <IconButton
-                  onClick={toggleFullScreen}
-                  size="small"
-                  title={isFullScreen ? 'Salir de pantalla completa' : 'Pantalla completa'}
-                >
-                  <DynamicIcons iconName={isFullScreen ? 'md MdFullscreenExit' : 'md MdFullscreen'} size={18} />
-                </IconButton>
                 <IconButton onClick={downloadPDF} size="small" title="Descargar PDF">
-                  <DynamicIcons iconName="md MdDownload" size={18} />
+                  <DynamicIcons iconName="md MdDownload" size={14} customStyle={{ padding: 0, margin: 0 }} />
                 </IconButton>
               </Box>
             </Box>
             <Box className="pdf-content">
               <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess} loading="Cargando PDF...">
-                <Page
-                  pageNumber={pageNumber}
-                  scale={scale}
-                  width={fitMode === 'width' ? window.innerWidth * 0.9 : undefined}
-                  renderTextLayer={true}
-                  renderAnnotationLayer={true}
-                />
+                {Array.from(new Array(numPages), (el, index) => {
+                  const page = index + 1;
+                  return (
+                    <div
+                      key={`page_${page}`}
+                      ref={(el) => (pageRefs.current[page] = el)}
+                      data-page-number={page}
+                      style={{ marginBottom: '20px' }}
+                    >
+                      <Page
+                        pageNumber={page}
+                        scale={fitMode === 'page' ? scale : undefined}
+                        width={fitMode === 'width' ? window.innerWidth * 0.85 : undefined}
+                        renderTextLayer={true}
+                        renderAnnotationLayer={true}
+                      />
+                    </div>
+                  );
+                })}
               </Document>
             </Box>
           </Box>

@@ -321,6 +321,7 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
           name: subpage.title || translateSubpage(subpage.name),
           allowedRoles: subpage.allowedRoles,
           requireSession: subpage.requireSession,
+          hideMainMenu: subpage.hideMainMenu,
           tabContent: () => {
             //   return <h1>asdasd {subPageIndex}</h1>;
 

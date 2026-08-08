@@ -41,6 +41,7 @@ import { createHtmlContentComponent } from './builders/HtmlContentBuilder';
 import { createImageGalleryComponent } from './builders/ImageGalleryBuilder';
 import { createMapComponent } from './builders/MapBuilder';
 import { createProfileFollowersComponent } from './builders/ProfileFollowersBuilder';
+import { createProfilePictureListComponent } from './builders/ProfilePictureListBuilder';
 import { createProfileThumbnailCardComponent } from './builders/ProfileThumbnailCardBuilder';
 import { createSocialNetworkChartmetricAnalyticsWidgetComponent } from './builders/SocialNetworkChartmetricWidgetWidgetBuilder';
 import { createSocialNetworkWidgetComponent } from './builders/SocialNetworkWidgetBuilder';
@@ -76,6 +77,7 @@ const BUILDER_CONFIG = {
   [ComponentTypes.PROFILE_THUMBNAIL_CARD]: createProfileThumbnailCardComponent,
   [ComponentTypes.EVENT_THUMBNAIL_CARD]: createEventThumbnailCardComponent,
   [ComponentTypes.PROFILE_FOLLOWERS_COMPONENT]: createProfileFollowersComponent,
+  [ComponentTypes.PROFILE_PICTURE_LIST]: createProfilePictureListComponent,
 } as const;
 
 /**

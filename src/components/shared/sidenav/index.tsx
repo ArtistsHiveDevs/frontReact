@@ -103,6 +103,7 @@ const SideNav = () => {
   const liMenuElement = (section: any, menuOption: any, idx: number, level = 0) => {
     return (
       <RequireAuthComponent
+        resourceEntity={loggedUser}
         allowedRoles={menuOption.allowedRoles}
         requiredSession={menuOption.requireSession}
         name={menuOption.name}
@@ -158,17 +159,25 @@ const SideNav = () => {
           </a>
 
           {menuOption.rightIcon && (
-            <span
-              onClick={() => {
-                if (menuOption?.rightPath) {
-                  navigateTo({ path: menuOption?.rightPath, useRandomId: menuOption.randomId, state: {} });
-                } else if (menuOption?.rightHandler && Object.keys(handlers).includes(menuOption?.rightHandler)) {
-                  handlers[menuOption?.rightHandler]();
-                }
-              }}
+            <RequireAuthComponent
+              resourceEntity={loggedUser}
+              allowedRoles={menuOption.rightAllowedRoles}
+              requiredSession={menuOption.requireSession}
+              name={menuOption.name}
+              key={`${idx}_rightIcon`}
             >
-              <DynamicIcons iconName={menuOption.rightIcon} size={17} color="white" />
-            </span>
+              <span
+                onClick={() => {
+                  if (menuOption?.rightPath) {
+                    navigateTo({ path: menuOption?.rightPath, useRandomId: menuOption.randomId, state: {} });
+                  } else if (menuOption?.rightHandler && Object.keys(handlers).includes(menuOption?.rightHandler)) {
+                    handlers[menuOption?.rightHandler]();
+                  }
+                }}
+              >
+                <DynamicIcons iconName={menuOption.rightIcon} size={17} color="white" />
+              </span>
+            </RequireAuthComponent>
           )}
         </div>
         {menuOption.nestedMenuOptions &&
@@ -318,7 +327,10 @@ const SideNav = () => {
               <Offcanvas.Body>
                 <hr />
                 {LEFT_SIDENAV_MENU_CONFIG.filter((sidenavSection, index) => {
-                  const isVisibleByHiddenProp = isVisible(sidenavSection, { user: loggedUser, section: sidenavSection });
+                  const isVisibleByHiddenProp = isVisible(sidenavSection, {
+                    user: loggedUser,
+                    section: sidenavSection,
+                  });
 
                   const isAllowedByEnvironment =
                     (!sidenavSection.allowedEnvironments ||
@@ -332,6 +344,7 @@ const SideNav = () => {
                   return (
                     <RequireAuthComponent
                       key={`${sidenavSection.name}-${index}`}
+                      resourceEntity={loggedUser}
                       allowedRoles={sidenavSection.allowedRoles}
                       requiredSession={sidenavSection.requireSession}
                       name={sidenavSection.name}
@@ -413,7 +426,10 @@ const SideNav = () => {
                   <>
                     <hr />
                     {RIGHT_SIDENAV_MENU_CONFIG.filter((sidenavSection, index) => {
-                      const isVisibleByHiddenProp = isVisible(sidenavSection, { user: loggedUser, section: sidenavSection });
+                      const isVisibleByHiddenProp = isVisible(sidenavSection, {
+                        user: loggedUser,
+                        section: sidenavSection,
+                      });
 
                       const isAllowedByEnvironment =
                         (!sidenavSection.allowedEnvironments ||
@@ -427,6 +443,7 @@ const SideNav = () => {
                       return (
                         <RequireAuthComponent
                           key={`${sidenavSection.name}-${index}`}
+                          resourceEntity={loggedUser}
                           allowedRoles={sidenavSection.allowedRoles}
                           requiredSession={sidenavSection.requireSession}
                           name={sidenavSection.name}
@@ -437,7 +454,10 @@ const SideNav = () => {
                               <div className="option-menu-list">
                                 {sectionOptions
                                   .filter((option, index) => {
-                                    const isVisibleByHiddenProp = isVisible(option, { user: loggedUser, option: option });
+                                    const isVisibleByHiddenProp = isVisible(option, {
+                                      user: loggedUser,
+                                      option: option,
+                                    });
 
                                     const isAllowedByEnvironment =
                                       (!option.allowedEnvironments ||

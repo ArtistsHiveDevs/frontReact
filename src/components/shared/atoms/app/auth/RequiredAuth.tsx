@@ -3,6 +3,7 @@ import { Navigate, Outlet, useLocation } from 'react-router';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { PATHS } from '~/constants';
 import { AppUserModel } from '~/models/app/user/user.model';
+import { getModelInfoFromClassName } from '~/models/base/modelHelpers';
 
 export enum AuthorizationStates {
   ALLOWED,
@@ -13,6 +14,7 @@ export enum AuthorizationStates {
 export interface AllowedEntityRole {
   entityName: string;
   allowedEntityInstances?: AllowedEntityInstanceRole[];
+  checkCurrentProfileInfo?: boolean;
 }
 
 export interface AllowedEntityInstanceRole {
@@ -21,10 +23,12 @@ export interface AllowedEntityInstanceRole {
 }
 
 export function validateUserAuthorization(
+  resourceEntity: any,
   user: AppUserModel,
   allowedRoles?: AllowedEntityRole[],
   requiredSession: boolean = false,
-  name: string = ''
+  name: string = '',
+  checkCurrentProfileInfo = true
 ): AuthorizationStates {
   let authorizationResult = AuthorizationStates.UNAUTHORIZED_AND_UNLOGGED_USER;
 
@@ -38,10 +42,48 @@ export function validateUserAuthorization(
         !allowedRoles ||
         !allowedRoles.length ||
         allowedRoles.find((allowedRole) => {
-          let allowedOnlyEntityValidation =
-            (!allowedRole?.allowedEntityInstances || !allowedRole?.allowedEntityInstances.length) &&
-            user.roles.find((userRoles) => userRoles.entityName === allowedRole.entityName);
-          return allowedOnlyEntityValidation;
+          if (allowedRole?.allowedEntityInstances && allowedRole.allowedEntityInstances.length) {
+            const currentProfileInfo = user.currentProfileInfo;
+            return !!allowedRole.allowedEntityInstances.find(
+              (instance) =>
+                instance.entityInstanceId === currentProfileInfo?.identifier ||
+                instance.entityInstanceId === currentProfileInfo?.id
+            );
+          }
+
+          const shouldCheckCurrentProfile =
+            allowedRole.checkCurrentProfileInfo !== undefined
+              ? allowedRole.checkCurrentProfileInfo
+              : checkCurrentProfileInfo;
+
+          if (shouldCheckCurrentProfile) {
+            const currentProfileInfo = user.currentProfileInfo;
+            const currentProfileEntityName = getModelInfoFromClassName(currentProfileInfo?.entity)?.entityName;
+
+            // Verificar que el tipo de entidad coincida
+            const entityMatches = currentProfileEntityName === allowedRole.entityName;
+
+            // Si hay allowedEntityInstances, verificar la titularidad del recurso
+            if (entityMatches && allowedRole.allowedEntityInstances && allowedRole.allowedEntityInstances.length) {
+              return !!allowedRole.allowedEntityInstances.find(
+                (instance) =>
+                  instance.entityInstanceId === currentProfileInfo?.identifier ||
+                  instance.entityInstanceId === currentProfileInfo?.id
+              );
+            }
+
+            // Verificar si el resourceEntity.identifier coincide con el currentProfileInfo.identifier
+            if (entityMatches && resourceEntity?.identifier) {
+              return (
+                resourceEntity.identifier === currentProfileInfo?.identifier ||
+                resourceEntity.identifier === currentProfileInfo?.id
+              );
+            }
+
+            return entityMatches;
+          }
+
+          return !!user.roles.find((userRoles) => userRoles.entityName === allowedRole.entityName);
         });
 
       if (isAllowed) {
@@ -55,20 +97,26 @@ export function validateUserAuthorization(
 }
 
 export interface RequireAuthParameters {
+  resourceEntity: any;
   children: any;
   allowedRoles?: AllowedEntityRole[];
   requiredSession?: boolean;
   name?: string;
 }
 
+export interface RequireAuthPageNavigationParameters {
+  resourceEntity: any;
+  allowedRoles?: AllowedEntityRole[];
+}
+
 export const RequireAuthComponent = (props: RequireAuthParameters) => {
-  const { children, allowedRoles, requiredSession, name } = props;
+  const { children, allowedRoles, requiredSession, name, resourceEntity } = props;
   const loggedUser = useSelector(selectCurrentUser);
   const authAppUser: AppUserModel = loggedUser;
 
   let nextPage;
 
-  const authResult = validateUserAuthorization(authAppUser, allowedRoles, requiredSession, name);
+  const authResult = validateUserAuthorization(resourceEntity, authAppUser, allowedRoles, requiredSession, name);
 
   switch (authResult) {
     case AuthorizationStates.ALLOWED:
@@ -84,14 +132,17 @@ export const RequireAuthComponent = (props: RequireAuthParameters) => {
   return nextPage;
 };
 
-export const RequireAuthPageNavigation = ({ allowedRoles = [] }) => {
+export const RequireAuthPageNavigation = ({
+  resourceEntity,
+  allowedRoles = [],
+}: RequireAuthPageNavigationParameters) => {
   const loggedUser = useSelector(selectCurrentUser);
   const authAppUser: AppUserModel = loggedUser;
   const location = useLocation();
 
   let nextPage;
 
-  const authResult = validateUserAuthorization(authAppUser, allowedRoles);
+  const authResult = validateUserAuthorization(resourceEntity, authAppUser, allowedRoles);
 
   switch (authResult) {
     case AuthorizationStates.ALLOWED:

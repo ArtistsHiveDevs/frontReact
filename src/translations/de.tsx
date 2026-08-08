@@ -774,6 +774,16 @@ export const DeMessages = {
             general: {
               name: 'Allgemeine',
               sections: {
+                artist_gallery: {
+                  name: 'Galerie des Künstlers',
+                  attributes: {
+                    members: 'Mitglieder',
+                    live: 'Live',
+                  },
+                },
+                live_gallery: {
+                  name: 'Live-Galerie',
+                },
                 general: {
                   name: 'Allgemeine Informationen',
                   attributes: {
@@ -898,6 +908,19 @@ export const DeMessages = {
             },
             followers: {
               name: 'Followers',
+            },
+            documents: {
+              name: 'Dokumente',
+              sections: {
+                technical_docs: {
+                  name: 'Technische Dokumente',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Technischer Rider',
+                    stage_plot: 'Bühnenplan',
+                  },
+                },
+              },
             },
           },
         },

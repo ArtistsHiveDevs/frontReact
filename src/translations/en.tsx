@@ -760,6 +760,16 @@ export const EnMessages = {
             general: {
               name: 'General',
               sections: {
+                artist_gallery: {
+                  name: 'Artist gallery',
+                  attributes: {
+                    members: 'Members',
+                    live: 'Live',
+                  },
+                },
+                live_gallery: {
+                  name: 'Live Gallery',
+                },
                 general: {
                   name: 'General Info',
                   attributes: {
@@ -884,6 +894,19 @@ export const EnMessages = {
             },
             followers: {
               name: 'Followers',
+            },
+            documents: {
+              name: 'Docs',
+              sections: {
+                technical_docs: {
+                  name: 'Technical Documents',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Technical Rider',
+                    stage_plot: 'Stage Plot',
+                  },
+                },
+              },
             },
           },
         },

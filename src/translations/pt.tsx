@@ -772,6 +772,16 @@ export const PtMessages = {
             general: {
               name: 'Geral',
               sections: {
+                artist_gallery: {
+                  name: 'Galeria do artista',
+                  attributes: {
+                    members: 'Membros',
+                    live: 'Ao vivo',
+                  },
+                },
+                live_gallery: {
+                  name: 'Galeria ao vivo',
+                },
                 general: {
                   name: 'Informações gerais',
                   attributes: {
@@ -896,6 +906,19 @@ export const PtMessages = {
             },
             followers: {
               name: 'Seguidores',
+            },
+            documents: {
+              name: 'Documentos',
+              sections: {
+                technical_docs: {
+                  name: 'Documentos Técnicos',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Rider Técnico',
+                    stage_plot: 'Planta do Palco',
+                  },
+                },
+              },
             },
           },
         },

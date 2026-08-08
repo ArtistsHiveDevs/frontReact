@@ -213,6 +213,9 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
   declare country: CountryModel;
   declare city: any;
 
+  declare artist_gallery: string[];
+  declare artist_riders_data: string[];
+
   // ========================================
   // NUEVOS ATRIBUTOS PARA FILTROS DE BÚSQUEDA
   // ========================================
@@ -318,5 +321,24 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
 
   get target_audiences() {
     return;
+  }
+
+  get epkGallery() {
+    return [
+      ...(this.image_members || []).map((img: any) => {
+        return {
+          ...img,
+          translationKey:
+            'app.pages.ArtistsPages.ArtistsDetailsPage.subpages.general.sections.artist_gallery.attributes.members',
+        };
+      }),
+      ...(this.image_live_gallery || []).map((img: any) => {
+        return {
+          ...img,
+          translationKey:
+            'app.pages.ArtistsPages.ArtistsDetailsPage.subpages.general.sections.artist_gallery.attributes.live',
+        };
+      }),
+    ];
   }
 }

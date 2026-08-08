@@ -775,6 +775,16 @@ export const ElMessages = {
             general: {
               name: 'Γενικά',
               sections: {
+                artist_gallery: {
+                  name: 'Γκαλερί του καλλιτέχνη',
+                  attributes: {
+                    members: 'Μέλη',
+                    live: 'Ζωντανά',
+                  },
+                },
+                live_gallery: {
+                  name: 'Ζωντανή γκαλερί',
+                },
                 general: {
                   name: 'Γενικές πληροφορίες',
                   attributes: {
@@ -899,6 +909,19 @@ export const ElMessages = {
             },
             followers: {
               name: 'Followers',
+            },
+            documents: {
+              name: 'Έγγραφα',
+              sections: {
+                technical_docs: {
+                  name: 'Τεχνικά Έγγραφα',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Τεχνικό Rider',
+                    stage_plot: 'Σχέδιο Σκηνής',
+                  },
+                },
+              },
             },
           },
         },

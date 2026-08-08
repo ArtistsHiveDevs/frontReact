@@ -776,6 +776,16 @@ export const FrMessages = {
             general: {
               name: 'Général',
               sections: {
+                artist_gallery: {
+                  name: "Galerie de l'artiste",
+                  attributes: {
+                    members: 'Membres',
+                    live: 'En direct',
+                  },
+                },
+                live_gallery: {
+                  name: 'Galerie live',
+                },
                 general: {
                   name: 'Info Générale',
                   attributes: {
@@ -900,6 +910,19 @@ export const FrMessages = {
             },
             followers: {
               name: 'Abonnés',
+            },
+            documents: {
+              name: 'Documents',
+              sections: {
+                technical_docs: {
+                  name: 'Documents Techniques',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Fiche Technique',
+                    stage_plot: 'Plan de Scène',
+                  },
+                },
+              },
             },
           },
         },

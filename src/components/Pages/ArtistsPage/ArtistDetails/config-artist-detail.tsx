@@ -284,6 +284,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'members',
     requireSession: true,
+    allowedRoles: [{ entityName: 'Artist', checkCurrentProfileInfo: true }],
     fullyHidden: fullyHiddenSectionsByEnvironment(['prod']),
     sections: [
       {

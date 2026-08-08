@@ -1,5 +1,5 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
@@ -11,7 +11,10 @@ import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
-import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
+import {
+  DynamicTabbedForm,
+  DynamicTabbedFormRef,
+} from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { LanguageModel } from '~/models/parametrics/geo/language.model';
@@ -27,6 +30,7 @@ const ArtistsCreatePage = () => {
   const { actions: userActions } = useUsersSlice();
   const { actions: languageActions } = useLanguagesSlice();
   const urlParameters = useParams();
+  const formRef = useRef<DynamicTabbedFormRef>(null);
 
   const [artistId, setCurrentArtistId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
   // const [availableLanguages, updateAvailableLanguages] = useState([]);
@@ -153,9 +157,9 @@ const ArtistsCreatePage = () => {
   return (
     <>
       <RequireAuthComponent resourceEntity={currentArtist} requiredSession={true}>
-        <BackButton />
         {currentUserCanEdit && (
           <>
+            <BackButton />
             {/* <h1>IMAGEN 2</h1>
             <FileUploader acceptedFileTypes={['image/*']} path="galeria/" maxFileCount={500} isResumable />
             <h2>FIN</h2>
@@ -164,6 +168,7 @@ const ArtistsCreatePage = () => {
             <br /> */}
             {/* {url?.expiresAt} */}
             <DynamicTabbedForm
+              ref={formRef}
               tabsInfo={ARTIST_DETAIL_SUB_PAGE_CONFIG}
               handlers={handlers}
               translationBasePath={TRANSLATION_BASE_ARTIST_DETAIL_PAGE}

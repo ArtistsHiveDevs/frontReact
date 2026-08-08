@@ -68,6 +68,7 @@ export const FrMessages = {
           unsubscribe: 'Se désabonner',
         },
         upload: 'Télécharger',
+        files_limit_exceded: 'Nombre maximum de fichiers autorisés dépassé',
       },
       entities: {
         academies: { plural: 'Académies', singular: 'Académie' },

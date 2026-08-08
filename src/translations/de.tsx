@@ -68,6 +68,7 @@ export const DeMessages = {
           unsubscribe: 'Abbestellen',
         },
         upload: 'Hochladen',
+        files_limit_exceded: 'Maximale Anzahl erlaubter Dateien überschritten',
       },
       entities: {
         academies: { plural: 'Akademien', singular: 'Akademie' },

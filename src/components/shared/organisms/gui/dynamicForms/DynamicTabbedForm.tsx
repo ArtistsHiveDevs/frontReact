@@ -241,6 +241,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     ) {
       componentFieldData.inputType = 'file';
       addComponentField = true;
+      componentFieldData.externalData = entityData?.[componentDescriptor?.formMetaData?.fieldName];
     } else if (componentDescriptor.componentName === ComponentTypes.PROFILE_THUMBNAIL_CARD) {
       componentFieldData.inputType = 'relationship';
       if (!!relationshipsValues && !Object.keys(relationshipsValues).find((key) => key === fieldNameComponent)) {
@@ -256,6 +257,12 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     } else if (componentDescriptor.componentName === ComponentTypes.HTML_CONTENT) {
       componentFieldData.inputType = 'textarea';
       addComponentField = true;
+    } else if (
+      [ComponentTypes.IMAGE_GALLERY, ComponentTypes.DOCUMENT_FILE_VIEWER].includes(componentDescriptor.componentName)
+    ) {
+      componentFieldData.inputType = 'file';
+      addComponentField = true;
+      componentFieldData.externalData = entityData?.[componentDescriptor?.formMetaData?.fieldName];
     }
 
     if (addComponentField) {

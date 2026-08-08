@@ -68,6 +68,7 @@ export const ItMessages = {
           unsubscribe: 'Disiscriviti',
         },
         upload: 'Carica',
+        files_limit_exceded: 'Numero massimo di file consentiti superato',
       },
       entities: {
         academies: { plural: 'Accademie', singular: 'Accademia' },

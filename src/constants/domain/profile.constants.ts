@@ -34,7 +34,7 @@ export const ProfileMenuOptionsData = [
     option: ProfileMenuOptionsType.EDIT,
     id: 1,
     translate: 'actions.edit',
-    defalutText: 'share',
+    defalutText: 'edit',
     icon: 'FaPen',
     show: false,
   },

@@ -1,8 +1,10 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
-import { toCamelCase } from '~/common/utils/string-utils';
 import { getUrl } from '~/common/utils/amplify/storage/storage.client';
+import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
+import { encryptEnvToken } from '~/common/utils/request';
+import { toCamelCase } from '~/common/utils/string-utils';
 import { VerificationStatus } from '~/constants';
-import { ProfileActiveStatus, ProfileNature } from '~/constants/domain/profile.constants';
+import { ProfileActiveStatus, ProfileApprovalStatus, ProfileNature } from '~/constants/domain/profile.constants';
 import { CurrentProfileInfoModel } from '../app/user/user.model';
 import {
   EntityTemplate,
@@ -11,8 +13,6 @@ import {
   ProfileTemplate,
   SearchableProfileTemplate,
 } from './template';
-import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
-import { encryptEnvToken } from '~/common/utils/request';
 
 const DEFAULT_MAX_CACHE_TIME_TO_LIVE = 3 * 60 * 1000;
 
@@ -188,7 +188,7 @@ export abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
       const result = await urlPromise;
 
       // Guardar en caché con tiempo de expiración (50 minutos antes de que expire la URL)
-      const expiresAt = now + (50 * 60 * 1000); // 50 minutos (URLs de S3 expiran en ~1 hora)
+      const expiresAt = now + 50 * 60 * 1000; // 50 minutos (URLs de S3 expiran en ~1 hora)
       s3UrlCache.set(s3Path, { url: result, expiresAt });
 
       return result.url.href;
@@ -251,6 +251,8 @@ export abstract class ProfileModel<T extends ProfileTemplate>
   declare isClaimedProfile?: boolean;
 
   declare is_active: ProfileActiveStatus;
+
+  declare approval_status?: ProfileApprovalStatus;
 
   declare followed_profiles: FollowerProfileTemplate[];
   declare followed_by: FollowerProfileTemplate[];

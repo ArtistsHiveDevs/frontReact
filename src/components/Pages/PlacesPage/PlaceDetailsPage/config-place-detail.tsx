@@ -7,6 +7,17 @@ import { PlaceModel, PlaceRatingTemplate } from '~/models/domain/place/place.mod
 
 export const TRANSLATION_BASE_PLACE_DETAIL_PAGE = 'app.pages.PlacesPages.PlacesDetailsPage';
 
+export const PLACE_TYPE_OPTIONS = [
+  { label: 'Bar', value: 'bar' },
+  { label: 'Club', value: 'club' },
+  { label: 'Teatro', value: 'theater' },
+  { label: 'Sala de conciertos', value: 'concert_hall' },
+  { label: 'Centro cultural', value: 'cultural_center' },
+  { label: 'Restaurante', value: 'restaurant' },
+  { label: 'Aire libre', value: 'outdoor' },
+  { label: 'Otro', value: 'other' },
+];
+
 export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'general',
@@ -41,6 +52,17 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   },
                 },
                 {
+                  name: 'place_type',
+                  icon: 'BsInfoCircleFill',
+                  // Las opciones se pasan vía el prop `fieldOptions` de DynamicTabbedForm (ver PlacesCreatePage),
+                  // igual que 'genres'/'spoken_languages' en este mismo archivo: Select.tsx lee fieldData.options,
+                  // no formMetaData.componentParams.options.
+                  formMetaData: {
+                    inputType: 'select',
+                    config: { required: 'Este campo es obligatorio' },
+                  },
+                },
+                {
                   name: 'cityWithCountry',
                   icon: 'AiFillHome',
                   emptyTitle: true,
@@ -60,6 +82,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   },
                   formMetaData: {
                     inputType: 'citySelector',
+                    config: { required: 'Este campo es obligatorio' },
                     componentParams: {
                       // minimumSelectionLevel: CitySelectionLevel.BOROUGH,
                     },
@@ -137,6 +160,11 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                     );
                   },
                   // formMetaData: { inputType: 'chipPicker' },
+                },
+                {
+                  name: 'regulatory_closing_time',
+                  icon: 'tb TbContract',
+                  formMetaData: { inputType: 'time' },
                 },
               ],
             },
@@ -447,7 +475,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   },
   {
     name: 'shows',
-    fullyHidden: fullyHiddenSectionsByEnvironment(['prod']),
+    fullyHidden: fullyHiddenSectionsByEnvironment(['prod', 'dev']),
     sections: [
       {
         name: 'next_shows',

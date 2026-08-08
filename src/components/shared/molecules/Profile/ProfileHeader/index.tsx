@@ -1,4 +1,4 @@
-import { Avatar, Dialog, DialogContent, IconButton, Snackbar, SnackbarCloseReason } from '@mui/material';
+import { Avatar, Button, Dialog, DialogContent, IconButton, Snackbar, SnackbarCloseReason } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { RegisterOptions } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,25 +6,26 @@ import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
-import {
-  USERNAME_FORMAT_PATTERN,
-  debouncedUsernameValidation,
-} from '~/common/utils/validation/username-validation';
+import { USERNAME_FORMAT_PATTERN, debouncedUsernameValidation } from '~/common/utils/validation/username-validation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import { FollowerCounter } from '~/components/shared/molecules/Profile/FollowerCounter/FollowerCounter';
+import { ReportProfileForm } from '~/components/shared/molecules/Profile/ReportProfileForm/ReportProfileForm';
 import BurgerProfileMenu from '~/components/shared/molecules/general/burgerProfileMenu/burgerProfileMenu';
 import {
   FavoriteSubscription,
   FavoriteSubscritionIconDefaultTypes,
 } from '~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
-import { ProfileMenuOptionsData, ProfileMenuOptionsType } from '~/constants/domain/profile.constants';
 import { ProfileModel } from '~/models/base';
 import { defaultTypesColors, getModelInfoFromInstance } from '~/models/base/modelHelpers';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import './index.scss';
+import {
+  ProfileMenuOptionsData,
+  ProfileMenuOptionsType,
+} from '~/constants/domain/profile.constants';
 
 export interface ProfileHeaderElement {
   name: string;
@@ -96,6 +97,7 @@ export const ProfileHeader = (props: any) => {
   });
 
   const [zoomProfilePic, setZoomProfilePic] = useState(false);
+  const [showReportForm, setShowReportForm] = useState(false);
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
   const [currentUserIsInProfile, setCurrentUserIsInProfile] = useState(false);
   const [borderProfileColor, setBorderProfileColor] = useState(undefined);
@@ -147,6 +149,7 @@ export const ProfileHeader = (props: any) => {
 
   useEffect(() => {
     const userID = getStoredUserIdToken();
+
     let permissions = { canEdit: false, isInProfile: false };
     if (userID && loggedUser && element && parentHandlers && parentHandlers['onEditProfile']) {
       const userPermissions = loggedUser.checkPermissions(element.identifier);
@@ -159,12 +162,32 @@ export const ProfileHeader = (props: any) => {
         (type) => type.toLowerCase() === getModelInfoFromInstance(element).entityName?.toLowerCase()
       ) + 1;
     setBorderProfileColor(entityColorIndex);
-    const updateBurgerProfileMenuOptions = burgerProfileMenuOptions?.map((burgerOption) =>
-      burgerOption?.option == ProfileMenuOptionsType.EDIT
-        ? { ...burgerOption, show: permissions.isInProfile }
-        : burgerOption
-    );
-    setBurgerProfileMenuOptions(updateBurgerProfileMenuOptions);
+
+    // Determinar qué opciones del menú mostrar basado en permisos
+    const isOwnProfile = permissions.isInProfile;
+    const hasMembership = permissions.canEdit;
+    const canShowReport = !isOwnProfile && !hasMembership;
+
+    const updatedMenuOptions = burgerProfileMenuOptions?.map((menuOption) => {
+      switch (menuOption.option) {
+        case ProfileMenuOptionsType.SHARE:
+          // SHARE: Todos los perfiles pueden compartir
+          return { ...menuOption, show: true };
+
+        case ProfileMenuOptionsType.EDIT:
+          // EDIT: Solo si estoy en mi propio perfil
+          return { ...menuOption, show: isOwnProfile };
+
+        case ProfileMenuOptionsType.REPORT:
+          // REPORT: Solo si NO es mi perfil Y NO tengo membresía en ese perfil
+          return { ...menuOption, show: canShowReport };
+
+        default:
+          return menuOption;
+      }
+    });
+
+    setBurgerProfileMenuOptions(updatedMenuOptions);
   }, [element, loggedUser]);
 
   // Efecto para manejar el scroll y mostrar/ocultar el header fijo
@@ -331,7 +354,7 @@ export const ProfileHeader = (props: any) => {
         setEditableMode(element);
         break;
       case 2:
-        setEditableMode(element);
+        setShowReportForm(true);
         break;
     }
   };
@@ -457,6 +480,7 @@ export const ProfileHeader = (props: any) => {
           </div>
         )}
       </div>
+      <ReportProfileForm open={showReportForm} onClose={() => setShowReportForm(false)} entity={element} />
       <Dialog open={zoomProfilePic} onClose={handleCloseZoomDialog} fullWidth>
         <DialogContent style={{ textAlign: 'center', position: 'relative', padding: 0 }}>
           <IconButton onClick={handleCloseZoomDialog} style={{ position: 'absolute', top: '0.5%', right: '0.5%' }}>

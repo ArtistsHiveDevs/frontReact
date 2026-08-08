@@ -22,6 +22,7 @@ import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/pl
 import { useUsersSlice } from '~/common/slices/users';
 import { selectUsers } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
+import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
 import { ProfilePicture } from '~/components/shared/atoms/gui/ProfilePicture/ProfilePicture';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import {
@@ -30,7 +31,6 @@ import {
 } from '~/components/shared/molecules/general/AttributesIconField';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import { AVAILABLE_I18N_LANGUAGES } from '~/translations';
-import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
 
 const TRANSLATION_BASE_SETTINGS_PAGE = 'app.pages.app.settings';
 
@@ -132,6 +132,7 @@ const AppSettingsPage = () => {
 
   return (
     <>
+      <p>Julio de 2026</p>
       <h2>{translate('title')}</h2>
       <h3>
         <DynamicIcons iconName="FaGlobeAmericas" size={20} /> {translate('language_selection.title')}{' '}
@@ -184,7 +185,11 @@ const AppSettingsPage = () => {
               <div className="logged-user-info">
                 <ProfilePicture src={selectedUser.profile_pic} />
                 <div>
-                  <AttributesIconFieldReadOnly attributes={userAttributes} className="logged-user-info-data" />
+                  <AttributesIconFieldReadOnly
+                    attributes={userAttributes}
+                    resourceEntity={loggedUser}
+                    className="logged-user-info-data"
+                  />
                 </div>
               </div>
               <h5>{translate('user_profile.roles')}:</h5>

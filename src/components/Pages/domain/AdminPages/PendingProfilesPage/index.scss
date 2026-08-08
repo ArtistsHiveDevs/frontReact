@@ -1,0 +1,13 @@
+@import '~/variables.module.scss';
+
+.admin-pending-profiles {
+  padding: 1.5rem;
+
+  &__section {
+    margin-top: 1.5rem;
+  }
+
+  &__empty {
+    opacity: 0.7;
+  }
+}

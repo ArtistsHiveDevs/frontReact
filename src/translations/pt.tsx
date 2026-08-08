@@ -6,6 +6,9 @@ export const PtMessages = {
       not_found_page: {
         title: 'Oops! Não conseguimos encontrar o que está a procurar',
       },
+      component_error: {
+        message: 'Não foi possível carregar este componente.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -68,6 +71,7 @@ export const PtMessages = {
           unsubscribe: 'Cancelar',
         },
         upload: 'Carregar',
+        files_limit_exceded: 'Número máximo de arquivos permitidos excedido',
       },
       entities: {
         academies: { plural: 'Academias', singular: 'Academia' },
@@ -158,6 +162,12 @@ export const PtMessages = {
 
         // Errores Desconocidos
         UNKNOWN_ERROR: 'Erro desconhecido',
+      },
+      forms: {
+        validation_error: 'Revise os campos destacados antes de enviar o formulário.',
+        submit_error: 'Não foi possível salvar as alterações. Tente novamente.',
+        submit_error_duplicate_key: 'Esse nome de usuário já está em uso. Escolha outro.',
+        submit_error_validation: 'Alguns campos obrigatórios estão faltando ou inválidos. Revise o formulário.',
       },
       follows: {
         followers: 'Seguidores',
@@ -371,6 +381,34 @@ export const PtMessages = {
         },
       },
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Revisão de perfis pendentes',
+          unauthorized: {
+            title: 'Acesso negado',
+            description: 'Você não tem permissão para ver esta página.',
+          },
+          sections: {
+            artists: {
+              title: 'Artistas pendentes',
+            },
+            places: {
+              title: 'Locais pendentes',
+            },
+          },
+          table: {
+            name: 'Nome',
+            username: 'Usuário',
+            location: 'Localização',
+            created_at: 'Enviado em',
+            actions: 'Ações',
+          },
+          actions: {
+            approve: 'Aprovar',
+            reject: 'Rejeitar',
+          },
+          empty_state: 'Nenhum perfil pendente para revisão',
+          error: 'Ocorreu um erro. Tente novamente.',
+        },
         LoginPage: {
           paragraph1:
             'Você está visualizando uma versão de teste da nossa plataforma. Atualmente, o registro de usuários está limitado.',
@@ -503,6 +541,61 @@ export const PtMessages = {
         },
       },
       domain: {
+        CalendarPage: {
+          title: 'My calendar',
+          empty_state: 'There are no events in this date range',
+          error: 'Something went wrong while loading your calendar. Please try again.',
+          deadline_label: 'Deadline',
+          types: {
+            concert: 'Concerts',
+            call: 'Open call deadlines',
+            activity: 'Activities',
+          },
+          meta: {
+            expired: 'Expired open call',
+            city: 'City',
+            event_date: 'Event date',
+            applications_count: 'Applications',
+            notes: 'Notes',
+          },
+          actions: {
+            today: 'Today',
+            month: 'Month',
+            week: 'Week',
+            day: 'Day',
+            delete: 'Delete',
+            cancel: 'Cancel',
+          },
+          activity_form: {
+            create_title: 'New activity',
+            edit_title: 'Edit activity',
+            save_error: 'The activity could not be saved. Please try again.',
+            fields: {
+              title: 'Title',
+              type: 'Type',
+              all_day: 'All day',
+              start_date: 'Start date',
+              start_time: 'Start time',
+              end_date: 'End date',
+              end_time: 'End time',
+              notes: 'Notes',
+            },
+            types: {
+              rehearsal: 'Rehearsal',
+              soundcheck: 'Soundcheck',
+              other: 'Other',
+            },
+            validation: {
+              title_required: 'Title is required',
+              start_date_required: 'Start date is required',
+              start_time_required: 'Start time is required',
+            },
+            delete_confirmation: {
+              title: 'Delete activity',
+              message: 'Are you sure you want to delete this activity? This action cannot be undone.',
+            },
+          },
+        },
         CulturalAgenda: {
           title: 'Agenda Cultural',
         },
@@ -706,6 +799,115 @@ export const PtMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Junte-se à colmeia',
         },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: 'Membro da indústria',
+            intro:
+              'Obrigado pelo seu interesse em se registrar como membro da indústria, seja como artista, agente, dono de um local, sala de ensaio ou outra entidade.',
+            intro_secondary: 'Procure seu perfil se ele já existir no sistema, ou crie um novo para começar.',
+            search_section: {
+              title: 'Procure seu perfil',
+              input_placeholder: 'Nome do artista ou lugar...',
+              search_button: 'Buscar',
+              artists_found: 'Estes são os artistas relacionados',
+              places_found: 'Estes são os lugares relacionados',
+            },
+            create_section: {
+              title: 'Ou crie um novo perfil',
+            },
+            reset_section: {
+              remove_artists_button: 'Remover meus perfis de Artista',
+              remove_places_button: 'Remover meus perfis de Lugar',
+              confirm_title: 'Confirmar ação',
+              confirm_content:
+                'Esta ação removerá a associação de todos os seus perfis deste tipo com sua conta. Os perfis não serão excluídos, mas deixarão de aparecer nas suas associações. Deseja continuar?',
+              confirm_action: 'Sim, remover',
+              cancel_action: 'Cancelar',
+            },
+          },
+        },
+        PrebookingPages: {
+          EventNegotiationPages: {
+            EventNegociationDetailsPage: {
+              subpages: {
+                general: {
+                  name: 'Info',
+                  sections: {
+                    description: { name: 'Descrição' },
+                    schedule: {
+                      name: 'Horário',
+                      attributes: {
+                        event_date: 'Data',
+                        load_in_time: 'Montagem',
+                        soundcheck_time: 'Soundcheck',
+                        doors_open_time: 'Abertura',
+                        show_start_time: 'Show',
+                        show_end_time: 'Fim do show',
+                        load_out_time: 'Desmontagem',
+                        regulatory_closing_time: 'Encerramento regulamentar',
+                      },
+                    },
+                  },
+                },
+                parties: {
+                  name: 'Partes',
+                  sections: {
+                    participants: { name: 'Participantes' },
+                    setlist_tracks: {
+                      name: 'Setlist',
+                      attributes: {
+                        setlist_total_time: 'Duração aproximada',
+                      },
+                    },
+                  },
+                },
+                technical_rider: {
+                  name: 'Rider',
+                  sections: {
+                    sound_rider: { name: 'Som' },
+                    backline_rider: { name: 'Backline' },
+                    light_rider: { name: 'Luzes' },
+                    visuals_rider: { name: 'Visuais' },
+                  },
+                },
+                compensation: {
+                  name: 'Compensação',
+                  sections: {
+                    economic: {
+                      name: 'Económico',
+                      attributes: {
+                        contract_type: 'Contrato',
+                      },
+                    },
+                    hospitality: { name: 'Hospitalidade' },
+                  },
+                },
+                responsibilities: {
+                  name: 'Responsabilidades',
+                  sections: {
+                    promotion_responsible: { name: 'Promoção' },
+                    ticketing_responsible: { name: 'Bilheteria' },
+                    security_responsible: { name: 'Segurança' },
+                    additional_staff_responsible: { name: 'Pessoal adicional' },
+                  },
+                },
+                other: {
+                  name: 'Outros',
+                  sections: {
+                    other_notes: {
+                      name: 'Notas adicionais',
+                      attributes: {
+                        ticketing_responsible: { name: 'Bilheteria' },
+                        security_responsible: { name: 'Segurança' },
+                        additional_staff_responsible: { name: 'Pessoal adicional' },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour não encontrado',
@@ -771,6 +973,16 @@ export const PtMessages = {
             general: {
               name: 'Geral',
               sections: {
+                artist_gallery: {
+                  name: 'Galeria do artista',
+                  attributes: {
+                    members: 'Membros',
+                    live: 'Ao vivo',
+                  },
+                },
+                live_gallery: {
+                  name: 'Galeria ao vivo'
+                },
                 general: {
                   name: 'Informações gerais',
                   attributes: {
@@ -896,6 +1108,27 @@ export const PtMessages = {
             followers: {
               name: 'Seguidores',
             },
+            documents: {
+              name: 'Documentos',
+              sections: {
+                technical_docs: {
+                  name: 'Documentos Técnicos',
+                  docs:{
+                    technical_epk: "EPK",
+                    technical_rider: "Rider Técnico",
+                    stage_plot: "Planta do Palco",
+                  }
+                },
+              },
+            },
+            riders: {
+              name: 'Riders',
+              sections: {
+                riders_data: {
+                  name: 'Riders',
+                },
+              },
+            },
           },
         },
       },
@@ -999,6 +1232,7 @@ export const PtMessages = {
                   name: 'Informações Gerais',
                   attributes: {
                     description: 'Descrição',
+                    place_type: 'Tipo de local',
                     address: 'Endereço',
                     city: 'Cidade',
                     cityWithCountry: 'Localização',
@@ -1082,6 +1316,127 @@ export const PtMessages = {
           },
         },
       },
+      OpenCallPage: {
+        title: 'Open Call',
+        subtitle:
+          'Fill in the form to apply as an artist. Every detail helps us evaluate your proposal and coordinate the logistics of the event.',
+        step_counter: 'Step {current} of {total}',
+        step_progress: '{progress}% completed',
+        required_notice: 'Fields marked with * are required',
+        prev_button: 'Previous',
+        next_button: 'Next',
+        submit_button: 'Submit application',
+        submitting_button: 'Sending...',
+        save_notice: 'You can save and continue later',
+        no_artist_profile: {
+          title: 'You have no active artist profile',
+          message:
+            'You can only apply to an Open Call from an Artist profile. Check that you are logged in with the right profile.',
+        },
+        success: {
+          title: 'Application sent',
+          message:
+            'We have received your application. We will review your proposal and contact you at the email address you provided.',
+          back_button: 'Back to home',
+        },
+        already_applied: {
+          title: 'You have already applied to this Open Call',
+          message: 'You can only send one application per Open Call.',
+          status_label: 'Your application status:',
+          details_button: 'View the Open Call',
+        },
+        application_status: {
+          pending: 'Pending',
+          accepted: 'Accepted',
+          rejected: 'Rejected',
+        },
+        submit_errors: {
+          duplicate: 'You have already applied to this Open Call.',
+          not_accepting_applications:
+            'This Open Call is not accepting applications: it is closed or past its deadline.',
+          open_call_not_found: 'We could not find this Open Call. It may have been removed.',
+          generic: 'We could not send your application. Please try again later.',
+        },
+      },
+      OpenCallsListPage: {
+        subpages: {
+          active: { name: 'Chamadas abertas ativas' },
+          past: { name: 'Chamadas abertas passadas' },
+          available: { name: 'Disponíveis' },
+          applications: { name: 'Minhas candidaturas' },
+        },
+        attributes: {
+          event_name: 'Nome do evento',
+          event_date: 'Data do evento',
+          start_date: 'Abertura',
+          end_date: 'Encerramento',
+          status: 'Status',
+          applications_count: 'Candidaturas',
+          city: 'Cidade',
+          genres: 'Gêneros',
+          application_status: 'Status da tua candidatura',
+        },
+      },
+      OpenCallDetailsPage: {
+        applications_received_title: 'Candidaturas Recebidas',
+        your_application_title: 'Tua candidatura',
+        no_applications_yet: 'Ainda não há candidaturas para esta convocatória.',
+        not_applied_yet: 'Ainda não te candidataste a esta convocatória.',
+        loading_applications: 'Carregando candidaturas...',
+        loading_your_application: 'Carregando tua candidatura...',
+        unauthorized_message: 'Entra com um perfil de Artist ou de Place para ver as candidaturas desta convocatória.',
+        back_button: 'Voltar às Minhas Convocatórias',
+        apply_button: 'Apply to this Open Call',
+        open_call_status: {
+          DRAFT: 'Draft',
+          OPEN: 'Open',
+          CLOSED: 'Closed',
+          CANCELLED: 'Cancelled',
+        },
+        presentation: {
+          open_badge: 'Applications open',
+          expired_badge: 'Applications closed',
+          apply_deadline_title: 'Application period',
+          event_date_label: 'Event date',
+          minutes_suffix: 'min',
+          sections: {
+            about: 'About this Open Call',
+            conditions: 'Conditions and requirements',
+            technical: 'Technical details',
+            compensation: 'Compensation and logistics',
+          },
+          fields: {
+            description: 'Description',
+            genres: 'Genres',
+            accepted_project_types: 'Accepted project types',
+            requirements_description: 'Requirements',
+            set_duration: 'Set duration',
+            max_applications: 'Maximum applications',
+            available_slots: 'Available slots',
+            expected_audience: 'Expected audience',
+            stage_type: 'Stage type',
+            stage_dimensions: 'Stage dimensions',
+            provided_sound: 'Sound provided',
+            provided_backline: 'Backline provided',
+            provided_lighting: 'Lighting provided',
+            technical_notes: 'Technical notes',
+            fee: 'Fee',
+            travel_support: 'Travel support',
+            accommodation_provided: 'Accommodation',
+            meals_provided: 'Meals',
+            additional_notes: 'Additional notes',
+          },
+        },
+        status: {
+          pending: 'Pendente',
+          accepted: 'Aceita',
+          rejected: 'Rejeitada',
+        },
+        actions: {
+          accept: 'Aceitar',
+          reject: 'Rejeitar',
+        },
+      },
     },
     appbase: {
       betabar: {
@@ -1098,6 +1453,24 @@ export const PtMessages = {
         CLAIM_REQUEST_CONFIRMATION:
           'Sua solicitação foi registrada com sucesso. Entraremos em contato por e-mail ou pelas redes sociais assim que for resolvida.',
         CLAIM_BUTTON: 'Solicitar perfil',
+      },
+      reportProfileForm: {
+        title: 'Denunciar perfil',
+        reason_label: 'Motivo da denúncia',
+        reasons: {
+          DUPLICATE: 'Perfil duplicado',
+          FAKE: 'Perfil falso',
+          WRONG_INFO: 'Informações incorretas',
+          BELONGS_TO_ME: 'Este perfil é meu, mas está atribuído a outra pessoa',
+          INAPPROPRIATE_CONTENT: 'Conteúdo inadequado',
+          OTHER: 'Outro',
+        },
+        description_label: 'Descrição (opcional)',
+        description_placeholder: 'Conte-nos mais detalhes sobre esta denúncia',
+        submit_button: 'Enviar denúncia',
+        success_message: 'Sua denúncia foi enviada. Obrigado por nos ajudar a manter a plataforma segura.',
+        error_message: 'Ocorreu um erro ao enviar sua denúncia. Tente novamente.',
+        duplicate_pending_error: 'Você já tem uma denúncia pendente para este perfil.',
       },
       footer: {
         columns: {
@@ -1279,6 +1652,7 @@ export const PtMessages = {
               my_events: 'Meus eventos',
               'my_events.nested': { create: 'Criar um evento' },
               my_riders: 'Meus riders',
+              my_open_calls: 'Minhas Chamadas abertas',
               my_places: 'Meus lugares',
               'my_places.nested': { create: 'Criar local' },
               favourites: 'Favoritos',
@@ -1300,6 +1674,12 @@ export const PtMessages = {
               logout: 'Sair',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'Pendente de revisão',
+          rejected: 'Rejeitado',
         },
       },
     },

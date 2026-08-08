@@ -32,17 +32,21 @@ export enum PATHS {
   TOURS_OUTLINE = 'toursOutline',
   FAQ = 'faq',
   PAYMENTS = 'payment',
+  OPEN_CALLS = 'open-calls',
   CC = 'cc',
+  ADMIN_PENDING_PROFILES = 'admin/pending-profiles',
   REDIRECT_UNAUTHORIZED_AND_UNLOGGED_USER = '/home',
   REDIRECT_UNAUTHORIZED_AND_LOGGED_USER = '/home',
 }
 
 export enum SUB_PATHS {
+  CONFIRMATION = 'confirmation',
   CREATE = 'new',
   EDIT = 'edit',
   EDITOR = 'editor',
   ELEMENT_DETAILS = 'details',
   AGENDA = 'agenda',
+  APPLY = 'apply',
 }
 
 export enum URL_PARAMETER_NAMES {

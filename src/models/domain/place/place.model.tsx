@@ -94,6 +94,8 @@ export interface PlaceTemplate extends ProfileTemplate {
 
   has_open_mic?: boolean;
 
+  regulatory_closing_time?: string;
+
   // ========================================
   // NUEVOS ATRIBUTOS PARA FILTROS DE BÚSQUEDA
   // ========================================
@@ -152,6 +154,8 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
 
   declare target_audiences: Target_Audience[];
   declare bookingRatesPolicy: string[];
+
+  declare regulatory_closing_time?: string;
 
   declare facilities: VenueFacilitiesTemplate;
 

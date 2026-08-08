@@ -14,7 +14,7 @@ export const createCheckbox = (params: ComponentGeneratorParams) => {
   const [optionsChecked, setOptionsChecked] = useState<boolean[]>(new Array(options.length).fill(false));
   const [indeterminate, setIndeterminate] = useState(false);
 
-  const required = config.required === true || config.required === 'true';
+  const required = !!config.required;
 
   const handleMainFieldChange = () => {
     const newMainFieldChecked = !mainFieldChecked;

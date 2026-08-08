@@ -3,7 +3,7 @@ import { ComponentBuilderParams } from '../types';
 import { getDataSource } from '../utils/dataExtraction';
 
 export const createTableComponent = (params: ComponentBuilderParams): JSX.Element => {
-  const { componentDescriptor, entityData, parentDataSource } = params;
+  const { componentDescriptor, entityData, parentDataSource, section, handlers } = params;
 
   const dataSourceElement = getDataSource(componentDescriptor, entityData, parentDataSource);
 
@@ -11,5 +11,8 @@ export const createTableComponent = (params: ComponentBuilderParams): JSX.Elemen
     ? componentDescriptor.data?.tableConfig(dataSourceElement)
     : undefined;
 
-  return <>{tableConfig && <TableView config={tableConfig} />}</>;
+  const clickHandlerName = section?.clickHandlerName || componentDescriptor.clickHandlerName;
+  const onRowClick = clickHandlerName ? (handlers?.[clickHandlerName] as ((row: any) => void) | undefined) : undefined;
+
+  return <>{tableConfig && <TableView config={{ ...tableConfig, onRowClick: onRowClick || tableConfig.onRowClick }} />}</>;
 };

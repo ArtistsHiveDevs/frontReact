@@ -196,7 +196,13 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   value: `${currencyFormat(totalPerDay)}`,
                 });
 
-                return <AttributesIconFieldReadOnly key={`accomodation`} attributes={subitems} />;
+                return (
+                  <AttributesIconFieldReadOnly
+                    key={`accomodation`}
+                    attributes={subitems}
+                    resourceEntity={tourOutline}
+                  />
+                );
               },
             },
           },
@@ -255,7 +261,13 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   value: `${currencyFormat(total)}`,
                 });
 
-                return <AttributesIconFieldReadOnly key={`intercity_transportation`} attributes={subitems} />;
+                return (
+                  <AttributesIconFieldReadOnly
+                    key={`intercity_transportation`}
+                    attributes={subitems}
+                    resourceEntity={tourOutline}
+                  />
+                );
               },
             },
           },
@@ -322,7 +334,13 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   value: `${currencyFormat(totalPerDay)}`,
                 });
 
-                return <AttributesIconFieldReadOnly key={`internal_transportation`} attributes={subitems} />;
+                return (
+                  <AttributesIconFieldReadOnly
+                    key={`internal_transportation`}
+                    attributes={subitems}
+                    resourceEntity={tourOutline}
+                  />
+                );
               },
             },
           },

@@ -1,5 +1,5 @@
-import { Button, Stack } from '@mui/material';
-import { useState } from 'react';
+import { Alert, Button, Stack } from '@mui/material';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { I18nPaths, useI18n } from '~/common/utils';
 import {
@@ -7,6 +7,7 @@ import {
   createDebouncedUsernameValidation,
 } from '~/common/utils/validation/username-validation';
 import { isVisible } from '~/common/utils/visibility-utils';
+import { ErrorBoundary } from '~/components/shared/atoms/ErrorBoundary';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
@@ -35,8 +36,16 @@ export interface DynamicTabbedFormParams {
   customHeaderConfig?: any;
   submitLabel?: string;
   enableUsernameValidation?: boolean;
+  onlyModifiedFields?: boolean;
+  submitErrorMessage?: string; // Error de servidor (ej. falló el create/update); lo controla la página, no este componente.
 }
-export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
+
+export interface DynamicTabbedFormRef {
+  submit: () => Promise<void> | void;
+  getModifiedFields: () => any;
+}
+
+export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedFormParams>((params, ref) => {
   let {
     tabsInfo,
     elementData,
@@ -48,10 +57,13 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     submitLabel,
     customHeaderConfig,
     enableUsernameValidation = true,
+    onlyModifiedFields = false,
+    submitErrorMessage,
   } = params;
 
   const [relationshipsValues, setRelationshipsValues] = useState<{ [relationship: string]: any[] }>({});
   const [timeValues, setTimeValues] = useState<{ [relationship: string]: any }>({});
+  const [hasValidationErrors, setHasValidationErrors] = useState(false);
 
   const { translateText } = useI18n();
   const formMethods = useForm({
@@ -136,7 +148,8 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
       formState: { errors },
     } = formMethods;
 
-    const fieldNameComponent = section.name || componentDescriptor?.formMetaData?.fieldName;
+    // const fieldNameComponent = section.name || componentDescriptor?.formMetaData?.fieldName;
+    const fieldNameComponent = componentDescriptor?.formMetaData?.fieldName;
     let componentParamsComponent = componentDescriptor?.formMetaData?.componentParams || {};
     let fieldExternalData = externalData || {};
     if (fieldExternalData && fieldExternalData[fieldNameComponent]) {
@@ -241,6 +254,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     ) {
       componentFieldData.inputType = 'file';
       addComponentField = true;
+      componentFieldData.externalData = entityData?.[componentDescriptor?.formMetaData?.fieldName];
     } else if (componentDescriptor.componentName === ComponentTypes.PROFILE_THUMBNAIL_CARD) {
       componentFieldData.inputType = 'relationship';
       if (!!relationshipsValues && !Object.keys(relationshipsValues).find((key) => key === fieldNameComponent)) {
@@ -256,6 +270,12 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
     } else if (componentDescriptor.componentName === ComponentTypes.HTML_CONTENT) {
       componentFieldData.inputType = 'textarea';
       addComponentField = true;
+    } else if (
+      [ComponentTypes.IMAGE_GALLERY, ComponentTypes.DOCUMENT_FILE_VIEWER].includes(componentDescriptor.componentName)
+    ) {
+      componentFieldData.inputType = 'file';
+      addComponentField = true;
+      componentFieldData.externalData = entityData?.[componentDescriptor?.formMetaData?.fieldName];
     }
 
     if (addComponentField) {
@@ -303,15 +323,17 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
                       contentComponents = (section.components || []).map(
                         (componentDescriptor: ComponentDescriptor, componentIndex: number) => (
                           <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
-                            {generateSectionFormFields(
-                              subpage,
-                              section,
-                              componentDescriptor,
-                              componentIndex,
-                              handlers,
-                              formMethods,
-                              elementData
-                            )}
+                            <ErrorBoundary fallbackMessageId="app.general.component_error.message">
+                              {generateSectionFormFields(
+                                subpage,
+                                section,
+                                componentDescriptor,
+                                componentIndex,
+                                handlers,
+                                formMethods,
+                                elementData
+                              )}
+                            </ErrorBoundary>
                           </div>
                         )
                       );
@@ -341,25 +363,55 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
 
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { errors, dirtyFields },
+    getValues,
   } = formMethods;
 
+  // Función para obtener solo los campos modificados
+  const getModifiedFields = () => {
+    const allValues = getValues();
+    const modifiedData: any = {};
+
+    Object.keys(dirtyFields).forEach((key) => {
+      modifiedData[key] = allValues[key];
+    });
+
+    return modifiedData;
+  };
+
+  // Exponer métodos al ref
+  useImperativeHandle(ref, () => ({
+    submit: async () => {
+      return new Promise<void>((resolve, reject) => {
+        handleSubmit(
+          async (data) => {
+            try {
+              await handleFormSubmit(data);
+              resolve();
+            } catch (error) {
+              reject(error);
+            }
+          },
+          (errors) => {
+            handleFormErrors(errors);
+            reject(new Error('Form validation failed'));
+          }
+        )();
+      });
+    },
+    getModifiedFields,
+  }));
+
   // 🔍 Logging de errores para debugging
-  const handleFormSubmit = (data: any) => {
-    return onSubmit(data);
+  const handleFormSubmit = async (data: any) => {
+    setHasValidationErrors(false);
+    const dataToSubmit = onlyModifiedFields ? getModifiedFields() : data;
+    return await onSubmit(dataToSubmit);
   };
 
   const handleFormErrors = (errors: any) => {
+    setHasValidationErrors(true);
     window.scrollTo(0, 0);
-    // console.log('❌ Form validation failed. Errors by field:');
-    // console.table(
-    //   Object.entries(errors).map(([fieldName, error]: [string, any]) => ({
-    //     Campo: fieldName,
-    //     Mensaje: error?.message || 'Error sin mensaje',
-    //     Tipo: error?.type || 'unknown',
-    //   }))
-    // );
-    // console.log('Full errors object:', errors);
   };
 
   // customHeaderConfig = undefined;
@@ -386,9 +438,7 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
           minLength: 3,
           pattern: {
             value: USERNAME_FORMAT_PATTERN,
-            message: translateText(
-              `${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ERROR_CODES}.VALIDATION_USERNAME_FORMAT`
-            ),
+            message: translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ERROR_CODES}.VALIDATION_USERNAME_FORMAT`),
           },
           ...(enableUsernameValidation && {
             validate: {
@@ -419,12 +469,24 @@ export const DynamicTabbedForm = (params: DynamicTabbedFormParams) => {
           />
         </div>
       </FormProvider>
+      {hasValidationErrors && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY}.forms.validation_error`)}
+        </Alert>
+      )}
+      {submitErrorMessage && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {submitErrorMessage}
+        </Alert>
+      )}
       <Button type="submit" variant="contained" fullWidth>
         {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.${submitLabel || 'submit'}`)}
       </Button>
     </form>
   );
-};
+});
+
+DynamicTabbedForm.displayName = 'DynamicTabbedForm';
 
 export const findFieldMetadata = (fieldName: string, fieldsForm: any) => {
   let searchedField: any;

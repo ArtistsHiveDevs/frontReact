@@ -6,22 +6,56 @@ import { ArtistModel, ArtistRatingTemplate } from '~/models/domain/artist/artist
 import { LanguageModel } from '~/models/parametrics/geo/language.model';
 
 export const TRANSLATION_BASE_ARTIST_DETAIL_PAGE = 'app.pages.ArtistsPages.ArtistsDetailsPage';
+const TRANSLATION_BASE_TECHNICAL_DOCS = 'subpages.documents.sections.technical_docs.docs';
+
 export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'general',
     sections: [
       {
-        name: 'general',
+        name: 'artist_gallery',
         emptyTitle: true,
         components: [
           {
             componentName: ComponentTypes.HORIZONTAL_IMAGE_GALLERY,
-            data: { images: 'image_gallery', placeholder: 'Foto de los integrantes' },
+            data: { images: 'epkGallery', placeholder: 'Foto de los integrantes', size: 150 },
             clickHandlerName: 'onClickGalleryImage',
             formMetaData: {
+              hidden: true,
               inputType: 'file',
               fieldName: 'image_gallery',
-              componentParams: { multipleFiles: true, accept: 'image/*' },
+            },
+          },
+          {
+            componentName: ComponentTypes.HORIZONTAL_IMAGE_GALLERY,
+            data: { images: 'image_gallery', placeholder: 'Foto de los integrantes' },
+            clickHandlerName: 'onClickGalleryMemberImage',
+            hidden: true,
+            formMetaData: {
+              inputType: 'file',
+              fieldName: 'image_members',
+              componentParams: {
+                multipleFiles: false,
+                accept: 'image/*',
+                destinationPath: 'images',
+                filesDataType: 'members',
+              },
+            },
+          },
+          {
+            componentName: ComponentTypes.HORIZONTAL_IMAGE_GALLERY,
+            data: { images: 'image_gallery', placeholder: 'Foto de eventos en vivo' },
+            clickHandlerName: 'onClickGalleryLiveImage',
+            hidden: true,
+            formMetaData: {
+              inputType: 'file',
+              fieldName: 'image_live_gallery',
+              componentParams: {
+                multipleFiles: false,
+                accept: 'image/*',
+                destinationPath: 'images',
+                filesDataType: 'live',
+              },
             },
           },
         ],
@@ -244,6 +278,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'members',
     requireSession: true,
+    allowedRoles: [{ entityName: 'Artist', checkCurrentProfileInfo: true }],
     fullyHidden: fullyHiddenSectionsByEnvironment(['prod']),
     sections: [
       {
@@ -364,7 +399,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
       },
       {
         name: 'gallery',
-        hidden: fullyHiddenSectionsByEnvironment(['prod']),
+        hidden: fullyHiddenSectionsByEnvironment(['prod', 'dev']),
         components: [
           {
             componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
@@ -412,7 +447,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
       },
       {
         name: 'awards',
-        hidden: fullyHiddenSectionsByEnvironment(['prod']),
+        hidden: fullyHiddenSectionsByEnvironment(['prod', 'dev']),
       },
     ],
   },
@@ -542,7 +577,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   },
   {
     name: 'shows',
-    fullyHidden: fullyHiddenSectionsByEnvironment(['prod']),
+    fullyHidden: fullyHiddenSectionsByEnvironment(['prod', 'dev']),
     sections: [
       {
         name: 'summary',
@@ -600,6 +635,71 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
       },
     ],
     formMetaData: { hidden: true },
+  },
+  {
+    name: 'documents',
+    allowedRoles: [{ entityName: 'Artist', checkCurrentProfileInfo: true }],
+    sections: [
+      {
+        name: 'technical_docs',
+        components: [
+          {
+            componentName: ComponentTypes.DOCUMENT_FILE_VIEWER,
+            data: {
+              fileSource: 'technical_epk',
+              translationPath: `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.${TRANSLATION_BASE_TECHNICAL_DOCS}`,
+            },
+            formMetaData: {
+              inputType: 'file',
+              fieldName: 'technical_epk',
+              componentParams: {
+                multipleFiles: false,
+                accept: '.pdf, application/pdf',
+                useIcons: true,
+                iconName: 'FaFilePdf',
+                destinationPath: 'documents',
+              },
+            },
+          },
+          {
+            componentName: ComponentTypes.DOCUMENT_FILE_VIEWER,
+            data: {
+              fileSource: 'technical_rider',
+              translationPath: `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.${TRANSLATION_BASE_TECHNICAL_DOCS}`,
+            },
+            formMetaData: {
+              inputType: 'file',
+              fieldName: 'technical_rider',
+              componentParams: {
+                multipleFiles: false,
+                accept: '.pdf, application/pdf',
+                useIcons: true,
+                iconName: 'FaFilePdf',
+                destinationPath: 'documents',
+              },
+            },
+          },
+          {
+            componentName: ComponentTypes.DOCUMENT_FILE_VIEWER,
+            data: {
+              fileSource: 'stage_plot',
+              translationPath: `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.${TRANSLATION_BASE_TECHNICAL_DOCS}`,
+            },
+            formMetaData: {
+              inputType: 'file',
+              fieldName: 'stage_plot',
+              componentParams: {
+                multipleFiles: false,
+                accept: '.pdf, application/pdf',
+                useIcons: true,
+                iconName: 'FaFilePdf',
+                destinationPath: 'documents',
+              },
+            },
+          },
+        ],
+      },
+    ],
   },
   {
     name: 'followers',

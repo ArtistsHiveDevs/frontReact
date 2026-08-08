@@ -55,6 +55,12 @@ export const ROUTES_CONFIG: PathConfigMap = {
       component: lazy(() => import('~/components/shared/organisms/app/PlansOffer/PlansOfferPage/PlansOfferPage')),
       path: PATHS.PLANS,
     },
+    // Gating de is_platform_admin lo maneja la propia página; esta ruta solo exige sesión iniciada.
+    AdminPendingProfilesPage: {
+      component: lazy(() => import('~/components/Pages/domain/AdminPages/PendingProfilesPage')),
+      path: PATHS.ADMIN_PENDING_PROFILES,
+      redirectToIfNotLoggedUser: PATHS.LOGIN,
+    },
   },
   domain: {
     sections: {
@@ -141,12 +147,21 @@ export const ROUTES_CONFIG: PathConfigMap = {
             component: lazy(
               () => import('~/components/Pages/domain/PrebookingsPages/PrebookingsListPage/PrebookingsListPage')
             ),
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
           },
           PrebookDetailsPage: {
             component: lazy(
               () => import('~/components/Pages/domain/PrebookingsPages/PrebookingsDetailsPage/PrebookingsDetailsPage')
             ),
             path: detailsPagePath,
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
+          },
+          EventNegociationDetailsPage: {
+            component: lazy(
+              () =>
+                import('~/components/Pages/domain/PrebookingsPages/EventNegotiationPage/EventNegotiationDetailsPage')
+            ),
+            path: `end/${detailsPagePath}`,
           },
           // EventCreatePage: {
           //   component: lazy(() => import('~/components/Pages/EventsPage/EventCreatePage/EventCreatePage')),
@@ -197,7 +212,35 @@ export const ROUTES_CONFIG: PathConfigMap = {
           creator: {
             component: lazy(() => import('~/components/Pages/domain/RidersPage/StagePlot/StagePlotEditor')),
             path: `${SUB_PATHS.EDITOR}/:${URL_PARAMETER_NAMES.ELEMENT_ID}`,
-            // redirectToIfNotLoggedUser: PATHS.LOGIN,
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
+          },
+        },
+      },
+      openCall: {
+        path: PATHS.OPEN_CALLS,
+        subpaths: {
+          OpenCallsListPage: {
+            component: lazy(() => import('~/components/Pages/domain/OpenCallPage/OpenCallsListPage')),
+          },
+          OpenCallCreatePage: {
+            component: lazy(
+              () => import('~/components/Pages/domain/OpenCallPage/OpenCallCreatePage/OpenCallCreatePage')
+            ),
+            path: `${SUB_PATHS.CREATE}`,
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
+          },
+          OpenCallApplicationPage: {
+            component: lazy(
+              () => import('~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/OpenCallsPage')
+            ),
+            path: `${SUB_PATHS.APPLY}/:${URL_PARAMETER_NAMES.ELEMENT_ID}`,
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
+          },
+          OpenCallDetailsPage: {
+            component: lazy(
+              () => import('~/components/Pages/domain/OpenCallPage/OpenCallDetailsPage/OpenCallDetailsPage')
+            ),
+            path: detailsPagePath,
           },
         },
       },
@@ -239,9 +282,17 @@ export const ROUTES_CONFIG: PathConfigMap = {
     },
   },
   utils: {
-    PaymentsPage: {
-      component: lazy(() => import('~/components/Pages/utils/payments/Payment.page')),
+    payment: {
       path: PATHS.PAYMENTS,
+      subpaths: {
+        PaymentsPage: {
+          component: lazy(() => import('~/components/Pages/utils/payments/Payment.page')),
+        },
+        PaymentConfirmationPage: {
+          component: lazy(() => import('~/components/Pages/utils/payments/PaymentConfirmation.page')),
+          path: SUB_PATHS.CONFIRMATION,
+        },
+      },
     },
     CCPage: {
       component: lazy(() => import('~/components/Pages/utils/cc-qr/CC')),

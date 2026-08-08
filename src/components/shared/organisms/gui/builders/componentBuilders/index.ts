@@ -35,12 +35,15 @@ import { createAttributesIconFieldsComponent } from './builders/AttributesIconFi
 import { createCalendarSimpleLayoutComponent } from './builders/CalendarSimpleLayoutBuilder';
 import { createCrewListRiderViewComponent } from './builders/CrewListRiderViewBuilder';
 import { createDiscographyListViewComponent } from './builders/DiscographyListViewBuilder';
+import { createDocumentFileViewerModuleComponent } from './builders/DocumentFileViewerBuilder';
 import { createEventThumbnailCardComponent } from './builders/EventThumbnailCardBuilder';
+import { createGenericTechRiderRequirementsComponent } from './builders/GenericTechRiderRequirementsBuilder';
 import { createHorizontalImageGalleryComponent } from './builders/HorizontalImageGalleryBuilder';
 import { createHtmlContentComponent } from './builders/HtmlContentBuilder';
 import { createImageGalleryComponent } from './builders/ImageGalleryBuilder';
 import { createMapComponent } from './builders/MapBuilder';
 import { createProfileFollowersComponent } from './builders/ProfileFollowersBuilder';
+import { createProfilePictureListComponent } from './builders/ProfilePictureListBuilder';
 import { createProfileThumbnailCardComponent } from './builders/ProfileThumbnailCardBuilder';
 import { createSocialNetworkChartmetricAnalyticsWidgetComponent } from './builders/SocialNetworkChartmetricWidgetWidgetBuilder';
 import { createSocialNetworkWidgetComponent } from './builders/SocialNetworkWidgetBuilder';
@@ -76,6 +79,9 @@ const BUILDER_CONFIG = {
   [ComponentTypes.PROFILE_THUMBNAIL_CARD]: createProfileThumbnailCardComponent,
   [ComponentTypes.EVENT_THUMBNAIL_CARD]: createEventThumbnailCardComponent,
   [ComponentTypes.PROFILE_FOLLOWERS_COMPONENT]: createProfileFollowersComponent,
+  [ComponentTypes.PROFILE_PICTURE_LIST]: createProfilePictureListComponent,
+  [ComponentTypes.GENERIC_TECH_RIDER_REQUIREMENTS_VIEW]: createGenericTechRiderRequirementsComponent,
+  [ComponentTypes.DOCUMENT_FILE_VIEWER]: createDocumentFileViewerModuleComponent,
 } as const;
 
 /**

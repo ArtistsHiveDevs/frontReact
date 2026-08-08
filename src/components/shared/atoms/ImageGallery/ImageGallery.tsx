@@ -14,6 +14,7 @@ export interface GalleryImageParams {
   src: string;
   alt?: string;
   description?: string;
+  translationKey?: string;
 }
 
 export const ImageGallery = (props: ImageGalleryContainerParams) => {

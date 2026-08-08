@@ -18,8 +18,9 @@ export const CalendarSimpleEvent = (props: {
   options: { [optionName: string]: any };
   requireSession?: boolean;
   onClickHandler?: Function;
+  resourceEntity: any;
 }) => {
-  const { eventInfo, requireSession, onClickHandler, options } = props;
+  const { eventInfo, requireSession, onClickHandler, options, resourceEntity } = props;
 
   function clickHandler(eventSource: EventModel) {
     if (onClickHandler) {
@@ -28,7 +29,7 @@ export const CalendarSimpleEvent = (props: {
   }
 
   return (
-    <RequireAuthComponent key={`calendar-${eventInfo.name}`} requiredSession={requireSession}>
+    <RequireAuthComponent resourceEntity={resourceEntity} key={`calendar-${eventInfo.name}`} requiredSession={requireSession}>
       <div className="calendar-event-container" onClick={() => clickHandler(eventInfo)}>
         <div className="calendar-event-date">
           <span className="day">

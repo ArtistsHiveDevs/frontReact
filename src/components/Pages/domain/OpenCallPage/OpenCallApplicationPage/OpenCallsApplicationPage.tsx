@@ -3,13 +3,15 @@ import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
 import {
   selectorOpenCallApplications,
   useOpenCallApplicationsSlice,
 } from '~/common/slices/domain/open-calls/open-call-applications.redux';
+import { selectorOpenCalls, useOpenCallsSlice } from '~/common/slices/domain/open-calls/open-calls.redux';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
-import { GenericCrudErrorCode, RepoErrorPayload } from '~/common/utils/redux-injectors/types';
+import { RootState } from '~/common/utils/redux-injectors/types';
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { AttributeConfiguration } from '~/components/shared/organisms/gui/builders/component-types.def';
 import {
@@ -55,11 +57,12 @@ const OpenCallApplicationPage = () => {
   });
 
   const { actions: openCallActions } = useOpenCallsSlice();
+  const { actions: artistActions } = useArtistsSlice();
   const { actions: applicationActions } = useOpenCallApplicationsSlice();
   const applications: OpenCallApplicationModel[] = useSelector(selectorOpenCallApplications.selectItems);
   const createdApplication: OpenCallApplicationModel = useSelector(selectorOpenCallApplications.selectCreatedItem);
   const loading = useSelector(selectorOpenCallApplications.selectLoading);
-  const submitError: RepoErrorPayload = useSelector(selectorOpenCallApplications.selectError);
+  const submitError: any = useSelector(selectorOpenCallApplications.selectError);
 
   const translate = (key: string) => translateText(`${TRANSLATION_BASE_OPEN_CALL_PAGE}.${key}`);
 
@@ -70,9 +73,6 @@ const OpenCallApplicationPage = () => {
   const currentArtistProfilePic = isArtistProfile ? loggedUser?.currentProfileInfo?.profile_pic : undefined;
 
   useEffect(() => {
-    setIsArtistProfile(!!loggedUser?.isArtistProfile);
-    setCurrentArtistId(isArtistProfile ? loggedUser?.currentProfileInfo?.id : undefined);
-    setCurrentArtistProfilePic(isArtistProfile ? loggedUser?.currentProfileInfo?.profile_pic : undefined);
     if (!!loggedUser?.currentProfileInfo?.identifier) {
       dispatch(artistActions.getItemById({ id: loggedUser?.currentProfileInfo?.identifier }));
     }
@@ -132,20 +132,20 @@ const OpenCallApplicationPage = () => {
   const isSubmitting = submitted && loading;
   const isCheckingPreviousApplications = !submitted && (!previousApplicationsRequested || loading);
 
-  const buildSubmitErrorMessage = (error: RepoErrorPayload) => {
-    if (error.status === 409 || error.errorCode === GenericCrudErrorCode.VALIDATION_DUPLICATE_KEY) {
-      return translate('submit_errors.duplicate');
-    }
-    if (error.status === 400) {
-      return translate('submit_errors.not_accepting_applications');
-    }
-    if (error.status === 404) {
-      return translate('submit_errors.open_call_not_found');
-    }
-    return translate('submit_errors.generic');
-  };
+  // const buildSubmitErrorMessage = (error: RepoErrorPayload) => {
+  //   if (error.status === 409 || error.errorCode === GenericCrudErrorCode.VALIDATION_DUPLICATE_KEY) {
+  //     return translate('submit_errors.duplicate');
+  //   }
+  //   if (error.status === 400) {
+  //     return translate('submit_errors.not_accepting_applications');
+  //   }
+  //   if (error.status === 404) {
+  //     return translate('submit_errors.open_call_not_found');
+  //   }
+  //   return translate('submit_errors.generic');
+  // };
 
-  const submitErrorMessage = submissionFailed ? buildSubmitErrorMessage(submitError) : undefined;
+  const submitErrorMessage: any = undefined; // submissionFailed ? buildSubmitErrorMessage(submitError) : undefined;
 
   const steps = OPEN_CALL_PAGE_CONFIG;
   const totalSteps = steps.length;
@@ -247,8 +247,7 @@ const OpenCallApplicationPage = () => {
           <p className="success-message">
             {translate('already_applied.message')}
             <br />
-            {translate('already_applied.status_label')}{' '}
-            {translate(`application_status.${previousApplication.status}`)}
+            {translate('already_applied.status_label')} {translate(`application_status.${previousApplication.status}`)}
           </p>
           <button className="success-btn" onClick={goToOpenCallDetails}>
             {translate('already_applied.details_button')}

@@ -10,15 +10,30 @@ export interface IconDetailedAttribute {
   value: string;
   requireSession?: boolean;
 }
-export const AttributesIconFieldReadOnly = (props: any) => {
-  const { title, attributes, useDivInValue, useColon, direction } = props;
+
+export interface AttributesIconFieldReadOnlyProps {
+  title?: string;
+  attributes?: IconDetailedAttribute[];
+  useDivInValue?: boolean;
+  useColon?: boolean;
+  direction?: string;
+  resourceEntity: any;
+  className?: string;
+}
+
+export const AttributesIconFieldReadOnly = (props: AttributesIconFieldReadOnlyProps) => {
+  const { title, attributes, useDivInValue, useColon, direction, resourceEntity, className } = props;
 
   return (
-    <>
+    <div className={className}>
       {title && <h3>{title}</h3>}
       {attributes?.map((attribute: IconDetailedAttribute, idx: number) => {
         return (
-          <RequireAuthComponent key={`attr-icon-field-${idx}`} requiredSession={attribute.requireSession}>
+          <RequireAuthComponent
+            resourceEntity={resourceEntity}
+            key={`attr-icon-field-${idx}`}
+            requiredSession={attribute.requireSession}
+          >
             <IconFieldReadOnly
               fieldName={attribute.name}
               fieldTitle={attribute.title}
@@ -32,6 +47,6 @@ export const AttributesIconFieldReadOnly = (props: any) => {
           </RequireAuthComponent>
         );
       })}
-    </>
+    </div>
   );
 };

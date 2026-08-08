@@ -3,13 +3,16 @@ import { CalendarSimpleEvent } from '~/components/shared/atoms/calendar/Calendar
 import { EventModel } from '~/models/domain/event/event.model';
 import './CalendarSimpleLayout.scss';
 
-export const CalendarSimpleLayout = (props: {
+export interface CalendarSimpleLayoutProps {
   events: EventModel[];
   options: { [optionName: string]: any };
   onClickHandler?: Function;
   requireSession?: boolean;
-}) => {
-  const { events, onClickHandler, requireSession, options } = props;
+  resourceEntity: any;
+}
+
+export const CalendarSimpleLayout = (props: CalendarSimpleLayoutProps) => {
+  const { events, onClickHandler, requireSession, options, resourceEntity } = props;
 
   function clickHandler(eventSource: any) {
     if (onClickHandler) {
@@ -18,7 +21,7 @@ export const CalendarSimpleLayout = (props: {
   }
 
   return (
-    <RequireAuthComponent key={`calendar-${name}`} requiredSession={requireSession}>
+    <RequireAuthComponent resourceEntity={resourceEntity} key="calendar-simple-layout" requiredSession={requireSession}>
       {events.length === 0 && 'No se encontraron eventos'}
       {events.map((event: EventModel, index: number, allEvents: EventModel[]) => {
         const previousIndex = index - 1;
@@ -33,7 +36,7 @@ export const CalendarSimpleLayout = (props: {
         return (
           <div key={`${event.name}-ev-${index}`}>
             {monthTitle}
-            <CalendarSimpleEvent eventInfo={event} onClickHandler={clickHandler} options={options} />
+            <CalendarSimpleEvent eventInfo={event} onClickHandler={clickHandler} options={options} resourceEntity={resourceEntity} />
           </div>
         );
       })}

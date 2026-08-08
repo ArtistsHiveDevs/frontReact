@@ -90,6 +90,7 @@ export const createAttributesIconFieldsComponent = (params: ComponentBuilderPara
           useDivInValue={useDivInValue}
           useColon={useColon}
           direction={direction}
+          resourceEntity={entityData}
         />
       ))}
     </>

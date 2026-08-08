@@ -75,17 +75,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 8px 16px;
+    padding: 2px 4px;
     background-color: #424242;
     border-bottom: 1px solid #616161;
-    gap: 24px;
-    flex-wrap: wrap;
+    gap: 4px;
+    flex-wrap: nowrap;
 
     .pdf-controls-group {
       display: flex;
       align-items: center;
-      gap: 4px;
-      padding: 0 8px;
+      gap: 0;
+      padding: 0 1px;
       border-right: 1px solid #616161;
 
       &:last-child {
@@ -94,7 +94,9 @@
 
       button {
         color: white;
-        padding: 6px;
+        padding: 1px;
+        min-width: 20px;
+        height: 20px;
 
         &:disabled {
           color: rgba(255, 255, 255, 0.3);
@@ -103,16 +105,21 @@
         &:hover:not(:disabled) {
           background-color: rgba(255, 255, 255, 0.1);
         }
+
+        svg {
+          display: block;
+        }
       }
 
       .page-info,
       .zoom-info {
         color: white;
-        font-size: 13px;
-        min-width: 60px;
+        font-size: 10px;
+        min-width: 25px;
         text-align: center;
         font-weight: 500;
-        padding: 0 4px;
+        padding: 0 2px;
+        white-space: nowrap;
       }
     }
   }
@@ -149,7 +156,7 @@
   .pdf-viewer-container {
     .pdf-controls {
       gap: 12px;
-      padding: 6px 8px;
+      padding: 12px 8px;
 
       .pdf-controls-group {
         padding: 0 4px;

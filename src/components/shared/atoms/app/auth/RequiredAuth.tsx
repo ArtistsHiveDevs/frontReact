@@ -13,6 +13,7 @@ export enum AuthorizationStates {
 export interface AllowedEntityRole {
   entityName: string;
   allowedEntityInstances?: AllowedEntityInstanceRole[];
+  checkCurrentProfileInfo?: boolean;
 }
 
 export interface AllowedEntityInstanceRole {
@@ -38,10 +39,25 @@ export function validateUserAuthorization(
         !allowedRoles ||
         !allowedRoles.length ||
         allowedRoles.find((allowedRole) => {
-          let allowedOnlyEntityValidation =
-            (!allowedRole?.allowedEntityInstances || !allowedRole?.allowedEntityInstances.length) &&
-            user.roles.find((userRoles) => userRoles.entityName === allowedRole.entityName);
-          return allowedOnlyEntityValidation;
+          if (allowedRole?.allowedEntityInstances && allowedRole.allowedEntityInstances.length) {
+            const currentProfileInfo = user.currentProfileInfo;
+            return !!allowedRole.allowedEntityInstances.find(
+              (instance) =>
+                instance.entityInstanceId === currentProfileInfo?.identifier ||
+                instance.entityInstanceId === currentProfileInfo?.id
+            );
+          }
+
+          const shouldCheckCurrentProfile = allowedRole.checkCurrentProfileInfo !== undefined
+            ? allowedRole.checkCurrentProfileInfo
+            : checkCurrentProfileInfo;
+
+          if (shouldCheckCurrentProfile) {
+            const currentProfileEntityName = getModelInfoFromClassName(user.currentProfileInfo?.entity)?.entityName;
+            return currentProfileEntityName === allowedRole.entityName;
+          }
+
+          return !!user.roles.find((userRoles) => userRoles.entityName === allowedRole.entityName);
         });
 
       if (isAllowed) {

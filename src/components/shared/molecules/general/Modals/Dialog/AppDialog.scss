@@ -22,6 +22,17 @@
   margin: 1rem;
 }
 
+.dialog-styles.MuiDialog-paperFullScreen {
+  .zoom-dialog {
+    height: 100%;
+
+    .dialog-content {
+      height: 100%;
+      margin: 0;
+    }
+  }
+}
+
 .dialog-icon {
   text-align: center;
   padding: 1rem;

@@ -9,6 +9,7 @@ export const AppDialog = (params: {
   content: any;
   icon?: string;
   actions?: { label: string; handler: Function }[];
+  fullScreen?: boolean;
 }) => {
   // Solo renderizar el Dialog cuando está abierto para optimizar memoria
   if (!params?.isOpenDialog) {
@@ -22,6 +23,7 @@ export const AppDialog = (params: {
       open={params.isOpenDialog}
       onClose={() => params.onClose()}
       fullWidth
+      fullScreen={params.fullScreen}
     >
       <DialogTitle className="dialog-title">
         {params.title}
@@ -30,22 +32,21 @@ export const AppDialog = (params: {
         </IconButton>
       </DialogTitle>
       <DialogContent className="zoom-dialog">
-        <div>
-          <div className="dialog-content">{params.content}</div>
-          {!!params.icon && (
-            <div className="dialog-icon">
-              <DynamicIcons iconName={params.icon} size={40} color={'white'} />
-            </div>
-          )}
-        </div>
-        <div className="dialog-actions">
-          {params.actions?.length &&
-            params.actions.map((action) => (
+        <div className="dialog-content">{params.content}</div>
+        {!!params.icon && (
+          <div className="dialog-icon">
+            <DynamicIcons iconName={params.icon} size={40} color={'white'} />
+          </div>
+        )}
+        {!!params.actions?.length && (
+          <div className="dialog-actions">
+            {params.actions.map((action) => (
               <Button key={action.label} onClick={() => action.handler()}>
                 {action.label}
               </Button>
             ))}
-        </div>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );

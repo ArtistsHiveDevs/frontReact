@@ -138,6 +138,11 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   },
                   // formMetaData: { inputType: 'chipPicker' },
                 },
+                {
+                  name: 'regulatory_closing_time',
+                  icon: 'tb TbContract',
+                  formMetaData: { inputType: 'time' },
+                },
               ],
             },
           },

@@ -1000,6 +1000,7 @@ export const EnMessages = {
                     has_open_mic: 'Has open mic?',
                     total_audience_capacity: 'Max. capacity',
                     bookingRatesPolicy: 'Booking Policies',
+                    regulatory_closing_time: 'Regulatory closing time',
                   },
                 },
                 genres: {

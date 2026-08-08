@@ -1,0 +1,10 @@
+@import '~/variables.module.scss';
+
+.error-boundary-fallback {
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  background-color: $app-background-50;
+  color: $gray-light;
+  font-size: 0.9rem;
+  text-align: center;
+}

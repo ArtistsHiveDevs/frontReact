@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
@@ -6,7 +6,10 @@ import { uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpe
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
-import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
+import {
+  DynamicTabbedForm,
+  DynamicTabbedFormRef,
+} from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { URL_PARAMETER_NAMES } from '~/constants';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import {
@@ -18,6 +21,7 @@ const PlacesCreatePage = () => {
   const { navigateToEntity } = useNavigation();
   const urlParameters = useParams();
   const dispatch = useDispatch();
+  const formRef = useRef<DynamicTabbedFormRef>(null);
 
   const [placeId, setCurrentPlaceId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
   const [availableLanguages, updateAvailableLanguages] = useState([]);
@@ -80,6 +84,20 @@ const PlacesCreatePage = () => {
   const handlers = {
     onSubmit: async (data: any, error?: any) => {
       if (!requestHasBeenSended) {
+        setHasAttemptedSubmit(true);
+        // El cast a `any` preserva el tipado laxo que ya tenía este payload (createItem/updateItem
+        // no reciben un Place completo en creación, sino un subconjunto parcial de campos del form).
+        const normalizedData: any = {
+          ...(stripCityWithCountryFields(data) as any),
+          genres: buildGenresPayload(data.genres),
+          ...buildLocationPayload(data),
+        };
+
+        // No hacer request si no hay datos que actualizar (solo aplica a edición)
+        if (currentPlace && Object.keys(normalizedData).length === 0) {
+          return;
+        }
+
         if (!currentPlace) {
           const response = await uploadFileToServer({ file: data.profile_pic });
 
@@ -120,8 +138,9 @@ const PlacesCreatePage = () => {
 
   return (
     <>
-      <BackButton />
+      <BackButton formRef={formRef} />
       <DynamicTabbedForm
+        ref={formRef}
         tabsInfo={PLACE_DETAIL_SUB_PAGE_CONFIG}
         handlers={handlers}
         translationBasePath={TRANSLATION_BASE_PLACE_DETAIL_PAGE}

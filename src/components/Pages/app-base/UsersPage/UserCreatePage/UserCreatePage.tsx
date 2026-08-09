@@ -1,5 +1,5 @@
 import { fetchUserAttributes } from 'aws-amplify/auth';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectorAllergies, useAllergiesSlice } from '~/common/slices/parametrics/demographics/allergies.redux';
 import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
@@ -12,7 +12,10 @@ import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/bac
 import { IndustrySignUpBanner } from '~/components/shared/atoms/IndustrySignUpBanner/IndustrySignUpBanner';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
-import { DynamicTabbedForm } from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
+import {
+  DynamicTabbedForm,
+  DynamicTabbedFormRef,
+} from '~/components/shared/organisms/gui/dynamicForms/DynamicTabbedForm';
 import { AppUserModel } from '~/models/app/user/user.model';
 import { TRANSLATION_BASE_USER_DETAIL_PAGE, USER_DETAIL_SUB_PAGE_CONFIG } from '../UserDetails/config-user-detail';
 import './UserCreatePage.scss';
@@ -21,6 +24,7 @@ import { Box } from '@mui/material';
 const UserCreatePage = () => {
   const loggedUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
+  const formRef = useRef<DynamicTabbedFormRef>(null);
 
   const { translateText, translateGlobalDict } = useI18n();
   const { navigateToEntity } = useNavigation();
@@ -136,6 +140,12 @@ const UserCreatePage = () => {
   const handlers = {
     onSubmit: async (data: any, error?: any) => {
       // console.log('#####----------->>>>  !!! ', data);
+
+      // No hacer request si no hay datos que actualizar
+      if (!data || Object.keys(data).length === 0) {
+        return;
+      }
+
       if (!!data.profile_pic) {
         const prefferedFilename = `${loggedUser.sub}.${data.profile_pic.name.split('.').pop()}`;
         const response = await uploadFileToServer({
@@ -168,8 +178,9 @@ const UserCreatePage = () => {
 
   return (
     <>
-      {!!loggedUser?.hasFilledProfile && <BackButton />}
+      {!!loggedUser?.hasFilledProfile && <BackButton formRef={formRef} />}
       <DynamicTabbedForm
+        ref={formRef}
         tabsInfo={USER_DETAIL_SUB_PAGE_CONFIG}
         handlers={handlers}
         translationBasePath={TRANSLATION_BASE_USER_DETAIL_PAGE}

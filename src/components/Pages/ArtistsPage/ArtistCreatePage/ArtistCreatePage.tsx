@@ -178,12 +178,19 @@ const ArtistsCreatePage = () => {
         await uploadFileToServer({ file: data.profile_pic });
         dispatch(artistsActions.createItem({ data }));
       } else {
+        const newItemData = {
+          ...data,
+          ...filesWrapperData,
+        };
+
+        // No hacer request si no hay datos que actualizar
+        if (Object.keys(newItemData).length === 0) {
+          return;
+        }
+
         const updatePayload = {
           id: currentArtist.identifier,
-          newItem: {
-            ...data,
-            ...filesWrapperData,
-          },
+          newItem: newItemData,
         };
 
         dispatch(artistsActions.updateItem(updatePayload));
@@ -239,24 +246,12 @@ const ArtistsCreatePage = () => {
   };
   const [url, setURL] = useState<StorageGetUrlOutput>();
 
-  const backHandler = async () => {
-    if (formRef.current) {
-      try {
-        await formRef.current.submit();
-        // Esperar a que el saga complete
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-      } catch (error) {
-        console.error('Error en submit:', error);
-      }
-    }
-  };
-
   return (
     <>
       <RequireAuthComponent resourceEntity={currentArtist} requiredSession={true}>
         {currentUserCanEdit && (
           <>
-            <BackButton onClick={backHandler} />
+            <BackButton formRef={formRef} />
             {/* <h1>IMAGEN 2</h1>
             <FileUploader acceptedFileTypes={['image/*']} path="galeria/" maxFileCount={500} isResumable />
             <h2>FIN</h2>

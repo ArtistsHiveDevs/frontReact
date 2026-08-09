@@ -5,10 +5,7 @@ import {
   AttributesIconFieldReadOnly,
   IconDetailedAttribute,
 } from '~/components/shared/molecules/general/AttributesIconField';
-import {
-  ComponentTypes,
-  PageSection,
-} from '~/components/shared/organisms/gui/builders/component-types.def';
+import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 import { formatDateInMomentType } from '~/constants';
 import { EventConfirmationStatus } from '~/models/domain/event/event.model';
 import { TourOutlineModel } from '~/models/domain/favourites/tourOutline';
@@ -199,8 +196,8 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 return (
                   <AttributesIconFieldReadOnly
                     key={`accomodation`}
-                    attributes={subitems}
                     resourceEntity={tourOutline}
+                    attributes={subitems}
                   />
                 );
               },
@@ -264,8 +261,8 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 return (
                   <AttributesIconFieldReadOnly
                     key={`intercity_transportation`}
-                    attributes={subitems}
                     resourceEntity={tourOutline}
+                    attributes={subitems}
                   />
                 );
               },
@@ -337,8 +334,8 @@ export const TOUR_OUTLINE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 return (
                   <AttributesIconFieldReadOnly
                     key={`internal_transportation`}
-                    attributes={subitems}
                     resourceEntity={tourOutline}
+                    attributes={subitems}
                   />
                 );
               },

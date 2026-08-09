@@ -154,10 +154,10 @@ const defaultConfigTransformer = (subpagesConfig: PageSection[], context?: Defau
 
                   return (
                     <RequireAuthComponent
+                      key={`section-${section.name}-${sectionIndex}`}
                       resourceEntity={entityData}
                       allowedRoles={section.allowedRoles}
                       name={section.name}
-                      key={`section-${section.name}-${sectionIndex}`}
                       requiredSession={section.requireSession}
                     >
                       <SectionsPanel
@@ -306,13 +306,15 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
     delta: (5 * window.screen.width) / 11,
   });
 
-  const filteredTabsWithOriginalIndex: { subpage: TabbedPage; originalIndex: number }[] = tabs
-    .map((subpage: TabbedPage, originalIndex: number) => ({ subpage, originalIndex }))
-    .filter(
-      ({ subpage }: { subpage: TabbedPage; originalIndex: number }) =>
-        validateUserAuthorization(entityData, currentUser, subpage.allowedRoles, subpage.requireSession) ===
-          AuthorizationStates.ALLOWED && !subpage.hideMainMenu
-    );
+  const filteredTabsWithOriginalIndex = useMemo(() => {
+    return tabs
+      .map((subpage: TabbedPage, originalIndex: number) => ({ subpage, originalIndex }))
+      .filter(
+        ({ subpage }: { subpage: TabbedPage; originalIndex: number }) =>
+          validateUserAuthorization(entityData, currentUser, subpage.allowedRoles, subpage.requireSession) ===
+            AuthorizationStates.ALLOWED && !subpage.hideMainMenu
+      );
+  }, [tabs, entityData, currentUser]);
 
   const titles = useMemo(() => {
     return filteredTabsWithOriginalIndex.map(
@@ -349,7 +351,7 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
     return tabs.map((tab, index) => {
       const isActive = index === activeSectionIndex;
       return (
-        <div key={`tab-content-${index}`} className={`full-content ${isActive ? 'active' : 'hidden'}`}>
+        <div key={`tab-content-${index}`} className={`full-content ${isActive ? 'activeTab' : 'hiddenTab'}`}>
           {tab.tabContent && tab.tabContent()}
         </div>
       );

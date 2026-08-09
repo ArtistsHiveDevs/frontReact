@@ -8,7 +8,7 @@ import {
   selectReportClaimLoading,
   selectReportClaimSuccess,
   useReportClaimSlice,
-} from '~/common/slices/domain/reportClaim.redux';
+} from '~/common/slices/domain/reportClaim/reportClaim.redux';
 import { useI18n } from '~/common/utils';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
@@ -33,8 +33,7 @@ export const ReportProfileForm = ({ open, onClose, entity }: ReportProfileFormPr
   const { actions: reportClaimActions } = useReportClaimSlice();
   const loading = useSelector(selectReportClaimLoading);
   const success = useSelector(selectReportClaimSuccess);
-  const reportClaimError = useSelector(selectReportClaimError);
-  const errorType = reportClaimError?.errorType;
+  const errorType = useSelector(selectReportClaimError);
 
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
@@ -106,10 +105,11 @@ export const ReportProfileForm = ({ open, onClose, entity }: ReportProfileFormPr
     placeholder: translateText(`${I18N_PATH}.description_placeholder`),
   };
 
-  const errorMessage =
-    errorType === ReportClaimErrorType.DUPLICATE_PENDING_REPORT
+  const errorMessage = errorType
+    ? errorType === ReportClaimErrorType.DUPLICATE_PENDING_REPORT
       ? translateText(`${I18N_PATH}.duplicate_pending_error`)
-      : translateText(`${I18N_PATH}.error_message`);
+      : translateText(`${I18N_PATH}.error_message`)
+    : null;
 
   return (
     <>
@@ -117,16 +117,21 @@ export const ReportProfileForm = ({ open, onClose, entity }: ReportProfileFormPr
         isOpenDialog={open}
         onClose={handleClose}
         title={translateText(`${I18N_PATH}.title`)}
+        icon={!!errorMessage ? 'md MdOutlineWarning' : ''}
         content={
-          <FormProvider {...formMethods}>
-            <form noValidate className="report-profile-form">
-              <DynamicControl fieldData={reasonField} errors={errors} handlers={{}} />
-              <div className="report-profile-form-description">
-                <DynamicControl fieldData={descriptionField} errors={errors} handlers={{}} />
-              </div>
-              {!!errorType && <div className="report-profile-form-error">{errorMessage}</div>}
-            </form>
-          </FormProvider>
+          <>
+            {!!errorMessage && <>{errorMessage}</>}
+            {!errorMessage && (
+              <FormProvider {...formMethods}>
+                <form noValidate className="report-profile-form">
+                  <DynamicControl fieldData={reasonField} errors={errors} handlers={{}} />
+                  <div className="report-profile-form-description">
+                    <DynamicControl fieldData={descriptionField} errors={errors} handlers={{}} />
+                  </div>
+                </form>
+              </FormProvider>
+            )}
+          </>
         }
         actions={[
           { label: translateGlobalDict('actions.cancel'), handler: handleClose },

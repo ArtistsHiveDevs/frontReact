@@ -208,7 +208,6 @@ const ArtistsCreatePage = () => {
       // updateCiudades(ciudades);
     },
     fileUploadfilesChanged: async (handledUploadFileData: FileUploadHandleEvent) => {
-      console.log({ handledUploadFileData });
       const { files, optionType, destinationPath, fieldName } = handledUploadFileData;
       if (optionType === FileUploaderOptions.addItem) {
         const responses = await uploadFilesToServer({
@@ -236,7 +235,6 @@ const ArtistsCreatePage = () => {
     //   path: 'picture-submissions/',
     //   // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
     // });
-    console.log(linkToStorageFile);
     setURL(linkToStorageFile);
   };
   const [url, setURL] = useState<StorageGetUrlOutput>();

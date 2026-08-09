@@ -981,7 +981,7 @@ export const PtMessages = {
                   },
                 },
                 live_gallery: {
-                  name: 'Galeria ao vivo'
+                  name: 'Galeria ao vivo',
                 },
                 general: {
                   name: 'Informações gerais',
@@ -1113,19 +1113,11 @@ export const PtMessages = {
               sections: {
                 technical_docs: {
                   name: 'Documentos Técnicos',
-                  docs:{
-                    technical_epk: "EPK",
-                    technical_rider: "Rider Técnico",
-                    stage_plot: "Planta do Palco",
-                  }
-                },
-              },
-            },
-            riders: {
-              name: 'Riders',
-              sections: {
-                riders_data: {
-                  name: 'Riders',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Rider Técnico',
+                    stage_plot: 'Planta do Palco',
+                  },
                 },
               },
             },
@@ -1465,7 +1457,7 @@ export const PtMessages = {
           INAPPROPRIATE_CONTENT: 'Conteúdo inadequado',
           OTHER: 'Outro',
         },
-        description_label: 'Descrição (opcional)',
+        description_label: 'Descrição',
         description_placeholder: 'Conte-nos mais detalhes sobre esta denúncia',
         submit_button: 'Enviar denúncia',
         success_message: 'Sua denúncia foi enviada. Obrigado por nos ajudar a manter a plataforma segura.',

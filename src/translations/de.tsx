@@ -71,7 +71,7 @@ export const DeMessages = {
           unsubscribe: 'Abbestellen',
         },
         upload: 'Hochladen',
-        files_limit_exceded: 'Maximale Anzahl erlaubter Dateien überschritten'
+        files_limit_exceded: 'Maximale Anzahl erlaubter Dateien überschritten',
       },
       entities: {
         academies: { plural: 'Akademien', singular: 'Akademie' },
@@ -983,7 +983,7 @@ export const DeMessages = {
                   },
                 },
                 live_gallery: {
-                  name: 'Live-Galerie'
+                  name: 'Live-Galerie',
                 },
                 general: {
                   name: 'Allgemeine Informationen',
@@ -1115,19 +1115,11 @@ export const DeMessages = {
               sections: {
                 technical_docs: {
                   name: 'Technische Dokumente',
-                  docs:{
-                    technical_epk: "EPK",
-                    technical_rider: "Technischer Rider",
-                    stage_plot: "Bühnenplan",
-                  }
-                },
-              },
-            },
-            riders: {
-              name: 'Riders',
-              sections: {
-                riders_data: {
-                  name: 'Riders',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Technischer Rider',
+                    stage_plot: 'Bühnenplan',
+                  },
                 },
               },
             },
@@ -1467,7 +1459,7 @@ export const DeMessages = {
           INAPPROPRIATE_CONTENT: 'Unangemessener Inhalt',
           OTHER: 'Sonstiges',
         },
-        description_label: 'Beschreibung (optional)',
+        description_label: 'Beschreibung',
         description_placeholder: 'Erzähl uns mehr Details zu dieser Meldung',
         submit_button: 'Meldung senden',
         success_message: 'Deine Meldung wurde gesendet. Danke, dass du hilfst, die Plattform sicher zu halten.',

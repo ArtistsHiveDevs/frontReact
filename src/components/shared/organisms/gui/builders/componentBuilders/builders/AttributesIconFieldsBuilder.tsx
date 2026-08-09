@@ -1,9 +1,9 @@
 import { useI18n } from '~/common/utils';
 import { AttributesIconFieldReadOnly } from '~/components/shared/molecules/general/AttributesIconField';
-import { ComponentBuilderParams } from '../types';
-import { getDataSource, isAttributeHidden } from '../utils/dataExtraction';
-import { processAttribute } from '../utils/componentProcessing';
 import { buildComponent as buildComponentFromRegistry } from '../ComponentBuilder';
+import { ComponentBuilderParams } from '../types';
+import { processAttribute } from '../utils/componentProcessing';
+import { getDataSource, isAttributeHidden } from '../utils/dataExtraction';
 
 export const createAttributesIconFieldsComponent = (params: ComponentBuilderParams): JSX.Element => {
   const { componentDescriptor, entityData, parentDataSource, subpage, section, translationBasePath, handlers } = params;
@@ -48,7 +48,16 @@ export const createAttributesIconFieldsComponent = (params: ComponentBuilderPara
         attributes: (componentDescriptor.data?.attributes || componentDescriptor.data?.fields || [])
           .filter((attr: any) => !isAttributeHidden(attr, dataSource))
           .map((attr: any, idx: number) =>
-            processAttribute(attr, idx, dataSource, subpage.name, section.name || '', translationBasePath, translateText, buildNestedComponent)
+            processAttribute(
+              attr,
+              idx,
+              dataSource,
+              subpage.name,
+              section.name || '',
+              translationBasePath,
+              translateText,
+              buildNestedComponent
+            )
           ),
       };
     });
@@ -85,12 +94,12 @@ export const createAttributesIconFieldsComponent = (params: ComponentBuilderPara
       {sectionsAttributes.map((sectionAttrs: any, idx: number) => (
         <AttributesIconFieldReadOnly
           key={`attributes-${idx}`}
+          resourceEntity={entityData}
           attributes={sectionAttrs.attributes}
           title={sectionAttrs?.title}
           useDivInValue={useDivInValue}
           useColon={useColon}
           direction={direction}
-          resourceEntity={entityData}
         />
       ))}
     </>

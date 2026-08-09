@@ -36,7 +36,12 @@ export const CalendarSimpleLayout = (props: CalendarSimpleLayoutProps) => {
         return (
           <div key={`${event.name}-ev-${index}`}>
             {monthTitle}
-            <CalendarSimpleEvent eventInfo={event} onClickHandler={clickHandler} options={options} resourceEntity={resourceEntity} />
+            <CalendarSimpleEvent
+              resourceEntity={resourceEntity}
+              eventInfo={event}
+              onClickHandler={clickHandler}
+              options={options}
+            />
           </div>
         );
       })}

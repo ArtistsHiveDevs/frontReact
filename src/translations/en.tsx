@@ -1455,7 +1455,7 @@ export const EnMessages = {
           INAPPROPRIATE_CONTENT: 'Inappropriate content',
           OTHER: 'Other',
         },
-        description_label: 'Description (optional)',
+        description_label: 'Description',
         description_placeholder: 'Tell us more details about this report',
         submit_button: 'Send report',
         success_message: 'Your report has been sent. Thank you for helping us keep the platform safe.',

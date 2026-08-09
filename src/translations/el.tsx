@@ -984,7 +984,7 @@ export const ElMessages = {
                   },
                 },
                 live_gallery: {
-                  name: 'Ζωντανή γκαλερί'
+                  name: 'Ζωντανή γκαλερί',
                 },
                 general: {
                   name: 'Γενικές πληροφορίες',
@@ -1116,19 +1116,11 @@ export const ElMessages = {
               sections: {
                 technical_docs: {
                   name: 'Τεχνικά Έγγραφα',
-                  docs:{
-                    technical_epk: "EPK",
-                    technical_rider: "Τεχνικό Rider",
-                    stage_plot: "Σχέδιο Σκηνής",
-                  }
-                },
-              },
-            },
-            riders: {
-              name: 'Riders',
-              sections: {
-                riders_data: {
-                  name: 'Riders',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Τεχνικό Rider',
+                    stage_plot: 'Σχέδιο Σκηνής',
+                  },
                 },
               },
             },
@@ -1468,7 +1460,7 @@ export const ElMessages = {
           INAPPROPRIATE_CONTENT: 'Ακατάλληλο περιεχόμενο',
           OTHER: 'Άλλο',
         },
-        description_label: 'Περιγραφή (προαιρετικό)',
+        description_label: 'Περιγραφή',
         description_placeholder: 'Πείτε μας περισσότερες λεπτομέρειες σχετικά με αυτήν την αναφορά',
         submit_button: 'Αποστολή αναφοράς',
         success_message:

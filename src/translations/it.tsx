@@ -983,7 +983,7 @@ export const ItMessages = {
                   },
                 },
                 live_gallery: {
-                  name: 'Galleria live'
+                  name: 'Galleria live',
                 },
                 general: {
                   name: 'Info generale',
@@ -1116,19 +1116,11 @@ export const ItMessages = {
               sections: {
                 technical_docs: {
                   name: 'Documenti Tecnici',
-                  docs:{
-                    technical_epk: "EPK",
-                    technical_rider: "Rider Tecnico",
-                    stage_plot: "Piantina Palco",
-                  }
-                },
-              },
-            },
-            riders: {
-              name: 'Riders',
-              sections: {
-                riders_data: {
-                  name: 'Riders',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Rider Tecnico',
+                    stage_plot: 'Piantina Palco',
+                  },
                 },
               },
             },
@@ -1468,7 +1460,7 @@ export const ItMessages = {
           INAPPROPRIATE_CONTENT: 'Contenuto inappropriato',
           OTHER: 'Altro',
         },
-        description_label: 'Descrizione (opzionale)',
+        description_label: 'Descrizione',
         description_placeholder: 'Raccontaci maggiori dettagli su questa segnalazione',
         submit_button: 'Invia segnalazione',
         success_message:

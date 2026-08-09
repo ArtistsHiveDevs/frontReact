@@ -344,8 +344,8 @@ const SideNav = () => {
                   const sectionOptions = sidenavSection.options || [];
                   return (
                     <RequireAuthComponent
-                      resourceEntity={loggedUser}
                       key={`${sidenavSection.name}-${index}`}
+                      resourceEntity={loggedUser}
                       allowedRoles={sidenavSection.allowedRoles}
                       requiredSession={sidenavSection.requireSession}
                       name={sidenavSection.name}
@@ -443,8 +443,8 @@ const SideNav = () => {
                       const sectionOptions = sidenavSection.options || [];
                       return (
                         <RequireAuthComponent
-                          resourceEntity={loggedUser}
                           key={`${sidenavSection.name}-${index}`}
+                          resourceEntity={loggedUser}
                           allowedRoles={sidenavSection.allowedRoles}
                           requiredSession={sidenavSection.requireSession}
                           name={sidenavSection.name}

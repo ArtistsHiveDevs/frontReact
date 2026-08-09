@@ -986,7 +986,7 @@ export const FrMessages = {
                   },
                 },
                 live_gallery: {
-                  name: 'Galerie live'
+                  name: 'Galerie live',
                 },
                 general: {
                   name: 'Info Générale',
@@ -1118,19 +1118,11 @@ export const FrMessages = {
               sections: {
                 technical_docs: {
                   name: 'Documents Techniques',
-                  docs:{
-                    technical_epk: "EPK",
-                    technical_rider: "Fiche Technique",
-                    stage_plot: "Plan de Scène",
-                  }
-                },
-              },
-            },
-            riders: {
-              name: 'Riders',
-              sections: {
-                riders_data: {
-                  name: 'Riders',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Fiche Technique',
+                    stage_plot: 'Plan de Scène',
+                  },
                 },
               },
             },
@@ -1471,7 +1463,7 @@ export const FrMessages = {
           INAPPROPRIATE_CONTENT: 'Contenu inapproprié',
           OTHER: 'Autre',
         },
-        description_label: 'Description (facultatif)',
+        description_label: 'Description',
         description_placeholder: 'Donnez-nous plus de détails sur ce signalement',
         submit_button: 'Envoyer le signalement',
         success_message: 'Votre signalement a été envoyé. Merci de nous aider à garder la plateforme sûre.',

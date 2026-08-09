@@ -84,19 +84,19 @@ const PlacesCreatePage = () => {
   const handlers = {
     onSubmit: async (data: any, error?: any) => {
       if (!requestHasBeenSended) {
-        setHasAttemptedSubmit(true);
-        // El cast a `any` preserva el tipado laxo que ya tenía este payload (createItem/updateItem
-        // no reciben un Place completo en creación, sino un subconjunto parcial de campos del form).
-        const normalizedData: any = {
-          ...(stripCityWithCountryFields(data) as any),
-          genres: buildGenresPayload(data.genres),
-          ...buildLocationPayload(data),
-        };
+        // setHasAttemptedSubmit(true);
+        // // El cast a `any` preserva el tipado laxo que ya tenía este payload (createItem/updateItem
+        // // no reciben un Place completo en creación, sino un subconjunto parcial de campos del form).
+        // const normalizedData: any = {
+        //   ...(stripCityWithCountryFields(data) as any),
+        //   genres: buildGenresPayload(data.genres),
+        //   ...buildLocationPayload(data),
+        // };
 
-        // No hacer request si no hay datos que actualizar (solo aplica a edición)
-        if (currentPlace && Object.keys(normalizedData).length === 0) {
-          return;
-        }
+        // // No hacer request si no hay datos que actualizar (solo aplica a edición)
+        // if (currentPlace && Object.keys(normalizedData).length === 0) {
+        //   return;
+        // }
 
         if (!currentPlace) {
           const response = await uploadFileToServer({ file: data.profile_pic });

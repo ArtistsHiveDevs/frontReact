@@ -48,7 +48,12 @@ export const DynamicForm = (props: FormProps) => {
   }, [responseErrors]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className={`${styles?.className || ''} fullwidth`.trim()}>
+    // <form onSubmit={handleSubmit(onSubmit)} noValidate className={`${styles?.className || ''} fullwidth`.trim()}>
+    <form onSubmit={(e) =>{
+          e.preventDefault();
+          e.stopPropagation();
+          handleSubmit(onSubmit)();
+    }} noValidate className={`${styles?.className || ''} fullwidth`.trim()}>
       <FormProvider {...formMethods}>
         <Stack spacing={styles?.spacing || 2}>
           {fields.map((d, i) => (

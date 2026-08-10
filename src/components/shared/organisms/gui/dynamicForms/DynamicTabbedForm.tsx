@@ -25,7 +25,7 @@ import { ControlType, DynamicFieldData, SelectOption } from './dynamic-control-t
 
 export interface DynamicTabbedFormParams {
   tabsInfo: PageSection[];
-  handlers: { onSubmit: Function; [handlerName: string]: Function };
+  handlers: { onSubmit?: Function; [handlerName: string]: Function };
   translationBasePath: string;
   entityType?: string;
   profileHeaderComponent?: any;
@@ -276,6 +276,10 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
       addComponentField = true;
       componentFieldData.externalData = entityData?.[componentDescriptor?.formMetaData?.fieldName];
     }
+    else if (componentDescriptor.componentName === ComponentTypes.MEMBERS_LIST) {
+      componentFieldData.inputType = 'membersList';
+      addComponentField = true;
+    }
 
     if (addComponentField) {
       const field = (
@@ -369,7 +373,6 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
   const getModifiedFields = () => {
     const allValues = getValues();
     const modifiedData: any = {};
-
     Object.keys(dirtyFields).forEach((key) => {
       modifiedData[key] = allValues[key];
     });

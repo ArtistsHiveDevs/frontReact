@@ -25,6 +25,7 @@ import { createTextArea } from './components/TextArea';
 import { createAddressTextField, createSocialNetworkTextField, createTextField } from './components/TextField';
 import { createTimeField } from './components/TimeField';
 import { DynamicFieldData } from './dynamic-control-types';
+import { createMembersList } from './components/MembersList';
 
 export interface ComponentGeneratorParams {
   errors: FieldErrors<FieldValues>;
@@ -131,6 +132,10 @@ export const DynamicControl = (params: {
     // Campos ocultos
     case 'hidden':
       return createHiddenField(fieldParams);
+
+    // Lista de miembros
+    case 'membersList':
+      return createMembersList(fieldParams);
 
     default:
       fieldData.inputType = 'text';

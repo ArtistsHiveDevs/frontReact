@@ -289,11 +289,46 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
     sections: [
       {
         name: 'music_performance',
-        components: [],
+        components: [
+          {
+            componentName: ComponentTypes.MEMBERS_LIST,
+            data: { externalData: 'music_performance', placeholder: 'En construcción' },
+            formMetaData: {
+              inputType: 'membersList',
+              fieldName: 'music_performance',
+              componentParams: {
+                dialogTitle: 'Agregar miembro',
+                fields: [
+                  {type: 'text', fieldName: 'memberNames', label: 'Nombres', config: {required: true}},
+                  {type: 'text', fieldName: 'memberSurebames', label: 'Apellidos', config: {required: true}},
+                  {type: 'text', fieldName: 'memberRole', label: 'Rol', config: {required: true}},
+                  {type: 'text', fieldName: 'memberPlayFor', label: 'Instrumento', config: {required: true}},
+                ]
+              },
+            },
+          },
+        ],
       },
       {
         name: 'audio_engineering',
-        components: [],
+        components: [
+                    {
+            componentName: ComponentTypes.MEMBERS_LIST,
+            data: { externalData: 'music_performance', placeholder: 'En construcción' },
+            formMetaData: {
+              inputType: 'membersList',
+              fieldName: 'audio_engineering',
+              componentParams: {
+                dialogTitle: 'Agregar miembro',
+                fields: [
+                  {type: 'text', fieldName: 'memberNames', label: 'Nombres', config: {required: true}},
+                  {type: 'text', fieldName: 'memberSurebames', label: 'Apellidos', config: {required: true}},
+                  {type: 'text', fieldName: 'memberRole', label: 'Rol', config: {required: true}},
+                ]
+              },
+            },
+          },
+        ],
       },
       {
         name: 'visual_arts',

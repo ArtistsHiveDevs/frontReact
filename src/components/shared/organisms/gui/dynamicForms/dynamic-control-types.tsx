@@ -29,7 +29,8 @@ export type ControlType =
   | 'relationship'
   | 'hidden'
   | 'instrumentSelector'
-  | 'iconTextButton';
+  | 'iconTextButton'
+  | 'membersList';
 
 export interface SelectOption {
   label: string;

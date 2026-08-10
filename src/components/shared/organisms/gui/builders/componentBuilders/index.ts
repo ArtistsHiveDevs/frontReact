@@ -41,6 +41,7 @@ import { createHorizontalImageGalleryComponent } from './builders/HorizontalImag
 import { createHtmlContentComponent } from './builders/HtmlContentBuilder';
 import { createImageGalleryComponent } from './builders/ImageGalleryBuilder';
 import { createMapComponent } from './builders/MapBuilder';
+import { createMembersListBuiderComponent } from './builders/MembersListBuilder';
 import { createProfileFollowersComponent } from './builders/ProfileFollowersBuilder';
 import { createProfilePictureListComponent } from './builders/ProfilePictureListBuilder';
 import { createProfileThumbnailCardComponent } from './builders/ProfileThumbnailCardBuilder';
@@ -80,6 +81,7 @@ const BUILDER_CONFIG = {
   [ComponentTypes.PROFILE_FOLLOWERS_COMPONENT]: createProfileFollowersComponent,
   [ComponentTypes.PROFILE_PICTURE_LIST]: createProfilePictureListComponent,
   [ComponentTypes.DOCUMENT_FILE_VIEWER]: createDocumentFileViewerModuleComponent,
+  [ComponentTypes.MEMBERS_LIST]: createMembersListBuiderComponent,
 } as const;
 
 /**

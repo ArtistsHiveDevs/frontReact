@@ -279,6 +279,7 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
     else if (componentDescriptor.componentName === ComponentTypes.MEMBERS_LIST) {
       componentFieldData.inputType = 'membersList';
       addComponentField = true;
+      componentFieldData.externalData = entityData?.[componentDescriptor?.formMetaData?.fieldName];
     }
 
     if (addComponentField) {

@@ -2,7 +2,7 @@ import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/A
 import { ComponentGeneratorParams, DynamicControl } from '../DynamicControl';
 import { DynamicForm } from '../dynamic-form';
 import { useForm, useFormContext } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LandingMembers } from '~/components/shared/LandingMembers/LandingMembers';
 import { FileUploaderOptions } from './FileUpload';
 import { useI18n } from '~/common/utils';
@@ -10,7 +10,7 @@ import { useI18n } from '~/common/utils';
 export const createMembersList = (params: ComponentGeneratorParams) => {
   const { translateText } = useI18n();
   const { fieldData, handlers } = params;
-  const { componentParams, config, fieldName } = fieldData;
+  const { componentParams, config, fieldName, externalData } = fieldData;
   const { fields, dialogTitle = '', translationPath, dialogLabelAddMember } = componentParams;
 
   const formMethods = useForm({
@@ -20,6 +20,7 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
 
   const [showAddMember, setShowAddMember] = useState(false);
   const [memberList, setMemberList] = useState([]);
+  const [prechargedExternalInfo, setPrechargedExternalInfo] = useState(false);
 
   const hookContext = useFormContext();
   const finalContext = hookContext;
@@ -30,6 +31,14 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
   });
 
   config.value = memberList;
+
+    useEffect(() => {
+      if (externalData?.length > 0 && externalData && Array.isArray(externalData) && !prechargedExternalInfo ) {
+        console.log('effect')
+        setMemberList(externalData);
+        setPrechargedExternalInfo(true);
+      }
+    }, [externalData]);
 
   const customHandlers = {
     ...handlers,

@@ -59,6 +59,8 @@ export const DeMessages = {
           save: 'Speichern',
         },
         report: 'Bericht',
+        select_all: 'Alle auswählen',
+        clear_selection: 'Auswahl aufheben',
         share: 'Teilen',
         show_more: 'Mehr anzeigen',
         show_less: 'Weniger anzeigen',

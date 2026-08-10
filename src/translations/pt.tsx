@@ -59,6 +59,8 @@ export const PtMessages = {
           save: 'Salvar',
         },
         report: 'Reportar',
+        select_all: 'Selecionar todos',
+        clear_selection: 'Limpar seleção',
         share: 'Partilhar',
         show_more: 'Mostrar mais',
         show_less: 'Mostrar menos',

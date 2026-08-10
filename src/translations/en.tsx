@@ -59,6 +59,8 @@ export const EnMessages = {
           save: 'Save',
         },
         report: 'Report',
+        select_all: 'Select all',
+        clear_selection: 'Clear selection',
         share: 'Share',
         show_more: 'Show more',
         show_less: 'Show less',

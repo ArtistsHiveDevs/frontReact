@@ -59,6 +59,8 @@ export const FrMessages = {
           save: 'Enregistrer',
         },
         report: 'Signaler',
+        select_all: 'Tout sélectionner',
+        clear_selection: 'Effacer la sélection',
         share: 'Partager',
         show_more: 'Afficher plus',
         show_less: 'Afficher moins',

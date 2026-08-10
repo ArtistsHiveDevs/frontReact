@@ -59,6 +59,8 @@ export const ElMessages = {
           save: 'Αποθήκευση',
         },
         report: 'Αναφορά',
+        select_all: 'Επιλογή όλων',
+        clear_selection: 'Καθαρισμός επιλογής',
         share: 'Κοινοποίηση',
         show_more: 'Περισσότερα',
         show_less: 'Λιγότερα',

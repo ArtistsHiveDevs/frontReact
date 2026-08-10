@@ -4,10 +4,11 @@ import { EntityModel, EntityTemplate } from '~/models/base';
 import './ProfileTabsPage.scss';
 
 import { Fab } from '@mui/material';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useProfilesSlice } from '~/common/slices/domain/profile/ProfileSlice';
 import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
+import { isVisible } from '~/common/utils/visibility-utils';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
@@ -70,8 +71,16 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
   const tabbedPanelRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
 
+  // TabbedPanel filtra subpagesConfig con isVisible(..., 'fullyHidden') antes de asignar índices,
+  // así que cualquier índice que comparemos contra activeSectionIndex/currentVisibleTab debe salir
+  // de esta misma lista filtrada, no del subpagesConfig crudo.
+  const visibleSubpages = useMemo(
+    () => (subpagesConfig || []).filter((subpage) => isVisible(subpage, entityData, 'fullyHidden')),
+    [subpagesConfig, entityData]
+  );
+
   useEffect(() => {
-    const followersPageIndex = (subpagesConfig || []).findIndex((subpage) => subpage.name === 'followers');
+    const followersPageIndex = visibleSubpages.findIndex((subpage) => subpage.name === 'followers');
     if (entityData && followersPageIndex === currentVisibleTab) {
       setHasSeenFollowers(true);
       if (loggedUser) {
@@ -136,7 +145,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       setTimeout(handleScroll, 0);
 
       // Necesitamos acceder al nombre del tab de otra forma ya que no tenemos transformedConfigData
-      const selectedTabName = subpagesConfig?.[selectedTabIndex]?.name;
+      const selectedTabName = visibleSubpages[selectedTabIndex]?.name;
       setHeaderShouldShowFollowerCounter(selectedTabName !== 'followers');
     },
   };
@@ -166,7 +175,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
               handlers={{
                 ...handlers,
                 onClickSeeFollowers: (value: any) => {
-                  const subpageIndex = (subpagesConfig || []).findIndex((subpage) => subpage.name === 'followers');
+                  const subpageIndex = visibleSubpages.findIndex((subpage) => subpage.name === 'followers');
                   setShowSpecificFollowerType(value);
                   setShowSpecificTab(subpageIndex);
                 },

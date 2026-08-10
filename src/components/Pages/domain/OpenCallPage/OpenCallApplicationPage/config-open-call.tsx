@@ -128,7 +128,7 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
                   formMetaData: {
                     inputType: 'text',
                     config: {
-                      required: 'Este campo es obligatorio',
+                      required: true,
                       minLength: { value: 2, message: 'Mínimo 2 caracteres' },
                     },
                     componentParams: { placeholder: 'Ej: Los Amplificadores' },

@@ -1,8 +1,10 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
 import { getUrl, removeData, uploadData } from './storage.client';
+import { UploadFileToServerResponse } from './storage.types';
+import { FileUploadCustomFile } from '~/components/shared/organisms/gui/dynamicForms';
 
-export const uploadImage = async (params: {
-  file: File;
+export const uploadFileToServer = async (params: {
+  file: FileUploadCustomFile;
   access_level?: 'public' | 'protected' | 'private';
   path?: string;
   prefferedFilename?: string;
@@ -17,14 +19,17 @@ export const uploadImage = async (params: {
       path: customPath,
       data: file,
     });
-    return { result, fileName, customPath };
+
+    const response: UploadFileToServerResponse = { result, fileName, customPath };
+
+    return response;
   } catch (error) {
     console.error('Error al subir la imagen:', error);
   }
 };
 
-export const uploadImages = async (params: {
-  files: File[];
+export const uploadFilesToServer = async (params: {
+  files: FileUploadCustomFile[];
   access_level?: 'public' | 'protected' | 'private';
   path?: string;
 }) => {
@@ -32,7 +37,7 @@ export const uploadImages = async (params: {
   console.log({ params });
   try {
     // Usa Promise.all para cargar todos los archivos en paralelo
-    const results = await Promise.all(files.map((file) => uploadImage({ file, access_level, path })));
+    const results = await Promise.all(files.map((file) => uploadFileToServer({ file, access_level, path })));
 
     return results;
   } catch (error) {
@@ -70,7 +75,7 @@ export const getImagesURL = async (params: { fileNames: string[]; path?: string 
   return urls;
 };
 
-export const removeImage = async (params: { path?: string }) => {
+export const removeFileFromServer = async (params: { path?: string }) => {
   try {
     let { path } = params || {};
     const result = await removeData({
@@ -83,12 +88,12 @@ export const removeImage = async (params: { path?: string }) => {
   }
 };
 
-export const removeImages = async (params: { paths: string[] }) => {
+export const removeFilesFromServer = async (params: { paths: string[] }) => {
   const { paths } = params;
   console.log(paths)
   try {
     // Usa Promise.all para cargar todos los archivos en paralelo
-    const results = await Promise.all(paths.map((path) => removeImage({ path })));
+    const results = await Promise.all(paths.map((path) => removeFileFromServer({ path })));
 
     return results;
   } catch (error) {
@@ -96,3 +101,21 @@ export const removeImages = async (params: { paths: string[] }) => {
     throw error; // Lanza el error para que pueda ser manejado en la llamada
   }
 };
+
+export const getFilesUrls = async (referenceData: any) => {
+  let formattedUrls = undefined;
+  if (referenceData && Array.isArray(referenceData)) {
+        const urlsObject: { [identifier: string]: string } = {};
+  
+        // Mapeamos las URLs a promesas y usamos Promise.all para esperar a que todas se resuelvan
+        const urlPromises = referenceData.map(async (imageParams: any) => {
+          const url = await getUrlS3({ path: imageParams.src });
+          urlsObject[imageParams.src] = url;
+        });
+  
+        // Esperamos a que todas las promesas terminen
+        await Promise.all(urlPromises);
+        formattedUrls = urlsObject;
+  }
+  return formattedUrls;
+}

@@ -6,6 +6,9 @@ export const ElMessages = {
       not_found_page: {
         title: 'Ούπς! Δεν μπορέσαμε να βρούμε αυτό που ψάχνετε',
       },
+      component_error: {
+        message: 'Δεν ήταν δυνατή η φόρτωση αυτού του στοιχείου.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -161,6 +164,12 @@ export const ElMessages = {
 
         // Άγνωστα Σφάλματα
         UNKNOWN_ERROR: 'Άγνωστο σφάλμα',
+      },
+      forms: {
+        validation_error: 'Ελέγξτε τα επισημασμένα πεδία πριν την υποβολή της φόρμας.',
+        submit_error: 'Δεν ήταν δυνατή η αποθήκευση των αλλαγών. Δοκιμάστε ξανά.',
+        submit_error_duplicate_key: 'Αυτό το όνομα χρήστη χρησιμοποιείται ήδη. Επιλέξτε ένα άλλο.',
+        submit_error_validation: 'Ορισμένα υποχρεωτικά πεδία λείπουν ή δεν είναι έγκυρα. Ελέγξτε τη φόρμα.',
       },
       follows: {
         followers: 'Followers',
@@ -375,6 +384,34 @@ export const ElMessages = {
       },
 
       app_base: {
+        AdminPendingProfilesPage: {
+          title: 'Έλεγχος εκκρεμών προφίλ',
+          unauthorized: {
+            title: 'Δεν επιτρέπεται η πρόσβαση',
+            description: 'Δεν έχετε δικαίωμα να δείτε αυτή τη σελίδα.',
+          },
+          sections: {
+            artists: {
+              title: 'Εκκρεμείς καλλιτέχνες',
+            },
+            places: {
+              title: 'Εκκρεμείς χώροι',
+            },
+          },
+          table: {
+            name: 'Όνομα',
+            username: 'Όνομα χρήστη',
+            location: 'Τοποθεσία',
+            created_at: 'Υποβλήθηκε στις',
+            actions: 'Ενέργειες',
+          },
+          actions: {
+            approve: 'Έγκριση',
+            reject: 'Απόρριψη',
+          },
+          empty_state: 'Δεν υπάρχουν εκκρεμή προφίλ προς έλεγχο',
+          error: 'Παρουσιάστηκε σφάλμα. Δοκιμάστε ξανά.',
+        },
         LoginPage: {
           paragraph1:
             'Βλέπετε μια δοκιμαστική έκδοση της πλατφόρμας μας. Προς το παρόν η εγγραφή χρηστών είναι περιορισμένη.',
@@ -508,6 +545,61 @@ export const ElMessages = {
         },
       },
       domain: {
+        CalendarPage: {
+          title: 'My calendar',
+          empty_state: 'There are no events in this date range',
+          error: 'Something went wrong while loading your calendar. Please try again.',
+          deadline_label: 'Deadline',
+          types: {
+            concert: 'Concerts',
+            call: 'Open call deadlines',
+            activity: 'Activities',
+          },
+          meta: {
+            expired: 'Expired open call',
+            city: 'City',
+            event_date: 'Event date',
+            applications_count: 'Applications',
+            notes: 'Notes',
+          },
+          actions: {
+            today: 'Today',
+            month: 'Month',
+            week: 'Week',
+            day: 'Day',
+            delete: 'Delete',
+            cancel: 'Cancel',
+          },
+          activity_form: {
+            create_title: 'New activity',
+            edit_title: 'Edit activity',
+            save_error: 'The activity could not be saved. Please try again.',
+            fields: {
+              title: 'Title',
+              type: 'Type',
+              all_day: 'All day',
+              start_date: 'Start date',
+              start_time: 'Start time',
+              end_date: 'End date',
+              end_time: 'End time',
+              notes: 'Notes',
+            },
+            types: {
+              rehearsal: 'Rehearsal',
+              soundcheck: 'Soundcheck',
+              other: 'Other',
+            },
+            validation: {
+              title_required: 'Title is required',
+              start_date_required: 'Start date is required',
+              start_time_required: 'Start time is required',
+            },
+            delete_confirmation: {
+              title: 'Delete activity',
+              message: 'Are you sure you want to delete this activity? This action cannot be undone.',
+            },
+          },
+        },
         CulturalAgenda: {
           title: 'Πολιτιστικό ημερολόγιο',
         },
@@ -712,6 +804,33 @@ export const ElMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Ενταχθείτε στη κοινότητα',
         },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: 'Μέλος της βιομηχανίας',
+            intro:
+              'Ευχαριστούμε για το ενδιαφέρον σου να εγγραφείς ως μέλος της βιομηχανίας, είτε ως καλλιτέχνης, ατζέντης, ιδιοκτήτης χώρου, αίθουσας πρόβας ή άλλης οντότητας.',
+            intro_secondary: 'Αναζήτησε το προφίλ σου αν υπάρχει ήδη στο σύστημα, ή δημιούργησε ένα νέο για να ξεκινήσεις.',
+            search_section: {
+              title: 'Αναζήτησε το προφίλ σου',
+              input_placeholder: 'Όνομα καλλιτέχνη ή χώρου...',
+              search_button: 'Αναζήτηση',
+              artists_found: 'Αυτοί είναι οι σχετικοί καλλιτέχνες',
+              places_found: 'Αυτοί είναι οι σχετικοί χώροι',
+            },
+            create_section: {
+              title: 'Ή δημιούργησε νέο προφίλ',
+            },
+            reset_section: {
+              remove_artists_button: 'Αφαίρεση των προφίλ Καλλιτέχνη μου',
+              remove_places_button: 'Αφαίρεση των προφίλ Χώρου μου',
+              confirm_title: 'Επιβεβαίωση ενέργειας',
+              confirm_content:
+                'Αυτή η ενέργεια θα αφαιρέσει τη σύνδεση όλων των προφίλ αυτού του τύπου με τον λογαριασμό σου. Τα προφίλ δεν θα διαγραφούν, αλλά θα σταματήσουν να εμφανίζονται στις συμμετοχές σου. Θέλεις να συνεχίσεις;',
+              confirm_action: 'Ναι, αφαίρεση',
+              cancel_action: 'Ακύρωση',
+            },
+          },
+        },
         PrebookingPages: {
           EventNegotiationPages: {
             EventNegociationDetailsPage: {
@@ -861,9 +980,13 @@ export const ElMessages = {
               sections: {
                 artist_gallery: {
                   name: 'Γκαλερί του καλλιτέχνη',
+                  attributes: {
+                    members: 'Μέλη',
+                    live: 'Ζωντανά',
+                  },
                 },
                 live_gallery: {
-                  name: 'Ζωντανή γκαλερί'
+                  name: 'Ζωντανή γκαλερί',
                 },
                 general: {
                   name: 'Γενικές πληροφορίες',
@@ -995,19 +1118,11 @@ export const ElMessages = {
               sections: {
                 technical_docs: {
                   name: 'Τεχνικά Έγγραφα',
-                  docs:{
-                    technical_epk: "EPK",
-                    technical_rider: "Τεχνικό Rider",
-                    stage_plot: "Σχέδιο Σκηνής",
-                  }
-                },
-              },
-            },
-            riders: {
-              name: 'Riders',
-              sections: {
-                riders_data: {
-                  name: 'Riders',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Τεχνικό Rider',
+                    stage_plot: 'Σχέδιο Σκηνής',
+                  },
                 },
               },
             },
@@ -1114,6 +1229,7 @@ export const ElMessages = {
                   name: 'Γενικές πληροφορίες',
                   attributes: {
                     description: 'Περιγραφή',
+                    place_type: 'Τύπος χώρου',
                     address: 'Διεύθυνση',
                     city: 'Πόλη',
                     cityWithCountry: 'Τοποθεσία',
@@ -1197,10 +1313,52 @@ export const ElMessages = {
           },
         },
       },
+      OpenCallPage: {
+        title: 'Open Call',
+        subtitle:
+          'Fill in the form to apply as an artist. Every detail helps us evaluate your proposal and coordinate the logistics of the event.',
+        step_counter: 'Step {current} of {total}',
+        step_progress: '{progress}% completed',
+        required_notice: 'Fields marked with * are required',
+        prev_button: 'Previous',
+        next_button: 'Next',
+        submit_button: 'Submit application',
+        submitting_button: 'Sending...',
+        save_notice: 'You can save and continue later',
+        no_artist_profile: {
+          title: 'You have no active artist profile',
+          message:
+            'You can only apply to an Open Call from an Artist profile. Check that you are logged in with the right profile.',
+        },
+        success: {
+          title: 'Application sent',
+          message:
+            'We have received your application. We will review your proposal and contact you at the email address you provided.',
+          back_button: 'Back to home',
+        },
+        already_applied: {
+          title: 'You have already applied to this Open Call',
+          message: 'You can only send one application per Open Call.',
+          status_label: 'Your application status:',
+          details_button: 'View the Open Call',
+        },
+        application_status: {
+          pending: 'Pending',
+          accepted: 'Accepted',
+          rejected: 'Rejected',
+        },
+        submit_errors: {
+          duplicate: 'You have already applied to this Open Call.',
+          not_accepting_applications:
+            'This Open Call is not accepting applications: it is closed or past its deadline.',
+          open_call_not_found: 'We could not find this Open Call. It may have been removed.',
+          generic: 'We could not send your application. Please try again later.',
+        },
+      },
       OpenCallsListPage: {
         subpages: {
-          active: { name: 'Ενεργές' },
-          past: { name: 'Παλαιότερες' },
+          active: { name: 'Ενεργές ανοικτές προσκλήσεις' },
+          past: { name: 'Παλαιότερες ανοικτές προσκλήσεις' },
           available: { name: 'Διαθέσιμες' },
           applications: { name: 'Οι αιτήσεις μου' },
         },
@@ -1217,9 +1375,6 @@ export const ElMessages = {
         },
       },
       OpenCallDetailsPage: {
-        event_label: 'Εκδήλωση',
-        open_until_label: 'Οι αιτήσεις είναι ανοιχτές έως',
-        applications_received_suffix: 'αιτήσεις που ελήφθησαν',
         applications_received_title: 'Αιτήσεις που Ελήφθησαν',
         your_application_title: 'Η αίτησή σου',
         no_applications_yet: 'Δεν υπάρχουν ακόμη αιτήσεις για αυτήν την πρόσκληση.',
@@ -1228,6 +1383,47 @@ export const ElMessages = {
         loading_your_application: 'Φόρτωση της αίτησής σου...',
         unauthorized_message: 'Συνδέσου με προφίλ Artist ή Place για να δεις τις αιτήσεις αυτής της πρόσκλησης.',
         back_button: 'Πίσω στις προσκλήσεις μου',
+        apply_button: 'Apply to this Open Call',
+        open_call_status: {
+          DRAFT: 'Draft',
+          OPEN: 'Open',
+          CLOSED: 'Closed',
+          CANCELLED: 'Cancelled',
+        },
+        presentation: {
+          open_badge: 'Applications open',
+          expired_badge: 'Applications closed',
+          apply_deadline_title: 'Application period',
+          event_date_label: 'Event date',
+          minutes_suffix: 'min',
+          sections: {
+            about: 'About this Open Call',
+            conditions: 'Conditions and requirements',
+            technical: 'Technical details',
+            compensation: 'Compensation and logistics',
+          },
+          fields: {
+            description: 'Description',
+            genres: 'Genres',
+            accepted_project_types: 'Accepted project types',
+            requirements_description: 'Requirements',
+            set_duration: 'Set duration',
+            max_applications: 'Maximum applications',
+            available_slots: 'Available slots',
+            expected_audience: 'Expected audience',
+            stage_type: 'Stage type',
+            stage_dimensions: 'Stage dimensions',
+            provided_sound: 'Sound provided',
+            provided_backline: 'Backline provided',
+            provided_lighting: 'Lighting provided',
+            technical_notes: 'Technical notes',
+            fee: 'Fee',
+            travel_support: 'Travel support',
+            accommodation_provided: 'Accommodation',
+            meals_provided: 'Meals',
+            additional_notes: 'Additional notes',
+          },
+        },
         status: {
           pending: 'Σε εκκρεμότητα',
           accepted: 'Αποδεκτή',
@@ -1266,7 +1462,7 @@ export const ElMessages = {
           INAPPROPRIATE_CONTENT: 'Ακατάλληλο περιεχόμενο',
           OTHER: 'Άλλο',
         },
-        description_label: 'Περιγραφή (προαιρετικό)',
+        description_label: 'Περιγραφή',
         description_placeholder: 'Πείτε μας περισσότερες λεπτομέρειες σχετικά με αυτήν την αναφορά',
         submit_button: 'Αποστολή αναφοράς',
         success_message:
@@ -1476,6 +1672,12 @@ export const ElMessages = {
               logout: 'Αποσύνδεση',
             },
           },
+        },
+      },
+      memberships_list: {
+        approval_status: {
+          pending: 'Εκκρεμεί έλεγχος',
+          rejected: 'Απορρίφθηκε',
         },
       },
     },

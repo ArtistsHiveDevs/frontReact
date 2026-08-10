@@ -1,4 +1,4 @@
-import { Button, Stack } from '@mui/material';
+import { Alert, Button, Stack } from '@mui/material';
 import { forwardRef, useImperativeHandle, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { I18nPaths, useI18n } from '~/common/utils';
@@ -7,6 +7,7 @@ import {
   createDebouncedUsernameValidation,
 } from '~/common/utils/validation/username-validation';
 import { isVisible } from '~/common/utils/visibility-utils';
+import { ErrorBoundary } from '~/components/shared/atoms/ErrorBoundary';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
@@ -22,6 +23,14 @@ import { AppUserModel } from '~/models/app/user/user.model';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import { DynamicControl } from './DynamicControl';
 import { ControlType, DynamicFieldData, SelectOption } from './dynamic-control-types';
+import { FileUploadHandleEvent, FileUploaderOptions } from './components/FileUpload';
+import { uploadFilesToServer, removeFilesFromServer } from '~/common/utils/amplify/storage/storage.helpers';
+import { UploadFileToServerResponse } from '~/common/utils/amplify/storage/storage.types';
+
+export interface ResourceConfig {
+  resourceType: string; // 'profiles', 'res/openCalls', 'res/events', 'res/festivals', etc.
+  identifier: string; // Profile identifier, openCall ID, event ID, etc.
+}
 
 export interface DynamicTabbedFormParams {
   tabsInfo: PageSection[];
@@ -36,11 +45,16 @@ export interface DynamicTabbedFormParams {
   submitLabel?: string;
   enableUsernameValidation?: boolean;
   onlyModifiedFields?: boolean;
+  submitErrorMessage?: string; // Error de servidor (ej. falló el create/update); lo controla la página, no este componente.
+  resourceConfig?: ResourceConfig; // Configuration for file upload paths
 }
 
 export interface DynamicTabbedFormRef {
   submit: () => Promise<void> | void;
   getModifiedFields: () => any;
+  updateUploadedFiles: (fieldName: string, filesData: any[]) => void;
+  removeUploadedFiles: (fieldName: string, filePaths: string[]) => void;
+  handleFileUpload: (handledUploadFileData: FileUploadHandleEvent) => Promise<void>;
 }
 
 export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedFormParams>((params, ref) => {
@@ -56,10 +70,14 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
     customHeaderConfig,
     enableUsernameValidation = true,
     onlyModifiedFields = false,
+    submitErrorMessage,
+    resourceConfig,
   } = params;
 
   const [relationshipsValues, setRelationshipsValues] = useState<{ [relationship: string]: any[] }>({});
   const [timeValues, setTimeValues] = useState<{ [relationship: string]: any }>({});
+  const [hasValidationErrors, setHasValidationErrors] = useState(false);
+  const [filesWrapperData, setFilesWrapperData] = useState<{ [fieldName: string]: any }>({});
 
   const { translateText } = useI18n();
   const formMethods = useForm({
@@ -250,6 +268,7 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
     ) {
       componentFieldData.inputType = 'file';
       addComponentField = true;
+      componentFieldData.externalData = entityData?.[componentDescriptor?.formMetaData?.fieldName];
     } else if (componentDescriptor.componentName === ComponentTypes.PROFILE_THUMBNAIL_CARD) {
       componentFieldData.inputType = 'relationship';
       if (!!relationshipsValues && !Object.keys(relationshipsValues).find((key) => key === fieldNameComponent)) {
@@ -265,16 +284,13 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
     } else if (componentDescriptor.componentName === ComponentTypes.HTML_CONTENT) {
       componentFieldData.inputType = 'textarea';
       addComponentField = true;
-    }
-    else if (
-      [ComponentTypes.IMAGE_GALLERY, ComponentTypes.DOCUMENT_FILE_VIEWER].includes(
-        componentDescriptor.componentName
-      )
+    } else if (
+      [ComponentTypes.IMAGE_GALLERY, ComponentTypes.DOCUMENT_FILE_VIEWER].includes(componentDescriptor.componentName)
     ) {
       componentFieldData.inputType = 'file';
       addComponentField = true;
+      componentFieldData.externalData = entityData?.[componentDescriptor?.formMetaData?.fieldName];
     }
-
 
     if (addComponentField) {
       const field = (
@@ -306,6 +322,7 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
           name: subpage.title || translateSubpage(subpage.name),
           allowedRoles: subpage.allowedRoles,
           requireSession: subpage.requireSession,
+          hideMainMenu: subpage.hideMainMenu,
           tabContent: () => {
             //   return <h1>asdasd {subPageIndex}</h1>;
 
@@ -321,15 +338,17 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
                       contentComponents = (section.components || []).map(
                         (componentDescriptor: ComponentDescriptor, componentIndex: number) => (
                           <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
-                            {generateSectionFormFields(
-                              subpage,
-                              section,
-                              componentDescriptor,
-                              componentIndex,
-                              handlers,
-                              formMethods,
-                              elementData
-                            )}
+                            <ErrorBoundary fallbackMessageId="app.general.component_error.message">
+                              {generateSectionFormFields(
+                                subpage,
+                                section,
+                                componentDescriptor,
+                                componentIndex,
+                                handlers,
+                                formMethods,
+                                elementData
+                              )}
+                            </ErrorBoundary>
                           </div>
                         )
                       );
@@ -368,12 +387,119 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
     const allValues = getValues();
     const modifiedData: any = {};
 
+    // Agregar campos marcados como dirty por react-hook-form
     Object.keys(dirtyFields).forEach((key) => {
       modifiedData[key] = allValues[key];
     });
 
+    // IMPORTANTE: Los campos de tipo File no se marcan como "dirty" automáticamente
+    // Buscar campos de tipo File o FileList que tengan valor aunque no estén en dirtyFields
+    Object.keys(allValues).forEach((key) => {
+      const value = allValues[key];
+      // Verificar si es un File o FileList con contenido
+      if (
+        value &&
+        (value instanceof File || value instanceof FileList || (value && value.constructor?.name === 'File'))
+      ) {
+        // Solo agregarlo si no está ya en modifiedData
+        if (!modifiedData[key]) {
+          modifiedData[key] = value;
+        }
+      }
+    });
+
+    // Agregar archivos que fueron subidos y están en filesWrapperData
+    // Estos son archivos que se subieron mediante FileUpload y se guardaron en state
+    if (filesWrapperData && Object.keys(filesWrapperData).length > 0) {
+      Object.keys(filesWrapperData).forEach((key) => {
+        modifiedData[key] = filesWrapperData[key];
+      });
+    }
+
     return modifiedData;
   };
+
+  // Funciones para manejar archivos subidos
+  const updateUploadedFiles = (fieldName: string, filesData: any[]) => {
+    const previousData = filesWrapperData[fieldName] || [];
+    setFilesWrapperData((prev) => ({
+      ...prev,
+      [fieldName]: [...previousData, ...filesData],
+    }));
+  };
+
+  const removeUploadedFiles = (fieldName: string, filePaths: string[]) => {
+    setFilesWrapperData((prev) => {
+      const currentFiles = prev[fieldName] || [];
+      const updatedFiles = currentFiles.filter((file: any) => !filePaths.includes(file.path));
+
+      if (updatedFiles.length === 0) {
+        const { [fieldName]: removed, ...rest } = prev;
+        return rest;
+      }
+
+      return {
+        ...prev,
+        [fieldName]: updatedFiles,
+      };
+    });
+  };
+
+  // Helper functions for file upload handling
+  const updateFileUploadAddElements = (filesData: UploadFileToServerResponse[], fieldName: string) => {
+    const extractFilesDataPaths = filesData?.map((fileData: any) => {
+      return {
+        src: `s3://${fileData.customPath}`,
+        path: fileData?.customPath,
+        fileName: fileData?.fileName,
+      };
+    });
+    updateUploadedFiles(fieldName, extractFilesDataPaths);
+  };
+
+  const findRemovalFilesPath = (files: any[], fieldName: string) => {
+    const filePaths: string[] = [];
+    files.forEach((file) => {
+      filePaths.push(file.path);
+    });
+    return filePaths;
+  };
+
+  const updateFileUploadRemoveElements = (paths: string[], fieldName: string) => {
+    removeUploadedFiles(fieldName, paths);
+  };
+
+  // Generic file upload handler
+  const handleFileUpload = async (handledUploadFileData: FileUploadHandleEvent) => {
+    if (!resourceConfig) {
+      console.warn('resourceConfig is not provided. File upload cannot proceed.');
+      return;
+    }
+
+    const { files, optionType, destinationPath, fieldName } = handledUploadFileData;
+    const uploadPath = `${resourceConfig.resourceType}/${resourceConfig.identifier}${destinationPath}`;
+
+    if (optionType === FileUploaderOptions.addItem) {
+      const responses = await uploadFilesToServer({
+        files,
+        path: uploadPath,
+      });
+      if (responses?.length > 0) {
+        updateFileUploadAddElements(responses, fieldName);
+      }
+    } else if (optionType === FileUploaderOptions.removeItem) {
+      const findPaths = findRemovalFilesPath(files, fieldName);
+      const responses = await removeFilesFromServer({ paths: findPaths });
+      if (responses?.length > 0) {
+        updateFileUploadRemoveElements(findPaths, fieldName);
+      }
+    }
+  };
+
+  // Automatically inject the file upload handler if resourceConfig is provided
+  if (resourceConfig && !handlers['fileUploadfilesChanged']) {
+    handlers['fileUploadfilesChanged'] = handleFileUpload;
+  }
 
   // Exponer métodos al ref
   useImperativeHandle(ref, () => ({
@@ -396,25 +522,30 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
       });
     },
     getModifiedFields,
+    updateUploadedFiles,
+    removeUploadedFiles,
+    handleFileUpload,
   }));
 
   // 🔍 Logging de errores para debugging
   const handleFormSubmit = async (data: any) => {
-    const dataToSubmit = onlyModifiedFields ? getModifiedFields() : data;
+    setHasValidationErrors(false);
+    let dataToSubmit = onlyModifiedFields ? getModifiedFields() : data;
+
+    // Combinar con filesWrapperData (archivos subidos mediante FileUpload)
+    if (filesWrapperData && Object.keys(filesWrapperData).length > 0) {
+      dataToSubmit = {
+        ...dataToSubmit,
+        ...filesWrapperData,
+      };
+    }
+
     return await onSubmit(dataToSubmit);
   };
 
   const handleFormErrors = (errors: any) => {
+    setHasValidationErrors(true);
     window.scrollTo(0, 0);
-    // console.log('❌ Form validation failed. Errors by field:');
-    // console.table(
-    //   Object.entries(errors).map(([fieldName, error]: [string, any]) => ({
-    //     Campo: fieldName,
-    //     Mensaje: error?.message || 'Error sin mensaje',
-    //     Tipo: error?.type || 'unknown',
-    //   }))
-    // );
-    // console.log('Full errors object:', errors);
   };
 
   // customHeaderConfig = undefined;
@@ -441,9 +572,7 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
           minLength: 3,
           pattern: {
             value: USERNAME_FORMAT_PATTERN,
-            message: translateText(
-              `${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ERROR_CODES}.VALIDATION_USERNAME_FORMAT`
-            ),
+            message: translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ERROR_CODES}.VALIDATION_USERNAME_FORMAT`),
           },
           ...(enableUsernameValidation && {
             validate: {
@@ -474,6 +603,16 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
           />
         </div>
       </FormProvider>
+      {hasValidationErrors && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY}.forms.validation_error`)}
+        </Alert>
+      )}
+      {submitErrorMessage && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {submitErrorMessage}
+        </Alert>
+      )}
       <Button type="submit" variant="contained" fullWidth>
         {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.${submitLabel || 'submit'}`)}
       </Button>

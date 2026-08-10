@@ -1,5 +1,5 @@
 import { Menu, MenuItem } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useSwipeable } from 'react-swipeable';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
@@ -10,6 +10,8 @@ import {
   RequireAuthComponent,
   validateUserAuthorization,
 } from '~/components/shared/atoms/app/auth/RequiredAuth';
+import { ErrorBoundary } from '~/components/shared/atoms/ErrorBoundary';
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import {
   ComponentDescriptor,
@@ -20,7 +22,6 @@ import {
   buildComponent as buildComponentFromRegistry,
   registerAllBuilders,
 } from '~/components/shared/organisms/gui/builders/componentBuilders';
-import { DynamicIcons } from '../../DynamicIcons';
 import './index.scss';
 
 export interface TabbedPage {
@@ -117,7 +118,10 @@ const defaultConfigTransformer = (subpagesConfig: PageSection[], context?: Defau
         tabContent: () => {
           return (
             <RequireAuthComponent
+              resourceEntity={entityData}
+              allowedRoles={subpage.allowedRoles}
               requiredSession={subpage.requireSession}
+              name={subpage.name}
               key={`section_${subPageIndex}_${subpage.name}`}
             >
               {(subpage.sections || [])
@@ -129,7 +133,9 @@ const defaultConfigTransformer = (subpagesConfig: PageSection[], context?: Defau
                       .filter((componentDescriptor: ComponentDescriptor) => isVisible(componentDescriptor, entityData))
                       .map((componentDescriptor: ComponentDescriptor, componentIndex: number) => (
                         <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
-                          {buildComponent(subpage, section, componentDescriptor, componentIndex, undefined)}
+                          <ErrorBoundary fallbackMessageId="app.general.component_error.message">
+                            {buildComponent(subpage, section, componentDescriptor, componentIndex, undefined)}
+                          </ErrorBoundary>
                         </div>
                       ));
                   }
@@ -149,6 +155,9 @@ const defaultConfigTransformer = (subpagesConfig: PageSection[], context?: Defau
                   return (
                     <RequireAuthComponent
                       key={`section-${section.name}-${sectionIndex}`}
+                      resourceEntity={entityData}
+                      allowedRoles={section.allowedRoles}
+                      name={section.name}
                       requiredSession={section.requireSession}
                     >
                       <SectionsPanel
@@ -176,6 +185,9 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
     handlers = {},
     showSpecificTab,
   } = props;
+
+  // Extraer entityData del contexto
+  const entityData = defaultTransformerContext?.entityData;
 
   // Si se proporciona rawConfig, usar el transformer personalizado o el default
   let tabs: TabbedPage[];
@@ -249,7 +261,7 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
     // Recorre hacia atrás hasta que se encuentre una sección permitida o se llegue al principio
     while (nextSection >= 0) {
       const subpage = tabs[nextSection];
-      authState = validateUserAuthorization(currentUser, subpage.allowedRoles, subpage.requireSession);
+      authState = validateUserAuthorization(entityData, currentUser, subpage.allowedRoles, subpage.requireSession);
 
       if (AuthorizationStates.ALLOWED === authState) {
         break; // Sal del loop si se encuentra una sección permitida
@@ -271,7 +283,7 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
     // Recorre hacia adelante hasta que se encuentre una sección permitida o se llegue al final
     while (nextSection < tabs?.length) {
       const subpage = tabs[nextSection];
-      authState = validateUserAuthorization(currentUser, subpage.allowedRoles, subpage.requireSession);
+      authState = validateUserAuthorization(entityData, currentUser, subpage.allowedRoles, subpage.requireSession);
 
       if (AuthorizationStates.ALLOWED === authState) {
         break; // Sal del loop si se encuentra una sección permitida
@@ -294,15 +306,17 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
     delta: (5 * window.screen.width) / 11,
   });
 
-  const filteredTabsWithOriginalIndex: { subpage: TabbedPage; originalIndex: number }[] = tabs
-    .map((subpage: TabbedPage, originalIndex: number) => ({ subpage, originalIndex }))
-    .filter(
-      ({ subpage }: { subpage: TabbedPage; originalIndex: number }) =>
-        validateUserAuthorization(currentUser, subpage.allowedRoles, subpage.requireSession) ===
-          AuthorizationStates.ALLOWED && !subpage.hideMainMenu
-    );
+  const filteredTabsWithOriginalIndex = useMemo(() => {
+    return tabs
+      .map((subpage: TabbedPage, originalIndex: number) => ({ subpage, originalIndex }))
+      .filter(
+        ({ subpage }: { subpage: TabbedPage; originalIndex: number }) =>
+          validateUserAuthorization(entityData, currentUser, subpage.allowedRoles, subpage.requireSession) ===
+            AuthorizationStates.ALLOWED && !subpage.hideMainMenu
+      );
+  }, [tabs, entityData, currentUser]);
 
-  const tabTitles = () => {
+  const titles = useMemo(() => {
     return filteredTabsWithOriginalIndex.map(
       ({ subpage, originalIndex }: { subpage: TabbedPage; originalIndex: number }, filteredIndex: number) => {
         const classNames = ['subpage-tab'];
@@ -311,6 +325,7 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
         }
         return (
           <RequireAuthComponent
+            resourceEntity={entityData}
             key={`subpage-section-${originalIndex}`}
             allowedRoles={subpage.allowedRoles}
             requiredSession={subpage.requireSession}
@@ -330,20 +345,18 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
         );
       }
     );
-  };
+  }, [filteredTabsWithOriginalIndex, activeSectionIndex, entityData]);
 
   const tabContents = () => {
     return tabs.map((tab, index) => {
       const isActive = index === activeSectionIndex;
       return (
-        <div key={`tab-content-${index}`} className={`full-content ${isActive ? 'active' : 'hidden'}`}>
+        <div key={`tab-content-${index}`} className={`full-content ${isActive ? 'activeTab' : 'hiddenTab'}`}>
           {tab.tabContent && tab.tabContent()}
         </div>
       );
     });
   };
-
-  const titles = tabTitles();
 
   return (
     <div className="tabbed-panel-container" {...swipeHandlers}>

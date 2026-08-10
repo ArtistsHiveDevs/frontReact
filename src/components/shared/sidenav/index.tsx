@@ -103,6 +103,7 @@ const SideNav = () => {
   const liMenuElement = (section: any, menuOption: any, idx: number, level = 0) => {
     return (
       <RequireAuthComponent
+        resourceEntity={loggedUser}
         allowedRoles={menuOption.allowedRoles}
         requiredSession={menuOption.requireSession}
         name={menuOption.name}
@@ -159,6 +160,7 @@ const SideNav = () => {
 
           {menuOption.rightIcon && (
             <RequireAuthComponent
+              resourceEntity={loggedUser}
               allowedRoles={menuOption.rightAllowedRoles}
               requiredSession={menuOption.requireSession}
               name={menuOption.name}
@@ -238,6 +240,7 @@ const SideNav = () => {
     if (!!loggedUser) {
       getProfilePicURLs();
     }
+    console.log(loggedUser);
   }, [loggedUser]);
 
   useEffect(() => {
@@ -325,7 +328,10 @@ const SideNav = () => {
               <Offcanvas.Body>
                 <hr />
                 {LEFT_SIDENAV_MENU_CONFIG.filter((sidenavSection, index) => {
-                  const isVisibleByHiddenProp = isVisible(sidenavSection, { user: loggedUser, section: sidenavSection });
+                  const isVisibleByHiddenProp = isVisible(sidenavSection, {
+                    user: loggedUser,
+                    section: sidenavSection,
+                  });
 
                   const isAllowedByEnvironment =
                     (!sidenavSection.allowedEnvironments ||
@@ -339,6 +345,7 @@ const SideNav = () => {
                   return (
                     <RequireAuthComponent
                       key={`${sidenavSection.name}-${index}`}
+                      resourceEntity={loggedUser}
                       allowedRoles={sidenavSection.allowedRoles}
                       requiredSession={sidenavSection.requireSession}
                       name={sidenavSection.name}
@@ -420,7 +427,10 @@ const SideNav = () => {
                   <>
                     <hr />
                     {RIGHT_SIDENAV_MENU_CONFIG.filter((sidenavSection, index) => {
-                      const isVisibleByHiddenProp = isVisible(sidenavSection, { user: loggedUser, section: sidenavSection });
+                      const isVisibleByHiddenProp = isVisible(sidenavSection, {
+                        user: loggedUser,
+                        section: sidenavSection,
+                      });
 
                       const isAllowedByEnvironment =
                         (!sidenavSection.allowedEnvironments ||
@@ -434,6 +444,7 @@ const SideNav = () => {
                       return (
                         <RequireAuthComponent
                           key={`${sidenavSection.name}-${index}`}
+                          resourceEntity={loggedUser}
                           allowedRoles={sidenavSection.allowedRoles}
                           requiredSession={sidenavSection.requireSession}
                           name={sidenavSection.name}
@@ -444,7 +455,10 @@ const SideNav = () => {
                               <div className="option-menu-list">
                                 {sectionOptions
                                   .filter((option, index) => {
-                                    const isVisibleByHiddenProp = isVisible(option, { user: loggedUser, option: option });
+                                    const isVisibleByHiddenProp = isVisible(option, {
+                                      user: loggedUser,
+                                      option: option,
+                                    });
 
                                     const isAllowedByEnvironment =
                                       (!option.allowedEnvironments ||

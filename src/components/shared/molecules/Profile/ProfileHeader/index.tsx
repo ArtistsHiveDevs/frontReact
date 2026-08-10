@@ -1,4 +1,4 @@
-import { Avatar, Button, Dialog, DialogContent, IconButton, Snackbar, SnackbarCloseReason } from '@mui/material';
+import { Avatar, Dialog, DialogContent, IconButton, Snackbar, SnackbarCloseReason } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { RegisterOptions } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,6 +6,7 @@ import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { USERNAME_FORMAT_PATTERN, debouncedUsernameValidation } from '~/common/utils/validation/username-validation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
@@ -18,14 +19,12 @@ import {
   FavoriteSubscritionIconDefaultTypes,
 } from '~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
+import { PATHS } from '~/constants';
+import { ProfileMenuOptionsData, ProfileMenuOptionsType } from '~/constants/domain/profile.constants';
 import { ProfileModel } from '~/models/base';
 import { defaultTypesColors, getModelInfoFromInstance } from '~/models/base/modelHelpers';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import './index.scss';
-import {
-  ProfileMenuOptionsData,
-  ProfileMenuOptionsType,
-} from '~/constants/domain/profile.constants';
 
 export interface ProfileHeaderElement {
   name: string;
@@ -44,6 +43,8 @@ interface FieldInfo {
 }
 export const ProfileHeader = (props: any) => {
   const { translateGlobalDict } = useI18n();
+  const { navigateToInnerPath } = useNavigation();
+
   const {
     element,
     formMethods,
@@ -354,6 +355,9 @@ export const ProfileHeader = (props: any) => {
         setEditableMode(element);
         break;
       case 2:
+        if (!loggedUser) {
+          navigateToInnerPath({ path: PATHS.LOGIN });
+        }
         setShowReportForm(true);
         break;
     }
@@ -480,7 +484,9 @@ export const ProfileHeader = (props: any) => {
           </div>
         )}
       </div>
-      <ReportProfileForm open={showReportForm} onClose={() => setShowReportForm(false)} entity={element} />
+      {loggedUser && (
+        <ReportProfileForm open={showReportForm} onClose={() => setShowReportForm(false)} entity={element} />
+      )}
       <Dialog open={zoomProfilePic} onClose={handleCloseZoomDialog} fullWidth>
         <DialogContent style={{ textAlign: 'center', position: 'relative', padding: 0 }}>
           <IconButton onClick={handleCloseZoomDialog} style={{ position: 'absolute', top: '0.5%', right: '0.5%' }}>

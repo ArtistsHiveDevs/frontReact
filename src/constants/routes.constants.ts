@@ -34,6 +34,7 @@ export enum PATHS {
   PAYMENTS = 'payment',
   OPEN_CALLS = 'open-calls',
   CC = 'cc',
+  ADMIN_PENDING_PROFILES = 'admin/pending-profiles',
   REDIRECT_UNAUTHORIZED_AND_UNLOGGED_USER = '/home',
   REDIRECT_UNAUTHORIZED_AND_LOGGED_USER = '/home',
 }

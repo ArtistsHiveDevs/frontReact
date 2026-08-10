@@ -35,11 +35,13 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
               inputType: 'file',
               fieldName: 'image_members',
               componentParams: {
-                multipleFiles: true,
+                multipleFiles: false,
                 accept: 'image/*',
                 destinationPath: 'images',
                 filesDataType: 'members',
-                filesLimit: 3,
+                translationPath:
+                  'app.pages.ArtistsPages.ArtistsDetailsPage.subpages.general.sections.artist_gallery.attributes',
+                fieldTranslationName: 'members',
               },
             },
           },
@@ -56,6 +58,9 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 accept: 'image/*',
                 destinationPath: 'images',
                 filesDataType: 'live',
+                translationPath:
+                  'app.pages.ArtistsPages.ArtistsDetailsPage.subpages.general.sections.artist_gallery.attributes',
+                fieldTranslationName: 'live',
               },
             },
           },
@@ -279,7 +284,8 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'members',
     requireSession: true,
-    fullyHidden: fullyHiddenSectionsByEnvironment(['prod', 'dev']),
+    allowedRoles: [{ entityName: 'Artist', checkCurrentProfileInfo: true }],
+    fullyHidden: fullyHiddenSectionsByEnvironment(['prod']),
     sections: [
       {
         name: 'music_performance',
@@ -638,6 +644,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   },
   {
     name: 'documents',
+    allowedRoles: [{ entityName: 'Artist', checkCurrentProfileInfo: true }],
     sections: [
       {
         name: 'technical_docs',
@@ -656,7 +663,8 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 accept: '.pdf, application/pdf',
                 useIcons: true,
                 iconName: 'FaFilePdf',
-                destinationPath: '/documents',
+                destinationPath: 'documents',
+                translationPath: `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.${TRANSLATION_BASE_TECHNICAL_DOCS}`,
               },
             },
           },
@@ -674,7 +682,8 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 accept: '.pdf, application/pdf',
                 useIcons: true,
                 iconName: 'FaFilePdf',
-                destinationPath: '/documents',
+                destinationPath: 'documents',
+                translationPath: `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.${TRANSLATION_BASE_TECHNICAL_DOCS}`,
               },
             },
           },
@@ -692,7 +701,8 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 accept: '.pdf, application/pdf',
                 useIcons: true,
                 iconName: 'FaFilePdf',
-                destinationPath: '/documents',
+                destinationPath: 'documents',
+                translationPath: `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.${TRANSLATION_BASE_TECHNICAL_DOCS}`,
               },
             },
           },

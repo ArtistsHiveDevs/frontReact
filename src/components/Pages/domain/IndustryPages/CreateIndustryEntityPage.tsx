@@ -1,8 +1,6 @@
 import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
-import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
 import { useSearchSlice } from '~/common/slices/search';
 import { selectSearch, selectSearchLoading } from '~/common/slices/search/selectors';
 import { useUsersSlice } from '~/common/slices/users';
@@ -12,10 +10,7 @@ import { resolveNavigateToEntityPath } from '~/common/utils/hooks/navigation/nav
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import MainSection from '~/components/Pages/HomePage/MainSection/MainSection';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
-import {
-  ComponentTypes,
-  PageSection,
-} from '~/components/shared/organisms/gui/builders/component-types.def';
+import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { SUB_PATHS } from '~/constants';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
@@ -23,24 +18,19 @@ import { PlaceModel } from '~/models/domain/place/place.model';
 import { SearchModel } from '~/models/domain/search/search.model';
 import './CreateIndustryEntityPage.scss';
 
+const TRANSLATION_BASE_INDUSTRY_PAGE = 'app.pages.domain.IndustryPages.CreateIndustryEntityPage';
+
 const CreateIndustryEntityPage = () => {
   const loggedUser = useSelector(selectCurrentUser);
 
-  const [count, setCount] = useState(0);
-  const [showReset, setShowReset] = useState(false);
   const [isIndustryMemberActivated, setIndustryMemberActivated] = useState(false);
   const [selectedEntity, setSelectedEntity] = useState(undefined);
   const [queryText, setQueryText] = useState('');
-  const [availableArtists, updateAvailableArtists] = useState([]);
-  const [availablePlaces, updateAvailablePlaces] = useState([]);
-  const availableArtistsComplete: ArtistModel[] = useSelector(selectorArtists.selectItems);
-  const availablePlacesComplete: PlaceModel[] = useSelector(selectorPlaces.selectItems);
+  const [resetTargetEntityType, setResetTargetEntityType] = useState<string | undefined>(undefined);
 
-  const { actions: artistsActions } = useArtistsSlice();
-  const { actions: placesActions } = usePlacesSlice();
   const { actions: usersActions } = useUsersSlice();
   const dispatch = useDispatch();
-  const { translateGlobalDict } = useI18n();
+  const { translateText, translateGlobalDict } = useI18n();
   const { navigateToInnerPath } = useNavigation();
 
   const queriedSearchList: SearchModel = useSelector(selectSearch);
@@ -54,101 +44,6 @@ const CreateIndustryEntityPage = () => {
     'places',
     // 'promoters'
   ];
-
-  const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = roles.map((role) => {
-    return {
-      name: role,
-      title: translateGlobalDict(`entities.${role}.plural`),
-      sections: [
-        {
-          name: 'main_artists',
-          title: '"',
-          components: [
-            {
-              componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
-              data: {
-                data_source: 'main_artists',
-              },
-              clickHandlerName: 'onNavigateToEntity',
-              formMetaData: { fieldName: 'main_artists' },
-            },
-          ],
-        },
-      ],
-    };
-  });
-
-  // [
-  //   {
-  //     name: 'artists',
-  //     sections: [
-  //       {
-  //         name: 'main_artists',
-  //         components: [
-  //           {
-  //             componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
-  //             data: {
-  //               data_source: 'main_artists',
-  //             },
-  //             clickHandlerName: 'onNavigateToEntity',
-  //             formMetaData: { fieldName: 'main_artists' },
-  //           },
-  //         ],
-  //       },
-  //       {
-  //         name: 'other_artists',
-  //         components: [
-  //           {
-  //             componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
-  //             data: {
-  //               data_source: 'other_artists',
-  //             },
-  //             clickHandlerName: 'onNavigateToEntity',
-  //             formMetaData: { fieldName: 'other_artists' },
-  //           },
-  //         ],
-  //         hidden: (event: any) => {
-  //           console.log(event, event?.other_artists.length === 0);
-  //           return event?.other_artists.length === 0;
-  //         },
-  //       },
-  //     ],
-  //   },
-  // ];
-
-  const handlers = {
-    onSubmit: (data: any, error?: any) => {
-      console.log('#####----------->>>>  !!! ', data);
-    },
-    place_onChange: async (data: any) => {
-      const searchedText = data?.target?.value?.trim().toLowerCase() || '';
-
-      const filteredPlaces = availablePlacesComplete.filter((place) => place.name.toLowerCase().includes(searchedText));
-
-      console.log(searchedText, searchedText.length, filteredPlaces);
-      updateAvailablePlaces(filteredPlaces);
-    },
-    main_artists_onChange: async (data: any) => {
-      const searchedText = data?.target?.value?.trim().toLowerCase() || '';
-
-      const filteredArtists = availableArtistsComplete.filter((artist) =>
-        artist.name.toLowerCase().includes(searchedText)
-      );
-
-      updateAvailableArtists(filteredArtists);
-    },
-  };
-
-  useEffect(() => {
-    if (availableArtistsComplete.length === 0) {
-      dispatch(artistsActions.loadItems({}));
-    }
-    if (availablePlacesComplete.length === 0) {
-      dispatch(placesActions.loadItems({}));
-    }
-
-    setCount(0);
-  }, []);
 
   useEffect(() => {
     if (!!loggedUser && isIndustryMemberActivated) {
@@ -181,7 +76,6 @@ const CreateIndustryEntityPage = () => {
         entityName = 'Event';
         path = EventModel.name;
       }
-      // console.log(entityName);
       dispatch(
         usersActions.updateUser({ id: loggedUser.identifier, newItem: { roles: [{ entityName, entityRoleMap: [] }] } })
       );
@@ -260,105 +154,92 @@ const CreateIndustryEntityPage = () => {
       })
     );
     setQueryText('');
+    setResetTargetEntityType(undefined);
   };
+
   return (
     <>
       <div>
-        <h2
-          onClick={() => {
-            setCount(count + 1);
-            if (count >= 7) {
-              setShowReset(true);
-            }
-          }}
-        >
-          Miembro de la industria
-        </h2>
+        <h2>{translateText(`${TRANSLATION_BASE_INDUSTRY_PAGE}.title`)}</h2>
         <div style={{ margin: '2rem' }}></div>
-        <p>
-          Gracias por tu interés en registrarte como miembro de la industria ya sea como artista, agente, dueño de un
-          venue, sala de ensayo u otra entidad.
-        </p>
-        <p>
-          Nuestro equipo estará analizando tu perfil y se contactará contigo para poder asociar los perfiles a tu
-          cuenta.
-        </p>
+        <p>{translateText(`${TRANSLATION_BASE_INDUSTRY_PAGE}.intro`)}</p>
+        <p>{translateText(`${TRANSLATION_BASE_INDUSTRY_PAGE}.intro_secondary`)}</p>
       </div>
-      {showReset && (
-        <div className="content">
-          <h2 style={{ textAlign: 'center' }}>Find agent</h2>
-          <div>
-            {/* <DynamicTabbedForm
-          tabsInfo={EVENT_DETAIL_SUB_PAGE_CONFIG}
-          handlers={handlers}
-          translationBasePath={'app.global_dictionary.entities'}
-          // entityType={AppUserModel.name}
-          fieldOptions={{}}
-          externalData={{
-            main_artists: { options: availableArtists },
-            place: { options: availablePlaces },
-          }}
-        /> */}
-            <input onChange={(e) => setQueryText(e.target.value)} />{' '}
-            <Button onClick={() => clickOnButton()}>Buscar</Button>
-          </div>
-          {queriedSearchList?.artists?.length && (
-            <MainSection
-              description={'Estos son los artistas relacionados'}
-              listView={queriedSearchList?.artists}
-              params={{ useNewCard: true }}
-              title={
-                'Artistas'
-                // translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)
-              }
-              callbacks={{
-                onClickCard: (data: ArtistModel) => asociar({ entityType: ArtistModel.name, id: data.identifier }),
-              }}
-            />
-          )}
-          {queriedSearchList?.places?.length && (
-            <MainSection
-              description={'Estos son los lugares relacionados'}
-              listView={queriedSearchList?.places}
-              params={{ useNewCard: true }}
-              title={
-                'Lugares'
-                // translateText(`${TRANSLATION_BASE_HOME_PAGE}.artists`)
-              }
-              callbacks={{
-                onClickCard: (data: PlaceModel) => asociar({ entityType: PlaceModel.name, id: data.identifier }),
-              }}
-            />
-          )}
-          <h2 style={{ textAlign: 'center' }}>Create agent</h2>
-          <div>
-            {/* <DynamicTabbedForm
-          tabsInfo={EVENT_DETAIL_SUB_PAGE_CONFIG}
-          handlers={handlers}
-          translationBasePath={'app.global_dictionary.entities'}
-          // entityType={AppUserModel.name}
-          fieldOptions={{}}
-          externalData={{
-            main_artists: { options: availableArtists },
-            place: { options: availablePlaces },
-          }}
-        /> */}
-            {roles.map((role: string, index: number) => {
-              return (
-                <div key={`${role}_${index}`} className="entity" onClick={() => clickOnEntityHandler(role)}>
-                  {' '}
-                  <DynamicIcons iconName="FaPlusCircle" color={'white'} />
-                  {translateGlobalDict(`entities.${role}.plural`)}
-                </div>
-              );
-            })}
-          </div>
-          <div style={{ margin: '5rem' }}></div>
-
-          <Button onClick={() => resetOwnerships('Artist')}>Reiniciar Artists</Button>
-          <Button onClick={() => resetOwnerships('Place')}>Reiniciar Places</Button>
+      <div className="content">
+        <h2 style={{ textAlign: 'center' }}>
+          {translateText(`${TRANSLATION_BASE_INDUSTRY_PAGE}.search_section.title`)}
+        </h2>
+        <div>
+          <input
+            placeholder={translateText(`${TRANSLATION_BASE_INDUSTRY_PAGE}.search_section.input_placeholder`)}
+            onChange={(e) => setQueryText(e.target.value)}
+          />{' '}
+          <Button onClick={() => clickOnButton()} disabled={querySearchLoading}>
+            {translateText(`${TRANSLATION_BASE_INDUSTRY_PAGE}.search_section.search_button`)}
+          </Button>
         </div>
-      )}
+        {queriedSearchList?.artists?.length && (
+          <MainSection
+            description={translateText(`${TRANSLATION_BASE_INDUSTRY_PAGE}.search_section.artists_found`)}
+            listView={queriedSearchList?.artists}
+            params={{ useNewCard: true }}
+            title={translateGlobalDict('entities.artists.plural')}
+            callbacks={{
+              onClickCard: (data: ArtistModel) => asociar({ entityType: ArtistModel.name, id: data.identifier }),
+            }}
+          />
+        )}
+        {queriedSearchList?.places?.length && (
+          <MainSection
+            description={translateText(`${TRANSLATION_BASE_INDUSTRY_PAGE}.search_section.places_found`)}
+            listView={queriedSearchList?.places}
+            params={{ useNewCard: true }}
+            title={translateGlobalDict('entities.places.plural')}
+            callbacks={{
+              onClickCard: (data: PlaceModel) => asociar({ entityType: PlaceModel.name, id: data.identifier }),
+            }}
+          />
+        )}
+        <h2 style={{ textAlign: 'center' }}>
+          {translateText(`${TRANSLATION_BASE_INDUSTRY_PAGE}.create_section.title`)}
+        </h2>
+        <div>
+          {roles.map((role: string, index: number) => {
+            return (
+              <div key={`${role}_${index}`} className="entity" onClick={() => clickOnEntityHandler(role)}>
+                {' '}
+                <DynamicIcons iconName="FaPlusCircle" color={'white'} />
+                {translateGlobalDict(`entities.${role}.plural`)}
+              </div>
+            );
+          })}
+        </div>
+        <div style={{ margin: '5rem' }}></div>
+
+        <Button onClick={() => setResetTargetEntityType('Artist')}>
+          {translateText(`${TRANSLATION_BASE_INDUSTRY_PAGE}.reset_section.remove_artists_button`)}
+        </Button>
+        <Button onClick={() => setResetTargetEntityType('Place')}>
+          {translateText(`${TRANSLATION_BASE_INDUSTRY_PAGE}.reset_section.remove_places_button`)}
+        </Button>
+
+        <AppDialog
+          isOpenDialog={!!resetTargetEntityType}
+          onClose={() => setResetTargetEntityType(undefined)}
+          title={translateText(`${TRANSLATION_BASE_INDUSTRY_PAGE}.reset_section.confirm_title`)}
+          content={translateText(`${TRANSLATION_BASE_INDUSTRY_PAGE}.reset_section.confirm_content`)}
+          actions={[
+            {
+              label: translateText(`${TRANSLATION_BASE_INDUSTRY_PAGE}.reset_section.confirm_action`),
+              handler: () => resetTargetEntityType && resetOwnerships(resetTargetEntityType),
+            },
+            {
+              label: translateText(`${TRANSLATION_BASE_INDUSTRY_PAGE}.reset_section.cancel_action`),
+              handler: () => setResetTargetEntityType(undefined),
+            },
+          ]}
+        />
+      </div>
     </>
   );
 };

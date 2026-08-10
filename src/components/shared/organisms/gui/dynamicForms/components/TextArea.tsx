@@ -13,7 +13,7 @@ export const createTextArea = (params: ComponentGeneratorParams) => {
 
   const { label, fieldName, options = [], config, componentParams = {}, placeholder = '' } = fieldData;
 
-  const { required } = config || {};
+  const required = config?.required === true || config?.required === 'true';
 
   // Usar el valor del formulario en lugar de estado local
   const formValue = watch ? watch(fieldName) : undefined;
@@ -71,7 +71,7 @@ export const createTextArea = (params: ComponentGeneratorParams) => {
     <>
       {label && (
         <FormLabel
-          required={required === true || required === 'true'}
+          required={required}
           error={!!(errors && Object.keys(errors).find((key) => key === fieldName))}
           sx={{ mb: 0.5, display: 'block', color: '#fff' }}
         >

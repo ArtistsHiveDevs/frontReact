@@ -189,7 +189,7 @@ const OpenCallCreatePage = () => {
   };
 
   return (
-    <RequireAuthComponent requiredSession={true}>
+    <RequireAuthComponent resourceEntity={createdItem} requiredSession={true}>
       <div className="open-call-page">
         {!canCreateOpenCall ? (
           <div className="open-call-header">

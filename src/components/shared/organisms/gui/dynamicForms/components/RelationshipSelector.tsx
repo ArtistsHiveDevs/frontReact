@@ -53,7 +53,7 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
     }
   };
 
-  const { required } = config || {};
+  const required = !!config?.required;
 
   const isInSelectableRange = () => {
     let inRange = InRangeValidation.IN_RANGE;
@@ -105,7 +105,7 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
     <>
       <FormControl>
         <FormLabel
-          required={required === true || required === 'true'}
+          required={required}
           error={!!Object.keys(errors || {}).find((key) => key === fieldName)}
         >
           {label}
@@ -158,7 +158,7 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
             isInSelectableRange() !== InRangeValidation.ON_UPPER_LIMIT && (
               <TextField
                 {...params}
-                required={required === true || required === 'true'}
+                required={required}
                 error={!!errors[fieldName]}
                 inputProps={params.inputProps}
                 placeholder="Filter labels"

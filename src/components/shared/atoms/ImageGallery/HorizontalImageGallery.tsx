@@ -1,6 +1,7 @@
 import { Box, Dialog, DialogContent, Grid, IconButton } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
+import { useI18n } from '~/common/utils';
 import { getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
 import { DynamicIcons } from '../../DynamicIcons';
 import { GalleryImageParams } from './ImageGallery';
@@ -14,6 +15,7 @@ interface HorizontalImageGalleryProps {
 export const HorizontalImageGallery: React.FC<HorizontalImageGalleryProps> = (params: HorizontalImageGalleryProps) => {
   const { imagesInfo, data } = params;
   const { placeholder, size = 100 } = data || {};
+  const { translateText } = useI18n();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [profilePicturesURLs, setProfilePicturesURLs] = useState<{ [profileIdentifier: string]: string }>({});
 
@@ -146,8 +148,9 @@ export const HorizontalImageGallery: React.FC<HorizontalImageGalleryProps> = (pa
               </IconButton>
               {selectedIndex !== null && (
                 <p>
-                  ({selectedIndex + 1} / {imagesInfo.length})
-                  {!!imagesInfo[selectedIndex].description && ' - ' && imagesInfo[selectedIndex].description}
+                  {!!imagesInfo[selectedIndex].translationKey && ' - ' && translateText(imagesInfo[selectedIndex].translationKey)}
+                  {!!imagesInfo[selectedIndex].description && !imagesInfo[selectedIndex].translationKey && ' - ' && imagesInfo[selectedIndex].description}
+                  <br />({selectedIndex + 1} / {imagesInfo.length})
                 </p>
               )}
             </DialogContent>

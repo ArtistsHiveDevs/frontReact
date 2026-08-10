@@ -89,7 +89,7 @@ export const ProfilePictureList = (params: ProfilePictureListParams) => {
     <div>
       {isSelectable && isToggleable && (
         <button type="button" onClick={() => updateSelection(areAllSelected ? [] : allIdentifiers)}>
-          {translateGlobalDict(`actions.${areAllSelected ? 'clear_selection' : 'select_all'}`)}
+          {translateGlobalDict(`actions.selection.${areAllSelected ? 'clear_selection' : 'select_all'}`)}
         </button>
       )}
       {entities.map((entityName: string) => {

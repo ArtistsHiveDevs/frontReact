@@ -62,8 +62,10 @@ export const EsMessages = {
           save: 'Guardar',
         },
         report: 'Denunciar',
-        select_all: 'Seleccionar todos',
-        clear_selection: 'Quitar selección',
+        selection: {
+          select_all: 'Seleccionar todos',
+          clear_selection: 'Quitar selección',
+        },
         share: 'Compartir',
         show_more: 'Mostrar más',
         show_less: 'Mostrar menos',

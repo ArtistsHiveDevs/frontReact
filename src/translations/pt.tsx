@@ -69,6 +69,7 @@ export const PtMessages = {
         },
         upload: 'Carregar',
         files_limit_exceded: 'Número máximo de arquivos permitidos excedido',
+        add: 'Adicionar',
       },
       entities: {
         academies: { plural: 'Academias', singular: 'Academia' },
@@ -824,6 +825,12 @@ export const PtMessages = {
               sections: {
                 music_performance: {
                   name: 'Instrumentos',
+                  attributes: {
+                    member_names: 'Nomes',
+                    member_surenames: 'Sobrenomes',
+                    member_role: 'Função',
+                    member_instrument: 'Instrumento',
+                  },
                 },
                 audio_engineering: {
                   name: 'Engenharia de áudio',

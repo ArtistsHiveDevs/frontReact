@@ -69,6 +69,7 @@ export const EnMessages = {
         },
         upload: 'Upload',
         files_limit_exceded: 'Maximum number of allowed files exceeded',
+        add: 'Add',
       },
       entities: {
         academies: { plural: 'Academies', singular: 'Academy' },
@@ -812,6 +813,12 @@ export const EnMessages = {
               sections: {
                 music_performance: {
                   name: 'Instruments',
+                  attributes:{
+                    member_names: 'Names',
+                    member_surenames: 'Surenames',
+                    member_role: 'Role',
+                    member_instrument: 'Instrument',
+                  }
                 },
                 audio_engineering: {
                   name: 'Audio Engineering',

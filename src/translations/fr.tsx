@@ -69,6 +69,7 @@ export const FrMessages = {
         },
         upload: 'Télécharger',
         files_limit_exceded: 'Nombre maximum de fichiers autorisés dépassé',
+        add: 'Ajouter',
       },
       entities: {
         academies: { plural: 'Académies', singular: 'Académie' },
@@ -828,6 +829,12 @@ export const FrMessages = {
               sections: {
                 music_performance: {
                   name: 'Instruments',
+                  attributes: {
+                    member_names: 'Prénoms',
+                    member_surenames: 'Noms de famille',
+                    member_role: 'Rôle',
+                    member_instrument: 'Instrument',
+                  },
                 },
                 audio_engineering: {
                   name: 'Ingénierie audio',

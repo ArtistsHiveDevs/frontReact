@@ -2,6 +2,7 @@ import { Box, Button, IconButton, Paper, Stack } from '@mui/material';
 import { DynamicIcons } from '../DynamicIcons';
 import { FileUploaderOptions } from '../organisms/gui/dynamicForms';
 import './LandingMembers.scss';
+import { I18nPaths, useI18n } from '~/common/utils';
 
 export interface LandingMembersInputType {
   memberList: any;
@@ -11,9 +12,11 @@ export interface LandingMembersInputType {
   handleClickEvent?: Function;
   boxContainerCustomStyles?: any;
   cardMemberCustomStyles?: any;
+  translationPath?: string;
 }
 
 export const LandingMembers = (props: LandingMembersInputType) => {
+  const { translateText } = useI18n();
   const {
     memberList,
     fields,
@@ -22,11 +25,12 @@ export const LandingMembers = (props: LandingMembersInputType) => {
     handleClickEvent,
     boxContainerCustomStyles,
     cardMemberCustomStyles,
+    translationPath,
   } = props;
   return (
     <Box className="box-container" style={boxContainerCustomStyles}>
       {enableAddButton && (
-        <Paper className="card-item" variant="outlined">
+        <Paper className="card-item" variant="outlined" key={`landing_add_button`}>
           <Button
             className="button-add-member"
             component="label"
@@ -37,7 +41,7 @@ export const LandingMembers = (props: LandingMembersInputType) => {
               }
             }}
           >
-            Add
+            {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.add`)}
           </Button>
         </Paper>
       )}
@@ -50,9 +54,10 @@ export const LandingMembers = (props: LandingMembersInputType) => {
             style={cardMemberCustomStyles}
           >
             <Stack spacing={2}>
-              {fields?.map((field: any) => (
-                <div>
-                  <strong>{field.label}:</strong> {member?.[`${field.fieldName}`]}
+              {fields?.map((field: any, index: number) => (
+                <div key={`${field?.fieldName}_${index}`}>
+                  {/* <strong>{field.label}:</strong> {member?.[`${field.fieldName}`]} */}
+                  <strong>{translateText(`${translationPath || ''}.${field.label}`)}:</strong> {member?.[`${field.fieldName}`]}
                 </div>
               ))}
             </Stack>

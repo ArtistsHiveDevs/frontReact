@@ -5,11 +5,13 @@ import { useForm, useFormContext } from 'react-hook-form';
 import { useState } from 'react';
 import { LandingMembers } from '~/components/shared/LandingMembers/LandingMembers';
 import { FileUploaderOptions } from './FileUpload';
+import { useI18n } from '~/common/utils';
 
 export const createMembersList = (params: ComponentGeneratorParams) => {
+  const { translateText } = useI18n();
   const { fieldData, handlers } = params;
   const { componentParams, config, fieldName } = fieldData;
-  const { fields, dialogTitle = '' } = componentParams;
+  const { fields, dialogTitle = '', translationPath, dialogLabelAddMember } = componentParams;
 
   const formMethods = useForm({
     mode: 'onChange', // Validar en cada cambio
@@ -23,6 +25,9 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
   const finalContext = hookContext;
   const { register, formState } = finalContext;
   const { errors } = formState || {};
+  const translatedFieldLabels = fields?.map((field: any) => {
+    return { ...field, label: translateText(`${translationPath}.${field.label}`) };
+  });
 
   config.value = memberList;
 
@@ -41,14 +46,14 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
     setMemberList(data);
   };
 
-  const handleLandingMembersOptionClick = (event:any) => {
-    const {selectedOption, memberToRemove} = event;
+  const handleLandingMembersOptionClick = (event: any) => {
+    const { selectedOption, memberToRemove } = event;
 
     switch (selectedOption) {
       case FileUploaderOptions.addItem:
         setShowAddMember(true);
         break;
-      
+
       case FileUploaderOptions.removeItem:
         handleRemoveItem(memberToRemove);
     }
@@ -62,15 +67,22 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
         memberList={memberList}
         enableAddButton={true}
         enableRemoveButton={true}
+        translationPath={translationPath}
         handleClickEvent={(e: any) => handleLandingMembersOptionClick(e)}
       />
       <AppDialog
         title={dialogTitle}
         content={
-          <DynamicForm fields={fields} handlers={customHandlers} formMethods={formMethods} translationBasePath="" />
+          <DynamicForm
+            fields={translatedFieldLabels}
+            handlers={customHandlers}
+            formMethods={formMethods}
+            translationBasePath={translationPath}
+            submitLabel={dialogLabelAddMember}
+          />
         }
         isOpenDialog={showAddMember}
-        onClose={() => true}
+        onClose={() => setShowAddMember(false)}
         key={`dialog_${fieldData.fieldName}`}
       />
     </>

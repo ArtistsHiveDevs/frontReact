@@ -69,6 +69,7 @@ export const EsMessages = {
         },
         upload: 'Cargar',
         files_limit_exceded: 'Número máximo de archivos permitidos superado',
+        add: 'Añadir',
       },
       entities: {
         academies: { plural: 'Academias', singular: 'Academia' },
@@ -829,6 +830,12 @@ export const EsMessages = {
               sections: {
                 music_performance: {
                   name: 'Instrumentos',
+                  attributes: {
+                    member_names: 'Nombres',
+                    member_surenames: 'Apellidos',
+                    member_role: 'Rol',
+                    member_instrument: 'Instrumento',
+                  },
                 },
                 audio_engineering: {
                   name: 'Ingeniería de sonido',

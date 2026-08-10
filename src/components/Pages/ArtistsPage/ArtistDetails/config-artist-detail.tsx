@@ -298,11 +298,14 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
               fieldName: 'music_performance',
               componentParams: {
                 dialogTitle: 'Agregar miembro',
+                translationPath:
+                  'app.pages.ArtistsPages.ArtistsDetailsPage.subpages.members.sections.music_performance.attributes',
+                dialogLabelAddMember: 'add',
                 fields: [
-                  {type: 'text', fieldName: 'memberNames', label: 'Nombres', config: {required: true}},
-                  {type: 'text', fieldName: 'memberSurebames', label: 'Apellidos', config: {required: true}},
-                  {type: 'text', fieldName: 'memberRole', label: 'Rol', config: {required: true}},
-                  {type: 'text', fieldName: 'memberPlayFor', label: 'Instrumento', config: {required: true}},
+                  {type: 'text', fieldName: 'memberNames', label: 'member_names', config: {required: true}},
+                  {type: 'text', fieldName: 'memberSureNames', label: 'member_surenames', config: {required: true}},
+                  {type: 'text', fieldName: 'memberRole', label: 'member_role', config: {required: true}},
+                  {type: 'text', fieldName: 'memberInstrument', label: 'member_instrument', config: {required: true}},
                 ]
               },
             },
@@ -312,22 +315,6 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
       {
         name: 'audio_engineering',
         components: [
-                    {
-            componentName: ComponentTypes.MEMBERS_LIST,
-            data: { externalData: 'music_performance', placeholder: 'En construcción' },
-            formMetaData: {
-              inputType: 'membersList',
-              fieldName: 'audio_engineering',
-              componentParams: {
-                dialogTitle: 'Agregar miembro',
-                fields: [
-                  {type: 'text', fieldName: 'memberNames', label: 'Nombres', config: {required: true}},
-                  {type: 'text', fieldName: 'memberSurebames', label: 'Apellidos', config: {required: true}},
-                  {type: 'text', fieldName: 'memberRole', label: 'Rol', config: {required: true}},
-                ]
-              },
-            },
-          },
         ],
       },
       {

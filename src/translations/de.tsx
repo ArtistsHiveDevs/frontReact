@@ -69,6 +69,7 @@ export const DeMessages = {
         },
         upload: 'Hochladen',
         files_limit_exceded: 'Maximale Anzahl erlaubter Dateien überschritten',
+        add: 'Hinzufügen',
       },
       entities: {
         academies: { plural: 'Akademien', singular: 'Akademie' },
@@ -826,6 +827,12 @@ export const DeMessages = {
               sections: {
                 music_performance: {
                   name: 'Instrumente',
+                  attributes: {
+                    member_names: 'Vornamen',
+                    member_surenames: 'Nachnamen',
+                    member_role: 'Rolle',
+                    member_instrument: 'Instrument',
+                  },
                 },
                 audio_engineering: {
                   name: 'Tontechnik',

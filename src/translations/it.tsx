@@ -69,6 +69,7 @@ export const ItMessages = {
         },
         upload: 'Carica',
         files_limit_exceded: 'Numero massimo di file consentiti superato',
+        add: 'Aggiungi',
       },
       entities: {
         academies: { plural: 'Accademie', singular: 'Accademia' },
@@ -827,6 +828,12 @@ export const ItMessages = {
               sections: {
                 music_performance: {
                   name: 'Strumenti',
+                  attributes: {
+                    member_names: 'Nomi',
+                    member_surenames: 'Cognomi',
+                    member_role: 'Ruolo',
+                    member_instrument: 'Strumento',
+                  },
                 },
                 audio_engineering: {
                   name: 'Ingegneria audio',

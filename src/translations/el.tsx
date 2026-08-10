@@ -69,6 +69,7 @@ export const ElMessages = {
         },
         upload: 'Μεταφόρτωση',
         files_limit_exceded: 'Υπέρβαση του μέγιστου επιτρεπόμενου αριθμού αρχείων',
+        add: 'Προσθήκη',
       },
       entities: {
         academies: { plural: 'Ακαδημίες', singular: 'Ακαδημία' },
@@ -827,6 +828,12 @@ export const ElMessages = {
               sections: {
                 music_performance: {
                   name: 'Όργανα',
+                  attributes: {
+                    member_names: 'Ονόματα',
+                    member_surenames: 'Επώνυμα',
+                    member_role: 'Ρόλος',
+                    member_instrument: 'Όργανο',
+                  },
                 },
                 audio_engineering: {
                   name: 'Ηχητική Μηχανική',

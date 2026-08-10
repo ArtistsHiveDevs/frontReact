@@ -24,7 +24,7 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
 
   const hookContext = useFormContext();
   const finalContext = hookContext;
-  const { register, formState } = finalContext;
+  const { register, formState, setValue } = finalContext;
   const { errors } = formState || {};
   const translatedFieldLabels = fields?.map((field: any) => {
     return { ...field, label: translateText(`${translationPath}.${field.label}`) };
@@ -34,8 +34,8 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
 
     useEffect(() => {
       if (externalData?.length > 0 && externalData && Array.isArray(externalData) && !prechargedExternalInfo ) {
-        console.log('effect')
         setMemberList(externalData);
+        setValue?.(fieldName, externalData);
         setPrechargedExternalInfo(true);
       }
     }, [externalData]);
@@ -46,6 +46,7 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
       const data = [event];
       const totalValues = [...memberList, ...data];
       setMemberList(totalValues);
+      setValue?.(fieldName, totalValues, { shouldDirty: true });
       setShowAddMember(false);
     },
   };
@@ -53,6 +54,7 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
   const handleRemoveItem = (memberName: string) => {
     const data = memberList?.filter((member) => member?.memberNames !== memberName);
     setMemberList(data);
+    setValue?.(fieldName, data, { shouldDirty: true });
   };
 
   const handleLandingMembersOptionClick = (event: any) => {

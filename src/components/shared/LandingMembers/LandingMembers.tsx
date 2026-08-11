@@ -27,6 +27,13 @@ export const LandingMembers = (props: LandingMembersInputType) => {
     cardMemberCustomStyles,
     translationPath,
   } = props;
+
+  // console.log({fields, memberList})
+
+  const findLabel = (externalFieldName: string) => {
+    return fields?.find((field: any) => field?.fieldName == externalFieldName)?.label;
+  };
+
   return (
     <Box className="box-container" style={boxContainerCustomStyles}>
       {enableAddButton && (
@@ -49,15 +56,15 @@ export const LandingMembers = (props: LandingMembersInputType) => {
         <>
           <Paper
             className="card-item card-member"
-            key={`members_${index}`}
+            key={`container_members_${index}`}
             variant="outlined"
             style={cardMemberCustomStyles}
           >
-            <Stack spacing={2}>
-              {fields?.map((field: any, index: number) => (
-                <div key={`${field?.fieldName}_${index}`}>
+            <Stack key={`member_data_${index}`} spacing={2}>
+              {member?.memberAttributes?.map((field: any, index: number) => (
+                <div key={`${field?.key}_${index}`}>
                   {/* <strong>{field.label}:</strong> {member?.[`${field.fieldName}`]} */}
-                  <strong>{translateText(`${translationPath || ''}.${field.label}`)}:</strong> {member?.[`${field.fieldName}`]}
+                  <strong>{translateText(`${translationPath || ''}.${findLabel(field.key)}`)}:</strong> {field?.value}
                 </div>
               ))}
             </Stack>
@@ -71,7 +78,7 @@ export const LandingMembers = (props: LandingMembersInputType) => {
                   if (handleClickEvent && typeof handleClickEvent === 'function') {
                     handleClickEvent({
                       selectedOption: FileUploaderOptions.removeItem,
-                      memberToRemove: member.memberNames,
+                      memberToRemove: member?.memberIdentifier,
                     });
                   }
                 }}

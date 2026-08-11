@@ -32,27 +32,43 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
 
   config.value = memberList;
 
-    useEffect(() => {
-      if (externalData?.length > 0 && externalData && Array.isArray(externalData) && !prechargedExternalInfo ) {
-        setMemberList(externalData);
-        setValue?.(fieldName, externalData);
-        setPrechargedExternalInfo(true);
-      }
-    }, [externalData]);
+  useEffect(() => {
+    if (externalData?.length > 0 && externalData && Array.isArray(externalData) && !prechargedExternalInfo) {
+      setMemberList(externalData);
+      setValue?.(fieldName, externalData);
+      setPrechargedExternalInfo(true);
+    }
+  }, [externalData]);
+
+  const generateRandomMemberIdentifier = () => {
+    return Math.random().toString(36).slice(2, 11);
+  }
+
+  const mapDynamicFormDataToModel = (customMember: any) => {
+    const formatOriginalMemberData = Object.keys(customMember)?.map((memberAttr: any) => {
+      return { key: memberAttr, value: customMember[`${memberAttr}`] };
+    });
+    return {
+      memberIdentifier: generateRandomMemberIdentifier(),
+      memberAttributes: formatOriginalMemberData
+    }
+  };
 
   const customHandlers = {
     ...handlers,
     onSubmit: (event: any) => {
-      const data = [event];
-      const totalValues = [...memberList, ...data];
+      const data = mapDynamicFormDataToModel(event);
+      const totalValues = ([...memberList, ...[data]]);
+      // const totalValues = restartMemberListWithouthEl([...memberList, ...[event]]);
+      console.log({totalValues});
       setMemberList(totalValues);
-      setValue?.(fieldName, totalValues, { shouldDirty: true });
       setShowAddMember(false);
+      setValue?.(fieldName, totalValues, { shouldDirty: true });
     },
   };
 
-  const handleRemoveItem = (memberName: string) => {
-    const data = memberList?.filter((member) => member?.memberNames !== memberName);
+  const handleRemoveItem = (externalIdentifier: string) => {
+    const data = (memberList?.filter((member) => member?.memberIdentifier !== externalIdentifier));
     setMemberList(data);
     setValue?.(fieldName, data, { shouldDirty: true });
   };

@@ -312,27 +312,27 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
           },
         ],
       },
-      {
-        name: 'audio_engineering',
-        components: [
-        ],
-      },
-      {
-        name: 'visual_arts',
-        components: [],
-      },
-      {
-        name: 'management',
-        components: [],
-      },
-      {
-        name: 'production',
-        components: [],
-      },
-      {
-        name: 'support',
-        components: [],
-      },
+      // {
+      //   name: 'audio_engineering',
+      //   components: [
+      //   ],
+      // },
+      // {
+      //   name: 'visual_arts',
+      //   components: [],
+      // },
+      // {
+      //   name: 'management',
+      //   components: [],
+      // },
+      // {
+      //   name: 'production',
+      //   components: [],
+      // },
+      // {
+      //   name: 'support',
+      //   components: [],
+      // },
     ],
   },
   {

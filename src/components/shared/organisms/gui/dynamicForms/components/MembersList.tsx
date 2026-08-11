@@ -3,7 +3,7 @@ import { ComponentGeneratorParams, DynamicControl } from '../DynamicControl';
 import { DynamicForm } from '../dynamic-form';
 import { useForm, useFormContext } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import { LandingMembers } from '~/components/shared/LandingMembers/LandingMembers';
+import { LandingMembers, MemberHandleClickTemplate, MembersFieldTemplate } from '~/components/shared/LandingMembers/LandingMembers';
 import { FileUploaderOptions } from './FileUpload';
 import { useI18n } from '~/common/utils';
 
@@ -26,7 +26,7 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
   const finalContext = hookContext;
   const { register, formState, setValue } = finalContext;
   const { errors } = formState || {};
-  const translatedFieldLabels = fields?.map((field: any) => {
+  const translatedFieldLabels = fields?.map((field: MembersFieldTemplate) => {
     return { ...field, label: translateText(`${translationPath}.${field.label}`) };
   });
 
@@ -45,7 +45,7 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
   }
 
   const mapDynamicFormDataToModel = (customMember: any) => {
-    const formatOriginalMemberData = Object.keys(customMember)?.map((memberAttr: any) => {
+    const formatOriginalMemberData = Object.keys(customMember)?.map((memberAttr: string) => {
       return { key: memberAttr, value: customMember[`${memberAttr}`] };
     });
     return {
@@ -60,7 +60,6 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
       const data = mapDynamicFormDataToModel(event);
       const totalValues = ([...memberList, ...[data]]);
       // const totalValues = restartMemberListWithouthEl([...memberList, ...[event]]);
-      console.log({totalValues});
       setMemberList(totalValues);
       setShowAddMember(false);
       setValue?.(fieldName, totalValues, { shouldDirty: true });
@@ -73,7 +72,7 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
     setValue?.(fieldName, data, { shouldDirty: true });
   };
 
-  const handleLandingMembersOptionClick = (event: any) => {
+  const handleLandingMembersOptionClick = (event: MemberHandleClickTemplate) => {
     const { selectedOption, memberToRemove } = event;
 
     switch (selectedOption) {
@@ -95,7 +94,7 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
         enableAddButton={true}
         enableRemoveButton={true}
         translationPath={translationPath}
-        handleClickEvent={(e: any) => handleLandingMembersOptionClick(e)}
+        handleClickEvent={(e: MemberHandleClickTemplate) => handleLandingMembersOptionClick(e)}
       />
       <AppDialog
         title={dialogTitle}

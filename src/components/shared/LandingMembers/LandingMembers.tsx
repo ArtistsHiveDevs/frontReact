@@ -5,14 +5,36 @@ import './LandingMembers.scss';
 import { I18nPaths, useI18n } from '~/common/utils';
 
 export interface LandingMembersInputType {
-  memberList: any;
-  fields: any;
+  memberList: MemberListTemplate[] | undefined;
+  fields: MembersFieldTemplate[];
   enableAddButton?: boolean;
   enableRemoveButton?: boolean;
   handleClickEvent?: Function;
-  boxContainerCustomStyles?: any;
-  cardMemberCustomStyles?: any;
+  boxContainerCustomStyles?: React.CSSProperties;
+  cardMemberCustomStyles?: React.CSSProperties;
   translationPath?: string;
+}
+
+export interface MemberListTemplate {
+  memberIdentifier: string;
+  memberAttributes: KeyValueTemplate[];
+}
+
+export interface KeyValueTemplate {
+  key: string;
+  value: string;
+}
+
+export interface MembersFieldTemplate {
+  type: string;
+  fieldName: string;
+  label: string;
+  config?: object;
+}
+
+export interface MemberHandleClickTemplate {
+  selectedOption: FileUploaderOptions;
+  memberToRemove?: string;
 }
 
 export const LandingMembers = (props: LandingMembersInputType) => {
@@ -28,10 +50,8 @@ export const LandingMembers = (props: LandingMembersInputType) => {
     translationPath,
   } = props;
 
-  // console.log({fields, memberList})
-
   const findLabel = (externalFieldName: string) => {
-    return fields?.find((field: any) => field?.fieldName == externalFieldName)?.label;
+    return fields?.find((field: MembersFieldTemplate) => field?.fieldName == externalFieldName)?.label;
   };
 
   return (
@@ -52,7 +72,7 @@ export const LandingMembers = (props: LandingMembersInputType) => {
           </Button>
         </Paper>
       )}
-      {memberList?.map((member: any, index: number) => (
+      {memberList?.map((member: MemberListTemplate, index: number) => (
         <>
           <Paper
             className="card-item card-member"
@@ -61,7 +81,7 @@ export const LandingMembers = (props: LandingMembersInputType) => {
             style={cardMemberCustomStyles}
           >
             <Stack key={`member_data_${index}`} spacing={2}>
-              {member?.memberAttributes?.map((field: any, index: number) => (
+              {member?.memberAttributes?.map((field: KeyValueTemplate, index: number) => (
                 <div key={`${field?.key}_${index}`}>
                   {/* <strong>{field.label}:</strong> {member?.[`${field.fieldName}`]} */}
                   <strong>{translateText(`${translationPath || ''}.${findLabel(field.key)}`)}:</strong> {field?.value}

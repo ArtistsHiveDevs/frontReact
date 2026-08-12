@@ -226,6 +226,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   name: 'mobile_phone',
                   requireSession: true,
                   formMetaData: {
+                    inputType: 'phonePrefix',
                     config: {
                       required: false,
                     },
@@ -233,6 +234,9 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 },
                 {
                   name: 'whatsapp',
+                  formMetaData: {
+                    inputType: 'phonePrefix',
+                  },
                 },
               ],
             },

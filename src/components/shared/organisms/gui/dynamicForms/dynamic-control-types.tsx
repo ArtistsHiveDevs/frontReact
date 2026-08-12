@@ -9,6 +9,7 @@ export type ControlType =
   | 'password'
   | 'textarea'
   | 'tel'
+  | 'phonePrefix'
   | 'checkbox'
   | 'radio'
   | 'switch'

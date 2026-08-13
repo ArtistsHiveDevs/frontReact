@@ -8,7 +8,7 @@ import { selectorLocationEntities } from '~/common/slices/parametrics/geo/locati
 import { useI18n } from '~/common/utils';
 import { uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
-import { DEFAULT_COUNTRY_STRUCTURE, getCountryStructure } from '~/common/utils/location-structure.utils';
+import { buildLocationPayload, stripLocationSelectorFields } from '~/common/utils/location-payload.utils';
 import { GenericCrudErrorCode, RepoErrorPayload, RootState } from '~/common/utils/redux-injectors/types';
 import { USERNAME_FORMAT_PATTERN, debouncedUsernameValidation } from '~/common/utils/validation/username-validation';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
@@ -73,6 +73,13 @@ const PlacesCreatePage = () => {
     }
   }, [createdItem, requestHasBeenSended]);
 
+  // Tras un update exitoso se navega al detalle del Place.
+  useEffect(() => {
+    if (requestHasBeenSended && !loading && currentPlace && !submitError) {
+      navigateToEntity({ entityType: PlaceModel.name, id: currentPlace.identifier });
+    }
+  }, [loading]);
+
   // Rehabilita el submit al terminar, sino un create fallido queda bloqueado sin poder reintentar.
   useEffect(() => {
     if (requestHasBeenSended && !loading) {
@@ -112,10 +119,10 @@ const PlacesCreatePage = () => {
       dispatch(languageActions.loadItems({}));
     }
     updateAvailableGenres([
-      { label: 'Cumbia', value: 'genre1' },
-      { label: 'Reggaetón', value: 'genre2' },
-      { label: 'Rock', value: 'genre3', selected: true },
-      { label: 'Jazz', value: 'genr4' },
+      { label: 'Cumbia', value: 'Cumbia' },
+      { label: 'Reggaetón', value: 'Reggaetón' },
+      { label: 'Rock', value: 'Rock' },
+      { label: 'Jazz', value: 'Jazz' },
     ]);
   }, []);
 
@@ -123,32 +130,6 @@ const PlacesCreatePage = () => {
   // así que se agrupan todos bajo 'music' (pendiente definir categorías si se agregan géneros no musicales).
   const buildGenresPayload = (selectedGenres: string[]) => {
     return selectedGenres && selectedGenres.length > 0 ? { music: selectedGenres } : undefined;
-  };
-
-  // CitySelector no produce 'city'/'country' directamente: guarda el id del país en
-  // '<prefijo>_country' y el id de la entidad geográfica seleccionada en '<prefijo>_level{N}' por
-  // cada nivel de la jerarquía del país. Place.schema.js espera country: ObjectId (ref Country) y
-  // city: String plano, así que acá se resuelve el nivel cuyo `name` es 'city' (según la estructura
-  // del país, con el mismo fallback que usa CitySelector) y se toma el nombre de esa entidad,
-  // no su id.
-  const buildLocationPayload = (data: any) => {
-    const countryId = data[`${CITY_COUNTRY_FIELD_PREFIX}_country`];
-    const selectedCountry = availableCountries.find((country) => country.identifier === countryId);
-    const countryStructure = selectedCountry ? getCountryStructure(selectedCountry) : DEFAULT_COUNTRY_STRUCTURE;
-    const cityLevel = countryStructure.levels.find((level) => level.name === 'city')?.level;
-    const cityEntityId = cityLevel ? data[`${CITY_COUNTRY_FIELD_PREFIX}_level${cityLevel}`] : undefined;
-    const cityEntity = cityEntityId
-      ? allLocationEntities.find((entity) => entity.id === cityEntityId && entity.level === cityLevel)
-      : undefined;
-
-    return { country: countryId, city: cityEntity?.name };
-  };
-
-  // El payload real de Place no tiene estas claves sueltas (son un detalle interno del control de UI).
-  const stripCityWithCountryFields = (payload: Record<string, any>) => {
-    return Object.fromEntries(
-      Object.entries(payload).filter(([key]) => !key.startsWith(`${CITY_COUNTRY_FIELD_PREFIX}_`))
-    );
   };
 
   // ProfileHeader arranca con el campo Nombre colapsado y sin registrar en RHF, lo que permite enviar
@@ -182,34 +163,30 @@ const PlacesCreatePage = () => {
   const handlers = {
     onSubmit: async (data: any, error?: any) => {
       if (!requestHasBeenSended) {
-        // setHasAttemptedSubmit(true);
-        // // El cast a `any` preserva el tipado laxo que ya tenía este payload (createItem/updateItem
-        // // no reciben un Place completo en creación, sino un subconjunto parcial de campos del form).
-        // const normalizedData: any = {
-        //   ...(stripCityWithCountryFields(data) as any),
-        //   genres: buildGenresPayload(data.genres),
-        //   ...buildLocationPayload(data),
-        // };
+        setHasAttemptedSubmit(true);
+        // El cast a `any` preserva el tipado laxo que ya tenía este payload.
+        const normalizedData: any = {
+          ...(stripLocationSelectorFields(data, CITY_COUNTRY_FIELD_PREFIX) as any),
+          genres: buildGenresPayload(data.genres),
+          ...buildLocationPayload(data, CITY_COUNTRY_FIELD_PREFIX, availableCountries, allLocationEntities),
+        };
 
-        // // No hacer request si no hay datos que actualizar (solo aplica a edición)
-        // if (currentPlace && Object.keys(normalizedData).length === 0) {
-        //   return;
-        // }
+        // No hacer request si no hay datos que actualizar (solo aplica a edición)
+        if (currentPlace && Object.keys(normalizedData).length === 0) {
+          return;
+        }
 
         if (!currentPlace) {
-          const response = await uploadFileToServer({ file: data.profile_pic });
+          await uploadFileToServer({ file: data.profile_pic });
 
-          // dispatch(placesActions.createItem({ data: normalizedData }));
+          dispatch(placesActions.createItem({ data: normalizedData }));
         } else {
-          // const newInfo = {
-          //   id: currentPlace.identifier,
-          //   // newItem: {
-          //   //   ...normalizedData,
-          //   // },
-          //   // newItem: { spotify: 'InstagramActualizado' },
-          // };
-          // console.log('ACTALIZANDO.... ', newInfo);
-          // dispatch(placesActions.updateItem(newInfo));
+          const newInfo = {
+            id: currentPlace.identifier,
+            newItem: normalizedData,
+          };
+
+          dispatch(placesActions.updateItem(newInfo));
         }
       }
       setRequestHasBeenSended(true);

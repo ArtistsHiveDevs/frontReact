@@ -122,6 +122,27 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
       }
     }
 
+    const elementCountry = elementData.country;
+    const countryIdentifier =
+      typeof elementCountry === 'string' ? elementCountry : elementCountry?.identifier ?? elementCountry?.id;
+
+    if (countryIdentifier) {
+      const asText = (value: any) => (typeof value === 'string' && value.trim() ? value.trim() : undefined);
+      const defaultValueObj: any = { country: countryIdentifier };
+
+      const level1Text = asText(elementData.state) ?? asText(elementData.district);
+      if (level1Text) {
+        defaultValueObj.level1Text = level1Text;
+      }
+
+      const level2Text = asText(elementData.city) ?? asText(elementData.home_city);
+      if (level2Text) {
+        defaultValueObj.level2Text = level2Text;
+      }
+
+      return defaultValueObj;
+    }
+
     return initialDefaultValue;
   }, [initialDefaultValue, externalData?.elementData, fieldData?.fieldName]);
 
@@ -338,7 +359,8 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
       if (autoSelectDoneRef.current[lvl.level]) continue;
 
       const defaultLevelValue = defaultValue[`level${lvl.level}`];
-      if (!defaultLevelValue) {
+      const defaultLevelText = defaultValue[`level${lvl.level}Text`];
+      if (!defaultLevelValue && !defaultLevelText) {
         // No hay valor por defecto para este nivel, marcar como completo
         autoSelectDoneRef.current[lvl.level] = true;
         continue;
@@ -350,12 +372,20 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
         return;
       }
 
-      // Buscar la entidad en las entidades cargadas
-      const entity = allLocationEntities.find((e) => e.id === defaultLevelValue);
+      const parentId = lvl.level === 1 ? selectedCountry.identifier : parent?.id;
+
+      // Busca por id si lo tenemos, si no por nombre (Artist/Place guardan state/city como texto libre).
+      const entity = defaultLevelValue
+        ? allLocationEntities.find((e) => e.id === defaultLevelValue)
+        : allLocationEntities.find(
+            (e) =>
+              e.level === lvl.level &&
+              (lvl.level === 1 ? e.countryId === parentId : e.parentId === parentId) &&
+              e.name?.trim().toLowerCase() === defaultLevelText?.trim().toLowerCase()
+          );
 
       // Si la entidad no está cargada, cargar entidades para este nivel
       if (!entity && parent) {
-        const parentId = lvl.level === 1 ? selectedCountry.identifier : parent.id;
         const cacheKey = `${lvl.level}-${parentId}`;
 
         // Verificar si ya tenemos entidades para este nivel+parent cargadas
@@ -376,7 +406,11 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
       }
 
       if (!entity) {
-        console.warn(`[${fieldData?.fieldName}] Entity not found for level ${lvl.level} with id ${defaultLevelValue}`);
+        console.warn(
+          `[${fieldData?.fieldName}] Entity not found for level ${lvl.level} with ${
+            defaultLevelValue ? `id ${defaultLevelValue}` : `name "${defaultLevelText}"`
+          }`
+        );
         autoSelectDoneRef.current[lvl.level] = true;
         continue;
       }
@@ -391,7 +425,7 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
 
           // Cargar entidades del siguiente nivel si existe
           const nextLevel = relevantLevels.find((l) => l.level > lvl.level);
-          if (nextLevel && defaultValue[`level${nextLevel.level}`]) {
+          if (nextLevel && (defaultValue[`level${nextLevel.level}`] || defaultValue[`level${nextLevel.level}Text`])) {
             const cacheKey = `${nextLevel.level}-${entity.id}`;
             if (!entitiesLoadedRef.current[cacheKey]) {
               entitiesLoadedRef.current[cacheKey] = true;
@@ -407,7 +441,9 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
     }
 
     const allLevelsInitialized = relevantLevels.every(
-      (lvl) => autoSelectDoneRef.current[lvl.level] || !defaultValue[`level${lvl.level}`]
+      (lvl) =>
+        autoSelectDoneRef.current[lvl.level] ||
+        (!defaultValue[`level${lvl.level}`] && !defaultValue[`level${lvl.level}Text`])
     );
     if (allLevelsInitialized) {
       isInitializingRef.current = false;
@@ -473,7 +509,7 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
               .filter((l) => l.level >= level)
               .forEach((l) => {
                 newSelections[l.level] = null;
-                setValue(`${fieldData?.fieldName}_level${l.level}`, null);
+                setValue(`${fieldData?.fieldName}_level${l.level}`, null, { shouldDirty: true });
               });
             setSelections(newSelections);
             return;
@@ -489,11 +525,11 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
               .filter((l) => l.level > level)
               .forEach((l) => {
                 newSelections[l.level] = null;
-                setValue(`${fieldData?.fieldName}_level${l.level}`, null);
+                setValue(`${fieldData?.fieldName}_level${l.level}`, null, { shouldDirty: true });
               });
 
             setSelections(newSelections);
-            setValue(levelFieldName, entity.id);
+            setValue(levelFieldName, entity.id, { shouldDirty: true });
 
             const nextLevel = relevantLevels.find((l) => l.level > level);
             if (nextLevel && selectedCountry) {
@@ -527,7 +563,9 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
         if (!data?.value) {
           setSelectedCountry(null);
           setSelections({});
-          relevantLevels.forEach((lvl) => setValue(`${fieldData?.fieldName}_level${lvl.level}`, null));
+          relevantLevels.forEach((lvl) =>
+            setValue(`${fieldData?.fieldName}_level${lvl.level}`, null, { shouldDirty: true })
+          );
           return;
         }
 
@@ -539,7 +577,9 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
 
           setSelectedCountry(selectedCountryModel);
           setSelections({});
-          relevantLevels.forEach((lvl) => setValue(`${fieldData?.fieldName}_level${lvl.level}`, null));
+          relevantLevels.forEach((lvl) =>
+            setValue(`${fieldData?.fieldName}_level${lvl.level}`, null, { shouldDirty: true })
+          );
 
           const cacheKey = `1-${selectedCountryModel.identifier}`;
           entitiesLoadedRef.current[cacheKey] = true;

@@ -194,6 +194,9 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 },
                 {
                   name: 'phone_number',
+                  formMetaData: {
+                    inputType: 'phonePrefix',
+                  },
                 },
               ],
             },

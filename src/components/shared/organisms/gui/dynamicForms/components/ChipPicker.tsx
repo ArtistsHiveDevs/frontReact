@@ -1,5 +1,5 @@
 import { Backdrop, Box, Chip, Fade, FormLabel, Modal, Stack } from '@mui/material';
-import { isValidElement, ReactElement, ReactNode, useEffect, useState } from 'react';
+import { isValidElement, ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useI18n } from '~/common/utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
@@ -44,14 +44,21 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
 
   const hookContext = useFormContext();
   const finalContext = params.formContext || hookContext;
-  const { register, formState } = finalContext;
+  const { register, formState, setValue } = finalContext;
   const { errors } = formState || {};
 
   const [selectedGroupByTerms, updateGroupByTerms] = useState([]);
   const [selectedOptions, updateSelectedOptions] = useState([]);
   const [displayAllOptions, setDisplayAllOptions] = useState(false);
 
+  // Sembramos la selección inicial una sola vez, porque `options` cambia de referencia en cada render y resetearía los clicks del usuario.
+  const hasSeededSelectionRef = useRef(false);
   useEffect(() => {
+    if (hasSeededSelectionRef.current || !options?.length) {
+      return;
+    }
+    hasSeededSelectionRef.current = true;
+
     const defaultSelectedOptions = (options || []).filter((option) => option.selected).map((option) => option.value);
 
     updateSelectedOptions(defaultSelectedOptions);
@@ -71,6 +78,7 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
     updateSelectedOptions(newSelection);
     config.value = newSelection || [];
     register(fieldName, config);
+    setValue?.(fieldName, newSelection, { shouldDirty: true, shouldValidate: true });
   };
 
   const renderedOptions = options

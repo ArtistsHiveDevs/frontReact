@@ -226,7 +226,7 @@ export const createPhonePrefixField = (params: ComponentGeneratorParams) => {
           value={localNumber}
           error={!!(errors && errors[fieldName])}
           helperText={errors && errors[fieldName]?.message?.toString()}
-          onChange={(event) => handleLocalNumberChange(event.target.value)}
+          onChange={(event) => handleLocalNumberChange(event.target.value.replace(/\D/g, ''))}
           onFocus={closePrefixList}
           focused={focused}
           variant="outlined"

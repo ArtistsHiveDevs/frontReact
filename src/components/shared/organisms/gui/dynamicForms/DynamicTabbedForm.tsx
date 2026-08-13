@@ -184,6 +184,9 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
     if (componentDescriptor.componentName === ComponentTypes.ATTRIBUTES_ICON_FIELDS) {
       (componentDescriptor.data?.attributes || [])
         .filter((attributeInfo: AttributeConfiguration) => isVisible(attributeInfo.formMetaData, entityData))
+        // Los atributos con `components` anidados (ej. SOCIAL_NETWORK_WIDGET) son de solo lectura;
+        // generarles también un TextField editable duplicaría el registro RHF del mismo fieldName.
+        .filter((attributeInfo: AttributeConfiguration) => !attributeInfo.components?.length)
         .forEach((attributeInfo: AttributeConfiguration, index: number) => {
           const { formMetaData } = attributeInfo;
 
@@ -259,6 +262,11 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
       addComponentField = true;
     } else if (componentDescriptor.componentName === ComponentTypes.ARTS_GENRES) {
       componentFieldData.inputType = 'chipPicker';
+      const savedGenreValues = Object.values(entityData?.genres || {}).flat();
+      componentFieldData.options = (componentFieldData.options || []).map((option: any) => ({
+        ...option,
+        selected: savedGenreValues.includes(option.value),
+      }));
       addComponentField = true;
     } else if (
       [ComponentTypes.IMAGE_GALLERY, ComponentTypes.HORIZONTAL_IMAGE_GALLERY].includes(

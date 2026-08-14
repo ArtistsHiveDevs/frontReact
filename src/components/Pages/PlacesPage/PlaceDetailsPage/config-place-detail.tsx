@@ -203,12 +203,24 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 },
                 {
                   name: 'phone',
+                  formMetaData: {
+                    inputType: 'tel',
+                    componentParams: {
+                      numericOnly: true,
+                    },
+                  },
                 },
                 {
                   name: 'mobile_phone',
+                  formMetaData: {
+                    inputType: 'phonePrefix',
+                  },
                 },
                 {
                   name: 'whatsapp',
+                  formMetaData: {
+                    inputType: 'phonePrefix',
+                  },
                 },
               ],
             },

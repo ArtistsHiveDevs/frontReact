@@ -37,6 +37,8 @@ export const EnMessages = {
           forgot_password: 'Forgot Password',
           login: 'Login',
           password: 'Password',
+          phone_number: 'Phone Number',
+          phone_number_placeholder: '1234567890',
           remember_me: 'Remember me',
           signup: 'Sign up',
           username_or_email: 'Username or Email',
@@ -62,6 +64,10 @@ export const EnMessages = {
           save: 'Save',
         },
         report: 'Report',
+        selection: {
+          select_all: 'Select all',
+          clear_selection: 'Clear selection',
+        },
         share: 'Share',
         show_more: 'Show more',
         show_less: 'Show less',
@@ -97,6 +103,7 @@ export const EnMessages = {
       errors: {
         // Data error
         NOT_AVAILABLE: 'Not available',
+        NO_RESULTS: 'No results',
 
         // Authentication and Authorization Errors
         AUTH_INVALID_CREDENTIALS: 'Invalid credentials',
@@ -299,6 +306,9 @@ export const EnMessages = {
         state: 'State',
         town: 'Town',
         village: 'Village',
+      },
+      location_info: {
+        search_country_or_code: 'Search country or code...',
       },
       social_networks_analytics: {
         metrics: {
@@ -1455,7 +1465,7 @@ export const EnMessages = {
           INAPPROPRIATE_CONTENT: 'Inappropriate content',
           OTHER: 'Other',
         },
-        description_label: 'Description (optional)',
+        description_label: 'Description',
         description_placeholder: 'Tell us more details about this report',
         submit_button: 'Send report',
         success_message: 'Your report has been sent. Thank you for helping us keep the platform safe.',

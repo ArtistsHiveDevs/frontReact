@@ -37,6 +37,8 @@ export const PtMessages = {
           forgot_password: 'Esqueci minha senha',
           login: 'Entrar',
           password: 'Senha',
+          phone_number: 'Número de telefone',
+          phone_number_placeholder: '1234567890',
           remember_me: 'Lembrar-me',
           signup: 'Registrar-se',
           username_or_email: 'Nome de usuário ou e-mail',
@@ -62,6 +64,10 @@ export const PtMessages = {
           save: 'Salvar',
         },
         report: 'Reportar',
+        selection: {
+          select_all: 'Selecionar todos',
+          clear_selection: 'Limpar seleção',
+        },
         share: 'Partilhar',
         show_more: 'Mostrar mais',
         show_less: 'Mostrar menos',
@@ -97,6 +103,7 @@ export const PtMessages = {
       errors: {
         // Data error
         NOT_AVAILABLE: 'Não disponível',
+        NO_RESULTS: 'Sem resultados',
 
         // Errores de Autenticación y Autorización
         AUTH_INVALID_CREDENTIALS: 'Credenciais inválidas',
@@ -299,6 +306,9 @@ export const PtMessages = {
         state: 'Estado',
         town: 'Cidade',
         village: 'Vila',
+      },
+      location_info: {
+        search_country_or_code: 'Buscar país ou código...',
       },
       social_networks_analytics: {
         metrics: {
@@ -981,7 +991,7 @@ export const PtMessages = {
                   },
                 },
                 live_gallery: {
-                  name: 'Galeria ao vivo'
+                  name: 'Galeria ao vivo',
                 },
                 general: {
                   name: 'Informações gerais',
@@ -1113,19 +1123,11 @@ export const PtMessages = {
               sections: {
                 technical_docs: {
                   name: 'Documentos Técnicos',
-                  docs:{
-                    technical_epk: "EPK",
-                    technical_rider: "Rider Técnico",
-                    stage_plot: "Planta do Palco",
-                  }
-                },
-              },
-            },
-            riders: {
-              name: 'Riders',
-              sections: {
-                riders_data: {
-                  name: 'Riders',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Rider Técnico',
+                    stage_plot: 'Planta do Palco',
+                  },
                 },
               },
             },
@@ -1465,7 +1467,7 @@ export const PtMessages = {
           INAPPROPRIATE_CONTENT: 'Conteúdo inadequado',
           OTHER: 'Outro',
         },
-        description_label: 'Descrição (opcional)',
+        description_label: 'Descrição',
         description_placeholder: 'Conte-nos mais detalhes sobre esta denúncia',
         submit_button: 'Enviar denúncia',
         success_message: 'Sua denúncia foi enviada. Obrigado por nos ajudar a manter a plataforma segura.',

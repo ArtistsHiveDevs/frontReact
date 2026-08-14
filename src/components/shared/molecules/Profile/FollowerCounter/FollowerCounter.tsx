@@ -15,30 +15,31 @@ export const FollowerCounter = (props: any) => {
 
   return (
     element && (
-      <div className="followers-box">
+      <div className="follower-counter">
         {showBackArrow && (
           <div
-            style={{ alignSelf: 'center', marginRight: '0.5rem' }}
+            className="follower-counter__back-arrow"
             onClick={() => parentHandlers?.['onClickBackButtonFollowers']?.()}
           >
             <DynamicIcons iconName="FaChevronLeft" color={'white'} size={20} />
           </div>
         )}
         {fields.map((field, index) => {
-          const classNames = [];
+          const classNames = ['follower-counter__item'];
           if (selected === field.name) {
-            classNames.push('active-tab-title');
+            classNames.push('follower-counter__item--active');
           }
 
           return (
             field.show && (
               <div
                 key={`follower-counter-tab-${index}`}
+                className={classNames.join(' ')}
                 onClick={() => parentHandlers?.['onClickSeeFollowers']?.(field.name)}
               >
-                <span className="follow-number">{element?.[`${field.name}_count`] || 0}</span>
+                <span className="follower-counter__number">{element?.[`${field.name}_count`] || 0}</span>
                 <br />
-                <span className={classNames.join(' ')}>{translateGlobalDict(field.label)}</span>
+                <span className="follower-counter__label">{translateGlobalDict(field.label)}</span>
               </div>
             )
           );

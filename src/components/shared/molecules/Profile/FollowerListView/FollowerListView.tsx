@@ -1,10 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useI18n } from '~/common/utils';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
+import {
+  ProfilePictureList,
+  ProfilePictureListConstants,
+} from '~/components/shared/atoms/gui/ProfilePictureList/ProfilePictureList';
+import { AppUserModel, CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { FollowerProfileTemplate } from '~/models/base';
+import { getClassFromModelName } from '~/models/base/modelHelpers';
+import { ArtistModel } from '~/models/domain/artist/artist.model';
+import { PlaceModel } from '~/models/domain/place/place.model';
 import { FollowerCounter } from '../FollowerCounter/FollowerCounter';
-import { ProfileThumbnailCard } from '../ProfileThumbnailCard';
 import './FollowerListView.scss';
+
+const LISTED_ENTITIES = [ArtistModel.name, PlaceModel.name, AppUserModel.name];
 
 export const FollowerListView = (props: any) => {
   let { element, handlers: parentHandlers, showSpecificFollowerType } = props;
@@ -27,6 +36,19 @@ export const FollowerListView = (props: any) => {
     setFollowersList(element?.[currentShownList] || []);
   }, [element, currentShownList]);
 
+  // Los followers llegan con `entityType` ('Artist'), pero ProfilePictureList agrupa
+  // por `entity`, que es el nombre de la clase del modelo ('ArtistModel').
+  const profiles = useMemo(
+    () =>
+      (followersList || [])
+        .map((follower: FollowerProfileTemplate) => {
+          const modelName = getClassFromModelName(follower?.entityType)?.name;
+          return modelName ? new CurrentProfileInfoModel({ ...follower, entity: modelName } as any) : undefined;
+        })
+        .filter(Boolean),
+    [followersList]
+  );
+
   return (
     <div className="follower-list-view">
       <FollowerCounter
@@ -38,18 +60,14 @@ export const FollowerListView = (props: any) => {
       />
 
       <div className="followers-list">
-        {followersList.map((follower: FollowerProfileTemplate, index: number) => (
-          <ProfileThumbnailCard
-            key={`follower-${currentShownList}-${index}`}
-            elementData={follower}
-            avatarSize="3rem"
-            callbacks={{
-              onClickCard: (elementData: any) => {
-                parentHandlers?.['onClickOnFollower']?.(elementData);
-              },
-            }}
-          />
-        ))}
+        <ProfilePictureList
+          key={currentShownList}
+          entities={LISTED_ENTITIES}
+          elements={profiles}
+          styles={{ avatarSize: 4 }}
+          displayDirection={ProfilePictureListConstants.DISPLAY_VERTICAL}
+          onProfileClick={(profile) => parentHandlers?.['onClickOnFollower']?.(profile)}
+        />
         {!followersList.length && !!loggedUser && (
           <div className="followers-error">
             {currentShownList === 'followed_by' && translateGlobalDict('follows.errors.NO_FOLLOWERS')}
@@ -61,17 +79,6 @@ export const FollowerListView = (props: any) => {
           <div className="followers-error">{translateGlobalDict('errors.AUTH_LOGIN_REQUIRED')}</div>
         )}
       </div>
-      {/* <ProfileThumbnailCard
-                      key={`full-${selectedValue.name}-${selectedValue.id}`}
-                      elementData={selectedValue}
-                      footer={() => (
-                        <div style={{ textAlign: 'right' }}>
-                          <div onClick={() => deletedSelectedValue(selectedValue)}>
-                            <DynamicIcons iconName="MdDeleteOutline" size={'1.4rem'} />
-                          </div>
-                        </div>
-                      )}
-                    /> */}
     </div>
   );
 };

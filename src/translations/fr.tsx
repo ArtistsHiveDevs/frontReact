@@ -37,6 +37,8 @@ export const FrMessages = {
           forgot_password: 'Mot de passe oublié',
           login: 'Connexion',
           password: 'Mot de passe',
+          phone_number: 'Numéro de téléphone',
+          phone_number_placeholder: '1234567890',
           remember_me: 'Se souvenir de moi',
           signup: "S'inscrire",
           username_or_email: "Nom d'utilisateur ou email",
@@ -62,6 +64,10 @@ export const FrMessages = {
           save: 'Enregistrer',
         },
         report: 'Signaler',
+        selection: {
+          select_all: 'Tout sélectionner',
+          clear_selection: 'Effacer la sélection',
+        },
         share: 'Partager',
         show_more: 'Afficher plus',
         show_less: 'Afficher moins',
@@ -97,6 +103,7 @@ export const FrMessages = {
       errors: {
         // Data error
         NOT_AVAILABLE: 'Non disponible',
+        NO_RESULTS: 'Aucun résultat',
 
         // Errores de Autenticación y Autorización
         AUTH_INVALID_CREDENTIALS: 'Identifiants invalides',
@@ -299,6 +306,9 @@ export const FrMessages = {
         state: 'État',
         town: 'Ville',
         village: 'Village',
+      },
+      location_info: {
+        search_country_or_code: 'Rechercher un pays ou un code...',
       },
       social_networks_analytics: {
         metrics: {
@@ -986,7 +996,7 @@ export const FrMessages = {
                   },
                 },
                 live_gallery: {
-                  name: 'Galerie live'
+                  name: 'Galerie live',
                 },
                 general: {
                   name: 'Info Générale',
@@ -1118,19 +1128,11 @@ export const FrMessages = {
               sections: {
                 technical_docs: {
                   name: 'Documents Techniques',
-                  docs:{
-                    technical_epk: "EPK",
-                    technical_rider: "Fiche Technique",
-                    stage_plot: "Plan de Scène",
-                  }
-                },
-              },
-            },
-            riders: {
-              name: 'Riders',
-              sections: {
-                riders_data: {
-                  name: 'Riders',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Fiche Technique',
+                    stage_plot: 'Plan de Scène',
+                  },
                 },
               },
             },
@@ -1471,7 +1473,7 @@ export const FrMessages = {
           INAPPROPRIATE_CONTENT: 'Contenu inapproprié',
           OTHER: 'Autre',
         },
-        description_label: 'Description (facultatif)',
+        description_label: 'Description',
         description_placeholder: 'Donnez-nous plus de détails sur ce signalement',
         submit_button: 'Envoyer le signalement',
         success_message: 'Votre signalement a été envoyé. Merci de nous aider à garder la plateforme sûre.',

@@ -4,6 +4,8 @@ import { styled } from '@mui/material/styles';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useI18n } from '~/common/utils';
+import { getFilesUrls } from '~/common/utils/amplify/storage/storage.helpers';
+import { DBFileDataItem } from '~/common/utils/amplify/storage/storage.types';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { ComponentGeneratorParams } from '../DynamicControl';
 import { getFilesUrls } from '~/common/utils/amplify/storage/storage.helpers';
@@ -25,9 +27,8 @@ export interface FileUploadHandleEvent {
 
 export interface FileUploadCustomFile extends File {
   customUrl?: string;
-  path?:string;
+  path?: string;
 }
-
 
 export const createFileUpload = (params: ComponentGeneratorParams) => {
   const { translateText } = useI18n();
@@ -53,7 +54,16 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
 
   const { label, fieldName, options = [], config, componentParams, externalData } = fieldData || {};
 
-  const { multipleFiles, accept, useIcons, iconName, destinationPath = '', filesLimit = 1 } = componentParams || {};
+  const {
+    multipleFiles,
+    accept,
+    useIcons,
+    iconName,
+    destinationPath = '',
+    filesLimit = 1,
+    translationPath,
+    fieldTranslationName,
+  } = componentParams || {};
 
   const [selectedFiles, setSelectedFiles] = useState([]);
 
@@ -170,6 +180,10 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
 
   return (
     <>
+      {translationPath && fieldName && (
+        <h3>{translateText(`${translationPath}.${fieldTranslationName || fieldName}`)}</h3>
+      )}
+
       <Box
         sx={{
           display: 'flex',
@@ -272,7 +286,7 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
                   }}
                   onClick={() => handleRemoveItem(index)}
                 />
-                <span>{substringTextFormat(file?.name , subtitleCardLimits)}</span>
+                <span>{substringTextFormat(file?.name, subtitleCardLimits)}</span>
               </div>
             ) : (
               <img

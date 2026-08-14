@@ -16,10 +16,10 @@ export const createCalendarSimpleLayoutComponent = (params: ComponentBuilderPara
 
   return (
     <CalendarSimpleLayout
+      resourceEntity={entityData}
       events={eventsInfo}
       onClickHandler={clickHandler}
       options={componentDescriptor.data?.options}
-      resourceEntity={entityData}
     />
   );
 };

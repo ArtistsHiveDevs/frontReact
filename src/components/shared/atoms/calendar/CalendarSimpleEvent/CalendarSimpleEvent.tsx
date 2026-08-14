@@ -13,6 +13,7 @@ export interface EventParams {
   picture?: string;
   place?: PlaceModel;
 }
+
 export const CalendarSimpleEvent = (props: {
   eventInfo: EventModel;
   options: { [optionName: string]: any };
@@ -29,7 +30,11 @@ export const CalendarSimpleEvent = (props: {
   }
 
   return (
-    <RequireAuthComponent resourceEntity={resourceEntity} key={`calendar-${eventInfo.name}`} requiredSession={requireSession}>
+    <RequireAuthComponent
+      resourceEntity={resourceEntity}
+      key={`calendar-${eventInfo.name}`}
+      requiredSession={requireSession}
+    >
       <div className="calendar-event-container" onClick={() => clickHandler(eventInfo)}>
         <div className="calendar-event-date">
           <span className="day">

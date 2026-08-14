@@ -12,11 +12,11 @@
   max-width: 100%;
   overflow-x: hidden;
 
-  &.hidden {
+  &.hiddenTab {
     display: none;
   }
 
-  &.active {
+  &.activeTab {
     display: block;
   }
 }

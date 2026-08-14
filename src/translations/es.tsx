@@ -37,6 +37,8 @@ export const EsMessages = {
           forgot_password: 'Olvidé mi contraseña',
           login: 'Iniciar sesión',
           password: 'Contraseña',
+          phone_number: 'Número de teléfono',
+          phone_number_placeholder: '1234567890',
           remember_me: 'Recuérdame',
           signup: 'Registrarse',
           username_or_email: 'Nombre de usuario o correo electrónico',
@@ -62,6 +64,10 @@ export const EsMessages = {
           save: 'Guardar',
         },
         report: 'Denunciar',
+        selection: {
+          select_all: 'Seleccionar todos',
+          clear_selection: 'Quitar selección',
+        },
         share: 'Compartir',
         show_more: 'Mostrar más',
         show_less: 'Mostrar menos',
@@ -71,7 +77,7 @@ export const EsMessages = {
           unsubscribe: 'Cancelar',
         },
         upload: 'Cargar',
-        files_limit_exceded: 'Número máximo de archivos permitidos superado'
+        files_limit_exceded: 'Número máximo de archivos permitidos superado',
       },
       entities: {
         academies: { plural: 'Academias', singular: 'Academia' },
@@ -97,6 +103,7 @@ export const EsMessages = {
       errors: {
         // Data error
         NOT_AVAILABLE: 'No disponible',
+        NO_RESULTS: 'Sin resultados',
 
         // Errores de Autenticación y Autorización
         AUTH_INVALID_CREDENTIALS: 'Credenciales inválidas',
@@ -299,6 +306,9 @@ export const EsMessages = {
         state: 'Estado',
         town: 'Pueblo',
         village: 'Pueblo',
+      },
+      location_info: {
+        search_country_or_code: 'Buscar país o código...',
       },
       social_networks_analytics: {
         metrics: {
@@ -983,10 +993,10 @@ export const EsMessages = {
                   },
                 },
                 live_gallery: {
-                  name: 'Galería en vivo'
+                  name: 'Galería en vivo',
                 },
                 artist_members: {
-                  name: 'Galería de miembros'
+                  name: 'Galería de miembros',
                 },
                 general: {
                   name: 'Info General',
@@ -1118,19 +1128,11 @@ export const EsMessages = {
               sections: {
                 technical_docs: {
                   name: 'Documentos Técnicos',
-                  docs:{
-                    technical_epk: "EPK",
-                    technical_rider: "Rider Técnico",
-                    stage_plot: "Plano de Escenario",
-                  }
-                },
-              },
-            },
-            riders: {
-              name: 'Riders',
-              sections: {
-                riders_data: {
-                  name: 'Riders',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Rider Técnico',
+                    stage_plot: 'Plano de Escenario',
+                  },
                 },
               },
             },
@@ -1479,7 +1481,7 @@ export const EsMessages = {
           INAPPROPRIATE_CONTENT: 'Contenido inapropiado',
           OTHER: 'Otro',
         },
-        description_label: 'Descripción (opcional)',
+        description_label: 'Descripción',
         description_placeholder: 'Cuéntanos más detalles sobre este reporte',
         submit_button: 'Enviar reporte',
         success_message: 'Tu reporte ha sido enviado. Gracias por ayudarnos a mantener la plataforma segura.',

@@ -37,6 +37,8 @@ export const ItMessages = {
           forgot_password: 'Password dimenticata',
           login: 'Accedi',
           password: 'Password',
+          phone_number: 'Numero di telefono',
+          phone_number_placeholder: '1234567890',
           remember_me: 'Ricordami',
           signup: 'Registrati',
           username_or_email: 'Nome utente o email',
@@ -62,6 +64,10 @@ export const ItMessages = {
           save: 'Salva',
         },
         report: 'Segnala',
+        selection: {
+          select_all: 'Seleziona tutti',
+          clear_selection: 'Deseleziona tutto',
+        },
         share: 'Condividi',
         show_more: 'Mostra di più',
         show_less: 'Mostra di meno',
@@ -97,6 +103,7 @@ export const ItMessages = {
       errors: {
         // Data error
         NOT_AVAILABLE: 'Non disponibile',
+        NO_RESULTS: 'Nessun risultato',
 
         // Errori di Autenticazione e Autorizzazione
         AUTH_INVALID_CREDENTIALS: 'Credenziali non valide',
@@ -299,6 +306,9 @@ export const ItMessages = {
         state: 'Stato',
         town: 'Città',
         village: 'Villaggio',
+      },
+      location_info: {
+        search_country_or_code: 'Cerca paese o codice...',
       },
       social_networks_analytics: {
         metrics: {
@@ -983,7 +993,7 @@ export const ItMessages = {
                   },
                 },
                 live_gallery: {
-                  name: 'Galleria live'
+                  name: 'Galleria live',
                 },
                 general: {
                   name: 'Info generale',
@@ -1116,19 +1126,11 @@ export const ItMessages = {
               sections: {
                 technical_docs: {
                   name: 'Documenti Tecnici',
-                  docs:{
-                    technical_epk: "EPK",
-                    technical_rider: "Rider Tecnico",
-                    stage_plot: "Piantina Palco",
-                  }
-                },
-              },
-            },
-            riders: {
-              name: 'Riders',
-              sections: {
-                riders_data: {
-                  name: 'Riders',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Rider Tecnico',
+                    stage_plot: 'Piantina Palco',
+                  },
                 },
               },
             },
@@ -1468,7 +1470,7 @@ export const ItMessages = {
           INAPPROPRIATE_CONTENT: 'Contenuto inappropriato',
           OTHER: 'Altro',
         },
-        description_label: 'Descrizione (opzionale)',
+        description_label: 'Descrizione',
         description_placeholder: 'Raccontaci maggiori dettagli su questa segnalazione',
         submit_button: 'Invia segnalazione',
         success_message:

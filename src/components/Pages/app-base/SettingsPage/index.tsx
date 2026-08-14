@@ -186,8 +186,8 @@ const AppSettingsPage = () => {
                 <ProfilePicture src={selectedUser.profile_pic} />
                 <div>
                   <AttributesIconFieldReadOnly
-                    attributes={userAttributes}
                     resourceEntity={loggedUser}
+                    attributes={userAttributes}
                     className="logged-user-info-data"
                   />
                 </div>

@@ -352,6 +352,9 @@ export class CurrentProfileInfoModel
   declare entity: string;
   declare id: string;
   declare name: string;
+  declare given_names?: string;
+  declare surnames?: string;
+  declare stage_name?: string;
   declare username?: string;
   declare shortId?: string;
   declare profile_pic?: string;
@@ -393,6 +396,14 @@ export class CurrentProfileInfoModel
 
   get hasFetchAllData(): boolean {
     return !!this.id;
+  }
+
+  get fullname() {
+    return `${this.given_names || ''} ${this.surnames || ''}`.trim();
+  }
+
+  get nameKnownAs() {
+    return this.stage_name || this.fullname || this.name;
   }
 }
 

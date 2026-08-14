@@ -12,6 +12,7 @@ import {
 } from '~/components/shared/atoms/app/auth/RequiredAuth';
 import { ErrorBoundary } from '~/components/shared/atoms/ErrorBoundary';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import {
   ComponentDescriptor,
@@ -158,6 +159,9 @@ const defaultConfigTransformer = (subpagesConfig: PageSection[], context?: Defau
                       allowedRoles={section.allowedRoles}
                       name={section.name}
                       key={`section-${section.name}-${sectionIndex}`}
+                      resourceEntity={entityData}
+                      allowedRoles={section.allowedRoles}
+                      name={section.name}
                       requiredSession={section.requireSession}
                     >
                       <SectionsPanel
@@ -306,13 +310,15 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
     delta: (5 * window.screen.width) / 11,
   });
 
-  const filteredTabsWithOriginalIndex: { subpage: TabbedPage; originalIndex: number }[] = tabs
-    .map((subpage: TabbedPage, originalIndex: number) => ({ subpage, originalIndex }))
-    .filter(
-      ({ subpage }: { subpage: TabbedPage; originalIndex: number }) =>
-        validateUserAuthorization(entityData, currentUser, subpage.allowedRoles, subpage.requireSession) ===
-          AuthorizationStates.ALLOWED && !subpage.hideMainMenu
-    );
+  const filteredTabsWithOriginalIndex = useMemo(() => {
+    return tabs
+      .map((subpage: TabbedPage, originalIndex: number) => ({ subpage, originalIndex }))
+      .filter(
+        ({ subpage }: { subpage: TabbedPage; originalIndex: number }) =>
+          validateUserAuthorization(entityData, currentUser, subpage.allowedRoles, subpage.requireSession) ===
+            AuthorizationStates.ALLOWED && !subpage.hideMainMenu
+      );
+  }, [tabs, entityData, currentUser]);
 
   const titles = useMemo(() => {
     return filteredTabsWithOriginalIndex.map(
@@ -325,6 +331,7 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
           <RequireAuthComponent
             resourceEntity={entityData}
             key={`subpage-section-${originalIndex}`}
+            resourceEntity={entityData}
             allowedRoles={subpage.allowedRoles}
             requiredSession={subpage.requireSession}
           >
@@ -349,7 +356,7 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
     return tabs.map((tab, index) => {
       const isActive = index === activeSectionIndex;
       return (
-        <div key={`tab-content-${index}`} className={`full-content ${isActive ? 'active' : 'hidden'}`}>
+        <div key={`tab-content-${index}`} className={`full-content ${isActive ? 'activeTab' : 'hiddenTab'}`}>
           {tab.tabContent && tab.tabContent()}
         </div>
       );

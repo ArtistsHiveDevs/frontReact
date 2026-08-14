@@ -1,16 +1,16 @@
 @import '~/variables.module.scss';
 
-.pbrd-forms {
+.ppl-forms {
   padding: 1rem;
 }
 
-.pbrd-entity-type-participants {
+.ppl-entity-type-participants {
   padding-bottom: 0.5rem;
   font-size: larger;
   font-weight: 500;
 }
 
-.pbrd-participants-box {
+.ppl-participants-box {
   display: grid;
   grid-template-columns: repeat(auto-fill, 4rem);
   column-gap: 1.5rem;
@@ -26,7 +26,7 @@
   }
 }
 
-.pbrd-participant-avatar-name {
+.ppl-participant-avatar-name {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,13 +39,13 @@
     align-items: center;
     justify-content: flex-start;
 
-    .pbrd-participant-name {
+    .ppl-participant-name {
       padding-left: 0.5rem;
     }
   }
 }
 
-.pbrd-delete-icon {
+.ppl-delete-icon {
   position: absolute;
   top: -20px;
   right: -20px;
@@ -59,7 +59,7 @@
   }
 }
 
-.pbrd-participant-name {
+.ppl-participant-name {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -72,6 +72,6 @@
   word-break: break-word;
 }
 
-.pbrd-result-box {
+.ppl-result-box {
   margin-top: 1.5rem;
 }

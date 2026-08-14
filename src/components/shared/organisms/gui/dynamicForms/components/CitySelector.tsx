@@ -603,14 +603,9 @@ const MemoizedCitySelectorComponent = React.memo(CitySelectorComponent, (prevPro
     (prevElementData?.fetchTimestamp === nextElementData?.fetchTimestamp &&
       prevElementData?.identifier === nextElementData?.identifier);
 
-  // RHF error objects carry a `ref` to the DOM input, so JSON.stringify(errors) can throw
-  // "Converting circular structure to JSON" via the element's React Fiber. Compare only
-  // the fields this component renders, and only their primitive type/message.
-  const getRelevantFieldNames = (fd?: DynamicFieldData) => {
-    if (!fd?.fieldName) return [];
-    const base = fd.fieldName;
-    return [base, `${base}_country`, ...Array.from({ length: 5 }, (_, i) => `${base}_level${i + 1}`)];
-  };
+  const errorsEqual =
+    prevProps.errors === nextProps.errors ||
+    (prevProps.errors?.type === nextProps.errors?.type && prevProps.errors?.message === nextProps.errors?.message);
 
   const relevantFieldNames = new Set([
     ...getRelevantFieldNames(prevProps.fieldData),

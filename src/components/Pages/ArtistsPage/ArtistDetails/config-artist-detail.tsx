@@ -39,6 +39,9 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 accept: 'image/*',
                 destinationPath: 'images',
                 filesDataType: 'members',
+                translationPath:
+                  'app.pages.ArtistsPages.ArtistsDetailsPage.subpages.general.sections.artist_gallery.attributes',
+                fieldTranslationName: 'members',
               },
             },
           },
@@ -55,6 +58,9 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 accept: 'image/*',
                 destinationPath: 'images',
                 filesDataType: 'live',
+                translationPath:
+                  'app.pages.ArtistsPages.ArtistsDetailsPage.subpages.general.sections.artist_gallery.attributes',
+                fieldTranslationName: 'live',
               },
             },
           },
@@ -215,11 +221,18 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'phone',
                   requireSession: true,
+                  formMetaData: {
+                    inputType: 'tel',
+                    componentParams: {
+                      numericOnly: true,
+                    },
+                  },
                 },
                 {
                   name: 'mobile_phone',
                   requireSession: true,
                   formMetaData: {
+                    inputType: 'phonePrefix',
                     config: {
                       required: false,
                     },
@@ -227,6 +240,9 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 },
                 {
                   name: 'whatsapp',
+                  formMetaData: {
+                    inputType: 'phonePrefix',
+                  },
                 },
               ],
             },
@@ -658,6 +674,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 useIcons: true,
                 iconName: 'FaFilePdf',
                 destinationPath: 'documents',
+                translationPath: `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.${TRANSLATION_BASE_TECHNICAL_DOCS}`,
               },
             },
           },
@@ -676,6 +693,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 useIcons: true,
                 iconName: 'FaFilePdf',
                 destinationPath: 'documents',
+                translationPath: `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.${TRANSLATION_BASE_TECHNICAL_DOCS}`,
               },
             },
           },
@@ -694,6 +712,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 useIcons: true,
                 iconName: 'FaFilePdf',
                 destinationPath: 'documents',
+                translationPath: `${TRANSLATION_BASE_ARTIST_DETAIL_PAGE}.${TRANSLATION_BASE_TECHNICAL_DOCS}`,
               },
             },
           },

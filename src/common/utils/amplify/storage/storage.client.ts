@@ -1,5 +1,9 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
-import { getUrl as amplifyGetUrl, uploadData as amplifyUploadData, remove as amplifyRemoveData } from 'aws-amplify/storage';
+import {
+  getUrl as amplifyGetUrl,
+  remove as amplifyRemoveData,
+  uploadData as amplifyUploadData,
+} from 'aws-amplify/storage';
 
 const USE_LOCAL_STORAGE = import.meta.env.VITE_USE_LOCAL_COGNITO === 'true';
 const STORAGE_ADMIN_URL = import.meta.env.VITE_STORAGE_ADMIN_URL;
@@ -38,18 +42,18 @@ export const uploadData = (input: { path: string; data: Blob | File }) => {
   return amplifyUploadData(input);
 };
 
-export const removeData = (input: { path: string; }) => {
-  if(USE_LOCAL_STORAGE) {
-    const {path} = input;
-    const result = fetch(`${STORAGE_ADMIN_URL}/files/${path}`, {method: 'DELETE',}).then(async (response) => {
+export const removeData = (input: { path: string }) => {
+  if (USE_LOCAL_STORAGE) {
+    const { path } = input;
+    const result = fetch(`${STORAGE_ADMIN_URL}/files/${path}`, { method: 'DELETE' }).then(async (response) => {
       if (!response.ok) {
         throw new Error((await response.json()).message || `HTTP ${response.status}`);
       }
       return response.json();
     });
-    
+
     return { result };
   }
 
   return amplifyRemoveData(input);
-}
+};

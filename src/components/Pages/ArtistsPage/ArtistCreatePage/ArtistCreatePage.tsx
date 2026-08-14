@@ -6,22 +6,11 @@ import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists
 import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
-import {
-  getImageURL,
-  removeFilesFromServer,
-  uploadFilesToServer,
-  uploadFileToServer,
-} from '~/common/utils/amplify/storage/storage.helpers';
-import { UploadFileToServerResponse } from '~/common/utils/amplify/storage/storage.types';
+import { getImageURL, uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
-import {
-  FileUploadCustomFile,
-  FileUploaderOptions,
-  FileUploadHandleEvent,
-} from '~/components/shared/organisms/gui/dynamicForms/components/FileUpload';
 import {
   DynamicTabbedForm,
   DynamicTabbedFormRef,
@@ -122,56 +111,6 @@ const ArtistsCreatePage = () => {
     ]);
   }, []);
 
-  const updateFileUploadAddElements = (filesData: UploadFileToServerResponse[], fieldName: string) => {
-    const extractFilesDataPaths = filesData?.map((fileData: any) => {
-      return {
-        src: `s3://${fileData.customPath}`,
-        path: fileData?.customPath,
-        fileName: fileData?.fileName,
-      };
-    });
-
-    const previousData = filesWrapperData?.[`${fieldName}`]?.length > 0 ? filesWrapperData?.[`${fieldName}`] : [];
-    const formattedFileImageElement = [...previousData, ...extractFilesDataPaths];
-    setFilesWrapperData((previousData: any) => ({
-      ...previousData,
-      [`${fieldName}`]: formattedFileImageElement,
-    }));
-  };
-
-  const findRemovalFilesPath = (fileData: FileUploadCustomFile[], fieldName: string) => {
-    const removalPaths = fileData?.map((fileData: FileUploadCustomFile) =>
-      fileData?.path
-        ? [fileData.path]
-        : filesWrapperData?.[`${fieldName}`]
-            ?.filter((imageData: any) => imageData.fileName?.includes(fileData.name))
-            .map((pathElement: any) => pathElement?.path)
-    );
-    return removalPaths;
-  };
-
-  const updateFileUploadRemoveElements = (paths: string[], fieldName: string) => {
-    paths?.forEach((path: string) => {
-      const filterFileWrapperData = filesWrapperData?.[`${fieldName}`];
-      const indexToRemove = filterFileWrapperData?.findIndex((fileElement: any) => fileElement?.path == path);
-      if (indexToRemove != -1) {
-        const dataAfterRemove = filesWrapperData?.[`$fieldName`]?.splice(indexToRemove, 1);
-        if (dataAfterRemove?.length > 0) {
-          setFilesWrapperData((previousData: any) => ({
-            ...previousData,
-            [`${fieldName}`]: dataAfterRemove,
-          }));
-        } else {
-          setFilesWrapperData((previousData: any) => {
-            const clonePrev = { ...previousData };
-            delete clonePrev?.[`${fieldName}`];
-            return clonePrev;
-          });
-        }
-      }
-    });
-  };
-
   const handlers = {
     onSubmit: async (data: any, error?: any) => {
       if (!currentArtist) {
@@ -180,10 +119,7 @@ const ArtistsCreatePage = () => {
       } else {
         const updatePayload = {
           id: currentArtist.identifier,
-          newItem: {
-            ...data,
-            ...filesWrapperData,
-          },
+          newItem: data,
         };
 
         dispatch(artistsActions.updateItem(updatePayload));
@@ -236,7 +172,6 @@ const ArtistsCreatePage = () => {
     //   path: 'picture-submissions/',
     //   // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
     // });
-    console.log(linkToStorageFile);
     setURL(linkToStorageFile);
   };
   const [url, setURL] = useState<StorageGetUrlOutput>();
@@ -258,7 +193,7 @@ const ArtistsCreatePage = () => {
       <RequireAuthComponent resourceEntity={currentArtist} requiredSession={true}>
         {currentUserCanEdit && (
           <>
-            <BackButton onClick={backHandler} />
+            <BackButton formRef={formRef} />
             {/* <h1>IMAGEN 2</h1>
             <FileUploader acceptedFileTypes={['image/*']} path="galeria/" maxFileCount={500} isResumable />
             <h2>FIN</h2>
@@ -281,6 +216,14 @@ const ArtistsCreatePage = () => {
               }}
               submitLabel={!currentArtist ? 'create' : 'save'}
               onlyModifiedFields={true}
+              resourceConfig={
+                loggedUser?.currentProfileIdentifier
+                  ? {
+                      resourceType: 'profiles',
+                      identifier: loggedUser.currentProfileIdentifier,
+                    }
+                  : undefined
+              }
             />
           </>
         )}

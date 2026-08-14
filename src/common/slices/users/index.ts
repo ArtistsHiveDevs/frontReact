@@ -83,6 +83,31 @@ const slice = createSlice({
     logout(state) {
       state = usersInitialState;
     },
+    itemUpdatePartial(state, action: PayloadAction<{ id: string; item: any }>) {
+      const { id, item } = action.payload;
+      if (state.currentUser && (state.currentUser.id === id || state.currentUser.username === id)) {
+        // Verificar si realmente hay cambios antes de actualizar
+        const hasChanges = Object.keys(item).some(
+          (key) => JSON.stringify(state.currentUser.rawTemplate[key]) !== JSON.stringify(item[key])
+        );
+
+        if (hasChanges) {
+          // Actualizar currentUser con los datos parciales recibidos
+          state.currentUser = new AppUserModel({ ...state.currentUser.rawTemplate, ...item });
+        }
+      }
+      // También actualizar en la lista de users si existe
+      const userIndex = state.users.findIndex((user) => user.id === id || user.username === id);
+      if (userIndex !== -1) {
+        const hasChanges = Object.keys(item).some(
+          (key) => JSON.stringify(state.users[userIndex].rawTemplate[key]) !== JSON.stringify(item[key])
+        );
+
+        if (hasChanges) {
+          state.users[userIndex] = new AppUserModel({ ...state.users[userIndex].rawTemplate, ...item });
+        }
+      }
+    },
   },
 });
 

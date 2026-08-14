@@ -133,6 +133,7 @@ export interface ArtistTemplate extends ProfileTemplate {
 
   website: string;
   email: string;
+  phone?: string;
   mobile_phone: string;
   whatsapp: string;
   facebook: string;
@@ -194,6 +195,7 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
 
   declare website: string;
   declare email: string;
+  declare phone?: string;
   declare mobile_phone: string;
   declare whatsapp: string;
   declare facebook: string;

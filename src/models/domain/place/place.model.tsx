@@ -65,6 +65,8 @@ export interface PlaceTemplate extends ProfileTemplate {
   location: string | LocationTemplate[];
   email: string;
   phone: string;
+  mobile_phone?: string;
+  whatsapp?: string;
   public_private: string;
   facebook: string;
   instagram: string;
@@ -134,6 +136,8 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
   declare location: string | LocationTemplate[];
   declare email: string;
   declare phone: string;
+  declare mobile_phone?: string;
+  declare whatsapp?: string;
   declare public_private: string;
   declare facebook: string;
   declare instagram: string;

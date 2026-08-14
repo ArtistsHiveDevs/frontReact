@@ -192,7 +192,6 @@ export const SocialNetworks: {
   whatsapp: {
     url: 'https://wa.me',
     icon: 'BsWhatsapp',
-    user_prefix: '+',
     emptyTitle: true,
     title: 'WhatsApp',
   },

@@ -221,11 +221,18 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'phone',
                   requireSession: true,
+                  formMetaData: {
+                    inputType: 'tel',
+                    componentParams: {
+                      numericOnly: true,
+                    },
+                  },
                 },
                 {
                   name: 'mobile_phone',
                   requireSession: true,
                   formMetaData: {
+                    inputType: 'phonePrefix',
                     config: {
                       required: false,
                     },
@@ -233,6 +240,9 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 },
                 {
                   name: 'whatsapp',
+                  formMetaData: {
+                    inputType: 'phonePrefix',
+                  },
                 },
               ],
             },
@@ -302,11 +312,16 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   'app.pages.ArtistsPages.ArtistsDetailsPage.subpages.members.sections.music_performance.attributes',
                 dialogLabelAddMember: 'add',
                 fields: [
-                  {type: 'text', fieldName: 'memberNames', label: 'member_names', config: {required: true}},
-                  {type: 'text', fieldName: 'memberSureNames', label: 'member_surenames', config: {required: true}},
-                  {type: 'text', fieldName: 'memberRole', label: 'member_role', config: {required: true}},
-                  {type: 'text', fieldName: 'memberInstrument', label: 'member_instrument', config: {required: true}},
-                ]
+                  { type: 'text', fieldName: 'memberNames', label: 'member_names', config: { required: true } },
+                  { type: 'text', fieldName: 'memberSureNames', label: 'member_surenames', config: { required: true } },
+                  { type: 'text', fieldName: 'memberRole', label: 'member_role', config: { required: true } },
+                  {
+                    type: 'text',
+                    fieldName: 'memberInstrument',
+                    label: 'member_instrument',
+                    config: { required: true },
+                  },
+                ],
               },
             },
           },

@@ -1,7 +1,6 @@
-import { useI18n } from '~/common/utils';
+import { LandingMembers } from '~/components/shared/LandingMembers/LandingMembers';
 import { ComponentBuilderParams } from '../types';
 import { getData } from '../utils/dataExtraction';
-import { LandingMembers } from '~/components/shared/LandingMembers/LandingMembers';
 
 export const createMembersListBuiderComponent = (params: ComponentBuilderParams): JSX.Element => {
   const { componentDescriptor, entityData } = params;
@@ -14,11 +13,7 @@ export const createMembersListBuiderComponent = (params: ComponentBuilderParams)
 
   return (
     <>
-      <LandingMembers
-              fields={fields}
-              memberList={[...memberList]}
-              translationPath={translationPath}
-            />
+      <LandingMembers fields={fields} memberList={[...memberList]} translationPath={translationPath} />
     </>
   );
 };

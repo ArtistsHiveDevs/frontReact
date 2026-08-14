@@ -16,6 +16,8 @@ import { createFileUpload } from './components/FileUpload';
 import { createHiddenField } from './components/HiddenField';
 import { createIconTextButton } from './components/IconTextButton';
 import { createInstrumentSelector } from './components/InstrumentSelector';
+import { createMembersList } from './components/MembersList';
+import { createPhonePrefixField } from './components/PhonePrefixField';
 import { createRadio } from './components/Radio';
 import { createRelationshipSelector } from './components/RelationshipSelector';
 import { createSelect } from './components/Select';
@@ -75,6 +77,8 @@ export const DynamicControl = (params: {
     case 'number':
     case 'url':
       return createTextField(fieldParams);
+    case 'phonePrefix':
+      return createPhonePrefixField(fieldParams);
     case 'address':
       return createAddressTextField(fieldParams);
     case 'socialNetwork':

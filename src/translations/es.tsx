@@ -29,11 +29,14 @@ export const EsMessages = {
         video: 'Video',
       },
       actions: {
+        add: 'Añadir',
         accounts: {
           create_account: 'Crear cuenta',
           forgot_password: 'Olvidé mi contraseña',
           login: 'Iniciar sesión',
           password: 'Contraseña',
+          phone_number: 'Número de teléfono',
+          phone_number_placeholder: '1234567890',
           remember_me: 'Recuérdame',
           signup: 'Registrarse',
           username_or_email: 'Nombre de usuario o correo electrónico',
@@ -59,6 +62,10 @@ export const EsMessages = {
           save: 'Guardar',
         },
         report: 'Denunciar',
+        selection: {
+          select_all: 'Seleccionar todos',
+          clear_selection: 'Quitar selección',
+        },
         share: 'Compartir',
         show_more: 'Mostrar más',
         show_less: 'Mostrar menos',
@@ -95,6 +102,7 @@ export const EsMessages = {
       errors: {
         // Data error
         NOT_AVAILABLE: 'No disponible',
+        NO_RESULTS: 'Sin resultados',
 
         // Errores de Autenticación y Autorización
         AUTH_INVALID_CREDENTIALS: 'Credenciales inválidas',
@@ -291,6 +299,9 @@ export const EsMessages = {
         state: 'Estado',
         town: 'Pueblo',
         village: 'Pueblo',
+      },
+      location_info: {
+        search_country_or_code: 'Buscar país o código...',
       },
       social_networks_analytics: {
         metrics: {

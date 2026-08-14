@@ -1,5 +1,5 @@
-import { FieldErrors, FieldValues, RegisterOptions } from 'react-hook-form';
 import React from 'react';
+import { FieldErrors, FieldValues, RegisterOptions } from 'react-hook-form';
 
 export type ControlType =
   | 'address'
@@ -9,6 +9,7 @@ export type ControlType =
   | 'password'
   | 'textarea'
   | 'tel'
+  | 'phonePrefix'
   | 'checkbox'
   | 'radio'
   | 'switch'

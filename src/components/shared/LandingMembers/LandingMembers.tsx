@@ -1,8 +1,8 @@
 import { Box, Button, IconButton, Paper, Stack } from '@mui/material';
+import { I18nPaths, useI18n } from '~/common/utils';
 import { DynamicIcons } from '../DynamicIcons';
 import { FileUploaderOptions } from '../organisms/gui/dynamicForms';
 import './LandingMembers.scss';
-import { I18nPaths, useI18n } from '~/common/utils';
 
 export interface LandingMembersInputType {
   memberList: MemberListTemplate[] | undefined;
@@ -55,11 +55,11 @@ export const LandingMembers = (props: LandingMembersInputType) => {
   };
 
   return (
-    <Box className="box-container" style={boxContainerCustomStyles}>
+    <Box className="lm-box-container" style={boxContainerCustomStyles}>
       {enableAddButton && (
-        <Paper className="card-item" variant="outlined" key={`landing_add_button`}>
+        <Paper className="lm-card-item" variant="outlined" key={`landing_add_button`}>
           <Button
-            className="button-add-member"
+            className="lm-button-add-member"
             component="label"
             startIcon={<DynamicIcons iconName={'FaUserPlus'} size={80} customStyle={{ padding: 0 }} />}
             onClick={() => {
@@ -75,7 +75,7 @@ export const LandingMembers = (props: LandingMembersInputType) => {
       {memberList?.map((member: MemberListTemplate, index: number) => (
         <>
           <Paper
-            className="card-item card-member"
+            className="lm-card-item lm-card-member"
             key={`container_members_${index}`}
             variant="outlined"
             style={cardMemberCustomStyles}
@@ -93,7 +93,7 @@ export const LandingMembers = (props: LandingMembersInputType) => {
               <IconButton
                 size="small"
                 aria-label="delete image"
-                className="button-remove-member"
+                className="lm-button-remove-member"
                 onClick={() => {
                   if (handleClickEvent && typeof handleClickEvent === 'function') {
                     handleClickEvent({

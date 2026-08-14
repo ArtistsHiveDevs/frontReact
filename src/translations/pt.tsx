@@ -29,11 +29,14 @@ export const PtMessages = {
         video: 'Video',
       },
       actions: {
+        add: 'Adicionar',
         accounts: {
           create_account: 'Criar conta',
           forgot_password: 'Esqueci minha senha',
           login: 'Entrar',
           password: 'Senha',
+          phone_number: 'Número de telefone',
+          phone_number_placeholder: '1234567890',
           remember_me: 'Lembrar-me',
           signup: 'Registrar-se',
           username_or_email: 'Nome de usuário ou e-mail',
@@ -59,6 +62,10 @@ export const PtMessages = {
           save: 'Salvar',
         },
         report: 'Reportar',
+        selection: {
+          select_all: 'Selecionar todos',
+          clear_selection: 'Limpar seleção',
+        },
         share: 'Partilhar',
         show_more: 'Mostrar mais',
         show_less: 'Mostrar menos',
@@ -69,7 +76,6 @@ export const PtMessages = {
         },
         upload: 'Carregar',
         files_limit_exceded: 'Número máximo de arquivos permitidos excedido',
-        add: 'Adicionar',
       },
       entities: {
         academies: { plural: 'Academias', singular: 'Academia' },
@@ -95,6 +101,7 @@ export const PtMessages = {
       errors: {
         // Data error
         NOT_AVAILABLE: 'Não disponível',
+        NO_RESULTS: 'Sem resultados',
 
         // Errores de Autenticación y Autorización
         AUTH_INVALID_CREDENTIALS: 'Credenciais inválidas',
@@ -291,6 +298,9 @@ export const PtMessages = {
         state: 'Estado',
         town: 'Cidade',
         village: 'Vila',
+      },
+      location_info: {
+        search_country_or_code: 'Buscar país ou código...',
       },
       social_networks_analytics: {
         metrics: {

@@ -297,7 +297,7 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
       });
 
       delete typedData.recipients;
-      
+
       dispatch(prebookingRequestActions.createItem({ data: typedData }));
       onSubmit(formDataWithParticipants);
       methods.reset();
@@ -315,11 +315,11 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
     const avatarSizeREM = `${styles?.avatarSize || 4}rem`;
     return (
       <>
-        <div key={element.identifier} className="pbrd-participant-avatar-name">
+        <div key={element.identifier} className="prebooking-participant-avatar-name">
           {![mainRecipient?.identifier || '', loggedUser?.currentProfileInfo?.identifier || ''].includes(
             element.identifier
           ) && (
-            <div className="pbrd-delete-icon">
+            <div className="prebooking-delete-icon">
               <DynamicIcons
                 iconName={styles?.topRightIcon || 'IoMdRemoveCircleOutline'}
                 size={30}
@@ -342,7 +342,7 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
             }}
             variant={'circular'}
           />
-          <span className="pbrd-participant-name">{element.name}</span>
+          <span className="prebooking-participant-name">{element.name}</span>
         </div>
       </>
     );
@@ -396,11 +396,11 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
                         const missingParticipant = isMissingParticipantForEntity(entityName);
                         return (
                           <div key={entityName}>
-                            <div className="pbrd-entity-type-participants">
+                            <div className="prebooking-entity-type-participants">
                               <FormLabel
                                 required={true}
                                 error={missingParticipant}
-                                className="pbrd-entity-type-participants"
+                                className="prebooking-entity-type-participants"
                               >
                                 {getModelInfoFromClassName(entityName).plural &&
                                   translateGlobalDict(
@@ -414,7 +414,7 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
                                 onClick={() => setSearchEntity(entityName)}
                               />
                             </div>
-                            <div className="pbrd-participants-box">
+                            <div className="prebooking-participants-box">
                               {participants
                                 .filter((p: CurrentProfileInfoModel) => p.entity === entityName)
                                 .map((participant: CurrentProfileInfoModel) => (
@@ -463,7 +463,7 @@ export const PreBookingRequestDialog = <T extends ProfileTemplate = ProfileTempl
             <div>{search_text}</div>
             {showSearchLoader && searchValue && <AppLoader height="8rem" />}
             {!showSearchLoader && (
-              <div className="pbrd-participants-box pbrd-result-box">
+              <div className="prebooking-participants-box prebooking-result-box">
                 {(searchEntity === ArtistModel.name ? availableArtists : availablePlaces).map((a: any) => (
                   <div key={a.identifier}>
                     {ProfileIconWithName({

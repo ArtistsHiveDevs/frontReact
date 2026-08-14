@@ -1,11 +1,15 @@
-import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
-import { ComponentGeneratorParams, DynamicControl } from '../DynamicControl';
-import { DynamicForm } from '../dynamic-form';
-import { useForm, useFormContext } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import { LandingMembers, MemberHandleClickTemplate, MembersFieldTemplate } from '~/components/shared/LandingMembers/LandingMembers';
-import { FileUploaderOptions } from './FileUpload';
+import { useForm, useFormContext } from 'react-hook-form';
 import { useI18n } from '~/common/utils';
+import {
+  LandingMembers,
+  MemberHandleClickTemplate,
+  MembersFieldTemplate,
+} from '~/components/shared/LandingMembers/LandingMembers';
+import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
+import { ComponentGeneratorParams } from '../DynamicControl';
+import { DynamicForm } from '../dynamic-form';
+import { FileUploaderOptions } from './FileUpload';
 
 export const createMembersList = (params: ComponentGeneratorParams) => {
   const { translateText } = useI18n();
@@ -42,7 +46,7 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
 
   const generateRandomMemberIdentifier = () => {
     return Math.random().toString(36).slice(2, 11);
-  }
+  };
 
   const mapDynamicFormDataToModel = (customMember: any) => {
     const formatOriginalMemberData = Object.keys(customMember)?.map((memberAttr: string) => {
@@ -50,15 +54,15 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
     });
     return {
       memberIdentifier: generateRandomMemberIdentifier(),
-      memberAttributes: formatOriginalMemberData
-    }
+      memberAttributes: formatOriginalMemberData,
+    };
   };
 
   const customHandlers = {
     ...handlers,
     onSubmit: (event: any) => {
       const data = mapDynamicFormDataToModel(event);
-      const totalValues = ([...memberList, ...[data]]);
+      const totalValues = [...memberList, ...[data]];
       // const totalValues = restartMemberListWithouthEl([...memberList, ...[event]]);
       setMemberList(totalValues);
       setShowAddMember(false);
@@ -67,7 +71,7 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
   };
 
   const handleRemoveItem = (externalIdentifier: string) => {
-    const data = (memberList?.filter((member) => member?.memberIdentifier !== externalIdentifier));
+    const data = memberList?.filter((member) => member?.memberIdentifier !== externalIdentifier);
     setMemberList(data);
     setValue?.(fieldName, data, { shouldDirty: true });
   };

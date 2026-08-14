@@ -29,11 +29,14 @@ export const ElMessages = {
         video: 'Βίντεο',
       },
       actions: {
+        add: 'Προσθήκη',
         accounts: {
           create_account: 'Δημιουργία λογαριασμού',
           forgot_password: 'Ξέχασα τον κωδικό μου',
           login: 'Σύνδεση',
           password: 'Κωδικός',
+          phone_number: 'Αριθμός τηλεφώνου',
+          phone_number_placeholder: '1234567890',
           remember_me: 'Θυμήσου με',
           signup: 'Εγγραφή',
           username_or_email: 'Όνομα χρήστη ή email',
@@ -59,6 +62,10 @@ export const ElMessages = {
           save: 'Αποθήκευση',
         },
         report: 'Αναφορά',
+        selection: {
+          select_all: 'Επιλογή όλων',
+          clear_selection: 'Καθαρισμός επιλογής',
+        },
         share: 'Κοινοποίηση',
         show_more: 'Περισσότερα',
         show_less: 'Λιγότερα',
@@ -69,7 +76,6 @@ export const ElMessages = {
         },
         upload: 'Μεταφόρτωση',
         files_limit_exceded: 'Υπέρβαση του μέγιστου επιτρεπόμενου αριθμού αρχείων',
-        add: 'Προσθήκη',
       },
       entities: {
         academies: { plural: 'Ακαδημίες', singular: 'Ακαδημία' },
@@ -95,6 +101,7 @@ export const ElMessages = {
       errors: {
         // Σφάλματα Δεδομένων
         NOT_AVAILABLE: 'Μη διαθέσιμο',
+        NO_RESULTS: 'Δεν βρέθηκαν αποτελέσματα',
 
         // Σφάλματα Αυθεντικοποίησης και Εξουσιοδότησης
         AUTH_INVALID_CREDENTIALS: 'Μη έγκυρα διαπιστευτήρια',
@@ -291,6 +298,9 @@ export const ElMessages = {
         state: 'Πολιτεία',
         town: 'Κωμόπολη',
         village: 'Χωριό',
+      },
+      location_info: {
+        search_country_or_code: 'Αναζήτηση χώρας ή κωδικού...',
       },
       social_networks_analytics: {
         metrics: {

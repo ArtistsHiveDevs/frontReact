@@ -4,6 +4,7 @@ import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import { actionsArtists, useArtistsSlice } from '../domain/artists/artist.redux';
 import { actionsPlaces, usePlacesSlice } from '../domain/places/places.redux';
+import { usersActions, useUsersSlice } from '../users';
 
 export function getSliceInfoFromInstance(instance: any) {
   return getSliceInfoFromClassName(instance?.constructor?.name);
@@ -30,6 +31,8 @@ export function getSliceInfoFromClassName(entityType: string) {
   } else if (entityType === AppUserModel.name) {
     entityName = 'User';
     plural = 'users';
+    slice = useUsersSlice;
+    actions = usersActions;
   }
   return { entityName, plural, slice, actions };
 }

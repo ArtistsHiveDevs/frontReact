@@ -178,8 +178,6 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   },
                   formMetaData: {
                     inputType: 'autocompletePicker',
-                    config: { required: true },
-                    hidden: true,
                   },
                 },
               ],
@@ -221,11 +219,18 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'phone',
                   requireSession: true,
+                  formMetaData: {
+                    inputType: 'tel',
+                    componentParams: {
+                      numericOnly: true,
+                    },
+                  },
                 },
                 {
                   name: 'mobile_phone',
                   requireSession: true,
                   formMetaData: {
+                    inputType: 'phonePrefix',
                     config: {
                       required: false,
                     },
@@ -233,6 +238,9 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 },
                 {
                   name: 'whatsapp',
+                  formMetaData: {
+                    inputType: 'phonePrefix',
+                  },
                 },
               ],
             },

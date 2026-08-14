@@ -2,6 +2,7 @@ import { FormHelperText, FormLabel } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useController, useFormContext } from 'react-hook-form';
 import Select from 'react-select';
+import { useI18n } from '~/common/utils';
 import { ComponentGeneratorParams } from '../DynamicControl';
 
 interface OptionType {
@@ -11,6 +12,7 @@ interface OptionType {
 }
 
 export const createSelect = (params: ComponentGeneratorParams) => {
+  const { translateGlobalDict } = useI18n();
   const hookContext = useFormContext();
   const finalContext = params.formContext || hookContext;
   const { formState, register, control, setValue } = finalContext;
@@ -107,7 +109,7 @@ export const createSelect = (params: ComponentGeneratorParams) => {
               value !== undefined &&
               value !== '' &&
               !(typeof value === 'object' && Object.keys(value).length === 0)) ||
-            'Este campo es requerido'
+            translateGlobalDict('errors.VALIDATION_FIELD_REQUIRED')
         : undefined,
     },
   });

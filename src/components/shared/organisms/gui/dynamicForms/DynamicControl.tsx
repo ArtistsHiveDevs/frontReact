@@ -24,6 +24,7 @@ import { createSwitch } from './components/Switch';
 import { createTextArea } from './components/TextArea';
 import { createAddressTextField, createSocialNetworkTextField, createTextField } from './components/TextField';
 import { createTimeField } from './components/TimeField';
+import { createPhonePrefixField } from './components/PhonePrefixField';
 import { DynamicFieldData } from './dynamic-control-types';
 
 export interface ComponentGeneratorParams {
@@ -74,6 +75,8 @@ export const DynamicControl = (params: {
     case 'number':
     case 'url':
       return createTextField(fieldParams);
+    case 'phonePrefix':
+      return createPhonePrefixField(fieldParams);
     case 'address':
       return createAddressTextField(fieldParams);
     case 'socialNetwork':

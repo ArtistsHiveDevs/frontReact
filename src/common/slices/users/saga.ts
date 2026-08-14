@@ -8,6 +8,7 @@ import { fetchUserAttributes, signOut, updateUserAttributes } from 'aws-amplify/
 import { defaultLang } from '~/common/context';
 import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 import { LocalStorageVariables } from '~/constants/localstorage';
+import { PATHS } from '~/constants/routes.constants';
 import { ProfileModel, ProfileTemplate } from '~/models/base';
 import { getModelInfoFromInstance } from '~/models/base/modelHelpers';
 import { usersActions } from '.';
@@ -177,7 +178,7 @@ export function* logout() {
   signoutAWS();
   yield delay(500);
   localStorage.removeItem(LocalStorageVariables.TOKEN_API_KEY);
-  window.location.reload();
+  window.location.href = `/${PATHS.HOME}`;
 }
 
 async function signoutAWS() {

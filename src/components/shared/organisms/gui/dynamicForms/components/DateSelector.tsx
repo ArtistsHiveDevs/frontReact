@@ -1,7 +1,7 @@
 import { FormLabel } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { ComponentGeneratorParams } from '../DynamicControl';
 
@@ -109,10 +109,13 @@ export const createDatePicker = (params: ComponentGeneratorParams) => {
   const { control, register: formRegister, formState, setValue } = finalContext;
   const { errors } = formState || {};
 
-  // Initialize form value with smart default value
-  if (smartDefaultValue && formRegister) {
-    setValue(fieldName, smartDefaultValue);
-  }
+  // Seed form value with the smart default only on mount, so it doesn't overwrite user edits on later renders.
+  useEffect(() => {
+    if (smartDefaultValue && formRegister) {
+      setValue(fieldName, smartDefaultValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fieldName]);
 
   return (
     <>

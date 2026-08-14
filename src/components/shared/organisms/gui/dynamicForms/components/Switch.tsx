@@ -8,7 +8,7 @@ export const createSwitch = (
   }
 ) => {
   const { errors, fieldData, handlers, formContext } = params;
-  const { label, fieldName, config, componentParams = {} } = fieldData;
+  const { label, fieldName, config, defaultValue, componentParams = {} } = fieldData;
 
   // ✅ Patrón híbrido: usar formContext pasado o fallback a hook
   const hookContext = useFormContext();
@@ -34,7 +34,7 @@ export const createSwitch = (
       <Controller
         name={fieldName}
         control={control}
-        defaultValue={false}
+        defaultValue={defaultValue === true || defaultValue === 'true'}
         rules={{
           required: required ? (typeof required === 'string' ? required : 'Este campo es requerido') : false,
         }}

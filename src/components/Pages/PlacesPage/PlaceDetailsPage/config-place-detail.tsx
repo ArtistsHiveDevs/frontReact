@@ -1,22 +1,17 @@
+import dayjs from 'dayjs';
 import Flag from 'react-world-flags';
 import { fullyHiddenSectionsByEnvironment } from '~/common/utils/app-utils/app-utils';
 import { RatingStarsView } from '~/components/shared/atoms/gui/rating-stars-view/RatingStarsView';
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 // import { CitySelectionLevel } from '~/components/shared/organisms/gui/dynamicForms/components/CitySelector';
 import { PlaceModel, PlaceRatingTemplate } from '~/models/domain/place/place.model';
+import { LanguageTemplate } from '~/models/parametrics/geo/language.model';
 
 export const TRANSLATION_BASE_PLACE_DETAIL_PAGE = 'app.pages.PlacesPages.PlacesDetailsPage';
 
-export const PLACE_TYPE_OPTIONS = [
-  { label: 'Bar', value: 'bar' },
-  { label: 'Club', value: 'club' },
-  { label: 'Teatro', value: 'theater' },
-  { label: 'Sala de conciertos', value: 'concert_hall' },
-  { label: 'Centro cultural', value: 'cultural_center' },
-  { label: 'Restaurante', value: 'restaurant' },
-  { label: 'Aire libre', value: 'outdoor' },
-  { label: 'Otro', value: 'other' },
-];
+// Las etiquetas se traducen en PlacesCreatePage (app.global_dictionary.place_types.<value>);
+// acá solo viven los slugs válidos que persiste el backend.
+export const PLACE_TYPE_VALUES = ['bar', 'club', 'theater', 'concert_hall', 'cultural_center', 'restaurant', 'outdoor', 'other'];
 
 export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
@@ -102,6 +97,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'since',
                   icon: 'BsCalendar',
+                  value: (place: PlaceModel) => (place.since ? dayjs(place.since).format('DD/MM/YYYY') : undefined),
                   formMetaData: {
                     inputType: 'date',
                     componentParams: {
@@ -126,7 +122,8 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'spoken_languages',
                   icon: 'BsTranslate',
-                  formMetaData: { inputType: 'chipPicker', hidden: true },
+                  value: (place: PlaceModel) => place.spoken_languages?.map((l: LanguageTemplate) => l.name).join(', '),
+                  formMetaData: { inputType: 'autocompletePicker' },
                 },
                 {
                   name: 'total_audience_capacity',
@@ -164,6 +161,8 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'regulatory_closing_time',
                   icon: 'tb TbContract',
+                  value: (place: PlaceModel) =>
+                    place.regulatory_closing_time ? dayjs(place.regulatory_closing_time).format('h:mm A') : undefined,
                   formMetaData: { inputType: 'time' },
                 },
               ],
@@ -203,12 +202,24 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 },
                 {
                   name: 'phone',
+                  formMetaData: {
+                    inputType: 'tel',
+                    componentParams: {
+                      numericOnly: true,
+                    },
+                  },
                 },
                 {
                   name: 'mobile_phone',
+                  formMetaData: {
+                    inputType: 'phonePrefix',
+                  },
                 },
                 {
                   name: 'whatsapp',
+                  formMetaData: {
+                    inputType: 'phonePrefix',
+                  },
                 },
               ],
             },

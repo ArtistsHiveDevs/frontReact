@@ -4,6 +4,7 @@ import { Target_Audience } from '~/constants/domain/domain.constants';
 import { SocialNetworkStatsTemplate } from '~/constants/social-networks.const';
 import { LocatableTemplate, LocationTemplate, ProfileModel, ProfileTemplate } from '~/models/base';
 import { CountryModel, CountryTemplate } from '~/models/parametrics/geo/country.model';
+import { LanguageTemplate } from '~/models/parametrics/geo/language.model';
 import { EventModel, EventTemplate } from '../event/event.model';
 
 export interface PlaceRatingTemplate {
@@ -55,6 +56,8 @@ export interface VenueOperatingHoursTemplate {
 
 export interface PlaceTemplate extends ProfileTemplate {
   name: string;
+  description?: string;
+  since?: dayjs.Dayjs;
   place_type: string;
   music_genre: string;
   country: CountryTemplate;
@@ -65,22 +68,35 @@ export interface PlaceTemplate extends ProfileTemplate {
   location: string | LocationTemplate[];
   email: string;
   phone: string;
+  mobile_phone?: string;
+  whatsapp?: string;
   public_private: string;
   facebook: string;
   instagram: string;
   twitter: string;
+  spotify?: string;
+  youtube?: string;
+  wikipedia?: string;
   website: string;
   promoter: string;
   tiktok: string;
   subtitle?: string;
   profile_pic: string;
   verified_status: VerificationStatus;
-  imageGallery: Image[];
+  image_gallery: Image[];
+  activity?: string;
+  spoken_languages?: LanguageTemplate[];
 
   events: EventTemplate[];
   genres: { [artType: string]: string[] };
 
   stages: VenueStageTemplate[];
+
+  venue_backline_instruments?: string;
+  venue_backline_sound?: string;
+  venue_backline_lights?: string;
+  venue_backline_video?: string;
+  venue_backline_additional_info?: string;
 
   target_audiences: Target_Audience[];
   bookingRatesPolicy: string[];
@@ -124,6 +140,8 @@ export interface PlaceTemplate extends ProfileTemplate {
 
 export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemplate, LocatableTemplate {
   declare name: string;
+  declare description?: string;
+  declare since?: dayjs.Dayjs;
   declare place_type: string;
   declare music_genre: string;
   declare country: CountryModel;
@@ -134,21 +152,34 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
   declare location: string | LocationTemplate[];
   declare email: string;
   declare phone: string;
+  declare mobile_phone?: string;
+  declare whatsapp?: string;
   declare public_private: string;
   declare facebook: string;
   declare instagram: string;
   declare twitter: string;
+  declare spotify?: string;
+  declare youtube?: string;
+  declare wikipedia?: string;
   declare website: string;
   declare promoter: string;
   declare tiktok: string;
   declare subtitle?: string;
   declare profile_pic: string;
-  declare imageGallery: Image[];
+  declare image_gallery: Image[];
+  declare activity?: string;
+  declare spoken_languages?: LanguageTemplate[];
   declare verified_status: VerificationStatus;
   declare events: EventTemplate[];
   declare genres: { [artType: string]: string[] };
 
   declare stages: VenueStageTemplate[];
+
+  declare venue_backline_instruments?: string;
+  declare venue_backline_sound?: string;
+  declare venue_backline_lights?: string;
+  declare venue_backline_video?: string;
+  declare venue_backline_additional_info?: string;
 
   declare has_open_mic?: boolean;
 
@@ -180,6 +211,7 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
     this.events = template.events?.map((event) => new EventModel(event)) || [];
 
     this.country = template.country ? new CountryModel(template.country) : undefined;
+    this.since = template.since ? dayjs(template.since) : undefined;
 
     // Políticas de alquiler
     const politicas = [

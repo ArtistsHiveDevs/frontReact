@@ -32,6 +32,7 @@ const LoginAuthTabs = () => {
     toSignUp,
   ]);
   const isSignUp = route === 'signUp';
+  const { translateText } = useI18n();
 
   return (
     <div className="login-auth-tabs">
@@ -49,7 +50,7 @@ const LoginAuthTabs = () => {
           className={`amplify-tabs__item${route === 'signIn' ? ' amplify-tabs__item--active' : ''}`}
           onClick={toSignIn}
         >
-          Sign In
+          {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.login`)}
         </button>
         <button
           type="button"
@@ -58,7 +59,7 @@ const LoginAuthTabs = () => {
           className={`amplify-tabs__item${route === 'signUp' ? ' amplify-tabs__item--active' : ''}`}
           onClick={toSignUp}
         >
-          Create Account
+          {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.create_account`)}
         </button>
       </div>
     </div>
@@ -77,21 +78,45 @@ const isEmail = (input: string): boolean => {
 };
 
 // Helper function to validate password according to Cognito rules
-const validatePassword = (password: string): { valid: boolean; message?: string } => {
+const validatePassword = (
+  password: string,
+  translateText: (messageId: string) => string
+): { valid: boolean; message?: string } => {
   if (!password || password.length < 8) {
-    return { valid: false, message: 'Password must be at least 8 characters long' };
+    return {
+      valid: false,
+      message: translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ERROR_CODES}.VALIDATION_PASSWORD_MIN_LENGTH`),
+    };
   }
   if (!/[0-9]/.test(password)) {
-    return { valid: false, message: 'Password must contain at least one number' };
+    return {
+      valid: false,
+      message: translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ERROR_CODES}.VALIDATION_PASSWORD_NEEDS_NUMBER`),
+    };
   }
   if (!/[a-z]/.test(password)) {
-    return { valid: false, message: 'Password must contain at least one lowercase letter' };
+    return {
+      valid: false,
+      message: translateText(
+        `${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ERROR_CODES}.VALIDATION_PASSWORD_NEEDS_LOWERCASE`
+      ),
+    };
   }
   if (!/[A-Z]/.test(password)) {
-    return { valid: false, message: 'Password must contain at least one uppercase letter' };
+    return {
+      valid: false,
+      message: translateText(
+        `${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ERROR_CODES}.VALIDATION_PASSWORD_NEEDS_UPPERCASE`
+      ),
+    };
   }
   if (!/[^a-zA-Z0-9]/.test(password)) {
-    return { valid: false, message: 'Password must contain at least one special character' };
+    return {
+      valid: false,
+      message: translateText(
+        `${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ERROR_CODES}.VALIDATION_PASSWORD_NEEDS_SPECIAL_CHAR`
+      ),
+    };
   }
   return { valid: true };
 };
@@ -467,7 +492,7 @@ export const LoginPage = () => {
                     const { username, password } = formData;
 
                     // Validar password
-                    const passwordValidation = validatePassword(password);
+                    const passwordValidation = validatePassword(password, translateText);
                     if (!passwordValidation.valid) {
                       throw new Error(passwordValidation.message);
                     }
@@ -480,7 +505,9 @@ export const LoginPage = () => {
                       const userData = await getEmailByUsername(username);
 
                       if (!userData) {
-                        throw new Error('Username not found');
+                        throw new Error(
+                          translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ERROR_CODES}.AUTH_USER_NOT_FOUND`)
+                        );
                       }
 
                       // Guardar datos para usarlos después del login
@@ -505,51 +532,69 @@ export const LoginPage = () => {
                 formFields={{
                   signIn: {
                     username: {
-                      label: 'Email o Username',
-                      placeholder: 'Ingresa tu email o username',
+                      label: translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.username_or_email`),
+                      placeholder: translateText(
+                        `${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.username_or_email_placeholder`
+                      ),
                       isRequired: true,
                       type: 'text',
                     },
                     password: {
-                      label: 'Password',
-                      placeholder: 'Ingresa tu password',
+                      label: translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.password`),
+                      placeholder: translateText(
+                        `${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.password_placeholder`
+                      ),
                       isRequired: true,
                     },
                   },
                   signUp: {
                     given_name: {
-                      label: 'First Name',
-                      placeholder: 'Enter your first name',
+                      label: translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.first_name`),
+                      placeholder: translateText(
+                        `${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.first_name_placeholder`
+                      ),
                       isRequired: true,
                       order: 1,
                     },
                     family_name: {
-                      label: 'Last Name',
-                      placeholder: 'Enter your last name',
+                      label: translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.last_name`),
+                      placeholder: translateText(
+                        `${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.last_name_placeholder`
+                      ),
                       isRequired: true,
                       order: 2,
                     },
                     email: {
-                      label: 'Email',
-                      placeholder: 'Enter your Email',
+                      label: translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.email`),
+                      placeholder: translateText(
+                        `${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.email_placeholder`
+                      ),
                       isRequired: true,
                       order: 3,
                     },
                     password: {
-                      label: 'Password',
-                      placeholder: 'Enter your Password',
+                      label: translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.password`),
+                      placeholder: translateText(
+                        `${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.password_placeholder`
+                      ),
                       isRequired: true,
                       order: 4,
                     },
                     confirm_password: {
-                      label: 'Confirm Password',
-                      placeholder: 'Please confirm your Password',
+                      label: translateText(
+                        `${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.confirm_password`
+                      ),
+                      placeholder: translateText(
+                        `${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.confirm_password_placeholder`
+                      ),
                       isRequired: true,
                       order: 5,
                     },
                     phone_number: {
-                      label: 'Phone Number',
-                      placeholder: '1234567890',
+                      label: translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.phone_number`),
+                      placeholder: translateText(
+                        `${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.accounts.phone_number_placeholder`
+                      ),
                       isRequired: false,
                       order: 6,
                     },

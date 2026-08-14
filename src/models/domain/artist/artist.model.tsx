@@ -126,6 +126,7 @@ export interface ArtistTemplate extends ProfileTemplate {
   since: Dayjs;
   home_city: string;
   country: CountryTemplate;
+  state?: string;
   city: any;
   spoken_languages: LanguageTemplate[];
   stage_languages: LanguageTemplate[];
@@ -133,13 +134,26 @@ export interface ArtistTemplate extends ProfileTemplate {
 
   website: string;
   email: string;
+  phone?: string;
   mobile_phone: string;
   whatsapp: string;
   facebook: string;
+  twitter?: string;
   instagram: string;
   spotify: string;
   youtube: string;
   youtube_widget_id: string;
+  wikipedia?: string;
+  cd_baby?: string;
+  sound_cloud?: string;
+  tiktok?: string;
+  categories?: string;
+
+  technical_epk?: any[];
+  technical_rider?: any[];
+  stage_plot?: any[];
+  image_members?: any[];
+  image_live_gallery?: any[];
 
   arts?: { music: { albums: AlbumTemplate[]; top_tracks: any[]; related_artists: ArtistTemplate[] } };
 
@@ -194,13 +208,26 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
 
   declare website: string;
   declare email: string;
+  declare phone?: string;
   declare mobile_phone: string;
   declare whatsapp: string;
   declare facebook: string;
+  declare twitter?: string;
   declare instagram: string;
   declare spotify: string;
   declare youtube: string;
   declare youtube_widget_id: string;
+  declare wikipedia?: string;
+  declare cd_baby?: string;
+  declare sound_cloud?: string;
+  declare tiktok?: string;
+  declare categories?: string;
+
+  declare technical_epk?: any[];
+  declare technical_rider?: any[];
+  declare stage_plot?: any[];
+  declare image_members?: any[];
+  declare image_live_gallery?: any[];
 
   declare arts?: { music: { albums: AlbumModel[]; top_tracks: any[]; related_artists: ArtistModel[] } };
 
@@ -211,6 +238,7 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
   declare awards?: ArtistAwardTemplate[];
 
   declare country: CountryModel;
+  declare state?: string;
   declare city: any;
 
   declare artist_gallery: string[];

@@ -12,6 +12,12 @@ export const PtMessages = {
       artists_hive: {
         slogan: 'Crie, Conecte-se, Voe...',
       },
+      dietary_restrictions: {
+        none: 'Nenhuma',
+        vegetarian: 'Vegetariano',
+        vegan: 'Vegano',
+        celiac: 'Celíaco',
+      },
       genders: {
         male: 'Homem',
         female: 'Mulher',
@@ -29,6 +35,7 @@ export const PtMessages = {
         video: 'Video',
       },
       actions: {
+        add: 'Adicionar',
         accounts: {
           create_account: 'Criar conta',
           forgot_password: 'Esqueci minha senha',
@@ -834,6 +841,12 @@ export const PtMessages = {
               sections: {
                 music_performance: {
                   name: 'Instrumentos',
+                  attributes: {
+                    member_names: 'Nomes',
+                    member_surenames: 'Sobrenomes',
+                    member_role: 'Função',
+                    member_instrument: 'Instrumento',
+                  },
                 },
                 audio_engineering: {
                   name: 'Engenharia de áudio',

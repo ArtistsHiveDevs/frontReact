@@ -12,6 +12,12 @@ export const EsMessages = {
       artists_hive: {
         slogan: 'Crea, Conecta, Vuela...',
       },
+      dietary_restrictions: {
+        none: 'Ninguna',
+        vegetarian: 'Vegetariano',
+        vegan: 'Vegano',
+        celiac: 'Celíaco',
+      },
       genders: {
         male: 'Hombre',
         female: 'Mujer',
@@ -29,6 +35,7 @@ export const EsMessages = {
         video: 'Video',
       },
       actions: {
+        add: 'Añadir',
         accounts: {
           create_account: 'Crear cuenta',
           forgot_password: 'Olvidé mi contraseña',
@@ -94,6 +101,14 @@ export const EsMessages = {
                 false: 'No acepta transfusiones sanguíneas',
               },
             },
+            birthdate: 'Fecha de nacimiento',
+            birthplace: 'Lugar de nacimiento',
+            fullname: 'Nombre completo',
+            gender: 'Género',
+            given_names: 'Nombres',
+            home_city: 'Ciudad de residencia',
+            stage_name: 'Nombre artístico',
+            surnames: 'Apellidos',
           },
         },
       },
@@ -839,6 +854,12 @@ export const EsMessages = {
               sections: {
                 music_performance: {
                   name: 'Instrumentos',
+                  attributes: {
+                    member_names: 'Nombres',
+                    member_surenames: 'Apellidos',
+                    member_role: 'Rol',
+                    member_instrument: 'Instrumento',
+                  },
                 },
                 audio_engineering: {
                   name: 'Ingeniería de sonido',

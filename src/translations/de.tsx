@@ -12,6 +12,12 @@ export const DeMessages = {
       artists_hive: {
         slogan: 'Kreiere, Vernetze dich, Fliege....',
       },
+      dietary_restrictions: {
+        none: 'Keine',
+        vegetarian: 'Vegetarisch',
+        vegan: 'Vegan',
+        celiac: 'Zöliakie',
+      },
       genders: {
         male: 'Mann',
         female: 'Frau',
@@ -29,6 +35,7 @@ export const DeMessages = {
         video: 'Video',
       },
       actions: {
+        add: 'Hinzufügen',
         accounts: {
           create_account: 'Konto erstellen',
           forgot_password: 'Passwort vergessen',
@@ -836,6 +843,12 @@ export const DeMessages = {
               sections: {
                 music_performance: {
                   name: 'Instrumente',
+                  attributes: {
+                    member_names: 'Vornamen',
+                    member_surenames: 'Nachnamen',
+                    member_role: 'Rolle',
+                    member_instrument: 'Instrument',
+                  },
                 },
                 audio_engineering: {
                   name: 'Tontechnik',

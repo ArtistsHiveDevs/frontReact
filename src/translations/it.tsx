@@ -12,6 +12,12 @@ export const ItMessages = {
       artists_hive: {
         slogan: 'Crea, Connettiti, Vola...',
       },
+      dietary_restrictions: {
+        none: 'Nessuna',
+        vegetarian: 'Vegetariano',
+        vegan: 'Vegano',
+        celiac: 'Celiaco',
+      },
       genders: {
         male: 'Uomo',
         female: 'Donna',
@@ -29,6 +35,7 @@ export const ItMessages = {
         video: 'Video',
       },
       actions: {
+        add: 'Aggiungi',
         accounts: {
           create_account: 'Crea account',
           forgot_password: 'Password dimenticata',
@@ -837,6 +844,12 @@ export const ItMessages = {
               sections: {
                 music_performance: {
                   name: 'Strumenti',
+                  attributes: {
+                    member_names: 'Nomi',
+                    member_surenames: 'Cognomi',
+                    member_role: 'Ruolo',
+                    member_instrument: 'Strumento',
+                  },
                 },
                 audio_engineering: {
                   name: 'Ingegneria audio',

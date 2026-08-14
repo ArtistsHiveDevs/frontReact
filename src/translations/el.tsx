@@ -12,6 +12,12 @@ export const ElMessages = {
       artists_hive: {
         slogan: 'Δημιούργησε, Συνδέσου, Πέτα...',
       },
+      dietary_restrictions: {
+        none: 'Καμία',
+        vegetarian: 'Χορτοφάγος',
+        vegan: 'Βίγκαν',
+        celiac: 'Κοιλιοκάκη',
+      },
       genders: {
         male: 'Άντρας',
         female: 'Γυναίκα',
@@ -29,6 +35,7 @@ export const ElMessages = {
         video: 'Βίντεο',
       },
       actions: {
+        add: 'Προσθήκη',
         accounts: {
           create_account: 'Δημιουργία λογαριασμού',
           forgot_password: 'Ξέχασα τον κωδικό μου',
@@ -837,6 +844,12 @@ export const ElMessages = {
               sections: {
                 music_performance: {
                   name: 'Όργανα',
+                  attributes: {
+                    member_names: 'Ονόματα',
+                    member_surenames: 'Επώνυμα',
+                    member_role: 'Ρόλος',
+                    member_instrument: 'Όργανο',
+                  },
                 },
                 audio_engineering: {
                   name: 'Ηχητική Μηχανική',

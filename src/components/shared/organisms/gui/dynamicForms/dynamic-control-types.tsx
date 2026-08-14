@@ -1,5 +1,5 @@
-import { FieldErrors, FieldValues, RegisterOptions } from 'react-hook-form';
 import React from 'react';
+import { FieldErrors, FieldValues, RegisterOptions } from 'react-hook-form';
 
 export type ControlType =
   | 'address'
@@ -30,7 +30,8 @@ export type ControlType =
   | 'relationship'
   | 'hidden'
   | 'instrumentSelector'
-  | 'iconTextButton';
+  | 'iconTextButton'
+  | 'membersList';
 
 export interface SelectOption {
   label: string;
@@ -50,6 +51,7 @@ export interface DynamicFieldData {
   defaultValue?: any;
   placeholder?: string;
   options?: SelectOption[];
+  nestedOptions?: { [nestedFieldName: string]: any[] };
   config?: RegisterOptions;
   componentParams?: any;
   handlersNames?: string[];

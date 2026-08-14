@@ -16,6 +16,8 @@ import { createFileUpload } from './components/FileUpload';
 import { createHiddenField } from './components/HiddenField';
 import { createIconTextButton } from './components/IconTextButton';
 import { createInstrumentSelector } from './components/InstrumentSelector';
+import { createMembersList } from './components/MembersList';
+import { createPhonePrefixField } from './components/PhonePrefixField';
 import { createRadio } from './components/Radio';
 import { createRelationshipSelector } from './components/RelationshipSelector';
 import { createSelect } from './components/Select';
@@ -24,7 +26,6 @@ import { createSwitch } from './components/Switch';
 import { createTextArea } from './components/TextArea';
 import { createAddressTextField, createSocialNetworkTextField, createTextField } from './components/TextField';
 import { createTimeField } from './components/TimeField';
-import { createPhonePrefixField } from './components/PhonePrefixField';
 import { DynamicFieldData } from './dynamic-control-types';
 
 export interface ComponentGeneratorParams {
@@ -134,6 +135,10 @@ export const DynamicControl = (params: {
     // Campos ocultos
     case 'hidden':
       return createHiddenField(fieldParams);
+
+    // Lista de miembros
+    case 'membersList':
+      return createMembersList(fieldParams);
 
     default:
       fieldData.inputType = 'text';

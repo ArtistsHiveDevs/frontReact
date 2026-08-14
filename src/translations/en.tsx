@@ -12,6 +12,12 @@ export const EnMessages = {
       artists_hive: {
         slogan: 'Create, Connect, Fly...',
       },
+      dietary_restrictions: {
+        none: 'None',
+        vegetarian: 'Vegetarian',
+        vegan: 'Vegan',
+        celiac: 'Celiac',
+      },
       genders: {
         male: 'Man',
         female: 'Woman',
@@ -29,6 +35,7 @@ export const EnMessages = {
         video: 'Video',
       },
       actions: {
+        add: 'Add',
         accounts: {
           create_account: 'Create account',
           forgot_password: 'Forgot Password',
@@ -822,6 +829,12 @@ export const EnMessages = {
               sections: {
                 music_performance: {
                   name: 'Instruments',
+                  attributes:{
+                    member_names: 'Names',
+                    member_surenames: 'Surenames',
+                    member_role: 'Role',
+                    member_instrument: 'Instrument',
+                  }
                 },
                 audio_engineering: {
                   name: 'Audio Engineering',

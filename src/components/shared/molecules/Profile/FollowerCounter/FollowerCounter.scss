@@ -1,27 +1,48 @@
 @import '~/variables.module.scss';
 
-.followers-box {
+.follower-counter {
   font-size: 14px;
   display: flex;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
-  gap: 1rem; /* Espaciado entre los elementos */
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
   width: 100%;
   min-width: 100%;
   text-align: center;
-}
 
-.followers-box div {
-  flex: 1; /* Hace que cada div ocupe el mismo espacio */
-  text-align: center; /* Asegura que el texto se centre */
-}
+  &__back-arrow {
+    align-self: center;
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
 
-.follow-number {
-  font-size: x-large;
-  font-weight: 620;
-  color: $main-title-color;
-}
+  &__item {
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
 
-.active-follower-type-title {
-  border-bottom: solid 2px white;
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &--active {
+      .follower-counter__label {
+        color: $main-title-color !important;
+        font-size: 1.3rem;
+        font-weight: 700;
+      }
+    }
+  }
+
+  &__number {
+    font-size: x-large;
+    font-weight: 620;
+    color: $main-title-color;
+  }
+
+  &__label {
+    display: inline-block;
+    transition: all 0.2s ease;
+  }
 }

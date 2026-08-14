@@ -59,6 +59,10 @@ export const ItMessages = {
           save: 'Salva',
         },
         report: 'Segnala',
+        selection: {
+          select_all: 'Seleziona tutti',
+          clear_selection: 'Deseleziona tutto',
+        },
         share: 'Condividi',
         show_more: 'Mostra di più',
         show_less: 'Mostra di meno',

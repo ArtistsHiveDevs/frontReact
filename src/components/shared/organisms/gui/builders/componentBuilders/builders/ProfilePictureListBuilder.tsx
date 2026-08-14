@@ -26,6 +26,7 @@ export const createProfilePictureListComponent: ComponentBuilderFunction = (
     dataSourceElement;
 
   const isSelectable = componentDescriptor?.data?.isSelectable || false;
+  const isToggleable = componentDescriptor?.data?.isToggleable || false;
   const display_direction = componentDescriptor?.data?.display_direction || false;
 
   // Construir handlers con onClickBackButtonFollowers
@@ -651,6 +652,9 @@ export const createProfilePictureListComponent: ComponentBuilderFunction = (
         handlers={handlers}
         showTopRightIcon={true}
         isSelectable={isSelectable}
+        isToggleable={isToggleable}
+        onSelectionChange={(selectedIds) => handlers?.['onSelectionChange']?.(selectedIds)}
+        onProfileClick={(profile) => handlers?.['onClickParticipant']?.(profile)}
         displayDirection={display_direction}
       />
     </>

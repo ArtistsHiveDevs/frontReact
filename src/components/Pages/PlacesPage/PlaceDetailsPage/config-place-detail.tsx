@@ -9,16 +9,9 @@ import { LanguageTemplate } from '~/models/parametrics/geo/language.model';
 
 export const TRANSLATION_BASE_PLACE_DETAIL_PAGE = 'app.pages.PlacesPages.PlacesDetailsPage';
 
-export const PLACE_TYPE_OPTIONS = [
-  { label: 'Bar', value: 'bar' },
-  { label: 'Club', value: 'club' },
-  { label: 'Teatro', value: 'theater' },
-  { label: 'Sala de conciertos', value: 'concert_hall' },
-  { label: 'Centro cultural', value: 'cultural_center' },
-  { label: 'Restaurante', value: 'restaurant' },
-  { label: 'Aire libre', value: 'outdoor' },
-  { label: 'Otro', value: 'other' },
-];
+// Las etiquetas se traducen en PlacesCreatePage (app.global_dictionary.place_types.<value>);
+// acá solo viven los slugs válidos que persiste el backend.
+export const PLACE_TYPE_VALUES = ['bar', 'club', 'theater', 'concert_hall', 'cultural_center', 'restaurant', 'outdoor', 'other'];
 
 export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {

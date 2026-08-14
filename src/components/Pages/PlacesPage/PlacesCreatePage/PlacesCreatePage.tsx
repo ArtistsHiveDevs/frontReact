@@ -23,7 +23,7 @@ import { LanguageModel } from '~/models/parametrics/geo/language.model';
 import { LocationEntityModel } from '~/models/parametrics/geo/location-entity.model';
 import {
   PLACE_DETAIL_SUB_PAGE_CONFIG,
-  PLACE_TYPE_OPTIONS,
+  PLACE_TYPE_VALUES,
   TRANSLATION_BASE_PLACE_DETAIL_PAGE,
 } from '../PlaceDetailsPage/config-place-detail';
 
@@ -98,6 +98,11 @@ const PlacesCreatePage = () => {
     }
     return translateGlobalDict('forms.submit_error');
   };
+
+  const placeTypeOptions = PLACE_TYPE_VALUES.map((value) => ({
+    value,
+    label: translateGlobalDict(`place_types.${value}`),
+  }));
 
   const submitErrorMessage =
     hasAttemptedSubmit && !loading && submitError ? buildSubmitErrorMessage(submitError) : undefined;
@@ -227,7 +232,7 @@ const PlacesCreatePage = () => {
           arts_languages: availableLanguages,
           spoken_languages: availableLanguages,
           stage_languages: availableLanguages,
-          place_type: PLACE_TYPE_OPTIONS,
+          place_type: placeTypeOptions,
         }}
         submitLabel={!currentPlace ? 'create' : 'save'}
         submitErrorMessage={submitErrorMessage}

@@ -3,11 +3,20 @@ import { KeyboardEvent, MouseEvent, useEffect, useMemo, useRef, useState } from 
 import { createPortal } from 'react-dom';
 import { useFormContext } from 'react-hook-form';
 import { MdArrowDropDown } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
 import Flag from 'react-world-flags';
-import { DEFAULT_PHONE_PREFIX_OPTION, PHONE_PREFIXES, PhonePrefix, parsePhoneValue } from '~/constants/phone-prefixes.const';
+import { selectorCountries, useCountriesSlice } from '~/common/slices/parametrics/geo/country.redux';
+import { useI18n } from '~/common/utils';
+import { DEFAULT_PHONE_PREFIX, parsePhoneValue } from '~/constants/phone-prefixes.const';
 import { ComponentGeneratorParams } from '../DynamicControl';
 
 const normalize = (value: string) => value.toLowerCase().trim();
+
+interface PhonePrefixOption {
+  iso2: string;
+  name: string;
+  dialCode: string;
+}
 
 export const createPhonePrefixField = (params: ComponentGeneratorParams) => {
   const { fieldData, handlers, formContext: externalContext } = params || {};
@@ -19,8 +28,30 @@ export const createPhonePrefixField = (params: ComponentGeneratorParams) => {
 
   const { label, fieldName, defaultValue, config = {}, focused = false } = fieldData;
 
+  const dispatch = useDispatch();
+  const { translateText } = useI18n();
+  const { actions: countryActions } = useCountriesSlice();
+  const availableCountries = useSelector(selectorCountries.selectItems);
+
+  useEffect(() => {
+    dispatch(countryActions.loadItems({}));
+  }, [dispatch, countryActions]);
+
+  const phonePrefixOptions: PhonePrefixOption[] = useMemo(
+    () =>
+      availableCountries
+        .filter((country) => !!country.phone && !!country.alpha2)
+        .map((country) => ({
+          iso2: country.alpha2,
+          dialCode: `+${country.phone}`,
+          name: `${country.name}${country.name !== country.native ? ' (' + country.native + ')' : ''}`,
+        }))
+        .sort((a, b) => a.name.localeCompare(b.name)),
+    [availableCountries]
+  );
+
   const formValue = watch ? watch(fieldName) : undefined;
-  const initialParsedValue = parsePhoneValue(formValue ?? defaultValue);
+  const initialParsedValue = parsePhoneValue(formValue ?? defaultValue, [DEFAULT_PHONE_PREFIX]);
 
   const [dialCode, setDialCode] = useState(initialParsedValue.dialCode);
   const [localNumber, setLocalNumber] = useState(initialParsedValue.number);
@@ -39,13 +70,29 @@ export const createPhonePrefixField = (params: ComponentGeneratorParams) => {
 
   useEffect(() => {
     if (formValue === undefined && setValue) {
-      const seededValue = `${initialParsedValue.dialCode} ${initialParsedValue.number}`.trim();
+      const seededValue = `${initialParsedValue.dialCode}${initialParsedValue.number}`.trim();
       setValue(fieldName, seededValue, { shouldDirty: false });
     }
   }, [defaultValue]);
 
+  // Re-derive the dial code/number split once the real country dial codes have loaded,
+  // since the initial parse above only had DEFAULT_PHONE_PREFIX to match against.
+  const initialSyncDoneRef = useRef(false);
+  useEffect(() => {
+    if (initialSyncDoneRef.current || phonePrefixOptions.length === 0) {
+      return;
+    }
+    initialSyncDoneRef.current = true;
+    const parsed = parsePhoneValue(
+      formValue ?? defaultValue,
+      phonePrefixOptions.map((prefix) => prefix.dialCode)
+    );
+    setDialCode(parsed.dialCode);
+    setLocalNumber(parsed.number);
+  }, [phonePrefixOptions]);
+
   const composeAndSetValue = (nextDialCode: string, nextLocalNumber: string) => {
-    const composedValue = `${nextDialCode} ${nextLocalNumber}`.trim();
+    const composedValue = `${nextDialCode}${nextLocalNumber}`.trim();
 
     if (setValue) {
       setValue(fieldName, composedValue, {
@@ -81,18 +128,19 @@ export const createPhonePrefixField = (params: ComponentGeneratorParams) => {
 
   const required = !!config.required;
 
-  const selectedPrefixOption =
-    PHONE_PREFIXES.find((prefix) => prefix.dialCode === dialCode) || DEFAULT_PHONE_PREFIX_OPTION;
+  const selectedPrefixOption: PhonePrefixOption =
+    phonePrefixOptions.find((prefix) => prefix.dialCode === dialCode) ||
+    phonePrefixOptions.find((prefix) => prefix.dialCode === DEFAULT_PHONE_PREFIX) || { iso2: '', name: '', dialCode };
 
   const filteredPrefixes = useMemo(() => {
     const term = normalize(prefixSearchTerm);
     if (!term) {
-      return PHONE_PREFIXES;
+      return phonePrefixOptions;
     }
-    return PHONE_PREFIXES.filter(
+    return phonePrefixOptions.filter(
       (prefix) => normalize(prefix.name).includes(term) || prefix.dialCode.includes(prefixSearchTerm.trim())
     );
-  }, [prefixSearchTerm]);
+  }, [prefixSearchTerm, phonePrefixOptions]);
 
   const openPrefixList = () => {
     if (anchorRowRef.current) {
@@ -140,7 +188,7 @@ export const createPhonePrefixField = (params: ComponentGeneratorParams) => {
     };
   }, [isPrefixListOpen]);
 
-  const selectPrefix = (prefix: PhonePrefix) => {
+  const selectPrefix = (prefix: PhonePrefixOption) => {
     handleDialCodeChange(prefix.dialCode);
     closePrefixList();
   };
@@ -178,7 +226,7 @@ export const createPhonePrefixField = (params: ComponentGeneratorParams) => {
             readOnly: true,
             startAdornment: (
               <InputAdornment position="start">
-                <Flag code={selectedPrefixOption.iso2} height="14" />
+                {selectedPrefixOption.iso2 && <Flag code={selectedPrefixOption.iso2} height="14" />}
               </InputAdornment>
             ),
             endAdornment: (
@@ -268,7 +316,7 @@ export const createPhonePrefixField = (params: ComponentGeneratorParams) => {
                   autoFocus
                   fullWidth
                   size="small"
-                  placeholder="Buscar país o código..."
+                  placeholder={translateText('app.global_dictionary.location.search_country_or_code')}
                   value={prefixSearchTerm}
                   onChange={(event) => setPrefixSearchTerm(event.target.value)}
                   onKeyDown={handlePrefixInputKeyDown}
@@ -276,7 +324,9 @@ export const createPhonePrefixField = (params: ComponentGeneratorParams) => {
                 />
               </Box>
               {filteredPrefixes.length === 0 && (
-                <Box sx={{ px: 1.5, py: 1.5, opacity: 0.7 }}>Sin resultados</Box>
+                <Box sx={{ px: 1.5, py: 1.5, opacity: 0.7 }}>
+                  {translateText('app.global_dictionary.location.no_results')}
+                </Box>
               )}
               {filteredPrefixes.map((prefix) => (
                 <Box

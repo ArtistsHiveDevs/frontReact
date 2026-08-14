@@ -598,7 +598,9 @@ const MemoizedCitySelectorComponent = React.memo(CitySelectorComponent, (prevPro
     (prevElementData?.fetchTimestamp === nextElementData?.fetchTimestamp &&
       prevElementData?.identifier === nextElementData?.identifier);
 
-  const errorsEqual = JSON.stringify(prevProps.errors) === JSON.stringify(nextProps.errors);
+  const errorsEqual =
+    prevProps.errors === nextProps.errors ||
+    (prevProps.errors?.type === nextProps.errors?.type && prevProps.errors?.message === nextProps.errors?.message);
 
   return fieldDataEqual && externalDataEqual && errorsEqual;
 });

@@ -336,14 +336,16 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
 
           try {
             if (newItem) {
-              const response: any = yield call(putRequest, requestURL, {
-                body: JSON.stringify(newItem),
-                headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
-              });
+              if (Object.keys(newItem).length > 0) {
+                const response: any = yield call(putRequest, requestURL, {
+                  body: JSON.stringify(newItem),
+                  headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
+                });
 
-              if (response.data) {
-                yield put(usersActions.loadCurrentUser());
-                yield put(slice.actions.itemByIdLoaded({ id: requestedItemID, item: response.data }));
+                if (response.data) {
+                  yield put(usersActions.loadCurrentUser());
+                  yield put(slice.actions.itemByIdLoaded({ id: requestedItemID, item: response.data }));
+                }
               }
             }
           } catch (err) {

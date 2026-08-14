@@ -142,7 +142,8 @@ export const createTextField = (params: ComponentGeneratorParams) => {
         onBlurHandler(data);
       }}
       onChange={(data) => {
-        const newValue = data.target.value;
+        const rawValue = data.target.value;
+        const newValue = componentParams?.numericOnly ? rawValue.replace(/\D/g, '') : rawValue;
         setCurrentValue(newValue);
 
         // Actualizar react-hook-form

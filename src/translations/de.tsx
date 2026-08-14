@@ -34,6 +34,8 @@ export const DeMessages = {
           forgot_password: 'Passwort vergessen',
           login: 'Login',
           password: 'Passwort',
+          phone_number: 'Telefonnummer',
+          phone_number_placeholder: '1234567890',
           remember_me: 'Angemeldet bleiben',
           signup: 'Registrieren',
           username_or_email: 'Benutzername oder E-Mail',
@@ -98,6 +100,7 @@ export const DeMessages = {
       errors: {
         // Data error
         NOT_AVAILABLE: 'Nicht verfügbar',
+        NO_RESULTS: 'Keine Ergebnisse',
 
         // Errores de Autenticación y Autorización
         AUTH_INVALID_CREDENTIALS: 'Ungültige Anmeldedaten',
@@ -294,6 +297,9 @@ export const DeMessages = {
         state: 'Bundesland',
         town: 'Stadt',
         village: 'Dorf',
+      },
+      location_info: {
+        search_country_or_code: 'Land oder Code suchen...',
       },
       social_networks_analytics: {
         metrics: {

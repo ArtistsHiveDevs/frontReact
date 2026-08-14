@@ -34,6 +34,8 @@ export const EnMessages = {
           forgot_password: 'Forgot Password',
           login: 'Login',
           password: 'Password',
+          phone_number: 'Phone Number',
+          phone_number_placeholder: '1234567890',
           remember_me: 'Remember me',
           signup: 'Sign up',
           username_or_email: 'Username or Email',
@@ -98,6 +100,7 @@ export const EnMessages = {
       errors: {
         // Data error
         NOT_AVAILABLE: 'Not available',
+        NO_RESULTS: 'No results',
 
         // Authentication and Authorization Errors
         AUTH_INVALID_CREDENTIALS: 'Invalid credentials',
@@ -294,6 +297,9 @@ export const EnMessages = {
         state: 'State',
         town: 'Town',
         village: 'Village',
+      },
+      location_info: {
+        search_country_or_code: 'Search country or code...',
       },
       social_networks_analytics: {
         metrics: {

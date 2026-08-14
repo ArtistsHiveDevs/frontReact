@@ -159,7 +159,7 @@ const ArtistsCreatePage = () => {
       <RequireAuthComponent resourceEntity={currentArtist} requiredSession={true}>
         {currentUserCanEdit && (
           <>
-            <BackButton />
+            <BackButton formRef={formRef} />
             {/* <h1>IMAGEN 2</h1>
             <FileUploader acceptedFileTypes={['image/*']} path="galeria/" maxFileCount={500} isResumable />
             <h2>FIN</h2>
@@ -181,6 +181,7 @@ const ArtistsCreatePage = () => {
                 stage_languages: availableLanguages,
               }}
               submitLabel={!currentArtist ? 'create' : 'save'}
+              onlyModifiedFields={true}
               resourceConfig={
                 loggedUser?.currentProfileIdentifier
                   ? {

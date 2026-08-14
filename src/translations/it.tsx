@@ -774,6 +774,16 @@ export const ItMessages = {
             general: {
               name: 'Generale',
               sections: {
+                artist_gallery: {
+                  name: "Galleria dell'artista",
+                  attributes: {
+                    members: 'Membri',
+                    live: 'Dal vivo',
+                  },
+                },
+                live_gallery: {
+                  name: 'Galleria live',
+                },
                 general: {
                   name: 'Info generale',
                   attributes: {
@@ -899,6 +909,19 @@ export const ItMessages = {
             },
             followers: {
               name: 'Followers',
+            },
+            documents: {
+              name: 'Documenti',
+              sections: {
+                technical_docs: {
+                  name: 'Documenti Tecnici',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Rider Tecnico',
+                    stage_plot: 'Piantina Palco',
+                  },
+                },
+              },
             },
           },
         },

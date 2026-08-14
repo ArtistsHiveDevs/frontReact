@@ -774,6 +774,19 @@ export const EsMessages = {
             general: {
               name: 'General',
               sections: {
+                artist_gallery: {
+                  name: 'Galería del artista',
+                  attributes: {
+                    members: 'Miembros',
+                    live: 'En vivo',
+                  },
+                },
+                live_gallery: {
+                  name: 'Galería en vivo',
+                },
+                artist_members: {
+                  name: 'Galería de miembros',
+                },
                 general: {
                   name: 'Info General',
                   attributes: {
@@ -898,6 +911,19 @@ export const EsMessages = {
             },
             followers: {
               name: 'Seguidores',
+            },
+            documents: {
+              name: 'Documentos',
+              sections: {
+                technical_docs: {
+                  name: 'Documentos Técnicos',
+                  docs: {
+                    technical_epk: 'EPK',
+                    technical_rider: 'Rider Técnico',
+                    stage_plot: 'Plano de Escenario',
+                  },
+                },
+              },
             },
           },
         },

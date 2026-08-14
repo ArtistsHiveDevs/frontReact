@@ -6,7 +6,7 @@ import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists
 import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
-import { getImageURL, uploadImage } from '~/common/utils/amplify/storage/storage.helpers';
+import { getImageURL, uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
@@ -66,14 +66,6 @@ const ArtistsCreatePage = () => {
     getURL();
   }, [urlParameters]);
 
-  // useEffect(() => {
-  //   if (requestHasBeenSended && !!createdItem) {
-  //     console.log()
-  //     dispatch(userActions.switchProfile({ id: createdItem.identifier }));
-  //     setHasSwitchedProfile(true);
-  //   }
-  // }, [createdItem]);
-
   useEffect(() => {
     if (requestHasBeenSended && loggedUser?.currentProfileIdentifier) {
       navigateToEntity({ entityType: ArtistModel.name, id: loggedUser?.currentProfileIdentifier });
@@ -115,28 +107,17 @@ const ArtistsCreatePage = () => {
 
   const handlers = {
     onSubmit: async (data: any, error?: any) => {
-      console.log('#####----------->>>>  !!! ', data);
-      if (!requestHasBeenSended) {
-        if (!currentArtist) {
-          console.log('ANTES DE SUBIR FOTO', data);
+      if (!currentArtist) {
+        await uploadFileToServer({ file: data.profile_pic });
+        dispatch(artistsActions.createItem({ data }));
+      } else {
+        const updatePayload = {
+          id: currentArtist.identifier,
+          newItem: data,
+        };
 
-          const response = await uploadImage({ file: data.profile_pic });
-          console.log('DESPUÉS de SUBIR FOTO, ', response);
-          dispatch(artistsActions.createItem({ data }));
-        } else {
-          console.log('Actualizando  un nuevo artista ', currentArtist.identifier, data);
-          dispatch(
-            artistsActions.updateItem({
-              id: currentArtist.identifier,
-              newItem: {
-                ...data,
-              },
-              // newItem: { spotify: 'InstagramActualizado' },
-            })
-          );
-        }
+        dispatch(artistsActions.updateItem(updatePayload));
       }
-      setRequestHasBeenSended(true);
     },
     onChangecountry: (data: any) => {
       console.log('#####----------->>>>  !!! ', data);
@@ -165,7 +146,6 @@ const ArtistsCreatePage = () => {
     //   path: 'picture-submissions/',
     //   // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
     // });
-    console.log(linkToStorageFile);
     setURL(linkToStorageFile);
   };
   const [url, setURL] = useState<StorageGetUrlOutput>();
@@ -196,6 +176,14 @@ const ArtistsCreatePage = () => {
                 stage_languages: availableLanguages,
               }}
               submitLabel={!currentArtist ? 'create' : 'save'}
+              resourceConfig={
+                loggedUser?.currentProfileIdentifier
+                  ? {
+                      resourceType: 'profiles',
+                      identifier: loggedUser.currentProfileIdentifier,
+                    }
+                  : undefined
+              }
             />
           </>
         )}

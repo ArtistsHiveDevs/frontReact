@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
-import { uploadImage } from '~/common/utils/amplify/storage/storage.helpers';
+import { uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
@@ -81,7 +81,7 @@ const PlacesCreatePage = () => {
     onSubmit: async (data: any, error?: any) => {
       if (!requestHasBeenSended) {
         if (!currentPlace) {
-          const response = await uploadImage({ file: data.profile_pic });
+          const response = await uploadFileToServer({ file: data.profile_pic });
 
           dispatch(placesActions.createItem({ data }));
         } else {

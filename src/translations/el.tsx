@@ -34,6 +34,8 @@ export const ElMessages = {
           forgot_password: 'Ξέχασα τον κωδικό μου',
           login: 'Σύνδεση',
           password: 'Κωδικός',
+          phone_number: 'Αριθμός τηλεφώνου',
+          phone_number_placeholder: '1234567890',
           remember_me: 'Θυμήσου με',
           signup: 'Εγγραφή',
           username_or_email: 'Όνομα χρήστη ή email',
@@ -94,6 +96,7 @@ export const ElMessages = {
       errors: {
         // Σφάλματα Δεδομένων
         NOT_AVAILABLE: 'Μη διαθέσιμο',
+        NO_RESULTS: 'Δεν βρέθηκαν αποτελέσματα',
 
         // Σφάλματα Αυθεντικοποίησης και Εξουσιοδότησης
         AUTH_INVALID_CREDENTIALS: 'Μη έγκυρα διαπιστευτήρια',
@@ -290,6 +293,9 @@ export const ElMessages = {
         state: 'Πολιτεία',
         town: 'Κωμόπολη',
         village: 'Χωριό',
+      },
+      location_info: {
+        search_country_or_code: 'Αναζήτηση χώρας ή κωδικού...',
       },
       social_networks_analytics: {
         metrics: {

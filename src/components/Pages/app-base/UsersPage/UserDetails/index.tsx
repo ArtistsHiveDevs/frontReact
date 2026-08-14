@@ -6,19 +6,21 @@ import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/P
 import { USER_DETAIL_SUB_PAGE_CONFIG } from './config-user-detail';
 
 import { useSelector } from 'react-redux';
+import { usersActions } from '~/common/slices/users';
 import { selectLoading } from '~/common/slices/users/selectors';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { IndustrySignUpBanner } from '~/components/shared/atoms/IndustrySignUpBanner/IndustrySignUpBanner';
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
-import { SUB_PATHS } from '~/constants';
+import { PATHS, SUB_PATHS } from '~/constants';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
+import { getClassFromModelName } from '~/models/base/modelHelpers';
 import { EventModel } from '~/models/domain/event/event.model';
 import './index.scss';
 
 const TRANSLATION_BASE_ARTIST_DETAIL_PAGE = 'app.pages.app_base.UsersPages.UsersDetailsPage';
 
 const UserDetailPage = () => {
-  const { navigateToEntity } = useNavigation();
+  const { navigateToEntity, navigateToInnerPath } = useNavigation();
 
   const { loggedUser, setLoggedUser, currentUserProfile } = useAuth();
 
@@ -71,6 +73,31 @@ const UserDetailPage = () => {
     onEditProfile: (value: any) => {
       const entityType = value.constructor.name !== 'Object' ? value.constructor.name : value.entity;
       navigateToEntity({ entityType, id: value.identifier, action: SUB_PATHS.EDIT });
+    },
+    onClickOnFollower: (value: any) => {
+      const entityType = getClassFromModelName(value?.entityType)?.name;
+      if (entityType) {
+        navigateToEntity({ entityType, id: value.username || value.id });
+      }
+    },
+
+    onClickFollowSucription: (value: any) => {
+      if (loggedUser) {
+        let followAction: 'follow' | 'unfollow';
+        let id;
+        if (value) {
+          followAction = 'follow';
+          id = 'XX Seguir a:  ' + loggedUser.identifier;
+        } else {
+          {
+            followAction = 'unfollow';
+            id = 'XX dejar de Seguir a:  ' + loggedUser.identifier;
+          }
+        }
+        dispatch(usersActions.followProfileUser({ action: followAction, profile: loggedUser }));
+      } else {
+        navigateToInnerPath({ path: PATHS.LOGIN });
+      }
     },
   };
 

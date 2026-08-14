@@ -545,4 +545,21 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   //   ],
   //   formMetaData: { hidden: true },
   // },
+  {
+    name: 'followers',
+    hideMainMenu: true,
+    sections: [
+      {
+        components: [
+          {
+            componentName: ComponentTypes.PROFILE_FOLLOWERS_COMPONENT,
+            // data: {
+            //   data_source: 'nextEvents',
+            // },
+            clickHandlerName: 'onClickBackButtonFollowers',
+          },
+        ],
+      },
+    ],
+  },
 ];

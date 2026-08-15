@@ -268,6 +268,7 @@ const config: SideMenuItem[] = [
     icon: 'TbAlertHexagonFilled',
     updated: new Date('2/20/16'),
     requireSession: true,
+    forbiddenEnvironments: ['prod'],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'send_comments'),

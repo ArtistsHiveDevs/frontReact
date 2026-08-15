@@ -1,5 +1,5 @@
 import { faMicrophoneLines } from '@fortawesome/free-solid-svg-icons';
-import { IconButton, InputAdornment, TextField } from '@mui/material';
+import { FormLabel, IconButton, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
@@ -119,7 +119,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
   const onBlurHandler = (handlers && handlers['onBlur']) || emptyFunction;
   const variant = componentParams?.variant || 'outlined';
 
-  const { required } = config || {};
+  const required = config.required === true || config.required === 'true';
   config.value = currentValue;
   if (inputType === 'number') {
     if (config.value) {
@@ -128,9 +128,18 @@ export const createTextField = (params: ComponentGeneratorParams) => {
   }
   // console.log("¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿   ¿¿¿¿     ", fieldName, defaultValue);
   return (
+    <>
+    {label && (
+      <FormLabel
+        required={required}
+        error={!!(errors && errors[fieldName])}
+        sx={{ mb: 0.5, display: 'block', color: '#fff' }}
+      >
+        {label}
+      </FormLabel>
+    )}
     <TextField
-      required={required === true || required === 'true'}
-      label={label}
+      required={required}
       type={inputType}
       {...(register ? register(fieldName, config) : {})}
       value={currentValue ?? ''}
@@ -174,6 +183,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
       variant={variant}
       fullWidth
     />
+    </>
   );
 };
 

@@ -13,7 +13,7 @@ export const createTextArea = (params: ComponentGeneratorParams) => {
 
   const { label, fieldName, options = [], config, componentParams = {}, placeholder = '' } = fieldData;
 
-  const { required } = config || {};
+  const required = config?.required === true || config?.required === 'true';
 
   // Usar el valor del formulario en lugar de estado local
   const formValue = watch ? watch(fieldName) : undefined;
@@ -69,6 +69,15 @@ export const createTextArea = (params: ComponentGeneratorParams) => {
 
   return (
     <>
+      {label && (
+        <FormLabel
+          required={required}
+          error={!!(errors && Object.keys(errors).find((key) => key === fieldName))}
+          sx={{ mb: 0.5, display: 'block', color: '#fff' }}
+        >
+          {label}
+        </FormLabel>
+      )}
       <TextField
         {...(register ? register(fieldName, config) : {})}
         multiline
@@ -76,14 +85,6 @@ export const createTextArea = (params: ComponentGeneratorParams) => {
         fullWidth
         minRows={4}
         maxRows={10}
-        label={
-          <FormLabel
-            required={required === true || required === 'true'}
-            error={!!(errors && Object.keys(errors).find((key) => key === fieldName))}
-          >
-            {label}
-          </FormLabel>
-        }
         value={currentValue}
         onChange={handleChange}
         error={!!(errors && errors[fieldName])}

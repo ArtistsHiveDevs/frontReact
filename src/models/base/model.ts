@@ -4,7 +4,7 @@ import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
 import { encryptEnvToken } from '~/common/utils/request';
 import { toCamelCase } from '~/common/utils/string-utils';
 import { VerificationStatus } from '~/constants';
-import { ProfileActiveStatus, ProfileNature } from '~/constants/domain/profile.constants';
+import { ProfileActiveStatus, ProfileApprovalStatus, ProfileNature } from '~/constants/domain/profile.constants';
 import { CurrentProfileInfoModel } from '../app/user/user.model';
 import {
   EntityTemplate,
@@ -251,6 +251,8 @@ export abstract class ProfileModel<T extends ProfileTemplate>
   declare isClaimedProfile?: boolean;
 
   declare is_active: ProfileActiveStatus;
+
+  declare approval_status?: ProfileApprovalStatus;
 
   declare followed_profiles: FollowerProfileTemplate[];
   declare followed_by: FollowerProfileTemplate[];

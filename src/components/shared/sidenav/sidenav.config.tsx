@@ -62,7 +62,7 @@ const general: SideMenuItem[] = [
     path: `${PATHS.CULTURAL_AGENDA}`,
     icon: 'FaBullhorn',
     updated: new Date('2/20/16'),
-    forbiddenEnvironments: ['prod'],
+    forbiddenEnvironments: ['prod', 'dev'],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, 'search'),
@@ -72,7 +72,7 @@ const general: SideMenuItem[] = [
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, 'opportunities'),
-    path: `${PATHS.OPPORTUNITIES}`,
+    path: `${PATHS.OPEN_CALLS}`,
     icon: 'md MdRocketLaunch',
     updated: new Date('2/20/16'),
   },
@@ -121,7 +121,7 @@ const miInfo: SideMenuItem[] = [
     icon: 'FaRegEnvelope',
     updated: new Date('2/20/16'),
     requireSession: true,
-    forbiddenEnvironments: ['prod'],
+    forbiddenEnvironments: ['prod', 'dev'],
     allowedRoles: [{ entityName: 'Artist' }, { entityName: 'Place' }],
     // nestedMenuOptions: [
     //   {
@@ -147,7 +147,7 @@ const miInfo: SideMenuItem[] = [
     updated: new Date('1/18/16'),
     randomId: false,
     requireSession: true,
-    forbiddenEnvironments: ['prod'],
+    forbiddenEnvironments: ['prod', 'dev'],
     hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
       return !params?.user?.hasIndustryProfiles;
     },
@@ -192,12 +192,27 @@ const miInfo: SideMenuItem[] = [
     // ],
   },
   {
+    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_open_calls'),
+    path: `${PATHS.OPEN_CALLS}`,
+    icon: 'LuMegaphone',
+    updated: new Date('1/18/16'),
+    randomId: false,
+    allowedRoles: [{ entityName: 'Artist' }, { entityName: 'Place' }],
+    rightIcon: 'FaPlus',
+    rightPath: `${PATHS.OPEN_CALLS}/${SUB_PATHS.CREATE}`,
+    rightAllowedRoles: [{ entityName: 'Place' }],
+    forbiddenEnvironments: ['prod'],
+    hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
+      return params?.user?.hasIndustryProfiles && params?.user?.isInPersonalProfile;
+    },
+  },
+  {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),
     path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/rid_2`,
     icon: 'FaFileAlt',
     updated: new Date('2/20/16'),
     allowedRoles: [{ entityName: 'Artist' }],
-    forbiddenEnvironments: ['prod'],
+    forbiddenEnvironments: ['prod', 'dev'],
   },
   // {
   //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_places'),
@@ -261,33 +276,47 @@ const config: SideMenuItem[] = [
     icon: 'FaQuestionCircle',
     updated: new Date('2/20/16'),
   },
-  {
-    name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'report'),
-    path: '',
-    color: '#eb0000',
-    icon: 'TbAlertHexagonFilled',
-    updated: new Date('2/20/16'),
-    requireSession: true,
-  },
+  // {
+  //   name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'report'),
+  //   path: '',
+  //   color: '#eb0000',
+  //   icon: 'TbAlertHexagonFilled',
+  //   updated: new Date('2/20/16'),
+  //   requireSession: true,
+  // },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'send_comments'),
     path: '',
     icon: 'MdFeedback',
     updated: new Date('2/20/16'),
     requireSession: true,
-    forbiddenEnvironments: ['prod'],
+    forbiddenEnvironments: ['prod', 'dev'],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'send_comments'),
     path: `${PATHS.STAGE_PLOT}/editor/ahgd`,
     icon: 'BsPinMapFill',
     updated: new Date('2/20/16'),
-    forbiddenEnvironments: ['prod'],
+    forbiddenEnvironments: ['prod', 'dev'],
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'send_comments'),
     path: `${PATHS.PLANS}`,
     icon: 'MdAttachMoney',
+    updated: new Date('2/20/16'),
+    forbiddenEnvironments: ['prod', 'dev'],
+  },
+  {
+    name: 'PAGOS = = =',
+    path: `${PATHS.PAYMENTS}`,
+    icon: 'MdAttachMoney',
+    updated: new Date('2/20/16'),
+    forbiddenEnvironments: ['prod'],
+  },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'send_comments'),
+    path: `${PATHS.PREBOOKING_REQUESTS_LIST}/end/details/lasucursalvenue`,
+    icon: 'tb TbContract',
     updated: new Date('2/20/16'),
     forbiddenEnvironments: ['prod'],
   },

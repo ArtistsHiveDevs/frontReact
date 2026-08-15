@@ -1,5 +1,5 @@
 import { VerificationStatus } from '~/constants';
-import { ProfileActiveStatus, ProfileNature } from '~/constants/domain/profile.constants';
+import { ProfileActiveStatus, ProfileApprovalStatus, ProfileNature } from '~/constants/domain/profile.constants';
 import { PlaceModel } from '../domain/place/place.model';
 
 export interface Template {
@@ -21,6 +21,8 @@ export interface ProfileTemplate extends EntityTemplate {
   is_active?: ProfileActiveStatus;
 
   nature?: ProfileNature;
+
+  approval_status?: ProfileApprovalStatus;
 
   isFollowedByCurrentProfile?: boolean;
   followed_profiles?: FollowerProfileTemplate[];

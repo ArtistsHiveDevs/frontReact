@@ -7,6 +7,7 @@ import {
   createDebouncedUsernameValidation,
 } from '~/common/utils/validation/username-validation';
 import { isVisible } from '~/common/utils/visibility-utils';
+import { ErrorBoundary } from '~/components/shared/atoms/ErrorBoundary';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
@@ -337,15 +338,17 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
                       contentComponents = (section.components || []).map(
                         (componentDescriptor: ComponentDescriptor, componentIndex: number) => (
                           <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
-                            {generateSectionFormFields(
-                              subpage,
-                              section,
-                              componentDescriptor,
-                              componentIndex,
-                              handlers,
-                              formMethods,
-                              elementData
-                            )}
+                            <ErrorBoundary fallbackMessageId="app.general.component_error.message">
+                              {generateSectionFormFields(
+                                subpage,
+                                section,
+                                componentDescriptor,
+                                componentIndex,
+                                handlers,
+                                formMethods,
+                                elementData
+                              )}
+                            </ErrorBoundary>
                           </div>
                         )
                       );

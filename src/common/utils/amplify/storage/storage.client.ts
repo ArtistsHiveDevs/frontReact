@@ -24,6 +24,7 @@ export const uploadData = (input: { path: string; data: Blob | File }) => {
     const formData = new FormData();
     formData.append('path', input.path);
     formData.append('file', input.data);
+    console.log({formData: JSON.stringify(formData)})
 
     const result = fetch(`${STORAGE_ADMIN_URL}/upload`, {
       method: 'POST',

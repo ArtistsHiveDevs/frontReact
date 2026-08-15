@@ -140,6 +140,12 @@ const UserCreatePage = () => {
   const handlers = {
     onSubmit: async (data: any, error?: any) => {
       // console.log('#####----------->>>>  !!! ', data);
+
+      // No hacer request si no hay datos que actualizar
+      if (!data || Object.keys(data).length === 0) {
+        return;
+      }
+
       if (!!data.profile_pic) {
         const prefferedFilename = `${loggedUser.sub}.${data.profile_pic.name.split('.').pop()}`;
         const response = await uploadFileToServer({

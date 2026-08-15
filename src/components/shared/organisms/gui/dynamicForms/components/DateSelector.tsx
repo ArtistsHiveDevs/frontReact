@@ -1,3 +1,4 @@
+import { FormLabel } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
@@ -115,6 +116,15 @@ export const createDatePicker = (params: ComponentGeneratorParams) => {
 
   return (
     <>
+      {label && (
+        <FormLabel
+          required={!!config?.required}
+          error={!!errors[fieldName]}
+          sx={{ mb: 0.5, display: 'block', color: '#fff' }}
+        >
+          {label}
+        </FormLabel>
+      )}
       <Controller
         control={control}
         name={fieldName}
@@ -126,7 +136,6 @@ export const createDatePicker = (params: ComponentGeneratorParams) => {
           return (
             <>
               <DatePicker
-                label={label}
                 value={resolvedValue}
                 inputRef={field.ref}
                 onChange={(date: Dayjs | null) => {
@@ -254,6 +263,15 @@ export const createDatePickerAnterior = (params: ComponentGeneratorParams) => {
     setValue(fieldName, smartDefaultValue);
   }
   return (
+    <>
+    {label && (
+      <FormLabel
+        required={isRequired}
+        sx={{ mb: 0.5, display: 'block', color: '#fff' }}
+      >
+        {label}
+      </FormLabel>
+    )}
     <Controller
       control={control}
       name={fieldName}
@@ -264,7 +282,6 @@ export const createDatePickerAnterior = (params: ComponentGeneratorParams) => {
 
         return (
           <DatePicker
-            label={label}
             value={resolvedValue}
             inputRef={field.ref}
             onChange={(date: Dayjs | null) => {
@@ -282,6 +299,7 @@ export const createDatePickerAnterior = (params: ComponentGeneratorParams) => {
         );
       }}
     />
+    </>
     // <DatePicker
     //   {...register(fieldName, config)}
 

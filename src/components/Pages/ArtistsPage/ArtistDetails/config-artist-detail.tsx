@@ -415,7 +415,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
       },
       {
         name: 'gallery',
-        hidden: fullyHiddenSectionsByEnvironment(['prod']),
+        hidden: fullyHiddenSectionsByEnvironment(['prod', 'dev']),
         components: [
           {
             componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
@@ -463,7 +463,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
       },
       {
         name: 'awards',
-        hidden: fullyHiddenSectionsByEnvironment(['prod']),
+        hidden: fullyHiddenSectionsByEnvironment(['prod', 'dev']),
       },
     ],
   },
@@ -593,7 +593,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   },
   {
     name: 'shows',
-    fullyHidden: fullyHiddenSectionsByEnvironment(['prod']),
+    fullyHidden: fullyHiddenSectionsByEnvironment(['prod', 'dev']),
     sections: [
       {
         name: 'summary',

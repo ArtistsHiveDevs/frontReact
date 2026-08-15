@@ -240,6 +240,7 @@ const SideNav = () => {
     if (!!loggedUser) {
       getProfilePicURLs();
     }
+    console.log(loggedUser);
   }, [loggedUser]);
 
   useEffect(() => {

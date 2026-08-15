@@ -72,7 +72,7 @@ const general: SideMenuItem[] = [
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, 'opportunities'),
-    path: `${PATHS.OPPORTUNITIES}`,
+    path: `${PATHS.OPEN_CALLS}`,
     icon: 'md MdRocketLaunch',
     updated: new Date('2/20/16'),
   },
@@ -190,6 +190,24 @@ const miInfo: SideMenuItem[] = [
     //     allowedRoles: [{ entityName: 'Artist' }],
     //   },
     // ],
+  },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_open_calls'),
+    path: `${PATHS.OPEN_CALLS}`,
+    icon: 'LuMegaphone',
+    updated: new Date('1/18/16'),
+    randomId: false,
+    allowedRoles: [
+      { entityName: 'Artist', checkCurrentProfileInfo: false },
+      { entityName: 'Place', checkCurrentProfileInfo: false },
+    ],
+    rightIcon: 'FaPlus',
+    rightPath: `${PATHS.OPEN_CALLS}/${SUB_PATHS.CREATE}`,
+    rightAllowedRoles: [{ entityName: 'Place', checkCurrentProfileInfo: false }],
+    forbiddenEnvironments: ['prod'],
+    // hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
+    //   return params?.user?.hasIndustryProfiles && params?.user?.isInPersonalProfile;
+    // },
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),

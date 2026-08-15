@@ -6,6 +6,9 @@ export const FrMessages = {
       not_found_page: {
         title: "Oups ! Nous n'avons pas trouvé ce que vous cherchez",
       },
+      component_error: {
+        message: "Ce composant n'a pas pu être chargé.",
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -98,7 +101,7 @@ export const FrMessages = {
           singular: 'Événement',
           attributes: {
             event_type: {
-              label: 'Type d\'Événement',
+              label: "Type d'Événement",
               values: {
                 concert: 'Concert',
                 conversation: 'Conversation',
@@ -194,7 +197,12 @@ export const FrMessages = {
       },
       forms: {
         errors: {
-          validation_error: 'Certains champs obligatoires sont manquants ou invalides. Vérifiez les champs marqués en rouge.',
+          submit_error: "Nous n'avons pas pu enregistrer les modifications. Veuillez réessayer.",
+          submit_error_duplicate_key: "Ce nom d'utilisateur est déjà utilisé. Veuillez en choisir un autre.",
+          submit_error_validation:
+            'Certains champs obligatoires sont manquants ou invalides. Veuillez vérifier le formulaire.',
+          validation_error:
+            'Certains champs obligatoires sont manquants ou invalides. Vérifiez les champs marqués en rouge.',
         },
       },
       errors: {
@@ -614,6 +622,61 @@ export const FrMessages = {
         },
       },
       domain: {
+        CalendarPage: {
+          title: 'My calendar',
+          empty_state: 'There are no events in this date range',
+          error: 'Something went wrong while loading your calendar. Please try again.',
+          deadline_label: 'Deadline',
+          types: {
+            concert: 'Concerts',
+            call: 'Open call deadlines',
+            activity: 'Activities',
+          },
+          meta: {
+            expired: 'Expired open call',
+            city: 'City',
+            event_date: 'Event date',
+            applications_count: 'Applications',
+            notes: 'Notes',
+          },
+          actions: {
+            today: 'Today',
+            month: 'Month',
+            week: 'Week',
+            day: 'Day',
+            delete: 'Delete',
+            cancel: 'Cancel',
+          },
+          activity_form: {
+            create_title: 'New activity',
+            edit_title: 'Edit activity',
+            save_error: 'The activity could not be saved. Please try again.',
+            fields: {
+              title: 'Title',
+              type: 'Type',
+              all_day: 'All day',
+              start_date: 'Start date',
+              start_time: 'Start time',
+              end_date: 'End date',
+              end_time: 'End time',
+              notes: 'Notes',
+            },
+            types: {
+              rehearsal: 'Rehearsal',
+              soundcheck: 'Soundcheck',
+              other: 'Other',
+            },
+            validation: {
+              title_required: 'Title is required',
+              start_date_required: 'Start date is required',
+              start_time_required: 'Start time is required',
+            },
+            delete_confirmation: {
+              title: 'Delete activity',
+              message: 'Are you sure you want to delete this activity? This action cannot be undone.',
+            },
+          },
+        },
         CulturalAgenda: {
           title: 'Agenda culturel',
         },
@@ -821,6 +884,35 @@ export const FrMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Rejoins la ruche',
         },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: "Membre de l'industrie",
+            intro:
+              "Merci de ton intérêt pour t'inscrire en tant que membre de l'industrie, que ce soit comme artiste, agent, propriétaire de salle, local de répétition ou autre entité.",
+            intro_secondary:
+              "Recherche ton profil s'il existe déjà dans le système, ou crées-en un nouveau pour commencer.",
+            search_section: {
+              title: 'Recherche ton profil',
+              input_placeholder: "Nom de l'artiste ou du lieu...",
+              search_button: 'Rechercher',
+              artists_found: 'Voici les artistes correspondants',
+              places_found: 'Voici les lieux correspondants',
+            },
+            create_section: {
+              title: 'Ou crée un nouveau profil',
+            },
+            reset_section: {
+              remove_artists_button: 'Retirer mes profils Artiste',
+              remove_places_button: 'Retirer mes profils Lieu',
+              confirm_title: "Confirmer l'action",
+              confirm_content:
+                "Cette action retirera l'association de tous tes profils de ce type avec ton compte. Les profils eux-mêmes ne seront pas supprimés, mais ils n'apparaîtront plus dans tes adhésions. Veux-tu continuer ?",
+              confirm_action: 'Oui, retirer',
+              cancel_action: 'Annuler',
+            },
+          },
+        },
+        PrebookingPages: {},
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour non trouvé',
@@ -1221,6 +1313,128 @@ export const FrMessages = {
           },
         },
       },
+      OpenCallPage: {
+        title: 'Open Call',
+        subtitle:
+          'Fill in the form to apply as an artist. Every detail helps us evaluate your proposal and coordinate the logistics of the event.',
+        step_counter: 'Step {current} of {total}',
+        step_progress: '{progress}% completed',
+        required_notice: 'Fields marked with * are required',
+        prev_button: 'Previous',
+        next_button: 'Next',
+        submit_button: 'Submit application',
+        submitting_button: 'Sending...',
+        save_notice: 'You can save and continue later',
+        no_artist_profile: {
+          title: 'You have no active artist profile',
+          message:
+            'You can only apply to an Open Call from an Artist profile. Check that you are logged in with the right profile.',
+        },
+        success: {
+          title: 'Application sent',
+          message:
+            'We have received your application. We will review your proposal and contact you at the email address you provided.',
+          back_button: 'Back to home',
+        },
+        already_applied: {
+          title: 'You have already applied to this Open Call',
+          message: 'You can only send one application per Open Call.',
+          status_label: 'Your application status:',
+          details_button: 'View the Open Call',
+        },
+        application_status: {
+          pending: 'Pending',
+          accepted: 'Accepted',
+          rejected: 'Rejected',
+        },
+        submit_errors: {
+          duplicate: 'You have already applied to this Open Call.',
+          not_accepting_applications:
+            'This Open Call is not accepting applications: it is closed or past its deadline.',
+          open_call_not_found: 'We could not find this Open Call. It may have been removed.',
+          generic: 'We could not send your application. Please try again later.',
+        },
+      },
+      OpenCallsListPage: {
+        subpages: {
+          active: { name: 'Appels ouverts actifs' },
+          past: { name: 'Appels ouverts passés' },
+          available: { name: 'Disponibles' },
+          applications: { name: 'Mes candidatures' },
+        },
+        attributes: {
+          event_name: "Nom de l'événement",
+          event_date: "Date de l'événement",
+          start_date: 'Ouverture',
+          end_date: 'Clôture',
+          status: 'Statut',
+          applications_count: 'Candidatures',
+          city: 'Ville',
+          genres: 'Genres',
+          application_status: 'Statut de ta candidature',
+        },
+      },
+      OpenCallDetailsPage: {
+        applications_received_title: 'Candidatures Reçues',
+        your_application_title: 'Ta candidature',
+        no_applications_yet: "Aucune candidature reçue pour cet appel à candidatures pour l'instant.",
+        not_applied_yet: "Tu n'as pas encore postulé à cet appel à candidatures.",
+        loading_applications: 'Chargement des candidatures...',
+        loading_your_application: 'Chargement de ta candidature...',
+        unauthorized_message:
+          'Connecte-toi avec un profil Artist ou Place pour voir les candidatures de cet appel à candidatures.',
+        back_button: 'Retour à mes appels à candidatures',
+        apply_button: 'Apply to this Open Call',
+        open_call_status: {
+          DRAFT: 'Draft',
+          OPEN: 'Open',
+          CLOSED: 'Closed',
+          CANCELLED: 'Cancelled',
+        },
+        presentation: {
+          open_badge: 'Applications open',
+          expired_badge: 'Applications closed',
+          apply_deadline_title: 'Application period',
+          event_date_label: 'Event date',
+          minutes_suffix: 'min',
+          sections: {
+            about: 'About this Open Call',
+            conditions: 'Conditions and requirements',
+            technical: 'Technical details',
+            compensation: 'Compensation and logistics',
+          },
+          fields: {
+            description: 'Description',
+            genres: 'Genres',
+            accepted_project_types: 'Accepted project types',
+            requirements_description: 'Requirements',
+            set_duration: 'Set duration',
+            max_applications: 'Maximum applications',
+            available_slots: 'Available slots',
+            expected_audience: 'Expected audience',
+            stage_type: 'Stage type',
+            stage_dimensions: 'Stage dimensions',
+            provided_sound: 'Sound provided',
+            provided_backline: 'Backline provided',
+            provided_lighting: 'Lighting provided',
+            technical_notes: 'Technical notes',
+            fee: 'Fee',
+            travel_support: 'Travel support',
+            accommodation_provided: 'Accommodation',
+            meals_provided: 'Meals',
+            additional_notes: 'Additional notes',
+          },
+        },
+        status: {
+          pending: 'En attente',
+          accepted: 'Acceptée',
+          rejected: 'Refusée',
+        },
+        actions: {
+          accept: 'Accepter',
+          reject: 'Refuser',
+        },
+      },
     },
     appbase: {
       betabar: {
@@ -1436,6 +1650,7 @@ export const FrMessages = {
               my_events: 'Mes événements',
               'my_events.nested': { create: 'Créer un événement' },
               my_riders: 'Mes riders',
+              my_open_calls: 'Mes Appels ouverts',
               my_places: 'Mes lieux',
               'my_places.nested': { create: 'Créer un lieu' },
               favourites: 'Favoris',

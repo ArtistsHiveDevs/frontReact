@@ -1,0 +1,300 @@
+@import '~/variables.module.scss';
+
+.open-call-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1rem;
+  color: $main-font-color;
+  background-color: $app-background;
+
+  // Force dark theme on all MUI form elements inside this page
+  .MuiTextField-root,
+  .MuiFormControl-root {
+    .MuiInputBase-root {
+      background-color: $form-fields-background;
+      color: $form-fields-font-color;
+    }
+
+    .MuiInputLabel-root {
+      color: $gray-light;
+    }
+
+    .MuiOutlinedInput-notchedOutline {
+      border-color: $form-fields-separator;
+    }
+
+    .MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline {
+      border-color: $form-fields-border-color;
+    }
+
+    .MuiFormHelperText-root {
+      color: $gray-medium;
+    }
+  }
+
+  .MuiSelect-select {
+    background-color: $form-fields-background;
+    color: $form-fields-font-color;
+  }
+
+  .MuiPaper-root {
+    background-color: $app-background-50;
+    color: $form-fields-font-color;
+  }
+
+  // File upload areas
+  .file-upload-area,
+  .MuiDropzoneArea-root {
+    background-color: $app-background-50;
+    border-color: $form-fields-separator;
+    color: $main-font-color;
+  }
+
+  .open-call-header {
+    text-align: center;
+    padding: 2rem 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid $form-fields-separator;
+
+    .open-call-title {
+      color: $main-title-color;
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .open-call-subtitle {
+      color: $gray-light;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+  }
+
+  // ─── Stepper progress ───
+  .stepper-progress {
+    margin-bottom: 2rem;
+
+    .stepper-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      font-size: 0.85rem;
+
+      .step-counter {
+        color: $main-title-color;
+        font-weight: 600;
+      }
+
+      .step-percentage {
+        color: $icons-color;
+      }
+    }
+
+    .stepper-bar {
+      width: 100%;
+      height: 6px;
+      background: $app-background-50;
+      border-radius: 3px;
+      overflow: hidden;
+
+      .stepper-bar-fill {
+        height: 100%;
+        background: $secondary-background-light;
+        border-radius: 3px;
+        transition: width 0.3s ease;
+      }
+    }
+
+    .stepper-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.75rem;
+      gap: 0.25rem;
+
+      .step-label {
+        font-size: 0.7rem;
+        color: $gray-medium;
+        cursor: pointer;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        text-align: center;
+        flex: 1;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+
+        &:hover {
+          color: $main-title-color;
+        }
+
+        &.active {
+          color: $main-title-color;
+          font-weight: 600;
+          background: $app-background-50;
+        }
+
+        &.completed {
+          color: $secondary-background-light;
+        }
+      }
+    }
+  }
+
+  // ─── Step content area ───
+  .step-content {
+    .step-title {
+      color: $main-title-color;
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .step-description {
+      color: $gray-light;
+      font-size: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .required-notice {
+      color: $gray-medium;
+      font-size: 0.75rem;
+      margin-bottom: 1rem;
+      font-style: italic;
+    }
+  }
+
+  // ─── Navigation buttons ───
+  .step-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid $form-fields-separator;
+    gap: 1rem;
+
+    .nav-btn {
+      padding: 0.6rem 1.5rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      font-weight: 500;
+
+      &.btn-prev {
+        background: $app-background-50;
+        color: $main-font-color;
+
+        &:hover {
+          background: lighten($app-background-50, 8%);
+        }
+
+        &:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+        }
+      }
+
+      &.btn-next {
+        background: $secondary-background-light;
+        color: white;
+
+        &:hover {
+          background: darken($secondary-background-light, 8%);
+        }
+      }
+
+      &.btn-submit {
+        background: $entity-1;
+        color: white;
+        flex: 1;
+
+        &:hover {
+          background: darken($entity-1, 8%);
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
+  // ─── Save notice ───
+  .save-notice {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: $gray-medium;
+  }
+
+  // ─── Success state ───
+  .submission-success {
+    text-align: center;
+    padding: 3rem 1rem;
+
+    .success-icon {
+      font-size: 3rem;
+      color: $secondary-background-light;
+      margin-bottom: 1rem;
+    }
+
+    .success-title {
+      color: $main-title-color;
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .success-message {
+      color: $gray-light;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      max-width: 480px;
+      margin: 0 auto 2rem;
+    }
+
+    .success-btn {
+      background: $secondary-background-light;
+      color: white;
+      border: none;
+      padding: 0.7rem 2rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: darken($secondary-background-light, 8%);
+      }
+    }
+  }
+}
+
+// ─── Responsive ───
+@media (max-width: 480px) {
+  .open-call-page {
+    padding: 0.5rem;
+
+    .open-call-header {
+      padding: 1.5rem 0.5rem;
+
+      .open-call-title {
+        font-size: 1.3rem;
+      }
+    }
+
+    .stepper-progress .stepper-labels .step-label {
+      font-size: 0.6rem;
+      padding: 0.2rem 0.25rem;
+    }
+
+    .step-navigation {
+      flex-wrap: wrap;
+
+      .nav-btn {
+        flex: 1;
+        text-align: center;
+      }
+    }
+  }
+}

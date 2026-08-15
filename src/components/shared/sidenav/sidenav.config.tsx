@@ -291,6 +291,13 @@ const config: SideMenuItem[] = [
     updated: new Date('2/20/16'),
     forbiddenEnvironments: ['prod'],
   },
+  {
+    name: 'PAGOS = = =',
+    path: `${PATHS.PAYMENTS}`,
+    icon: 'MdAttachMoney',
+    updated: new Date('2/20/16'),
+    forbiddenEnvironments: ['prod'],
+  },
 
   // {
   //   name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),

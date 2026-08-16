@@ -12,12 +12,6 @@ export const EsMessages = {
       artists_hive: {
         slogan: 'Crea, Conecta, Vuela...',
       },
-      genders: {
-        male: 'Hombre',
-        female: 'Mujer',
-        non_binary: 'No binario',
-        non_specified: 'No especificado',
-      },
       art_types: {
         dance: 'Danza',
         music: 'Música',
@@ -78,9 +72,92 @@ export const EsMessages = {
       },
       entities: {
         academies: { plural: 'Academias', singular: 'Academia' },
-        artists: { plural: 'Artistas', singular: 'Artista' },
-        events: { plural: 'Eventos', singular: 'Evento' },
-        places: { plural: 'Lugares', singular: 'Lugar' },
+        artists: {
+          plural: 'Artistas',
+          singular: 'Artista',
+          attributes: {
+            project_format: {
+              label: 'Formato de proyecto',
+              values: {
+                solo_artist: 'Solista',
+                duo: 'Dúo',
+                band: 'Banda',
+                dj: 'DJ',
+                group: 'Grupo',
+                collective: 'Colectivo',
+                orchestra: 'Orquesta',
+                choir: 'Coro',
+                symphonic_choral: 'Sinfónico-Coral',
+                other: 'Otro',
+              },
+            },
+          },
+        },
+        events: {
+          plural: 'Eventos',
+          singular: 'Evento',
+          attributes: {
+            event_type: {
+              label: 'Tipo de evento',
+              values: {
+                concert: 'Concierto',
+                conversation: 'Conversatorio',
+                festival: 'Festival',
+                jam_session: 'Jam session',
+                market: 'Mercado',
+                other: 'Otro',
+                residency: 'Residencia artística',
+                showcase: 'Showcase',
+                workshop: 'Taller',
+              },
+            },
+          },
+        },
+        open_calls: {
+          plural: 'Convocatorias',
+          singular: 'Convocatoria',
+          attributes: {
+            support_provision: {
+              label: 'Provisión de soporte',
+              values: {
+                no: 'No',
+                yes: 'Sí',
+                partial: 'Parcial',
+                negotiable: 'Negociable',
+              },
+            },
+          },
+        },
+        places: {
+          plural: 'Lugares',
+          singular: 'Lugar',
+          attributes: {
+            place_types: {
+              label: 'Tipos de lugar',
+              values: {
+                bar: 'Bar',
+                club: 'Club',
+                theater: 'Teatro',
+                concert_hall: 'Sala de conciertos',
+                cultural_center: 'Centro cultural',
+                restaurant: 'Restaurante',
+                outdoor: 'Espacio abierto',
+                other: 'Otro',
+              },
+            },
+            stage_types: {
+              label: 'Tipos de escenario',
+              values: {
+                indoor: 'Interior',
+                outdoor: 'Exterior',
+                amphitheater: 'Anfiteatro',
+                club: 'Club',
+                theater: 'Teatro',
+                other: 'Otro',
+              },
+            },
+          },
+        },
         promoters: { plural: 'Promotores', singular: 'Promotor' },
         prebooking_requests: { plural: 'Pre-Reservas', singular: 'Pre-Reserva' },
         users: {
@@ -90,8 +167,26 @@ export const EsMessages = {
             agrees_to_a_blood_transfusion: {
               label: '¿Acepta transfusiones sanguíneas?',
               values: {
-                true: 'Acepta transfusiones sanguíneas',
-                false: 'No acepta transfusiones sanguíneas',
+                true: 'Acepta',
+                false: 'No acepta',
+              },
+            },
+            dietary_restrictions: {
+              label: 'Restricciones dietéticas',
+              values: {
+                none: 'Ninguna',
+                vegetarian: 'Vegetariano',
+                vegan: 'Vegano',
+                celiac: 'Celíaco',
+              },
+            },
+            gender: {
+              label: 'Género',
+              values: {
+                male: 'Hombre',
+                female: 'Mujer',
+                non_binary: 'No binario',
+                non_specified: 'No especificado',
               },
             },
           },
@@ -1038,6 +1133,7 @@ export const EsMessages = {
                   name: 'Información General',
                   attributes: {
                     description: 'Descripción',
+                    place_type: 'Tipo de lugar',
                     address: 'Dirección',
                     city: 'Ciudad',
                     cityWithCountry: 'Ubicación',

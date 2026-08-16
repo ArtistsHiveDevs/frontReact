@@ -12,12 +12,6 @@ export const DeMessages = {
       artists_hive: {
         slogan: 'Kreiere, Vernetze dich, Fliege....',
       },
-      genders: {
-        male: 'Mann',
-        female: 'Frau',
-        non_binary: 'Nicht binär',
-        non_specified: 'Nicht spezifiziert',
-      },
       art_types: {
         dance: 'Tanz',
         music: 'Musik',
@@ -78,9 +72,92 @@ export const DeMessages = {
       },
       entities: {
         academies: { plural: 'Akademien', singular: 'Akademie' },
-        artists: { plural: 'Künstler', singular: 'Künstler' },
-        events: { plural: 'Veranstaltungen', singular: 'Veranstaltung' },
-        places: { plural: 'Orte', singular: 'Ort' },
+        artists: {
+          plural: 'Künstler',
+          singular: 'Künstler',
+          attributes: {
+            project_format: {
+              label: 'Projektformat',
+              values: {
+                solo_artist: 'Solokünstler',
+                duo: 'Duo',
+                band: 'Band',
+                dj: 'DJ',
+                group: 'Gruppe',
+                collective: 'Kollektiv',
+                orchestra: 'Orchester',
+                choir: 'Chor',
+                symphonic_choral: 'Sinfonieorchester mit Chor',
+                other: 'Andere',
+              },
+            },
+          },
+        },
+        events: {
+          plural: 'Veranstaltungen',
+          singular: 'Veranstaltung',
+          attributes: {
+            event_type: {
+              label: 'Veranstaltungsart',
+              values: {
+                concert: 'Konzert',
+                conversation: 'Gespräch',
+                festival: 'Festival',
+                jam_session: 'Jam session',
+                market: 'Markt',
+                other: 'Andere',
+                residency: 'Künstlerresidenz',
+                showcase: 'Präsentation',
+                workshop: 'Workshop',
+              },
+            },
+          },
+        },
+        open_calls: {
+          plural: 'Offene Ausschreibungen',
+          singular: 'Offene Ausschreibung',
+          attributes: {
+            support_provision: {
+              label: 'Unterstützungsbereitstellung',
+              values: {
+                no: 'Nein',
+                yes: 'Ja',
+                partial: 'Teilweise',
+                negotiable: 'Verhandelbar',
+              },
+            },
+          },
+        },
+        places: {
+          plural: 'Orte',
+          singular: 'Ort',
+          attributes: {
+            place_types: {
+              label: 'Ortstypen',
+              values: {
+                bar: 'Bar',
+                club: 'Club',
+                theater: 'Theater',
+                concert_hall: 'Konzertsaal',
+                cultural_center: 'Kulturzentrum',
+                restaurant: 'Restaurant',
+                outdoor: 'Im Freien',
+                other: 'Andere',
+              },
+            },
+            stage_types: {
+              label: 'Bühnentypen',
+              values: {
+                indoor: 'Innen',
+                outdoor: 'Außen',
+                amphitheater: 'Amphitheater',
+                club: 'Club',
+                theater: 'Theater',
+                other: 'Andere',
+              },
+            },
+          },
+        },
         promoters: { plural: 'Veranstalter', singular: 'Veranstalter' },
         prebooking_requests: { plural: 'Vorreservierungen', singular: 'Vorreservierung' },
         users: {
@@ -90,8 +167,26 @@ export const DeMessages = {
             agrees_to_a_blood_transfusion: {
               label: 'Akzeptieren Sie Bluttransfusionen?',
               values: {
-                true: 'Akzeptiert Bluttransfusionen',
-                false: 'Akzeptiert keine Bluttransfusionen',
+                true: 'Akzeptiert',
+                false: 'Akzeptiert nicht',
+              },
+            },
+            dietary_restrictions: {
+              label: 'Ernährungseinschränkungen',
+              values: {
+                none: 'Keine',
+                vegetarian: 'Vegetarisch',
+                vegan: 'Vegan',
+                celiac: 'Zöliakie',
+              },
+            },
+            gender: {
+              label: 'Geschlecht',
+              values: {
+                male: 'Mann',
+                female: 'Frau',
+                non_binary: 'Nicht binär',
+                non_specified: 'Nicht spezifiziert',
               },
             },
           },
@@ -1035,6 +1130,7 @@ export const DeMessages = {
                   name: 'Allgemeine Informationen',
                   attributes: {
                     description: 'Beschreibung',
+                    place_type: 'Ortstyp',
                     address: 'Adresse',
                     city: 'Stadt',
                     cityWithCountry: 'Ort',

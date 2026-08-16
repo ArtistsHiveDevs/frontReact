@@ -12,12 +12,6 @@ export const PtMessages = {
       artists_hive: {
         slogan: 'Crie, Conecte-se, Voe...',
       },
-      genders: {
-        male: 'Homem',
-        female: 'Mulher',
-        non_binary: 'Não binário',
-        non_specified: 'Não especificado',
-      },
       art_types: {
         dance: 'Dança',
         music: 'Música',
@@ -78,9 +72,92 @@ export const PtMessages = {
       },
       entities: {
         academies: { plural: 'Academias', singular: 'Academia' },
-        artists: { plural: 'Artistas', singular: 'Artista' },
-        events: { plural: 'Eventos', singular: 'Evento' },
-        places: { plural: 'Locais', singular: 'Local' },
+        artists: {
+          plural: 'Artistas',
+          singular: 'Artista',
+          attributes: {
+            project_format: {
+              label: 'Formato de Projeto',
+              values: {
+                solo_artist: 'Artista Solo',
+                duo: 'Duo',
+                band: 'Banda',
+                dj: 'DJ',
+                group: 'Grupo',
+                collective: 'Coletivo',
+                orchestra: 'Orquestra',
+                choir: 'Coro',
+                symphonic_choral: 'Sinfônico-Coral',
+                other: 'Outro',
+              },
+            },
+          },
+        },
+        events: {
+          plural: 'Eventos',
+          singular: 'Evento',
+          attributes: {
+            event_type: {
+              label: 'Tipo de Evento',
+              values: {
+                concert: 'Concerto',
+                conversation: 'Conversa',
+                festival: 'Festival',
+                jam_session: 'Jam session',
+                market: 'Mercado',
+                other: 'Outro',
+                residency: 'Residência artística',
+                showcase: 'Showcase',
+                workshop: 'Oficina',
+              },
+            },
+          },
+        },
+        open_calls: {
+          plural: 'Chamadas Abertas',
+          singular: 'Chamada Aberta',
+          attributes: {
+            support_provision: {
+              label: 'Provisão de Suporte',
+              values: {
+                no: 'Não',
+                yes: 'Sim',
+                partial: 'Parcial',
+                negotiable: 'Negociável',
+              },
+            },
+          },
+        },
+        places: {
+          plural: 'Locais',
+          singular: 'Local',
+          attributes: {
+            place_types: {
+              label: 'Tipos de Local',
+              values: {
+                bar: 'Bar',
+                club: 'Clube',
+                theater: 'Teatro',
+                concert_hall: 'Sala de Concertos',
+                cultural_center: 'Centro Cultural',
+                restaurant: 'Restaurante',
+                outdoor: 'Ao Ar Livre',
+                other: 'Outro',
+              },
+            },
+            stage_types: {
+              label: 'Tipos de Palco',
+              values: {
+                indoor: 'Interior',
+                outdoor: 'Exterior',
+                amphitheater: 'Anfiteatro',
+                club: 'Clube',
+                theater: 'Teatro',
+                other: 'Outro',
+              },
+            },
+          },
+        },
         promoters: { plural: 'Promotores', singular: 'Promotor' },
         prebooking_requests: { plural: 'Pré-Reservas', singular: 'Pré-Reserva' },
         users: {
@@ -90,8 +167,26 @@ export const PtMessages = {
             agrees_to_a_blood_transfusion: {
               label: 'Aceita transfusões de sangue?',
               values: {
-                true: 'Aceita transfusões de sangue',
-                false: 'Não aceita transfusões de sangue',
+                true: 'Aceita',
+                false: 'Não aceita',
+              },
+            },
+            dietary_restrictions: {
+              label: 'Restrições alimentares',
+              values: {
+                none: 'Nenhuma',
+                vegetarian: 'Vegetariano',
+                vegan: 'Vegano',
+                celiac: 'Celíaco',
+              },
+            },
+            gender: {
+              label: 'Gênero',
+              values: {
+                male: 'Homem',
+                female: 'Mulher',
+                non_binary: 'Não binário',
+                non_specified: 'Não especificado',
               },
             },
           },
@@ -1033,6 +1128,7 @@ export const PtMessages = {
                   name: 'Informações Gerais',
                   attributes: {
                     description: 'Descrição',
+                    place_type: 'Tipo de local',
                     address: 'Endereço',
                     city: 'Cidade',
                     cityWithCountry: 'Localização',

@@ -4,6 +4,7 @@ import { useI18n } from '~/common/utils';
 import { fullyHiddenSectionsByEnvironment } from '~/common/utils/app-utils/app-utils';
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 import { AppUserModel } from '~/models/app/user/user.model';
+import { LanguageModel } from '~/models/parametrics/geo/language.model';
 
 export const TRANSLATION_BASE_USER_DETAIL_PAGE = 'app.pages.app_base.UsersPages.UsersDetailsPage';
 
@@ -57,10 +58,10 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   icon: 'BsGenderTrans',
                   // emptyTitle: true,
                   value: (user: AppUserModel) => {
-                    const { translateText } = useI18n();
+                    const { translateGlobalDict } = useI18n();
 
                     let content = user?.genderEnum?.value
-                      ? translateText(`app.global_dictionary.genders.${user?.genderEnum?.value}`)
+                      ? translateGlobalDict(`entities.users.attributes.gender.values.${user?.genderEnum?.value}`)
                       : undefined;
                     return <>{content}</>;
                   },
@@ -328,8 +329,11 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'spoken_languages',
                   icon: 'FaGlobeAmericas',
+                  value: (user: AppUserModel) => {
+                    return user?.spoken_languages.map((l: LanguageModel) => l.name).join(', ');
+                  },
                   // emptyTitle: true,
-                  formMetaData: { inputType: 'chipPicker', hidden: true },
+                  formMetaData: { inputType: 'autocompletePicker' },
                 },
                 {
                   name: 'blood_group',
@@ -363,6 +367,16 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   name: 'dietary_restrictions',
                   icon: 'ImSpoonKnife',
                   // emptyTitle: true,
+                  value: (user: AppUserModel) => {
+                    const { translateGlobalDict } = useI18n();
+                    if (user.dietary_restrictions === undefined) {
+                      return 'No disponible';
+                    } else {
+                      return translateGlobalDict(
+                        `entities.users.attributes.dietary_restrictions.values.${user.dietary_restrictions}`
+                      );
+                    }
+                  },
                   formMetaData: {
                     inputType: 'select',
                   },

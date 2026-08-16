@@ -12,18 +12,6 @@ export const FrMessages = {
       artists_hive: {
         slogan: 'Crée, Connecte-toi, Envole-toi...',
       },
-      dietary_restrictions: {
-        none: 'Aucune',
-        vegetarian: 'Végétarien',
-        vegan: 'Végétalien',
-        celiac: 'Cœliaque',
-      },
-      genders: {
-        male: 'Homme',
-        female: 'Femme',
-        non_binary: 'Non binaire',
-        non_specified: 'Non spécifié',
-      },
       art_types: {
         dance: 'Danse',
         music: 'Musique',
@@ -85,9 +73,92 @@ export const FrMessages = {
       },
       entities: {
         academies: { plural: 'Académies', singular: 'Académie' },
-        artists: { plural: 'Artistes', singular: 'Artiste' },
-        events: { plural: 'Événements', singular: 'Événement' },
-        places: { plural: 'Lieux', singular: 'Lieu' },
+        artists: {
+          plural: 'Artistes',
+          singular: 'Artiste',
+          attributes: {
+            project_format: {
+              label: 'Format de Projet',
+              values: {
+                solo_artist: 'Artiste Solo',
+                duo: 'Duo',
+                band: 'Groupe (Band)',
+                dj: 'DJ',
+                group: 'Groupe (Group)',
+                collective: 'Collectif',
+                orchestra: 'Orchestre',
+                choir: 'Chorale',
+                symphonic_choral: 'Chœur Symphonique',
+                other: 'Autre',
+              },
+            },
+          },
+        },
+        events: {
+          plural: 'Événements',
+          singular: 'Événement',
+          attributes: {
+            event_type: {
+              label: 'Type d\'Événement',
+              values: {
+                concert: 'Concert',
+                conversation: 'Conversation',
+                festival: 'Festival',
+                jam_session: 'Jam session',
+                market: 'Marché',
+                other: 'Autre',
+                residency: 'Résidence artistique',
+                showcase: 'Vitrine',
+                workshop: 'Atelier',
+              },
+            },
+          },
+        },
+        open_calls: {
+          plural: 'Appels Ouverts',
+          singular: 'Appel Ouvert',
+          attributes: {
+            support_provision: {
+              label: 'Fourniture de Support',
+              values: {
+                no: 'Non',
+                yes: 'Oui',
+                partial: 'Partiel',
+                negotiable: 'Négociable',
+              },
+            },
+          },
+        },
+        places: {
+          plural: 'Lieux',
+          singular: 'Lieu',
+          attributes: {
+            place_types: {
+              label: 'Types de Lieu',
+              values: {
+                bar: 'Bar',
+                club: 'Club',
+                theater: 'Théâtre',
+                concert_hall: 'Salle de Concert',
+                cultural_center: 'Centre Culturel',
+                restaurant: 'Restaurant',
+                outdoor: 'En Plein Air',
+                other: 'Autre',
+              },
+            },
+            stage_types: {
+              label: 'Types de Scène',
+              values: {
+                indoor: 'Intérieur',
+                outdoor: 'Extérieur',
+                amphitheater: 'Amphithéâtre',
+                club: 'Club',
+                theater: 'Théâtre',
+                other: 'Autre',
+              },
+            },
+          },
+        },
         promoters: { plural: 'Promoteurs', singular: 'Promoteur' },
         prebooking_requests: { plural: 'Pré-Réservations', singular: 'Pré-Réservation' },
         users: {
@@ -97,8 +168,26 @@ export const FrMessages = {
             agrees_to_a_blood_transfusion: {
               label: 'Acceptez-vous les transfusions sanguines ?',
               values: {
-                true: 'Accepte les transfusions sanguines',
-                false: "N'accepte pas les transfusions sanguines",
+                true: 'Accepte',
+                false: "N'accepte pas",
+              },
+            },
+            dietary_restrictions: {
+              label: 'Restrictions alimentaires',
+              values: {
+                none: 'Aucune',
+                vegetarian: 'Végétarien',
+                vegan: 'Végétalien',
+                celiac: 'Cœliaque',
+              },
+            },
+            gender: {
+              label: 'Sexe',
+              values: {
+                male: 'Homme',
+                female: 'Femme',
+                non_binary: 'Non binaire',
+                non_specified: 'Non spécifié',
               },
             },
           },
@@ -1050,6 +1139,7 @@ export const FrMessages = {
                   name: 'Infos Générales',
                   attributes: {
                     description: 'Description',
+                    place_type: 'Type de lieu',
                     address: 'Adresse',
                     city: 'Ville',
                     cityWithCountry: 'Localisation',

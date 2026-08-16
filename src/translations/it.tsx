@@ -12,18 +12,6 @@ export const ItMessages = {
       artists_hive: {
         slogan: 'Crea, Connettiti, Vola...',
       },
-      dietary_restrictions: {
-        none: 'Nessuna',
-        vegetarian: 'Vegetariano',
-        vegan: 'Vegano',
-        celiac: 'Celiaco',
-      },
-      genders: {
-        male: 'Uomo',
-        female: 'Donna',
-        non_binary: 'Non binario',
-        non_specified: 'Non specificato',
-      },
       art_types: {
         dance: 'Danza',
         music: 'Musica',
@@ -85,9 +73,92 @@ export const ItMessages = {
       },
       entities: {
         academies: { plural: 'Accademie', singular: 'Accademia' },
-        artists: { plural: 'Artisti', singular: 'Artista' },
-        events: { plural: 'Eventi', singular: 'Evento' },
-        places: { plural: 'Luoghi', singular: 'Luogo' },
+        artists: {
+          plural: 'Artisti',
+          singular: 'Artista',
+          attributes: {
+            project_format: {
+              label: 'Formato Progetto',
+              values: {
+                solo_artist: 'Artista Solista',
+                duo: 'Duo',
+                band: 'Band',
+                dj: 'DJ',
+                group: 'Gruppo',
+                collective: 'Collettivo',
+                orchestra: 'Orchestra',
+                choir: 'Coro',
+                symphonic_choral: 'Coro Sinfonico',
+                other: 'Altro',
+              },
+            },
+          },
+        },
+        events: {
+          plural: 'Eventi',
+          singular: 'Evento',
+          attributes: {
+            event_type: {
+              label: 'Tipo di Evento',
+              values: {
+                concert: 'Concerto',
+                conversation: 'Conversazione',
+                festival: 'Festival',
+                jam_session: 'Jam session',
+                market: 'Mercato',
+                other: 'Altro',
+                residency: 'Residenza artistica',
+                showcase: 'Vetrina',
+                workshop: 'Laboratorio',
+              },
+            },
+          },
+        },
+        open_calls: {
+          plural: 'Bandi Aperti',
+          singular: 'Bando Aperto',
+          attributes: {
+            support_provision: {
+              label: 'Fornitura di Supporto',
+              values: {
+                no: 'No',
+                yes: 'Sì',
+                partial: 'Parziale',
+                negotiable: 'Negoziabile',
+              },
+            },
+          },
+        },
+        places: {
+          plural: 'Luoghi',
+          singular: 'Luogo',
+          attributes: {
+            place_types: {
+              label: 'Tipi di Luogo',
+              values: {
+                bar: 'Bar',
+                club: 'Club',
+                theater: 'Teatro',
+                concert_hall: 'Sala da Concerto',
+                cultural_center: 'Centro Culturale',
+                restaurant: 'Ristorante',
+                outdoor: 'All\'aperto',
+                other: 'Altro',
+              },
+            },
+            stage_types: {
+              label: 'Tipi di Palco',
+              values: {
+                indoor: 'Interno',
+                outdoor: 'Esterno',
+                amphitheater: 'Anfiteatro',
+                club: 'Club',
+                theater: 'Teatro',
+                other: 'Altro',
+              },
+            },
+          },
+        },
         promoters: { plural: 'Promotori', singular: 'Promotore' },
         prebooking_requests: { plural: 'Pre-Prenotazioni', singular: 'Pre-Prenotazione' },
         users: {
@@ -97,8 +168,26 @@ export const ItMessages = {
             agrees_to_a_blood_transfusion: {
               label: 'Accetti trasfusioni di sangue?',
               values: {
-                true: 'Accetta trasfusioni di sangue',
-                false: 'Non accetta trasfusioni di sangue',
+                true: 'Accetta',
+                false: 'Non accetta',
+              },
+            },
+            dietary_restrictions: {
+              label: 'Restrizioni dietetiche',
+              values: {
+                none: 'Nessuna',
+                vegetarian: 'Vegetariano',
+                vegan: 'Vegano',
+                celiac: 'Celiaco',
+              },
+            },
+            gender: {
+              label: 'Genere',
+              values: {
+                male: 'Uomo',
+                female: 'Donna',
+                non_binary: 'Non binario',
+                non_specified: 'Non specificato',
               },
             },
           },
@@ -1049,6 +1138,7 @@ export const ItMessages = {
                   name: 'Informazioni Generali',
                   attributes: {
                     description: 'Descrizione',
+                    place_type: 'Tipo di luogo',
                     address: 'Indirizzo',
                     city: 'Città',
                     cityWithCountry: 'Posizione',

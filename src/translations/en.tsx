@@ -12,18 +12,6 @@ export const EnMessages = {
       artists_hive: {
         slogan: 'Create, Connect, Fly...',
       },
-      dietary_restrictions: {
-        none: 'None',
-        vegetarian: 'Vegetarian',
-        vegan: 'Vegan',
-        celiac: 'Celiac',
-      },
-      genders: {
-        male: 'Man',
-        female: 'Woman',
-        non_binary: 'Non binary',
-        non_specified: 'Non specified',
-      },
       art_types: {
         dance: 'Dance',
         music: 'Music',
@@ -85,9 +73,92 @@ export const EnMessages = {
       },
       entities: {
         academies: { plural: 'Academies', singular: 'Academy' },
-        artists: { plural: 'Artists', singular: 'Artist' },
-        events: { plural: 'Events', singular: 'Event' },
-        places: { plural: 'Places', singular: 'Place' },
+        artists: {
+          plural: 'Artists',
+          singular: 'Artist',
+          attributes: {
+            project_format: {
+              label: 'Project Format',
+              values: {
+                solo_artist: 'Solo Artist',
+                duo: 'Duo',
+                band: 'Band',
+                dj: 'DJ',
+                group: 'Group',
+                collective: 'Collective',
+                orchestra: 'Orchestra',
+                choir: 'Choir',
+                symphonic_choral: 'Symphonic Choir',
+                other: 'Other',
+              },
+            },
+          },
+        },
+        events: {
+          plural: 'Events',
+          singular: 'Event',
+          attributes: {
+            event_type: {
+              label: 'Event Type',
+              values: {
+                concert: 'Concert',
+                conversation: 'Conversation',
+                festival: 'Festival',
+                jam_session: 'Jam session',
+                market: 'Market',
+                other: 'Other',
+                residency: 'Artist residency',
+                showcase: 'Showcase',
+                workshop: 'Workshop',
+              },
+            },
+          },
+        },
+        open_calls: {
+          plural: 'Open Calls',
+          singular: 'Open Call',
+          attributes: {
+            support_provision: {
+              label: 'Support Provision',
+              values: {
+                no: 'No',
+                yes: 'Yes',
+                partial: 'Partial',
+                negotiable: 'Negotiable',
+              },
+            },
+          },
+        },
+        places: {
+          plural: 'Places',
+          singular: 'Place',
+          attributes: {
+            place_types: {
+              label: 'Place Types',
+              values: {
+                bar: 'Bar',
+                club: 'Club',
+                theater: 'Theater',
+                concert_hall: 'Concert Hall',
+                cultural_center: 'Cultural Center',
+                restaurant: 'Restaurant',
+                outdoor: 'Outdoor',
+                other: 'Other',
+              },
+            },
+            stage_types: {
+              label: 'Stage Types',
+              values: {
+                indoor: 'Indoor',
+                outdoor: 'Outdoor',
+                amphitheater: 'Amphitheater',
+                club: 'Club',
+                theater: 'Theater',
+                other: 'Other',
+              },
+            },
+          },
+        },
         promoters: { plural: 'Promoters', singular: 'Promoter' },
         prebooking_requests: { plural: 'Pre-Bookings', singular: 'Pre-Booking' },
         users: {
@@ -97,8 +168,26 @@ export const EnMessages = {
             agrees_to_a_blood_transfusion: {
               label: 'Do you accept blood transfusions?',
               values: {
-                true: 'Accepts blood transfusions',
-                false: 'Does not accept blood transfusions',
+                true: 'Accepts',
+                false: 'Does not accept',
+              },
+            },
+            dietary_restrictions: {
+              label: 'Dietary restrictions',
+              values: {
+                none: 'None',
+                vegetarian: 'Vegetarian',
+                vegan: 'Vegan',
+                celiac: 'Celiac',
+              },
+            },
+            gender: {
+              label: 'Gender',
+              values: {
+                male: 'Man',
+                female: 'Woman',
+                non_binary: 'Non binary',
+                non_specified: 'Non specified',
               },
             },
           },
@@ -1034,6 +1123,7 @@ export const EnMessages = {
                   name: 'General Info',
                   attributes: {
                     description: 'Description',
+                    place_type: 'Venue Type',
                     address: 'Address',
                     city: 'City',
                     cityWithCountry: 'Location',

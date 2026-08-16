@@ -12,18 +12,6 @@ export const ElMessages = {
       artists_hive: {
         slogan: 'Δημιούργησε, Συνδέσου, Πέτα...',
       },
-      dietary_restrictions: {
-        none: 'Καμία',
-        vegetarian: 'Χορτοφάγος',
-        vegan: 'Βίγκαν',
-        celiac: 'Κοιλιοκάκη',
-      },
-      genders: {
-        male: 'Άντρας',
-        female: 'Γυναίκα',
-        non_binary: 'Μη δυαδικό',
-        non_specified: 'Μη καθορισμένο',
-      },
       art_types: {
         dance: 'Χορός',
         music: 'Μουσική',
@@ -85,9 +73,92 @@ export const ElMessages = {
       },
       entities: {
         academies: { plural: 'Ακαδημίες', singular: 'Ακαδημία' },
-        artists: { plural: 'Καλλιτέχνες', singular: 'Καλλιτέχνης' },
-        events: { plural: 'Εκδηλώσεις', singular: 'Εκδήλωση' },
-        places: { plural: 'Χώροι', singular: 'Χώρος' },
+        artists: {
+          plural: 'Καλλιτέχνες',
+          singular: 'Καλλιτέχνης',
+          attributes: {
+            project_format: {
+              label: 'Μορφή Έργου',
+              values: {
+                solo_artist: 'Σόλο Καλλιτέχνης',
+                duo: 'Ντουέτο',
+                band: 'Συγκρότημα',
+                dj: 'DJ',
+                group: 'Ομάδα',
+                collective: 'Συλλογικότητα',
+                orchestra: 'Ορχήστρα',
+                choir: 'Χορωδία',
+                symphonic_choral: 'Συμφωνική Χορωδία',
+                other: 'Άλλο',
+              },
+            },
+          },
+        },
+        events: {
+          plural: 'Εκδηλώσεις',
+          singular: 'Εκδήλωση',
+          attributes: {
+            event_type: {
+              label: 'Τύπος Εκδήλωσης',
+              values: {
+                concert: 'Συναυλία',
+                conversation: 'Συζήτηση',
+                festival: 'Φεστιβάλ',
+                jam_session: 'Jam session',
+                market: 'Αγορά',
+                other: 'Άλλο',
+                residency: 'Καλλιτεχνική διαμονή',
+                showcase: 'Προβολή',
+                workshop: 'Εργαστήριο',
+              },
+            },
+          },
+        },
+        open_calls: {
+          plural: 'Ανοιχτές Προσκλήσεις',
+          singular: 'Ανοιχτή Πρόσκληση',
+          attributes: {
+            support_provision: {
+              label: 'Παροχή Υποστήριξης',
+              values: {
+                no: 'Όχι',
+                yes: 'Ναι',
+                partial: 'Μερική',
+                negotiable: 'Διαπραγματεύσιμη',
+              },
+            },
+          },
+        },
+        places: {
+          plural: 'Χώροι',
+          singular: 'Χώρος',
+          attributes: {
+            place_types: {
+              label: 'Τύποι Χώρου',
+              values: {
+                bar: 'Μπαρ',
+                club: 'Κλαμπ',
+                theater: 'Θέατρο',
+                concert_hall: 'Αίθουσα Συναυλιών',
+                cultural_center: 'Πολιτιστικό Κέντρο',
+                restaurant: 'Εστιατόριο',
+                outdoor: 'Υπαίθριος',
+                other: 'Άλλο',
+              },
+            },
+            stage_types: {
+              label: 'Τύποι Σκηνής',
+              values: {
+                indoor: 'Εσωτερική',
+                outdoor: 'Εξωτερική',
+                amphitheater: 'Αμφιθέατρο',
+                club: 'Κλαμπ',
+                theater: 'Θέατρο',
+                other: 'Άλλο',
+              },
+            },
+          },
+        },
         promoters: { plural: 'Διοργανωτές', singular: 'Διοργανωτής' },
         prebooking_requests: { plural: 'Προκρατήσεις', singular: 'Προκράτηση' },
         users: {
@@ -97,8 +168,26 @@ export const ElMessages = {
             agrees_to_a_blood_transfusion: {
               label: 'Δέχεστε μεταγγίσεις αίματος;',
               values: {
-                true: 'Δέχεται μεταγγίσεις αίματος',
-                false: 'Δεν δέχεται μεταγγίσεις αίματος',
+                true: 'Δέχεται',
+                false: 'Δεν δέχεται',
+              },
+            },
+            dietary_restrictions: {
+              label: 'Διατροφικοί περιορισμοί',
+              values: {
+                none: 'Κανένας',
+                vegetarian: 'Χορτοφάγος',
+                vegan: 'Βίγκαν',
+                celiac: 'Κοιλιοκάκη',
+              },
+            },
+            gender: {
+              label: 'Φύλο',
+              values: {
+                male: 'Άντρας',
+                female: 'Γυναίκα',
+                non_binary: 'Μη δυαδικό',
+                non_specified: 'Μη καθορισμένο',
               },
             },
           },
@@ -1049,6 +1138,7 @@ export const ElMessages = {
                   name: 'Γενικές πληροφορίες',
                   attributes: {
                     description: 'Περιγραφή',
+                    place_type: 'Τύπος χώρου',
                     address: 'Διεύθυνση',
                     city: 'Πόλη',
                     cityWithCountry: 'Τοποθεσία',

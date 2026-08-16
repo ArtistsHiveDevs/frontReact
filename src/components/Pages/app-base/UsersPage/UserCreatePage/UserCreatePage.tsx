@@ -8,6 +8,11 @@ import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
+import {
+  getBloodGroupOptions,
+  getDietaryRestrictionOptions,
+  getGenderOptions,
+} from '~/common/utils/form-options/dynamic-form-parametric-options.helper';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
 import { IndustrySignUpBanner } from '~/components/shared/atoms/IndustrySignUpBanner/IndustrySignUpBanner';
@@ -78,20 +83,7 @@ const UserCreatePage = () => {
     ]);
 
     //
-    const groupList = ['A', 'B', 'AB', 'O'];
-    const fullGroup = groupList.map((group) => {
-      return [`${group}+`, `${group}-`];
-    });
-    const defaultBloodGroup = 'O+';
-    updateAvailableBloodGroups(
-      fullGroup.flat().map((group) => {
-        let bloodGroup: SelectOption = { label: group, value: group };
-        if (group === defaultBloodGroup) {
-          bloodGroup = { ...bloodGroup, selected: true };
-        }
-        return bloodGroup;
-      })
-    );
+    updateAvailableBloodGroups(getBloodGroupOptions({ defaultValue: 'O+' }));
 
     // updateAvailableAllergies([
     //   { label: 'Polen', value: 'Polen' },
@@ -104,18 +96,9 @@ const UserCreatePage = () => {
     //   { label: 'Gatos', value: 'Gatos' },
     // ]);
 
-    updateAvailableGenders(
-      ['male', 'female', 'non_binary', 'non_specified'].map((gender) => {
-        return { label: translateGlobalDict(`genders.${gender}`), value: gender };
-      })
-    );
+    updateAvailableGenders(getGenderOptions({ translateFn: translateGlobalDict }));
 
-    updateAvailableDietaryRestrictions([
-      { label: 'None', value: 'none' },
-      { label: 'Vegetarian', value: 'vegetarian' },
-      { label: 'Vegan', value: 'vegan' },
-      { label: 'Celiac', value: 'celiac' },
-    ]);
+    updateAvailableDietaryRestrictions(getDietaryRestrictionOptions({ translateFn: translateGlobalDict }));
 
     getUserInfo();
   }, []);

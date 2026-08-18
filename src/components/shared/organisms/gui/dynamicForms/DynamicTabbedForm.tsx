@@ -602,7 +602,7 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
       </FormProvider>
       {hasValidationErrors && (
         <Alert severity="error" sx={{ mb: 2 }}>
-          {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY}.forms.validation_error`)}
+          {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY}.forms.errors.validation_error`)}
         </Alert>
       )}
       {submitErrorMessage && (

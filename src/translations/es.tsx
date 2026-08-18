@@ -192,6 +192,11 @@ export const EsMessages = {
           },
         },
       },
+      forms: {
+        errors: {
+          validation_error: 'Hay campos obligatorios sin completar o con errores. Revisa los campos marcados en rojo.',
+        },
+      },
       errors: {
         // Data error
         NOT_AVAILABLE: 'No disponible',

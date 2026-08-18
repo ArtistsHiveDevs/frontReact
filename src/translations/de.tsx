@@ -192,6 +192,11 @@ export const DeMessages = {
           },
         },
       },
+      forms: {
+        errors: {
+          validation_error: 'Einige Pflichtfelder fehlen oder sind ungültig. Bitte überprüfe die rot markierten Felder.',
+        },
+      },
       errors: {
         // Data error
         NOT_AVAILABLE: 'Nicht verfügbar',

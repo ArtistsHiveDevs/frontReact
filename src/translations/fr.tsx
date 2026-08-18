@@ -192,6 +192,11 @@ export const FrMessages = {
           },
         },
       },
+      forms: {
+        errors: {
+          validation_error: 'Certains champs obligatoires sont manquants ou invalides. Vérifiez les champs marqués en rouge.',
+        },
+      },
       errors: {
         // Data error
         NOT_AVAILABLE: 'Non disponible',

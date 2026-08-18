@@ -1,18 +1,18 @@
 import { faMicrophoneLines } from '@fortawesome/free-solid-svg-icons';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { GMapsSvgMaker } from '~/common/utils/object-utils/object-utils-index';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import MapContainer from '~/components/shared/mapPrinter/mapContainer';
+import { DEBOUNCE_MS } from '~/constants/app.constants';
 import { SocialNetworks } from '~/constants/social-networks.const';
 import { ComponentGeneratorParams } from '../DynamicControl';
 
 export const createTextField = (params: ComponentGeneratorParams) => {
   const { fieldData, handlers, formContext: externalContext } = params || {};
 
-  // ✅ Patrón híbrido: usar formContext pasado O fallback a useFormContext()
   const hookContext = useFormContext();
   const finalContext = externalContext || hookContext;
   const { register, formState, trigger, clearErrors, watch, setValue } = finalContext || {};
@@ -34,6 +34,11 @@ export const createTextField = (params: ComponentGeneratorParams) => {
   // Usar el valor del formulario en lugar de estado local
   const formValue = watch ? watch(fieldName) : undefined;
   const [currentValue, setCurrentValue] = useState(formValue ?? defaultValue ?? '');
+
+  const { debounce } = componentParams || {};
+  const debounceTimeoutRef = useRef<NodeJS.Timeout>();
+
+  useEffect(() => () => clearTimeout(debounceTimeoutRef.current), []);
 
   // Sincronizar con el valor del formulario cuando cambie
   useEffect(() => {
@@ -146,28 +151,39 @@ export const createTextField = (params: ComponentGeneratorParams) => {
         const newValue = componentParams?.numericOnly ? rawValue.replace(/\D/g, '') : rawValue;
         setCurrentValue(newValue);
 
-        // Actualizar react-hook-form
-        if (setValue) {
-          setValue(fieldName, newValue, {
-            shouldDirty: true,
-            shouldValidate: true, // Disparar validación en cada cambio
-          });
-        }
-
         // Limpiar error cuando el usuario empieza a escribir
         if (clearErrors && errors && errors[fieldName]) {
           clearErrors(fieldName);
         }
 
-        // Triggear validación después de un pequeño delay para evitar validar cada tecla
-        if (trigger && errors && errors[fieldName]) {
-          setTimeout(() => {
-            trigger(fieldName);
-          }, 300);
-        }
+        const applyChange = () => {
+          // Actualizar react-hook-form
+          if (setValue) {
+            setValue(fieldName, newValue, {
+              shouldDirty: true,
+              shouldValidate: true, // Disparar validación en cada cambio
+            });
+          }
 
-        if (handlers && handlers[`on${fieldName}Change`]) {
-          handlers[`on${fieldName}Change`](newValue);
+          // Validación después de un pequeño delay para evitar validar cada tecla
+          if (trigger && errors && errors[fieldName]) {
+            setTimeout(() => {
+              trigger(fieldName);
+            }, 300);
+          }
+
+          if (handlers && handlers[`on${fieldName}Change`]) {
+            handlers[`on${fieldName}Change`](newValue);
+          }
+        };
+
+        if (debounce) {
+          if (debounceTimeoutRef.current) {
+            clearTimeout(debounceTimeoutRef.current);
+          }
+          debounceTimeoutRef.current = setTimeout(applyChange, DEBOUNCE_MS);
+        } else {
+          applyChange();
         }
       }}
       focused={focused}

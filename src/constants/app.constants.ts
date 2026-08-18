@@ -68,6 +68,8 @@ export enum AppErrorCodes {
   UNKNOWN_ERROR = 'UNKNOWN_ERROR',
 }
 
+export const DEBOUNCE_MS = 500;
+
 export const AVAILABLE_ENTITY_MEMBERSHIPS = [
   // 'academies',
   'artists',

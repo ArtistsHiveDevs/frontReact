@@ -935,6 +935,9 @@ export const PtMessages = {
                     member_surenames: 'Sobrenomes',
                     member_role: 'Função',
                     member_instrument: 'Instrumento',
+                    gender: 'Gênero',
+                    email: 'E-Mail',
+                    stage_name: 'Nome artístico',
                   },
                 },
                 audio_engineering: {

@@ -142,7 +142,7 @@ export const ItMessages = {
                 concert_hall: 'Sala da Concerto',
                 cultural_center: 'Centro Culturale',
                 restaurant: 'Ristorante',
-                outdoor: 'All\'aperto',
+                outdoor: "All'aperto",
                 other: 'Altro',
               },
             },
@@ -938,6 +938,9 @@ export const ItMessages = {
                     member_surenames: 'Cognomi',
                     member_role: 'Ruolo',
                     member_instrument: 'Strumento',
+                    gender: 'Genere',
+                    email: 'E-Mail',
+                    stage_name: "Nome d'arte",
                   },
                 },
                 audio_engineering: {

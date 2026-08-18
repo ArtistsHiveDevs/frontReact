@@ -940,6 +940,9 @@ export const EsMessages = {
                     member_surenames: 'Apellidos',
                     member_role: 'Rol',
                     member_instrument: 'Instrumento',
+                    gender: 'Género',
+                    email: 'E-Mail',
+                    stage_name: 'Nombre artístico',
                   },
                 },
                 audio_engineering: {

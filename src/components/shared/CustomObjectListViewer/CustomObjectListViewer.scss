@@ -1,8 +1,8 @@
-// 1. Contenedor principal (scroll horizontal)
-.lm-box-container {
+
+.lm-box-container-hor {
   display: flex;
   overflow-x: auto;
-  gap: 16px; // En MUI, "2" suele equivaler a 16px (2 * 8px)
+  gap: 16px; 
   padding: 16px;
   align-items: center;
   justify-content: flex-start;
@@ -18,33 +18,51 @@
   }
 }
 
-// 2. Tarjeta o elemento estándar
+.lm-box-container-ver {
+  display: flex;
+  overflow-y: auto;       
+  gap: 16px;              
+  padding: 16px;          
+  flex-direction: column; 
+  align-items: center;
+  height: 350px;         
+
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+}
+
 .lm-card-item {
   min-width: 150px;
-  height: 200px;
+  min-height: 200px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px; // "2" en borderRadius suele equivaler a 8px
+  border-radius: 8px;
+  padding: 16px;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
   &:hover {
-    transform: scale(1.05); // Aumenta el tamaño un 5%
-    // Equivalente aproximado a la elevación 6 (boxShadow: 6) de Material-UI
+    transform: scale(1.05);
     box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
       0px 1px 18px 0px rgba(0, 0, 0, 0.12);
   }
 }
 
-.lm-card-member {
+.lm-card-item {
   min-width: 250px;
   justify-content: flex-start;
   padding-left: 20px;
   padding-right: 20px;
 }
 
-.lm-button-add-member {
+.lm-button-add-item {
   width: 100%;
   height: 100%;
   display: flex;
@@ -55,7 +73,7 @@
   }
 }
 
-.lm-button-remove-member {
+.lm-button-remove-item {
   position: absolute;
   top: -15px;
   right: -8px;

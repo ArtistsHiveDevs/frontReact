@@ -16,7 +16,7 @@ import { createFileUpload } from './components/FileUpload';
 import { createHiddenField } from './components/HiddenField';
 import { createIconTextButton } from './components/IconTextButton';
 import { createInstrumentSelector } from './components/InstrumentSelector';
-import { createMembersList } from './components/MembersList';
+import { createCustomObjectList } from './components/CustomObjectList';
 import { createPhonePrefixField } from './components/PhonePrefixField';
 import { createRadio } from './components/Radio';
 import { createRelationshipSelector } from './components/RelationshipSelector';
@@ -137,8 +137,8 @@ export const DynamicControl = (params: {
       return createHiddenField(fieldParams);
 
     // Lista de miembros
-    case 'membersList':
-      return createMembersList(fieldParams);
+    case 'customObjectList':
+      return createCustomObjectList(fieldParams);
 
     default:
       fieldData.inputType = 'text';

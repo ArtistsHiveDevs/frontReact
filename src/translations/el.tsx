@@ -938,6 +938,9 @@ export const ElMessages = {
                     member_surenames: 'Επώνυμα',
                     member_role: 'Ρόλος',
                     member_instrument: 'Όργανο',
+                    gender: 'Φύλο',
+                    email: 'Email',
+                    stage_name: 'Καλλιτεχνικό όνομα',
                   },
                 },
                 audio_engineering: {

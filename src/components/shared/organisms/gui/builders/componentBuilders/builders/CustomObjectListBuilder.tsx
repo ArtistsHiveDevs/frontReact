@@ -1,8 +1,8 @@
-import { LandingMembers } from '~/components/shared/LandingMembers/LandingMembers';
+import { CustomObjectListViewer } from '~/components/shared/CustomObjectListViewer/CustomObjectListViewer';
 import { ComponentBuilderParams } from '../types';
 import { getData } from '../utils/dataExtraction';
 
-export const createMembersListBuiderComponent = (params: ComponentBuilderParams): JSX.Element => {
+export const createCustomObjectListBuiderComponent = (params: ComponentBuilderParams): JSX.Element => {
   const { componentDescriptor, entityData } = params;
   const { data: componentDescriptorData, formMetaData } = componentDescriptor || {};
   const { externalData } = componentDescriptorData;
@@ -10,10 +10,11 @@ export const createMembersListBuiderComponent = (params: ComponentBuilderParams)
   let memberList: any = getData(externalData, entityData);
   const fields = formMetaData?.componentParams?.fields || [];
   const translationPath = formMetaData?.componentParams?.translationPath || '';
+  const enableVerticalViewFromExt =  formMetaData?.componentParams?.enableVerticalView;
 
   return (
     <>
-      <LandingMembers fields={fields} memberList={[...memberList]} translationPath={translationPath} />
+      <CustomObjectListViewer fields={fields} objectList={[...memberList]} translationPath={translationPath} enableVerticalView={enableVerticalViewFromExt} />
     </>
   );
 };

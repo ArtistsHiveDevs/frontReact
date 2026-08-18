@@ -99,7 +99,7 @@ export const FrMessages = {
           singular: 'Événement',
           attributes: {
             event_type: {
-              label: 'Type d\'Événement',
+              label: "Type d'Événement",
               values: {
                 concert: 'Concert',
                 conversation: 'Conversation',
@@ -939,6 +939,9 @@ export const FrMessages = {
                     member_surenames: 'Noms de famille',
                     member_role: 'Rôle',
                     member_instrument: 'Instrument',
+                    gender: 'Genre',
+                    email: 'E-Mail',
+                    stage_name: 'Nom de scène',
                   },
                 },
                 audio_engineering: {

@@ -2,59 +2,56 @@ import { useEffect, useState } from 'react';
 import { useForm, useFormContext } from 'react-hook-form';
 import { useI18n } from '~/common/utils';
 import {
-  LandingMembers,
-  MemberHandleClickTemplate,
-  MembersFieldTemplate,
-} from '~/components/shared/LandingMembers/LandingMembers';
+  CustomObjectListViewer,
+  CustomObjectElementHandleClickTemplate,
+  CustomObjectListElementFieldTemplate,
+} from '~/components/shared/CustomObjectListViewer/CustomObjectListViewer';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { ComponentGeneratorParams } from '../DynamicControl';
 import { DynamicForm } from '../dynamic-form';
 import { FileUploaderOptions } from './FileUpload';
 
-export const createMembersList = (params: ComponentGeneratorParams) => {
+export const createCustomObjectList = (params: ComponentGeneratorParams) => {
   const { translateText } = useI18n();
   const { fieldData, handlers } = params;
   const { componentParams, config, fieldName, externalData, nestedOptions } = fieldData;
-  const { fields, dialogTitle = '', translationPath, dialogLabelAddMember } = componentParams;
+  const { fields, dialogTitle = '', translationPath, dialogLabelAddCustomObjectElement, enableVerticalView } = componentParams;
 
   const formMethods = useForm({
     mode: 'onChange', // Validar en cada cambio
     reValidateMode: 'onChange', // Re-validar en cada cambio
   });
 
-  const [showAddMember, setShowAddMember] = useState(false);
-  const [memberList, setMemberList] = useState([]);
+  const [showAddCustomObjectElement, setShowAddCustomObjectElement] = useState(false);
+  const [customObjectList, setCustomObjectList] = useState([]);
   const [prechargedExternalInfo, setPrechargedExternalInfo] = useState(false);
 
   const hookContext = useFormContext();
   const finalContext = hookContext;
   const { register, formState, setValue } = finalContext;
   const { errors } = formState || {};
-  const translatedFieldLabels = fields?.map((field: MembersFieldTemplate) => {
+  const translatedFieldLabels = fields?.map((field: CustomObjectListElementFieldTemplate) => {
     return { ...field, label: translateText(`${translationPath}.${field.label}`) };
   });
 
-  config.value = memberList;
+  config.value = customObjectList;
 
   useEffect(() => {
     if (externalData?.length > 0 && externalData && Array.isArray(externalData) && !prechargedExternalInfo) {
-      setMemberList(externalData);
+      setCustomObjectList(externalData);
       setValue?.(fieldName, externalData);
       setPrechargedExternalInfo(true);
     }
   }, [externalData]);
 
-  const generateRandomMemberIdentifier = () => {
+  const generateRandomInternalIdentifier = () => {
     return Math.random().toString(36).slice(2, 11);
   };
 
-  const mapDynamicFormDataToModel = (customMember: any) => {
-    const formatOriginalMemberData = Object.keys(customMember)?.map((memberAttr: string) => {
-      return { key: memberAttr, value: customMember[`${memberAttr}`] };
-    });
+  const mapDynamicFormDataToModel = (customObjectElement: any) => {
     return {
-      memberIdentifier: generateRandomMemberIdentifier(),
-      memberAttributes: formatOriginalMemberData,
+      ...{internal_id: generateRandomInternalIdentifier()},
+      ...customObjectElement,
     };
   };
 
@@ -62,43 +59,43 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
     ...handlers,
     onSubmit: (event: any) => {
       const data = mapDynamicFormDataToModel(event);
-      const totalValues = [...memberList, ...[data]];
-      // const totalValues = restartMemberListWithouthEl([...memberList, ...[event]]);
-      setMemberList(totalValues);
-      setShowAddMember(false);
+      const totalValues = [...customObjectList, ...[data]];
+      setCustomObjectList(totalValues);
+      setShowAddCustomObjectElement(false);
       setValue?.(fieldName, totalValues, { shouldDirty: true });
     },
   };
 
   const handleRemoveItem = (externalIdentifier: string) => {
-    const data = memberList?.filter((member) => member?.memberIdentifier !== externalIdentifier);
-    setMemberList(data);
+    const data = customObjectList?.filter((customObjectElementToFilter) => customObjectElementToFilter?.internal_id !== externalIdentifier);
+    setCustomObjectList(data);
     setValue?.(fieldName, data, { shouldDirty: true });
   };
 
-  const handleLandingMembersOptionClick = (event: MemberHandleClickTemplate) => {
-    const { selectedOption, memberToRemove } = event;
+  const handleCustomObjectListViewerClick = (event: CustomObjectElementHandleClickTemplate) => {
+    const { selectedOption, objectElementToRemove } = event;
 
     switch (selectedOption) {
       case FileUploaderOptions.addItem:
-        setShowAddMember(true);
+        setShowAddCustomObjectElement(true);
         break;
 
       case FileUploaderOptions.removeItem:
-        handleRemoveItem(memberToRemove);
+        handleRemoveItem(objectElementToRemove);
     }
   };
 
   return (
     <>
-      <LandingMembers
+      <CustomObjectListViewer
         {...(register ? register(fieldName, config) : {})}
         fields={fields}
-        memberList={memberList}
+        objectList={customObjectList}
         enableAddButton={true}
         enableRemoveButton={true}
+        enableVerticalView={enableVerticalView}
         translationPath={translationPath}
-        handleClickEvent={(e: MemberHandleClickTemplate) => handleLandingMembersOptionClick(e)}
+        handleClickEvent={(e: CustomObjectElementHandleClickTemplate) => handleCustomObjectListViewerClick(e)}
       />
       <AppDialog
         title={'NUEVO'}
@@ -109,11 +106,11 @@ export const createMembersList = (params: ComponentGeneratorParams) => {
             formMethods={formMethods}
             fieldOptions={nestedOptions}
             translationBasePath={translationPath}
-            submitLabel={dialogLabelAddMember}
+            submitLabel={dialogLabelAddCustomObjectElement}
           />
         }
-        isOpenDialog={showAddMember}
-        onClose={() => setShowAddMember(false)}
+        isOpenDialog={showAddCustomObjectElement}
+        onClose={() => setShowAddCustomObjectElement(false)}
         key={`dialog_${fieldData.fieldName}`}
       />
     </>

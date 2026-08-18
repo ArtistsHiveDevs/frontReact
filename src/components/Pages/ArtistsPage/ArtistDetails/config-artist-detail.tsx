@@ -302,33 +302,34 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
         name: 'music_performance',
         components: [
           {
-            componentName: ComponentTypes.MEMBERS_LIST,
+            componentName: ComponentTypes.CUSTOM_OBJECT_LIST,
             data: { externalData: 'music_performance', placeholder: 'En construcción' },
             formMetaData: {
-              inputType: 'membersList',
+              inputType: 'customObjectList',
               fieldName: 'music_performance',
               componentParams: {
                 dialogTitle: 'Agregar miembro',
                 translationPath:
                   'app.pages.ArtistsPages.ArtistsDetailsPage.subpages.members.sections.music_performance.attributes',
-                dialogLabelAddMember: 'add',
+                dialogLabelAddCustomObjectElement: 'add',
+                enableVerticalView: true,
                 fields: [
-                  { inputType: 'text', fieldName: 'memberNames', label: 'member_names', config: { required: true } },
+                  { inputType: 'text', fieldName: 'names', label: 'member_names', config: { required: true } },
                   {
                     inputType: 'text',
-                    fieldName: 'memberSureNames',
+                    fieldName: 'surnames',
                     label: 'member_surenames',
                     config: { required: true },
                   },
                   {
                     inputType: 'text',
                     fieldName: 'stage_name',
-                    label: 'member_surenames',
+                    label: 'stage_name',
                   },
                   {
                     inputType: 'email',
                     fieldName: 'email',
-                    label: 'member_surenames',
+                    label: 'email',
                     config: { required: true },
                   },
                   {
@@ -345,10 +346,10 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                       return <>{content}</>;
                     },
                   },
-                  { inputType: 'text', fieldName: 'memberRole', label: 'member_role', config: { required: true } },
+                  { inputType: 'text', fieldName: 'member_role', label: 'member_role', config: { required: true } },
                   {
-                    inputType: 'text',
-                    fieldName: 'memberInstrument',
+                    inputType: '',
+                    fieldName: 'member_instrument',
                     label: 'member_instrument',
                     config: { required: true },
                   },

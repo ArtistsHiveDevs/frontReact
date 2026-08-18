@@ -302,8 +302,8 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
       componentFieldData.inputType = 'file';
       addComponentField = true;
       componentFieldData.externalData = entityData?.[componentDescriptor?.formMetaData?.fieldName];
-    } else if (componentDescriptor.componentName === ComponentTypes.MEMBERS_LIST) {
-      componentFieldData.inputType = 'membersList';
+    } else if (componentDescriptor.componentName === ComponentTypes.CUSTOM_OBJECT_LIST) {
+      componentFieldData.inputType = 'customObjectList';
       addComponentField = true;
       componentFieldData.externalData = entityData?.[componentDescriptor?.formMetaData?.fieldName];
     }

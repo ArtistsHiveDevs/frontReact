@@ -31,7 +31,7 @@ export type ControlType =
   | 'hidden'
   | 'instrumentSelector'
   | 'iconTextButton'
-  | 'membersList';
+  | 'customObjectList';
 
 export interface SelectOption {
   label: string;

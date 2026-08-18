@@ -937,6 +937,9 @@ export const DeMessages = {
                     member_surenames: 'Nachnamen',
                     member_role: 'Rolle',
                     member_instrument: 'Instrument',
+                    gender: 'Geschlecht',
+                    email: 'E-Mail',
+                    stage_name: 'Künstlername',
                   },
                 },
                 audio_engineering: {

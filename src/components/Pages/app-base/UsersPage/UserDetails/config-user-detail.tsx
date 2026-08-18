@@ -1,10 +1,12 @@
 import dayjs from 'dayjs';
 import Flag from 'react-world-flags';
+import { useSelector } from 'react-redux';
+import { selectorAllergies } from '~/common/slices/parametrics/demographics/allergies.redux';
+import { selectorLanguages } from '~/common/slices/parametrics/geo/language.redux';
 import { useI18n } from '~/common/utils';
 import { fullyHiddenSectionsByEnvironment } from '~/common/utils/app-utils/app-utils';
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 import { AppUserModel } from '~/models/app/user/user.model';
-import { LanguageModel } from '~/models/parametrics/geo/language.model';
 
 export const TRANSLATION_BASE_USER_DETAIL_PAGE = 'app.pages.app_base.UsersPages.UsersDetailsPage';
 
@@ -330,7 +332,12 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   name: 'spoken_languages',
                   icon: 'FaGlobeAmericas',
                   value: (user: AppUserModel) => {
-                    return user?.spoken_languages.map((l: LanguageModel) => l.name).join(', ');
+                    // El backend guarda spoken_languages del User como códigos (ej. "am"), no como objetos poblados como en Artist.
+                    const availableLanguages = useSelector(selectorLanguages.selectItems);
+                    const codes = (user?.spoken_languages || []) as unknown as string[];
+                    return codes
+                      .map((code) => availableLanguages.find((lang) => lang.value === code)?.label || code)
+                      .join(', ');
                   },
                   // emptyTitle: true,
                   formMetaData: { inputType: 'autocompletePicker' },
@@ -385,6 +392,13 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   name: 'allergies',
                   icon: 'MdOutlineSick',
                   // emptyTitle: true,
+                  value: (user: AppUserModel) => {
+                    const availableAllergies = useSelector(selectorAllergies.selectItems);
+                    const ids = (user?.allergies || []) as unknown as string[];
+                    return ids
+                      .map((id) => availableAllergies.find((allergy) => allergy.value === id)?.label || id)
+                      .join(', ');
+                  },
                   formMetaData: {
                     inputType: 'chipPicker',
                     componentParams: {

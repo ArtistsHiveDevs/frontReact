@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useAllergiesSlice } from '~/common/slices/parametrics/demographics/allergies.redux';
+import { useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
 import { GalleryImageParams, ImageGallery } from '~/components/shared/atoms/ImageGallery/ImageGallery';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
@@ -32,6 +34,14 @@ const UserDetailPage = () => {
   const [currentGalleryImage, setGalleryImage] = useState(undefined);
 
   const dispatch = useDispatch();
+  const { actions: languageActions } = useLanguagesSlice();
+  const { actions: allergyActions } = useAllergiesSlice();
+
+  useEffect(() => {
+    dispatch(languageActions.loadItems({}));
+    dispatch(allergyActions.loadItems({}));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   // useEffect(() => {
   //   if (userList.length === 0) {
   //     dispatch(usersActions.loadUsers());

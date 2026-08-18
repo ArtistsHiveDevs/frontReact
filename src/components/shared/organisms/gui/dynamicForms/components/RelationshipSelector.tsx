@@ -1,5 +1,6 @@
 import { FormControl } from '@mui/base';
 import { Box, FormLabel, TextField } from '@mui/material';
+import { useFormContext } from 'react-hook-form';
 import { ComponentGeneratorParams } from '../DynamicControl';
 
 import Autocomplete from '@mui/material/Autocomplete';
@@ -20,6 +21,9 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
   const [inputValue, setInputValue] = React.useState<string>('');
   const { errors, register, fieldData, handlers } = params;
   const { label, fieldName, config, componentParams } = fieldData;
+
+  const hookContext = useFormContext();
+  const { setValue } = params.formContext || hookContext;
   let { options, minimumRelations, maximumRelations, isLoading, defaultSelection } = componentParams || {};
 
   let initialSelectedValues = Array.isArray(defaultSelection) ? [...defaultSelection] : [];
@@ -71,18 +75,15 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
   };
 
   const registerValues = (elements: any) => {
-    if (register) {
-      if (maximumRelations === 1) {
-        if (elements.length > 0) {
-          config.value = elements[0].id;
-        } else {
-          config.value = null;
-        }
-      } else {
-        config.value = elements.map((element: any) => element.id);
-      }
+    if (setValue) {
+      const newValue =
+        maximumRelations === 1
+          ? elements.length > 0
+            ? elements[0].id
+            : null
+          : elements.map((element: any) => element.id);
 
-      register(fieldName, config);
+      setValue(fieldName, newValue, { shouldDirty: true, shouldValidate: true });
     }
   };
   const updateSelection = (elements: any) => {
@@ -94,12 +95,20 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
     registerValues(elements);
   };
 
-  if (register) {
-    register(fieldName, config);
-    if (selectedValues?.length) {
-      registerValues(selectedValues);
+  React.useEffect(() => {
+    if (register) {
+      register(fieldName, config);
     }
-  }
+    if (setValue && selectedValues?.length) {
+      // Sincroniza el valor inicial sin marcar el campo como dirty (no es un cambio del usuario).
+      const initialValue =
+        maximumRelations === 1
+          ? selectedValues[0].id
+          : selectedValues.map((element) => element.id);
+      setValue(fieldName, initialValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

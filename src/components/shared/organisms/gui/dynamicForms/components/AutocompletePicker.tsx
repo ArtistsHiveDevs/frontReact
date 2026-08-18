@@ -12,25 +12,47 @@ export const createAutocompletePicker = (params: ComponentGeneratorParams) => {
 
   const hookContext = useFormContext();
   const finalContext = params.formContext || hookContext;
-  const { register, formState } = finalContext;
+  const { register, setValue, formState } = finalContext;
   const { errors } = formState || {};
 
   const [selectedOptions, updateSelectedOptions] = useState<SelectOption[]>([]);
 
   useEffect(() => {
-    const defaultSelectedOptions = (options || []).filter((option) => option.selected);
-    updateSelectedOptions(defaultSelectedOptions);
-  }, [options]);
+    const bySelectedFlag = (options || []).filter((option) => option.selected);
+    if (bySelectedFlag.length) {
+      updateSelectedOptions(bySelectedFlag);
+      return;
+    }
+
+    // Algunas entidades (ej. spoken_languages de User) traen el valor actual como códigos/ids crudos
+    // en vez de opciones pre-marcadas con `.selected` — hay que resolverlos contra el catálogo cargado.
+    const defaultValue = fieldData.defaultValue;
+    if (Array.isArray(defaultValue) && defaultValue.length && options?.length) {
+      const defaultKeys = new Set(
+        defaultValue.map((item: any) =>
+          item && typeof item === 'object' ? item.value ?? item.id ?? item._id ?? item.key : item
+        )
+      );
+      updateSelectedOptions(options.filter((option) => defaultKeys.has(option.value)));
+      return;
+    }
+
+    updateSelectedOptions([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [options, fieldData.defaultValue]);
 
   const hideLabel = componentParams?.hideLabel;
 
   const handleChange = (_event: React.SyntheticEvent, newValue: SelectOption[]) => {
     updateSelectedOptions(newValue);
-    config.value = newValue.map((option) => option.value);
-    register(fieldName, config);
+    setValue(
+      fieldName,
+      newValue.map((option) => option.value),
+      { shouldDirty: true, shouldValidate: true }
+    );
   };
 
-  config.value = selectedOptions.map((option) => option.value);
+  // Solo registra las reglas de validación; el valor lo actualiza setValue en handleChange para que react-hook-form marque el campo como dirty.
   register(fieldName, config);
 
   return (
@@ -62,6 +84,7 @@ export const createAutocompletePicker = (params: ComponentGeneratorParams) => {
             {...inputParams}
             placeholder={fieldData.placeholder}
             error={!!errors[fieldName]}
+            helperText={errors[fieldName]?.message as string}
             required={!!config.required}
           />
         )}

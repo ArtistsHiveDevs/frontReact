@@ -8,10 +8,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useProfilesSlice } from '~/common/slices/domain/profile/ProfileSlice';
 import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
-import { isVisible } from '~/common/utils/visibility-utils';
+import { GuardUnloggedResourceComponent } from '~/common/utils/guards/GuardUnloggedResourceComponent';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
+import { isVisible } from '~/common/utils/visibility-utils';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
+import { getModelInfoFromInstance } from '~/models/base/modelHelpers';
 import { DynamicIcons } from '../../DynamicIcons';
 import SEO from '../app/seo/seo';
 
@@ -164,45 +166,50 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
   return (
     <>
       {!!entityData && (
-        <div className="place-container">
-          {seoData && <SEO {...seoData} />}
-          {profileHeaderComponent || (
-            <ProfileHeader
-              element={entityData}
-              handlers={{
-                ...handlers,
-                onClickSeeFollowers: (value: any) => {
-                  const subpageIndex = visibleSubpages.findIndex((subpage) => subpage.name === 'followers');
-                  setShowSpecificFollowerType(value);
-                  setShowSpecificTab(subpageIndex);
-                },
-              }}
-              showFollowerCounter={headerShouldShowFollowerCounter}
-            />
-          )}
+        <GuardUnloggedResourceComponent
+          entityType={getModelInfoFromInstance(entityData).entityName}
+          resourceId={entityData.identifier}
+        >
+          <div className="place-container">
+            {seoData && <SEO {...seoData} />}
+            {profileHeaderComponent || (
+              <ProfileHeader
+                element={entityData}
+                handlers={{
+                  ...handlers,
+                  onClickSeeFollowers: (value: any) => {
+                    const subpageIndex = visibleSubpages.findIndex((subpage) => subpage.name === 'followers');
+                    setShowSpecificFollowerType(value);
+                    setShowSpecificTab(subpageIndex);
+                  },
+                }}
+                showFollowerCounter={headerShouldShowFollowerCounter}
+              />
+            )}
 
-          <div ref={tabbedPanelRef}>
-            <TabbedPanel
-              rawConfig={subpagesConfig}
-              defaultTransformerContext={defaultTransformerContext}
-              handlers={tabPanelHandlers}
-              showSpecificTab={showSpecificTab}
-            />
+            <div ref={tabbedPanelRef}>
+              <TabbedPanel
+                rawConfig={subpagesConfig}
+                defaultTransformerContext={defaultTransformerContext}
+                handlers={tabPanelHandlers}
+                showSpecificTab={showSpecificTab}
+              />
+            </div>
+            {profileFooter && <div ref={footerRef}>{profileFooter}</div>}
+            {!profileFooter && profileFooter}
+            {!isProdEnvironment() && fab && !loggedUser?.isInPersonalProfile && (
+              <Fab
+                color="white"
+                aria-label="add"
+                size="large"
+                className={!isFabVisible ? 'fab-hidden' : ''}
+                onClick={() => fab.handler()}
+              >
+                <DynamicIcons iconName={fab.icon || 'fa FaPlus'} size={35} color="#000" />
+              </Fab>
+            )}
           </div>
-          {profileFooter && <div ref={footerRef}>{profileFooter}</div>}
-          {!profileFooter && profileFooter}
-          {!isProdEnvironment() && fab && !loggedUser?.isInPersonalProfile && (
-            <Fab
-              color="white"
-              aria-label="add"
-              size="large"
-              className={!isFabVisible ? 'fab-hidden' : ''}
-              onClick={() => fab.handler()}
-            >
-              <DynamicIcons iconName={fab.icon || 'fa FaPlus'} size={35} color="#000" />
-            </Fab>
-          )}
-        </div>
+        </GuardUnloggedResourceComponent>
       )}
     </>
   );

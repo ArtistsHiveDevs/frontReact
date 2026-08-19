@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
+import { useI18n } from '~/common/utils';
 import { getFilesUrls } from '~/common/utils/amplify/storage/storage.helpers';
 import { DBFileDataItem } from '~/common/utils/amplify/storage/storage.types';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
@@ -13,6 +14,7 @@ import './CustomPDFViewer.scss';
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 export const CustomPDFViewer = (props: { fileSources: DBFileDataItem[] }) => {
+  const { translateError } = useI18n();
   const { fileSources } = props;
   const [showPDF, setShowPDF] = useState(false);
   const [pdfUrl, setPDFUrl] = useState('');
@@ -152,6 +154,16 @@ export const CustomPDFViewer = (props: { fileSources: DBFileDataItem[] }) => {
 
   return (
     <>
+      {!fileSources?.length && (
+        <Box className="box-document-avatar">
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div>
+              <DynamicIcons iconName="ai AiFillFileUnknown" size={iconSize} customStyle={{ padding: 0 }} />
+            </div>
+            <span>{translateError('NOT_AVAILABLE')}</span>
+          </div>
+        </Box>
+      )}
       {!!filesUrls && !showPDF && (
         <Box className="box-document-avatar">
           {fileSources &&

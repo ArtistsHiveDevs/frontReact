@@ -193,6 +193,11 @@ export const EnMessages = {
           },
         },
       },
+      forms: {
+        errors: {
+          validation_error: 'Some required fields are missing or invalid. Please review the fields marked in red.',
+        },
+      },
       errors: {
         // Data error
         NOT_AVAILABLE: 'Not available',

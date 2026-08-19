@@ -193,6 +193,11 @@ export const PtMessages = {
           },
         },
       },
+      forms: {
+        errors: {
+          validation_error: 'Alguns campos obrigatórios estão faltando ou inválidos. Revise os campos marcados em vermelho.',
+        },
+      },
       errors: {
         // Data error
         NOT_AVAILABLE: 'Não disponível',

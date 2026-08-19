@@ -44,7 +44,7 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
 
   const hookContext = useFormContext();
   const finalContext = params.formContext || hookContext;
-  const { register, formState } = finalContext;
+  const { register, setValue, formState } = finalContext;
   const { errors } = formState || {};
 
   const [selectedGroupByTerms, updateGroupByTerms] = useState([]);
@@ -69,8 +69,7 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
     }
 
     updateSelectedOptions(newSelection);
-    config.value = newSelection || [];
-    register(fieldName, config);
+    setValue(fieldName, newSelection || [], { shouldDirty: true, shouldValidate: true });
   };
 
   const renderedOptions = options
@@ -91,8 +90,7 @@ export const createChipPicker = (params: ComponentGeneratorParams) => {
     setDisplayAllOptions(false);
   };
 
-  config.value = selectedOptions || [];
-
+  // Solo registra las reglas de validación; el valor lo actualiza setValue en handleClickInChip para que react-hook-form marque el campo como dirty.
   register(fieldName, config);
 
   const groupbyValues = componentParams?.groupby

@@ -193,6 +193,11 @@ export const ItMessages = {
           },
         },
       },
+      forms: {
+        errors: {
+          validation_error: 'Alcuni campi obbligatori sono mancanti o non validi. Controlla i campi evidenziati in rosso.',
+        },
+      },
       errors: {
         // Data error
         NOT_AVAILABLE: 'Non disponibile',

@@ -26,11 +26,12 @@ export class LanguageModel extends EntityModel<LanguageTemplate> implements Lang
   }
 
   get label() {
-    return this.name;
+    const translation = this.native && this.name !== this.native ? ` (${this.native})` : '';
+    return `${this.name}${translation}`;
   }
 
   // El backend referencia idiomas por ObjectId (ver AllergyModel para el mismo patrón); `key` es solo el código legible.
   get value() {
-    return this.id;
+    return this.id || this.key;
   }
 }

@@ -7,6 +7,7 @@ import { Fab } from '@mui/material';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useProfilesSlice } from '~/common/slices/domain/profile/ProfileSlice';
+import { EntityType, RouteTracker } from '~/common/utils/analytics';
 import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
 import { GuardUnloggedResourceComponent } from '~/common/utils/guards/GuardUnloggedResourceComponent';
 import useAuth from '~/common/utils/hooks/auth/useAuth';
@@ -66,6 +67,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
   const [showSpecificFollowerType, setShowSpecificFollowerType] = useState(undefined);
   const [lastVisibleTab, setLastVisibleTab] = useState(-1);
   const [currentVisibleTab, setCurrentVisibleTab] = useState(0);
+  const [currentTabName, setCurrentTabName] = useState<string>('info'); // For analytics
   const [hasSeenFollowers, setHasSeenFollowers] = useState(false);
   const [isFabVisible, setIsFabVisible] = useState(true);
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
@@ -137,6 +139,17 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
+  // Map entityName to EntityType for analytics
+  const getEntityType = (entityName: string): EntityType | undefined => {
+    const entityMap: Record<string, EntityType> = {
+      Artist: EntityType.ARTIST,
+      Place: EntityType.PLACE,
+      Event: EntityType.EVENT,
+      Academy: EntityType.ACADEMY,
+    };
+    return entityMap[entityName];
+  };
+
   const tabPanelHandlers = {
     onSelectedTab: (selectedTabIndex: any) => {
       setLastVisibleTab(currentVisibleTab);
@@ -146,6 +159,9 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
       // Necesitamos acceder al nombre del tab de otra forma ya que no tenemos transformedConfigData
       const selectedTabName = visibleSubpages[selectedTabIndex]?.name;
       setHeaderShouldShowFollowerCounter(selectedTabName !== 'followers');
+
+      // Update current tab name for analytics
+      setCurrentTabName(selectedTabName || 'info');
     },
   };
 
@@ -165,6 +181,16 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
 
   return (
     <>
+      {/* Analytics Tracker - tracks profile views and tab changes */}
+      {entityData && (
+        <RouteTracker
+          entity={entityData}
+          entityType={getEntityType(props.entityName)}
+          tab={currentTabName}
+          section={props.entityName.toLowerCase() + 's'} // e.g., 'artists', 'places'
+        />
+      )}
+
       {!!entityData && (
         <GuardUnloggedResourceComponent
           entityType={getModelInfoFromInstance(entityData).entityName}

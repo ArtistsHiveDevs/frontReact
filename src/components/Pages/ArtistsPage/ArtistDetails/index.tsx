@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
-import { logPageViewEvent } from '~/common/utils/analytics/analytics';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import {
@@ -75,12 +74,7 @@ const ArtistDetailPage = () => {
       setFinishedRequest(true);
       setStartedRequest(false);
     }
-
-    if (currentArtist) {
-      document.title = `${currentArtist.name}  ◃⬡▹  Artist Hive`;
-      logPageViewEvent({ page_title: `Artist - ${currentArtist.name}` });
-    }
-  }, [currentArtist, requestIsLoading, startedRequest]);
+  }, [requestIsLoading, startedRequest]);
 
   const handlers = {
     onClickGalleryImage: (source: GalleryImageParams, images: GalleryImageParams[]) => {

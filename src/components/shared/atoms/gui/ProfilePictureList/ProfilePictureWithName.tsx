@@ -72,11 +72,7 @@ export const ProfilePictureWithName = (params: ProfilePictureWithNameParams) => 
   return (
     <div
       key={element.identifier}
-      className={`ppl-participant-avatar-name ${
-        direction === ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL
-          ? 'ppl-participant-avatar-name--horizontal'
-          : ''
-      }`}
+      className={`ppl-participant-avatar-name ${direction === ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL ? 'ppl-participant-avatar-name--horizontal' : ''}`}
       onClick={onClickProfile}
     >
       {showTopRightIcon && (
@@ -107,7 +103,7 @@ export const ProfilePictureWithName = (params: ProfilePictureWithNameParams) => 
         }}
         variant={'circular'}
       />
-      <span className="ppl-participant-name">{element.nameKnownAs}</span>
+      <span className="ppl-participant-name">{element.name}</span>
     </div>
   );
 };

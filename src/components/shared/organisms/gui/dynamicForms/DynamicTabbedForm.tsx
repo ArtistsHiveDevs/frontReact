@@ -2,11 +2,14 @@ import { Alert, Button, Stack } from '@mui/material';
 import { forwardRef, useImperativeHandle, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { I18nPaths, useI18n } from '~/common/utils';
+import { removeFilesFromServer, uploadFilesToServer } from '~/common/utils/amplify/storage/storage.helpers';
+import { UploadFileToServerResponse } from '~/common/utils/amplify/storage/storage.types';
 import {
   USERNAME_FORMAT_PATTERN,
   createDebouncedUsernameValidation,
 } from '~/common/utils/validation/username-validation';
 import { isVisible } from '~/common/utils/visibility-utils';
+import { ErrorBoundary } from '~/components/shared/atoms/ErrorBoundary';
 import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import { TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { ProfileHeader } from '~/components/shared/molecules/Profile/ProfileHeader';
@@ -21,10 +24,8 @@ import { SocialNetworks } from '~/constants/social-networks.const';
 import { AppUserModel } from '~/models/app/user/user.model';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import { DynamicControl } from './DynamicControl';
-import { ControlType, DynamicFieldData, SelectOption } from './dynamic-control-types';
 import { FileUploadHandleEvent, FileUploaderOptions } from './components/FileUpload';
-import { uploadFilesToServer, removeFilesFromServer } from '~/common/utils/amplify/storage/storage.helpers';
-import { UploadFileToServerResponse } from '~/common/utils/amplify/storage/storage.types';
+import { ControlType, DynamicFieldData, SelectOption } from './dynamic-control-types';
 
 export interface ResourceConfig {
   resourceType: string; // 'profiles', 'res/openCalls', 'res/events', 'res/festivals', etc.
@@ -33,7 +34,7 @@ export interface ResourceConfig {
 
 export interface DynamicTabbedFormParams {
   tabsInfo: PageSection[];
-  handlers: { onSubmit: Function; [handlerName: string]: Function };
+  handlers: { onSubmit?: Function; [handlerName: string]: Function };
   translationBasePath: string;
   entityType?: string;
   profileHeaderComponent?: any;
@@ -169,13 +170,19 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
     if (fieldExternalData && fieldExternalData[fieldNameComponent]) {
       componentParamsComponent = { ...componentParamsComponent, ...fieldExternalData[fieldNameComponent] };
     }
+    // Preparar options y nestedOptions
+    const fieldOption = fieldOptions?.[componentDescriptor?.formMetaData?.fieldName];
+    const componentOptions = Array.isArray(fieldOption) ? fieldOption : [];
+    const componentNestedOptions = fieldOption && !Array.isArray(fieldOption) ? fieldOption : undefined;
+
     const componentFieldData: DynamicFieldData = {
       inputType: 'text',
       fieldName: fieldNameComponent,
       // label: getAttributeTitle(subpage.name, section.name, attributeInfo),
       componentParams: componentParamsComponent,
       config: componentDescriptor?.formMetaData?.config || {},
-      options: fieldOptions[componentDescriptor?.formMetaData?.fieldName] || [],
+      options: componentOptions,
+      nestedOptions: componentNestedOptions,
       externalData: fieldExternalData[componentDescriptor?.formMetaData?.fieldName] || {},
     };
 
@@ -231,6 +238,11 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
             componentParams = { ...componentParams, ...fieldExternalData[fieldName] };
           }
 
+          // Preparar options y nestedOptions
+          const fieldOption = fieldOptions?.[attributeInfo.name];
+          const attributeOptions = Array.isArray(fieldOption) ? fieldOption : [];
+          const attributeNestedOptions = fieldOption && !Array.isArray(fieldOption) ? fieldOption : undefined;
+
           const fieldData: DynamicFieldData = {
             inputType,
             fieldName: attributeInfo.name,
@@ -238,7 +250,8 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
             label: getAttributeTitle(subpage.name, section.name, attributeInfo),
             componentParams,
             config: formMetaData?.config || {},
-            options: fieldOptions[attributeInfo.name] || [],
+            options: attributeOptions,
+            nestedOptions: attributeNestedOptions,
             defaultValue: currentValue,
             externalData: { ...fieldExternalData, elementData: entityData },
           };
@@ -290,6 +303,10 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
       componentFieldData.inputType = 'file';
       addComponentField = true;
       componentFieldData.externalData = entityData?.[componentDescriptor?.formMetaData?.fieldName];
+    } else if (componentDescriptor.componentName === ComponentTypes.MEMBERS_LIST) {
+      componentFieldData.inputType = 'membersList';
+      addComponentField = true;
+      componentFieldData.externalData = entityData?.[componentDescriptor?.formMetaData?.fieldName];
     }
 
     if (addComponentField) {
@@ -338,15 +355,17 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
                       contentComponents = (section.components || []).map(
                         (componentDescriptor: ComponentDescriptor, componentIndex: number) => (
                           <div key={`content-comp-${subPageIndex}-${sectionIndex || ''}-${componentIndex}`}>
-                            {generateSectionFormFields(
-                              subpage,
-                              section,
-                              componentDescriptor,
-                              componentIndex,
-                              handlers,
-                              formMethods,
-                              elementData
-                            )}
+                            <ErrorBoundary fallbackMessageId="app.general.component_error.message">
+                              {generateSectionFormFields(
+                                subpage,
+                                section,
+                                componentDescriptor,
+                                componentIndex,
+                                handlers,
+                                formMethods,
+                                elementData
+                              )}
+                            </ErrorBoundary>
                           </div>
                         )
                       );

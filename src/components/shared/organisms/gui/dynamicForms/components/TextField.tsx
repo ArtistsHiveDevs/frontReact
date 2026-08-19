@@ -1,5 +1,5 @@
 import { faMicrophoneLines } from '@fortawesome/free-solid-svg-icons';
-import { IconButton, InputAdornment, TextField } from '@mui/material';
+import { FormLabel, IconButton, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
@@ -124,7 +124,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
   const onBlurHandler = (handlers && handlers['onBlur']) || emptyFunction;
   const variant = componentParams?.variant || 'outlined';
 
-  const { required } = config || {};
+  const required = config.required === true || config.required === 'true';
   config.value = currentValue;
   if (inputType === 'number') {
     if (config.value) {
@@ -133,63 +133,73 @@ export const createTextField = (params: ComponentGeneratorParams) => {
   }
   // console.log("¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿   ¿¿¿¿     ", fieldName, defaultValue);
   return (
-    <TextField
-      required={required === true || required === 'true'}
-      label={label}
-      type={inputType}
-      {...(register ? register(fieldName, config) : {})}
-      value={currentValue ?? ''}
-      placeholder={placeholder}
-      error={!!(errors && errors[fieldName])}
-      helperText={errors && errors[fieldName]?.message?.toString()}
-      InputProps={inputProps}
-      onBlur={(data) => {
-        onBlurHandler(data);
-      }}
-      onChange={(data) => {
-        const rawValue = data.target.value;
-        const newValue = componentParams?.numericOnly ? rawValue.replace(/\D/g, '') : rawValue;
-        setCurrentValue(newValue);
+    <>
+      {label && (
+        <FormLabel
+          required={required}
+          error={!!(errors && errors[fieldName])}
+          sx={{ mb: 0.5, display: 'block', color: '#fff' }}
+        >
+          {label}
+        </FormLabel>
+      )}
+      <TextField
+        required={required}
+        type={inputType}
+        {...(register ? register(fieldName, config) : {})}
+        value={currentValue ?? ''}
+        placeholder={placeholder}
+        error={!!(errors && errors[fieldName])}
+        helperText={errors && errors[fieldName]?.message?.toString()}
+        InputProps={inputProps}
+        onBlur={(data) => {
+          onBlurHandler(data);
+        }}
+        onChange={(data) => {
+          const rawValue = data.target.value;
+          const newValue = componentParams?.numericOnly ? rawValue.replace(/\D/g, '') : rawValue;
+          setCurrentValue(newValue);
 
-        // Limpiar error cuando el usuario empieza a escribir
-        if (clearErrors && errors && errors[fieldName]) {
-          clearErrors(fieldName);
-        }
-
-        const applyChange = () => {
-          // Actualizar react-hook-form
-          if (setValue) {
-            setValue(fieldName, newValue, {
-              shouldDirty: true,
-              shouldValidate: true, // Disparar validación en cada cambio
-            });
+          // Limpiar error cuando el usuario empieza a escribir
+          if (clearErrors && errors && errors[fieldName]) {
+            clearErrors(fieldName);
           }
 
-          // Validación después de un pequeño delay para evitar validar cada tecla
-          if (trigger && errors && errors[fieldName]) {
-            setTimeout(() => {
-              trigger(fieldName);
-            }, 300);
-          }
+          const applyChange = () => {
+            // Actualizar react-hook-form
+            if (setValue) {
+              setValue(fieldName, newValue, {
+                shouldDirty: true,
+                shouldValidate: true, // Disparar validación en cada cambio
+              });
+            }
 
-          if (handlers && handlers[`on${fieldName}Change`]) {
-            handlers[`on${fieldName}Change`](newValue);
-          }
-        };
+            // Validación después de un pequeño delay para evitar validar cada tecla
+            if (trigger && errors && errors[fieldName]) {
+              setTimeout(() => {
+                trigger(fieldName);
+              }, 300);
+            }
 
-        if (debounce) {
-          if (debounceTimeoutRef.current) {
-            clearTimeout(debounceTimeoutRef.current);
+            if (handlers && handlers[`on${fieldName}Change`]) {
+              handlers[`on${fieldName}Change`](newValue);
+            }
+          };
+
+          if (debounce) {
+            if (debounceTimeoutRef.current) {
+              clearTimeout(debounceTimeoutRef.current);
+            }
+            debounceTimeoutRef.current = setTimeout(applyChange, DEBOUNCE_MS);
+          } else {
+            applyChange();
           }
-          debounceTimeoutRef.current = setTimeout(applyChange, DEBOUNCE_MS);
-        } else {
-          applyChange();
-        }
-      }}
-      focused={focused}
-      variant={variant}
-      fullWidth
-    />
+        }}
+        focused={focused}
+        variant={variant}
+        fullWidth
+      />
+    </>
   );
 };
 

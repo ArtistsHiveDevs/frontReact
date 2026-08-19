@@ -72,7 +72,7 @@ const general: SideMenuItem[] = [
   },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.GENERAL, 'opportunities'),
-    path: `${PATHS.OPPORTUNITIES}`,
+    path: `${PATHS.OPEN_CALLS}`,
     icon: 'md MdRocketLaunch',
     updated: new Date('2/20/16'),
   },
@@ -192,6 +192,24 @@ const miInfo: SideMenuItem[] = [
     // ],
   },
   {
+    name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_open_calls'),
+    path: `${PATHS.OPEN_CALLS}`,
+    icon: 'LuMegaphone',
+    updated: new Date('1/18/16'),
+    randomId: false,
+    allowedRoles: [
+      { entityName: 'Artist', checkCurrentProfileInfo: false },
+      { entityName: 'Place', checkCurrentProfileInfo: false },
+    ],
+    rightIcon: 'FaPlus',
+    rightPath: `${PATHS.OPEN_CALLS}/${SUB_PATHS.CREATE}`,
+    rightAllowedRoles: [{ entityName: 'Place', checkCurrentProfileInfo: false }],
+    forbiddenEnvironments: ['prod'],
+    // hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
+    //   return params?.user?.hasIndustryProfiles && params?.user?.isInPersonalProfile;
+    // },
+  },
+  {
     name: generateTranslationPath(SIDENAV_SECTIONS.MY_INFO, 'my_riders'),
     path: `${PATHS.RIDERS}/${SUB_PATHS.ELEMENT_DETAILS}/rid_2`,
     icon: 'FaFileAlt',
@@ -261,15 +279,14 @@ const config: SideMenuItem[] = [
     icon: 'FaQuestionCircle',
     updated: new Date('2/20/16'),
   },
-  {
-    name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'report'),
-    path: '',
-    color: '#eb0000',
-    icon: 'TbAlertHexagonFilled',
-    updated: new Date('2/20/16'),
-    requireSession: true,
-    forbiddenEnvironments: ['prod'],
-  },
+  // {
+  //   name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'report'),
+  //   path: '',
+  //   color: '#eb0000',
+  //   icon: 'TbAlertHexagonFilled',
+  //   updated: new Date('2/20/16'),
+  //   requireSession: true,
+  // },
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'send_comments'),
     path: '',
@@ -296,6 +313,13 @@ const config: SideMenuItem[] = [
     name: 'PAGOS = = =',
     path: `${PATHS.PAYMENTS}`,
     icon: 'MdAttachMoney',
+    updated: new Date('2/20/16'),
+    forbiddenEnvironments: ['prod'],
+  },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'send_comments'),
+    path: `${PATHS.PREBOOKING_REQUESTS_LIST}/end/details/lasucursalvenue`,
+    icon: 'tb TbContract',
     updated: new Date('2/20/16'),
     forbiddenEnvironments: ['prod'],
   },

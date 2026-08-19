@@ -1,4 +1,5 @@
 import Flag from 'react-world-flags';
+import { useI18n } from '~/common/utils';
 import { fullyHiddenSectionsByEnvironment } from '~/common/utils/app-utils/app-utils';
 import { RatingStarsView } from '~/components/shared/atoms/gui/rating-stars-view/RatingStarsView';
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
@@ -299,28 +300,85 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
     sections: [
       {
         name: 'music_performance',
-        components: [],
+        components: [
+          {
+            componentName: ComponentTypes.MEMBERS_LIST,
+            data: { externalData: 'music_performance', placeholder: 'En construcción' },
+            formMetaData: {
+              inputType: 'membersList',
+              fieldName: 'music_performance',
+              componentParams: {
+                dialogTitle: 'Agregar miembro',
+                translationPath:
+                  'app.pages.ArtistsPages.ArtistsDetailsPage.subpages.members.sections.music_performance.attributes',
+                dialogLabelAddMember: 'add',
+                fields: [
+                  { inputType: 'text', fieldName: 'memberNames', label: 'member_names', config: { required: true } },
+                  {
+                    inputType: 'text',
+                    fieldName: 'memberSureNames',
+                    label: 'member_surenames',
+                    config: { required: true },
+                  },
+                  {
+                    inputType: 'text',
+                    fieldName: 'stage_name',
+                    label: 'member_surenames',
+                  },
+                  {
+                    inputType: 'email',
+                    fieldName: 'email',
+                    label: 'member_surenames',
+                    config: { required: true },
+                  },
+                  {
+                    inputType: 'select',
+                    fieldName: 'gender',
+                    label: 'gender',
+                    config: { required: true },
+                    value: (user: any) => {
+                      const { translateText } = useI18n();
+
+                      let content = user?.genderEnum?.value
+                        ? translateText(`app.global_dictionary.genders.${user?.genderEnum?.value}`)
+                        : undefined;
+                      return <>{content}</>;
+                    },
+                  },
+                  { inputType: 'text', fieldName: 'memberRole', label: 'member_role', config: { required: true } },
+                  {
+                    inputType: 'text',
+                    fieldName: 'memberInstrument',
+                    label: 'member_instrument',
+                    config: { required: true },
+                  },
+                ],
+              },
+            },
+          },
+        ],
       },
-      {
-        name: 'audio_engineering',
-        components: [],
-      },
-      {
-        name: 'visual_arts',
-        components: [],
-      },
-      {
-        name: 'management',
-        components: [],
-      },
-      {
-        name: 'production',
-        components: [],
-      },
-      {
-        name: 'support',
-        components: [],
-      },
+      // {
+      //   name: 'audio_engineering',
+      //   components: [
+      //   ],
+      // },
+      // {
+      //   name: 'visual_arts',
+      //   components: [],
+      // },
+      // {
+      //   name: 'management',
+      //   components: [],
+      // },
+      // {
+      //   name: 'production',
+      //   components: [],
+      // },
+      // {
+      //   name: 'support',
+      //   components: [],
+      // },
     ],
   },
   {

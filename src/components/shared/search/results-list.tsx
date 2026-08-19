@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchSlice } from '~/common/slices/search';
 import { selectSearch, selectSearchLoading } from '~/common/slices/search/selectors';
 import { useI18n } from '~/common/utils';
+import { useDebouncedSearchTerm } from '~/common/utils/hooks/search/useDebouncedSearchTerm';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { PATHS } from '~/constants';
@@ -46,14 +47,10 @@ export const ResultsList: React.FC<SearchProperties> = (params) => {
   const querySearchLoading: boolean = useSelector(selectSearchLoading);
   const { actions: searchActions } = useSearchSlice();
 
-  useEffect(() => {
-    if (q?.length > 0) {
-      setCheckedFilterEntities([...(typeOfSearch || consts.defaultTypes)]);
-      dispatch(searchActions.querySearch(q));
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [q]);
+  useDebouncedSearchTerm(q, (term) => {
+    setCheckedFilterEntities([...(typeOfSearch || consts.defaultTypes)]);
+    dispatch(searchActions.querySearch(term));
+  });
 
   const handleChecked = (check: EntityType) => {
     let newChecks = [...checkedFilterEntities];

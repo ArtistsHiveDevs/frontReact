@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSearchSlice } from '~/common/slices/search';
 import { selectSearch, selectSearchLoading } from '~/common/slices/search/selectors';
 import { useI18n } from '~/common/utils';
+import { useGuardedSearchTerm } from '~/common/utils/guards/useGuardedSearchTerm';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { ResultElement } from '~/components/shared/search/result-element';
 import consts from '~/components/shared/search/search-constants';
@@ -14,6 +15,7 @@ import { SearchModel } from '~/models/domain/search/search.model';
 
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { useSwipeable } from 'react-swipeable';
+import { GuardUnloggedResourceComponent } from '~/common/utils/guards/GuardUnloggedResourceComponent';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { GMapsSvgMaker } from '~/common/utils/object-utils/object-utils-index';
 import MapContainer from '~/components/shared/mapPrinter/mapContainer';
@@ -62,14 +64,14 @@ export default function SearchPage() {
   const [queryTextFieldValue, setQueryTextFieldValue] = useState('');
 
   useEffect(() => {
-    if (!!queryTextFieldValue) {
-      dispatch(searchActions.querySearch(queryTextFieldValue));
-    } else if (!queryTextFieldValue) {
+    if (!queryTextFieldValue) {
       setResults(undefined);
       setOpen([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryTextFieldValue]);
+
+  useGuardedSearchTerm(queryTextFieldValue, (term) => dispatch(searchActions.querySearch(term)));
 
   useEffect(() => {
     setResults(queriedSearchList);
@@ -387,95 +389,96 @@ export default function SearchPage() {
           <DynamicIcons iconName="BsSliders" size={20} />
         </div>
       </div>
-
-      {!!results && !!open.length && (
-        <div className="result-box" {...swipeHandlers}>
-          <div className="select-result-view-types">
-            {RESULT_VIEW_TYPES.map((type) => (
-              <div
-                key={type.name}
-                className={`result-view-type ${resultViewType === type.name ? 'active' : ''}`}
-                onClick={() => setResultViewType(type.name as 'list' | 'map')}
-              >
-                <DynamicIcons iconName={type.icon} size={20} />
-                {translate(`result_view_types.${type.name}`)}
-              </div>
-            ))}
-          </div>
-          {resultViewType === 'list' &&
-            results.foundEntities.map((entityName, entityIndex) => {
-              const entityColorIndex =
-                consts.defaultTypes.findIndex((type) => type.toLowerCase() === entityName.toLowerCase()) + 1;
-
-              return (
-                <section key={`section-${entityIndex}-${entityName}`}>
-                  <div
-                    className={`group-title-icon  entity-${entityColorIndex}-item`}
-                    onClick={() => {
-                      const newObjectValues = [...open];
-                      newObjectValues[entityIndex] = !newObjectValues[entityIndex];
-                      setOpen(newObjectValues);
-                    }}
-                  >
-                    <h3 className="main-section-title">
-                      {translate(`types.${entityName.toUpperCase()}`)} (
-                      {results.pagination[`total_${entityName}` as keyof typeof results.pagination]})
-                    </h3>
-                    <DynamicIcons color="#7a260a" iconName="AiOutlineDown" size="20" />
-                  </div>
-                  <Collapse in={open[entityIndex]}>
-                    <div id="example-collapse-text-2">
-                      <article className="day-forecast">
-                        {(results[entityName as keyof typeof results] || [])
-                          .slice(0, MAX_RESULTS_PER_PAGE)
-                          .map((entityObject: SearchableProfileTemplate, objectIndex: number) => (
-                            <div
-                              className="result-element-container"
-                              key={`result-${entityName}-${objectIndex}-${entityObject.id}`}
-                              onClick={() => handleResultOnClick(entityObject)}
-                            >
-                              <ResultElement element={entityObject} elementType={entityName} />
-                            </div>
-                          ))}
-                      </article>
-                    </div>
-                  </Collapse>
-                </section>
-              );
-            })}
-          {resultViewType === 'map' && (
-            <>
-              {/* {!results.location_boundaries && emptyResults()} */}
-
-              {
+      <GuardUnloggedResourceComponent searchTerm={queryTextFieldValue}>
+        {!!results && !!open.length && (
+          <div className="result-box" {...swipeHandlers}>
+            <div className="select-result-view-types">
+              {RESULT_VIEW_TYPES.map((type) => (
                 <div
-                  id="map-container"
-                  {...clickHandlerMap}
-                  onTouchStart={handleMapTouchStart}
-                  onTouchMove={handleMapTouchMove}
-                  onTouchEnd={handleMapTouchEnd}
+                  key={type.name}
+                  className={`result-view-type ${resultViewType === type.name ? 'active' : ''}`}
+                  onClick={() => setResultViewType(type.name as 'list' | 'map')}
                 >
-                  <MapContainer
-                    id="MAPA"
-                    //   key={`section-${section.name}-${index}-${componentIndex}`}
-                    apiKey={import.meta.env.VITE_GMAPS_KEY}
-                    stylesc={mapContainerStyles}
-                    mapData={mapData}
-                    onClickMapMarker={onClickMapMarker}
-                  />
+                  <DynamicIcons iconName={type.icon} size={20} />
+                  {translate(`result_view_types.${type.name}`)}
                 </div>
-              }
-            </>
-          )}
-        </div>
-      )}
+              ))}
+            </div>
+            {resultViewType === 'list' &&
+              results.foundEntities.map((entityName, entityIndex) => {
+                const entityColorIndex =
+                  consts.defaultTypes.findIndex((type) => type.toLowerCase() === entityName.toLowerCase()) + 1;
 
-      {emptyResults()}
-      {(!results || results.totalResults === 0) && (
-        <div style={{ maxWidth: '10rem' }}>
-          <Image src="https://artist-hive.com/img/search.png" fluid />
-        </div>
-      )}
+                return (
+                  <section key={`section-${entityIndex}-${entityName}`}>
+                    <div
+                      className={`group-title-icon  entity-${entityColorIndex}-item`}
+                      onClick={() => {
+                        const newObjectValues = [...open];
+                        newObjectValues[entityIndex] = !newObjectValues[entityIndex];
+                        setOpen(newObjectValues);
+                      }}
+                    >
+                      <h3 className="main-section-title">
+                        {translate(`types.${entityName.toUpperCase()}`)} (
+                        {results.pagination[`total_${entityName}` as keyof typeof results.pagination]})
+                      </h3>
+                      <DynamicIcons color="#7a260a" iconName="AiOutlineDown" size="20" />
+                    </div>
+                    <Collapse in={open[entityIndex]}>
+                      <div id="example-collapse-text-2">
+                        <article className="day-forecast">
+                          {(results[entityName as keyof typeof results] || [])
+                            .slice(0, MAX_RESULTS_PER_PAGE)
+                            .map((entityObject: SearchableProfileTemplate, objectIndex: number) => (
+                              <div
+                                className="result-element-container"
+                                key={`result-${entityName}-${objectIndex}-${entityObject.id}`}
+                                onClick={() => handleResultOnClick(entityObject)}
+                              >
+                                <ResultElement element={entityObject} elementType={entityName} />
+                              </div>
+                            ))}
+                        </article>
+                      </div>
+                    </Collapse>
+                  </section>
+                );
+              })}
+            {resultViewType === 'map' && (
+              <>
+                {/* {!results.location_boundaries && emptyResults()} */}
+
+                {
+                  <div
+                    id="map-container"
+                    {...clickHandlerMap}
+                    onTouchStart={handleMapTouchStart}
+                    onTouchMove={handleMapTouchMove}
+                    onTouchEnd={handleMapTouchEnd}
+                  >
+                    <MapContainer
+                      id="MAPA"
+                      //   key={`section-${section.name}-${index}-${componentIndex}`}
+                      apiKey={import.meta.env.VITE_GMAPS_KEY}
+                      stylesc={mapContainerStyles}
+                      mapData={mapData}
+                      onClickMapMarker={onClickMapMarker}
+                    />
+                  </div>
+                }
+              </>
+            )}
+          </div>
+        )}
+
+        {emptyResults()}
+        {(!results || results.totalResults === 0) && (
+          <div style={{ maxWidth: '10rem' }}>
+            <Image src="https://artist-hive.com/img/search.png" fluid />
+          </div>
+        )}
+      </GuardUnloggedResourceComponent>
       {openModal()}
     </div>
   );

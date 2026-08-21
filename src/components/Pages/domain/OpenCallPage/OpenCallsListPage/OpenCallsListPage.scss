@@ -227,8 +227,15 @@
     }
 
     .oc-sort-add {
-      padding-top: 1rem;
+      padding-top: 2rem !important;
       margin-bottom: 12px;
+      border-top: 1px solid $form-fields-separator;
+
+      // Estilos para el campo de select interno
+      .oc-sort-add-field {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+      }
     }
 
     .oc-sort-clear {
@@ -238,10 +245,10 @@
       gap: 6px;
       width: 100%;
       padding: 8px 12px;
-      background: transparent;
-      border: 1px solid $form-fields-border-color;
-      border-radius: 3px;
-      color: $main-font-color;
+      // background: transparent;
+      // border: 1px solid $form-fields-border-color;
+      // border-radius: 3px;
+      // color: $main-font-color;
       font-size: 14px;
       cursor: pointer;
       transition: all 0.15s;

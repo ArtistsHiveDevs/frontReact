@@ -5,7 +5,7 @@ import { AttributeConfiguration } from '~/components/shared/organisms/gui/builde
 import { attributeToDynamicField } from '~/components/shared/organisms/gui/builders/page-section-form.utils';
 import { OPEN_CALL_PAGE_CONFIG, OPEN_CALL_STEP_META } from './config-open-call';
 
-interface OpenCallSurveyReadOnlyProps {
+interface ApplicationSurveyViewProps {
   surveyResponses: Record<string, any>;
 }
 
@@ -14,7 +14,7 @@ interface OpenCallSurveyReadOnlyProps {
  * Reuses the same config (OPEN_CALL_PAGE_CONFIG) and DynamicControl components
  * as the original application form.
  */
-const OpenCallSurveyReadOnly = ({ surveyResponses }: OpenCallSurveyReadOnlyProps) => {
+const ApplicationSurveyView = ({ surveyResponses }: ApplicationSurveyViewProps) => {
   const formMethods = useForm({
     defaultValues: surveyResponses,
   });
@@ -61,4 +61,4 @@ const OpenCallSurveyReadOnly = ({ surveyResponses }: OpenCallSurveyReadOnlyProps
   );
 };
 
-export default OpenCallSurveyReadOnly;
+export default ApplicationSurveyView;

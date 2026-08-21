@@ -14,7 +14,7 @@ import { RootState } from '~/common/utils/redux-injectors/types';
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import NotFoundPage from '~/components/Pages/NotFoundPage';
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
-import OpenCallSurveyReadOnly from '../OpenCallApplicationPage/OpenCallSurveyReadOnly';
+import ApplicationSurveyView from '../OpenCallApplicationPage/ApplicationSurveyView';
 import { TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE } from './config-open-call-details';
 import OpenCallPresentation from './OpenCallPresentation';
 import '../OpenCallApplicationPage/index.scss';
@@ -103,7 +103,7 @@ const ApplicationCard = ({ application, canModerate, isUpdating, onAccept, onRej
 
       {expanded && (
         <div style={{ padding: '0 20px 20px 20px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-          <OpenCallSurveyReadOnly surveyResponses={application.survey_responses || {}} />
+          <ApplicationSurveyView surveyResponses={application.survey_responses || {}} />
         </div>
       )}
     </div>
@@ -131,6 +131,8 @@ const OpenCallDetailsPage = () => {
   const applicationsLoading = useSelector(selectorOpenCallApplications.selectLoading);
 
   const [updatingApplicationId, setUpdatingApplicationId] = useState<string | undefined>(undefined);
+  const [isArtistProfile, setIsArtistProfile] = useState(false);
+  const [currentArtistId, setCurrentArtistId] = useState<string>(undefined);
 
   useEffect(() => {
     if (openCallId) {
@@ -140,12 +142,19 @@ const OpenCallDetailsPage = () => {
     }
   }, [openCallId]);
 
+  useEffect(() => {
+    if (!!loggedUser) {
+      // Determinar el tipo de perfil actual
+      const currentProfileEntity = loggedUser?.currentProfileInfo?.entity;
+      const isArtist = currentProfileEntity === 'Artist';
+
+      setIsArtistProfile(isArtist);
+      setCurrentArtistId(isArtist ? loggedUser?.currentProfileInfo?.id : undefined);
+    }
+  }, [loggedUser]);
+
   const currentOpenCallPlaceId = currentOpenCall?.placeId;
   const isPlaceOwner = !!loggedUser && !!currentOpenCallPlaceId && loggedUser.checkPermissions(currentOpenCallPlaceId).canEdit;
-  // `.id` en vez de `.entity`/`.identifier`: este último depende del username cacheado en
-  // roles[].entityRoleMap[], que puede quedar desincronizado con la entidad viva.
-  const isArtistProfile = !!loggedUser?.isArtistProfile;
-  const currentArtistId = isArtistProfile ? loggedUser?.currentProfileInfo?.id : undefined;
 
   const applicationsForThisOpenCall = applications.filter((app) => app.openCallId === openCallId);
   const myApplication = currentArtistId

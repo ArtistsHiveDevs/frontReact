@@ -40,6 +40,10 @@ const OpenCallsListPage = () => {
   const applications: OpenCallApplicationModel[] = useSelector(selectorOpenCallApplications.selectItems);
   const applicationsLoading = useSelector(selectorOpenCallApplications.selectLoading);
 
+  const [isArtistProfile, setIsArtistProfile] = useState(false);
+  const [isPlaceProfile, setIsPlaceProfile] = useState(false);
+  const [currentProfileId, setCurrentProfileId] = useState<string>(undefined);
+
   // ========== UI STATE ==========
   const [activeTab, setActiveTab] = useState<'active' | 'past' | 'available' | 'applications'>('active');
   const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
@@ -80,35 +84,39 @@ const OpenCallsListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
 
-  // Determinar el tipo de perfil actual
-  const currentProfileEntity = loggedUser?.currentProfileInfo?.entity;
-  const isPlaceProfile = currentProfileEntity === 'Place';
-  const isArtistProfile = currentProfileEntity === 'Artist';
-  const currentArtistId = isArtistProfile ? loggedUser?.currentProfileInfo?.id : undefined;
-  const currentPlaceId = isPlaceProfile ? loggedUser?.currentProfileInfo?.id : undefined;
-
   // Load data on mount
   useEffect(() => {
     dispatch(openCallActions.loadItems({}));
   }, [dispatch]);
 
   useEffect(() => {
-    if (currentArtistId) {
-      dispatch(openCallApplicationActions.loadItems({ queryParams: { artist_id: currentArtistId } }));
+    if (currentProfileId) {
+      dispatch(openCallApplicationActions.loadItems({ queryParams: { artist_id: currentProfileId } }));
     }
-  }, [currentArtistId, dispatch]);
+  }, [currentProfileId, dispatch]);
 
-  // Set default tab based on profile
   useEffect(() => {
-    if (isPlaceProfile) {
-      setActiveTab('active');
-    } else if (isArtistProfile) {
-      setActiveTab('available');
+    if (!!loggedUser) {
+      // Determinar el tipo de perfil actual
+      const currentProfileEntity = loggedUser?.currentProfileInfo?.entity;
+      const isPlace = currentProfileEntity === 'Place';
+      const isArtist = currentProfileEntity === 'Artist';
+
+      setIsPlaceProfile(isPlace);
+      setIsArtistProfile(isArtist);
+      setCurrentProfileId(loggedUser?.currentProfileInfo?.id);
+
+      // Set default tab based on profile
+      if (isPlace) {
+        setActiveTab('active');
+      } else if (isArtist) {
+        setActiveTab('available');
+      }
     }
-  }, [isPlaceProfile, isArtistProfile]);
+  }, [loggedUser]);
 
   // ========== DATA PREPARATION ==========
-  const myOpenCalls = currentPlaceId
+  const myOpenCalls = currentProfileId
     ? [
         ...openCalls,
         ...openCalls,
@@ -128,7 +136,7 @@ const OpenCallsListPage = () => {
         ...openCalls,
         ...openCalls,
         ...openCalls,
-      ].filter((oc) => oc.placeId === currentPlaceId)
+      ].filter((oc) => oc.placeId === currentProfileId)
     : [
         ...openCalls,
         // ...openCalls,
@@ -151,7 +159,7 @@ const OpenCallsListPage = () => {
       ];
   const activeCalls = myOpenCalls.filter((oc) => oc.status === 'OPEN');
   const pastCalls = myOpenCalls.filter((oc) => oc.status !== 'OPEN');
-  const myApplications = currentArtistId ? applications.filter((app) => app.artistId === currentArtistId) : [];
+  const myApplications = currentProfileId ? applications.filter((app) => app.artistId === currentProfileId) : [];
 
   // Get data based on active tab
   const getDataForCurrentTab = () => {
@@ -409,6 +417,7 @@ const OpenCallsListPage = () => {
       ],
       defaultValue: '',
       componentParams: {
+        className: 'oc-sort-add-field',
         onChange: (e: any) => {
           const field = e.target.value;
           if (field) {
@@ -444,21 +453,23 @@ const OpenCallsListPage = () => {
                           </span>
                           {/* Move up button or empty space */}
                           {index === 0 ? (
-                            <span className="oc-sort-icon oc-sort-icon--placeholder" style={{ opacity: 0, pointerEvents: 'none' }}>
+                            <span
+                              className="oc-sort-icon oc-sort-icon--placeholder"
+                              style={{ opacity: 0, pointerEvents: 'none' }}
+                            >
                               <DynamicIcons iconName="MdKeyboardArrowUp" size={20} />
                             </span>
                           ) : (
-                            <span
-                              className="oc-sort-icon"
-                              onClick={() => handleMoveUp(index)}
-                              title="Subir prioridad"
-                            >
+                            <span className="oc-sort-icon" onClick={() => handleMoveUp(index)} title="Subir prioridad">
                               <DynamicIcons iconName="MdKeyboardArrowUp" size={20} />
                             </span>
                           )}
                           {/* Move down button or empty space */}
                           {index === sortBy.length - 1 ? (
-                            <span className="oc-sort-icon oc-sort-icon--placeholder" style={{ opacity: 0, pointerEvents: 'none' }}>
+                            <span
+                              className="oc-sort-icon oc-sort-icon--placeholder"
+                              style={{ opacity: 0, pointerEvents: 'none' }}
+                            >
                               <DynamicIcons iconName="MdKeyboardArrowDown" size={20} />
                             </span>
                           ) : (

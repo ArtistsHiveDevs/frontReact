@@ -11,6 +11,7 @@ import { USERNAME_FORMAT_PATTERN, debouncedUsernameValidation } from '~/common/u
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
+import { FixedHeader } from '~/components/shared/molecules/FixedHeader';
 import { FollowerCounter } from '~/components/shared/molecules/Profile/FollowerCounter/FollowerCounter';
 import { ReportProfileForm } from '~/components/shared/molecules/Profile/ReportProfileForm/ReportProfileForm';
 import BurgerProfileMenu from '~/components/shared/molecules/general/burgerProfileMenu/burgerProfileMenu';
@@ -62,8 +63,7 @@ export const ProfileHeader = (props: any) => {
 
   const avatarSize = 120;
 
-  // Estado y ref para el header fijo
-  const [showFixedHeader, setShowFixedHeader] = useState(false);
+  // Ref para el header principal
   const headerRef = useRef<HTMLDivElement>(null);
 
   const [fields, setFieldData] = useState<FieldInfo[]>(() => {
@@ -190,20 +190,6 @@ export const ProfileHeader = (props: any) => {
 
     setBurgerProfileMenuOptions(updatedMenuOptions);
   }, [element, loggedUser]);
-
-  // Efecto para manejar el scroll y mostrar/ocultar el header fijo
-  useEffect(() => {
-    const handleScroll = () => {
-      if (headerRef.current) {
-        const headerRect = headerRef.current.getBoundingClientRect();
-        // Mostrar header fijo cuando el header principal está fuera de la vista
-        setShowFixedHeader(headerRect.bottom < 0);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const generateEditableField = (fieldName: string, element: any, isEditable?: boolean, prefix?: any) => {
     const newField = fields.find((item) => item.name === fieldName);
@@ -376,41 +362,33 @@ export const ProfileHeader = (props: any) => {
 
       {/* Header fijo que aparece al hacer scroll */}
       {!isEditable && element && (
-        <div
-          className={[
-            'fixed-profile-header',
-            `profile-entity-${borderProfileColor}-item`,
-            showFixedHeader ? 'visible' : '',
-          ].join(' ')}
-        >
-          <div className="fixed-header-content">
-            <AvatarWithIcon
-              image={image}
-              name={element?.nameKnownAs || element?.name}
-              avatarSize={50}
-              bottomBadgeSize={30}
-              buttonIcon={currentUserCanEdit && !currentUserIsInProfile && 'PiUserSwitch'}
-              onClick={() => !!image && setZoomProfilePic(true)}
-              onBadgeClick={() => switchProfile()}
-            ></AvatarWithIcon>
-            <div className="fixed-header-info">
-              <div className="fixed-username">
-                @{element?.username} <VerifiedArtist verifiedStatus={element?.verified_status} />
-              </div>
-              <div className="fixed-name">{element?.nameKnownAs || element?.name}</div>
+        <FixedHeader mainHeaderRef={headerRef} className={`fixed-profile-header profile-entity-${borderProfileColor}-item`}>
+          <AvatarWithIcon
+            image={image}
+            name={element?.nameKnownAs || element?.name}
+            avatarSize={50}
+            bottomBadgeSize={30}
+            buttonIcon={currentUserCanEdit && !currentUserIsInProfile && 'PiUserSwitch'}
+            onClick={() => !!image && setZoomProfilePic(true)}
+            onBadgeClick={() => switchProfile()}
+          ></AvatarWithIcon>
+          <div className="fixed-header-info">
+            <div className="fixed-username">
+              @{element?.username} <VerifiedArtist verifiedStatus={element?.verified_status} />
             </div>
-            {element && !currentUserIsInProfile && (
-              <div className="fixed-like-button">
-                <FavoriteSubscription
-                  size={24}
-                  iconType={FavoriteSubscritionIconDefaultTypes.HEART}
-                  customSubscriberTo={element?.isFollowedByCurrentProfile}
-                  callback={parentHandlers?.onClickFollowSucription && parentHandlers['onClickFollowSucription']}
-                />
-              </div>
-            )}
+            <div className="fixed-name">{element?.nameKnownAs || element?.name}</div>
           </div>
-        </div>
+          {element && !currentUserIsInProfile && (
+            <div className="fixed-like-button">
+              <FavoriteSubscription
+                size={24}
+                iconType={FavoriteSubscritionIconDefaultTypes.HEART}
+                customSubscriberTo={element?.isFollowedByCurrentProfile}
+                callback={parentHandlers?.onClickFollowSucription && parentHandlers['onClickFollowSucription']}
+              />
+            </div>
+          )}
+        </FixedHeader>
       )}
 
       <div ref={headerRef} className={['profile-header', `profile-entity-${borderProfileColor}-item`].join(' ')}>

@@ -30,7 +30,10 @@ const IndustryOfferTemplate = () => {
   return (
     !!offer?.length && (
       <div className="offer-container">
-        <MDReader mdDocument={offer[0]} options={{ showIndex: false, showLogoAtEnd: true }} />
+        <MDReader
+          mdDocument={offer[0]}
+          options={{ showLogoAtEnd: true, renderPlainMD: true, showTableOfContent: false }}
+        />
       </div>
     )
   );

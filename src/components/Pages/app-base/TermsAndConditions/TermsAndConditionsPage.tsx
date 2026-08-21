@@ -28,7 +28,7 @@ const TermsOfServicePage = () => {
   return (
     !!terms_of_service_policies?.length && (
       <div className="offer-container">
-        <MDReader mdDocument={terms_of_service_policies[0]} options={{ showIndex: false, showLogoAtEnd: true }} />
+        <MDReader mdDocument={terms_of_service_policies[0]} options={{ showLogoAtEnd: true }} />
       </div>
     )
   );

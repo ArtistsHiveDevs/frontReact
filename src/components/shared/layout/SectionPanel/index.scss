@@ -16,16 +16,28 @@
       color: $main-title-color;
       flex: 1;
       margin: 0;
+      line-height: 1;
     }
 
     .accordion-icon {
+      flex-shrink: 0;
       margin-left: 1rem;
       transition: transform 0.3s ease;
       display: flex;
       align-items: center;
+      line-height: 1;
 
       &.expanded {
         transform: rotate(180deg);
+      }
+
+      .icon-container {
+        display: flex;
+        align-items: center;
+
+        svg {
+          display: block;
+        }
       }
     }
   }
@@ -45,5 +57,19 @@
     // &.maxHeight{
     //   max-height: 1000px;
     // }
+  }
+
+  &.section-panel--nested {
+    .section-header {
+      margin-top: 1rem;
+
+      .section-title {
+        font-size: 0.95em;
+      }
+
+      .accordion-icon {
+        margin-left: 0.75rem;
+      }
+    }
   }
 }

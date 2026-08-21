@@ -9,12 +9,11 @@
   }
 
   h1,
-  h2,
-  h3,
+  h2:not(.section-title),
+  h3:not(.section-title),
   h4,
   h5,
   h6 {
-    text-align: center;
     padding-top: 1.7rem;
   }
   p {
@@ -22,20 +21,74 @@
   }
 }
 
+.md-reader-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  h1 {
+    flex: 1;
+    min-width: 0;
+    padding-top: 2.5rem;
+    padding-bottom: 1.5rem;
+  }
+}
+
+.md-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.md-content-col {
+  flex: 1;
+  min-width: 0;
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-align: left;
+  }
+}
+
+.md-toc-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: $main-title-color;
+  cursor: pointer;
+  padding: 0;
+  margin-right: 1rem;
+}
+
 .index-container {
   position: fixed;
-  top: 0;
+  left: 1.5rem;
   right: 0;
-  width: 250px;
-  background: $app-background-50 !important;
+  z-index: 10;
+  width: auto;
+  max-width: 80%;
+  max-height: 70vh;
+  overflow-y: auto;
+  text-align: left;
   color: $main-font-color;
-  border: 1px solid #ddd;
-  padding: 1rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  background: $app-background-50;
 
-  button {
-    display: block;
-    margin-bottom: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease-in-out, top 0.2s ease-out;
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
   }
 
   ul {
@@ -45,6 +98,77 @@
 
   li {
     margin-bottom: 0.5rem;
+  }
+
+  .toc-tree {
+    margin: 0;
+
+    .toc-node {
+      margin-bottom: 0.35rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .toc-row {
+      display: flex;
+    }
+
+    .toc-toggle {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-right: 0.25rem;
+      padding: 0;
+      line-height: 1;
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+
+      &.expanded {
+        transform: rotate(90deg);
+      }
+
+      .icon-container {
+        display: flex;
+        align-items: center;
+
+        svg {
+          display: block;
+        }
+      }
+    }
+
+    .toc-link {
+      color: $links-color;
+      text-decoration: none;
+      line-height: 1.25rem;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      .section-number {
+        color: $main-title-color;
+      }
+    }
+
+    // Cuando hay items con hijos en el árbol, agregar padding para alinear items sin hijos
+    &.has-nested-items .toc-node:not(:has(.toc-toggle)) .toc-link {
+      padding-left: 1.5rem;
+    }
+
+    .toc-children {
+      list-style-type: none;
+      padding-left: 1rem;
+      margin: 0.35rem 0 0;
+    }
   }
 }
 

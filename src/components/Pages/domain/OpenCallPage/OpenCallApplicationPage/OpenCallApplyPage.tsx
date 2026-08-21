@@ -1,15 +1,8 @@
 import { Alert, Stack } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  selectorOpenCallApplications,
-  useOpenCallApplicationsSlice,
-} from '~/common/slices/domain/open-calls/open-call-applications.redux';
-import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
-import { GenericCrudErrorCode, RepoErrorPayload } from '~/common/utils/redux-injectors/types';
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { AttributeConfiguration } from '~/components/shared/organisms/gui/builders/component-types.def';
 import {
@@ -18,34 +11,42 @@ import {
 } from '~/components/shared/organisms/gui/builders/page-section-form.utils';
 import { DynamicControl } from '~/components/shared/organisms/gui/dynamicForms/DynamicControl';
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
-import { OpenCallApplicationModel } from '~/models/domain/open-call/open-call-application.model';
 import { OPEN_CALL_PAGE_CONFIG, OPEN_CALL_STEP_META, TRANSLATION_BASE_OPEN_CALL_PAGE } from './config-open-call';
+import {
+  useProfileInfo,
+  useOpenCallApplications,
+  buildOpenCallSubmitErrorMessage,
+  SuccessView,
+  NoArtistProfileView,
+} from '~/components/Pages/domain/OpenCallPage/common';
 import './index.scss';
 
-const OpenCallApplicationPage = () => {
+const OpenCallApplyPage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { translateText, getFormattedMessage } = useI18n();
   const urlParameters = useParams();
   const openCallId = urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID];
+
+  // ========== CUSTOM HOOKS ==========
+  const { loggedUser, isArtistProfile, currentProfileId: currentArtistId, currentProfilePic: currentArtistProfilePic } = useProfileInfo();
+
+  const {
+    createdApplication,
+    loading,
+    error: submitError,
+    previousApplication,
+    requestedLoad: previousApplicationsRequested,
+    belongsToThisOpenCallAndArtist,
+    createApplication,
+  } = useOpenCallApplications({
+    openCallId,
+    artistId: currentArtistId,
+    autoLoad: true,
+  });
+
+  // ========== ESTADOS LOCALES ==========
   const [currentStep, setCurrentStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
-  const [previousApplicationsRequested, setPreviousApplicationsRequested] = useState(false);
-
-  const loggedUser = useSelector(selectCurrentUser);
-  const { actions: applicationActions } = useOpenCallApplicationsSlice();
-  const applications: OpenCallApplicationModel[] = useSelector(selectorOpenCallApplications.selectItems);
-  const createdApplication: OpenCallApplicationModel = useSelector(selectorOpenCallApplications.selectCreatedItem);
-  const loading = useSelector(selectorOpenCallApplications.selectLoading);
-  const submitError: RepoErrorPayload = useSelector(selectorOpenCallApplications.selectError);
-
-  const translate = (key: string) => translateText(`${TRANSLATION_BASE_OPEN_CALL_PAGE}.${key}`);
-
-  // `.id` en vez de `.entity`/`.identifier`: este último depende del username cacheado en
-  // roles[].entityRoleMap[], que puede quedar desincronizado con la entidad viva.
-  const isArtistProfile = !!loggedUser?.isArtistProfile;
-  const currentArtistId = isArtistProfile ? loggedUser?.currentProfileInfo?.id : undefined;
-  const currentArtistProfilePic = isArtistProfile ? loggedUser?.currentProfileInfo?.profile_pic : undefined;
 
   const formMethods = useForm({ mode: 'onTouched' });
   const {
@@ -54,40 +55,16 @@ const OpenCallApplicationPage = () => {
     formState: { errors },
   } = formMethods;
 
-  useEffect(() => {
-    if (openCallId && isArtistProfile) {
-      // La ruta /open-call-applications no filtra por query params server-side hoy; el filtro real ocurre abajo.
-      dispatch(applicationActions.loadItems({ queryParams: { open_call_id: openCallId } }));
-      setPreviousApplicationsRequested(true);
-    }
-  }, [openCallId, isArtistProfile]);
+  const translate = (key: string) => translateText(`${TRANSLATION_BASE_OPEN_CALL_PAGE}.${key}`);
 
-  const belongsToThisOpenCallAndArtist = (application?: OpenCallApplicationModel) =>
-    !!application && application.openCallId === openCallId && application.artistId === currentArtistId;
-
-  const previousApplication = currentArtistId ? applications.find(belongsToThisOpenCallAndArtist) : undefined;
-
-  // `createdItem` sobrevive a envíos anteriores dentro de la misma sesión: el éxito solo se da por
-  // válido si además hubo un submit desde esta pantalla y la aplicación creada es la de esta convocatoria.
+  // ========== VALORES DERIVADOS ==========
   const submissionSucceeded = submitted && belongsToThisOpenCallAndArtist(createdApplication);
   const submissionFailed = submitted && !loading && !createdApplication && !!submitError;
   const isSubmitting = submitted && loading;
-  const isCheckingPreviousApplications = !submitted && (!previousApplicationsRequested || loading);
+  const isCheckingPreviousApplications = isArtistProfile && (!previousApplicationsRequested || (loading && !submitted));
 
-  const buildSubmitErrorMessage = (error: RepoErrorPayload) => {
-    if (error.status === 409 || error.errorCode === GenericCrudErrorCode.VALIDATION_DUPLICATE_KEY) {
-      return translate('submit_errors.duplicate');
-    }
-    if (error.status === 400) {
-      return translate('submit_errors.not_accepting_applications');
-    }
-    if (error.status === 404) {
-      return translate('submit_errors.open_call_not_found');
-    }
-    return translate('submit_errors.generic');
-  };
-
-  const submitErrorMessage = submissionFailed ? buildSubmitErrorMessage(submitError) : undefined;
+  // ========== HANDLERS ==========
+  const submitErrorMessage = submissionFailed ? buildOpenCallSubmitErrorMessage(submitError, translate) : undefined;
 
   const steps = OPEN_CALL_PAGE_CONFIG;
   const totalSteps = steps.length;
@@ -139,7 +116,7 @@ const OpenCallApplicationPage = () => {
       artist_profile_pic: currentArtistProfilePic,
       survey_responses: data,
     };
-    dispatch(applicationActions.createItem({ data: applicationData }));
+    createApplication(applicationData);
     setSubmitted(true);
     window.scrollTo(0, 0);
   };
@@ -150,56 +127,59 @@ const OpenCallApplicationPage = () => {
 
   const goToOpenCallDetails = () => navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.ELEMENT_DETAILS}/${openCallId}`);
 
+  // ========== RENDERIZADO CONDICIONAL ==========
+
+  // 1. Esperar a que loggedUser esté cargado
+  if (!loggedUser) {
+    return <AppLoader />;
+  }
+
+  // 2. Si no es perfil de artista
   if (!isArtistProfile) {
     return (
-      <div className="open-call-page">
-        <div className="open-call-header">
-          <h1 className="open-call-title">{translate('no_artist_profile.title')}</h1>
-          <p className="open-call-subtitle">{translate('no_artist_profile.message')}</p>
-        </div>
-      </div>
+      <NoArtistProfileView
+        title={translate('no_artist_profile.title')}
+        message={translate('no_artist_profile.message')}
+      />
     );
   }
 
+  // 3. Si el submit fue exitoso
   if (submissionSucceeded) {
     return (
-      <div className="open-call-page">
-        <div className="submission-success">
-          <div className="success-icon">&#10003;</div>
-          <h2 className="success-title">{translate('success.title')}</h2>
-          <p className="success-message">{translate('success.message')}</p>
-          <button className="success-btn" onClick={() => navigate(`/${PATHS.HOME}`)}>
-            {translate('success.back_button')}
-          </button>
-        </div>
-      </div>
+      <SuccessView
+        title={translate('success.title')}
+        message={translate('success.message')}
+        buttonText={translate('success.back_button')}
+        onButtonClick={() => navigate(`/${PATHS.HOME}`)}
+      />
     );
   }
 
+  // 4. Si está checkeando aplicaciones previas
   if (isCheckingPreviousApplications) {
     return <AppLoader />;
   }
 
+  // 5. Si ya aplicó antes
   if (previousApplication) {
     return (
-      <div className="open-call-page">
-        <div className="submission-success">
-          <div className="success-icon">&#10003;</div>
-          <h2 className="success-title">{translate('already_applied.title')}</h2>
-          <p className="success-message">
+      <SuccessView
+        title={translate('already_applied.title')}
+        message={
+          <>
             {translate('already_applied.message')}
             <br />
-            {translate('already_applied.status_label')}{' '}
-            {translate(`application_status.${previousApplication.status}`)}
-          </p>
-          <button className="success-btn" onClick={goToOpenCallDetails}>
-            {translate('already_applied.details_button')}
-          </button>
-        </div>
-      </div>
+            {translate('already_applied.status_label')} {translate(`application_status.${previousApplication.status}`)}
+          </>
+        }
+        buttonText={translate('already_applied.details_button')}
+        onButtonClick={goToOpenCallDetails}
+      />
     );
   }
 
+  // 6. Mostrar formulario
   return (
     <div className="open-call-page">
       {/* Header */}
@@ -254,11 +234,7 @@ const OpenCallApplicationPage = () => {
                 {(section.components || []).map((component) =>
                   (component.data?.attributes || []).map((attr: AttributeConfiguration, attrIdx: number) => (
                     <div key={`${section.name}-${attr.name}-${attrIdx}`}>
-                      <DynamicControl
-                        fieldData={attributeToDynamicField(attr)}
-                        errors={errors}
-                        handlers={{}}
-                      />
+                      <DynamicControl fieldData={attributeToDynamicField(attr)} errors={errors} handlers={{}} />
                     </div>
                   ))
                 )}
@@ -296,4 +272,4 @@ const OpenCallApplicationPage = () => {
   );
 };
 
-export default OpenCallApplicationPage;
+export default OpenCallApplyPage;

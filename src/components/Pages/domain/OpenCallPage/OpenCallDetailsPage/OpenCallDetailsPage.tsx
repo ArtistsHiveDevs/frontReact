@@ -1,23 +1,27 @@
+import { Button, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Stack } from '@mui/material';
-import { useI18n } from '~/common/utils';
-import { selectCurrentUser } from '~/common/slices/users/selectors';
-import { useOpenCallsSlice, selectorOpenCalls } from '~/common/slices/domain/open-calls/open-calls.redux';
+import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
 import {
-  useOpenCallApplicationsSlice,
   selectorOpenCallApplications,
+  useOpenCallApplicationsSlice,
 } from '~/common/slices/domain/open-calls/open-call-applications.redux';
-import { OpenCallApplicationModel } from '~/models/domain/open-call/open-call-application.model';
+import { selectorOpenCalls, useOpenCallsSlice } from '~/common/slices/domain/open-calls/open-calls.redux';
+import { selectCurrentUser } from '~/common/slices/users/selectors';
+import { useI18n } from '~/common/utils';
 import { RootState } from '~/common/utils/redux-injectors/types';
-import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
+import ApplicationSurveyView from '~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/ApplicationSurveyView';
+import '~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/index.scss';
+import { TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE } from '~/components/Pages/domain/OpenCallPage/OpenCallDetailsPage/config-open-call-details';
+import OpenCallPresentation from '~/components/Pages/domain/OpenCallPage/OpenCallDetailsPage/OpenCallPresentation';
 import NotFoundPage from '~/components/Pages/NotFoundPage';
+import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
+import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
+import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
-import OpenCallSurveyReadOnly from '../OpenCallApplicationPage/OpenCallSurveyReadOnly';
-import { TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE } from './config-open-call-details';
-import OpenCallPresentation from './OpenCallPresentation';
-import '../OpenCallApplicationPage/index.scss';
+import { ArtistModel } from '~/models/domain/artist/artist.model';
+import { OpenCallApplicationModel } from '~/models/domain/open-call/open-call-application.model';
 
 const STATUS_COLORS: Record<string, string> = {
   pending: '#FFA726',
@@ -103,7 +107,7 @@ const ApplicationCard = ({ application, canModerate, isUpdating, onAccept, onRej
 
       {expanded && (
         <div style={{ padding: '0 20px 20px 20px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-          <OpenCallSurveyReadOnly surveyResponses={application.survey_responses || {}} />
+          <ApplicationSurveyView surveyResponses={application.survey_responses || {}} />
         </div>
       )}
     </div>
@@ -126,11 +130,29 @@ const OpenCallDetailsPage = () => {
   );
   const openCallLoading = useSelector(selectorOpenCalls.selectLoading);
 
+  const { actions: artistActions } = useArtistsSlice();
+  const selectArtistById = selectorArtists.makeSelectItemById();
+  const currentArtist: ArtistModel | undefined = useSelector((state: RootState) => {
+    if (loggedUser?.currentProfileInfo?.identifier) {
+      return selectArtistById(state, loggedUser?.currentProfileInfo?.identifier);
+    }
+    return undefined;
+  });
+
   const { actions: applicationActions } = useOpenCallApplicationsSlice();
   const applications: OpenCallApplicationModel[] = useSelector(selectorOpenCallApplications.selectItems);
   const applicationsLoading = useSelector(selectorOpenCallApplications.selectLoading);
 
   const [updatingApplicationId, setUpdatingApplicationId] = useState<string | undefined>(undefined);
+  const [isArtistProfile, setIsArtistProfile] = useState(false);
+  const [currentArtistId, setCurrentArtistId] = useState<string>(undefined);
+  const [isMissingDocsDialogOpen, setIsMissingDocsDialogOpen] = useState(false);
+
+  // Estados derivados que dependen de datos asíncronos
+  const [isPlaceOwner, setIsPlaceOwner] = useState(false);
+  const [applicationsForThisOpenCall, setApplicationsForThisOpenCall] = useState<OpenCallApplicationModel[]>([]);
+  const [myApplication, setMyApplication] = useState<OpenCallApplicationModel | undefined>(undefined);
+  const [canApplyToOpenCall, setCanApplyToOpenCall] = useState(false);
 
   useEffect(() => {
     if (openCallId) {
@@ -140,17 +162,65 @@ const OpenCallDetailsPage = () => {
     }
   }, [openCallId]);
 
-  const currentOpenCallPlaceId = currentOpenCall?.placeId;
-  const isPlaceOwner = !!loggedUser && !!currentOpenCallPlaceId && loggedUser.checkPermissions(currentOpenCallPlaceId).canEdit;
-  // `.id` en vez de `.entity`/`.identifier`: este último depende del username cacheado en
-  // roles[].entityRoleMap[], que puede quedar desincronizado con la entidad viva.
-  const isArtistProfile = !!loggedUser?.isArtistProfile;
-  const currentArtistId = isArtistProfile ? loggedUser?.currentProfileInfo?.id : undefined;
+  useEffect(() => {
+    if (!!loggedUser) {
+      // Determinar el tipo de perfil actual
+      const currentProfileEntity = loggedUser?.currentProfileInfo?.entity;
+      const isArtist = currentProfileEntity === ArtistModel.name;
 
-  const applicationsForThisOpenCall = applications.filter((app) => app.openCallId === openCallId);
-  const myApplication = currentArtistId
-    ? applicationsForThisOpenCall.find((app) => app.artistId === currentArtistId)
-    : undefined;
+      if (isArtist) {
+        dispatch(artistActions.getItemById({ id: loggedUser?.currentProfileInfo?.identifier }));
+      }
+
+      setIsArtistProfile(isArtist);
+      setCurrentArtistId(isArtist ? loggedUser?.currentProfileInfo?.id : undefined);
+
+      // Actualizar isPlaceOwner cuando cambian loggedUser o currentOpenCall
+      const currentOpenCallPlaceId = currentOpenCall?.placeId;
+      const placeOwner =
+        !!loggedUser && !!currentOpenCallPlaceId && loggedUser.checkPermissions(currentOpenCallPlaceId).canEdit;
+      setIsPlaceOwner(placeOwner);
+    }
+  }, [loggedUser, currentOpenCall]);
+
+  // Actualizar aplicaciones filtradas cuando cambian applications u openCallId
+  useEffect(() => {
+    if (!applicationsLoading) {
+      const filteredApplications = applications.filter((app) => app.openCallId === openCallId);
+      setApplicationsForThisOpenCall(filteredApplications);
+    }
+  }, [applications, applicationsLoading, openCallId]);
+
+  // Actualizar myApplication cuando cambian applicationsForThisOpenCall o currentArtistId
+  useEffect(() => {
+    if (currentArtistId && applicationsForThisOpenCall.length > 0) {
+      const foundApplication = applicationsForThisOpenCall.find((app) => app.artistId === currentArtistId);
+      setMyApplication(foundApplication);
+    } else {
+      setMyApplication(undefined);
+    }
+  }, [applicationsForThisOpenCall, currentArtistId]);
+
+  // Actualizar canApplyToOpenCall cuando cambian las condiciones necesarias
+  useEffect(() => {
+    if (currentOpenCall && isArtistProfile && !applicationsLoading) {
+      const canApply = !myApplication && !currentOpenCall.isExpired;
+      setCanApplyToOpenCall(canApply);
+    } else {
+      setCanApplyToOpenCall(false);
+    }
+  }, [isArtistProfile, applicationsLoading, myApplication, currentOpenCall]);
+
+  const handleApplyClick = () => {
+    // Validar si el artista tiene documentos faltantes
+    if (isArtistProfile && currentArtist && currentArtist.openCallDocumentCheckList.length > 0) {
+      // Abrir el diálogo de documentos faltantes
+      setIsMissingDocsDialogOpen(true);
+    } else {
+      // Si no hay documentos faltantes, navegar a la página de aplicación
+      navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.APPLY}/${openCallId}`);
+    }
+  };
 
   const handleSetStatus = (application: OpenCallApplicationModel, status: 'accepted' | 'rejected') => {
     setUpdatingApplicationId(application.id);
@@ -164,87 +234,100 @@ const OpenCallDetailsPage = () => {
     );
   };
 
-  if (openCallLoading && !currentOpenCall) {
-    return <AppLoader />;
-  }
-
-  if (!currentOpenCall) {
-    return <NotFoundPage />;
-  }
-
-  const canApplyToOpenCall = isArtistProfile && !applicationsLoading && !myApplication && !currentOpenCall.isExpired;
-
   return (
-    <div className="open-call-page">
-      <OpenCallPresentation
-        openCall={currentOpenCall}
-        onApply={
-          canApplyToOpenCall
-            ? () => navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.APPLY}/${openCallId}`)
-            : undefined
-        }
-      />
-
-      <div className="step-content">
-        {isPlaceOwner && (
-          <>
-            <h3 className="step-title">
-              {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.applications_received_title`)} (
-              {applicationsForThisOpenCall.length})
-            </h3>
-            {applicationsLoading && (
-              <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.loading_applications`)}</p>
-            )}
-            {!applicationsLoading && applicationsForThisOpenCall.length === 0 && (
-              <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.no_applications_yet`)}</p>
-            )}
-            {applicationsForThisOpenCall.map((application) => (
-              <ApplicationCard
-                key={application.id}
-                application={application}
-                canModerate
-                isUpdating={applicationsLoading && updatingApplicationId === application.id}
-                onAccept={() => handleSetStatus(application, 'accepted')}
-                onReject={() => handleSetStatus(application, 'rejected')}
-              />
-            ))}
-          </>
+    <>
+      {openCallLoading && !currentOpenCall && <AppLoader />}
+      {!openCallLoading && !currentOpenCall && <NotFoundPage />}
+      <BackButton />
+      <div className="open-call-page">
+        {currentOpenCall && (
+          <OpenCallPresentation
+            openCall={currentOpenCall}
+            onApply={canApplyToOpenCall ? handleApplyClick : undefined}
+          />
         )}
 
-        {isArtistProfile && (
-          <>
-            <h3 className="step-title">
-              {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.your_application_title`)}
-            </h3>
-            {applicationsLoading && (
-              <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.loading_your_application`)}</p>
-            )}
-            {!applicationsLoading && !myApplication && (
-              <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.not_applied_yet`)}</p>
-            )}
-            {myApplication && (
-              <ApplicationCard
-                application={myApplication}
-                canModerate={false}
-                isUpdating={false}
-                onAccept={() => undefined}
-                onReject={() => undefined}
-              />
-            )}
-          </>
-        )}
+        <div className="step-content">
+          {isPlaceOwner && (
+            <>
+              <h3 className="step-title">
+                {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.applications_received_title`)} (
+                {applicationsForThisOpenCall.length})
+              </h3>
+              {applicationsLoading && (
+                <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.loading_applications`)}</p>
+              )}
+              {!applicationsLoading && applicationsForThisOpenCall.length === 0 && (
+                <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.no_applications_yet`)}</p>
+              )}
+              {applicationsForThisOpenCall.map((application) => (
+                <ApplicationCard
+                  key={application.id}
+                  application={application}
+                  canModerate
+                  isUpdating={applicationsLoading && updatingApplicationId === application.id}
+                  onAccept={() => handleSetStatus(application, 'accepted')}
+                  onReject={() => handleSetStatus(application, 'rejected')}
+                />
+              ))}
+            </>
+          )}
 
-        {!isPlaceOwner && !isArtistProfile && (
-          <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.unauthorized_message`)}</p>
-        )}
+          {isArtistProfile && (
+            <>
+              <h3 className="step-title">
+                {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.your_application_title`)}
+              </h3>
+              {applicationsLoading && (
+                <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.loading_your_application`)}</p>
+              )}
+              {!applicationsLoading && !myApplication && (
+                <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.not_applied_yet`)}</p>
+              )}
+              {myApplication && (
+                <ApplicationCard
+                  application={myApplication}
+                  canModerate={false}
+                  isUpdating={false}
+                  onAccept={() => undefined}
+                  onReject={() => undefined}
+                />
+              )}
+            </>
+          )}
+
+          {!isPlaceOwner && !isArtistProfile && (
+            <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.unauthorized_message`)}</p>
+          )}
+        </div>
+
+        <div className="step-navigation">
+          <button type="button" className="nav-btn btn-prev" onClick={() => navigate(`/${PATHS.OPEN_CALLS}`)}>
+            {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.back_button`)}
+          </button>
+        </div>
       </div>
-
-      <div className="step-navigation">
-        <button type="button" className="nav-btn btn-prev" onClick={() => navigate(`/${PATHS.OPEN_CALLS}`)}>
-          {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.back_button`)}
-        </button>
-      </div>
-    </div>
+      {isArtistProfile && currentArtist && currentArtist.openCallDocumentCheckList.length > 0 && (
+        <AppDialog
+          isOpenDialog={isMissingDocsDialogOpen}
+          onClose={() => setIsMissingDocsDialogOpen(false)}
+          title={translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.missing_documents_title`)}
+          content={
+            <div className="missing-documents-section">
+              <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.missing_documents_message`)}</p>
+              <ol>
+                {currentArtist.openCallDocumentCheckList.map((doc, index) => (
+                  <li key={index}>
+                    {doc.field}
+                    {doc.translationPath && ` - ${translateText(doc.translationPath)}`}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          }
+        />
+      )}
+    </>
   );
 };
 

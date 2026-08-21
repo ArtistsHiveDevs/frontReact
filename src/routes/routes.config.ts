@@ -205,7 +205,7 @@ export const ROUTES_CONFIG: PathConfigMap = {
         path: PATHS.OPEN_CALLS,
         subpaths: {
           OpenCallsListPage: {
-            component: lazy(() => import('~/components/Pages/domain/OpenCallPage/OpenCallsListPage')),
+            component: lazy(() => import('~/components/Pages/domain/OpenCallPage/OpenCallsListPage/OpenCallsListPage')),
           },
           OpenCallCreatePage: {
             component: lazy(
@@ -216,7 +216,7 @@ export const ROUTES_CONFIG: PathConfigMap = {
           },
           OpenCallApplicationPage: {
             component: lazy(
-              () => import('~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/OpenCallsPage')
+              () => import('~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/OpenCallApplyPage')
             ),
             path: `${SUB_PATHS.APPLY}/:${URL_PARAMETER_NAMES.ELEMENT_ID}`,
             redirectToIfNotLoggedUser: PATHS.LOGIN,

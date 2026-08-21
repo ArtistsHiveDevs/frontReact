@@ -343,4 +343,65 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
       }),
     ];
   }
+
+  /**
+   * Valida si un campo tiene un valor válido según su tipo de dato
+   * @param field - Nombre del campo a validar
+   * @returns true si el campo tiene un valor válido, false en caso contrario
+   */
+  private isFieldValueValid(field: string): boolean {
+    const value = this[field];
+
+    // Null o undefined
+    if (value == null) {
+      return false;
+    }
+
+    // Array: debe tener al menos un elemento
+    if (Array.isArray(value)) {
+      return value.length > 0;
+    }
+
+    // String: no debe estar vacío
+    if (typeof value === 'string') {
+      return value.trim().length > 0;
+    }
+
+    // Number: debe ser un número válido (no NaN) y mayor a 0
+    if (typeof value === 'number') {
+      return !isNaN(value) && value > 0;
+    }
+
+    // Boolean: debe ser true
+    if (typeof value === 'boolean') {
+      return value === true;
+    }
+
+    // Objeto: debe tener al menos una propiedad
+    if (typeof value === 'object') {
+      return Object.keys(value).length > 0;
+    }
+
+    // Otros tipos: considerarlos inválidos
+    return false;
+  }
+
+  get openCallDocumentCheckList() {
+    const required_fields = [
+      'image_members',
+      'image_live_gallery',
+      // 'members',
+      'spotify',
+      'technical_epk',
+      'technical_rider',
+      // 'stage_plot',
+    ];
+
+    console.log(this);
+    const missingDocs = required_fields
+      .filter((field) => !this.isFieldValueValid(field))
+      .map((field) => ({ field, translationPath: '' }));
+
+    return missingDocs;
+  }
 }

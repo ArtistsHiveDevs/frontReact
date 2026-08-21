@@ -40,6 +40,10 @@ const OpenCallsListPage = () => {
   const applications: OpenCallApplicationModel[] = useSelector(selectorOpenCallApplications.selectItems);
   const applicationsLoading = useSelector(selectorOpenCallApplications.selectLoading);
 
+  const [isArtistProfile, setIsArtistProfile] = useState(false);
+  const [isPlaceProfile, setIsPlaceProfile] = useState(false);
+  const [currentProfileId, setCurrentProfileId] = useState<string>(undefined);
+
   // ========== UI STATE ==========
   const [activeTab, setActiveTab] = useState<'active' | 'past' | 'available' | 'applications'>('active');
   const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
@@ -80,78 +84,95 @@ const OpenCallsListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
 
-  // Determinar el tipo de perfil actual
-  const currentProfileEntity = loggedUser?.currentProfileInfo?.entity;
-  const isPlaceProfile = currentProfileEntity === 'Place';
-  const isArtistProfile = currentProfileEntity === 'Artist';
-  const currentArtistId = isArtistProfile ? loggedUser?.currentProfileInfo?.id : undefined;
-  const currentPlaceId = isPlaceProfile ? loggedUser?.currentProfileInfo?.id : undefined;
+  // ========== DATA STATE ==========
+  const [activeCalls, setActiveCalls] = useState([]);
+  const [pastCalls, setPastCalls] = useState([]);
+  const [myApplications, setMyApplications] = useState([]);
 
   // Load data on mount
+  // Update data when openCalls or applications change
+  useEffect(() => {
+    if (!openCallsLoading) {
+      // console.log('llegaron los openCall', openCalls);
+      // console.log('currentProfileId', currentProfileId);
+      // console.log('isPlaceProfile', isPlaceProfile);
+
+      if (openCalls.length > 0) {
+        // console.log('Primer openCall placeId:', openCalls[0].placeId);
+        // console.log('Comparación:', openCalls[0].placeId, '===', currentProfileId);
+      }
+
+      const myOpenCalls =
+        currentProfileId && isPlaceProfile
+          ? [
+              ...openCalls,
+              ...openCalls,
+              ...openCalls,
+              ...openCalls,
+              ...openCalls,
+              ...openCalls,
+              ...openCalls,
+              ...openCalls,
+              ...openCalls,
+              ...openCalls,
+              ...openCalls,
+              ...openCalls,
+              ...openCalls,
+              ...openCalls,
+              ...openCalls,
+              ...openCalls,
+              ...openCalls,
+              ...openCalls,
+            ].filter((oc) => oc.placeId === currentProfileId)
+          : [...openCalls];
+
+      console.log('myOpenCalls', myOpenCalls);
+      const active = myOpenCalls.filter((oc) => oc.status === 'OPEN');
+      const past = myOpenCalls.filter((oc) => oc.status !== 'OPEN');
+      console.log('activeCalls', active);
+      console.log('pastCalls', past);
+      setActiveCalls(active);
+      setPastCalls(past);
+    }
+  }, [openCalls, openCallsLoading, currentProfileId, isPlaceProfile]);
+
+  useEffect(() => {
+    if (!applicationsLoading && currentProfileId) {
+      const myApps = applications.filter((app) => app.artistId === currentProfileId);
+      console.log('myApplications', myApps);
+      setMyApplications(myApps);
+    }
+  }, [applications, applicationsLoading, currentProfileId]);
+
   useEffect(() => {
     dispatch(openCallActions.loadItems({}));
   }, [dispatch]);
 
   useEffect(() => {
-    if (currentArtistId) {
-      dispatch(openCallApplicationActions.loadItems({ queryParams: { artist_id: currentArtistId } }));
+    if (currentProfileId) {
+      dispatch(openCallApplicationActions.loadItems({ queryParams: { artist_id: currentProfileId } }));
     }
-  }, [currentArtistId, dispatch]);
+  }, [currentProfileId, dispatch]);
 
-  // Set default tab based on profile
   useEffect(() => {
-    if (isPlaceProfile) {
-      setActiveTab('active');
-    } else if (isArtistProfile) {
-      setActiveTab('available');
-    }
-  }, [isPlaceProfile, isArtistProfile]);
+    if (!!loggedUser) {
+      // Determinar el tipo de perfil actual
+      const currentProfileEntity = loggedUser?.currentProfileInfo?.entity;
+      const isPlace = currentProfileEntity === 'Place';
+      const isArtist = currentProfileEntity === 'Artist';
 
-  // ========== DATA PREPARATION ==========
-  const myOpenCalls = currentPlaceId
-    ? [
-        ...openCalls,
-        ...openCalls,
-        ...openCalls,
-        ...openCalls,
-        ...openCalls,
-        ...openCalls,
-        ...openCalls,
-        ...openCalls,
-        ...openCalls,
-        ...openCalls,
-        ...openCalls,
-        ...openCalls,
-        ...openCalls,
-        ...openCalls,
-        ...openCalls,
-        ...openCalls,
-        ...openCalls,
-        ...openCalls,
-      ].filter((oc) => oc.placeId === currentPlaceId)
-    : [
-        ...openCalls,
-        // ...openCalls,
-        // ...openCalls,
-        // ...openCalls,
-        // ...openCalls,
-        // ...openCalls,
-        // ...openCalls,
-        // ...openCalls,
-        // ...openCalls,
-        // ...openCalls,
-        // ...openCalls,
-        // ...openCalls,
-        // ...openCalls,
-        // ...openCalls,
-        // ...openCalls,
-        // ...openCalls,
-        // ...openCalls,
-        // ...openCalls,
-      ];
-  const activeCalls = myOpenCalls.filter((oc) => oc.status === 'OPEN');
-  const pastCalls = myOpenCalls.filter((oc) => oc.status !== 'OPEN');
-  const myApplications = currentArtistId ? applications.filter((app) => app.artistId === currentArtistId) : [];
+      setIsPlaceProfile(isPlace);
+      setIsArtistProfile(isArtist);
+      setCurrentProfileId(loggedUser?.currentProfileInfo?.id);
+
+      // Set default tab based on profile
+      if (isPlace) {
+        setActiveTab('active');
+      } else if (isArtist) {
+        setActiveTab('available');
+      }
+    }
+  }, [loggedUser]);
 
   // Get data based on active tab
   const getDataForCurrentTab = () => {
@@ -256,11 +277,11 @@ const OpenCallsListPage = () => {
       }
     } else {
       const itemId = item.identifier || item.id;
-      if (isPlaceProfile) {
-        navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.ELEMENT_DETAILS}/${itemId}`);
-      } else {
-        navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.APPLY}/${itemId}`);
-      }
+      navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.ELEMENT_DETAILS}/${itemId}`);
+      // if (isPlaceProfile) {
+      // } else {
+      //   navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.APPLY}/${itemId}`);
+      // }
     }
   };
 
@@ -409,6 +430,7 @@ const OpenCallsListPage = () => {
       ],
       defaultValue: '',
       componentParams: {
+        className: 'oc-sort-add-field',
         onChange: (e: any) => {
           const field = e.target.value;
           if (field) {
@@ -444,21 +466,23 @@ const OpenCallsListPage = () => {
                           </span>
                           {/* Move up button or empty space */}
                           {index === 0 ? (
-                            <span className="oc-sort-icon oc-sort-icon--placeholder" style={{ opacity: 0, pointerEvents: 'none' }}>
+                            <span
+                              className="oc-sort-icon oc-sort-icon--placeholder"
+                              style={{ opacity: 0, pointerEvents: 'none' }}
+                            >
                               <DynamicIcons iconName="MdKeyboardArrowUp" size={20} />
                             </span>
                           ) : (
-                            <span
-                              className="oc-sort-icon"
-                              onClick={() => handleMoveUp(index)}
-                              title="Subir prioridad"
-                            >
+                            <span className="oc-sort-icon" onClick={() => handleMoveUp(index)} title="Subir prioridad">
                               <DynamicIcons iconName="MdKeyboardArrowUp" size={20} />
                             </span>
                           )}
                           {/* Move down button or empty space */}
                           {index === sortBy.length - 1 ? (
-                            <span className="oc-sort-icon oc-sort-icon--placeholder" style={{ opacity: 0, pointerEvents: 'none' }}>
+                            <span
+                              className="oc-sort-icon oc-sort-icon--placeholder"
+                              style={{ opacity: 0, pointerEvents: 'none' }}
+                            >
                               <DynamicIcons iconName="MdKeyboardArrowDown" size={20} />
                             </span>
                           ) : (
@@ -801,10 +825,8 @@ const OpenCallsListPage = () => {
           </button>
         )}
       </div>
-
       {/* Tab Navigation */}
       {renderTabNavigation()}
-
       {/* Loading State */}
       {loading ? (
         <div className="oc-loading">
@@ -826,13 +848,10 @@ const OpenCallsListPage = () => {
           )}
         </>
       )}
-
       {/* Sort Dialog */}
       {renderSortDialog()}
-
       {/* Filter Dialog */}
       {renderFilterDialog()}
-
       {/* OLD IMPLEMENTATION - COMMENTED OUT FOR REFERENCE */}
       {/*
       <TabbedPanel rawConfig={config} defaultTransformerContext={defaultTransformerContext} />

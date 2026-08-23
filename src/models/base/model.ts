@@ -205,7 +205,7 @@ export abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
 export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
   [x: string]: any;
   declare id: string;
-  declare shortId?: string;
+  declare sID?: string;
   declare entityShareAcronym?: any;
 
   constructor(template: T | any = {}) {
@@ -214,7 +214,7 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
   }
 
   get identifier(): string {
-    return this.shortId || this.id;
+    return this.sID || this.id;
   }
 
   get sharedUrlSocialNetworks() {
@@ -245,7 +245,7 @@ export abstract class ProfileModel<T extends ProfileTemplate>
   declare name: string;
   declare username?: string;
   declare profile_pic?: string;
-  declare shortId?: string;
+  declare sID?: string;
   protected _profile_pic_aws?: StorageGetUrlOutput;
 
   declare isClaimedProfile?: boolean;

@@ -5,7 +5,7 @@ import { PlaceModel } from '../domain/place/place.model';
 export interface Template {
   fetchTimestamp?: number;
   username?: string;
-  shortId?: string;
+  sID?: string;
 }
 
 export interface EntityTemplate extends Template {

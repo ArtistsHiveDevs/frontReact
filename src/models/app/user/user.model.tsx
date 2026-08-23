@@ -20,7 +20,7 @@ export interface EntityInstanceRoleMapTemplate {
   name?: string;
   stage_name?: string;
   username?: string;
-  shortId?: string;
+  sID?: string;
   subtitle?: string;
   //TODO verificar si se puede quitar
   location?: string | LocationTemplate[];
@@ -278,7 +278,7 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
       return roles.flatMap(
         (role) =>
           role.entityRoleMap
-            .flatMap((entityRole: any) => [entityRole.id, entityRole.username, entityRole.shortId])
+            .flatMap((entityRole: any) => [entityRole.id, entityRole.username, entityRole.sID])
             .filter((value: any) => value !== undefined && value !== null) // Filtra valores no definidos o nulos
       );
     };
@@ -290,8 +290,8 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
     if (this.username) {
       ids.push(this.username);
     }
-    if (this.shortId) {
-      ids.push(this.shortId);
+    if (this.sID) {
+      ids.push(this.sID);
     }
 
     return { canEdit: ids.includes(idResource), isInProfile: idResource === this.currentProfileIdentifier };
@@ -336,7 +336,7 @@ export class CurrentProfileInfoModel
   declare surnames?: string;
   declare stage_name?: string;
   declare username?: string;
-  declare shortId?: string;
+  declare sID?: string;
   declare profile_pic?: string;
   declare subtitle?: string;
   declare verified_status: VerificationStatus;
@@ -350,7 +350,7 @@ export class CurrentProfileInfoModel
   }
 
   get identifier() {
-    return this.username || this.shortId || this.id;
+    return this.username || this.sID || this.id;
   }
 
   async avatarURL(): Promise<string> {

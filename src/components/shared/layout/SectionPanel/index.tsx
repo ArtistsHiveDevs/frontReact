@@ -3,8 +3,8 @@ import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import './index.scss';
 
 export const SectionsPanel = (props: any) => {
-  const { sectionName, sectionContent, isCollapsible = true } = props;
-  const [isExpanded, setIsExpanded] = useState(true);
+  const { id, sectionName, sectionContent, isCollapsible = true, variant, titleTag: TitleTag = 'h2', initialExpanded = true } = props;
+  const [isExpanded, setIsExpanded] = useState(initialExpanded);
 
   const toggleExpanded = () => {
     if (isCollapsible) {
@@ -13,10 +13,10 @@ export const SectionsPanel = (props: any) => {
   };
 
   return (
-    <div className="section-panel">
+    <div id={id} className={`section-panel${variant ? ` section-panel--${variant}` : ''}`}>
       {sectionContent && sectionName && (
         <div className="section-header" onClick={toggleExpanded} style={{ cursor: isCollapsible ? 'pointer' : 'default' }}>
-          <h2 className="section-title">{sectionName}</h2>
+          <TitleTag className="section-title">{sectionName}</TitleTag>
           {isCollapsible && (
             <div className={`accordion-icon ${isExpanded ? '' : 'expanded'}`}>
               <DynamicIcons iconName="io5 IoChevronDownOutline" size="1.5rem" customStyle={{ padding: '0rem' }} />

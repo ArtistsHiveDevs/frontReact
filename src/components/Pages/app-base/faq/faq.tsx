@@ -22,7 +22,7 @@ const FAQComponent = () => {
   return (
     !!faqDocument?.length && (
       <div>
-        <MDReader mdDocument={faqDocument[0]} options={{ showIndex: false, showLogoAtEnd: true }} />
+        <MDReader mdDocument={faqDocument[0]} options={{ showLogoAtEnd: true }} />
       </div>
     )
   );

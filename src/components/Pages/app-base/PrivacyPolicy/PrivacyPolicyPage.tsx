@@ -28,7 +28,7 @@ const PrivacyPolicyTemplate = () => {
   return (
     !!privacy_policies?.length && (
       <div>
-        <MDReader mdDocument={privacy_policies[0]} options={{ showIndex: false, showLogoAtEnd: true }} />
+        <MDReader mdDocument={privacy_policies[0]} options={{ showLogoAtEnd: true }} />
       </div>
     )
   );

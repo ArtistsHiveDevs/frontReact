@@ -1,0 +1,621 @@
+@import '~/variables.module.scss';
+
+.open-calls-list-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  background: $app-background;
+  min-height: 100vh;
+
+  // ========== HEADER ==========
+  .oc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: $main-title-color;
+    }
+
+    .oc-create-btn {
+      padding: 10px 20px;
+      border: 1px solid $links-color;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: $links-color;
+      background: transparent;
+
+      &:hover {
+        background: rgba($links-color, 0.1);
+        border-color: $icons-color;
+        color: $icons-color;
+      }
+    }
+  }
+
+  // ========== TABS ==========
+  .oc-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid $form-fields-separator;
+
+    .oc-tab {
+      padding: 12px 16px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: $gray-medium;
+      transition: all 0.15s;
+      margin-bottom: -1px;
+
+      &:hover {
+        color: $icons-color;
+      }
+
+      &--active {
+        color: $links-color;
+        border-bottom-color: $links-color;
+      }
+    }
+  }
+
+  // ========== FILTERS ==========
+  .oc-filters {
+    margin-bottom: 16px;
+
+    .oc-filter-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+
+      .oc-search-input {
+        flex: 1;
+        min-width: 200px;
+        padding: 11px 14px;
+        border: 1px solid $form-fields-border-color;
+        border-radius: 3px;
+        font-size: 14px;
+        transition: border-color 0.15s;
+        background: $form-fields-background;
+        color: $form-fields-font-color;
+
+        &:focus {
+          outline: none;
+          border-color: $links-color;
+        }
+
+        &::placeholder {
+          color: $form-fields-placeholder-color;
+        }
+      }
+
+      .oc-action-buttons {
+        display: flex;
+        gap: 8px;
+        flex-shrink: 0;
+
+        .oc-icon-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 42px;
+          height: 42px;
+          padding: 0;
+          background: transparent;
+          border: 1px solid $form-fields-border-color;
+          border-radius: 3px;
+          cursor: pointer;
+          transition: all 0.15s;
+          color: $main-font-color;
+
+          &:hover {
+            border-color: $icons-color;
+            color: $icons-color;
+            background: rgba($icons-color, 0.05);
+
+            .icon-container {
+              color: $icons-color;
+            }
+          }
+
+          &:active {
+            background: rgba($icons-color, 0.1);
+          }
+        }
+      }
+    }
+  }
+
+  // ========== SORT DIALOG ==========
+  .oc-sort-dialog-content {
+    min-width: 320px;
+    max-width: 400px;
+    color: $main-font-color;
+
+    .oc-sort-list {
+      margin-bottom: 12px;
+
+      .oc-sort-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 8px;
+        margin-bottom: 6px;
+        border: 1px solid $form-fields-separator;
+        border-radius: 3px;
+        background: $app-background-50;
+
+        .oc-sort-item-header {
+          display: flex;
+          align-items: center;
+
+          .oc-sort-priority {
+            font-weight: 600;
+            color: $icons-color;
+            font-size: 13px;
+          }
+        }
+
+        .oc-sort-item-content {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: nowrap;
+
+          .oc-sort-field {
+            flex: 1;
+            font-size: 14px;
+            color: $main-font-color;
+            min-width: 0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+          }
+
+          .oc-sort-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: $main-font-color;
+            transition: all 0.15s;
+            padding: 2px;
+            flex-shrink: 0;
+
+            &:hover:not(.oc-sort-icon--disabled) {
+              color: $icons-color;
+            }
+
+            &--disabled {
+              opacity: 0.3;
+              cursor: not-allowed;
+            }
+
+            &--danger {
+              &:hover {
+                color: $entity-2;
+              }
+            }
+          }
+
+          .oc-sort-direction {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: $icons-color;
+            transition: all 0.15s;
+            padding: 2px;
+            flex-shrink: 0;
+
+            &:hover {
+              color: $links-color;
+            }
+          }
+        }
+      }
+    }
+
+    .oc-sort-add {
+      padding-top: 2rem !important;
+      margin-bottom: 12px;
+      border-top: 1px solid $form-fields-separator;
+
+      // Estilos para el campo de select interno
+      .oc-sort-add-field {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+      }
+    }
+
+    .oc-sort-clear {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 8px 12px;
+      // background: transparent;
+      // border: 1px solid $form-fields-border-color;
+      // border-radius: 3px;
+      // color: $main-font-color;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+
+      &:hover {
+        background: rgba($entity-2, 0.1);
+        border-color: $entity-2;
+        color: $entity-2;
+      }
+    }
+  }
+
+  // ========== FILTER DIALOG ==========
+  .oc-filter-dialog-content {
+    min-width: 280px;
+    max-width: 360px;
+    color: $main-font-color;
+
+    .oc-filter-group {
+      margin-bottom: 12px;
+
+      label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        color: $gray-medium;
+      }
+
+      select,
+      input[type='text'] {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid $form-fields-border-color;
+        border-radius: 3px;
+        background: $form-fields-background;
+        color: $form-fields-font-color;
+        font-size: 14px;
+        transition: border-color 0.15s;
+
+        &:focus {
+          outline: none;
+          border-color: $links-color;
+        }
+      }
+
+      select {
+        cursor: pointer;
+      }
+
+      input::placeholder {
+        color: $form-fields-placeholder-color;
+      }
+    }
+
+    .oc-filter-clear,
+    .oc-filter-apply {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid $form-fields-border-color;
+      border-radius: 3px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-weight: 500;
+    }
+
+    .oc-filter-clear {
+      background: transparent;
+      color: $main-font-color;
+
+      &:hover {
+        background: rgba($entity-2, 0.1);
+        border-color: $entity-2;
+        color: $entity-2;
+      }
+    }
+
+    .oc-filter-apply {
+      background: $links-color;
+      color: $app-background;
+      border-color: $links-color;
+
+      &:hover {
+        background: $icons-color;
+        border-color: $icons-color;
+      }
+    }
+  }
+
+  // ========== LOADING ==========
+  .oc-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 20px;
+    color: $gray-medium;
+    font-size: 15px;
+  }
+
+  // ========== EMPTY STATE ==========
+  .oc-empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: $gray-medium;
+
+    h3 {
+      margin: 0 0 8px 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: $main-font-color;
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      color: $gray-medium;
+    }
+  }
+
+  // ========== CARD VIEW ==========
+  .oc-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+
+    .oc-card {
+      border: 1px solid $form-fields-separator;
+      border-radius: 8px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: $app-background-75;
+
+      &:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        border-color: $icons-color;
+      }
+
+      .oc-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+        gap: 12px;
+
+        .oc-card-title {
+          margin: 0;
+          font-size: 16px;
+          font-weight: 600;
+          color: $main-title-color;
+          flex: 1;
+          line-height: 1.3;
+        }
+
+        .oc-card-status {
+          padding: 4px 8px;
+          border: 1px solid $form-fields-separator;
+          border-radius: 3px;
+          font-size: 12px;
+          font-weight: 500;
+          white-space: nowrap;
+          color: $icons-color-secondary;
+        }
+      }
+
+      .oc-card-body {
+        .oc-card-field {
+          margin-bottom: 6px;
+          font-size: 14px;
+          color: $gray-medium;
+          line-height: 1.4;
+
+          strong {
+            font-weight: 500;
+            color: $main-font-color;
+          }
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+
+  // ========== TABLE VIEW ==========
+  .oc-table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 20px;
+    border: 1px solid $form-fields-separator;
+    border-radius: 8px;
+    background: $app-background-75;
+
+    .oc-table {
+      width: 100%;
+      border-collapse: collapse;
+
+      thead {
+        tr {
+          border-bottom: 1px solid $form-fields-separator;
+        }
+
+        th {
+          padding: 12px 16px;
+          text-align: left;
+          font-size: 12px;
+          font-weight: 600;
+          color: $gray-medium;
+          text-transform: uppercase;
+          letter-spacing: 0.3px;
+        }
+      }
+
+      tbody {
+        .oc-table-row {
+          border-bottom: 1px solid $form-fields-separator;
+          cursor: pointer;
+          transition: all 0.15s;
+
+          &:hover {
+            background: rgba($icons-color, 0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+          }
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          td {
+            padding: 14px 16px;
+            font-size: 14px;
+            color: $main-font-color;
+            vertical-align: middle;
+          }
+        }
+      }
+    }
+  }
+
+  // ========== PAGINATION ==========
+  .oc-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 0;
+    flex-wrap: wrap;
+    border-top: 1px solid $form-fields-separator;
+    margin-top: 16px;
+
+    .oc-pagination-info {
+      font-size: 14px;
+      color: $gray-medium;
+      font-weight: 400;
+    }
+  }
+
+  // ========== RESPONSIVE ==========
+  @media (max-width: 768px) {
+    padding: 12px 16px;
+
+    .oc-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+
+      .oc-create-btn {
+        width: 100%;
+      }
+    }
+
+    .oc-tabs {
+      .oc-tab {
+        flex: 1;
+        padding: 10px 8px;
+        font-size: 13px;
+        text-align: center;
+      }
+    }
+
+    .oc-filters {
+      .oc-filter-row {
+        flex-wrap: wrap;
+
+        .oc-search-input {
+          width: 100%;
+          min-width: 100%;
+        }
+
+        .oc-action-buttons {
+          width: 100%;
+          justify-content: space-between;
+
+          .oc-icon-btn {
+            flex: 1;
+          }
+        }
+      }
+    }
+
+    .oc-cards-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .oc-table-wrapper {
+      .oc-table {
+        thead th,
+        tbody td {
+          padding: 10px 12px;
+          font-size: 13px;
+        }
+      }
+    }
+
+    .oc-pagination {
+      flex-direction: column;
+      align-items: stretch;
+
+      .oc-pagination-info {
+        text-align: center;
+      }
+
+      > * {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px 12px;
+
+    .oc-header h2 {
+      font-size: 20px;
+    }
+
+    .oc-cards-grid {
+      .oc-card {
+        padding: 12px;
+
+        .oc-card-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+
+          .oc-card-title {
+            font-size: 15px;
+          }
+        }
+
+        .oc-card-body {
+          .oc-card-field {
+            font-size: 13px;
+          }
+        }
+      }
+    }
+  }
+}

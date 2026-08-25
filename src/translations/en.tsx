@@ -6,6 +6,9 @@ export const EnMessages = {
       not_found_page: {
         title: "Oops! We couldn't find what you're looking for",
       },
+      component_error: {
+        message: 'This component could not be loaded.',
+      },
     },
     domain_global_dictionary: { errors: {} },
     global_dictionary: {
@@ -195,6 +198,9 @@ export const EnMessages = {
       },
       forms: {
         errors: {
+          submit_error: "We couldn't save your changes. Please try again.",
+          submit_error_duplicate_key: 'That username is already taken. Please choose another one.',
+          submit_error_validation: 'Some required fields are missing or invalid. Please review the form.',
           validation_error: 'Some required fields are missing or invalid. Please review the fields marked in red.',
         },
       },
@@ -615,6 +621,61 @@ export const EnMessages = {
         },
       },
       domain: {
+        CalendarPage: {
+          title: 'My calendar',
+          empty_state: 'There are no events in this date range',
+          error: 'Something went wrong while loading your calendar. Please try again.',
+          deadline_label: 'Deadline',
+          types: {
+            concert: 'Concerts',
+            call: 'Open call deadlines',
+            activity: 'Activities',
+          },
+          meta: {
+            expired: 'Expired open call',
+            city: 'City',
+            event_date: 'Event date',
+            applications_count: 'Applications',
+            notes: 'Notes',
+          },
+          actions: {
+            today: 'Today',
+            month: 'Month',
+            week: 'Week',
+            day: 'Day',
+            delete: 'Delete',
+            cancel: 'Cancel',
+          },
+          activity_form: {
+            create_title: 'New activity',
+            edit_title: 'Edit activity',
+            save_error: 'The activity could not be saved. Please try again.',
+            fields: {
+              title: 'Title',
+              type: 'Type',
+              all_day: 'All day',
+              start_date: 'Start date',
+              start_time: 'Start time',
+              end_date: 'End date',
+              end_time: 'End time',
+              notes: 'Notes',
+            },
+            types: {
+              rehearsal: 'Rehearsal',
+              soundcheck: 'Soundcheck',
+              other: 'Other',
+            },
+            validation: {
+              title_required: 'Title is required',
+              start_date_required: 'Start date is required',
+              start_time_required: 'Start time is required',
+            },
+            delete_confirmation: {
+              title: 'Delete activity',
+              message: 'Are you sure you want to delete this activity? This action cannot be undone.',
+            },
+          },
+        },
         CulturalAgenda: {
           title: 'Cultural Agenda',
         },
@@ -820,6 +881,36 @@ export const EnMessages = {
         IndustryOfferPage: {
           create_account_banner: 'Join the hive',
         },
+        IndustryPages: {
+          CreateIndustryEntityPage: {
+            title: 'Industry member',
+            intro:
+              'Thanks for your interest in registering as an industry member, whether as an artist, agent, venue owner, rehearsal space or other entity.',
+            intro_secondary:
+              'Search for your profile if it already exists in the system, or create a new one to get started.',
+            search_section: {
+              title: 'Search for your profile',
+              input_placeholder: 'Artist or place name...',
+              search_button: 'Search',
+              artists_found: 'These are the related artists',
+              places_found: 'These are the related places',
+            },
+            create_section: {
+              title: 'Or create a new profile',
+            },
+            reset_section: {
+              remove_artists_button: 'Remove my Artist profiles',
+              remove_places_button: 'Remove my Place profiles',
+              confirm_title: 'Confirm action',
+              confirm_content:
+                'This action will remove the association of all your profiles of this type with your account. The profiles themselves will not be deleted, but they will stop appearing in your memberships. Do you want to continue?',
+              confirm_action: 'Yes, remove',
+              cancel_action: 'Cancel',
+            },
+          },
+        },
+        PrebookingPages: {},
+
         TourPlansPages: {
           TourPlanDetailsPage: {
             tourPlanNotFound: 'Tour not found',
@@ -1224,6 +1315,127 @@ export const EnMessages = {
           },
         },
       },
+      OpenCallPage: {
+        title: 'Open Call',
+        subtitle:
+          'Fill in the form to apply as an artist. Every detail helps us evaluate your proposal and coordinate the logistics of the event.',
+        step_counter: 'Step {current} of {total}',
+        step_progress: '{progress}% completed',
+        required_notice: 'Fields marked with * are required',
+        prev_button: 'Previous',
+        next_button: 'Next',
+        submit_button: 'Submit application',
+        submitting_button: 'Sending...',
+        save_notice: 'You can save and continue later',
+        no_artist_profile: {
+          title: 'You have no active artist profile',
+          message:
+            'You can only apply to an Open Call from an Artist profile. Check that you are logged in with the right profile.',
+        },
+        success: {
+          title: 'Application sent',
+          message:
+            'We have received your application. We will review your proposal and contact you at the email address you provided.',
+          back_button: 'Back to home',
+        },
+        already_applied: {
+          title: 'You have already applied to this Open Call',
+          message: 'You can only send one application per Open Call.',
+          status_label: 'Your application status:',
+          details_button: 'View the Open Call',
+        },
+        application_status: {
+          pending: 'Pending',
+          accepted: 'Accepted',
+          rejected: 'Rejected',
+        },
+        submit_errors: {
+          duplicate: 'You have already applied to this Open Call.',
+          not_accepting_applications:
+            'This Open Call is not accepting applications: it is closed or past its deadline.',
+          open_call_not_found: 'We could not find this Open Call. It may have been removed.',
+          generic: 'We could not send your application. Please try again later.',
+        },
+      },
+      OpenCallsListPage: {
+        subpages: {
+          active: { name: 'Active Open-calls' },
+          past: { name: 'Past Open-calls' },
+          available: { name: 'Available' },
+          applications: { name: 'My Applications' },
+        },
+        attributes: {
+          event_name: 'Event Name',
+          event_date: 'Event Date',
+          start_date: 'Opens On',
+          end_date: 'Closes On',
+          status: 'Status',
+          applications_count: 'Applications',
+          city: 'City',
+          genres: 'Genres',
+          application_status: 'Application Status',
+        },
+      },
+      OpenCallDetailsPage: {
+        applications_received_title: 'Applications Received',
+        your_application_title: 'Your Application',
+        no_applications_yet: 'No applications yet for this Open Call.',
+        not_applied_yet: "You haven't applied to this Open Call yet.",
+        loading_applications: 'Loading applications...',
+        loading_your_application: 'Loading your application...',
+        unauthorized_message: "Log in with an Artist or Place profile to see this Open Call's applications.",
+        back_button: 'Back to My Open Calls',
+        apply_button: 'Apply to this Open Call',
+        open_call_status: {
+          DRAFT: 'Draft',
+          OPEN: 'Open',
+          CLOSED: 'Closed',
+          CANCELLED: 'Cancelled',
+        },
+        presentation: {
+          open_badge: 'Applications open',
+          expired_badge: 'Applications closed',
+          apply_deadline_title: 'Application period',
+          event_date_label: 'Event date',
+          minutes_suffix: 'min',
+          sections: {
+            about: 'About this Open Call',
+            conditions: 'Conditions and requirements',
+            technical: 'Technical details',
+            compensation: 'Compensation and logistics',
+          },
+          fields: {
+            description: 'Description',
+            genres: 'Genres',
+            accepted_project_types: 'Accepted project types',
+            requirements_description: 'Requirements',
+            set_duration: 'Set duration',
+            max_applications: 'Maximum applications',
+            available_slots: 'Available slots',
+            expected_audience: 'Expected audience',
+            stage_type: 'Stage type',
+            stage_dimensions: 'Stage dimensions',
+            provided_sound: 'Sound provided',
+            provided_backline: 'Backline provided',
+            provided_lighting: 'Lighting provided',
+            technical_notes: 'Technical notes',
+            fee: 'Fee',
+            travel_support: 'Travel support',
+            accommodation_provided: 'Accommodation',
+            meals_provided: 'Meals',
+            additional_notes: 'Additional notes',
+          },
+        },
+        status: {
+          pending: 'Pending',
+          accepted: 'Accepted',
+          rejected: 'Rejected',
+        },
+        actions: {
+          accept: 'Accept',
+          reject: 'Reject',
+        },
+      },
     },
     appbase: {
       betabar: {
@@ -1439,6 +1651,7 @@ export const EnMessages = {
               my_events: 'My Events',
               'my_events.nested': { create: 'Create event' },
               my_riders: 'My Riders',
+              my_open_calls: 'My Open-calls',
               my_places: 'My Places',
               'my_places.nested': { create: 'Create Place' },
               favourites: 'Favorites',

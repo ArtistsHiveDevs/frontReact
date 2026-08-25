@@ -17,7 +17,8 @@ export const createSelect = (params: ComponentGeneratorParams) => {
   const { errors: formErrors } = formState;
 
   const { fieldData, handlers } = params;
-  const { label, fieldName, defaultValue, placeholder = '', options = [], config = {} } = fieldData;
+  const { label, fieldName, defaultValue, placeholder = '', options = [], config = {}, componentParams = {} } = fieldData;
+  const { className = '' } = componentParams as any;
 
   const { required } = config || {};
 
@@ -112,7 +113,7 @@ export const createSelect = (params: ComponentGeneratorParams) => {
   });
 
   return (
-    <div>
+    <div className={className}>
       <FormLabel
         required={required === true || required === 'true'}
         error={hasError}

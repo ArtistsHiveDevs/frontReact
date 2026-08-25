@@ -73,3 +73,16 @@ export function getClassFromModelName(modelName: string) {
   }
   return model;
 }
+
+// Shape de un campo `ref` de Mongoose una vez populado por el backend (llega como sub-documento, no como id plano).
+export interface PopulatedEntityRef {
+  id?: string;
+  _id?: string;
+  name?: string;
+  [key: string]: any;
+}
+
+export function resolvePopulatedRefId(value: string | PopulatedEntityRef | undefined | null): string | undefined {
+  if (!value) return undefined;
+  return typeof value === 'string' ? value : value.id || value._id;
+}

@@ -26,6 +26,7 @@ export const DeMessages = {
         video: 'Video',
       },
       actions: {
+        add: 'Hinzufügen',
         accounts: {
           create_account: 'Konto erstellen',
           forgot_password: 'Passwort vergessen',
@@ -1027,6 +1028,15 @@ export const DeMessages = {
               sections: {
                 music_performance: {
                   name: 'Instrumente',
+                  attributes: {
+                    member_names: 'Vornamen',
+                    member_surenames: 'Nachnamen',
+                    member_role: 'Rolle',
+                    member_instrument: 'Instrument',
+                    gender: 'Geschlecht',
+                    email: 'E-Mail',
+                    stage_name: 'Künstlername',
+                  },
                 },
                 audio_engineering: {
                   name: 'Tontechnik',

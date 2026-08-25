@@ -2,6 +2,8 @@ import { Alert, Button, Stack } from '@mui/material';
 import { forwardRef, useImperativeHandle, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { I18nPaths, useI18n } from '~/common/utils';
+import { removeFilesFromServer, uploadFilesToServer } from '~/common/utils/amplify/storage/storage.helpers';
+import { UploadFileToServerResponse } from '~/common/utils/amplify/storage/storage.types';
 import {
   USERNAME_FORMAT_PATTERN,
   createDebouncedUsernameValidation,
@@ -21,10 +23,8 @@ import { SocialNetworks } from '~/constants/social-networks.const';
 import { AppUserModel } from '~/models/app/user/user.model';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import { DynamicControl } from './DynamicControl';
-import { ControlType, DynamicFieldData, SelectOption } from './dynamic-control-types';
 import { FileUploadHandleEvent, FileUploaderOptions } from './components/FileUpload';
-import { uploadFilesToServer, removeFilesFromServer } from '~/common/utils/amplify/storage/storage.helpers';
-import { UploadFileToServerResponse } from '~/common/utils/amplify/storage/storage.types';
+import { ControlType, DynamicFieldData, SelectOption } from './dynamic-control-types';
 
 export interface ResourceConfig {
   resourceType: string; // 'profiles', 'res/openCalls', 'res/events', 'res/festivals', etc.
@@ -33,7 +33,7 @@ export interface ResourceConfig {
 
 export interface DynamicTabbedFormParams {
   tabsInfo: PageSection[];
-  handlers: { onSubmit: Function; [handlerName: string]: Function };
+  handlers: { onSubmit?: Function; [handlerName: string]: Function };
   translationBasePath: string;
   entityType?: string;
   profileHeaderComponent?: any;
@@ -169,13 +169,19 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
     if (fieldExternalData && fieldExternalData[fieldNameComponent]) {
       componentParamsComponent = { ...componentParamsComponent, ...fieldExternalData[fieldNameComponent] };
     }
+    // Preparar options y nestedOptions
+    const fieldOption = fieldOptions?.[componentDescriptor?.formMetaData?.fieldName];
+    const componentOptions = Array.isArray(fieldOption) ? fieldOption : [];
+    const componentNestedOptions = fieldOption && !Array.isArray(fieldOption) ? fieldOption : undefined;
+
     const componentFieldData: DynamicFieldData = {
       inputType: 'text',
       fieldName: fieldNameComponent,
       // label: getAttributeTitle(subpage.name, section.name, attributeInfo),
       componentParams: componentParamsComponent,
       config: componentDescriptor?.formMetaData?.config || {},
-      options: fieldOptions[componentDescriptor?.formMetaData?.fieldName] || [],
+      options: componentOptions,
+      nestedOptions: componentNestedOptions,
       externalData: fieldExternalData[componentDescriptor?.formMetaData?.fieldName] || {},
     };
 
@@ -231,6 +237,11 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
             componentParams = { ...componentParams, ...fieldExternalData[fieldName] };
           }
 
+          // Preparar options y nestedOptions
+          const fieldOption = fieldOptions?.[attributeInfo.name];
+          const attributeOptions = Array.isArray(fieldOption) ? fieldOption : [];
+          const attributeNestedOptions = fieldOption && !Array.isArray(fieldOption) ? fieldOption : undefined;
+
           const fieldData: DynamicFieldData = {
             inputType,
             fieldName: attributeInfo.name,
@@ -238,7 +249,8 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
             label: getAttributeTitle(subpage.name, section.name, attributeInfo),
             componentParams,
             config: formMetaData?.config || {},
-            options: fieldOptions[attributeInfo.name] || [],
+            options: attributeOptions,
+            nestedOptions: attributeNestedOptions,
             defaultValue: currentValue,
             externalData: { ...fieldExternalData, elementData: entityData },
           };
@@ -288,6 +300,10 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
       [ComponentTypes.IMAGE_GALLERY, ComponentTypes.DOCUMENT_FILE_VIEWER].includes(componentDescriptor.componentName)
     ) {
       componentFieldData.inputType = 'file';
+      addComponentField = true;
+      componentFieldData.externalData = entityData?.[componentDescriptor?.formMetaData?.fieldName];
+    } else if (componentDescriptor.componentName === ComponentTypes.CUSTOM_OBJECT_LIST) {
+      componentFieldData.inputType = 'customObjectList';
       addComponentField = true;
       componentFieldData.externalData = entityData?.[componentDescriptor?.formMetaData?.fieldName];
     }

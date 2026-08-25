@@ -26,6 +26,7 @@ export const ElMessages = {
         video: 'Βίντεο',
       },
       actions: {
+        add: 'Προσθήκη',
         accounts: {
           create_account: 'Δημιουργία λογαριασμού',
           forgot_password: 'Ξέχασα τον κωδικό μου',
@@ -1027,6 +1028,15 @@ export const ElMessages = {
               sections: {
                 music_performance: {
                   name: 'Όργανα',
+                  attributes: {
+                    member_names: 'Ονόματα',
+                    member_surenames: 'Επώνυμα',
+                    member_role: 'Ρόλος',
+                    member_instrument: 'Όργανο',
+                    gender: 'Φύλο',
+                    email: 'Email',
+                    stage_name: 'Καλλιτεχνικό όνομα',
+                  },
                 },
                 audio_engineering: {
                   name: 'Ηχητική Μηχανική',

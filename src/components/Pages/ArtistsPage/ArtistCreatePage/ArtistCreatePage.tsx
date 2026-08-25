@@ -6,7 +6,9 @@ import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists
 import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametrics/geo/language.redux';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
+import { useI18n } from '~/common/utils';
 import { getImageURL, uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
+import { getGenderOptions } from '~/common/utils/form-options/dynamic-form-parametric-options.helper';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
@@ -30,11 +32,13 @@ const ArtistsCreatePage = () => {
   const { actions: userActions } = useUsersSlice();
   const { actions: languageActions } = useLanguagesSlice();
   const urlParameters = useParams();
+  const { translateGlobalDict } = useI18n();
   const formRef = useRef<DynamicTabbedFormRef>(null);
 
   const [artistId, setCurrentArtistId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
   // const [availableLanguages, updateAvailableLanguages] = useState([]);
   const [availableGenres, updateAvailableGenres] = useState([]);
+  const [availableGenders, updateAvailableGenders] = useState([]);
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
   const [requestHasBeenSended, setRequestHasBeenSended] = useState(false);
   const [hasSwitchedProfile, setHasSwitchedProfile] = useState(false);
@@ -107,6 +111,8 @@ const ArtistsCreatePage = () => {
       { label: 'Rock', value: 'genre3', selected: true },
       { label: 'Jazz', value: 'genr4' },
     ]);
+
+    updateAvailableGenders(getGenderOptions({ translateFn: translateGlobalDict }));
   }, []);
 
   const handlers = {
@@ -179,6 +185,9 @@ const ArtistsCreatePage = () => {
                 arts_languages: availableLanguages,
                 spoken_languages: availableLanguages,
                 stage_languages: availableLanguages,
+                music_performance: {
+                  gender: availableGenders,
+                },
               }}
               submitLabel={!currentArtist ? 'create' : 'save'}
               onlyModifiedFields={true}

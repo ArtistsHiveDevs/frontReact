@@ -26,6 +26,7 @@ export const EsMessages = {
         video: 'Video',
       },
       actions: {
+        add: 'Añadir',
         accounts: {
           create_account: 'Crear cuenta',
           forgot_password: 'Olvidé mi contraseña',
@@ -1028,6 +1029,15 @@ export const EsMessages = {
               sections: {
                 music_performance: {
                   name: 'Instrumentos',
+                  attributes: {
+                    member_names: 'Nombres',
+                    member_surenames: 'Apellidos',
+                    member_role: 'Rol',
+                    member_instrument: 'Instrumento',
+                    gender: 'Género',
+                    email: 'E-Mail',
+                    stage_name: 'Nombre artístico',
+                  },
                 },
                 audio_engineering: {
                   name: 'Ingeniería de sonido',

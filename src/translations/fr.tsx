@@ -26,6 +26,7 @@ export const FrMessages = {
         video: 'Vidéo',
       },
       actions: {
+        add: 'Ajouter',
         accounts: {
           create_account: 'Créer un compte',
           forgot_password: 'Mot de passe oublié',
@@ -1030,6 +1031,15 @@ export const FrMessages = {
               sections: {
                 music_performance: {
                   name: 'Instruments',
+                  attributes: {
+                    member_names: 'Prénoms',
+                    member_surenames: 'Noms de famille',
+                    member_role: 'Rôle',
+                    member_instrument: 'Instrument',
+                    gender: 'Genre',
+                    email: 'E-Mail',
+                    stage_name: 'Nom de scène',
+                  },
                 },
                 audio_engineering: {
                   name: 'Ingénierie audio',

@@ -26,6 +26,7 @@ export const ItMessages = {
         video: 'Video',
       },
       actions: {
+        add: 'Aggiungi',
         accounts: {
           create_account: 'Crea account',
           forgot_password: 'Password dimenticata',
@@ -1027,6 +1028,15 @@ export const ItMessages = {
               sections: {
                 music_performance: {
                   name: 'Strumenti',
+                  attributes: {
+                    member_names: 'Nomi',
+                    member_surenames: 'Cognomi',
+                    member_role: 'Ruolo',
+                    member_instrument: 'Strumento',
+                    gender: 'Genere',
+                    email: 'E-Mail',
+                    stage_name: "Nome d'arte",
+                  },
                 },
                 audio_engineering: {
                   name: 'Ingegneria audio',

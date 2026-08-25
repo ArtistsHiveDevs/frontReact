@@ -31,9 +31,9 @@ export const buildApplicationFormSections = (
             fieldName: field.fieldName,
             componentParams: field.componentParams,
             config: {
-              required: field.required,
+              required: field.required ? 'Este campo es requerido' : false,
               ...field.config,
-            },
+            } as any,
             defaultValue: field.defaultValue,
           },
         }));

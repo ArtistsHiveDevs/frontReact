@@ -26,6 +26,7 @@ export const PtMessages = {
         video: 'Video',
       },
       actions: {
+        add: 'Adicionar',
         accounts: {
           create_account: 'Criar conta',
           forgot_password: 'Esqueci minha senha',
@@ -1024,6 +1025,15 @@ export const PtMessages = {
               sections: {
                 music_performance: {
                   name: 'Instrumentos',
+                  attributes: {
+                    member_names: 'Nomes',
+                    member_surenames: 'Sobrenomes',
+                    member_role: 'Função',
+                    member_instrument: 'Instrumento',
+                    gender: 'Gênero',
+                    email: 'E-Mail',
+                    stage_name: 'Nome artístico',
+                  },
                 },
                 audio_engineering: {
                   name: 'Engenharia de áudio',

@@ -26,6 +26,7 @@ export const EnMessages = {
         video: 'Video',
       },
       actions: {
+        add: 'Add',
         accounts: {
           create_account: 'Create account',
           forgot_password: 'Forgot Password',
@@ -1013,6 +1014,15 @@ export const EnMessages = {
               sections: {
                 music_performance: {
                   name: 'Instruments',
+                  attributes: {
+                    member_names: 'Names',
+                    member_surenames: 'Surenames',
+                    member_role: 'Role',
+                    member_instrument: 'Instrument',
+                    gender: 'Gender',
+                    email: 'E-Mail',
+                    stage_name: 'Stage name',
+                  },
                 },
                 audio_engineering: {
                   name: 'Audio Engineering',

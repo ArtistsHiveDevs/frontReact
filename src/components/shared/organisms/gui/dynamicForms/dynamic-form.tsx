@@ -18,10 +18,19 @@ interface FormProps {
   errors?: ErrorType;
   styles?: { className?: string; spacing?: number };
   formMethods?: any;
+  fieldOptions?: { [fieldName: string]: any[] | { [nestedFieldName: string]: any[] } };
 }
 
 export const DynamicForm = (props: FormProps) => {
-  const { fields, handlers, submitLabel, errors: responseErrors, styles, formMethods: externalFormMethods } = props;
+  const {
+    fields,
+    handlers,
+    submitLabel,
+    errors: responseErrors,
+    styles,
+    formMethods: externalFormMethods,
+    fieldOptions,
+  } = props;
   const [responseErrorsRender, setResponseErrorsRender] = useState([]);
   const internalFormMethods = useForm();
   const formMethods = externalFormMethods || internalFormMethods;
@@ -48,14 +57,37 @@ export const DynamicForm = (props: FormProps) => {
   }, [responseErrors]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className={`${styles?.className || ''} fullwidth`.trim()}>
+    // <form onSubmit={handleSubmit(onSubmit)} noValidate className={`${styles?.className || ''} fullwidth`.trim()}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleSubmit(onSubmit)();
+      }}
+      noValidate
+      className={`${styles?.className || ''} fullwidth`.trim()}
+    >
       <FormProvider {...formMethods}>
         <Stack spacing={styles?.spacing || 2}>
-          {fields.map((d, i) => (
-            <div key={i}>
-              <DynamicControl fieldData={d} handlers={{ ...handlers }} errors={{ ...errors }} />
-            </div>
-          ))}
+          {fields.map((d, i) => {
+            // Si hay fieldOptions y este campo tiene opciones definidas, las agregamos
+            let fieldDataWithOptions = d;
+            if (fieldOptions && fieldOptions[d.fieldName]) {
+              const fieldOption = fieldOptions[d.fieldName];
+              // Si es un array, va a options; si es objeto anidado, va a nestedOptions
+              if (Array.isArray(fieldOption)) {
+                fieldDataWithOptions = { ...d, options: fieldOption };
+              } else {
+                fieldDataWithOptions = { ...d, nestedOptions: fieldOption };
+              }
+            }
+
+            return (
+              <div key={i}>
+                <DynamicControl fieldData={fieldDataWithOptions} handlers={{ ...handlers }} errors={{ ...errors }} />
+              </div>
+            );
+          })}
 
           {responseErrorsRender?.length > 0 &&
             responseErrorsRender.map((error, index) => (

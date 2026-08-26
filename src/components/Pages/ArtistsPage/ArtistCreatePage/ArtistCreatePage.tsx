@@ -44,6 +44,7 @@ const ArtistsCreatePage = () => {
   const availableLanguages: LanguageModel[] = useSelector(selectorLanguages.selectItems);
 
   const createdItem = useSelector(selectorArtists.selectCreatedItem);
+  const isSavingArtist = useSelector(selectorArtists.selectLoading);
   const selectArtistById = selectorArtists.makeSelectItemById();
   const currentArtist: ArtistModel = useSelector((state: RootState) => {
     if (artistId) {
@@ -71,10 +72,12 @@ const ArtistsCreatePage = () => {
   }, [urlParameters]);
 
   useEffect(() => {
-    if (requestHasBeenSended && loggedUser?.currentProfileIdentifier) {
-      navigateToEntity({ entityType: ArtistModel.name, id: loggedUser?.currentProfileIdentifier });
+    // Desmontar cancela el saga de artists, así que se navega recién cuando la petición terminó.
+    const targetArtistId = currentArtist?.identifier || createdItem?.identifier;
+    if (requestHasBeenSended && !isSavingArtist && targetArtistId) {
+      navigateToEntity({ entityType: ArtistModel.name, id: targetArtistId });
     }
-  }, [loggedUser, requestHasBeenSended]);
+  }, [currentArtist, createdItem, requestHasBeenSended, isSavingArtist]);
 
   useEffect(() => {
     if (!availableLanguages || availableLanguages.length === 0) {
@@ -122,6 +125,7 @@ const ArtistsCreatePage = () => {
 
         dispatch(artistsActions.updateItem(updatePayload));
       }
+      setRequestHasBeenSended(true);
     },
     onChangecountry: (data: any) => {
       console.log('#####----------->>>>  !!! ', data);

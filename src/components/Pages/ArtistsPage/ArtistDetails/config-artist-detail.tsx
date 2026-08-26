@@ -399,6 +399,8 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'youtube',
                   // emptyTitle: true,
+                  // Ya se edita en social_networks: acá sólo se muestra el widget.
+                  formMetaData: { hidden: true },
                   components: [
                     {
                       componentName: ComponentTypes.SOCIAL_NETWORK_WIDGET,
@@ -414,6 +416,8 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 },
                 {
                   name: 'spotify',
+                  // Ya se edita en social_networks: acá sólo se muestra el widget.
+                  formMetaData: { hidden: true },
                   components: [
                     {
                       componentName: ComponentTypes.SOCIAL_NETWORK_WIDGET,
@@ -454,6 +458,8 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 },
                 {
                   name: 'instagram',
+                  // Ya se edita en social_networks: acá sólo se muestra el widget.
+                  formMetaData: { hidden: true },
                   components: [
                     {
                       componentName: ComponentTypes.SOCIAL_NETWORK_WIDGET,

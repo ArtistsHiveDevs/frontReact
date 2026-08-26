@@ -169,22 +169,15 @@ const CreateIndustryEntityPage = () => {
 
   const clickOnEntityHandler = (entityNamePlural: string) => {
     if (!!loggedUser) {
-      let entityName = undefined;
       let path = undefined;
       if (entityNamePlural === 'artists') {
-        entityName = 'Artist';
         path = ArtistModel.name;
       } else if (entityNamePlural === 'places') {
-        entityName = 'Place';
         path = PlaceModel.name;
       } else if (entityNamePlural === 'events') {
-        entityName = 'Event';
         path = EventModel.name;
       }
-      // console.log(entityName);
-      dispatch(
-        usersActions.updateUser({ id: loggedUser.identifier, newItem: { roles: [{ entityName, entityRoleMap: [] }] } })
-      );
+      // El backend crea la entrada de roles al crear la entidad; persistirla acá pisaba los roles previos.
       setIndustryMemberActivated(true);
       setSelectedEntity(path);
     }
@@ -256,7 +249,9 @@ const CreateIndustryEntityPage = () => {
         id: loggedUser.identifier,
         newItem: {
           roles: [...loggedUser.roles.filter((entity) => entity.entityName !== entityType)],
-        },
+          // El backend mergea `roles` por defecto; acá sí queremos borrar el grupo.
+          rolesReplace: true,
+        } as any,
       })
     );
     setQueryText('');

@@ -1,3 +1,4 @@
+import { LocationLevelData } from '~/common/utils/location-display.utils';
 import { VerificationStatus } from '~/constants';
 import { LocationTemplate, Model, ProfileModel, ProfileTemplate, SearchableTemplate } from '~/models/base';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
@@ -91,6 +92,8 @@ export interface AppUserTemplate extends ProfileTemplate {
   birthdate?: string;
   nationality?: string;
   home_city?: string;
+  homeCityData?: LocationLevelData[];
+  birthplaceData?: LocationLevelData[];
   home_address?: string;
   latlng?: string;
   profile_pic?: string;
@@ -138,6 +141,8 @@ export class AppUserModel extends ProfileModel<AppUserTemplate> implements AppUs
   declare birthdate: string;
   declare nationality: string;
   declare home_city: string;
+  declare homeCityData: LocationLevelData[];
+  declare birthplaceData: LocationLevelData[];
   declare home_address: string;
   declare latlng: string;
   declare profile_pic: string;

@@ -1,3 +1,4 @@
+import { LocationLevelData } from '~/common/utils/location-display.utils';
 import dayjs, { Dayjs } from 'dayjs';
 import { VerificationStatus } from '~/constants';
 import { ExperienceRange } from '~/constants/domain/domain.constants';
@@ -125,6 +126,7 @@ export interface ArtistTemplate extends ProfileTemplate {
 
   since: Dayjs;
   home_city: string;
+  homeCityData?: LocationLevelData[];
   country: CountryTemplate;
   city: any;
   spoken_languages: LanguageTemplate[];
@@ -189,6 +191,7 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
 
   declare since: Dayjs;
   declare home_city: string;
+  declare homeCityData: LocationLevelData[];
   declare spoken_languages: LanguageModel[];
   declare stage_languages: LanguageModel[];
   declare arts_languages: LanguageModel[];

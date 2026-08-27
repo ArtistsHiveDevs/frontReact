@@ -80,8 +80,14 @@ const generateRoutes = (userIsLoggedIn: boolean, possibleForcedNextPath: string)
 
     if (redirectPath) {
       const nextPathParam = !!next && !next.includes('/:') ? `?next=${encodeURIComponent(next)}` : '';
+      // Sin la barra inicial el destino se resuelve relativo a la ruta actual (/profile/edit + login).
+      const absoluteRedirectPath = redirectPath.startsWith('/') ? redirectPath : `/${redirectPath}`;
       routes.push(
-        <Route key={route.path} path={route.path} element={<Navigate to={`${redirectPath}${nextPathParam}`} />} />
+        <Route
+          key={route.path}
+          path={route.path}
+          element={<Navigate to={`${absoluteRedirectPath}${nextPathParam}`} />}
+        />
       );
     }
   });

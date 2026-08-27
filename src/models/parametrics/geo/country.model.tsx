@@ -15,7 +15,7 @@ export interface CountryStructure {
 export interface CountryTemplate extends EntityTemplate {
   name: string;
   native: string;
-  phone: number;
+  phone: number | number[];
   continent: any;
   capital: string;
   currency: any[];
@@ -36,7 +36,7 @@ export interface CountryTemplate extends EntityTemplate {
 export class CountryModel extends EntityModel<CountryTemplate> implements CountryTemplate, SearchableTemplate {
   declare name: string;
   declare native: string;
-  declare phone: number;
+  declare phone: number | number[];
   declare continent: any;
   declare capital: string;
   declare currency: any[];

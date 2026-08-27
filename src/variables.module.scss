@@ -90,8 +90,11 @@ $grid-breakpoints: (
   xl: 1440px,
 );
 
+// Import math module for division
+@use "sass:math";
+
 // Functions
 @function rem-calc($size) {
-  $remSize: $size / 16;
+  $remSize: math.div($size, 16);
   @return #{$remSize}rem;
 }

@@ -897,7 +897,8 @@ export const PtMessages = {
                   attributes: {
                     description: 'Descrição',
                     since: 'Desde',
-                    home_city: 'Cidade natal',
+                    origin_city: 'Cidade de origem',
+                    home_city: 'Cidade de residência',
                     categories: 'Categorias',
                     genres: 'Gêneros',
                     spoken_languages: 'Línguas faladas',
@@ -1137,6 +1138,7 @@ export const PtMessages = {
                     address: 'Endereço',
                     city: 'Cidade',
                     cityWithCountry: 'Localização',
+                    home_city: 'Localização',
                     categories: 'Categorias',
                     since: 'Desde',
                     spoken_languages: 'Idiomas falados',

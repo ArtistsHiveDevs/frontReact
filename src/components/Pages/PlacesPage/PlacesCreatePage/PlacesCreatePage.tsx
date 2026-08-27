@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
+import { useI18n } from '~/common/utils';
 import { uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
+import { getPlaceTypeOptions } from '~/common/utils/form-options';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
@@ -19,6 +21,7 @@ import {
 
 const PlacesCreatePage = () => {
   const { navigateToEntity } = useNavigation();
+  const { translateGlobalDict } = useI18n();
   const urlParameters = useParams();
   const dispatch = useDispatch();
   const formRef = useRef<DynamicTabbedFormRef>(null);
@@ -29,6 +32,8 @@ const PlacesCreatePage = () => {
   const [requestHasBeenSended, setRequestHasBeenSended] = useState(false);
 
   const { actions: placesActions } = usePlacesSlice();
+
+  const placeTypeOptions = getPlaceTypeOptions({ translateFn: translateGlobalDict });
 
   const selectPlaceById = selectorPlaces.makeSelectItemById();
   const currentPlace: PlaceModel = useSelector((state: RootState) => {
@@ -133,6 +138,7 @@ const PlacesCreatePage = () => {
         entityType={PlaceModel.name}
         elementData={currentPlace}
         fieldOptions={{
+          place_type: placeTypeOptions,
           genres: availableGenres,
           arts_languages: availableLanguages,
           spoken_languages: availableLanguages,

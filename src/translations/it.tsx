@@ -899,7 +899,8 @@ export const ItMessages = {
                   attributes: {
                     description: 'Descrizione',
                     since: 'Da',
-                    home_city: 'Città ',
+                    origin_city: 'Città di origine',
+                    home_city: 'Città di residenza',
                     cityWithCountry: 'Città',
                     categories: 'Categorie',
                     genres: 'Generi',
@@ -1140,6 +1141,7 @@ export const ItMessages = {
                     address: 'Indirizzo',
                     city: 'Città',
                     cityWithCountry: 'Posizione',
+                    home_city: 'Posizione',
                     categories: 'Categorie',
                     since: 'Dal',
                     spoken_languages: 'Lingue parlate',

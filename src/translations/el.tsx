@@ -900,6 +900,7 @@ export const ElMessages = {
                   attributes: {
                     description: 'Περιγραφή',
                     since: 'Από',
+                    origin_city: 'Πόλη προέλευσης',
                     home_city: 'Πόλη κατοικίας',
                     categories: 'Κατηγορίες',
                     genres: 'Είδη',
@@ -1140,6 +1141,7 @@ export const ElMessages = {
                     address: 'Διεύθυνση',
                     city: 'Πόλη',
                     cityWithCountry: 'Τοποθεσία',
+                    home_city: 'Τοποθεσία',
                     categories: 'Κατηγορίες',
                     since: 'Από',
                     spoken_languages: 'Γλώσσες που μιλιούνται',

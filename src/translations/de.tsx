@@ -899,6 +899,7 @@ export const DeMessages = {
                   attributes: {
                     description: 'Beschreibung',
                     since: 'Seit',
+                    origin_city: 'Gründungsstadt',
                     home_city: 'Stadt der Niederlassung',
                     categories: 'Kategorien',
                     genres: 'Genres',
@@ -1139,6 +1140,7 @@ export const DeMessages = {
                     address: 'Adresse',
                     city: 'Stadt',
                     cityWithCountry: 'Ort',
+                    home_city: 'Ort',
                     categories: 'Kategorien',
                     since: 'Seit',
                     spoken_languages: 'Gesprochene Sprachen',

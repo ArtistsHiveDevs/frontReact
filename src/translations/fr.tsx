@@ -901,6 +901,7 @@ export const FrMessages = {
                   attributes: {
                     description: 'Description',
                     since: 'Depuis',
+                    origin_city: "Ville d'origine",
                     home_city: "Ville de l'établissement",
                     categories: 'Catégories',
                     genres: 'Genres',
@@ -1141,6 +1142,7 @@ export const FrMessages = {
                     address: 'Adresse',
                     city: 'Ville',
                     cityWithCountry: 'Localisation',
+                    home_city: 'Localisation',
                     categories: 'Catégories',
                     since: 'Depuis',
                     spoken_languages: 'Langues parlées',

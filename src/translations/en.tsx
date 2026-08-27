@@ -885,6 +885,7 @@ export const EnMessages = {
                   attributes: {
                     description: 'Description',
                     since: 'Since',
+                    origin_city: 'Origin city',
                     home_city: 'Home city',
                     categories: 'Categories',
                     genres: 'Genres',
@@ -1125,6 +1126,7 @@ export const EnMessages = {
                     address: 'Address',
                     city: 'City',
                     cityWithCountry: 'Location',
+                    home_city: 'Location',
                     categories: 'Categories',
                     since: 'Since',
                     spoken_languages: 'Spoken Languages',

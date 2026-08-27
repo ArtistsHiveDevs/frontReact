@@ -41,16 +41,26 @@ export const createPhonePrefixField = (params: ComponentGeneratorParams) => {
     () =>
       availableCountries
         .filter((country) => !!country.phone && !!country.alpha2)
-        .map((country) => ({
-          iso2: country.alpha2,
-          dialCode: `+${country.phone}`,
-          name: `${country.name}${country.name !== country.native ? ' (' + country.native + ')' : ''}`,
-        }))
-        .sort((a, b) => a.name.localeCompare(b.name)),
+        .flatMap((country) => {
+          // Un pais puede tener varios codigos (ej: Republica Dominicana), cada uno es una opcion.
+          const countryDialCodes = Array.isArray(country.phone) ? country.phone : [country.phone];
+          return countryDialCodes
+            .filter((dialCode) => !!dialCode)
+            .map((dialCode) => ({
+              iso2: country.alpha2,
+              dialCode: `+${dialCode}`,
+              name: `${country.name}${country.name !== country.native ? ' (' + country.native + ')' : ''}`,
+            }));
+        })
+        .sort((a, b) => a.name.localeCompare(b.name) || a.dialCode.localeCompare(b.dialCode)),
     [availableCountries]
   );
 
   const formValue = watch ? watch(fieldName) : undefined;
+  const availableDialCodes = useMemo(
+    () => (phonePrefixOptions.length > 0 ? phonePrefixOptions.map((prefix) => prefix.dialCode) : [DEFAULT_PHONE_PREFIX]),
+    [phonePrefixOptions]
+  );
   const initialParsedValue = parsePhoneValue(formValue ?? defaultValue, [DEFAULT_PHONE_PREFIX]);
 
   const [dialCode, setDialCode] = useState(initialParsedValue.dialCode);
@@ -70,24 +80,25 @@ export const createPhonePrefixField = (params: ComponentGeneratorParams) => {
 
   useEffect(() => {
     if (formValue === undefined && setValue) {
-      const seededValue = `${initialParsedValue.dialCode}${initialParsedValue.number}`.trim();
+      const externalValue = (defaultValue ?? '').trim();
+      // Un valor que ya viene en formato internacional se respeta tal cual, sin recomponerlo.
+      const seededValue = externalValue.startsWith('+')
+        ? externalValue
+        : `${initialParsedValue.dialCode}${initialParsedValue.number}`.trim();
       setValue(fieldName, seededValue, { shouldDirty: false });
     }
   }, [defaultValue]);
 
-  const initialSyncDoneRef = useRef(false);
+  // Se resincroniza cada vez que cambia el valor externo o llega la lista de paises, no solo en el primer render.
   useEffect(() => {
-    if (initialSyncDoneRef.current || phonePrefixOptions.length === 0) {
+    const externalValue = (formValue ?? defaultValue ?? '').trim();
+    if (!externalValue || externalValue === `${dialCode}${localNumber}`.trim()) {
       return;
     }
-    initialSyncDoneRef.current = true;
-    const parsed = parsePhoneValue(
-      formValue ?? defaultValue,
-      phonePrefixOptions.map((prefix) => prefix.dialCode)
-    );
+    const parsed = parsePhoneValue(externalValue, availableDialCodes);
     setDialCode(parsed.dialCode);
     setLocalNumber(parsed.number);
-  }, [phonePrefixOptions]);
+  }, [formValue, defaultValue, availableDialCodes]);
 
   const composeAndSetValue = (nextDialCode: string, nextLocalNumber: string) => {
     const composedValue = `${nextDialCode}${nextLocalNumber}`.trim();
@@ -327,7 +338,7 @@ export const createPhonePrefixField = (params: ComponentGeneratorParams) => {
             )}
             {filteredPrefixes.map((prefix) => (
               <Box
-                key={prefix.iso2}
+                key={`${prefix.iso2}-${prefix.dialCode}`}
                 onClick={() => selectPrefix(prefix)}
                 sx={{
                   display: 'flex',

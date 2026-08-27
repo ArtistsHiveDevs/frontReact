@@ -195,6 +195,7 @@ export const PtMessages = {
       forms: {
         errors: {
           validation_error: 'Alguns campos obrigatórios estão faltando ou inválidos. Revise os campos marcados em vermelho.',
+          submit_error: 'Não foi possível salvar. Tente novamente.',
         },
       },
       errors: {

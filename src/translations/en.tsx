@@ -195,6 +195,7 @@ export const EnMessages = {
       forms: {
         errors: {
           validation_error: 'Some required fields are missing or invalid. Please review the fields marked in red.',
+          submit_error: 'Saving failed. Please try again.',
         },
       },
       errors: {

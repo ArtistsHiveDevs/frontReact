@@ -195,6 +195,7 @@ export const FrMessages = {
       forms: {
         errors: {
           validation_error: 'Certains champs obligatoires sont manquants ou invalides. Vérifiez les champs marqués en rouge.',
+          submit_error: "Échec de l'enregistrement. Veuillez réessayer.",
         },
       },
       errors: {

@@ -269,15 +269,17 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
   );
 
   // Auto-select country from defaultValue
-  const initializedCountryRef = useRef(false);
+  const defaultValueSignature = useMemo(() => JSON.stringify(defaultValue || {}), [defaultValue]);
+  const initializedCountryRef = useRef<string>();
   useEffect(() => {
-    if (initializedCountryRef.current) return;
+    if (initializedCountryRef.current === defaultValueSignature) return;
     if (!defaultValue?.country || !availableCountries.length) return;
 
     const defaultCountry = availableCountries.find((country) => country.identifier === defaultValue.country);
 
     if (defaultCountry) {
-      initializedCountryRef.current = true;
+      initializedCountryRef.current = defaultValueSignature;
+      autoSelectDoneRef.current = {};
       isInitializingRef.current = true;
 
       const cacheKey = `1-${defaultCountry.identifier}`;
@@ -289,7 +291,14 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
         loadLocationEntitiesForLevel(defaultCountry, 1, defaultCountry.identifier, cacheKey);
       });
     }
-  }, [availableCountries, defaultValue?.country, countryFieldName, setValue, loadLocationEntitiesForLevel]);
+  }, [
+    availableCountries,
+    defaultValue?.country,
+    defaultValueSignature,
+    countryFieldName,
+    setValue,
+    loadLocationEntitiesForLevel,
+  ]);
 
   // Detect when entities finish loading and clear flags
   useEffect(() => {

@@ -195,6 +195,7 @@ export const EsMessages = {
       forms: {
         errors: {
           validation_error: 'Hay campos obligatorios sin completar o con errores. Revisa los campos marcados en rojo.',
+          submit_error: 'No se pudo guardar. Intenta de nuevo.',
         },
       },
       errors: {

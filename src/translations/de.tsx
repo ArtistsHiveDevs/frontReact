@@ -195,6 +195,7 @@ export const DeMessages = {
       forms: {
         errors: {
           validation_error: 'Einige Pflichtfelder fehlen oder sind ungültig. Bitte überprüfe die rot markierten Felder.',
+          submit_error: 'Speichern fehlgeschlagen. Bitte versuche es erneut.',
         },
       },
       errors: {

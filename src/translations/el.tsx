@@ -195,6 +195,7 @@ export const ElMessages = {
       forms: {
         errors: {
           validation_error: 'Ορισμένα υποχρεωτικά πεδία λείπουν ή δεν είναι έγκυρα. Ελέγξτε τα πεδία με κόκκινο.',
+          submit_error: 'Η αποθήκευση απέτυχε. Δοκιμάστε ξανά.',
         },
       },
       errors: {

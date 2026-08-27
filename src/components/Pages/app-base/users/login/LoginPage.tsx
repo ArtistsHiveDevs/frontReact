@@ -4,7 +4,7 @@ import { Hub } from 'aws-amplify/utils';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useApiKeySlice } from '~/common/slices/app-base/APIKey';
-import { selectError } from '~/common/slices/app-base/APIKey/selectors';
+import { selectApiKey, selectError } from '~/common/slices/app-base/APIKey/selectors';
 import { useUsersSlice } from '~/common/slices/users';
 import { CidUserData, getEmailByUsername } from '~/common/slices/users/saga';
 import { selectUsernameValidation, selectUsers } from '~/common/slices/users/selectors';
@@ -13,7 +13,7 @@ import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { generatePreAuthHeaders } from '~/common/utils/request';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
-import { PATHS } from '~/constants';
+import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { SocialNetworks, SocialNetworkTemplate } from '~/constants/social-networks.const';
 import { AppUserModel } from '~/models/app/user/user.model';
 import './LoginPage.scss';
@@ -102,6 +102,7 @@ export const LoginPage = () => {
   const { actions: apiKeyActions } = useApiKeySlice();
 
   const errores = useSelector(selectError);
+  const { apiKey } = useSelector(selectApiKey);
 
   const handlers = {
     onSubmit: (data: any) => {
@@ -144,6 +145,7 @@ export const LoginPage = () => {
   const [cognitoUser, setCognitoUser] = useState<AuthUser>();
   const [userAttributes, setUserAttributes] = useState<FetchUserAttributesOutput>();
   const [mongoUsername, setMongoUsername] = useState<string | null>(null);
+  const [signedInIdentity, setSignedInIdentity] = useState<{ username: string; sub: string } | null>(null);
   const loginUserDataRef = useRef<CidUserData | null>(null);
   const localeRef = useRef(locale);
 
@@ -165,6 +167,7 @@ export const LoginPage = () => {
           // Si tenemos datos del login previo (handleSignIn), usarlos
           if (loginUserDataRef.current) {
             setMongoUsername(loginUserDataRef.current.username);
+            setSignedInIdentity({ username: loginUserDataRef.current.username || attributes.email, sub: attributes.sub });
             loginUserDataRef.current = null; // Limpiar ref
             return;
           }
@@ -201,10 +204,22 @@ export const LoginPage = () => {
 
             if (!createResponse.ok) {
               console.error('Failed to create user in MongoDB:', await createResponse.text());
+            } else {
+              // generate-key busca al usuario por sub, asi que solo sirve pedir el token una vez creado en Mongo.
+              const createdData = await createResponse.json();
+              // El router redirige /login -> next en cuanto la sesion queda resuelta (ver routes/index.tsx).
+              navigateToInnerPath({
+                path: `${PATHS.LOGIN}?${URL_PARAMETER_NAMES.NEXT}=${encodeURIComponent(`/${PATHS.PROFILE}/${SUB_PATHS.EDIT}`)}`,
+                options: { replace: true },
+              });
+              setMongoUsername(createdData?.data?.username || null);
+              // Recien aca existe el usuario en Mongo, que es lo que generate-key busca por sub.
+              setSignedInIdentity({ username: createdData?.data?.username || attributes.email, sub: attributes.sub });
             }
           } else {
             // Usuario existe, guardar el username de MongoDB
             setMongoUsername(checkData?.data?.username || null);
+            setSignedInIdentity({ username: checkData?.data?.username || attributes.email, sub: attributes.sub });
           }
         } catch (error) {
           console.error('Error in signedIn handler:', error);
@@ -241,18 +256,25 @@ export const LoginPage = () => {
   };
 
   useEffect(() => {
-    if (cognitoUser && userAttributes) {
-      // Usar el username de MongoDB si existe, sino usar preferred_username o email
-      const username = mongoUsername || userAttributes.preferred_username || userAttributes.email || cognitoUser.userId;
+    // El Authenticator no siempre renderiza sus children tras el signup, asi que la identidad
+    // resuelta en el listener de Hub es la fuente principal y cognitoUser solo el respaldo.
+    const identity =
+      signedInIdentity ||
+      (cognitoUser && userAttributes
+        ? {
+            username:
+              mongoUsername || userAttributes.preferred_username || userAttributes.email || cognitoUser.userId,
+            sub: cognitoUser.userId,
+          }
+        : null);
 
-      dispatch(
-        apiKeyActions.loadApiKey({
-          username,
-          sub: cognitoUser.userId,
-        })
-      );
+    // Con token vigente no se vuelve a pedir: loadApiKey lo limpia del store y romperia las peticiones en curso.
+    if (!identity || apiKey) {
+      return;
     }
-  }, [cognitoUser, userAttributes, mongoUsername]);
+
+    dispatch(apiKeyActions.loadApiKey(identity));
+  }, [signedInIdentity, cognitoUser, userAttributes, mongoUsername]);
 
   return (
     <>

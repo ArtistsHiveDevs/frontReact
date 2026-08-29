@@ -1,3 +1,4 @@
+import { useI18n } from '~/common/utils';
 import { fullyHiddenSectionsByEnvironment } from '~/common/utils/app-utils/app-utils';
 import { formatLegacyLocation, formatLocationLevels } from '~/common/utils/location-display.utils';
 import { RatingStarsView } from '~/components/shared/atoms/gui/rating-stars-view/RatingStarsView';
@@ -115,7 +116,9 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   icon: 'AiFillHome',
                   // Fallback legacy mientras existan artistas sin los niveles de ubicación persistidos.
                   value: (artist: ArtistModel) =>
-                    formatLocationLevels(artist.homeCityData) || formatLegacyLocation(artist.city, artist.country) || '',
+                    formatLocationLevels(artist.homeCityData) ||
+                    formatLegacyLocation(artist.city, artist.country) ||
+                    '',
                   formMetaData: {
                     inputType: 'citySelector',
                     config: { required: true },

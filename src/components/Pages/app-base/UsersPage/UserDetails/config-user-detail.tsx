@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
-import Flag from 'react-world-flags';
 import { useSelector } from 'react-redux';
 import { selectorAllergies } from '~/common/slices/parametrics/demographics/allergies.redux';
 import { selectorLanguages } from '~/common/slices/parametrics/geo/language.redux';
 import { useI18n } from '~/common/utils';
 import { fullyHiddenSectionsByEnvironment } from '~/common/utils/app-utils/app-utils';
+import { formatLocationLevels } from '~/common/utils/location-display.utils';
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 import { AppUserModel } from '~/models/app/user/user.model';
 
@@ -99,37 +99,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   name: 'birthplace',
                   icon: 'FaCity',
                   // emptyTitle: true,
-                  value: (user: AppUserModel) => {
-                    if (
-                      !user.birthplaceData ||
-                      !Array.isArray(user.birthplaceData) ||
-                      user.birthplaceData.length === 0
-                    ) {
-                      return '';
-                    }
-
-                    // Ordenar por nivel: city, state, country
-                    const levelOrder = ['city', 'state', 'country'];
-                    const sorted = [...user.birthplaceData].sort((a, b) => {
-                      return levelOrder.indexOf(a.level) - levelOrder.indexOf(b.level);
-                    });
-
-                    // Extraer labels y unir con comas
-                    const labels = sorted.map((item) => item.label).filter(Boolean);
-
-                    let flag = <></>;
-                    let countryAlpha = sorted.find((item) => item.level === 'country')?.value || '';
-                    if (!!countryAlpha) {
-                      flag = <Flag code={countryAlpha} height="20" style={{ border: '1px solid #999' }} />;
-                    }
-                    return (
-                      <>
-                        {labels.join(', ')}
-                        {'  '}
-                        {flag}
-                      </>
-                    );
-                  },
+                  value: (user: AppUserModel) => formatLocationLevels(user.birthplaceData) || '',
                   formMetaData: {
                     inputType: 'citySelector',
                     config: { required: true },
@@ -143,33 +113,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   name: 'home_city',
                   icon: 'FaMapMarkerAlt',
                   // emptyTitle: true,
-                  value: (user: AppUserModel) => {
-                    if (!user.homeCityData || !Array.isArray(user.homeCityData) || user.homeCityData.length === 0) {
-                      return '';
-                    }
-
-                    // Ordenar por nivel: city, state, country
-                    const levelOrder = ['city', 'state', 'country'];
-                    const sorted = [...user.homeCityData].sort((a, b) => {
-                      return levelOrder.indexOf(a.level) - levelOrder.indexOf(b.level);
-                    });
-
-                    // Extraer labels y unir con comas
-                    const labels = sorted.map((item) => item.label).filter(Boolean);
-
-                    let flag = <></>;
-                    let countryAlpha = sorted.find((item) => item.level === 'country')?.value || '';
-                    if (!!countryAlpha) {
-                      flag = <Flag code={countryAlpha} height="20" style={{ border: '1px solid #999' }} />;
-                    }
-                    return (
-                      <>
-                        {labels.join(', ')}
-                        {'  '}
-                        {flag}
-                      </>
-                    );
-                  },
+                  value: (user: AppUserModel) => formatLocationLevels(user.homeCityData) || '',
                   formMetaData: {
                     inputType: 'citySelector',
                     config: { required: true },

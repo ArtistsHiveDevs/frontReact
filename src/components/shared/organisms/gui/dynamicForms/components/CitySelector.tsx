@@ -104,8 +104,8 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
 
       cityData.forEach((item: any) => {
         if (item.level === 'country') {
-          // Get country ID from the separate field
-          defaultValueObj.country = elementData[`${fieldData.fieldName}_country`];
+          // El campo suelto es el fallback para respuestas que todavía no traen el id dentro del array.
+          defaultValueObj.country = item.id || elementData[`${fieldData.fieldName}_country`];
         } else if (item.level === 'state') {
           defaultValueObj.level1 = item.value;
         } else if (item.level === 'city') {
@@ -463,6 +463,11 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
           // Limpiar flags de inicialización al editar manualmente
           isInitializingRef.current = false;
 
+          // El país preseleccionado no queda dirty por sí solo y sin él el backend no resuelve los niveles.
+          if (selectedCountry) {
+            setValue(countryFieldName, selectedCountry.identifier, { shouldDirty: true });
+          }
+
           if (!data?.value) {
             // Limpiar nivel actual y descendientes
             const newSelections = { ...selections };
@@ -506,6 +511,7 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
     },
     [
       fieldData?.fieldName,
+      countryFieldName,
       selections,
       allLocationEntities,
       relevantLevels,

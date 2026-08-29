@@ -1,5 +1,8 @@
+import dayjs from 'dayjs';
 import Flag from 'react-world-flags';
+import { useI18n } from '~/common/utils';
 import { fullyHiddenSectionsByEnvironment } from '~/common/utils/app-utils/app-utils';
+import { formatLocationLevels } from '~/common/utils/location-display.utils';
 import { RatingStarsView } from '~/components/shared/atoms/gui/rating-stars-view/RatingStarsView';
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 // import { CitySelectionLevel } from '~/components/shared/organisms/gui/dynamicForms/components/CitySelector';
@@ -54,37 +57,44 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'place_type',
                   icon: 'BsInfoCircleFill',
-                  // Las opciones se pasan vía el prop `fieldOptions` de DynamicTabbedForm (ver PlacesCreatePage),
-                  // igual que 'genres'/'spoken_languages' en este mismo archivo: Select.tsx lee fieldData.options,
-                  // no formMetaData.componentParams.options.
+                  value: (place: PlaceModel) => {
+                    const { translateGlobalDict } = useI18n();
+
+                    const content = place?.place_type
+                      ? translateGlobalDict(`entities.places.attributes.place_types.values.${place.place_type}`)
+                      : undefined;
+                    return <>{content}</>;
+                  },
                   formMetaData: {
                     inputType: 'select',
-                    config: { required: 'Este campo es obligatorio' },
+                    config: { required: true },
                   },
                 },
                 {
-                  name: 'cityWithCountry',
+                  name: 'home_city',
                   icon: 'AiFillHome',
-                  emptyTitle: true,
                   value: (place: PlaceModel) => {
                     return (
-                      <>
-                        <span>{place?.cityWithCountry}</span>
-                        {place?.country && (
-                          <Flag
-                            code={place?.country.alpha2}
-                            height="15"
-                            style={{ border: '1px solid #999', marginLeft: '0.6rem' }}
-                          />
-                        )}
-                      </>
+                      formatLocationLevels(place?.homeCityData) || (
+                        <>
+                          <span>{place?.cityWithCountry}</span>
+                          {place?.country && (
+                            <Flag
+                              code={place?.country.alpha2}
+                              height="15"
+                              style={{ border: '1px solid #999', marginLeft: '0.6rem' }}
+                            />
+                          )}
+                        </>
+                      )
                     );
                   },
                   formMetaData: {
                     inputType: 'citySelector',
-                    config: { required: 'Este campo es obligatorio' },
+                    config: { required: true },
+                    defaultValue: { country: '66d61979a546e02c6ce65a39' },
                     componentParams: {
-                      // minimumSelectionLevel: CitySelectionLevel.BOROUGH,
+                      maxLevel: 2,
                     },
                   },
                 },
@@ -102,6 +112,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'since',
                   icon: 'BsCalendar',
+                  value: (place: PlaceModel) => (place?.since ? dayjs(place.since).format('DD / MMM / YYYY') : ''),
                   formMetaData: {
                     inputType: 'date',
                     componentParams: {
@@ -164,7 +175,9 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'regulatory_closing_time',
                   icon: 'tb TbContract',
-                  formMetaData: { inputType: 'time' },
+                  value: (place: PlaceModel) =>
+                    place?.regulatory_closing_time ? dayjs(place.regulatory_closing_time).format('hh:mm A') : '',
+                  formMetaData: { inputType: 'time', componentParams: { ampm: true } },
                 },
               ],
             },

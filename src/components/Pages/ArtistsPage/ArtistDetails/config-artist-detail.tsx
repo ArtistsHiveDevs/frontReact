@@ -98,6 +98,19 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   },
                 },
                 {
+                  name: 'origin_city',
+                  icon: 'BsGeoAltFill',
+                  value: (artist: ArtistModel) => formatLocationLevels(artist.originCityData) || '',
+                  formMetaData: {
+                    inputType: 'citySelector',
+                    config: { required: false },
+                    defaultValue: { country: '66d61979a546e02c6ce65a39' },
+                    componentParams: {
+                      maxLevel: 2,
+                    },
+                  },
+                },
+                {
                   name: 'home_city',
                   icon: 'AiFillHome',
                   // Fallback legacy mientras existan artistas sin los niveles de ubicación persistidos.

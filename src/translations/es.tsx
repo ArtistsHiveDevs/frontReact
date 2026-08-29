@@ -992,6 +992,7 @@ export const EsMessages = {
                   attributes: {
                     description: 'Descripción',
                     since: 'Desde',
+                    origin_city: 'Ciudad de origen',
                     home_city: 'Ciudad de residencia',
                     categories: 'Categorías',
                     genres: 'Géneros',
@@ -1241,6 +1242,7 @@ export const EsMessages = {
                     address: 'Dirección',
                     city: 'Ciudad',
                     cityWithCountry: 'Ubicación',
+                    home_city: 'Ubicación',
                     categories: 'Categorías',
                     since: 'Desde',
                     spoken_languages: 'Idiomas hablados',

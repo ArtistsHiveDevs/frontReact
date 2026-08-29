@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { LocationLevelData } from '~/common/utils/location-display.utils';
 import { VerificationStatus } from '~/constants';
 import { Target_Audience } from '~/constants/domain/domain.constants';
 import { SocialNetworkStatsTemplate } from '~/constants/social-networks.const';
@@ -61,6 +62,8 @@ export interface PlaceTemplate extends ProfileTemplate {
   country_alpha2: string;
   state: string;
   city: string;
+  home_city?: string;
+  homeCityData?: LocationLevelData[];
   address: string;
   location: string | LocationTemplate[];
   email: string;
@@ -132,6 +135,8 @@ export class PlaceModel extends ProfileModel<PlaceTemplate> implements PlaceTemp
   declare country_alpha2: string;
   declare state: string;
   declare city: string;
+  declare home_city: string;
+  declare homeCityData: LocationLevelData[];
   declare address: string;
   declare location: string | LocationTemplate[];
   declare email: string;

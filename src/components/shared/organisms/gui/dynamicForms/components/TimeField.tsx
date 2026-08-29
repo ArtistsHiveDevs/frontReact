@@ -6,7 +6,7 @@ import { ComponentGeneratorParams } from '../DynamicControl';
 export const createTimeField = (params: ComponentGeneratorParams) => {
   const { fieldData, formContext: externalContext } = params;
   const { label, fieldName, config = {}, componentParams = {} } = fieldData || {};
-  const { disablePast, disableFuture } = componentParams || {};
+  const { disablePast, disableFuture, ampm } = componentParams || {};
 
   const hookContext = useFormContext();
   const finalContext = externalContext || hookContext;
@@ -41,6 +41,7 @@ export const createTimeField = (params: ComponentGeneratorParams) => {
                 params?.handlers[`${fieldName}_value_onchange`](value);
               }
             }}
+            ampm={ampm}
             disablePast={disablePast}
             disableFuture={disableFuture}
             slotProps={{

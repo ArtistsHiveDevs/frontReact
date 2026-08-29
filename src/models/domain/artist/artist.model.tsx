@@ -126,7 +126,9 @@ export interface ArtistTemplate extends ProfileTemplate {
 
   since: Dayjs;
   home_city: string;
+  origin_city?: string;
   homeCityData?: LocationLevelData[];
+  originCityData?: LocationLevelData[];
   country: CountryTemplate;
   city: any;
   spoken_languages: LanguageTemplate[];
@@ -191,7 +193,9 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
 
   declare since: Dayjs;
   declare home_city: string;
+  declare origin_city: string;
   declare homeCityData: LocationLevelData[];
+  declare originCityData: LocationLevelData[];
   declare spoken_languages: LanguageModel[];
   declare stage_languages: LanguageModel[];
   declare arts_languages: LanguageModel[];

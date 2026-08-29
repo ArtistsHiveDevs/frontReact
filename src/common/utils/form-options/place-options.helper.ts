@@ -40,7 +40,7 @@ export const getPlaceTypeOptions = (params?: ParametricOptionsParams): SelectOpt
   } = params || {};
 
   const options = PLACE_TYPE_OPTIONS.map((placeType) => {
-    const translationKey = translationPath ? `${translationPath}.${placeType}` : placeType;
+    const translationKey = translationPath ? `${translationPath}.values.${placeType}` : placeType;
     const option: SelectOption = {
       label: translateFn ? translateFn(translationKey) : placeType,
       value: placeType,
@@ -79,7 +79,7 @@ export const getStageTypeOptions = (params?: ParametricOptionsParams): SelectOpt
   } = params || {};
 
   const options = STAGE_TYPE_OPTIONS.map((stageType) => {
-    const translationKey = translationPath ? `${translationPath}.${stageType}` : stageType;
+    const translationKey = translationPath ? `${translationPath}.values.${stageType}` : stageType;
     const option: SelectOption = {
       label: translateFn ? translateFn(translationKey) : stageType,
       value: stageType,

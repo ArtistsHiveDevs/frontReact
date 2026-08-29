@@ -6,7 +6,7 @@ import { useI18n } from '~/common/utils';
 import { uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
 import { getPlaceTypeOptions } from '~/common/utils/form-options';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
-import { RootState } from '~/common/utils/redux-injectors/types';
+import { GenericCrudErrorCode, RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
 import {
   DynamicTabbedForm,
@@ -30,10 +30,24 @@ const PlacesCreatePage = () => {
   const [availableLanguages, updateAvailableLanguages] = useState([]);
   const [availableGenres, updateAvailableGenres] = useState([]);
   const [requestHasBeenSended, setRequestHasBeenSended] = useState(false);
+  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
 
   const { actions: placesActions } = usePlacesSlice();
 
   const placeTypeOptions = getPlaceTypeOptions({ translateFn: translateGlobalDict });
+
+  const createdItem = useSelector(selectorPlaces.selectCreatedItem);
+  const isSavingPlace = useSelector(selectorPlaces.selectLoading);
+  const submitError = useSelector(selectorPlaces.selectError);
+
+  const submitErrorMessage =
+    hasAttemptedSubmit && !isSavingPlace && submitError
+      ? translateGlobalDict(
+          submitError.errorCode === GenericCrudErrorCode.VALIDATION_ERROR
+            ? 'forms.errors.validation_error'
+            : 'forms.errors.submit_error'
+        )
+      : undefined;
 
   const selectPlaceById = selectorPlaces.makeSelectItemById();
   const currentPlace: PlaceModel = useSelector((state: RootState) => {
@@ -55,6 +69,24 @@ const PlacesCreatePage = () => {
       setCurrentPlaceId(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
     }
   }, [urlParameters]);
+
+  useEffect(() => {
+    if (requestHasBeenSended && !currentPlace && createdItem) {
+      navigateToEntity({ entityType: PlaceModel.name, id: createdItem.identifier });
+    }
+  }, [createdItem, requestHasBeenSended]);
+
+  useEffect(() => {
+    if (requestHasBeenSended && !isSavingPlace && currentPlace && !submitError) {
+      navigateToEntity({ entityType: PlaceModel.name, id: currentPlace.identifier });
+    }
+  }, [isSavingPlace]);
+
+  useEffect(() => {
+    if (requestHasBeenSended && !isSavingPlace) {
+      setRequestHasBeenSended(false);
+    }
+  }, [isSavingPlace]);
 
   useEffect(() => {
     const langsOR = [
@@ -89,6 +121,7 @@ const PlacesCreatePage = () => {
   const handlers = {
     onSubmit: async (data: any, error?: any) => {
       if (!requestHasBeenSended) {
+        setHasAttemptedSubmit(true);
         if (!currentPlace) {
           const response = await uploadFileToServer({ file: data.profile_pic });
 
@@ -146,6 +179,7 @@ const PlacesCreatePage = () => {
         }}
         onlyModifiedFields={true}
         submitLabel={!currentPlace ? 'create' : 'save'}
+        submitErrorMessage={submitErrorMessage}
       />
     </>
   );

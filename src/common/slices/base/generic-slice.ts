@@ -169,6 +169,7 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
         : {
             updateItem(state: EntityStateTemplate<T, M>, action: PayloadAction<{ id: string; newItem: Partial<T> }>) {
               state.loading = true;
+              state.error = null;
             },
           }),
       ...(options?.disableOperations?.postAction
@@ -342,10 +343,16 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
                   headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
                 });
 
-                if (response.data) {
+                if (response.error) {
+                  yield put(slice.actions.repoError(buildErrorPayloadFromAPIError(response.error)));
+                } else if (response.data) {
                   yield put(usersActions.loadCurrentUser());
                   yield put(slice.actions.itemByIdLoaded({ id: requestedItemID, item: response.data }));
+                } else {
+                  yield put(slice.actions.repoError({ errorCode: response.errorCode, message: response.message }));
                 }
+              } else {
+                yield put(slice.actions.itemByIdLoaded({ id: requestedItemID, item: undefined }));
               }
             }
           } catch (err) {

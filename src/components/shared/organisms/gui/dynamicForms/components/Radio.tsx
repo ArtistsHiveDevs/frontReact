@@ -1,6 +1,7 @@
 import { FormControl } from '@mui/base';
 import { FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
 import { ComponentGeneratorParams } from '../DynamicControl';
+import { isRequiredField } from '~/common/utils/validation/required-field';
 
 export const createRadio = (params: ComponentGeneratorParams) => {
   const { errors, register, fieldData } = params;
@@ -12,7 +13,7 @@ export const createRadio = (params: ComponentGeneratorParams) => {
     <>
       <FormControl>
         <FormLabel
-          required={required === true || required === 'true'}
+          required={isRequiredField(required)}
           error={!!Object.keys(errors || {}).find((key) => key === fieldName)}
         >
           {label}

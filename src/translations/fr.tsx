@@ -204,6 +204,12 @@ export const FrMessages = {
             'Certains champs obligatoires sont manquants ou invalides. Veuillez vérifier le formulaire.',
           validation_error:
             'Certains champs obligatoires sont manquants ou invalides. Vérifiez les champs marqués en rouge.',
+          required_field: 'Ce champ est obligatoire.',
+        },
+        fields: {
+          name: 'Nom',
+          username: "Nom d'utilisateur",
+          subtitle: 'Sous-titre',
         },
       },
       errors: {

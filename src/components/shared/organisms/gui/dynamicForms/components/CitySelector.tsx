@@ -8,7 +8,7 @@ import {
   selectorLocationEntities,
   useLocationEntitiesSlice,
 } from '~/common/slices/parametrics/geo/location-entity.redux';
-import { useI18n } from '~/common/utils';
+import { I18nPaths, useI18n } from '~/common/utils';
 import { getCountryStructure, getLevelConfig } from '~/common/utils/location-structure.utils';
 import { CountryModel } from '~/models/parametrics/geo/country.model';
 import { LocationEntityModel } from '~/models/parametrics/geo/location-entity.model';
@@ -16,6 +16,7 @@ import { ComponentGeneratorParams } from '../DynamicControl';
 import { DynamicFieldData } from '../dynamic-control-types';
 
 import { createSelect } from './Select';
+import { isRequiredField, withRequiredMessage } from '~/common/utils/validation/required-field';
 
 // Queue system to serialize entity loading requests from multiple CitySelector instances
 type QueueItem = {
@@ -126,7 +127,7 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
   }, [initialDefaultValue, externalData?.elementData, fieldData?.fieldName]);
 
   const { maxLevel = 3, minLevel = 1, showCountrySelector = true, allowEmptyLevels = true } = componentParams;
-  const isFieldRequired = fieldConfig?.required === true || fieldConfig?.required === 'true';
+  const isFieldRequired = isRequiredField(fieldConfig?.required);
 
   const hookContext = useFormContext();
   const finalContext = externalContext || hookContext;
@@ -158,6 +159,7 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
 
   const dispatch = useDispatch();
   const { translateText } = useI18n();
+  const requiredMessage = translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY}.forms.errors.required_field`);
 
   const { actions: countryActions } = useCountriesSlice();
   const { actions: locationEntityActions } = useLocationEntitiesSlice();
@@ -263,9 +265,9 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
         value: country.identifier,
         icon: country.alpha2 ? <Flag code={country.alpha2} height="16" style={{ border: '1px solid #999' }} /> : null,
       })),
-      config: { required: isFieldRequired },
+      config: withRequiredMessage({ required: isFieldRequired }, requiredMessage),
     }),
-    [translateText, countryFieldName, availableCountries, isFieldRequired]
+    [translateText, countryFieldName, availableCountries, isFieldRequired, requiredMessage]
   );
 
   // Auto-select country from defaultValue
@@ -452,10 +454,13 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
       inputType: 'select',
       options,
       placeholder: 'Seleccione...',
-      config: {
-        required: isFieldRequired && (levelConfig.required || !allowEmptyLevels),
-        disabled: !parent,
-      },
+      config: withRequiredMessage(
+        {
+          required: isFieldRequired && (levelConfig.required || !allowEmptyLevels),
+          disabled: !parent,
+        },
+        requiredMessage
+      ),
     };
   };
 
@@ -613,9 +618,19 @@ const MemoizedCitySelectorComponent = React.memo(CitySelectorComponent, (prevPro
     (prevElementData?.fetchTimestamp === nextElementData?.fetchTimestamp &&
       prevElementData?.identifier === nextElementData?.identifier);
 
+  const ownedFieldName = prevProps.fieldData?.fieldName;
+  const serializeOwnedErrors = (errors: any) => {
+    if (!errors || !ownedFieldName) return '';
+    return Object.keys(errors)
+      .filter((key) => key === ownedFieldName || key.startsWith(`${ownedFieldName}_`))
+      .sort()
+      .map((key) => `${key}:${errors[key]?.type}:${errors[key]?.message}`)
+      .join('|');
+  };
+
   const errorsEqual =
     prevProps.errors === nextProps.errors ||
-    (prevProps.errors?.type === nextProps.errors?.type && prevProps.errors?.message === nextProps.errors?.message);
+    serializeOwnedErrors(prevProps.errors) === serializeOwnedErrors(nextProps.errors);
 
   return fieldDataEqual && externalDataEqual && errorsEqual;
 });

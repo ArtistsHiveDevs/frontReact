@@ -1,6 +1,7 @@
 import { FormControl, FormControlLabel, FormHelperText, Switch } from '@mui/material';
 import { Controller, FieldValues, useFormContext, UseFormReturn } from 'react-hook-form';
 import { ComponentGeneratorParams } from '../DynamicControl';
+import { isRequiredField } from '~/common/utils/validation/required-field';
 
 export const createSwitch = (
   params: ComponentGeneratorParams & {
@@ -36,7 +37,7 @@ export const createSwitch = (
         control={control}
         defaultValue={false}
         rules={{
-          required: required === true || required === 'true' ? 'Este campo es requerido' : false,
+          required: isRequiredField(required) ? 'Este campo es requerido' : false,
         }}
         render={({ field }) => (
           <FormControlLabel

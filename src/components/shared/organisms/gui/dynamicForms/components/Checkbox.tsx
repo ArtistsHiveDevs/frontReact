@@ -1,6 +1,7 @@
 import { Checkbox, FormControlLabel, FormGroup, FormLabel } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { ComponentGeneratorParams } from '../DynamicControl';
+import { isRequiredField } from '~/common/utils/validation/required-field';
 
 export const createCheckbox = (params: ComponentGeneratorParams) => {
   const { register, errors, fieldData } = params;
@@ -14,7 +15,7 @@ export const createCheckbox = (params: ComponentGeneratorParams) => {
   const [optionsChecked, setOptionsChecked] = useState<boolean[]>(new Array(options.length).fill(false));
   const [indeterminate, setIndeterminate] = useState(false);
 
-  const required = config.required === true || config.required === 'true';
+  const required = isRequiredField(config.required);
 
   const handleMainFieldChange = () => {
     const newMainFieldChecked = !mainFieldChecked;

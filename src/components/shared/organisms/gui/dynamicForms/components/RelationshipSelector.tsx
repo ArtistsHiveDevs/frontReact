@@ -10,6 +10,7 @@ import { ProfileThumbnailCard } from '~/components/shared/molecules/Profile/Prof
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { ResultElement } from '~/components/shared/search/result-element';
 import { SearchableProfileTemplate } from '~/models/base';
+import { isRequiredField } from '~/common/utils/validation/required-field';
 
 enum InRangeValidation {
   BELOW_LOWER_LIMIT,
@@ -114,7 +115,7 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
     <>
       <FormControl>
         <FormLabel
-          required={required === true || required === 'true'}
+          required={isRequiredField(required)}
           error={!!Object.keys(errors || {}).find((key) => key === fieldName)}
         >
           {label}
@@ -167,7 +168,7 @@ export const createRelationshipSelector = (params: ComponentGeneratorParams) => 
             isInSelectableRange() !== InRangeValidation.ON_UPPER_LIMIT && (
               <TextField
                 {...params}
-                required={required === true || required === 'true'}
+                required={isRequiredField(required)}
                 error={!!errors[fieldName]}
                 inputProps={params.inputProps}
                 placeholder="Filter labels"

@@ -203,6 +203,12 @@ export const DeMessages = {
           submit_error_validation: 'Einige Pflichtfelder fehlen oder sind ungültig. Bitte überprüfe das Formular.',
           validation_error:
             'Einige Pflichtfelder fehlen oder sind ungültig. Bitte überprüfe die rot markierten Felder.',
+          required_field: 'Dieses Feld ist erforderlich.',
+        },
+        fields: {
+          name: 'Name',
+          username: 'Benutzername',
+          subtitle: 'Untertitel',
         },
       },
       errors: {

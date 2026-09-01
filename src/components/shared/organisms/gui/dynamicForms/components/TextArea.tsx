@@ -2,6 +2,7 @@ import { FormLabel, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { ComponentGeneratorParams } from '../DynamicControl';
+import { isRequiredField } from '~/common/utils/validation/required-field';
 
 export const createTextArea = (params: ComponentGeneratorParams) => {
   const { errors, fieldData, register, formContext: externalContext } = params || {};
@@ -78,7 +79,7 @@ export const createTextArea = (params: ComponentGeneratorParams) => {
         maxRows={10}
         label={
           <FormLabel
-            required={required === true || required === 'true'}
+            required={isRequiredField(required)}
             error={!!(errors && Object.keys(errors).find((key) => key === fieldName))}
           >
             {label}

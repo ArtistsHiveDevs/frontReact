@@ -394,6 +394,7 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
     handleSubmit,
     formState: { errors, dirtyFields },
     getValues,
+    setFocus,
   } = formMethods;
 
   // Función para obtener solo los campos modificados
@@ -558,7 +559,23 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
 
   const handleFormErrors = (errors: any) => {
     setHasValidationErrors(true);
-    window.scrollTo(0, 0);
+
+    const firstErroredField = Object.keys(errors || {})[0];
+    if (!firstErroredField) {
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    try {
+      setFocus(firstErroredField, { shouldSelect: false });
+    } catch (error) {
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    document
+      .getElementsByName(firstErroredField)?.[0]
+      ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
   // customHeaderConfig = undefined;

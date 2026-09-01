@@ -203,6 +203,12 @@ export const ItMessages = {
           submit_error_validation: 'Alcuni campi obbligatori sono mancanti o non validi. Controlla il modulo.',
           validation_error:
             'Alcuni campi obbligatori sono mancanti o non validi. Controlla i campi evidenziati in rosso.',
+          required_field: 'Questo campo è obbligatorio.',
+        },
+        fields: {
+          name: 'Nome',
+          username: 'Nome utente',
+          subtitle: 'Sottotitolo',
         },
       },
       errors: {

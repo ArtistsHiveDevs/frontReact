@@ -202,6 +202,12 @@ export const EsMessages = {
           submit_error_duplicate_key: 'El nombre de usuario ya está en uso. Elegí otro.',
           submit_error_validation: 'Hay campos obligatorios sin completar o con datos inválidos. Revisá el formulario.',
           validation_error: 'Hay campos obligatorios sin completar o con errores. Revisa los campos marcados en rojo.',
+          required_field: 'Este campo es obligatorio.',
+        },
+        fields: {
+          name: 'Nombre',
+          username: 'Nombre de usuario',
+          subtitle: 'Subtítulo',
         },
       },
       errors: {

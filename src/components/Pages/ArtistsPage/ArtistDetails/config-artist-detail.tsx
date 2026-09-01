@@ -104,7 +104,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   value: (artist: ArtistModel) => formatLocationLevels(artist.originCityData) || '',
                   formMetaData: {
                     inputType: 'citySelector',
-                    config: { required: false },
+                    config: { required: true },
                     defaultValue: { country: '66d61979a546e02c6ce65a39' },
                     componentParams: {
                       maxLevel: 2,

@@ -3,6 +3,7 @@ import { useTheme } from '@mui/material/styles';
 import { useController, useFormContext } from 'react-hook-form';
 import Select from 'react-select';
 import { ComponentGeneratorParams } from '../DynamicControl';
+import { isRequiredField } from '~/common/utils/validation/required-field';
 
 interface OptionType {
   value: string;
@@ -115,7 +116,7 @@ export const createSelect = (params: ComponentGeneratorParams) => {
   return (
     <div className={className}>
       <FormLabel
-        required={required === true || required === 'true'}
+        required={isRequiredField(required)}
         error={hasError}
         sx={hasError ? { color: darkTheme.palette.error.main } : {}}
       >

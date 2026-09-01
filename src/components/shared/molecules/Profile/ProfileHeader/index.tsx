@@ -72,6 +72,7 @@ export const ProfileHeader = (props: any) => {
         {
           name: 'name',
           label: 'Nombre',
+          showEditableField: true,
           config: { required: true, minLength: 3 },
           renderField: 'nameKnownAs',
         },
@@ -79,6 +80,7 @@ export const ProfileHeader = (props: any) => {
         {
           name: 'username',
           label: 'username',
+          showEditableField: true,
           config: {
             required: true,
             minLength: 3,
@@ -137,6 +139,14 @@ export const ProfileHeader = (props: any) => {
           field.config = {};
         }
         field.config.value = element[fieldName];
+
+        const persistedValue = element[fieldName];
+        if (isEditable && persistedValue !== undefined && persistedValue !== null) {
+          const currentValue = formMethods?.getValues(fieldName);
+          if (currentValue === undefined || currentValue === null || currentValue === '') {
+            formMethods?.setValue(fieldName, persistedValue);
+          }
+        }
       });
       setFieldData(newData);
     }
@@ -191,12 +201,18 @@ export const ProfileHeader = (props: any) => {
     setBurgerProfileMenuOptions(updatedMenuOptions);
   }, [element, loggedUser]);
 
+  const translateFieldLabel = (fieldName: string) => {
+    const translationKey = `forms.fields.${fieldName}`;
+    const translated = translateGlobalDict(translationKey);
+    return !translated || translated.includes(translationKey) ? fieldName : translated;
+  };
+
   const generateEditableField = (fieldName: string, element: any, isEditable?: boolean, prefix?: any) => {
     const newField = fields.find((item) => item.name === fieldName);
 
     const showEditableField = isEditable && newField.showEditableField;
 
-    const placeholder = fieldName;
+    const placeholder = translateFieldLabel(fieldName);
 
     const fieldData: DynamicFieldData = {
       inputType: 'text',
@@ -218,7 +234,6 @@ export const ProfileHeader = (props: any) => {
 
         const targetFieldIndex = fields.findIndex((item) => item.name === targetFieldName);
         const targetField = fields[targetFieldIndex];
-        targetField.showEditableField = !!!targetField.showEditableField;
         if (!targetField.config) {
           targetField.config = {};
         }
@@ -230,7 +245,14 @@ export const ProfileHeader = (props: any) => {
       },
     };
 
-    const field = <DynamicControl fieldData={fieldData} errors={errors} handlers={handlers} />;
+    const field = (
+      <DynamicControl
+        key={`${fieldName}-${element?.identifier ?? 'new'}`}
+        fieldData={fieldData}
+        errors={errors}
+        handlers={handlers}
+      />
+    );
 
     const value =
       element &&

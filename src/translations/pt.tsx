@@ -203,6 +203,12 @@ export const PtMessages = {
           submit_error_validation: 'Alguns campos obrigatórios estão faltando ou inválidos. Revise o formulário.',
           validation_error:
             'Alguns campos obrigatórios estão faltando ou inválidos. Revise os campos marcados em vermelho.',
+          required_field: 'Este campo é obrigatório.',
+        },
+        fields: {
+          name: 'Nome',
+          username: 'Nome de usuário',
+          subtitle: 'Subtítulo',
         },
       },
       errors: {

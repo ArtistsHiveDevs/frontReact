@@ -9,6 +9,7 @@ import MapContainer from '~/components/shared/mapPrinter/mapContainer';
 import { DEBOUNCE_MS } from '~/constants/app.constants';
 import { SocialNetworks } from '~/constants/social-networks.const';
 import { ComponentGeneratorParams } from '../DynamicControl';
+import { isRequiredField } from '~/common/utils/validation/required-field';
 
 export const createTextField = (params: ComponentGeneratorParams) => {
   const { fieldData, handlers, formContext: externalContext } = params || {};
@@ -134,7 +135,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
   // console.log("¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿   ¿¿¿¿     ", fieldName, defaultValue);
   return (
     <TextField
-      required={required === true || required === 'true'}
+      required={isRequiredField(required)}
       label={label}
       type={inputType}
       {...(register ? register(fieldName, config) : {})}

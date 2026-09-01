@@ -27,6 +27,8 @@ import { createTextArea } from './components/TextArea';
 import { createAddressTextField, createSocialNetworkTextField, createTextField } from './components/TextField';
 import { createTimeField } from './components/TimeField';
 import { DynamicFieldData } from './dynamic-control-types';
+import { withRequiredMessage } from '~/common/utils/validation/required-field';
+import { I18nPaths, useI18n } from '~/common/utils';
 
 export interface ComponentGeneratorParams {
   errors: FieldErrors<FieldValues>;
@@ -53,12 +55,15 @@ export const DynamicControl = (params: {
   // Extraer métodos del contexto final
   const { register, getValues, watch } = finalContext || {};
 
+  const { translateText } = useI18n();
+  const requiredMessage = translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY}.forms.errors.required_field`);
+
   const { inputType }: DynamicFieldData = fieldData;
   const fieldParams: ComponentGeneratorParams = {
     register,
     getValues,
     watch,
-    fieldData,
+    fieldData: { ...fieldData, config: withRequiredMessage(fieldData.config, requiredMessage) },
     errors,
     handlers,
     formContext: finalContext,

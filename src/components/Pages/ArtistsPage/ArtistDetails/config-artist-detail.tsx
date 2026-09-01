@@ -157,11 +157,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   value: (artist: ArtistModel) => {
                     return artist?.arts_languages.map((l: LanguageModel) => l.name).join(', ');
                   },
-                  formMetaData: {
-                    inputType: 'autocompletePicker',
-                    config: { required: true },
-                    hidden: true,
-                  },
+                  formMetaData: { inputType: 'autocompletePicker' },
                 },
               ],
             },

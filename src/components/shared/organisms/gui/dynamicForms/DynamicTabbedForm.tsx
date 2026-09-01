@@ -270,7 +270,7 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
       componentFieldData.inputType = 'address';
       addComponentField = true;
     } else if (componentDescriptor.componentName === ComponentTypes.ARTS_GENRES) {
-      componentFieldData.inputType = 'chipPicker';
+      componentFieldData.inputType = componentDescriptor?.formMetaData?.inputType || 'chipPicker';
       addComponentField = true;
     } else if (
       [ComponentTypes.IMAGE_GALLERY, ComponentTypes.HORIZONTAL_IMAGE_GALLERY].includes(

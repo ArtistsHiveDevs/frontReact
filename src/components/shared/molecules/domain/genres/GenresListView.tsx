@@ -1,4 +1,5 @@
 import { useI18n } from '~/common/utils';
+import { translateMusicGenre } from '~/common/utils/form-options/genre-options.helper';
 import { Badge } from '~/components/shared/atoms/gui/badge/Badge';
 import './GenresListView.scss';
 
@@ -57,7 +58,7 @@ export const GenresListView = (props: GenresListViewParams) => {
             <h4 className="art-title">{translateText(`${TRANSLATION_BASE_ART_TYPES}.${artType}`)}</h4>
             <div className="genre-container">
               {(genresList || []).map((genre: string) => (
-                <Badge key={`art_${artType}_${genre}`} text={genre}></Badge>
+                <Badge key={`art_${artType}_${genre}`} text={translateMusicGenre(genre, translateText)}></Badge>
               ))}
             </div>
           </div>

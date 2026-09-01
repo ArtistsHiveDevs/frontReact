@@ -176,7 +176,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             data: {
               genres: 'genres',
             },
-            formMetaData: { inputType: 'chipPicker', fieldName: 'genres' },
+            formMetaData: { inputType: 'autocompletePicker', fieldName: 'genres' },
           },
         ],
       },

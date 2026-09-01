@@ -1,5 +1,5 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
@@ -9,6 +9,7 @@ import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { getImageURL, uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
 import { getGenderOptions } from '~/common/utils/form-options/dynamic-form-parametric-options.helper';
+import { getMusicGenreOptions } from '~/common/utils/form-options/genre-options.helper';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
@@ -32,12 +33,11 @@ const ArtistsCreatePage = () => {
   const { actions: userActions } = useUsersSlice();
   const { actions: languageActions } = useLanguagesSlice();
   const urlParameters = useParams();
-  const { translateGlobalDict } = useI18n();
+  const { translateGlobalDict, translateText, locale } = useI18n();
   const formRef = useRef<DynamicTabbedFormRef>(null);
 
   const [artistId, setCurrentArtistId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
   // const [availableLanguages, updateAvailableLanguages] = useState([]);
-  const [availableGenres, updateAvailableGenres] = useState([]);
   const [availableGenders, updateAvailableGenders] = useState([]);
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
   const [requestHasBeenSended, setRequestHasBeenSended] = useState(false);
@@ -111,25 +111,31 @@ const ArtistsCreatePage = () => {
     //   );
 
     // updateAvailableLanguages(langs);
-    updateAvailableGenres([
-      { label: 'Cumbia', value: 'genre1' },
-      { label: 'Reggaetón', value: 'genre2' },
-      { label: 'Rock', value: 'genre3', selected: true },
-      { label: 'Jazz', value: 'genr4' },
-    ]);
-
     updateAvailableGenders(getGenderOptions({ translateFn: translateGlobalDict }));
   }, []);
 
+  const availableGenres = useMemo(
+    () =>
+      getMusicGenreOptions({
+        translateFn: translateText,
+        selectedValues: currentArtist?.genres?.music,
+      }),
+    [currentArtist?.genres?.music, locale]
+  );
+
+  const buildSubmitData = (data: any) =>
+    Array.isArray(data?.genres) ? { ...data, genres: { music: data.genres } } : data;
+
   const handlers = {
     onSubmit: async (data: any, error?: any) => {
+      const submitData = buildSubmitData(data);
       if (!currentArtist) {
-        await uploadFileToServer({ file: data.profile_pic });
-        dispatch(artistsActions.createItem({ data }));
+        await uploadFileToServer({ file: submitData.profile_pic });
+        dispatch(artistsActions.createItem({ data: submitData }));
       } else {
         const updatePayload = {
           id: currentArtist.identifier,
-          newItem: data,
+          newItem: submitData,
         };
 
         dispatch(artistsActions.updateItem(updatePayload));

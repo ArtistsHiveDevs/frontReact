@@ -14,6 +14,8 @@ import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import MainSection from '../MainSection/MainSection';
+import HomeHighlightBanner from '~/components/shared/molecules/general/HomeHighlightBanner';
+import { exampleBanners } from '~/components/shared/molecules/general/HomeHighlightBanner/banner-data.example';
 import './index.scss';
 
 const TRANSLATION_BASE_HOME_PAGE = 'app.pages.HomePage';
@@ -130,6 +132,7 @@ const HomePage = () => {
 
   return (
     <>
+      <HomeHighlightBanner items={exampleBanners} />
       {/* <WelcomeSection /> */}
       <div className="home-section-title">
         <h1 className="welcome-title">{translateText(`${TRANSLATION_BASE_HOME_PAGE}.news`)}</h1>

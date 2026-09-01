@@ -37,6 +37,7 @@ export const BackButton = (params: BackButtonParams) => {
         await new Promise((resolve) => setTimeout(resolve, submitDelay));
       } catch (error) {
         console.error('Error en submit:', error);
+        return;
       }
     }
     // Si hay un onClick personalizado, ejecutarlo (mantiene retrocompatibilidad)

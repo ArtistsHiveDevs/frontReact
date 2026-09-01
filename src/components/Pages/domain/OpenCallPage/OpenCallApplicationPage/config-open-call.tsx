@@ -115,56 +115,56 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
     name: 'general',
     title: OPEN_CALL_STEP_META.general.title,
     sections: [
-      {
-        name: 'artist_info',
-        components: [
-          {
-            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [
-                {
-                  name: 'artist_name',
-                  title: 'Nombre del proyecto / Artista',
-                  formMetaData: {
-                    inputType: 'text',
-                    config: {
-                      required: true,
-                      minLength: { value: 2, message: 'Mínimo 2 caracteres' },
-                    },
-                    componentParams: { placeholder: 'Ej: Los Amplificadores' },
-                  },
-                },
-                {
-                  name: 'manager_name',
-                  title: 'Nombre del representante / Manager',
-                  formMetaData: {
-                    inputType: 'text',
-                    componentParams: { placeholder: 'Nombre completo del contacto' },
-                  },
-                },
-                {
-                  name: 'country',
-                  title: 'País de origen',
-                  formMetaData: {
-                    inputType: 'text',
-                    config: { required: 'Este campo es obligatorio' },
-                    componentParams: { placeholder: 'Ej: Colombia' },
-                  },
-                },
-                {
-                  name: 'city',
-                  title: 'Ciudad de origen',
-                  formMetaData: {
-                    inputType: 'text',
-                    config: { required: 'Este campo es obligatorio' },
-                    componentParams: { placeholder: 'Ej: Bogotá' },
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
+      // {
+      //   name: 'artist_info',
+      //   components: [
+      //     {
+      //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       data: {
+      //         attributes: [
+      //           // {
+      //           //   name: 'artist_name',
+      //           //   title: 'Nombre del proyecto / Artista',
+      //           //   formMetaData: {
+      //           //     inputType: 'text',
+      //           //     config: {
+      //           //       required: true,
+      //           //       minLength: { value: 2, message: 'Mínimo 2 caracteres' },
+      //           //     },
+      //           //     componentParams: { placeholder: 'Ej: Los Amplificadores' },
+      //           //   },
+      //           // },
+      //           // {
+      //           //   name: 'manager_name',
+      //           //   title: 'Nombre del representante / Manager',
+      //           //   formMetaData: {
+      //           //     inputType: 'text',
+      //           //     componentParams: { placeholder: 'Nombre completo del contacto' },
+      //           //   },
+      //           // },
+      //           // {
+      //           //   name: 'country',
+      //           //   title: 'País de origen',
+      //           //   formMetaData: {
+      //           //     inputType: 'text',
+      //           //     config: { required: 'Este campo es obligatorio' },
+      //           //     componentParams: { placeholder: 'Ej: Colombia' },
+      //           //   },
+      //           // },
+      //           // {
+      //           //   name: 'city',
+      //           //   title: 'Ciudad de origen',
+      //           //   formMetaData: {
+      //           //     inputType: 'text',
+      //           //     config: { required: 'Este campo es obligatorio' },
+      //           //     componentParams: { placeholder: 'Ej: Bogotá' },
+      //           //   },
+      //           // },
+      //         ],
+      //       },
+      //     },
+      //   ],
+      // },
       {
         name: 'contact',
         components: [
@@ -198,148 +198,148 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
           },
         ],
       },
-      {
-        name: 'project',
-        components: [
-          {
-            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [
-                {
-                  name: 'genre',
-                  title: 'Género musical principal',
-                  formMetaData: {
-                    inputType: 'select',
-                    config: { required: 'Este campo es obligatorio' },
-                    componentParams: { placeholder: 'Selecciona un género', options: MUSIC_GENRE_OPTIONS },
-                  },
-                },
-                {
-                  name: 'project_type',
-                  title: 'Tipo de proyecto',
-                  formMetaData: {
-                    inputType: 'select',
-                    config: { required: 'Este campo es obligatorio' },
-                    componentParams: { placeholder: 'Selecciona el tipo', options: PROJECT_TYPE_OPTIONS },
-                  },
-                },
-                {
-                  name: 'synopsis',
-                  title: 'Sinopsis del espectáculo',
-                  formMetaData: {
-                    inputType: 'textarea',
-                    componentParams: {
-                      placeholder: 'Describe brevemente tu propuesta artística...',
-                      maxLength: 150,
-                      rows: 3,
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
+      // {
+      //   name: 'project',
+      //   components: [
+      //     {
+      //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       data: {
+      //         attributes: [
+      //           {
+      //             name: 'genre',
+      //             title: 'Género musical principal',
+      //             formMetaData: {
+      //               inputType: 'select',
+      //               config: { required: 'Este campo es obligatorio' },
+      //               componentParams: { placeholder: 'Selecciona un género', options: MUSIC_GENRE_OPTIONS },
+      //             },
+      //           },
+      //           {
+      //             name: 'project_type',
+      //             title: 'Tipo de proyecto',
+      //             formMetaData: {
+      //               inputType: 'select',
+      //               config: { required: 'Este campo es obligatorio' },
+      //               componentParams: { placeholder: 'Selecciona el tipo', options: PROJECT_TYPE_OPTIONS },
+      //             },
+      //           },
+      //           {
+      //             name: 'synopsis',
+      //             title: 'Sinopsis del espectáculo',
+      //             formMetaData: {
+      //               inputType: 'textarea',
+      //               componentParams: {
+      //                 placeholder: 'Describe brevemente tu propuesta artística...',
+      //                 maxLength: 150,
+      //                 rows: 3,
+      //               },
+      //             },
+      //           },
+      //         ],
+      //       },
+      //     },
+      //   ],
+      // },
     ],
   },
 
   // ─── Step 2: Multimedia ───
-  {
-    name: 'multimedia',
-    title: OPEN_CALL_STEP_META.multimedia.title,
-    sections: [
-      {
-        name: 'links',
-        components: [
-          {
-            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [
-                {
-                  name: 'music_link',
-                  title: 'Enlace a tu música',
-                  formMetaData: {
-                    inputType: 'url',
-                    config: { required: 'Incluye al menos un enlace a tu música' },
-                    componentParams: { placeholder: 'https://open.spotify.com/artist/...' },
-                  },
-                },
-                {
-                  name: 'video_link',
-                  title: 'Video en vivo',
-                  formMetaData: {
-                    inputType: 'url',
-                    config: { required: 'Incluye un video de tu presentación en vivo' },
-                    componentParams: { placeholder: 'https://youtube.com/watch?v=...' },
-                  },
-                },
-                {
-                  name: 'social_instagram',
-                  title: 'Instagram',
-                  formMetaData: {
-                    inputType: 'url',
-                    componentParams: { placeholder: 'https://instagram.com/tuartista' },
-                  },
-                },
-                {
-                  name: 'social_facebook',
-                  title: 'Facebook',
-                  formMetaData: {
-                    inputType: 'url',
-                    componentParams: { placeholder: 'https://facebook.com/tuartista' },
-                  },
-                },
-                {
-                  name: 'social_tiktok',
-                  title: 'TikTok',
-                  formMetaData: {
-                    inputType: 'url',
-                    componentParams: { placeholder: 'https://tiktok.com/@tuartista' },
-                  },
-                },
-                {
-                  name: 'website',
-                  title: 'Sitio web',
-                  formMetaData: {
-                    inputType: 'url',
-                    componentParams: { placeholder: 'https://www.tuartista.com' },
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      {
-        name: 'files',
-        components: [
-          {
-            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [
-                // {
-                //   name: 'press_kit',
-                //   title: 'Press kit / EPK',
-                //   formMetaData: {
-                //     inputType: 'file',
-                //     componentParams: { accept: '.pdf,image/*', multipleFiles: false },
-                //   },
-                // },
-                // {
-                //   name: 'photos',
-                //   title: 'Fotos promocionales',
-                //   formMetaData: {
-                //     inputType: 'file',
-                //     componentParams: { accept: 'image/*', multipleFiles: true },
-                //   },
-                // },
-              ],
-            },
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   name: 'multimedia',
+  //   title: OPEN_CALL_STEP_META.multimedia.title,
+  //   sections: [
+  //     // {
+  //     //   name: 'links',
+  //     //   components: [
+  //     //     {
+  //     //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+  //     //       // data: {
+  //     //       //   attributes: [
+  //     //       //     {
+  //     //       //       name: 'music_link',
+  //     //       //       title: 'Enlace a tu música',
+  //     //       //       formMetaData: {
+  //     //       //         inputType: 'url',
+  //     //       //         config: { required: 'Incluye al menos un enlace a tu música' },
+  //     //       //         componentParams: { placeholder: 'https://open.spotify.com/artist/...' },
+  //     //       //       },
+  //     //       //     },
+  //     //       //     {
+  //     //       //       name: 'video_link',
+  //     //       //       title: 'Video en vivo',
+  //     //       //       formMetaData: {
+  //     //       //         inputType: 'url',
+  //     //       //         config: { required: 'Incluye un video de tu presentación en vivo' },
+  //     //       //         componentParams: { placeholder: 'https://youtube.com/watch?v=...' },
+  //     //       //       },
+  //     //       //     },
+  //     //       //     {
+  //     //       //       name: 'social_instagram',
+  //     //       //       title: 'Instagram',
+  //     //       //       formMetaData: {
+  //     //       //         inputType: 'url',
+  //     //       //         componentParams: { placeholder: 'https://instagram.com/tuartista' },
+  //     //       //       },
+  //     //       //     },
+  //     //       //     {
+  //     //       //       name: 'social_facebook',
+  //     //       //       title: 'Facebook',
+  //     //       //       formMetaData: {
+  //     //       //         inputType: 'url',
+  //     //       //         componentParams: { placeholder: 'https://facebook.com/tuartista' },
+  //     //       //       },
+  //     //       //     },
+  //     //       //     {
+  //     //       //       name: 'social_tiktok',
+  //     //       //       title: 'TikTok',
+  //     //       //       formMetaData: {
+  //     //       //         inputType: 'url',
+  //     //       //         componentParams: { placeholder: 'https://tiktok.com/@tuartista' },
+  //     //       //       },
+  //     //       //     },
+  //     //       //     {
+  //     //       //       name: 'website',
+  //     //       //       title: 'Sitio web',
+  //     //       //       formMetaData: {
+  //     //       //         inputType: 'url',
+  //     //       //         componentParams: { placeholder: 'https://www.tuartista.com' },
+  //     //       //       },
+  //     //       //     },
+  //     //       //   ],
+  //     //       // },
+  //     //     },
+  //     //   ],
+  //     // },
+  //     {
+  //       name: 'files',
+  //       components: [
+  //         {
+  //           componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+  //           data: {
+  //             attributes: [
+  //               // {
+  //               //   name: 'press_kit',
+  //               //   title: 'Press kit / EPK',
+  //               //   formMetaData: {
+  //               //     inputType: 'file',
+  //               //     componentParams: { accept: '.pdf,image/*', multipleFiles: false },
+  //               //   },
+  //               // },
+  //               // {
+  //               //   name: 'photos',
+  //               //   title: 'Fotos promocionales',
+  //               //   formMetaData: {
+  //               //     inputType: 'file',
+  //               //     componentParams: { accept: 'image/*', multipleFiles: true },
+  //               //   },
+  //               // },
+  //             ],
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
 
   // ─── Step 3: Show ───
   {
@@ -362,15 +362,15 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
                     componentParams: { placeholder: 'Ej: 60' },
                   },
                 },
-                {
-                  name: 'members_on_stage',
-                  title: 'Miembros en escenario',
-                  formMetaData: {
-                    inputType: 'number',
-                    config: { required: 'Este campo es obligatorio', min: { value: 1, message: 'Mínimo 1' } },
-                    componentParams: { placeholder: 'Ej: 4' },
-                  },
-                },
+                // {
+                //   name: 'members_on_stage',
+                //   title: 'Miembros en escenario',
+                //   formMetaData: {
+                //     inputType: 'number',
+                //     config: { required: 'Este campo es obligatorio', min: { value: 1, message: 'Mínimo 1' } },
+                //     componentParams: { placeholder: 'Ej: 4' },
+                //   },
+                // },
                 {
                   name: 'show_description',
                   title: 'Descripción del show',
@@ -391,23 +391,23 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
                     componentParams: { placeholder: '1. Canción de apertura\n2. ...\n3. ...', rows: 4 },
                   },
                 },
-                {
-                  name: 'past_events',
-                  title: 'Eventos anteriores',
-                  formMetaData: {
-                    inputType: 'textarea',
-                    componentParams: { placeholder: 'Ej: Rock al Parque 2024, Festival Estéreo Picnic...', rows: 3 },
-                  },
-                },
-                {
-                  name: 'availability',
-                  title: 'Disponibilidad',
-                  formMetaData: {
-                    inputType: 'select',
-                    config: { required: 'Este campo es obligatorio' },
-                    componentParams: { placeholder: 'Selecciona tu disponibilidad', options: AVAILABILITY_OPTIONS },
-                  },
-                },
+                // {
+                //   name: 'past_events',
+                //   title: 'Eventos anteriores',
+                //   formMetaData: {
+                //     inputType: 'textarea',
+                //     componentParams: { placeholder: 'Ej: Rock al Parque 2024, Festival Estéreo Picnic...', rows: 3 },
+                //   },
+                // },
+                // {
+                //   name: 'availability',
+                //   title: 'Disponibilidad',
+                //   formMetaData: {
+                //     inputType: 'select',
+                //     config: { required: 'Este campo es obligatorio' },
+                //     componentParams: { placeholder: 'Selecciona tu disponibilidad', options: AVAILABILITY_OPTIONS },
+                //   },
+                // },
               ],
             },
           },
@@ -421,49 +421,49 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
     name: 'technical',
     title: OPEN_CALL_STEP_META.technical.title,
     sections: [
-      {
-        name: 'requirements',
-        components: [
-          {
-            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [
-                {
-                  name: 'sound_requirements',
-                  title: 'Requerimientos de sonido',
-                  formMetaData: {
-                    inputType: 'textarea',
-                    config: { required: 'Indica tus requerimientos de sonido' },
-                    componentParams: {
-                      placeholder: 'Ej: 4 monitores de piso, 2 DI box, mesa de mezclas de 16 canales...',
-                      rows: 4,
-                    },
-                  },
-                },
-                {
-                  name: 'backline_requirements',
-                  title: 'Requerimientos de backline',
-                  formMetaData: {
-                    inputType: 'textarea',
-                    componentParams: {
-                      placeholder: 'Ej: Batería completa, amplificador de bajo, 2 amplificadores de guitarra...',
-                      rows: 4,
-                    },
-                  },
-                },
-                {
-                  name: 'lighting_requirements',
-                  title: 'Requerimientos de iluminación',
-                  formMetaData: {
-                    inputType: 'textarea',
-                    componentParams: { placeholder: 'Ej: Luces de colores, máquina de humo, seguidor...', rows: 3 },
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
+      // {
+      //   name: 'requirements',
+      //   components: [
+      //     {
+      //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       data: {
+      //         attributes: [
+      //           {
+      //             name: 'sound_requirements',
+      //             title: 'Requerimientos de sonido',
+      //             formMetaData: {
+      //               inputType: 'textarea',
+      //               config: { required: 'Indica tus requerimientos de sonido' },
+      //               componentParams: {
+      //                 placeholder: 'Ej: 4 monitores de piso, 2 DI box, mesa de mezclas de 16 canales...',
+      //                 rows: 4,
+      //               },
+      //             },
+      //           },
+      //           {
+      //             name: 'backline_requirements',
+      //             title: 'Requerimientos de backline',
+      //             formMetaData: {
+      //               inputType: 'textarea',
+      //               componentParams: {
+      //                 placeholder: 'Ej: Batería completa, amplificador de bajo, 2 amplificadores de guitarra...',
+      //                 rows: 4,
+      //               },
+      //             },
+      //           },
+      //           {
+      //             name: 'lighting_requirements',
+      //             title: 'Requerimientos de iluminación',
+      //             formMetaData: {
+      //               inputType: 'textarea',
+      //               componentParams: { placeholder: 'Ej: Luces de colores, máquina de humo, seguidor...', rows: 3 },
+      //             },
+      //           },
+      //         ],
+      //       },
+      //     },
+      //   ],
+      // },
       {
         name: 'timing',
         components: [
@@ -492,34 +492,34 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
           },
         ],
       },
-      {
-        name: 'rider_files',
-        components: [
-          {
-            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [
-                // {
-                //   name: 'technical_rider',
-                //   title: 'Rider técnico (PDF)',
-                //   formMetaData: {
-                //     inputType: 'file',
-                //     componentParams: { accept: '.pdf', multipleFiles: false },
-                //   },
-                // },
-                // {
-                //   name: 'stage_plot_file',
-                //   title: 'Stage plot',
-                //   formMetaData: {
-                //     inputType: 'file',
-                //     componentParams: { accept: '.pdf,image/*', multipleFiles: false },
-                //   },
-                // },
-              ],
-            },
-          },
-        ],
-      },
+      // {
+      //   name: 'rider_files',
+      //   components: [
+      //     {
+      //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       data: {
+      //         attributes: [
+      //           // {
+      //           //   name: 'technical_rider',
+      //           //   title: 'Rider técnico (PDF)',
+      //           //   formMetaData: {
+      //           //     inputType: 'file',
+      //           //     componentParams: { accept: '.pdf', multipleFiles: false },
+      //           //   },
+      //           // },
+      //           // {
+      //           //   name: 'stage_plot_file',
+      //           //   title: 'Stage plot',
+      //           //   formMetaData: {
+      //           //     inputType: 'file',
+      //           //     componentParams: { accept: '.pdf,image/*', multipleFiles: false },
+      //           //   },
+      //           // },
+      //         ],
+      //       },
+      //     },
+      //   ],
+      // },
     ],
   },
 
@@ -528,45 +528,45 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
     name: 'logistics',
     title: OPEN_CALL_STEP_META.logistics.title,
     sections: [
-      {
-        name: 'fees',
-        components: [
-          {
-            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [
-                {
-                  name: 'fee_currency',
-                  title: 'Moneda',
-                  formMetaData: {
-                    inputType: 'select',
-                    config: { required: 'Selecciona una moneda' },
-                    componentParams: { placeholder: 'Selecciona la moneda', options: CURRENCY_OPTIONS },
-                  },
-                },
-                {
-                  name: 'fee_amount',
-                  title: 'Tarifa',
-                  formMetaData: {
-                    inputType: 'number',
-                    config: { required: 'Indica tu tarifa' },
-                    componentParams: { placeholder: 'Ej: 2500' },
-                  },
-                },
-                {
-                  name: 'fee_includes',
-                  title: 'La tarifa incluye',
-                  formMetaData: {
-                    inputType: 'select',
-                    config: { required: 'Este campo es obligatorio' },
-                    componentParams: { placeholder: 'Selecciona una opción', options: FEE_INCLUDES_OPTIONS },
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
+      // {
+      //   name: 'fees',
+      //   components: [
+      //     {
+      //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+      //       data: {
+      //         attributes: [
+      //           {
+      //             name: 'fee_currency',
+      //             title: 'Moneda',
+      //             formMetaData: {
+      //               inputType: 'select',
+      //               config: { required: 'Selecciona una moneda' },
+      //               componentParams: { placeholder: 'Selecciona la moneda', options: CURRENCY_OPTIONS },
+      //             },
+      //           },
+      //           {
+      //             name: 'fee_amount',
+      //             title: 'Tarifa',
+      //             formMetaData: {
+      //               inputType: 'number',
+      //               config: { required: 'Indica tu tarifa' },
+      //               componentParams: { placeholder: 'Ej: 2500' },
+      //             },
+      //           },
+      //           {
+      //             name: 'fee_includes',
+      //             title: 'La tarifa incluye',
+      //             formMetaData: {
+      //               inputType: 'select',
+      //               config: { required: 'Este campo es obligatorio' },
+      //               componentParams: { placeholder: 'Selecciona una opción', options: FEE_INCLUDES_OPTIONS },
+      //             },
+      //           },
+      //         ],
+      //       },
+      //     },
+      //   ],
+      // },
       {
         name: 'travel',
         components: [
@@ -583,15 +583,15 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
                     componentParams: { placeholder: 'Selecciona una opción', options: TRAVEL_OPTIONS },
                   },
                 },
-                {
-                  name: 'needs_accommodation',
-                  title: 'Necesita hospedaje',
-                  formMetaData: {
-                    inputType: 'select',
-                    config: { required: 'Este campo es obligatorio' },
-                    componentParams: { placeholder: 'Selecciona una opción', options: ACCOMMODATION_OPTIONS },
-                  },
-                },
+                // {
+                //   name: 'needs_accommodation',
+                //   title: 'Necesita hospedaje',
+                //   formMetaData: {
+                //     inputType: 'select',
+                //     config: { required: 'Este campo es obligatorio' },
+                //     componentParams: { placeholder: 'Selecciona una opción', options: ACCOMMODATION_OPTIONS },
+                //   },
+                // },
                 {
                   name: 'crew_count',
                   title: 'Personas en el crew',

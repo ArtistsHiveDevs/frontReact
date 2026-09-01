@@ -17,7 +17,6 @@ import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
 import { IndustrySignUpBanner } from '~/components/shared/atoms/IndustrySignUpBanner/IndustrySignUpBanner';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
-import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import {
   DynamicTabbedForm,
   DynamicTabbedFormRef,
@@ -135,7 +134,7 @@ const UserCreatePage = () => {
             id: loggedUser.identifier,
             newItem: {
               ...data,
-              profile_pic: `s3://public/${prefferedFilename}`,
+              profile_pic: `${import.meta.env.VITE_REPO}${prefferedFilename}`,
             },
           })
         );

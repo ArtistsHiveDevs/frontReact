@@ -12,10 +12,7 @@ import { resolveNavigateToEntityPath } from '~/common/utils/hooks/navigation/nav
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import MainSection from '~/components/Pages/HomePage/MainSection/MainSection';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
-import {
-  ComponentTypes,
-  PageSection,
-} from '~/components/shared/organisms/gui/builders/component-types.def';
+import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 import { SUB_PATHS } from '~/constants';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
@@ -203,7 +200,7 @@ const CreateIndustryEntityPage = () => {
     }
 
     const instance = queriedSearchList[plural]?.find((e: any) => e.identifier == id);
-    const attributesToExtract = ['id', 'shortId', 'profile_pic', 'name', 'username', 'subtitle', 'verified_status'];
+    const attributesToExtract = ['id', 'sID', 'profile_pic', 'name', 'username', 'subtitle', 'verified_status'];
 
     if (instance) {
       const extractedObject = attributesToExtract.reduce((acc: any, key) => {

@@ -158,6 +158,11 @@ export abstract class Model<T extends EntityTemplate | ObjectValueTemplate> {
   protected async getS3UrlWithCache(s3PathOrUrl: string | undefined): Promise<string> {
     if (!s3PathOrUrl) return undefined;
 
+    // Si es una ruta con protocolo r://, convertir a https://
+    if (s3PathOrUrl.startsWith('r://')) {
+      return s3PathOrUrl.replace('r://', import.meta.env.VITE_REPO);
+    }
+
     // Si no es una ruta S3, retornar directamente
     if (!s3PathOrUrl.startsWith('s3://')) {
       return s3PathOrUrl;

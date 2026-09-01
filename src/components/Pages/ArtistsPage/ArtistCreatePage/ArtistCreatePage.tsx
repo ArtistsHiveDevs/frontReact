@@ -77,11 +77,14 @@ const ArtistsCreatePage = () => {
 
   useEffect(() => {
     // Desmontar cancela el saga de artists, así que se navega recién cuando la petición terminó.
-    const targetArtistId = currentArtist?.identifier || createdItem?.identifier;
-    if (requestHasBeenSended && !isSavingArtist && targetArtistId) {
-      navigateToEntity({ entityType: ArtistModel.name, id: targetArtistId });
+    if (requestHasBeenSended && !isSavingArtist) {
+      // Para updates, usar el identifier del perfil actual; para creates, usar el createdItem
+      const targetArtistId = createdItem?.identifier || loggedUser?.currentProfileIdentifier;
+      if (targetArtistId) {
+        navigateToEntity({ entityType: ArtistModel.name, id: targetArtistId });
+      }
     }
-  }, [currentArtist, createdItem, requestHasBeenSended, isSavingArtist]);
+  }, [createdItem, requestHasBeenSended, isSavingArtist, loggedUser]);
 
   useEffect(() => {
     if (!availableLanguages || availableLanguages.length === 0) {
@@ -154,7 +157,7 @@ const ArtistsCreatePage = () => {
   };
 
   const getURL = async () => {
-    const linkToStorageFile = await getImageURL({ path: 'public', fileName: '1725765544035-Carlos Navarrete.jpg' });
+    const linkToStorageFile = await getImageURL({ path: '', fileName: '1725765544035-Carlos Navarrete.jpg' });
 
     // await getUrl({
     //   path: 'picture-submissions/',

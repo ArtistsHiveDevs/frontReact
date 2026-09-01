@@ -1,7 +1,7 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
+import { FileUploadCustomFile } from '~/components/shared/organisms/gui/dynamicForms';
 import { getUrl, removeData, uploadData } from './storage.client';
 import { UploadFileToServerResponse } from './storage.types';
-import { FileUploadCustomFile } from '~/components/shared/organisms/gui/dynamicForms';
 
 export const uploadFileToServer = async (params: {
   file: FileUploadCustomFile;
@@ -13,10 +13,10 @@ export const uploadFileToServer = async (params: {
     let { file, access_level, path, prefferedFilename } = params || {};
 
     const fileName = prefferedFilename || `${Date.now()}-${file.name.replace('-min.', '')}`; // Crea un nombre único para el archivo
-    const customPath = `public/${path ? path + '/' : ''}${fileName}`;
+    const customPath = `${path ? path + '/' : ''}${fileName}`;
     console.log(path, customPath);
     const result = await uploadData({
-      path: customPath,
+      path: `public/${customPath}`,
       data: file,
     });
 
@@ -55,9 +55,15 @@ export const getImageURL = async (params: { fileName: string; path?: string }): 
 
 export const getUrlS3 = async (params: { path: string }) => {
   let urlDB = params.path;
+  // console.log('ANTES ', urlDB);
+  if (urlDB.startsWith('r://')) {
+    urlDB = urlDB.replace('r://', import.meta.env.VITE_REPO);
+  }
+
   if (urlDB?.startsWith('s3://')) {
     urlDB = (await getUrl({ path: urlDB.replace('s3://', '') })).url.href;
   }
+  // console.log('nueva url.... ', urlDB);
   return urlDB;
 };
 
@@ -79,7 +85,7 @@ export const removeFileFromServer = async (params: { path?: string }) => {
   try {
     let { path } = params || {};
     const result = await removeData({
-      path,
+      path: `public/${path}`,
     });
 
     return { result, path };
@@ -90,7 +96,7 @@ export const removeFileFromServer = async (params: { path?: string }) => {
 
 export const removeFilesFromServer = async (params: { paths: string[] }) => {
   const { paths } = params;
-  console.log(paths)
+  console.log(paths);
   try {
     // Usa Promise.all para cargar todos los archivos en paralelo
     const results = await Promise.all(paths.map((path) => removeFileFromServer({ path })));
@@ -105,17 +111,17 @@ export const removeFilesFromServer = async (params: { paths: string[] }) => {
 export const getFilesUrls = async (referenceData: any) => {
   let formattedUrls = undefined;
   if (referenceData && Array.isArray(referenceData)) {
-        const urlsObject: { [identifier: string]: string } = {};
-  
-        // Mapeamos las URLs a promesas y usamos Promise.all para esperar a que todas se resuelvan
-        const urlPromises = referenceData.map(async (imageParams: any) => {
-          const url = await getUrlS3({ path: imageParams.src });
-          urlsObject[imageParams.src] = url;
-        });
-  
-        // Esperamos a que todas las promesas terminen
-        await Promise.all(urlPromises);
-        formattedUrls = urlsObject;
+    const urlsObject: { [identifier: string]: string } = {};
+
+    // Mapeamos las URLs a promesas y usamos Promise.all para esperar a que todas se resuelvan
+    const urlPromises = referenceData.map(async (imageParams: any) => {
+      const url = await getUrlS3({ path: imageParams.src });
+      urlsObject[imageParams.src] = url;
+    });
+
+    // Esperamos a que todas las promesas terminen
+    await Promise.all(urlPromises);
+    formattedUrls = urlsObject;
   }
   return formattedUrls;
-}
+};

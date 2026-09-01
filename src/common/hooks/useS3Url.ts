@@ -1,5 +1,5 @@
-import { getUrl } from '~/common/utils/amplify/storage/storage.client';
 import { useEffect, useState } from 'react';
+import { getUrl } from '~/common/utils/amplify/storage/storage.client';
 
 // Caché global compartido - mismo que en model.ts
 const s3UrlCache = new Map<string, { url: string; expiresAt: number }>();
@@ -15,6 +15,10 @@ export const useS3Url = (s3PathOrUrl: string | undefined): string | undefined =>
   const [url, setUrl] = useState<string | undefined>(s3PathOrUrl?.startsWith('s3://') ? undefined : s3PathOrUrl);
 
   useEffect(() => {
+    if (s3PathOrUrl.startsWith('r://')) {
+      setUrl(s3PathOrUrl.replace('r://', import.meta.env.VITE_REPO));
+      return;
+    }
     // Si no hay path o no es S3, retornar directamente
     if (!s3PathOrUrl || !s3PathOrUrl.startsWith('s3://')) {
       setUrl(s3PathOrUrl);

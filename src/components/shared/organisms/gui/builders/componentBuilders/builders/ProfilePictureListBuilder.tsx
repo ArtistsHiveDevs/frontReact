@@ -1,10 +1,9 @@
-import { FollowerListView } from '~/components/shared/molecules/Profile/FollowerListView/FollowerListView';
-import { ComponentBuilderParams, ComponentBuilderFunction } from '../types';
-import { getData, getDataSource } from '../utils/dataExtraction';
 import { ProfilePictureList } from '~/components/shared/atoms/gui/ProfilePictureList/ProfilePictureList';
+import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
-import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
+import { ComponentBuilderFunction, ComponentBuilderParams } from '../types';
+import { getData, getDataSource } from '../utils/dataExtraction';
 
 /**
  * Builder para PROFILE_PICTURE_LIST
@@ -119,7 +118,7 @@ export const createProfilePictureListComponent: ComponentBuilderFunction = (
           _id: '69ab5f2af85329b8a78cc3a1',
           id: '6812a42ce6f878c46fc9a178',
           entityType: 'Place',
-          profile_pic: 's3://public/casakilele.jpg',
+          profile_pic: 'r://casakilele.jpg',
           name: 'Casa Kilele',
           username: 'casakilele',
           genres: {
@@ -187,7 +186,7 @@ export const createProfilePictureListComponent: ComponentBuilderFunction = (
           _id: '69ab5f2af85329b8a78cc3a1',
           id: '6812a42ce6f878c46fc9a178',
           entityType: 'Place',
-          profile_pic: 's3://public/casakilele.jpg',
+          profile_pic: 'r://casakilele.jpg',
           name: 'Casa Kilele',
           username: 'casakilele',
           genres: {
@@ -325,7 +324,7 @@ export const createProfilePictureListComponent: ComponentBuilderFunction = (
         _id: '69ab5f2af85329b8a78cc3a1',
         id: '6812a42ce6f878c46fc9a178',
         entityType: 'Place',
-        profile_pic: 's3://public/casakilele.jpg',
+        profile_pic: 'r://casakilele.jpg',
         name: 'Casa Kilele',
         username: 'casakilele',
         genres: {
@@ -393,7 +392,7 @@ export const createProfilePictureListComponent: ComponentBuilderFunction = (
         _id: '69ab5f2af85329b8a78cc3a1',
         id: '6812a42ce6f878c46fc9a178',
         entityType: 'Place',
-        profile_pic: 's3://public/casakilele.jpg',
+        profile_pic: 'r://casakilele.jpg',
         name: 'Casa Kilele',
         username: 'casakilele',
         genres: {

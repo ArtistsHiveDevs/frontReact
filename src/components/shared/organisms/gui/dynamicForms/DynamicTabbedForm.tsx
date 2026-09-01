@@ -462,7 +462,8 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
   const updateFileUploadAddElements = (filesData: UploadFileToServerResponse[], fieldName: string) => {
     const extractFilesDataPaths = filesData?.map((fileData: any) => {
       return {
-        src: `s3://${fileData.customPath}`,
+        // src: `s3://${fileData.customPath}`,
+        src: `r://${fileData.customPath}`,
         path: fileData?.customPath,
         fileName: fileData?.fileName,
       };

@@ -11,7 +11,7 @@ const STORAGE_ADMIN_URL = import.meta.env.VITE_STORAGE_ADMIN_URL;
 export const getUrl = (input: { path: string }): Promise<StorageGetUrlOutput> => {
   if (USE_LOCAL_STORAGE) {
     return Promise.resolve({
-      url: new URL(`${STORAGE_ADMIN_URL}/files/${input.path}`),
+      url: new URL(`${STORAGE_ADMIN_URL}/files/public/${input.path}`),
       expiresAt: new Date(Date.now() + 50 * 60 * 1000),
     });
   }
@@ -44,7 +44,7 @@ export const uploadData = (input: { path: string; data: Blob | File }) => {
 export const removeData = (input: { path: string }) => {
   if (USE_LOCAL_STORAGE) {
     const { path } = input;
-    const result = fetch(`${STORAGE_ADMIN_URL}/files/${path}`, { method: 'DELETE' }).then(async (response) => {
+    const result = fetch(`${STORAGE_ADMIN_URL}/files/public/${path}`, { method: 'DELETE' }).then(async (response) => {
       if (!response.ok) {
         throw new Error((await response.json()).message || `HTTP ${response.status}`);
       }

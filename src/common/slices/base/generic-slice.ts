@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
+import { call, delay, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 import { defaultLang } from '~/common/context';
 import { EntityStateTemplate, RepoErrorPayload } from '~/common/utils/redux-injectors/types';
 import {
@@ -95,6 +95,51 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
           dict[item.identifier] = item;
           return dict;
         }, {} as { [id: string]: M });
+        state.loading = false;
+        state.queryParams = undefined;
+      },
+      loadItemsAccumulate(
+        state: EntityStateTemplate<T, M>,
+        action?: PayloadAction<{ queryParams?: { [param: string]: any } }>
+      ) {
+        state.loading = true;
+        state.error = null;
+        state.queryParams = action?.payload?.queryParams;
+      },
+      itemsAccumulated(
+        state: EntityStateTemplate<T, M>,
+        action: PayloadAction<{ items: T[]; metadata?: any } | T[]>
+      ) {
+        // Support both old format (T[]) and new format ({ items: T[], metadata: any })
+        const isNewFormat = action.payload && !Array.isArray(action.payload) && 'items' in action.payload;
+        const items = isNewFormat ? (action.payload as { items: T[] }).items : (action.payload as T[]);
+
+        const newItems: M[] = (items || []).map((template) => new Model(template));
+
+        // Create a Map to merge existing and new items (avoiding duplicates)
+        const itemsMap = new Map<string, M>();
+
+        // Add existing items
+        state.items.forEach((itemId: string) => {
+          const item = state.detailedItems[itemId];
+          if (item) {
+            itemsMap.set(itemId, item);
+          }
+        });
+
+        // Add or update with new items
+        newItems.forEach((item) => {
+          itemsMap.set(item.identifier, item);
+        });
+
+        // Convert back to arrays
+        const allItems = Array.from(itemsMap.values());
+        state.items = allItems.map((item) => item.identifier);
+        state.detailedItems = allItems.reduce((dict, item) => {
+          dict[item.identifier] = item;
+          return dict;
+        }, {} as { [id: string]: M });
+
         state.loading = false;
         state.queryParams = undefined;
       },
@@ -244,6 +289,47 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
               resultInfo = [resultInfo];
             }
             yield put(slice.actions.itemsLoaded(<T[]>resultInfo));
+          } else {
+            yield put(slice.actions.repoError({}));
+          }
+        } catch (err) {
+          console.log(err);
+          const errorPayload: RepoErrorPayload = yield call(buildErrorPayloadFromCaughtError, err);
+          yield put(slice.actions.repoError(errorPayload));
+        }
+      }
+    );
+
+    // ==================================   GET ALL ACCUMULATE (with takeEvery) ==================================
+    yield takeEvery(
+      slice.actions.loadItemsAccumulate.type,
+      function* getItemsAccumulate(actionParams?: PayloadAction<{ queryParams?: { [param: string]: any } }>) {
+        yield delay(500);
+
+        const authInfo: { apiKey: string; userId: string } = yield select(selectApiKey);
+        const queryString = buildQueryString(actionParams?.payload?.queryParams);
+
+        const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}${resourceEndpoint}${queryString}`;
+
+        try {
+          const response: APIResponse = yield call(request, requestURL, {
+            headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
+          });
+
+          if (response.error) {
+            yield put(slice.actions.repoError(buildErrorPayloadFromAPIError(response.error)));
+          } else if (response.data) {
+            let resultInfo = response.data;
+            if (!Array.isArray(resultInfo)) {
+              resultInfo = [resultInfo];
+            }
+            // Pass queryParams metadata along with the payload so the reducer can access it
+            yield put(
+              slice.actions.itemsAccumulated({
+                items: <T[]>resultInfo,
+                metadata: actionParams?.payload?.queryParams,
+              })
+            );
           } else {
             yield put(slice.actions.repoError({}));
           }

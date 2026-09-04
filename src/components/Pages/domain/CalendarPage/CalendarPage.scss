@@ -628,7 +628,7 @@ $calendar-mobile-max-width: 767px;
     }
 
     &__content {
-      align-items: baseline;
+      align-items: center;
       display: flex;
       gap: rem-calc(4);
       min-width: 0;
@@ -642,6 +642,14 @@ $calendar-mobile-max-width: 767px;
         gap: rem-calc(2);
         padding: 0;
       }
+    }
+
+    &__image {
+      border-radius: rem-calc(6);
+      flex: 0 0 rem-calc(28);
+      height: rem-calc(28);
+      object-fit: cover;
+      width: rem-calc(28);
     }
 
     &__main {
@@ -724,6 +732,27 @@ $calendar-mobile-max-width: 767px;
 
   @media (max-width: $calendar-mobile-max-width) {
     padding: 0 0 calc(#{rem-calc(96)} + env(safe-area-inset-bottom));
+  }
+}
+
+.calendar-activity-image-field {
+  align-items: center;
+  display: flex;
+  gap: rem-calc(12);
+  margin: rem-calc(8) 0 rem-calc(16);
+
+  &__preview {
+    border-radius: rem-calc(8);
+    height: rem-calc(72);
+    object-fit: cover;
+    width: rem-calc(72);
+  }
+
+  &__button {
+    border: 1px solid $calendar-border-strong;
+    border-radius: rem-calc(6);
+    cursor: pointer;
+    padding: rem-calc(10) rem-calc(14);
   }
 }
 

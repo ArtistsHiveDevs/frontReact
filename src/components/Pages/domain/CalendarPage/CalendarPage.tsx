@@ -30,6 +30,7 @@ import {
   sortCalendarActivities,
 } from '~/models/domain/calendar/calendar-activity.model';
 import { ActivityFormDialog, CalendarActivityDraft } from './ActivityFormDialog';
+import { CalendarEventImage } from './CalendarEventImage';
 import {
   ALL_DAY_DATE_FORMAT,
   CALENDAR_MOBILE_MAX_WIDTH,
@@ -49,8 +50,12 @@ interface VisibleRange {
 const isAgendaViewName = (viewName: string) => viewName.startsWith('list');
 
 const monthVisibleRange = (month: Dayjs): VisibleRange => ({
-  from: month.startOf('month').startOf('week').toDate().toISOString(),
-  to: month.endOf('month').endOf('week').toDate().toISOString(),
+  from: month.startOf('month').subtract(month.startOf('month').day(), 'day').toDate().toISOString(),
+  to: month
+    .endOf('month')
+    .add(6 - month.endOf('month').day(), 'day')
+    .toDate()
+    .toISOString(),
 });
 
 const CalendarPage = () => {
@@ -243,6 +248,7 @@ const CalendarPage = () => {
           sortIndex,
           tooltip: buildTooltip(activity, title),
           secondaryText: buildSecondaryText(activity),
+          image: activity.meta?.image || null,
         },
       };
     };
@@ -314,6 +320,7 @@ const CalendarPage = () => {
         end: activity.end,
         allDay: activity.allDay,
         notes: activity.meta?.notes,
+        image: activity.meta?.image,
       });
 
       return;
@@ -364,11 +371,12 @@ const CalendarPage = () => {
   const showEmptyState = eventsRequested && !loading && !error && !calendarEvents.length;
 
   const renderEventContent = (eventInfo: EventContentArg) => {
-    const { tooltip, secondaryText } = eventInfo.event.extendedProps;
+    const { image, tooltip, secondaryText } = eventInfo.event.extendedProps;
     const stacked = isAgendaViewName(eventInfo.view.type);
 
     return (
       <div className={`calendar-event__content${stacked ? ' calendar-event__content--stacked' : ''}`} title={tooltip}>
+        <CalendarEventImage alt="" className="calendar-event__image" source={image} />
         <span className="calendar-event__main">
           {!stacked && !!eventInfo.timeText && <span className="calendar-event__time">{eventInfo.timeText}</span>}
           <span className="calendar-event__title">{eventInfo.event.title}</span>
@@ -439,6 +447,7 @@ const CalendarPage = () => {
               list: translate('actions.agenda'),
             }}
             initialView={CalendarViewName.MONTH}
+            firstDay={0}
             height="auto"
             dayMaxEvents={true}
             listDayFormat={{ day: 'numeric', weekday: 'long' }}

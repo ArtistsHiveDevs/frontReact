@@ -699,6 +699,7 @@ export const EsMessages = {
             create_title: 'Nueva actividad',
             edit_title: 'Editar actividad',
             save_error: 'No se pudo guardar la actividad. Inténtalo de nuevo.',
+            image_upload_error: 'No se pudo subir la imagen. Inténtalo de nuevo.',
             fields: {
               title: 'Título',
               subtype: 'Tipo',
@@ -708,6 +709,7 @@ export const EsMessages = {
               end_date: 'Fecha de fin',
               end_time: 'Hora de fin',
               notes: 'Notas',
+              image: 'Imagen del evento',
             },
             subtypes: {
               rehearsal: 'Ensayo',

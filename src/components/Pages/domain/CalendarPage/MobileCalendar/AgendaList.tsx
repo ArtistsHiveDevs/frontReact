@@ -1,6 +1,7 @@
 import { useI18n } from '~/common/utils';
 import { CalendarActivityModel } from '~/models/domain/calendar/calendar-activity.model';
 import { TRANSLATION_BASE_CALENDAR_PAGE } from '../calendar-page.constants';
+import { CalendarEventImage } from '../CalendarEventImage';
 import {
   AgendaWeekGroup,
   formatActivityTimeRange,
@@ -61,9 +62,16 @@ export const AgendaList = ({ weeks, todayKey, onActivityClick, registerDayRef }:
                           .join(' ')}
                         onClick={() => onActivityClick(activity)}
                       >
-                        <span className="mobile-calendar__event-title">{title}</span>
-                        <span className="mobile-calendar__event-time">
-                          {timeRange || translate('all_day')}
+                        <CalendarEventImage
+                          alt=""
+                          className="mobile-calendar__event-image"
+                          source={activity.meta?.image}
+                        />
+                        <span className="mobile-calendar__event-copy">
+                          <span className="mobile-calendar__event-title">{title}</span>
+                          <span className="mobile-calendar__event-time">
+                            {timeRange || translate('all_day')}
+                          </span>
                         </span>
                       </button>
                     </li>

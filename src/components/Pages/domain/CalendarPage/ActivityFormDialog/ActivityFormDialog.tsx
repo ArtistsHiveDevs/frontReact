@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useI18n } from '~/common/utils';
+import { uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { DynamicFieldData, DynamicForm } from '~/components/shared/organisms/gui/dynamicForms';
 import {
@@ -13,6 +14,7 @@ import {
   CREATABLE_CALENDAR_ACTIVITY_TYPE,
 } from '~/models/domain/calendar/calendar-activity.model';
 import { ALL_DAY_DATE_FORMAT, TRANSLATION_BASE_CALENDAR_PAGE } from '../calendar-page.constants';
+import { CalendarEventImage } from '../CalendarEventImage';
 
 export interface CalendarActivityDraft {
   id?: string;
@@ -22,6 +24,7 @@ export interface CalendarActivityDraft {
   end?: string | null;
   allDay?: boolean;
   notes?: string | null;
+  image?: string | null;
 }
 
 interface ActivityFormValues {
@@ -65,7 +68,7 @@ const buildFormValues = (draft?: CalendarActivityDraft): ActivityFormValues => {
   };
 };
 
-const buildActivityPayload = (formValues: ActivityFormValues): CalendarActivityTemplate => {
+const buildActivityPayload = (formValues: ActivityFormValues, image?: string | null): CalendarActivityTemplate => {
   const { title, subtype, allDay, start_date, start_time, end_date, end_time, notes } = formValues;
 
   const schedule = allDay
@@ -84,6 +87,7 @@ const buildActivityPayload = (formValues: ActivityFormValues): CalendarActivityT
     subtype,
     allDay,
     notes: notes || null,
+    image: image || null,
     ...schedule,
   };
 };
@@ -100,6 +104,9 @@ export const ActivityFormDialog = ({
   const { translateText } = useI18n();
   const formMethods = useForm<ActivityFormValues>({ defaultValues: buildFormValues() });
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+  const [imageFile, setImageFile] = useState<File>();
+  const [imagePreview, setImagePreview] = useState<string>();
+  const [imageUploadError, setImageUploadError] = useState(false);
 
   const translate = (key: string) => translateText(`${TRANSLATION_BASE_CALENDAR_PAGE}.${key}`);
 
@@ -111,8 +118,18 @@ export const ActivityFormDialog = ({
 
     if (open) {
       formMethods.reset(buildFormValues(draft));
+      setImageFile(undefined);
+      setImagePreview(undefined);
+      setImageUploadError(false);
     }
   }, [open, draft]);
+
+  useEffect(
+    () => () => {
+      if (imagePreview?.startsWith('blob:')) URL.revokeObjectURL(imagePreview);
+    },
+    [imagePreview]
+  );
 
   const scheduleFields: DynamicFieldData[] = isAllDay
     ? [
@@ -190,7 +207,25 @@ export const ActivityFormDialog = ({
         formMethods.setValue('end_date', startDate);
       }
     },
-    onSubmit: (formValues: ActivityFormValues) => onSave(buildActivityPayload(formValues)),
+    onSubmit: async (formValues: ActivityFormValues) => {
+      let image = draft?.image || null;
+
+      if (imageFile) {
+        try {
+          setImageUploadError(false);
+          const upload = await uploadFileToServer({ file: imageFile, path: 'calendar-activities' });
+
+          if (!upload) throw new Error('Image upload failed');
+          await upload.result.result;
+          image = `r://${upload.customPath}`;
+        } catch {
+          setImageUploadError(true);
+          return;
+        }
+      }
+
+      onSave(buildActivityPayload(formValues, image));
+    },
   };
 
   return (
@@ -208,6 +243,30 @@ export const ActivityFormDialog = ({
         content={
           <>
             {!!saveErrorMessage && <Alert severity="error">{saveErrorMessage}</Alert>}
+            {imageUploadError && <Alert severity="error">{translate('activity_form.image_upload_error')}</Alert>}
+            <div className="calendar-activity-image-field">
+              {(imagePreview || draft?.image) && (
+                <CalendarEventImage
+                  alt={translate('activity_form.fields.image')}
+                  className="calendar-activity-image-field__preview"
+                  source={imagePreview || draft?.image}
+                />
+              )}
+              <label className="calendar-activity-image-field__button">
+                {translate('activity_form.fields.image')}
+                <input
+                  accept="image/*"
+                  hidden
+                  type="file"
+                  onChange={(event) => {
+                    const file = event.target.files?.[0];
+                    if (!file) return;
+                    setImageFile(file);
+                    setImagePreview(URL.createObjectURL(file));
+                  }}
+                />
+              </label>
+            </div>
             <DynamicForm
               key={isAllDay ? 'all-day' : 'timed'}
               formMethods={formMethods}

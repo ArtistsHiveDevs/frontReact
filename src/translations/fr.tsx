@@ -700,6 +700,7 @@ export const FrMessages = {
             create_title: 'New activity',
             edit_title: 'Edit activity',
             save_error: 'The activity could not be saved. Please try again.',
+            image_upload_error: 'The image could not be uploaded. Please try again.',
             fields: {
               title: 'Title',
               subtype: 'Type',
@@ -709,6 +710,7 @@ export const FrMessages = {
               end_date: 'End date',
               end_time: 'End time',
               notes: 'Notes',
+              image: 'Event image',
             },
             subtypes: {
               rehearsal: 'Rehearsal',

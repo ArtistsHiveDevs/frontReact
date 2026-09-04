@@ -49,6 +49,8 @@ export const MiniMonth = ({
           {week.map((day) => {
             const dayKey = dayKeyOf(day);
             const dayActivities = activitiesByDay.get(dayKey) || [];
+            const hasHoliday = dayActivities.some((activity) => activity.type === 'holiday');
+            const markerActivities = dayActivities.filter((activity) => activity.type !== 'holiday');
             const isOutsideMonth = day.month() !== visibleMonth.month();
 
             return (
@@ -61,6 +63,7 @@ export const MiniMonth = ({
                   isOutsideMonth ? 'mobile-calendar__day--outside' : '',
                   dayKey === todayKey ? 'mobile-calendar__day--today' : '',
                   dayKey === selectedDayKey ? 'mobile-calendar__day--selected' : '',
+                  hasHoliday ? 'mobile-calendar__day--holiday' : '',
                 ]
                   .filter(Boolean)
                   .join(' ')}
@@ -68,7 +71,7 @@ export const MiniMonth = ({
               >
                 <span className="mobile-calendar__day-number">{day.date()}</span>
                 <span className="mobile-calendar__day-markers">
-                  {dayActivities.slice(0, MAX_DAY_MARKERS).map((activity) => (
+                  {markerActivities.slice(0, MAX_DAY_MARKERS).map((activity) => (
                     <span
                       key={activity.identifier}
                       className={`mobile-calendar__day-marker mobile-calendar__day-marker--${activity.type}`}

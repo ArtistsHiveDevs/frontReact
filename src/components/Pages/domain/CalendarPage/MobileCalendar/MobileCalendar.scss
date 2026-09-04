@@ -176,6 +176,11 @@ $mobile-global-header-height: rem-calc(60);
     &--selected:not(.mobile-calendar__day--today) .mobile-calendar__day-number {
       box-shadow: inset 0 0 0 1px $mobile-calendar-accent;
     }
+
+    &--holiday .mobile-calendar__day-number {
+      color: $calendar-event-holiday-color;
+      font-weight: 700;
+    }
   }
 
   &__day-number {
@@ -325,8 +330,8 @@ $mobile-global-header-height: rem-calc(60);
     color: $main-font-color;
     cursor: pointer;
     display: flex;
-    flex-direction: column;
-    gap: rem-calc(2);
+    flex-direction: row;
+    gap: rem-calc(12);
     justify-content: center;
     min-height: $mobile-calendar-touch-target;
     min-width: 0;
@@ -357,6 +362,22 @@ $mobile-global-header-height: rem-calc(60);
       border-left-color: $calendar-event-expired-color;
       color: $mobile-calendar-muted;
     }
+  }
+
+  &__event-image {
+    border-radius: rem-calc(7);
+    flex: 0 0 rem-calc(44);
+    height: rem-calc(44);
+    object-fit: cover;
+    width: rem-calc(44);
+  }
+
+  &__event-copy {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: rem-calc(2);
+    min-width: 0;
   }
 
   &__event-title {

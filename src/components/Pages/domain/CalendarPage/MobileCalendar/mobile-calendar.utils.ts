@@ -22,6 +22,8 @@ export interface AgendaWeekGroup {
 
 export const dayKeyOf = (date: Dayjs): string => date.format('YYYY-MM-DD');
 
+const startOfSundayWeek = (date: Dayjs): Dayjs => date.startOf('day').subtract(date.day(), 'day');
+
 export const groupActivitiesByDay = (activities: CalendarActivityModel[]): Map<string, CalendarActivityModel[]> =>
   activities.reduce((groups, activity) => {
     const startDay = dayjs(activity.dayKey).startOf('day');
@@ -48,14 +50,14 @@ export const groupActivitiesByDay = (activities: CalendarActivityModel[]): Map<s
   }, new Map<string, CalendarActivityModel[]>());
 
 export const buildMonthGridDays = (month: Dayjs): Dayjs[] => {
-  const gridStart = month.startOf('month').startOf('week');
+  const gridStart = startOfSundayWeek(month.startOf('month'));
 
   return Array.from({ length: MONTH_GRID_WEEKS * WEEK_LENGTH }, (_, dayOffset) => gridStart.add(dayOffset, 'day'));
 };
 
 export const buildWeekdayHeaders = (locale: string): { key: string; label: string }[] => {
   const formatter = new Intl.DateTimeFormat(locale, { weekday: 'narrow' });
-  const weekStart = dayjs().startOf('week');
+  const weekStart = startOfSundayWeek(dayjs());
 
   return Array.from({ length: WEEK_LENGTH }, (_, dayOffset) => {
     const day = weekStart.add(dayOffset, 'day');
@@ -81,14 +83,14 @@ export const buildAgendaWeeks = (
     .sort((first, second) => (first.dayKey < second.dayKey ? -1 : 1));
 
   return dayGroups.reduce((weeks, dayGroup) => {
-    const weekStart = dayGroup.date.startOf('week');
+    const weekStart = startOfSundayWeek(dayGroup.date);
     const weekKey = dayKeyOf(weekStart);
     const currentWeek = weeks[weeks.length - 1];
 
     if (currentWeek?.weekKey === weekKey) {
       currentWeek.days.push(dayGroup);
     } else {
-      weeks.push({ weekKey, weekStart, weekEnd: weekStart.endOf('week'), days: [dayGroup] });
+      weeks.push({ weekKey, weekStart, weekEnd: weekStart.add(WEEK_LENGTH - 1, 'day').endOf('day'), days: [dayGroup] });
     }
 
     return weeks;

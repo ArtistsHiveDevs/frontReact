@@ -87,6 +87,7 @@ export interface CalendarActivityMeta {
   event_date?: string | null;
   applications_count?: number;
   notes?: string | null;
+  image?: string | null;
   [key: string]: any;
 }
 
@@ -101,6 +102,7 @@ export interface CalendarActivityTemplate extends EntityTemplate {
   entityId?: string | null;
   editable?: boolean;
   notes?: string | null;
+  image?: string | null;
   meta?: CalendarActivityMeta;
 }
 
@@ -115,6 +117,7 @@ export class CalendarActivityModel extends EntityModel<CalendarActivityTemplate>
   declare entityId?: string | null;
   declare editable?: boolean;
   declare notes?: string | null;
+  declare image?: string | null;
   declare meta?: CalendarActivityMeta;
 
   constructor(template: CalendarActivityTemplate) {

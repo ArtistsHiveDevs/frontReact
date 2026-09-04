@@ -6,7 +6,7 @@ import { DynamicIcons } from '../DynamicIcons';
 
 interface MembershipsListParams {
   loggedUser: AppUserModel;
-  profilePicturesURLs: any;
+  getProfilePicture: (identifier: string) => string;
   handlers: {
     switchProfile: Function;
     handleResultOnClick: Function;
@@ -18,7 +18,7 @@ interface MembershipsListParams {
 
 export const MembershipsList = (params: MembershipsListParams) => {
   const { translateText, translateGlobalDict } = useI18n();
-  const { loggedUser, handlers, profilePicturesURLs } = params || {};
+  const { loggedUser, handlers, getProfilePicture } = params || {};
   const { switchProfile, handleResultOnClick, createNewEntityInstance, createAgent } = handlers || {};
   return (
     <>
@@ -66,7 +66,7 @@ export const MembershipsList = (params: MembershipsListParams) => {
                       >
                         <AvatarWithIcon
                           name=""
-                          image={profilePicturesURLs[profileInfo.identifier]}
+                          image={getProfilePicture(profileInfo.identifier)}
                           avatarSize={'3rem'}
                           buttonIcon={
                             !loggedUser?.checkPermissions(profileInfo.identifier).isInProfile && 'PiUserSwitch'

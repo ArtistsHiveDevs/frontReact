@@ -1,6 +1,6 @@
 import { Badge } from '@mui/material';
 import { signOut } from 'aws-amplify/auth';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Container, Navbar, Offcanvas } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -62,7 +62,6 @@ const SideNav = () => {
   const [showRight, setShowRight] = useState(false);
   const [currentRightView, setCurrentRightView] = useState<RIGHT_SIDENAV_VIEWS>('actions');
   const [openStatusSearchInputText, setOpenStatusSearchInputText] = useState(false);
-  const [profilePicturesURLs, setProfilePicturesURLs] = useState<{ [profileIdentifier: string]: string }>({});
   const { navigateToEntity, navigateToInnerPath } = useNavigation();
   const { translateText, translateGlobalDict } = useI18n();
   const dispatch = useDispatch();
@@ -222,25 +221,22 @@ const SideNav = () => {
     dispatch(usersActions.switchProfile({ id: element.identifier }));
   };
 
-  const getProfilePicURLs = async () => {
-    if (!!loggedUser) {
-      const urlsObject: { [identifier: string]: string } = {};
-      urlsObject[loggedUser.identifier] = await loggedUser.avatarURL();
-      loggedUser.artistMemberships.forEach(
-        async (artistProfile) => (urlsObject[artistProfile.identifier] = await artistProfile.avatarURL())
-      );
-      loggedUser.placeMemberships.forEach(
-        async (placeProfile) => (urlsObject[placeProfile.identifier] = await placeProfile.avatarURL())
-      );
-      setProfilePicturesURLs(urlsObject);
-    }
-  };
+  // Helper function to get profile picture URL
+  const getProfilePicture = useCallback(
+    (identifier: string) => {
+      if (!loggedUser) return '';
+      if (loggedUser.identifier === identifier) return loggedUser.profile_pic;
 
-  useEffect(() => {
-    if (!!loggedUser) {
-      getProfilePicURLs();
-    }
-  }, [loggedUser]);
+      const artistProfile = loggedUser.artistMemberships?.find((p) => p.identifier === identifier);
+      if (artistProfile) return artistProfile.profile_pic;
+
+      const placeProfile = loggedUser.placeMemberships?.find((p) => p.identifier === identifier);
+      if (placeProfile) return placeProfile.profile_pic;
+
+      return '';
+    },
+    [loggedUser]
+  );
 
   useEffect(() => {
     if (showRight) {
@@ -302,7 +298,7 @@ const SideNav = () => {
             </span>
             {userID && (
               <ProfilePicture
-                src={profilePicturesURLs[loggedUser?.currentProfileInfo?.identifier]}
+                src={getProfilePicture(loggedUser?.currentProfileInfo?.identifier)}
                 onClickHandler={() => {
                   setShowRight(true);
                 }}
@@ -405,7 +401,7 @@ const SideNav = () => {
                   <div style={{ alignSelf: 'center' }}>
                     <AvatarWithIcon
                       name=""
-                      image={profilePicturesURLs[loggedUser?.currentProfileInfo?.identifier]}
+                      image={getProfilePicture(loggedUser?.currentProfileInfo?.identifier)}
                       avatarSize={'3.5rem'}
                       buttonIcon={loggedUser?.hasIndustryProfiles && currentRightView === 'actions' && 'PiUserSwitch'}
                       onClick={() => handleResultOnClick(loggedUser.currentProfileInfo)}
@@ -496,7 +492,7 @@ const SideNav = () => {
                           >
                             <AvatarWithIcon
                               name=""
-                              image={profilePicturesURLs[loggedUser?.identifier]}
+                              image={getProfilePicture(loggedUser?.identifier)}
                               avatarSize={'3rem'}
                               buttonIcon={
                                 !loggedUser?.checkPermissions(loggedUser?.identifier).isInProfile && 'PiUserSwitch'
@@ -517,7 +513,7 @@ const SideNav = () => {
                     </div>
                     <MembershipsList
                       loggedUser={loggedUser}
-                      profilePicturesURLs={profilePicturesURLs}
+                      getProfilePicture={getProfilePicture}
                       handlers={{ createAgent, createNewEntityInstance, handleResultOnClick, switchProfile }}
                     />
                   </>

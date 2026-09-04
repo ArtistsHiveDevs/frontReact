@@ -1,5 +1,6 @@
 import { Avatar, Badge } from '@mui/material';
 import { forwardRef } from 'react';
+import { useS3Url } from '~/common/hooks/useS3Url';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import './Avatar-with-icon.scss';
 
@@ -17,6 +18,8 @@ interface Props {
 
 export const AvatarWithIcon = forwardRef<HTMLDivElement, Props>((params, ref) => {
   const { id, image, name, avatarSize, bottomBadgeSize, buttonIcon, onClick, onBadgeClick, variant } = params || {};
+
+  const resolvedImage = useS3Url(image);
 
   return (
     <div ref={ref} style={{ position: 'relative', display: 'inline-block' }}>
@@ -37,7 +40,7 @@ export const AvatarWithIcon = forwardRef<HTMLDivElement, Props>((params, ref) =>
         }
       >
         <Avatar
-          src={image}
+          src={resolvedImage}
           alt={name}
           sx={{
             width: avatarSize,

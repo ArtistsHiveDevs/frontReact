@@ -1,4 +1,5 @@
 import { Avatar } from '@mui/material';
+import { useS3Url } from '~/common/hooks/useS3Url';
 import './ProfilePicture.scss';
 
 export const ProfilePicture = (props: any) => {
@@ -6,9 +7,11 @@ export const ProfilePicture = (props: any) => {
 
   size = size || 'm';
 
+  const resolvedSrc = useS3Url(src);
+
   return (
     <Avatar
-      src={src}
+      src={resolvedSrc}
       onClick={(params: any) => {
         if (onClickHandler) {
           onClickHandler(params);

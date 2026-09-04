@@ -15,7 +15,7 @@ export const useS3Url = (s3PathOrUrl: string | undefined): string | undefined =>
   const [url, setUrl] = useState<string | undefined>(s3PathOrUrl?.startsWith('s3://') ? undefined : s3PathOrUrl);
 
   useEffect(() => {
-    if (s3PathOrUrl.startsWith('r://')) {
+    if (s3PathOrUrl?.startsWith('r://')) {
       setUrl(s3PathOrUrl.replace('r://', import.meta.env.VITE_REPO));
       return;
     }

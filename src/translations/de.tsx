@@ -628,10 +628,15 @@ export const DeMessages = {
           empty_state: 'There are no events in this date range',
           error: 'Something went wrong while loading your calendar. Please try again.',
           deadline_label: 'Deadline',
+          all_day: 'All day',
+          filters: {
+            title: 'Show in calendar',
+          },
           types: {
-            concert: 'Concerts',
-            call: 'Open call deadlines',
             activity: 'Activities',
+            opencall: 'Open call deadlines',
+            event: 'Events',
+            holiday: 'Holidays',
           },
           meta: {
             expired: 'Expired open call',
@@ -645,6 +650,9 @@ export const DeMessages = {
             month: 'Month',
             week: 'Week',
             day: 'Day',
+            agenda: 'Agenda',
+            filters: 'Filters',
+            create_activity: 'Create activity',
             delete: 'Delete',
             cancel: 'Cancel',
           },
@@ -654,7 +662,7 @@ export const DeMessages = {
             save_error: 'The activity could not be saved. Please try again.',
             fields: {
               title: 'Title',
-              type: 'Type',
+              subtype: 'Type',
               all_day: 'All day',
               start_date: 'Start date',
               start_time: 'Start time',
@@ -662,15 +670,19 @@ export const DeMessages = {
               end_time: 'End time',
               notes: 'Notes',
             },
-            types: {
+            subtypes: {
               rehearsal: 'Rehearsal',
               soundcheck: 'Soundcheck',
+              presentation: 'Presentation',
+              concert: 'Concert',
+              tour: 'Tour',
               other: 'Other',
             },
             validation: {
               title_required: 'Title is required',
               start_date_required: 'Start date is required',
               start_time_required: 'Start time is required',
+              end_date_required: 'End date is required',
             },
             delete_confirmation: {
               title: 'Delete activity',

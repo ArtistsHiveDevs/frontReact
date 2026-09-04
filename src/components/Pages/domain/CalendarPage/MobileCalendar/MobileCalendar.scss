@@ -1,0 +1,442 @@
+@import '~/variables.module.scss';
+@import '../calendar-colors';
+
+$mobile-calendar-gutter: 0.75rem;
+$mobile-calendar-touch-target: rem-calc(44);
+$mobile-calendar-muted: rgba($main-font-color, 0.62);
+$mobile-calendar-surface: rgba($main-font-color, 0.06);
+$mobile-calendar-border: rgba($main-font-color, 0.12);
+$mobile-calendar-accent: $secondary-background-light;
+$mobile-calendar-transition: 120ms ease;
+$mobile-calendar-collapse-duration: 200ms;
+$mobile-calendar-mini-month-height: rem-calc(340);
+$mobile-global-header-height: rem-calc(60);
+
+.mobile-calendar {
+  color: $main-font-color;
+  display: flex;
+  flex-direction: column;
+
+  &__pinned {
+    background-color: $app-background;
+    position: sticky;
+    top: $mobile-global-header-height;
+    z-index: 3;
+  }
+
+  &__header {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-between;
+    padding: 0 $mobile-calendar-gutter;
+  }
+
+  &__month-toggle {
+    align-items: center;
+    background: none;
+    border: none;
+    color: $main-title-color;
+    cursor: pointer;
+    display: flex;
+    gap: 0.4rem;
+    min-height: $mobile-calendar-touch-target;
+    padding: 0;
+    text-transform: capitalize;
+
+    .icon-container {
+      align-items: center;
+      color: inherit;
+      display: flex;
+      justify-content: center;
+      padding: 0;
+    }
+
+    svg {
+      display: block;
+    }
+  }
+
+  &__month-name {
+    font-size: rem-calc(22);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 1;
+  }
+
+  &__month-year {
+    color: $mobile-calendar-muted;
+    font-size: rem-calc(15);
+    line-height: 1;
+  }
+
+  &__header-actions {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  &__icon-button {
+    align-items: center;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    color: $main-font-color;
+    cursor: pointer;
+    display: inline-flex;
+    height: $mobile-calendar-touch-target;
+    justify-content: center;
+    padding: 0;
+    width: $mobile-calendar-touch-target;
+
+    &:active {
+      background-color: $mobile-calendar-surface;
+    }
+
+    .icon-container {
+      align-items: center;
+      color: inherit;
+      display: flex;
+      justify-content: center;
+      padding: 0;
+    }
+
+    svg {
+      display: block;
+    }
+  }
+
+  &__mini-month-wrapper {
+    max-height: $mobile-calendar-mini-month-height;
+    opacity: 1;
+    overflow: hidden;
+    transition: max-height $mobile-calendar-collapse-duration ease, opacity $mobile-calendar-collapse-duration ease,
+      visibility 0s linear 0s;
+    visibility: visible;
+
+    &--collapsed {
+      max-height: 0;
+      opacity: 0;
+      transition: max-height $mobile-calendar-collapse-duration ease, opacity $mobile-calendar-collapse-duration ease,
+        visibility 0s linear $mobile-calendar-collapse-duration;
+      visibility: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+
+      &--collapsed {
+        transition: none;
+      }
+    }
+  }
+
+  &__mini-month {
+    padding: 0 rem-calc(4) 0.25rem;
+  }
+
+  &__weekdays,
+  &__week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  &__weekday {
+    color: $mobile-calendar-muted;
+    font-size: rem-calc(11);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    padding: rem-calc(6) 0;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__day {
+    align-items: center;
+    background: none;
+    border: none;
+    color: $main-font-color;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: rem-calc(3);
+    justify-content: flex-start;
+    min-height: $mobile-calendar-touch-target;
+    padding: rem-calc(4) 0;
+
+    &--outside .mobile-calendar__day-number {
+      color: rgba($main-font-color, 0.32);
+    }
+
+    &--today .mobile-calendar__day-number {
+      background-color: $mobile-calendar-accent;
+      color: $main-title-color;
+      font-weight: 600;
+    }
+
+    &--selected:not(.mobile-calendar__day--today) .mobile-calendar__day-number {
+      box-shadow: inset 0 0 0 1px $mobile-calendar-accent;
+    }
+  }
+
+  &__day-number {
+    align-items: center;
+    border-radius: 50%;
+    display: inline-flex;
+    font-size: rem-calc(13);
+    height: rem-calc(26);
+    justify-content: center;
+    min-width: rem-calc(26);
+  }
+
+  &__day-markers {
+    display: flex;
+    gap: rem-calc(2);
+    min-height: rem-calc(5);
+  }
+
+  &__day-marker {
+    border-radius: 50%;
+    height: rem-calc(5);
+    width: rem-calc(5);
+
+    @each $type, $color in $calendar-event-colors {
+      &--#{$type} {
+        background-color: $color;
+      }
+    }
+  }
+
+  &__month-strip {
+    align-items: center;
+    border-bottom: 1px solid $mobile-calendar-border;
+    border-top: 1px solid $mobile-calendar-border;
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    padding: rem-calc(4) $mobile-calendar-gutter;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__month-strip-year {
+    color: $mobile-calendar-muted;
+    flex: 0 0 auto;
+    font-size: rem-calc(12);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 0 rem-calc(6);
+  }
+
+  &__month-strip-item {
+    background: none;
+    border: none;
+    border-radius: 999px;
+    color: $mobile-calendar-muted;
+    cursor: pointer;
+    flex: 0 0 auto;
+    font-family: inherit;
+    font-size: rem-calc(14);
+    font-weight: 500;
+    min-height: $mobile-calendar-touch-target;
+    padding: 0 rem-calc(14);
+    text-transform: capitalize;
+    white-space: nowrap;
+
+    &--active {
+      background-color: $mobile-calendar-accent;
+      color: $main-title-color;
+    }
+  }
+
+  &__empty {
+    color: $mobile-calendar-muted;
+    margin: 1.25rem 0 0;
+    padding: 0 $mobile-calendar-gutter;
+    text-align: center;
+  }
+
+  &__agenda {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: $mobile-global-header-height $mobile-calendar-gutter 70vh;
+  }
+
+  &__week-label {
+    color: $mobile-calendar-muted;
+    font-size: rem-calc(11);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin: 1rem 0 0.5rem;
+    text-transform: uppercase;
+  }
+
+  &__agenda-day {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: rem-calc(44) minmax(0, 1fr);
+    padding: rem-calc(6) 0;
+    scroll-margin-top: $mobile-global-header-height + rem-calc(102);
+  }
+
+  &__agenda-date {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding-top: rem-calc(4);
+  }
+
+  &__agenda-weekday {
+    color: $mobile-calendar-muted;
+    font-size: rem-calc(11);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  &__agenda-day-number {
+    font-size: rem-calc(20);
+    font-weight: 400;
+  }
+
+  &__agenda-day--today &__agenda-weekday,
+  &__agenda-day--today &__agenda-day-number {
+    color: $mobile-calendar-accent;
+    font-weight: 600;
+  }
+
+  &__agenda-events {
+    display: flex;
+    flex-direction: column;
+    gap: rem-calc(6);
+    list-style: none;
+    margin: 0;
+    min-width: 0;
+    padding: 0;
+  }
+
+  &__event {
+    background-color: $mobile-calendar-surface;
+    border: none;
+    border-left: rem-calc(4) solid transparent;
+    border-radius: rem-calc(8);
+    color: $main-font-color;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: rem-calc(2);
+    justify-content: center;
+    min-height: $mobile-calendar-touch-target;
+    min-width: 0;
+    padding: rem-calc(8) rem-calc(12);
+    text-align: left;
+    transition: background-color $mobile-calendar-transition;
+    width: 100%;
+
+    &:disabled {
+      cursor: default;
+    }
+
+    @each $type, $color in $calendar-event-colors {
+      &--#{$type} {
+        background-color: rgba($color, 0.16);
+        border-left-color: $color;
+      }
+    }
+
+    &--holiday {
+      border-left-color: transparent;
+      border-radius: rem-calc(6);
+      min-height: rem-calc(32);
+    }
+
+    &--expired {
+      background-color: rgba($calendar-event-expired-color, 0.2);
+      border-left-color: $calendar-event-expired-color;
+      color: $mobile-calendar-muted;
+    }
+  }
+
+  &__event-title {
+    font-size: rem-calc(14);
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__event-time {
+    color: $mobile-calendar-muted;
+    font-size: rem-calc(12);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__event--holiday &__event-time {
+    display: none;
+  }
+}
+
+.mobile-calendar-filters {
+  .MuiPaper-root {
+    background-color: $app-background;
+    border-radius: rem-calc(16) rem-calc(16) 0 0;
+    color: $main-font-color;
+  }
+
+  &__sheet {
+    display: flex;
+    flex-direction: column;
+    padding: rem-calc(8) rem-calc(16) rem-calc(24);
+  }
+
+  &__handle {
+    align-self: center;
+    background-color: rgba($main-font-color, 0.25);
+    border-radius: 999px;
+    height: rem-calc(4);
+    margin-bottom: rem-calc(12);
+    width: rem-calc(36);
+  }
+
+  &__title {
+    font-size: rem-calc(16);
+    font-weight: 500;
+    margin: 0 0 0.5rem;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__option {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    gap: rem-calc(12);
+    min-height: rem-calc(44);
+  }
+
+  &__dot {
+    border-radius: 50%;
+    flex: none;
+    height: rem-calc(10);
+    width: rem-calc(10);
+
+    @each $type, $color in $calendar-event-colors {
+      &--#{$type} {
+        background-color: $color;
+      }
+    }
+  }
+
+  &__label {
+    flex: 1;
+    font-size: rem-calc(14);
+  }
+}

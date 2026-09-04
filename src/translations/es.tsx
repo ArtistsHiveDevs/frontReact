@@ -627,10 +627,15 @@ export const EsMessages = {
           empty_state: 'No hay eventos en este rango de fechas',
           error: 'Algo salió mal al cargar tu calendario. Inténtalo de nuevo.',
           deadline_label: 'Vencimiento',
+          all_day: 'Todo el día',
+          filters: {
+            title: 'Mostrar en el calendario',
+          },
           types: {
-            concert: 'Conciertos',
-            call: 'Vencimientos de convocatorias',
             activity: 'Actividades',
+            opencall: 'Vencimientos de convocatorias',
+            event: 'Eventos',
+            holiday: 'Festivos',
           },
           meta: {
             expired: 'Convocatoria vencida',
@@ -644,6 +649,9 @@ export const EsMessages = {
             month: 'Mes',
             week: 'Semana',
             day: 'Día',
+            agenda: 'Agenda',
+            filters: 'Filtros',
+            create_activity: 'Crear actividad',
             delete: 'Eliminar',
             cancel: 'Cancelar',
           },
@@ -653,7 +661,7 @@ export const EsMessages = {
             save_error: 'No se pudo guardar la actividad. Inténtalo de nuevo.',
             fields: {
               title: 'Título',
-              type: 'Tipo',
+              subtype: 'Tipo',
               all_day: 'Todo el día',
               start_date: 'Fecha de inicio',
               start_time: 'Hora de inicio',
@@ -661,15 +669,19 @@ export const EsMessages = {
               end_time: 'Hora de fin',
               notes: 'Notas',
             },
-            types: {
+            subtypes: {
               rehearsal: 'Ensayo',
               soundcheck: 'Prueba de sonido',
+              presentation: 'Presentación',
+              concert: 'Concierto',
+              tour: 'Gira',
               other: 'Otra',
             },
             validation: {
               title_required: 'El título es obligatorio',
               start_date_required: 'La fecha de inicio es obligatoria',
               start_time_required: 'La hora de inicio es obligatoria',
+              end_date_required: 'La fecha de fin es obligatoria',
             },
             delete_confirmation: {
               title: 'Eliminar actividad',

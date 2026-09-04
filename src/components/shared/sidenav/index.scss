@@ -10,7 +10,9 @@
 }
 
 .toolbar-header {
-  top: 0;
+  position: fixed !important;
+  z-index: 1030;
+  top: 0 !important;
   left: 0;
   right: 0;
   height: 60px;
@@ -44,6 +46,10 @@
       text-decoration: none;
     }
   }
+}
+
+.toolbar-header-spacer {
+  height: 60px;
 }
 
 .img-logotipo {

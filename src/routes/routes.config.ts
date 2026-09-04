@@ -45,6 +45,18 @@ export const ROUTES_CONFIG: PathConfigMap = {
       component: lazy(() => import('~/components/Pages/app-base/faq/faq')),
       path: PATHS.FAQ,
     },
+    CircuitoHivePage: {
+      path: PATHS.CIRCUITO_HIVE_2026,
+      subpaths: {
+        CircuitoHiveMainPage: {
+          component: lazy(() => import('~/components/Pages/grants/estimulos/circuito-hive/CircuitoHivePage')),
+        },
+        CircuitoHiveSubPage: {
+          component: lazy(() => import('~/components/Pages/grants/estimulos/circuito-hive/CircuitoHivePage')),
+          path: `:pageName`,
+        },
+      },
+    },
 
     AppSettingsPage: {
       component: lazy(() => import('~/components/Pages/app-base/SettingsPage')),

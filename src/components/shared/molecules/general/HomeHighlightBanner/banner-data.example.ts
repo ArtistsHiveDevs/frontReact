@@ -7,7 +7,7 @@ import { BannerItem } from './HomeHighlightBanner';
 export const exampleBanners: BannerItem[] = [
   {
     img_src: '/img/bannerCH.jpeg', // Reemplaza con tu imagen real
-    inner_url: '/artists', // Navegación interna
+    inner_url: '/circuito-hive-2026', // Navegación interna
     alt: 'Descubre nuevos artistas',
   },
   {

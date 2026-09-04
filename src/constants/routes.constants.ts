@@ -34,6 +34,7 @@ export enum PATHS {
   PAYMENTS = 'payment',
   OPEN_CALLS = 'open-calls',
   CC = 'cc',
+  CIRCUITO_HIVE_2026 = 'circuito-hive-2026',
   REDIRECT_UNAUTHORIZED_AND_UNLOGGED_USER = '/home',
   REDIRECT_UNAUTHORIZED_AND_LOGGED_USER = '/home',
 }

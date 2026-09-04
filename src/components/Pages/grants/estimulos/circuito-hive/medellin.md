@@ -18,7 +18,7 @@
 
 📍 Cl. 30 # 44 - 176
 
-📅 Jueves 08 de Octubre de 2026
+📅 Jueves 08 de Octubre de 2026 - (9pm)
 
 🎟️ [Precio de boletería / "Boletería en puerta"]
 

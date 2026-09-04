@@ -410,13 +410,28 @@
         }
 
         .oc-card-status {
-          padding: 4px 8px;
-          border: 1px solid $form-fields-separator;
-          border-radius: 3px;
-          font-size: 12px;
-          font-weight: 500;
+          padding: 0.25rem 0.75rem;
+          border-radius: 999px;
+          font-size: 0.75rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.03em;
           white-space: nowrap;
-          color: $icons-color-secondary;
+
+          &--status {
+            background: $app-background-50;
+            color: $main-font-color;
+          }
+
+          &--open {
+            background: $secondary-background-light;
+            color: white;
+          }
+
+          &--expired {
+            background: $entity-2;
+            color: white;
+          }
         }
       }
 

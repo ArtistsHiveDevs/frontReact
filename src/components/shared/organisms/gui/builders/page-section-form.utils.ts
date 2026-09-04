@@ -50,3 +50,12 @@ export const getAttributesFromPageSection = (pageSection: PageSection): Attribut
   }
   return attrs;
 };
+
+/**
+ * Converts a PageSection into an array of DynamicFieldData for use with DynamicForm.
+ * Extracts all attributes from ATTRIBUTES_ICON_FIELDS components and converts them.
+ */
+export const pageSectionToDynamicFields = (pageSection: PageSection): DynamicFieldData[] => {
+  const attrs = getAttributesFromPageSection(pageSection);
+  return attrs.map(attributeToDynamicField);
+};

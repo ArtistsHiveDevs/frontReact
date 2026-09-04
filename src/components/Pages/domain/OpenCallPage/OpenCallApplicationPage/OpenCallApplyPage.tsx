@@ -3,6 +3,14 @@ import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useI18n } from '~/common/utils';
+import {
+  buildOpenCallSubmitErrorMessage,
+  NoArtistProfileView,
+  SuccessView,
+  useOpenCallApplications,
+  useProfileInfo,
+} from '~/components/Pages/domain/OpenCallPage/common';
+import { ProfilePictureWithName } from '~/components/shared/atoms/gui/ProfilePictureList/ProfilePictureWithName';
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { AttributeConfiguration } from '~/components/shared/organisms/gui/builders/component-types.def';
 import {
@@ -12,13 +20,6 @@ import {
 import { DynamicControl } from '~/components/shared/organisms/gui/dynamicForms/DynamicControl';
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { OPEN_CALL_PAGE_CONFIG, OPEN_CALL_STEP_META, TRANSLATION_BASE_OPEN_CALL_PAGE } from './config-open-call';
-import {
-  useProfileInfo,
-  useOpenCallApplications,
-  buildOpenCallSubmitErrorMessage,
-  SuccessView,
-  NoArtistProfileView,
-} from '~/components/Pages/domain/OpenCallPage/common';
 import './index.scss';
 
 const OpenCallApplyPage = () => {
@@ -28,7 +29,12 @@ const OpenCallApplyPage = () => {
   const openCallId = urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID];
 
   // ========== CUSTOM HOOKS ==========
-  const { loggedUser, isArtistProfile, currentProfileId: currentArtistId, currentProfilePic: currentArtistProfilePic } = useProfileInfo();
+  const {
+    loggedUser,
+    isArtistProfile,
+    currentProfileId: currentArtistId,
+    currentProfilePic: currentArtistProfilePic,
+  } = useProfileInfo();
 
   const {
     createdApplication,
@@ -187,6 +193,8 @@ const OpenCallApplyPage = () => {
         <h1 className="open-call-title">{translate('title')}</h1>
         <p className="open-call-subtitle">{translate('subtitle')}</p>
       </div>
+
+      {/* Applicant */ loggedUser && <ProfilePictureWithName element={loggedUser.currentProfileInfo} />}
 
       {/* Stepper progress */}
       <div className="stepper-progress">

@@ -1,4 +1,4 @@
-import { Alert, Stack } from '@mui/material';
+import { Alert } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,16 +8,19 @@ import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { getEventTypeOptions, getStageTypeOptions } from '~/common/utils/form-options';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
-import { AttributeConfiguration } from '~/components/shared/organisms/gui/builders/component-types.def';
 import {
-  attributeToDynamicField,
   getFieldNamesFromPageSection,
+  pageSectionToDynamicFields,
 } from '~/components/shared/organisms/gui/builders/page-section-form.utils';
-import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
-import { DynamicControl } from '~/components/shared/organisms/gui/dynamicForms/DynamicControl';
+import { registerAllBuilders } from '~/components/shared/organisms/gui/builders/componentBuilders';
+import { DynamicForm, SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import { PATHS } from '~/constants';
 import '../OpenCallApplicationPage/index.scss';
-import { CREATE_OPEN_CALL_STEP_META, getOpenCallCreateConfig } from './config-open-call-create';
+import {
+  CREATE_OPEN_CALL_STEP_META,
+  getOpenCallCreateConfig,
+  TRANSLATION_BASE_OPEN_CALL_CREATE_PAGE,
+} from './config-open-call-create';
 
 const OpenCallCreatePage = () => {
   const navigate = useNavigate();
@@ -31,6 +34,11 @@ const OpenCallCreatePage = () => {
   const [stageTypeOptions, setStageTypeOptions] = useState<SelectOption[]>([]);
   const isNavigatingRef = useRef(false);
 
+  // Registrar builders de componentes
+  useEffect(() => {
+    registerAllBuilders();
+  }, []);
+
   const loggedUser = useSelector(selectCurrentUser);
   const { actions: openCallActions } = useOpenCallsSlice();
   const createdItem = useSelector(selectorOpenCalls.selectCreatedItem);
@@ -42,8 +50,9 @@ const OpenCallCreatePage = () => {
   // a un usuario que de todas formas no podrá enviarlo.
 
   useEffect(() => {
+    
     setPlaceId(loggedUser?.currentProfileInfo?.id);
-    // console.log('Actualizando el effect', loggedUser, placeId, loggedUser?.currentProfileInfo?.id);
+    console.log('Actualizando el effect', loggedUser, placeId, loggedUser?.currentProfileInfo?.id);
     // setCanCreateOpenCall(!!loggedUser && !!placeId && loggedUser.checkPermissions(placeId).canEdit);
   }, [loggedUser, placeId]);
 
@@ -261,17 +270,15 @@ const OpenCallCreatePage = () => {
                     <p className="step-description">{stepMeta?.description}</p>
                     <p className="required-notice">Los campos marcados con * son obligatorios</p>
 
-                    {(step?.sections || []).map((section) => (
-                      <Stack key={section.name} spacing={2} sx={{ mb: 3 }}>
-                        {(section.components || []).map((component) =>
-                          (component.data?.attributes || []).map((attr: AttributeConfiguration, attrIdx: number) => (
-                            <div key={`${section.name}-${attr.name}-${attrIdx}`}>
-                              <DynamicControl fieldData={attributeToDynamicField(attr)} errors={errors} handlers={{}} />
-                            </div>
-                          ))
-                        )}
-                      </Stack>
-                    ))}
+                    <DynamicForm
+                      key={`step-${currentStep}-${step.name}`}
+                      fields={pageSectionToDynamicFields(step)}
+                      handlers={{}}
+                      translationBasePath={TRANSLATION_BASE_OPEN_CALL_CREATE_PAGE}
+                      formMethods={formMethods}
+                      hideSubmitButton={true}
+                      useExternalForm={true}
+                    />
                   </div>
 
                   {submitErrorMessage && (

@@ -22,12 +22,15 @@ import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/A
 import { DynamicControl } from '~/components/shared/organisms/gui/dynamicForms/DynamicControl';
 import { DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms/dynamic-control-types';
 import { OpenCallApplicationModel } from '~/models/domain/open-call/v1';
+import { OpenCallStatus } from '~/models/domain/open-call/open-call.model';
 // import { DefaultTransformerContext, TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { PATHS, SUB_PATHS } from '~/constants';
+import { TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE } from '../OpenCallDetailsPage/config-open-call-details';
 import './OpenCallsListPage.scss';
 
 const OpenCallsListPage = () => {
   const { translateText } = useI18n();
+  const translate = (key: string) => translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.${key}`);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loggedUser = useSelector(selectCurrentUser);
@@ -669,16 +672,32 @@ const OpenCallsListPage = () => {
     );
   };
 
+  // Función para resolver el badge similar a OpenCallPresentation
+  const resolveBadge = (item: any) => {
+    if (item.status !== OpenCallStatus.OPEN) {
+      return {
+        label: translate(`open_call_status.${item.status}`),
+        modifier: item.status === OpenCallStatus.DRAFT ? 'status' : 'expired',
+      };
+    }
+
+    return item.isExpired
+      ? { label: translate('presentation.expired_badge'), modifier: 'expired' }
+      : { label: translate('presentation.open_badge'), modifier: 'open' };
+  };
+
   const renderCardView = () => (
     <div className="oc-cards-grid">
-      {paginatedData.map((item: any) => (
-        <div key={item.identifier || item.id} className="oc-card" onClick={() => handleItemClick(item)}>
-          <div className="oc-card-header">
-            <h3 className="oc-card-title">{item.event_name || item.openCallSummary?.event_name}</h3>
-            {item.status && (
-              <span className={`oc-card-status oc-card-status--${item.status.toLowerCase()}`}>{item.status}</span>
-            )}
-          </div>
+      {paginatedData.map((item: any) => {
+        const badge = resolveBadge(item);
+        return (
+          <div key={item.identifier || item.id} className="oc-card" onClick={() => handleItemClick(item)}>
+            <div className="oc-card-header">
+              <h3 className="oc-card-title">{item.event_name || item.openCallSummary?.event_name}</h3>
+              {item.status && (
+                <span className={`oc-card-status oc-card-status--${badge.modifier}`}>{badge.label}</span>
+              )}
+            </div>
           <div className="oc-card-body">
             {item.event_date && (
               <div className="oc-card-field">
@@ -706,8 +725,9 @@ const OpenCallsListPage = () => {
               </div>
             )}
           </div>
-        </div>
-      ))}
+          </div>
+        );
+      })}
     </div>
   );
 

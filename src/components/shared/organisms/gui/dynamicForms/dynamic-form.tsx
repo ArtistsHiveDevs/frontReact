@@ -11,14 +11,15 @@ import './dynamic-form.scss';
 
 interface FormProps {
   fields: DynamicFieldData[];
-  handlers: { onSubmit: Function; [handlerName: string]: Function };
+  handlers: { onSubmit?: Function; [handlerName: string]: Function };
   translationBasePath: string;
-  // entityType: string;
   submitLabel?: string;
   errors?: ErrorType;
   styles?: { className?: string; spacing?: number };
   formMethods?: any;
   fieldOptions?: { [fieldName: string]: any[] | { [nestedFieldName: string]: any[] } };
+  hideSubmitButton?: boolean;
+  useExternalForm?: boolean;
 }
 
 export const DynamicForm = (props: FormProps) => {
@@ -30,6 +31,8 @@ export const DynamicForm = (props: FormProps) => {
     styles,
     formMethods: externalFormMethods,
     fieldOptions,
+    hideSubmitButton = false,
+    useExternalForm = false,
   } = props;
   const [responseErrorsRender, setResponseErrorsRender] = useState([]);
   const internalFormMethods = useForm();
@@ -56,8 +59,50 @@ export const DynamicForm = (props: FormProps) => {
     }
   }, [responseErrors]);
 
+  const formContent = (
+    <Stack spacing={styles?.spacing || 2}>
+      {fields.map((d, i) => {
+        let fieldDataWithOptions = d;
+        if (fieldOptions && fieldOptions[d.fieldName]) {
+          const fieldOption = fieldOptions[d.fieldName];
+          if (Array.isArray(fieldOption)) {
+            fieldDataWithOptions = { ...d, options: fieldOption };
+          } else {
+            fieldDataWithOptions = { ...d, nestedOptions: fieldOption };
+          }
+        }
+
+        return (
+          <div key={d.fieldName || i}>
+            <DynamicControl
+              fieldData={fieldDataWithOptions}
+              handlers={{ ...handlers }}
+              errors={{ ...errors }}
+              formContext={formMethods}
+            />
+          </div>
+        );
+      })}
+
+      {responseErrorsRender?.length > 0 &&
+        responseErrorsRender.map((error, index) => (
+          <FormLabel error key={`error-${index}`}>
+            {translateError(error?.error?.errorCode || AppErrorCodes.UNKNOWN_ERROR)}
+          </FormLabel>
+        ))}
+      {!hideSubmitButton && (
+        <Button type="submit" variant="contained">
+          {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.${submitLabel || 'submit'}`)}
+        </Button>
+      )}
+    </Stack>
+  );
+
+  if (useExternalForm) {
+    return formContent;
+  }
+
   return (
-    // <form onSubmit={handleSubmit(onSubmit)} noValidate className={`${styles?.className || ''} fullwidth`.trim()}>
     <form
       onSubmit={(e) => {
         e.preventDefault();
@@ -68,37 +113,7 @@ export const DynamicForm = (props: FormProps) => {
       className={`${styles?.className || ''} fullwidth`.trim()}
     >
       <FormProvider {...formMethods}>
-        <Stack spacing={styles?.spacing || 2}>
-          {fields.map((d, i) => {
-            // Si hay fieldOptions y este campo tiene opciones definidas, las agregamos
-            let fieldDataWithOptions = d;
-            if (fieldOptions && fieldOptions[d.fieldName]) {
-              const fieldOption = fieldOptions[d.fieldName];
-              // Si es un array, va a options; si es objeto anidado, va a nestedOptions
-              if (Array.isArray(fieldOption)) {
-                fieldDataWithOptions = { ...d, options: fieldOption };
-              } else {
-                fieldDataWithOptions = { ...d, nestedOptions: fieldOption };
-              }
-            }
-
-            return (
-              <div key={i}>
-                <DynamicControl fieldData={fieldDataWithOptions} handlers={{ ...handlers }} errors={{ ...errors }} />
-              </div>
-            );
-          })}
-
-          {responseErrorsRender?.length > 0 &&
-            responseErrorsRender.map((error, index) => (
-              <FormLabel error key={`error-${index}`}>
-                {translateError(error?.error?.errorCode || AppErrorCodes.UNKNOWN_ERROR)}
-              </FormLabel>
-            ))}
-          <Button type="submit" variant="contained">
-            {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ACTIONS}.${submitLabel || 'submit'}`)}
-          </Button>
-        </Stack>
+        {formContent}
       </FormProvider>
     </form>
   );

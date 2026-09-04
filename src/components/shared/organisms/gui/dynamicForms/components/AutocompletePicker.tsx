@@ -19,7 +19,7 @@ export const createAutocompletePicker = (params: ComponentGeneratorParams) => {
 
   useEffect(() => {
     const bySelectedFlag = (options || []).filter((option) => option.selected);
-    if (bySelectedFlag.length) {
+    if (bySelectedFlag?.length) {
       updateSelectedOptions(bySelectedFlag);
       return;
     }

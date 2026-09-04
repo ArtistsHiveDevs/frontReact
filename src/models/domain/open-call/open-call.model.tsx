@@ -11,6 +11,7 @@ export enum OpenCallStatus {
 }
 
 export interface OpenCallTemplate extends EntityTemplate {
+  profile_pic?: string;
   event_name: string;
   event_date: string | Dayjs;
   start_date: string | Dayjs;
@@ -47,6 +48,7 @@ export interface OpenCallTemplate extends EntityTemplate {
 }
 
 export class OpenCallModel extends EntityModel<OpenCallTemplate> implements OpenCallTemplate {
+  declare profile_pic?: string;
   declare event_name: string;
   declare event_date: Dayjs;
   declare start_date: Dayjs;
@@ -86,7 +88,7 @@ export class OpenCallModel extends EntityModel<OpenCallTemplate> implements Open
     this.start_date = dayjs(template.start_date);
     this.end_date = dayjs(template.end_date);
     this.place = template.place ? new PlaceModel(template.place) : undefined;
-    this.status = template.status || OpenCallStatus.DRAFT;
+    this.status = !this.isExpired ? template.status || OpenCallStatus.DRAFT : OpenCallStatus.CLOSED;
     this.applications_count = template.applications_count || 0;
   }
 

@@ -152,7 +152,9 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
   const uploadIconSize = 60;
   const subtitleCardLimits = 15;
 
-  config.value = selectedFiles;
+  if (config) {
+    config.value = selectedFiles;
+  }
 
   const substringTextFormat = (text: string, limit: number) => {
     return text.length <= limit ? text : text.substr(0, limit) + '...';

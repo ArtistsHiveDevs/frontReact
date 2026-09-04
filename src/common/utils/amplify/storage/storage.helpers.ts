@@ -56,7 +56,7 @@ export const getImageURL = async (params: { fileName: string; path?: string }): 
 export const getUrlS3 = async (params: { path: string }) => {
   let urlDB = params.path;
   // console.log('ANTES ', urlDB);
-  if (urlDB.startsWith('r://')) {
+  if (urlDB?.startsWith('r://')) {
     urlDB = urlDB.replace('r://', import.meta.env.VITE_REPO);
   }
 

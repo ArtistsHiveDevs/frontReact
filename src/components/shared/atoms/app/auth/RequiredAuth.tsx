@@ -59,32 +59,33 @@ export function validateUserAuthorization(
           const currentProfileInfo = user.currentProfileInfo;
           const currentProfileEntityName = getModelInfoFromClassName(currentProfileInfo?.entity)?.entityName;
 
-          // Verificar que el tipo de entidad coincida
-          const entityMatches = currentProfileEntityName === allowedRole.entityName;
-          if (shouldCheckCurrentProfile) {
-            if (entityMatches) {
-              // Si hay allowedEntityInstances, verificar la titularidad del recurso
-              if (allowedRole.allowedEntityInstances && allowedRole.allowedEntityInstances.length) {
-                return !!allowedRole.allowedEntityInstances.find(
-                  (instance) =>
-                    instance.entityInstanceId === currentProfileInfo?.identifier ||
-                    instance.entityInstanceId === currentProfileInfo?.id
-                );
-              }
-
-              // Verificar si el resourceEntity.identifier coincide con el currentProfileInfo.identifier
-              if (resourceEntity?.identifier) {
-                return (
-                  resourceEntity.identifier === currentProfileInfo?.identifier ||
-                  resourceEntity.identifier === currentProfileInfo?.id
-                );
-              }
-            }
-
-            return entityMatches;
+          if (!shouldCheckCurrentProfile) {
+            return !!user.roles.find((userRole) => userRole.entityName === allowedRole.entityName);
           }
 
-          return entityMatches && !!user.roles.find((userRoles) => userRoles.entityName === allowedRole.entityName);
+          // Verificar que el tipo de entidad coincida
+          const entityMatches = currentProfileEntityName === allowedRole.entityName;
+
+          if (entityMatches) {
+            // Si hay allowedEntityInstances, verificar la titularidad del recurso
+            if (allowedRole.allowedEntityInstances && allowedRole.allowedEntityInstances.length) {
+              return !!allowedRole.allowedEntityInstances.find(
+                (instance) =>
+                  instance.entityInstanceId === currentProfileInfo?.identifier ||
+                  instance.entityInstanceId === currentProfileInfo?.id
+              );
+            }
+
+            // Verificar si el resourceEntity.identifier coincide con el currentProfileInfo.identifier
+            if (resourceEntity?.identifier) {
+              return (
+                resourceEntity.identifier === currentProfileInfo?.identifier ||
+                resourceEntity.identifier === currentProfileInfo?.id
+              );
+            }
+          }
+
+          return entityMatches;
         });
 
       if (isAllowed) {

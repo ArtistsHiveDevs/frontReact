@@ -6,13 +6,18 @@ import { useForm } from 'react-hook-form';
 import { useI18n } from '~/common/utils';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { DynamicFieldData, DynamicForm } from '~/components/shared/organisms/gui/dynamicForms';
-import { ActivityTemplate, ActivityType, ALL_ACTIVITY_TYPES } from '~/models/domain/activity/activity.model';
+import {
+  ALL_CALENDAR_ACTIVITY_SUBTYPES,
+  CalendarActivitySubtype,
+  CalendarActivityTemplate,
+  CREATABLE_CALENDAR_ACTIVITY_TYPE,
+} from '~/models/domain/calendar/calendar-activity.model';
 import { ALL_DAY_DATE_FORMAT, TRANSLATION_BASE_CALENDAR_PAGE } from '../calendar-page.constants';
 
-export interface ActivityDraft {
+export interface CalendarActivityDraft {
   id?: string;
-  title?: string;
-  type?: ActivityType;
+  title?: string | null;
+  subtype?: CalendarActivitySubtype | null;
   start: string;
   end?: string | null;
   allDay?: boolean;
@@ -21,63 +26,72 @@ export interface ActivityDraft {
 
 interface ActivityFormValues {
   title: string;
-  type: ActivityType;
+  subtype: CalendarActivitySubtype;
   allDay: boolean;
   start_date: Dayjs;
   start_time: Dayjs | null;
-  end_date: Dayjs | null;
+  end_date: Dayjs;
   end_time: Dayjs | null;
   notes: string;
 }
 
 interface ActivityFormDialogProps {
   open: boolean;
-  draft?: ActivityDraft;
+  draft?: CalendarActivityDraft;
+  fullScreen?: boolean;
   saveErrorMessage?: string;
   onClose: () => void;
-  onSave: (activity: ActivityTemplate) => void;
+  onSave: (activity: CalendarActivityTemplate) => void;
   onDelete: (activityId: string) => void;
 }
 
 const withTimeOfDay = (date: Dayjs, time: Dayjs): Dayjs =>
   date.hour(time.hour()).minute(time.minute()).second(0).millisecond(0);
 
-const buildFormValues = (draft?: ActivityDraft): ActivityFormValues => {
+const buildFormValues = (draft?: CalendarActivityDraft): ActivityFormValues => {
   const start = draft?.start ? dayjs(draft.start) : dayjs();
-  const end = draft?.end ? dayjs(draft.end) : null;
+  const end = draft?.end ? dayjs(draft.end) : start;
   const isAllDay = draft?.allDay ?? true;
 
   return {
     title: draft?.title || '',
-    type: draft?.type || ActivityType.OTHER,
+    subtype: draft?.subtype || CalendarActivitySubtype.OTHER,
     allDay: isAllDay,
     start_date: start,
     start_time: isAllDay ? null : start,
-    end_date: isAllDay ? end : null,
+    end_date: end,
     end_time: isAllDay ? null : end,
     notes: draft?.notes || '',
   };
 };
 
-const buildActivityPayload = (formValues: ActivityFormValues): ActivityTemplate => {
-  const { title, type, allDay, start_date, start_time, end_date, end_time, notes } = formValues;
+const buildActivityPayload = (formValues: ActivityFormValues): CalendarActivityTemplate => {
+  const { title, subtype, allDay, start_date, start_time, end_date, end_time, notes } = formValues;
 
   const schedule = allDay
     ? {
         start: start_date.format(ALL_DAY_DATE_FORMAT),
-        end: end_date ? end_date.format(ALL_DAY_DATE_FORMAT) : null,
+        end: end_date.format(ALL_DAY_DATE_FORMAT),
       }
     : {
         start: withTimeOfDay(start_date, start_time).toISOString(),
-        end: end_time ? withTimeOfDay(start_date, end_time).toISOString() : null,
+        end: withTimeOfDay(end_date, end_time || start_time).toISOString(),
       };
 
-  return { title, type, allDay, notes: notes || null, ...schedule };
+  return {
+    title,
+    type: CREATABLE_CALENDAR_ACTIVITY_TYPE,
+    subtype,
+    allDay,
+    notes: notes || null,
+    ...schedule,
+  };
 };
 
 export const ActivityFormDialog = ({
   open,
   draft,
+  fullScreen,
   saveErrorMessage,
   onClose,
   onSave,
@@ -106,6 +120,8 @@ export const ActivityFormDialog = ({
           fieldName: 'end_date',
           inputType: 'date',
           label: translate('activity_form.fields.end_date'),
+          config: { required: translate('activity_form.validation.end_date_required') },
+          componentParams: { minDate: formMethods.watch('start_date') },
         },
       ]
     : [
@@ -114,11 +130,20 @@ export const ActivityFormDialog = ({
           inputType: 'time',
           label: translate('activity_form.fields.start_time'),
           config: { required: translate('activity_form.validation.start_time_required') },
+          componentParams: { ampm: true },
+        },
+        {
+          fieldName: 'end_date',
+          inputType: 'date',
+          label: translate('activity_form.fields.end_date'),
+          config: { required: translate('activity_form.validation.end_date_required') },
+          componentParams: { minDate: formMethods.watch('start_date') },
         },
         {
           fieldName: 'end_time',
           inputType: 'time',
           label: translate('activity_form.fields.end_time'),
+          componentParams: { ampm: true },
         },
       ];
 
@@ -130,12 +155,12 @@ export const ActivityFormDialog = ({
       config: { required: translate('activity_form.validation.title_required') },
     },
     {
-      fieldName: 'type',
+      fieldName: 'subtype',
       inputType: 'select',
-      label: translate('activity_form.fields.type'),
-      options: ALL_ACTIVITY_TYPES.map((activityType) => ({
-        value: activityType,
-        label: translate(`activity_form.types.${activityType}`),
+      label: translate('activity_form.fields.subtype'),
+      options: ALL_CALENDAR_ACTIVITY_SUBTYPES.map((activitySubtype) => ({
+        value: activitySubtype,
+        label: translate(`activity_form.subtypes.${activitySubtype}`),
       })),
     },
     {
@@ -158,6 +183,13 @@ export const ActivityFormDialog = ({
   ];
 
   const handlers = {
+    start_date_value_onchange: (startDate: Dayjs | null) => {
+      const endDate = formMethods.getValues('end_date');
+
+      if (startDate && (!endDate || endDate.isBefore(startDate, 'day'))) {
+        formMethods.setValue('end_date', startDate);
+      }
+    },
     onSubmit: (formValues: ActivityFormValues) => onSave(buildActivityPayload(formValues)),
   };
 
@@ -166,6 +198,7 @@ export const ActivityFormDialog = ({
       <AppDialog
         isOpenDialog={open}
         onClose={onClose}
+        fullScreen={fullScreen}
         title={translate(activityId ? 'activity_form.edit_title' : 'activity_form.create_title')}
         actions={
           activityId
@@ -176,8 +209,6 @@ export const ActivityFormDialog = ({
           <>
             {!!saveErrorMessage && <Alert severity="error">{saveErrorMessage}</Alert>}
             <DynamicForm
-              // Remontar al alternar "todo el día" evita que los campos de hora y de fecha
-              // se intercambien en la misma posición de la lista, lo que rompe el orden de hooks.
               key={isAllDay ? 'all-day' : 'timed'}
               formMethods={formMethods}
               fields={fields}

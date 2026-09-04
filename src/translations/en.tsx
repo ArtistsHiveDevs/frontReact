@@ -114,6 +114,11 @@ export const EnMessages = {
         upload: 'Upload',
         files_limit_exceded: 'Maximum number of allowed files exceeded',
       },
+      request: {
+        states: {
+          loading: 'Loading',
+        },
+      },
       entities: {
         academies: { plural: 'Academies', singular: 'Academy' },
         artists: {

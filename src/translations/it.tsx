@@ -114,6 +114,11 @@ export const ItMessages = {
         upload: 'Carica',
         files_limit_exceded: 'Numero massimo di file consentiti superato',
       },
+      request: {
+        states: {
+          loading: 'Caricamento',
+        },
+      },
       entities: {
         academies: { plural: 'Accademie', singular: 'Accademia' },
         artists: {

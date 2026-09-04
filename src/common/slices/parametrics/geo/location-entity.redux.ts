@@ -72,6 +72,51 @@ const { slice: locationEntitySlice, saga: sagaLocationEntities } = createEntityS
           state.loading = false;
           state.queryParams = undefined;
         },
+        // Override itemsAccumulated to also add metadata (countryId, level, parentId)
+        // Metadata comes from the action payload (passed by the saga)
+        itemsAccumulated(state, action) {
+          // Support both old format (array) and new format ({ items, metadata })
+          const isNewFormat = action.payload && !Array.isArray(action.payload) && 'items' in action.payload;
+          const items = isNewFormat ? action.payload.items : action.payload;
+          const metadata = isNewFormat ? action.payload.metadata : {};
+
+          const newItems = (items || []).map((template: LocationEntityTemplate) => {
+            // Use metadata from the payload (which comes from the request queryParams)
+            const countryId = template.countryId || metadata?.countryId;
+            const level = template.level || metadata?.level;
+            const parentId = template.parentId || metadata?.parentId;
+            return new LocationEntityModel({ ...template, countryId, level, parentId });
+          });
+
+          // Create a Map to track existing items by ID to avoid duplicates
+          const existingItemsMap = new Map();
+
+          // Add existing items to the map
+          state.items.forEach((itemId: any) => {
+            const item = state.detailedItems[itemId];
+            if (item) {
+              existingItemsMap.set(itemId, item);
+            }
+          });
+
+          // Add or update items from the new response
+          newItems.forEach((item: any) => {
+            existingItemsMap.set(item.idRedux, item);
+          });
+
+          // Convert back to arrays
+          const allItems = Array.from(existingItemsMap.values());
+          state.items = allItems.map((item) => item.idRedux);
+          const detailed = allItems.reduce((dict, item) => {
+            dict[item.idRedux] = item;
+            return dict;
+          }, {});
+
+          state.detailedItems = detailed;
+
+          state.loading = false;
+          state.queryParams = undefined;
+        },
       },
     },
   },

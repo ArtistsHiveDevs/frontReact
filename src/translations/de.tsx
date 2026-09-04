@@ -114,6 +114,11 @@ export const DeMessages = {
         upload: 'Hochladen',
         files_limit_exceded: 'Maximale Anzahl erlaubter Dateien überschritten',
       },
+      request: {
+        states: {
+          loading: 'Laden',
+        },
+      },
       entities: {
         academies: { plural: 'Akademien', singular: 'Akademie' },
         artists: {

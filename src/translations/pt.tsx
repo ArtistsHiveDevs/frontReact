@@ -114,6 +114,11 @@ export const PtMessages = {
         upload: 'Carregar',
         files_limit_exceded: 'Número máximo de arquivos permitidos excedido',
       },
+      request: {
+        states: {
+          loading: 'Carregando',
+        },
+      },
       entities: {
         academies: { plural: 'Academias', singular: 'Academia' },
         artists: {

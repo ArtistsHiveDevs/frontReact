@@ -114,6 +114,11 @@ export const FrMessages = {
         upload: 'Télécharger',
         files_limit_exceded: 'Nombre maximum de fichiers autorisés dépassé',
       },
+      request: {
+        states: {
+          loading: 'Chargement',
+        },
+      },
       entities: {
         academies: { plural: 'Académies', singular: 'Académie' },
         artists: {

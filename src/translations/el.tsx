@@ -114,6 +114,11 @@ export const ElMessages = {
         upload: 'Μεταφόρτωση',
         files_limit_exceded: 'Υπέρβαση του μέγιστου επιτρεπόμενου αριθμού αρχείων',
       },
+      request: {
+        states: {
+          loading: 'Φόρτωση',
+        },
+      },
       entities: {
         academies: { plural: 'Ακαδημίες', singular: 'Ακαδημία' },
         artists: {

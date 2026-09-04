@@ -114,6 +114,11 @@ export const EsMessages = {
         upload: 'Cargar',
         files_limit_exceded: 'Número máximo de archivos permitidos superado',
       },
+      request: {
+        states: {
+          loading: 'Cargando',
+        },
+      },
       entities: {
         academies: { plural: 'Academias', singular: 'Academia' },
         artists: {

@@ -37,7 +37,11 @@ export class LocationEntityModel
 
   constructor(template: LocationEntityTemplate) {
     super(template);
-    this.id = this.value;
+
+    if (!template.id) {
+      this.id = this.value;
+    }
+
     this.name = this.label;
     this.idRedux = `${this.countryId}_${this.level}_${this.parentId || 'root'}_${this.name}`;
   }

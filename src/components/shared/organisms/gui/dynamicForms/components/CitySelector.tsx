@@ -21,15 +21,35 @@ import { createSelect } from './Select';
 type QueueItem = {
   dispatch: () => void;
   cacheKey: string;
+  onComplete?: () => void;
 };
+
+type LoadingCallback = (isLoading: boolean) => void;
 
 class CitySelectorQueue {
   private queue: QueueItem[] = [];
   private isProcessing = false;
+  private loadingCallbacks = new Map<string, LoadingCallback>();
+  private processingCacheKey: string | null = null;
 
   enqueue(item: QueueItem) {
     this.queue.push(item);
     this.processQueue();
+  }
+
+  registerLoadingCallback(cacheKey: string, callback: LoadingCallback) {
+    this.loadingCallbacks.set(cacheKey, callback);
+  }
+
+  unregisterLoadingCallback(cacheKey: string) {
+    this.loadingCallbacks.delete(cacheKey);
+  }
+
+  private notifyLoading(cacheKey: string, isLoading: boolean) {
+    const callback = this.loadingCallbacks.get(cacheKey);
+    if (callback) {
+      callback(isLoading);
+    }
   }
 
   private processQueue() {
@@ -41,20 +61,33 @@ class CitySelectorQueue {
     const item = this.queue.shift();
 
     if (item) {
+      this.processingCacheKey = item.cacheKey;
+      this.notifyLoading(item.cacheKey, true);
       item.dispatch();
 
       // Wait for Redux to process (takeLatest has a 500ms delay in the saga)
       // We add 200ms buffer to ensure the previous request completes
       setTimeout(() => {
+        this.notifyLoading(item.cacheKey, false);
+        this.processingCacheKey = null;
         this.isProcessing = false;
+        if (item.onComplete) {
+          item.onComplete();
+        }
         this.processQueue(); // Process next item
       }, 700);
     }
   }
 
+  isLoadingCacheKey(cacheKey: string): boolean {
+    return this.processingCacheKey === cacheKey;
+  }
+
   clear() {
     this.queue = [];
     this.isProcessing = false;
+    this.processingCacheKey = null;
+    this.loadingCallbacks.clear();
   }
 }
 
@@ -107,12 +140,12 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
           // El campo suelto es el fallback para respuestas que todavía no traen el id dentro del array.
           defaultValueObj.country = item.id || elementData[`${fieldData.fieldName}_country`];
         } else if (item.level === 'state') {
-          defaultValueObj.level1 = item.value;
+          defaultValueObj.level1 = item.id;
         } else if (item.level === 'city') {
-          defaultValueObj.level2 = item.value;
+          defaultValueObj.level2 = item.id;
         } else if (item.level === 'province') {
           // Some countries might use province instead of state
-          defaultValueObj.level1 = item.value;
+          defaultValueObj.level1 = item.id;
         }
         // Can extend for more levels if needed
       });
@@ -157,13 +190,14 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
   );
 
   const dispatch = useDispatch();
-  const { translateText } = useI18n();
+  const { translateGlobalDict } = useI18n();
 
   const { actions: countryActions } = useCountriesSlice();
   const { actions: locationEntityActions } = useLocationEntitiesSlice();
 
   const availableCountries = useSelector(selectorCountries.selectItems);
   const allLocationEntities = useSelector(selectorLocationEntities.selectItems);
+  const countriesLoading = useSelector(selectorCountries.selectLoading);
 
   const [selectedCountry, setSelectedCountry] = useState<CountryModel | null>(null);
   const [selections, setSelections] = useState<Record<number, LocationEntityModel | null>>({});
@@ -222,13 +256,8 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
         parentId: actualParentId,
       };
 
-      citySelectorQueue.enqueue({
-        cacheKey: cacheKey || `${level}-${actualParentId}`,
-        dispatch: () => {
-          setLoadingLevels((prev) => ({ ...prev, [level]: true }));
-          dispatch(locationEntityActions.loadItems({ queryParams }));
-        },
-      });
+      setLoadingLevels((prev) => ({ ...prev, [level]: true }));
+      dispatch(locationEntityActions.loadItemsAccumulate({ queryParams }));
 
       // Set a timeout to clear the loading flag if entities don't arrive within 10 seconds
       if (cacheKey) {
@@ -255,7 +284,7 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
 
   const countryFieldData: DynamicFieldData = useMemo(
     () => ({
-      label: translateText('app.global_dictionary.location.country'),
+      label: translateGlobalDict('location.country'),
       fieldName: countryFieldName,
       inputType: 'select',
       options: availableCountries.map((country) => ({
@@ -263,9 +292,13 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
         value: country.identifier,
         icon: country.alpha2 ? <Flag code={country.alpha2} height="16" style={{ border: '1px solid #999' }} /> : null,
       })),
-      config: { required: isFieldRequired },
+      placeholder: countriesLoading ? translateGlobalDict('request.states.loading') : 'Seleccione...',
+      config: {
+        required: isFieldRequired,
+        disabled: countriesLoading,
+      },
     }),
-    [translateText, countryFieldName, availableCountries, isFieldRequired]
+    [translateGlobalDict, countryFieldName, availableCountries, isFieldRequired, countriesLoading]
   );
 
   // Auto-select country from defaultValue
@@ -357,7 +390,8 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
       }
 
       // Buscar la entidad en las entidades cargadas
-      const entity = allLocationEntities.find((e) => e.id === defaultLevelValue);
+      // Buscar por identifier (ID del backend) en lugar de id (value)
+      const entity = allLocationEntities.find((e) => e.identifier === defaultLevelValue || e.id === defaultLevelValue);
 
       // Si la entidad no está cargada, cargar entidades para este nivel
       if (!entity && parent) {
@@ -382,7 +416,6 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
       }
 
       if (!entity) {
-        console.warn(`[${fieldData?.fieldName}] Entity not found for level ${lvl.level} with id ${defaultLevelValue}`);
         autoSelectDoneRef.current[lvl.level] = true;
         continue;
       }
@@ -398,10 +431,12 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
           // Cargar entidades del siguiente nivel si existe
           const nextLevel = relevantLevels.find((l) => l.level > lvl.level);
           if (nextLevel && defaultValue[`level${nextLevel.level}`]) {
-            const cacheKey = `${nextLevel.level}-${entity.id}`;
+            // Use identifier for parentId, not id (which is value)
+            const nextParentId = entity.identifier;
+            const cacheKey = `${nextLevel.level}-${nextParentId}`;
             if (!entitiesLoadedRef.current[cacheKey]) {
               entitiesLoadedRef.current[cacheKey] = true;
-              loadLocationEntitiesForLevel(selectedCountry, nextLevel.level, entity.id, cacheKey);
+              loadLocationEntitiesForLevel(selectedCountry, nextLevel.level, nextParentId, cacheKey);
             }
           }
         });
@@ -437,24 +472,25 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
 
     let options: { label: string; value: string }[] = [];
     const parent = level === 1 ? selectedCountry : selections[level - 1];
+    const isLoading = loadingLevels[level] || false;
 
     if (parent) {
-      options = allLocationEntities
-        .filter(
-          (e) => e.level === level && (level === 1 ? e.countryId === parent.identifier : e.parentId === parent.id)
-        )
-        .map((e) => ({ label: e.name, value: e.id }));
+      const filtered = allLocationEntities.filter(
+        (e) => e.level === level && (level === 1 ? e.countryId === parent.identifier : e.parentId === parent.identifier)
+      );
+
+      options = filtered.map((e) => ({ label: e.name, value: e.id }));
     }
 
     return {
-      label: translateText(levelConfig.translationKey.replace('app.', 'app.global_dictionary.')),
+      label: translateGlobalDict(levelConfig.translationKey.replace('app.', '')),
       fieldName: `${fieldData?.fieldName}_level${level}`,
       inputType: 'select',
       options,
-      placeholder: 'Seleccione...',
+      placeholder: isLoading ? translateGlobalDict('request.states.loading') : 'Seleccione...',
       config: {
         required: isFieldRequired && (levelConfig.required || !allowEmptyLevels),
-        disabled: !parent,
+        disabled: !parent || isLoading,
       },
     };
   };
@@ -508,10 +544,12 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
 
             const nextLevel = relevantLevels.find((l) => l.level > level);
             if (nextLevel && selectedCountry) {
-              const cacheKey = `${nextLevel.level}-${entity.id}`;
+              // Use identifier for parentId, not id (which is value)
+              const nextParentId = entity.identifier;
+              const cacheKey = `${nextLevel.level}-${nextParentId}`;
               if (!entitiesLoadedRef.current[cacheKey]) {
                 entitiesLoadedRef.current[cacheKey] = true;
-                loadLocationEntitiesForLevel(selectedCountry, nextLevel.level, entity.id, cacheKey);
+                loadLocationEntitiesForLevel(selectedCountry, nextLevel.level, nextParentId, cacheKey);
               }
             }
           }

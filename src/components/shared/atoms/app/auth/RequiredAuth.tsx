@@ -14,7 +14,17 @@ export enum AuthorizationStates {
 export interface AllowedEntityRole {
   entityName: string;
   allowedEntityInstances?: AllowedEntityInstanceRole[];
-  checkCurrentProfileInfo?: boolean;
+  /**
+   * Si true, verifica que el perfil activo del usuario sea del tipo entityName.
+   * Útil para restricciones basadas en el tipo de perfil actual (ej: solo usuarios con perfil Place).
+   */
+  requireActiveProfileType?: boolean;
+  /**
+   * Si true, verifica que el perfil activo sea el dueño del recurso (resourceEntity).
+   * Solo aplica cuando existe resourceEntity. Si no existe, se ignora.
+   * Útil para verificar que el usuario esté viendo/editando su propio recurso.
+   */
+  requireResourceOwnership?: boolean;
 }
 
 export interface AllowedEntityInstanceRole {
@@ -28,7 +38,7 @@ export function validateUserAuthorization(
   allowedRoles?: AllowedEntityRole[],
   requiredSession: boolean = false,
   name: string = '',
-  checkCurrentProfileInfo = true
+  requireActiveProfileType = true
 ): AuthorizationStates {
   let authorizationResult = AuthorizationStates.UNAUTHORIZED_AND_UNLOGGED_USER;
 
@@ -51,10 +61,11 @@ export function validateUserAuthorization(
             );
           }
 
+          // Determinar si se debe verificar el tipo de perfil activo
           const shouldCheckCurrentProfile =
-            allowedRole.checkCurrentProfileInfo !== undefined
-              ? allowedRole.checkCurrentProfileInfo
-              : checkCurrentProfileInfo;
+            allowedRole.requireActiveProfileType !== undefined
+              ? allowedRole.requireActiveProfileType
+              : requireActiveProfileType;
 
           const currentProfileInfo = user.currentProfileInfo;
           const currentProfileEntityName = getModelInfoFromClassName(currentProfileInfo?.entity)?.entityName;
@@ -76,8 +87,8 @@ export function validateUserAuthorization(
               );
             }
 
-            // Verificar si el resourceEntity.identifier coincide con el currentProfileInfo.identifier
-            if (resourceEntity?.identifier) {
+            // Verificar ownership del recurso solo si se requiere explícitamente
+            if (allowedRole.requireResourceOwnership && resourceEntity?.identifier) {
               return (
                 resourceEntity.identifier === currentProfileInfo?.identifier ||
                 resourceEntity.identifier === currentProfileInfo?.id

@@ -130,7 +130,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
       },
       {
         name: 'contact',
-        allowedRoles: [{ entityName: 'Artist', checkCurrentProfileInfo: false }],
+        allowedRoles: [{ entityName: 'Artist', requireActiveProfileType: false }],
         components: [
           {
             componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
@@ -154,7 +154,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   },
   {
     name: 'arts',
-    allowedRoles: [{ entityName: 'Artist', checkCurrentProfileInfo: false }],
+    allowedRoles: [{ entityName: 'Artist', requireActiveProfileType: false }],
     fullyHidden: fullyHiddenSectionsByEnvironment(['prod']),
     sections: [
       {
@@ -263,7 +263,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
 
   {
     name: 'artist_info',
-    allowedRoles: [{ entityName: 'Artist', checkCurrentProfileInfo: false }],
+    allowedRoles: [{ entityName: 'Artist', requireActiveProfileType: false }],
     sections: [
       {
         name: 'artists_info',
@@ -391,7 +391,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   },
   {
     name: 'memberships',
-    allowedRoles: [{ entityName: 'Artist', checkCurrentProfileInfo: false }],
+    allowedRoles: [{ entityName: 'Artist', requireActiveProfileType: false }],
     sections: [
       {
         name: 'artists',
@@ -438,7 +438,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   },
   // {
   //   name: 'my_shows',
-  //   allowedRoles: [{ entityName: 'Artist', checkCurrentProfileInfo: false  }],
+  //   allowedRoles: [{ entityName: 'Artist', requireActiveProfileType: false  }],
   //   sections: [
   //     {
   //       name: 'next_shows',

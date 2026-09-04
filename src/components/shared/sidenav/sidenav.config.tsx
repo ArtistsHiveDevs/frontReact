@@ -198,12 +198,12 @@ const miInfo: SideMenuItem[] = [
     updated: new Date('1/18/16'),
     randomId: false,
     allowedRoles: [
-      { entityName: 'Artist', checkCurrentProfileInfo: false },
-      { entityName: 'Place', checkCurrentProfileInfo: false },
+      { entityName: 'Artist', requireActiveProfileType: false },
+      { entityName: 'Place', requireActiveProfileType: false },
     ],
     rightIcon: 'FaPlus',
     rightPath: `${PATHS.OPEN_CALLS}/${SUB_PATHS.CREATE}`,
-    rightAllowedRoles: [{ entityName: 'Place', checkCurrentProfileInfo: false }],
+    rightAllowedRoles: [{ entityName: 'Place', requireActiveProfileType: true }],
     forbiddenEnvironments: ['prod'],
     // hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
     //   return params?.user?.hasIndustryProfiles && params?.user?.isInPersonalProfile;

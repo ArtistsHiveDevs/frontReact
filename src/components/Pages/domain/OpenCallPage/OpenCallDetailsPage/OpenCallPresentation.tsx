@@ -1,4 +1,6 @@
+import { useRef } from 'react';
 import { useI18n } from '~/common/utils';
+import { FixedHeader } from '~/components/shared/molecules/FixedHeader/FixedHeader';
 import { OpenCallModel, OpenCallStatus } from '~/models/domain/open-call/open-call.model';
 import { TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE } from './config-open-call-details';
 import './OpenCallPresentation.scss';
@@ -31,6 +33,8 @@ const formatNumber = (value?: number) => (typeof value === 'number' ? String(val
 const OpenCallPresentation = ({ openCall, onApply }: OpenCallPresentationProps) => {
   const { translateText } = useI18n();
   const translate = (key: string) => translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.${key}`);
+
+  const mainHeaderRef = useRef<HTMLDivElement>(null);
 
   const minutesSuffix = translate('presentation.minutes_suffix');
   const formatSetDuration = () => {
@@ -119,7 +123,18 @@ const OpenCallPresentation = ({ openCall, onApply }: OpenCallPresentationProps) 
 
   return (
     <section className="open-call-presentation">
-      <header className="presentation-header">
+      {/* Fixed Header */}
+      <FixedHeader mainHeaderRef={mainHeaderRef}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+          <div>
+            <h2 style={{ margin: 0, fontSize: '1.1rem' }}>{openCall.event_name}</h2>
+            {location && <p style={{ margin: 0, fontSize: '0.85rem', opacity: 0.7 }}>{location}</p>}
+          </div>
+          <span className={`presentation-badge presentation-badge--${badge.modifier}`}>{badge.label}</span>
+        </div>
+      </FixedHeader>
+
+      <header ref={mainHeaderRef} className="presentation-header">
         <h1 className="presentation-title">{openCall.event_name}</h1>
         {location && <p className="presentation-location">{location}</p>}
         <div className="presentation-badges">

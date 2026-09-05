@@ -1,0 +1,13 @@
+mongodb+srv://ahcmetrics:FNzgptUweIwGB09g@cluster0.imxovdf.mongodb.net/ah?retryWrites=true&w=majority&appName=Cluster0
+
+mongodb+srv://quarendevsbog:fNNL3qIhvUUjGo07@clusterah.mip7d.mongodb.net/?retryWrites=true&w=majority&appName=ClusterAH
+
+
+mongodb+srv://artisthive_dev:Vi1xiHun7nTtg8bQ@clusterah.olpqg.mongodb.net/?retryWrites=true&w=majority&appName=ClusterAH
+
+mongodb://admin:devpassword@localhost:27017/?authSource=admin
+
+
+mongodb+srv://ahcm20262_db_user:qRTSRQuO2XNkSxF3@ah-cluster.aduekwz.mongodb.net/?appName=ah-cluster
+
+mongodb+srv://artistsuat1_db_user:F5T3BtqUWUenPAky@cluster0.t18murq.mongodb.net/?appName=Cluster0

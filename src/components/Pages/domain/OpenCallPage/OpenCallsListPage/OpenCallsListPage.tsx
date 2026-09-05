@@ -6,7 +6,7 @@
  */
 
 import { FormControl, MenuItem, Pagination, Select, Stack } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +18,7 @@ import { selectorOpenCalls, useOpenCallsSlice } from '~/common/slices/domain/ope
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import { FixedHeader } from '~/components/shared/molecules/FixedHeader/FixedHeader';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { DynamicControl } from '~/components/shared/organisms/gui/dynamicForms/DynamicControl';
 import { DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms/dynamic-control-types';
@@ -46,6 +47,8 @@ const OpenCallsListPage = () => {
   const [isArtistProfile, setIsArtistProfile] = useState(false);
   const [isPlaceProfile, setIsPlaceProfile] = useState(false);
   const [currentProfileId, setCurrentProfileId] = useState<string>(undefined);
+
+  const mainHeaderRef = useRef<HTMLDivElement>(null);
 
   // ========== UI STATE ==========
   const [activeTab, setActiveTab] = useState<'active' | 'past' | 'available' | 'applications'>('active');
@@ -836,8 +839,26 @@ const OpenCallsListPage = () => {
   // ========== MAIN RENDER ==========
   return (
     <div className="open-calls-list-page">
+      {/* Fixed Header */}
+      <FixedHeader mainHeaderRef={mainHeaderRef}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+          <h2 style={{ margin: 0, fontSize: '1.1rem' }}>
+            {isPlaceProfile ? 'Mis Convocatorias' : 'Convocatorias'}
+          </h2>
+          {isPlaceProfile && (
+            <button
+              className="oc-create-btn"
+              onClick={() => navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.CREATE}`)}
+              style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}
+            >
+              + Crear
+            </button>
+          )}
+        </div>
+      </FixedHeader>
+
       {/* Header */}
-      <div className="oc-header">
+      <div ref={mainHeaderRef} className="oc-header">
         <h2>{isPlaceProfile ? 'Mis Convocatorias' : 'Convocatorias'}</h2>
         {isPlaceProfile && (
           <button className="oc-create-btn" onClick={() => navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.CREATE}`)}>

@@ -25,6 +25,7 @@ interface MobileCalendarProps {
   onSelectedDayChange: (day: Dayjs) => void;
   onToggleType: (activityType: CalendarActivityType) => void;
   onActivityClick: (activity: CalendarActivityModel) => void;
+  onActivityImageClick?: (activity: CalendarActivityModel) => void;
 }
 
 export const MobileCalendar = ({
@@ -39,6 +40,7 @@ export const MobileCalendar = ({
   onSelectedDayChange,
   onToggleType,
   onActivityClick,
+  onActivityImageClick,
 }: MobileCalendarProps) => {
   const { locale, translateText } = useI18n();
 
@@ -74,28 +76,38 @@ export const MobileCalendar = ({
       onMonthCollapsedToggle();
     }
 
-    window.setTimeout(() => {
-      const dayElement = dayElements.current[dayKey];
-      const pinnedHeader = pinnedHeaderRef.current;
+    window.setTimeout(
+      () => {
+        const dayElement = dayElements.current[dayKey];
+        const pinnedHeader = pinnedHeaderRef.current;
 
-      if (!dayElement || !pinnedHeader) {
-        return;
-      }
+        if (!dayElement || !pinnedHeader) {
+          return;
+        }
 
-      const headerBottom = pinnedHeader.getBoundingClientRect().bottom;
-      const dayTop = dayElement.getBoundingClientRect().top;
+        const headerBottom = pinnedHeader.getBoundingClientRect().bottom;
+        const dayTop = dayElement.getBoundingClientRect().top;
 
-      window.scrollTo({
-        top: window.scrollY + dayTop - headerBottom - 8,
-        behavior: 'auto',
-      });
-    }, isMonthCollapsed ? 0 : 240);
+        window.scrollTo({
+          top: window.scrollY + dayTop - headerBottom - 8,
+          behavior: 'auto',
+        });
+      },
+      isMonthCollapsed ? 0 : 240
+    );
   };
 
   return (
     <div className="mobile-calendar">
       <div ref={pinnedHeaderRef} className="mobile-calendar__pinned">
         <div className="mobile-calendar__header">
+          <button
+            type="button"
+            className="mobile-calendar__today-btn"
+            onClick={() => handleSelectDay(todayKey)}
+          >
+            {translate('actions.today')}
+          </button>
           <button
             type="button"
             aria-expanded={!isMonthCollapsed}
@@ -143,6 +155,7 @@ export const MobileCalendar = ({
         weeks={agendaWeeks}
         todayKey={todayKey}
         onActivityClick={onActivityClick}
+        onActivityImageClick={onActivityImageClick}
         registerDayRef={registerDayRef}
       />
 

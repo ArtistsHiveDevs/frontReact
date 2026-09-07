@@ -5,7 +5,7 @@
  * Soporta múltiples vistas (cards/table), filtros parametrizados, y diseño responsive.
  */
 
-import { FormControl, MenuItem, Pagination, Select, Stack } from '@mui/material';
+import { Avatar, FormControl, MenuItem, Pagination, Select, Stack } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,18 +15,22 @@ import {
   useOpenCallApplicationsSlice,
 } from '~/common/slices/domain/open-calls/open-call-applications.redux';
 import { selectorOpenCalls, useOpenCallsSlice } from '~/common/slices/domain/open-calls/open-calls.redux';
-import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { FixedHeader } from '~/components/shared/molecules/FixedHeader/FixedHeader';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { DynamicControl } from '~/components/shared/organisms/gui/dynamicForms/DynamicControl';
 import { DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms/dynamic-control-types';
-import { OpenCallApplicationModel } from '~/models/domain/open-call/v1';
-import { OpenCallStatus } from '~/models/domain/open-call/open-call.model';
+import { OpenCallApplicationModel, OpenCallModelV1, OpenCallStatus } from '~/models/domain/open-call/v1';
 // import { DefaultTransformerContext, TabbedPanel } from '~/components/shared/layout/TabbedPanel';
+import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
+import {
+  ProfilePictureWithName,
+  ProfilePictureWithNameConstants,
+} from '~/components/shared/atoms/gui/ProfilePictureList/ProfilePictureWithName';
 import { PATHS, SUB_PATHS } from '~/constants';
 import { TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE } from '../OpenCallDetailsPage/config-open-call-details';
+import { useProfileInfo } from '../common/useProfileInfo';
 import './OpenCallsListPage.scss';
 
 const OpenCallsListPage = () => {
@@ -34,7 +38,7 @@ const OpenCallsListPage = () => {
   const translate = (key: string) => translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.${key}`);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const loggedUser = useSelector(selectCurrentUser);
+  const { isArtistProfile, isPlaceProfile, currentProfileId } = useProfileInfo();
 
   const { actions: openCallActions } = useOpenCallsSlice();
   const openCalls = useSelector(selectorOpenCalls.selectItems);
@@ -44,14 +48,12 @@ const OpenCallsListPage = () => {
   const applications: OpenCallApplicationModel[] = useSelector(selectorOpenCallApplications.selectItems);
   const applicationsLoading = useSelector(selectorOpenCallApplications.selectLoading);
 
-  const [isArtistProfile, setIsArtistProfile] = useState(false);
-  const [isPlaceProfile, setIsPlaceProfile] = useState(false);
-  const [currentProfileId, setCurrentProfileId] = useState<string>(undefined);
+  const [zoomPoster, setZoomPoster] = useState<{ src: string; alt: string; title: string }>(null);
 
   const mainHeaderRef = useRef<HTMLDivElement>(null);
 
   // ========== UI STATE ==========
-  const [activeTab, setActiveTab] = useState<'active' | 'past' | 'available' | 'applications'>('active');
+  const [activeTab, setActiveTab] = useState<'active' | 'past' | 'available' | 'applications'>('available');
   const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
 
   // ========== DIALOG STATE ==========
@@ -82,8 +84,10 @@ const OpenCallsListPage = () => {
   });
 
   // ========== SORT STATE ==========
+  // Por defecto: abiertas primero, luego el resto; dentro de cada grupo, por fecha de cierre.
   const [sortBy, setSortBy] = useState<{ field: string; direction: 'asc' | 'desc' }[]>([
-    { field: 'event_date', direction: 'asc' },
+    { field: 'status', direction: 'asc' },
+    { field: 'end_date', direction: 'asc' },
   ]);
 
   // ========== PAGINATION STATE ==========
@@ -99,13 +103,17 @@ const OpenCallsListPage = () => {
   // Update data when openCalls or applications change
   useEffect(() => {
     if (!openCallsLoading) {
-      // console.log('llegaron los openCall', openCalls);
-      // console.log('currentProfileId', currentProfileId);
-      // console.log('isPlaceProfile', isPlaceProfile);
+      console.log('[DEBUG] currentProfileId', currentProfileId, 'isPlaceProfile', isPlaceProfile);
 
       if (openCalls.length > 0) {
-        // console.log('Primer openCall placeId:', openCalls[0].placeId);
-        // console.log('Comparación:', openCalls[0].placeId, '===', currentProfileId);
+        console.log(
+          '[DEBUG] openCalls placeIds',
+          openCalls.map((oc) => oc.placeId)
+        );
+        console.log(
+          '[DEBUG] matches vs currentProfileId',
+          openCalls.map((oc) => `${oc.placeId} === ${currentProfileId} -> ${oc.placeId === currentProfileId}`)
+        );
       }
 
       const myOpenCalls =
@@ -161,24 +169,11 @@ const OpenCallsListPage = () => {
   }, [currentProfileId, dispatch]);
 
   useEffect(() => {
-    if (!!loggedUser) {
-      // Determinar el tipo de perfil actual
-      const currentProfileEntity = loggedUser?.currentProfileInfo?.entity;
-      const isPlace = currentProfileEntity === 'Place';
-      const isArtist = currentProfileEntity === 'Artist';
-
-      setIsPlaceProfile(isPlace);
-      setIsArtistProfile(isArtist);
-      setCurrentProfileId(loggedUser?.currentProfileInfo?.id);
-
-      // Set default tab based on profile
-      if (isPlace) {
-        setActiveTab('active');
-      } else if (isArtist) {
-        setActiveTab('available');
-      }
+    // Set default tab based on profile
+    if (isPlaceProfile || isArtistProfile) {
+      setActiveTab('available');
     }
-  }, [loggedUser]);
+  }, [isPlaceProfile, isArtistProfile]);
 
   // Get data based on active tab
   const getDataForCurrentTab = () => {
@@ -188,7 +183,7 @@ const OpenCallsListPage = () => {
       case 'past':
         return pastCalls;
       case 'available':
-        return activeCalls; // For artists: all active open calls
+        return openCalls.filter((oc) => oc.status === OpenCallStatus.OPEN);
       case 'applications':
         return myApplications;
       default:
@@ -240,6 +235,14 @@ const OpenCallsListPage = () => {
       const { field, direction } = sort;
       let aVal = a[field];
       let bVal = b[field];
+
+      // Prioridad especial para status: convocatorias abiertas primero, luego el resto.
+      // "Abierta" = mismo criterio que resolveBadge: status OPEN y todavía no vencida.
+      if (field === 'status') {
+        const isEffectivelyOpen = (item: any) => item.status === OpenCallStatus.OPEN && !item.isExpired;
+        aVal = isEffectivelyOpen(a) ? 0 : 1;
+        bVal = isEffectivelyOpen(b) ? 0 : 1;
+      }
 
       // Handle dates
       if (field.includes('date')) {
@@ -299,6 +302,7 @@ const OpenCallsListPage = () => {
   const renderTabNavigation = () => {
     const tabs = isPlaceProfile
       ? [
+          { key: 'available' as const, label: 'Disponibles' },
           { key: 'active' as const, label: 'Activas' },
           { key: 'past' as const, label: 'Pasadas' },
         ]
@@ -601,7 +605,7 @@ const OpenCallsListPage = () => {
       <FormProvider {...filterFormMethods}>
         <div className="oc-filter-dialog-content">
           <Stack spacing={2}>
-            {filterFields.map((fieldData, index) => (
+            {filterFields.map((fieldData) => (
               <DynamicControl key={fieldData.fieldName} fieldData={fieldData} errors={filterErrors} handlers={{}} />
             ))}
           </Stack>
@@ -647,7 +651,7 @@ const OpenCallsListPage = () => {
         <Pagination
           count={totalPages}
           page={currentPage}
-          onChange={(e, page) => {
+          onChange={(_e, page) => {
             setCurrentPage(page);
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
@@ -691,43 +695,80 @@ const OpenCallsListPage = () => {
 
   const renderCardView = () => (
     <div className="oc-cards-grid">
-      {paginatedData.map((item: any) => {
+      {paginatedData.map((item: OpenCallModelV1) => {
         const badge = resolveBadge(item);
         return (
-          <div key={item.identifier || item.id} className="oc-card" onClick={() => handleItemClick(item)}>
-            <div className="oc-card-header">
-              <h3 className="oc-card-title">{item.event_name || item.openCallSummary?.event_name}</h3>
-              {item.status && (
-                <span className={`oc-card-status oc-card-status--${badge.modifier}`}>{badge.label}</span>
-              )}
+          <div key={item.identifier || item.id} className="oc-card">
+            <div className="oc-card-avatar-col">
+              <Avatar
+                src={item.poster}
+                alt={item.event_name}
+                variant="rounded"
+                className="oc-card-avatar"
+                onClick={() =>
+                  item.poster &&
+                  setZoomPoster({
+                    src: item.poster,
+                    alt: item.event_name,
+                    title: item.event_name || item.openCallSummary?.event_name,
+                  })
+                }
+                style={{ cursor: item.poster ? 'zoom-in' : 'default' }}
+              >
+                <DynamicIcons iconName="BsFillMegaphoneFill" size={28} color="white" />
+              </Avatar>
             </div>
-          <div className="oc-card-body">
-            {item.event_date && (
-              <div className="oc-card-field">
-                <strong>Fecha del evento:</strong> {new Date(item.event_date).toLocaleDateString()}
+            <div className="oc-card-content" onClick={() => handleItemClick(item)}>
+              <div className="oc-card-header">
+                <h3 className="oc-card-title">
+                  {item.event_name || item.openCallSummary?.event_name}{' '}
+                  {item.event_name || item.openCallSummary?.event_name}{' '}
+                  {item.event_name || item.openCallSummary?.event_name}
+                </h3>
+                {item.status && (
+                  <span className={`oc-card-status oc-card-status--${badge.modifier}`}>{badge.label}</span>
+                )}
               </div>
-            )}
-            {item.city && (
-              <div className="oc-card-field">
-                <strong>Ciudad:</strong> {item.city}
+              <div className="oc-card-body">
+                {item.end_date && (
+                  <div className="oc-card-field">
+                    <strong>Fecha de cierre:</strong> {item.end_date.format('DD/MM/YYYY')}
+                  </div>
+                )}
+                {item.event_date && (
+                  <div className="oc-card-field">
+                    <strong>Fecha del evento:</strong> {item.event_date.format('DD/MM/YYYY')}
+                  </div>
+                )}
+
+                {item.genres && (
+                  <div className="oc-card-field">
+                    <strong>Géneros:</strong> {Array.isArray(item.genres) ? item.genres.join(', ') : item.genres}
+                  </div>
+                )}
+                {isPlaceProfile && item.applications_count !== undefined && (
+                  <div className="oc-card-field">
+                    <strong>Aplicaciones:</strong> {item.applications_count}
+                  </div>
+                )}
+                {item.application_status && (
+                  <div className="oc-card-field">
+                    <strong>Estado:</strong> {item.application_status}
+                  </div>
+                )}
+                {item.placeProfileInfo && (
+                  <>
+                    <ProfilePictureWithName
+                      element={item.placeProfileInfo}
+                      direction={ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL}
+                    />
+                    <div className="oc-card-field">
+                      <strong>Ciudad:</strong> {item.placeProfileInfo.cityWithCountry}
+                    </div>
+                  </>
+                )}
               </div>
-            )}
-            {item.genres && (
-              <div className="oc-card-field">
-                <strong>Géneros:</strong> {Array.isArray(item.genres) ? item.genres.join(', ') : item.genres}
-              </div>
-            )}
-            {item.applications_count !== undefined && (
-              <div className="oc-card-field">
-                <strong>Aplicaciones:</strong> {item.applications_count}
-              </div>
-            )}
-            {item.application_status && (
-              <div className="oc-card-field">
-                <strong>Estado:</strong> {item.application_status}
-              </div>
-            )}
-          </div>
+            </div>
           </div>
         );
       })}
@@ -842,9 +883,7 @@ const OpenCallsListPage = () => {
       {/* Fixed Header */}
       <FixedHeader mainHeaderRef={mainHeaderRef}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-          <h2 style={{ margin: 0, fontSize: '1.1rem' }}>
-            {isPlaceProfile ? 'Mis Convocatorias' : 'Convocatorias'}
-          </h2>
+          <h2 style={{ margin: 0, fontSize: '1.1rem' }}>{isPlaceProfile ? 'Mis Convocatorias' : 'Convocatorias'}</h2>
           {isPlaceProfile && (
             <button
               className="oc-create-btn"
@@ -876,7 +915,7 @@ const OpenCallsListPage = () => {
       ) : (
         <>
           {/* Filters */}
-          {renderFilters()}
+          {!isProdEnvironment() && renderFilters()}
 
           {/* Content */}
           {paginatedData.length === 0 ? (
@@ -890,13 +929,22 @@ const OpenCallsListPage = () => {
         </>
       )}
       {/* Sort Dialog */}
-      {renderSortDialog()}
+      {!isProdEnvironment() && renderSortDialog()}
       {/* Filter Dialog */}
-      {renderFilterDialog()}
+      {!isProdEnvironment() && renderFilterDialog()}
       {/* OLD IMPLEMENTATION - COMMENTED OUT FOR REFERENCE */}
       {/*
       <TabbedPanel rawConfig={config} defaultTransformerContext={defaultTransformerContext} />
       */}
+
+      {!!zoomPoster && (
+        <AppDialog
+          isOpenDialog={!!zoomPoster}
+          onClose={() => setZoomPoster(null)}
+          title={zoomPoster.title}
+          content={<img src={zoomPoster.src} alt={zoomPoster.alt} style={{ maxWidth: '100%' }} />}
+        />
+      )}
     </div>
   );
 };

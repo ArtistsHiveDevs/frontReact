@@ -10,7 +10,7 @@ Conectamos artistas nacionales con escenarios independientes de [Bogotá](/circu
 
 ## Contexto
 
-A nivel mundial hay cerca de 325.000 artistas por cada 3.200 escenarios mapeados por Artist Hive: una proporción aproximada de 100 a 1 que refleja lo difícil que es circular, conseguir fechas y la gran competencia.
+A nivel mundial de la información registrada por el algoritmo de Artist Hive, existe una proporción aproximada de 100 artistas o proyectos musicales por cada escenario (venue), reflejando lo difícil que es circular, conseguir fechas y la gran competencia.
 
 A eso se suma que artistas y escenarios funcionan de forma desconectada —sin canales claros de contratación, con procesos manuales e informales— y que el modelo dominante de pago por aforo hace que, si no llega público, el artista no gane nada.
 
@@ -33,6 +33,41 @@ Adicionalmente, la brecha de género es enorme: solo 1 de cada 5 presentaciones 
 ## Selección y Line Up
 
 ![Line Up](../img/CH2026_lup.jpg)
+
+## Fechas importantes
+
+### Bogotá
+
+**Convocatoria para artistas:**
+
+Del martes 08 de septiembre al **domingo 13 de septiembre 11:59pm (GMT-5)**
+
+**Eventos:**
+
+- **Evento 1:** Viernes 25 de Septiembre 8pm
+- **Evento 2:** Sábado 26 de Septiembre 8pm
+
+### Cali
+
+**Convocatoria para artistas:**
+
+Del lunes 14 de septiembre al **domingo 20 de septiembre 11:59pm (GMT-5)**
+
+**Eventos:**
+
+- **Evento 1:** Fecha por confirmar (8pm)
+- **Evento 2:** Sábado 03 de Octubre (6pm)
+
+### Medellín
+
+**Convocatoria para artistas:**
+
+Del lunes 21 de septiembre al **domingo 27 de septiembre 11:59pm (GMT-5)**
+
+**Eventos:**
+
+- **Evento 1:** Fecha por confirmar (8pm)
+- **Evento 2:** Jueves 08 de Octubre (7pm)
 
 ## ¿Cómo aplicar?
 

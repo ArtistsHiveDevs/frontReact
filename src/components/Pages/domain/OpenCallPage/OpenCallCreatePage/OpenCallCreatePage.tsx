@@ -8,11 +8,11 @@ import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { getEventTypeOptions, getStageTypeOptions } from '~/common/utils/form-options';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
+import { registerAllBuilders } from '~/components/shared/organisms/gui/builders/componentBuilders';
 import {
   getFieldNamesFromPageSection,
   pageSectionToDynamicFields,
 } from '~/components/shared/organisms/gui/builders/page-section-form.utils';
-import { registerAllBuilders } from '~/components/shared/organisms/gui/builders/componentBuilders';
 import { DynamicForm, SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import { PATHS } from '~/constants';
 import '../OpenCallApplicationPage/index.scss';
@@ -51,8 +51,8 @@ const OpenCallCreatePage = () => {
 
   useEffect(() => {
     
-    setPlaceId(loggedUser?.currentProfileInfo?.id);
-    console.log('Actualizando el effect', loggedUser, placeId, loggedUser?.currentProfileInfo?.id);
+    setPlaceId(loggedUser?.currentProfileInfo?.identifier);
+    console.log('Actualizando el effect', loggedUser, placeId, loggedUser?.currentProfileInfo?.identifier);
     // setCanCreateOpenCall(!!loggedUser && !!placeId && loggedUser.checkPermissions(placeId).canEdit);
   }, [loggedUser, placeId]);
 
@@ -66,7 +66,6 @@ const OpenCallCreatePage = () => {
   const {
     handleSubmit,
     trigger,
-    formState: { errors },
   } = formMethods;
 
   useEffect(() => {

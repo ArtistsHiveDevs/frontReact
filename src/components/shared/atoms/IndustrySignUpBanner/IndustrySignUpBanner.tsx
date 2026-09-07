@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useUsersSlice } from '~/common/slices/users';
@@ -7,7 +8,6 @@ import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { PATHS } from '~/constants';
 import { AppDialog } from '../../molecules/general/Modals/Dialog/AppDialog';
 import './IndustrySignUpBanner.scss';
-import { Box } from '@mui/material';
 
 const TRANSLATION_BASE_USER_DETAIL_PAGE = 'app.pages.app_base.UsersPages';
 
@@ -64,14 +64,14 @@ export const IndustrySignUpBanner = () => {
               component="img"
               sx={{
                 height: 'auto',
-                width: '90%',
-                maxWidth: { xs: '90%', md: '600px' },
+                width: '100%',
+                maxWidth: { xs: '100%', md: '600px' },
                 display: 'block', // Necesario para que el margen funcione
                 mx: 'auto', // Centra horizontalmente
                 padding: '1rem',
               }}
               alt="Description"
-              src="/img/InfoPerfiles.png"
+              src="/img/InfoPerfiles.jpeg"
             />
           </>
         }

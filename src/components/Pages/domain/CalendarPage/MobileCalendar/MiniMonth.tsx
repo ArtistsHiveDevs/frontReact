@@ -37,8 +37,11 @@ export const MiniMonth = ({
   return (
     <div className="mobile-calendar__mini-month">
       <div className="mobile-calendar__weekdays">
-        {weekdayHeaders.map((weekday) => (
-          <span key={weekday.key} className="mobile-calendar__weekday">
+        {weekdayHeaders.map((weekday, index) => (
+          <span
+            key={weekday.key}
+            className={`mobile-calendar__weekday${index === 0 ? ' mobile-calendar__weekday--holiday' : ''}`}
+          >
             {weekday.label}
           </span>
         ))}

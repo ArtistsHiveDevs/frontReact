@@ -1,5 +1,5 @@
-import { LocationLevelData } from '~/common/utils/location-display.utils';
 import dayjs, { Dayjs } from 'dayjs';
+import { LocationLevelData } from '~/common/utils/location-display.utils';
 import { VerificationStatus } from '~/constants';
 import { ExperienceRange } from '~/constants/domain/domain.constants';
 import { SocialNetworkStatsTemplate } from '~/constants/social-networks.const';
@@ -407,7 +407,7 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
     console.log(this);
     const missingDocs = required_fields
       .filter((field) => !this.isFieldValueValid(field))
-      .map((field) => ({ field, translationPath: '' }));
+      .map((field) => ({ field, translationPath: `entities.artists.attributes.${field}` }));
 
     return missingDocs;
   }

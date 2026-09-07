@@ -37,7 +37,6 @@ const ArtistDetailPage = () => {
   const [openDialogBookDate, setOpenDialogBookDate] = useState(undefined);
 
   const requestIsLoading = useSelector(selectorArtists.selectLoading);
-  const requestError = useSelector(selectorArtists.selectError);
   const { actions: artistsActions } = useArtistsSlice();
   const { actions: usersActions } = useUsersSlice();
 
@@ -87,7 +86,7 @@ const ArtistDetailPage = () => {
       const image = <ImageGallery images={images} imageSize="fs" />;
       setGalleryImage(image);
     },
-    onCloseGalleryImage: (value: any) => {
+    onCloseGalleryImage: () => {
       setGalleryImage(undefined);
     },
     onClickEvent: (value: any) => {
@@ -122,14 +121,6 @@ const ArtistDetailPage = () => {
         navigateToInnerPath({ path: PATHS.LOGIN });
       }
     },
-  };
-
-  const onFABClick = () => {
-    if (!loggedUser) {
-      navigateToInnerPath({ path: PATHS.LOGIN });
-    } else {
-      setOpenDialogBookDate(true);
-    }
   };
 
   return (

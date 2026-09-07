@@ -8,9 +8,7 @@ import { Alert } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
-import { selectApiKey } from '~/common/slices/app-base/APIKey/selectors';
 import {
   buildCalendarEventsQueryParams,
   selectorCalendarActivities,
@@ -19,8 +17,10 @@ import {
   useCalendarEventsSlice,
 } from '~/common/slices/domain/calendar/calendar-activities.redux';
 import { useI18n } from '~/common/utils';
+import { getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
 import useWindowDimensions from '~/common/utils/hooks/screen/WindowDimensions.hook';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import {
   ALL_CALENDAR_ACTIVITY_TYPES,
@@ -29,17 +29,20 @@ import {
   CalendarActivityType,
   sortCalendarActivities,
 } from '~/models/domain/calendar/calendar-activity.model';
-import { CalendarActivityForm, CalendarActivityDraft } from './CalendarActivityForm';
-import { CalendarEventImage } from './CalendarEventImage';
 import {
   ALL_DAY_DATE_FORMAT,
   CALENDAR_MOBILE_MAX_WIDTH,
   CalendarViewName,
   TRANSLATION_BASE_CALENDAR_PAGE,
 } from './calendar-page.constants';
+import { CalendarActivityDraft, CalendarActivityForm } from './CalendarActivityForm';
+import { CalendarEventImage } from './CalendarEventImage';
 import { MobileCalendar } from './MobileCalendar';
 import { useCollapsibleMonth } from './MobileCalendar/use-collapsible-month.hook';
 
+import { selectApiKey } from '~/common/slices/app-base/APIKey/selectors';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { OpenCallModelV1 } from '~/models/domain/open-call/v1';
 import './CalendarPage.scss';
 
 interface VisibleRange {
@@ -60,12 +63,12 @@ const monthVisibleRange = (month: Dayjs): VisibleRange => ({
 
 const CalendarPage = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { translateText } = useI18n();
+  const { navigateToEntity } = useNavigation();
   const { actions } = useCalendarEventsSlice();
   const { actions: activityActions } = useCalendarActivitiesSlice();
 
-  const { width } = useWindowDimensions();
+  const { width, height: windowHeight } = useWindowDimensions();
   const isMobileLayout = width < CALENDAR_MOBILE_MAX_WIDTH;
 
   const { isMonthCollapsed, toggleMonthCollapsed, beginProgrammaticScroll } = useCollapsibleMonth(isMobileLayout);
@@ -90,6 +93,8 @@ const CalendarPage = () => {
   const [activityDialogOpen, setActivityDialogOpen] = useState(false);
   const [savingActivity, setSavingActivity] = useState(false);
   const [showActivityError, setShowActivityError] = useState(false);
+  const [zoomedActivityImage, setZoomedActivityImage] = useState<{ src: string; alt: string; title: string }>();
+  const [calendarHeight, setCalendarHeight] = useState<number>();
 
   const errorBeforeSaving = useRef(activityError);
   const wasSavingActivity = useRef(false);
@@ -118,6 +123,26 @@ const CalendarPage = () => {
       window.scrollBy({ top: correctedIndicatorTop - visibleAreaCenter, behavior: 'auto' });
     }
   };
+
+  useLayoutEffect(() => {
+    if (isMobileLayout) {
+      return;
+    }
+
+    const CALENDAR_BOTTOM_MARGIN = 50;
+    const MIN_CALENDAR_HEIGHT = 480;
+
+    const recomputeHeight = () => {
+      const top = desktopCalendarContainerRef.current?.getBoundingClientRect().top || 0;
+      const available = window.innerHeight - top - CALENDAR_BOTTOM_MARGIN;
+
+      setCalendarHeight(Math.max(available, MIN_CALENDAR_HEIGHT));
+    };
+
+    recomputeHeight();
+    window.addEventListener('resize', recomputeHeight);
+    return () => window.removeEventListener('resize', recomputeHeight);
+  }, [isMobileLayout, windowHeight, loading]);
 
   const translate = (key: string) => translateText(`${TRANSLATION_BASE_CALENDAR_PAGE}.${key}`);
 
@@ -212,12 +237,45 @@ const CalendarPage = () => {
     return tooltipLines.join('\n');
   };
 
+  const sundayHolidayActivities: CalendarActivityModel[] = useMemo(() => {
+    if (!visibleRange) {
+      return [];
+    }
+
+    const activities: CalendarActivityModel[] = [];
+    let cursor = dayjs(visibleRange.from).startOf('day');
+    const rangeEnd = dayjs(visibleRange.to).startOf('day');
+
+    while (cursor.isBefore(rangeEnd)) {
+      if (cursor.day() === 0) {
+        const dayKey = cursor.format(ALL_DAY_DATE_FORMAT);
+
+        activities.push(
+          new CalendarActivityModel({
+            id: `sunday-holiday-${dayKey}`,
+            type: CalendarActivityType.HOLIDAY,
+            title: '',
+            start: dayKey,
+            end: dayKey,
+            allDay: true,
+          })
+        );
+      }
+
+      cursor = cursor.add(1, 'day');
+    }
+
+    return activities;
+  }, [visibleRange]);
+
   const visibleActivities: CalendarActivityModel[] = useMemo(
     () =>
       sortCalendarActivities(
-        calendarActivities.filter((activity) => !!activity && selectedTypes.includes(activity.type))
+        [...calendarActivities, ...sundayHolidayActivities].filter(
+          (activity) => !!activity && selectedTypes.includes(activity.type)
+        )
       ),
-    [calendarActivities, selectedTypes]
+    [calendarActivities, sundayHolidayActivities, selectedTypes]
   );
 
   const calendarEvents: EventInput[] = useMemo(() => {
@@ -327,8 +385,20 @@ const CalendarPage = () => {
     }
 
     if (activity.detailRoute) {
-      navigate(`${activity.detailRoute}/${activity.entityId || activity.id}`);
+      navigateToEntity({ entityType: OpenCallModelV1.name, id: activity.id });
+      // { path: `${activity.detailRoute}/${activity.id || activity.entityId}` });
     }
+  };
+
+  const handleActivityImageClick = async (activity: CalendarActivityModel) => {
+    const imagePath = activity.meta?.image;
+
+    if (!imagePath) {
+      return;
+    }
+
+    const src = await getUrlS3({ path: imagePath });
+    setZoomedActivityImage({ src, alt: activity.title || '', title: activity.title || '' });
   };
 
   const handleEventClick = (clickInfo: EventClickArg) => {
@@ -428,6 +498,7 @@ const CalendarPage = () => {
           onSelectedDayChange={setMobileSelectedDay}
           onToggleType={toggleTypeFilter}
           onActivityClick={handleActivityClick}
+          onActivityImageClick={handleActivityImageClick}
         />
       ) : (
         <div ref={desktopCalendarContainerRef} className="calendar-page__calendar">
@@ -448,7 +519,7 @@ const CalendarPage = () => {
             }}
             initialView={CalendarViewName.MONTH}
             firstDay={0}
-            height="auto"
+            height={calendarHeight || 'auto'}
             dayMaxEvents={true}
             listDayFormat={{ day: 'numeric', weekday: 'long' }}
             listDaySideFormat={false}
@@ -490,6 +561,14 @@ const CalendarPage = () => {
         onSave={handleSaveActivity}
         onDelete={handleDeleteActivity}
       />
+      {!!zoomedActivityImage && (
+        <AppDialog
+          title={zoomedActivityImage.title}
+          isOpenDialog={!!zoomedActivityImage}
+          onClose={() => setZoomedActivityImage(undefined)}
+          content={<img src={zoomedActivityImage.src} alt={zoomedActivityImage.alt} style={{ maxWidth: '100%' }} />}
+        />
+      )}
     </div>
   );
 };

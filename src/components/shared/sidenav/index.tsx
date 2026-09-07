@@ -8,7 +8,7 @@ import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
-import { getEnvironment } from '~/common/utils/app-utils/app-utils';
+import { getEnvironment, replyEnvs } from '~/common/utils/app-utils/app-utils';
 import { resolveNavigateToEntityPath } from '~/common/utils/hooks/navigation/navigateToEntityResolver';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { isVisible } from '~/common/utils/visibility-utils';
@@ -63,7 +63,7 @@ const SideNav = () => {
   const [currentRightView, setCurrentRightView] = useState<RIGHT_SIDENAV_VIEWS>('actions');
   const [openStatusSearchInputText, setOpenStatusSearchInputText] = useState(false);
   const { navigateToEntity, navigateToInnerPath } = useNavigation();
-  const { translateText, translateGlobalDict } = useI18n();
+  const { translateText } = useI18n();
   const dispatch = useDispatch();
 
   const { actions: usersActions } = useUsersSlice();
@@ -72,7 +72,7 @@ const SideNav = () => {
     setShowRight(false); // Asegurarte de cerrar ambos Offcanvas
   };
   const handleShow = () => setShow(true);
-  const showHideSearchField = (event: any) => {
+  const showHideSearchField = () => {
     setOpenStatusSearchInputText(!openStatusSearchInputText);
   };
   const navigateTo = (
@@ -246,16 +246,12 @@ const SideNav = () => {
 
   const createNewEntityInstance = (entityType: string) => {
     if (!!loggedUser) {
-      let entityName = undefined;
       let path = undefined;
       if (entityType === 'artists') {
-        entityName = 'Artist';
         path = ArtistModel.name;
       } else if (entityType === 'places') {
-        entityName = 'Place';
         path = PlaceModel.name;
       } else if (entityType === 'events') {
-        entityName = 'Event';
         path = EventModel.name;
       }
 
@@ -322,11 +318,13 @@ const SideNav = () => {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <hr />
-                {LEFT_SIDENAV_MENU_CONFIG.filter((sidenavSection, index) => {
+                {LEFT_SIDENAV_MENU_CONFIG.filter((sidenavSection) => {
                   const isVisibleByHiddenProp = isVisible(sidenavSection, {
                     user: loggedUser,
                     section: sidenavSection,
                   });
+
+                  replyEnvs(sidenavSection.forbiddenEnvironments);
 
                   const isAllowedByEnvironment =
                     (!sidenavSection.allowedEnvironments ||
@@ -350,8 +348,10 @@ const SideNav = () => {
                           <h5 className="sec-general-label">{translateText(sidenavSection.name)}</h5>
                           <div className="option-menu-list">
                             {sectionOptions
-                              .filter((option, index) => {
+                              .filter((option) => {
                                 const isVisibleByHiddenProp = isVisible(option, { user: loggedUser, option: option });
+
+                                replyEnvs(option.forbiddenEnvironments);
 
                                 const isAllowedByEnvironment =
                                   (!option.allowedEnvironments ||
@@ -421,11 +421,13 @@ const SideNav = () => {
                 {currentRightView === 'actions' && (
                   <>
                     <hr />
-                    {RIGHT_SIDENAV_MENU_CONFIG.filter((sidenavSection, index) => {
+                    {RIGHT_SIDENAV_MENU_CONFIG.filter((sidenavSection) => {
                       const isVisibleByHiddenProp = isVisible(sidenavSection, {
                         user: loggedUser,
                         section: sidenavSection,
                       });
+
+                      replyEnvs(sidenavSection.forbiddenEnvironments);
 
                       const isAllowedByEnvironment =
                         (!sidenavSection.allowedEnvironments ||
@@ -449,11 +451,13 @@ const SideNav = () => {
                               <h5 className="sec-general-label">{translateText(sidenavSection.name)}</h5>
                               <div className="option-menu-list">
                                 {sectionOptions
-                                  .filter((option, index) => {
+                                  .filter((option) => {
                                     const isVisibleByHiddenProp = isVisible(option, {
                                       user: loggedUser,
                                       option: option,
                                     });
+
+                                    replyEnvs(option.forbiddenEnvironments);
 
                                     const isAllowedByEnvironment =
                                       (!option.allowedEnvironments ||

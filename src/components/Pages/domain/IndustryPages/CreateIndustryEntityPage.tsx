@@ -216,7 +216,10 @@ const CreateIndustryEntityPage = () => {
       };
 
       // Verifica si `extractedObject` ya está en `entityRoleMap` usando `identifier`
-      const isAlreadyInMap = entityConfig.entityRoleMap.some((item) => item.id === extractedObject.id);
+      // Dos ids `undefined` nunca deben considerarse "el mismo" registro.
+      const isAlreadyInMap = entityConfig.entityRoleMap.some(
+        (item) => !!extractedObject.id && item.id === extractedObject.id
+      );
 
       // Si no está en el array `entityRoleMap`, lo añade
       if (!isAlreadyInMap) {

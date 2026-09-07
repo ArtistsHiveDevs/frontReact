@@ -1,8 +1,8 @@
-import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
+import { isActualProdEnvironment } from '~/common/utils/app-utils/app-utils';
 
 // src/analytics.ts
 export const initGA = (measurementId: string): void => {
-  if (isProdEnvironment()) {
+  if (isActualProdEnvironment()) {
     (window as any).dataLayer = (window as any).dataLayer || [];
     function gtag(...args: any[]): void {
       (window as any).dataLayer.push(args);
@@ -15,7 +15,7 @@ export const initGA = (measurementId: string): void => {
 };
 
 export const logPageView = (params?: { title?: string; url?: string }): void => {
-  if (isProdEnvironment()) {
+  if (isActualProdEnvironment()) {
     let { url, title } = params || {};
 
     if (!url && window.location) {
@@ -35,7 +35,7 @@ export const logPageView = (params?: { title?: string; url?: string }): void => 
 };
 
 export const logEvent = (action: string, category: string, label?: string, value?: number): void => {
-  if (isProdEnvironment() && (window as any)?.gtag && typeof (window as any)?.gtag === 'function') {
+  if (isActualProdEnvironment() && (window as any)?.gtag && typeof (window as any)?.gtag === 'function') {
     (window as any)?.gtag('event', action, {
       event_category: category,
       event_label: label,
@@ -49,7 +49,7 @@ export const logPageViewEvent = (params?: {
   page_location?: string;
   page_path?: string;
 }): void => {
-  if (isProdEnvironment()) {
+  if (isActualProdEnvironment()) {
     const algo: string = import.meta.env.GA_PREVENT_ANALYTICS;
     console.log('$$$$$$$    ', algo);
 
@@ -77,7 +77,7 @@ export const logPageViewEvent = (params?: {
 };
 
 export const logUser = (userId: string): void => {
-  if (isProdEnvironment()) {
+  if (isActualProdEnvironment()) {
     (window as any)?.gtag('set', { user_id: userId });
   }
 };

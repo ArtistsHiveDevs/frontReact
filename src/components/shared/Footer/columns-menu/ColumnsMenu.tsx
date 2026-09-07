@@ -9,6 +9,7 @@ export interface FooterColumnOption {
   image?: string;
   isTitle?: string;
   isLiteralTitle?: boolean;
+  isVisible?: boolean;
 }
 export interface FooterColumnTemplate {
   columnName: string;
@@ -33,7 +34,7 @@ const FooterColumns = (props: any) => {
   return (
     <>
       <div className="footer-columns">
-        {footerColumns?.map((footerColumn: FooterColumnTemplate, idx: any) => {
+        {footerColumns?.map((footerColumn: FooterColumnTemplate) => {
           const columnTitle = footerColumn.isLiteralTitle
             ? footerColumn.columnName
             : translateText(`${TRANSLATION_BASE_FOOTER_COLUMNS}.${footerColumn.columnName}.name`);
@@ -41,19 +42,21 @@ const FooterColumns = (props: any) => {
             <div key={footerColumn.columnName} className="footer-column">
               <h2 className="column-title">{columnTitle}</h2>
               <ul>
-                {footerColumn.options?.map((option: FooterColumnOption) => {
-                  const optionTitle = option.isLiteralTitle
-                    ? option.name
-                    : translateText(
-                        `${TRANSLATION_BASE_FOOTER_COLUMNS}.${footerColumn.columnName}.options.${option.name}`
-                      );
-                  const classNames = !!option.link ? 'option-active' : 'option-disabled';
-                  return (
-                    <li key={option.name} onClick={() => handleClick(option)} className={classNames}>
-                      {optionTitle}
-                    </li>
-                  );
-                })}
+                {footerColumn.options
+                  ?.filter((option: FooterColumnOption) => option.isVisible === undefined || option.isVisible)
+                  .map((option: FooterColumnOption) => {
+                    const optionTitle = option.isLiteralTitle
+                      ? option.name
+                      : translateText(
+                          `${TRANSLATION_BASE_FOOTER_COLUMNS}.${footerColumn.columnName}.options.${option.name}`
+                        );
+                    const classNames = !!option.link ? 'option-active' : 'option-disabled';
+                    return (
+                      <li key={option.name} onClick={() => handleClick(option)} className={classNames}>
+                        {optionTitle}
+                      </li>
+                    );
+                  })}
               </ul>
             </div>
           );

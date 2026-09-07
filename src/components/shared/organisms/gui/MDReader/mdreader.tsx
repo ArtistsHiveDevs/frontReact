@@ -204,6 +204,9 @@ const MDReader: React.FC<MDReaderProps> = ({ mdDocument, options }) => {
     h4: ({ node, ...props }: any) => <h4 id={generateIdFromText(props.children.toString())} {...props} />,
     h5: ({ node, ...props }: any) => <h5 id={generateIdFromText(props.children.toString())} {...props} />,
     h6: ({ node, ...props }: any) => <h6 id={generateIdFromText(props.children.toString())} {...props} />,
+    img: ({ node, className, ...props }: any) => (
+      <img className={['mdreader-bounded-image', className].filter(Boolean).join(' ')} {...props} />
+    ),
   };
 
   const tableOfContentData = useMemo(
@@ -329,7 +332,12 @@ const MDReader: React.FC<MDReaderProps> = ({ mdDocument, options }) => {
   return (
     <>
       {/* Header fijo que aparece al hacer scroll */}
-      <FixedHeader ref={fixedHeaderRef} mainHeaderRef={mainHeaderRef} onScrollPositionChange={handleScrollPositionChange}>
+      <FixedHeader
+        ref={fixedHeaderRef}
+        mainHeaderRef={mainHeaderRef}
+        onScrollPositionChange={handleScrollPositionChange}
+        shareUrl={window.location.href}
+      >
         {showTableOfContent && (
           <button
             type="button"

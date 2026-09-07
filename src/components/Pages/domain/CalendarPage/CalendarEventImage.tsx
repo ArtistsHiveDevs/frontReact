@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 
 import { getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
 
@@ -6,9 +6,10 @@ interface CalendarEventImageProps {
   alt: string;
   className: string;
   source?: string | null;
+  onClick?: (event: MouseEvent<HTMLImageElement>) => void;
 }
 
-export const CalendarEventImage = ({ alt, className, source }: CalendarEventImageProps) => {
+export const CalendarEventImage = ({ alt, className, source, onClick }: CalendarEventImageProps) => {
   const [resolvedSource, setResolvedSource] = useState<string>();
 
   useEffect(() => {
@@ -34,5 +35,13 @@ export const CalendarEventImage = ({ alt, className, source }: CalendarEventImag
     };
   }, [source]);
 
-  return resolvedSource ? <img alt={alt} className={className} src={resolvedSource} /> : null;
+  return resolvedSource ? (
+    <img
+      alt={alt}
+      className={className}
+      src={resolvedSource}
+      onClick={onClick}
+      style={onClick ? { cursor: 'pointer' } : undefined}
+    />
+  ) : null;
 };

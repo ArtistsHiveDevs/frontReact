@@ -1,4 +1,4 @@
-import { Avatar, Dialog, DialogContent, IconButton, Snackbar, SnackbarCloseReason } from '@mui/material';
+import { Avatar, Dialog, DialogContent, IconButton } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { RegisterOptions } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,22 +6,18 @@ import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
-import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { USERNAME_FORMAT_PATTERN, debouncedUsernameValidation } from '~/common/utils/validation/username-validation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import { FixedHeader } from '~/components/shared/molecules/FixedHeader';
 import { FollowerCounter } from '~/components/shared/molecules/Profile/FollowerCounter/FollowerCounter';
-import { ReportProfileForm } from '~/components/shared/molecules/Profile/ReportProfileForm/ReportProfileForm';
-import BurgerProfileMenu from '~/components/shared/molecules/general/burgerProfileMenu/burgerProfileMenu';
 import {
   FavoriteSubscription,
   FavoriteSubscritionIconDefaultTypes,
 } from '~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe';
+import { ResourceMoreMenu } from '~/components/shared/molecules/general/ResourceMoreMenu/ResourceMoreMenu';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
-import { PATHS } from '~/constants';
-import { ProfileMenuOptionsData, ProfileMenuOptionsType } from '~/constants/domain/profile.constants';
 import { ProfileModel } from '~/models/base';
 import { defaultTypesColors, getModelInfoFromInstance } from '~/models/base/modelHelpers';
 import { PlaceModel } from '~/models/domain/place/place.model';
@@ -44,7 +40,6 @@ interface FieldInfo {
 }
 export const ProfileHeader = (props: any) => {
   const { translateGlobalDict } = useI18n();
-  const { navigateToInnerPath } = useNavigation();
 
   const {
     element,
@@ -98,7 +93,6 @@ export const ProfileHeader = (props: any) => {
   });
 
   const [zoomProfilePic, setZoomProfilePic] = useState(false);
-  const [showReportForm, setShowReportForm] = useState(false);
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
   const [currentUserIsInProfile, setCurrentUserIsInProfile] = useState(false);
   const [borderProfileColor, setBorderProfileColor] = useState(undefined);
@@ -112,12 +106,7 @@ export const ProfileHeader = (props: any) => {
     value: undefined,
   });
 
-  const [showSnackBar, setShowSnackBar] = useState(false);
-  const [snackBarMessage, setSnackBarMessage] = useState('');
-
   const loggedUser = useSelector(selectCurrentUser);
-
-  const [burgerProfileMenuOptions, setBurgerProfileMenuOptions] = useState(ProfileMenuOptionsData);
 
   const getProfilePicURL = async () => {
     const photoURL =
@@ -163,32 +152,6 @@ export const ProfileHeader = (props: any) => {
         (type) => type.toLowerCase() === getModelInfoFromInstance(element).entityName?.toLowerCase()
       ) + 1;
     setBorderProfileColor(entityColorIndex);
-
-    // Determinar qué opciones del menú mostrar basado en permisos
-    const isOwnProfile = permissions.isInProfile;
-    const hasMembership = permissions.canEdit;
-    const canShowReport = !isOwnProfile && !hasMembership;
-
-    const updatedMenuOptions = burgerProfileMenuOptions?.map((menuOption) => {
-      switch (menuOption.option) {
-        case ProfileMenuOptionsType.SHARE:
-          // SHARE: Todos los perfiles pueden compartir
-          return { ...menuOption, show: true };
-
-        case ProfileMenuOptionsType.EDIT:
-          // EDIT: Solo si estoy en mi propio perfil
-          return { ...menuOption, show: isOwnProfile };
-
-        case ProfileMenuOptionsType.REPORT:
-          // REPORT: Solo si NO es mi perfil Y NO tengo membresía en ese perfil
-          return { ...menuOption, show: canShowReport };
-
-        default:
-          return menuOption;
-      }
-    });
-
-    setBurgerProfileMenuOptions(updatedMenuOptions);
   }, [element, loggedUser]);
 
   const generateEditableField = (fieldName: string, element: any, isEditable?: boolean, prefix?: any) => {
@@ -319,39 +282,8 @@ export const ProfileHeader = (props: any) => {
     setZoomProfilePic(false);
   };
 
-  const handleCloseSnackBar = (event: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setShowSnackBar(false);
-  };
-
-  const copyShareSocialMediaUrl = () => {
-    navigator.clipboard.writeText(element.sharedUrlSocialNetworks);
-    setSnackBarMessage(translateGlobalDict('actions.link_copied_to_clipboard'));
-    setShowSnackBar(true);
-  };
-
-  const selectProfileMenuHandleClick = (event: number) => {
-    switch (event) {
-      case 0:
-        copyShareSocialMediaUrl();
-        break;
-      case 1:
-        setEditableMode(element);
-        break;
-      case 2:
-        if (!loggedUser) {
-          navigateToInnerPath({ path: PATHS.LOGIN });
-        }
-        setShowReportForm(true);
-        break;
-    }
-  };
-
   return (
     <>
-      <Snackbar open={showSnackBar} autoHideDuration={2000} onClose={handleCloseSnackBar} message={snackBarMessage} />
       {!!element?.activity && element.activity !== 'active' && (
         <div className={['activity-banner', element.activity.replace('_', '-')].join(' ')}>
           <DynamicIcons iconName="PiWarningOctagonBold" size={25} color={'white'} />
@@ -362,16 +294,31 @@ export const ProfileHeader = (props: any) => {
 
       {/* Header fijo que aparece al hacer scroll */}
       {!isEditable && element && (
-        <FixedHeader mainHeaderRef={headerRef} className={`fixed-profile-header profile-entity-${borderProfileColor}-item`}>
-          <AvatarWithIcon
-            image={image}
-            name={element?.nameKnownAs || element?.name}
-            avatarSize={50}
-            bottomBadgeSize={30}
-            buttonIcon={currentUserCanEdit && !currentUserIsInProfile && 'PiUserSwitch'}
-            onClick={() => !!image && setZoomProfilePic(true)}
-            onBadgeClick={() => switchProfile()}
-          ></AvatarWithIcon>
+        <FixedHeader
+          mainHeaderRef={headerRef}
+          className={`fixed-profile-header profile-entity-${borderProfileColor}-item`}
+          avatar={
+            <AvatarWithIcon
+              image={image}
+              name={element?.nameKnownAs || element?.name}
+              avatarSize={50}
+              bottomBadgeSize={30}
+              buttonIcon={currentUserCanEdit && !currentUserIsInProfile && 'PiUserSwitch'}
+              onClick={() => !!image && setZoomProfilePic(true)}
+              onBadgeClick={() => switchProfile()}
+            ></AvatarWithIcon>
+          }
+          actionsButton={
+            <ResourceMoreMenu
+              loggedUser={loggedUser}
+              isOwner={currentUserIsInProfile}
+              hasAccess={currentUserCanEdit}
+              onEdit={parentHandlers?.onEditProfile ? () => setEditableMode(element) : undefined}
+              shareUrl={element?.sharedUrlSocialNetworks}
+              reportEntity={element}
+            />
+          }
+        >
           <div className="fixed-header-info">
             <div className="fixed-username">
               @{element?.username} <VerifiedArtist verifiedStatus={element?.verified_status} />
@@ -454,17 +401,17 @@ export const ProfileHeader = (props: any) => {
         </div>
         {!isEditable && (
           <div className="profile-menu-container ml-auto">
-            <BurgerProfileMenu
-              globalDictionary={translateGlobalDict}
-              options={burgerProfileMenuOptions}
-              onClickOption={(e: number) => selectProfileMenuHandleClick(e)}
+            <ResourceMoreMenu
+              loggedUser={loggedUser}
+              isOwner={currentUserIsInProfile}
+              hasAccess={currentUserCanEdit}
+              onEdit={parentHandlers?.onEditProfile ? () => setEditableMode(element) : undefined}
+              shareUrl={element?.sharedUrlSocialNetworks}
+              reportEntity={element}
             />
           </div>
         )}
       </div>
-      {loggedUser && (
-        <ReportProfileForm open={showReportForm} onClose={() => setShowReportForm(false)} entity={element} />
-      )}
       <Dialog open={zoomProfilePic} onClose={handleCloseZoomDialog} fullWidth>
         <DialogContent style={{ textAlign: 'center', position: 'relative', padding: 0 }}>
           <IconButton onClick={handleCloseZoomDialog} style={{ position: 'absolute', top: '0.5%', right: '0.5%' }}>

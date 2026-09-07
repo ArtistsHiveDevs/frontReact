@@ -84,8 +84,10 @@ $non-active-profile-bg: #a00000;
 $calendar-event-activity-color: #034d5b;
 $calendar-event-opencall-color: #b1240e;
 $calendar-event-event-color: #228963;
-$calendar-event-holiday-color: #f58f1a;
+$calendar-event-holiday-color: #cebf6e;
 $calendar-event-expired-color: #6b6b6b;
+// $calendar-now-indicator-color: #77120c;
+$calendar-now-indicator-color: $gray-medium;
 
 $calendar-event-colors: (
   activity: $calendar-event-activity-color,
@@ -104,7 +106,7 @@ $grid-breakpoints: (
 );
 
 // Import math module for division
-@use "sass:math";
+@use 'sass:math';
 
 // Functions
 @function rem-calc($size) {

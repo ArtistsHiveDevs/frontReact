@@ -1,3 +1,4 @@
+import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
 import { FooterColumnTemplate } from '~/components/shared/Footer/columns-menu';
 import FooterColumns from '~/components/shared/Footer/columns-menu/ColumnsMenu';
 import FooterCopyright from '~/components/shared/Footer/footer-copyright/FooterCopyright';
@@ -14,6 +15,7 @@ export const AppFooter = () => {
         {
           name: 'cultural_agenda',
           link: PATHS.CULTURAL_AGENDA,
+          isVisible: !isProdEnvironment(),
         },
         {
           name: 'for_artists',
@@ -29,12 +31,17 @@ export const AppFooter = () => {
         //   link: `${PATHS.INDUSTRY_OFFER}${PATHS.ACADEMIES}`,
         // },
 
-        { name: 'for_festivals' },
+        { name: 'for_festivals', isVisible: !isProdEnvironment() },
       ],
     },
     {
       columnName: 'about_us',
-      options: [{ name: 'history' }, { name: 'press' }, { name: 'career' }, { name: 'download' }],
+      options: [
+        { name: 'history' },
+        { name: 'press', isVisible: !isProdEnvironment() },
+        { name: 'career', isVisible: !isProdEnvironment() },
+        { name: 'download', isVisible: !isProdEnvironment() },
+      ],
     },
     // {
     //   columnTitle: "Proyectos",
@@ -46,7 +53,7 @@ export const AppFooter = () => {
         { name: 'help_center', link: PATHS.FAQ },
         { name: 'data_policy', link: PATHS.PRIVACY_POLICY },
         { name: 'terms', link: PATHS.TERMS_OF_SERVICE },
-        { name: 'report' },
+        { name: 'report', isVisible: !isProdEnvironment() },
         { name: 'contact_us', link: PATHS.CONTACT_US },
       ],
     },

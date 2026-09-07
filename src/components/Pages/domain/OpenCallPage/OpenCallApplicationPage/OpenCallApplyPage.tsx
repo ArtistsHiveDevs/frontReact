@@ -10,7 +10,11 @@ import {
   useOpenCallApplications,
   useProfileInfo,
 } from '~/components/Pages/domain/OpenCallPage/common';
-import { ProfilePictureWithName } from '~/components/shared/atoms/gui/ProfilePictureList/ProfilePictureWithName';
+import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
+import {
+  ProfilePictureWithName,
+  ProfilePictureWithNameConstants,
+} from '~/components/shared/atoms/gui/ProfilePictureList/ProfilePictureWithName';
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { AttributeConfiguration } from '~/components/shared/organisms/gui/builders/component-types.def';
 import {
@@ -188,13 +192,24 @@ const OpenCallApplyPage = () => {
   // 6. Mostrar formulario
   return (
     <div className="open-call-page">
+      <BackButton />
       {/* Header */}
       <div className="open-call-header">
         <h1 className="open-call-title">{translate('title')}</h1>
         <p className="open-call-subtitle">{translate('subtitle')}</p>
       </div>
 
-      {/* Applicant */ loggedUser && <ProfilePictureWithName element={loggedUser.currentProfileInfo} />}
+      {
+        /* Applicant */ loggedUser && (
+          <div className="open-call-applicant">
+            <ProfilePictureWithName
+              element={loggedUser.currentProfileInfo}
+              direction={ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL}
+              styles={{ avatarSize: 3.5 }}
+            />
+          </div>
+        )
+      }
 
       {/* Stepper progress */}
       <div className="stepper-progress">
@@ -273,7 +288,7 @@ const OpenCallApplyPage = () => {
             )}
           </div>
 
-          <p className="save-notice">{translate('save_notice')}</p>
+          {/* <p className="save-notice">{translate('save_notice')}</p> */}
         </form>
       </FormProvider>
     </div>

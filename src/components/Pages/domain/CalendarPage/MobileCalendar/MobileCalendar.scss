@@ -74,6 +74,26 @@ $mobile-global-header-height: rem-calc(60);
     gap: 0.25rem;
   }
 
+  &__today-btn {
+    background: none;
+    border: 1px solid $mobile-calendar-accent;
+    border-radius: 10px;
+    color: $mobile-calendar-accent;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-size: rem-calc(13);
+    font-weight: 600;
+    min-height: rem-calc(30);
+    padding: 0 0.75rem;
+    transition: background-color $mobile-calendar-transition, color $mobile-calendar-transition;
+
+    &:hover,
+    &:active {
+      background-color: $mobile-calendar-accent;
+      color: $app-background;
+    }
+  }
+
   &__icon-button {
     align-items: center;
     background: none;
@@ -147,6 +167,11 @@ $mobile-global-header-height: rem-calc(60);
     padding: rem-calc(6) 0;
     text-align: center;
     text-transform: uppercase;
+
+    &--holiday {
+      color: $calendar-event-holiday-color;
+      font-weight: 700;
+    }
   }
 
   &__day {
@@ -283,7 +308,30 @@ $mobile-global-header-height: rem-calc(60);
     gap: 0.5rem;
     grid-template-columns: rem-calc(44) minmax(0, 1fr);
     padding: rem-calc(6) 0;
+    position: relative;
     scroll-margin-top: $mobile-global-header-height + rem-calc(102);
+  }
+
+  &__now-line {
+    background-color: $calendar-now-indicator-color;
+    height: rem-calc(2);
+    left: calc(#{rem-calc(44)} + 0.5rem);
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    z-index: 1;
+
+    &::before {
+      background-color: $calendar-now-indicator-color;
+      border-radius: 50%;
+      content: '';
+      height: rem-calc(7);
+      left: 0;
+      position: absolute;
+      top: 50%;
+      transform: translate(-30%, -50%);
+      width: rem-calc(7);
+    }
   }
 
   &__agenda-date {
@@ -308,6 +356,12 @@ $mobile-global-header-height: rem-calc(60);
   &__agenda-day--today &__agenda-weekday,
   &__agenda-day--today &__agenda-day-number {
     color: $mobile-calendar-accent;
+    font-weight: 600;
+  }
+
+  &__agenda-day--holiday &__agenda-weekday,
+  &__agenda-day--holiday &__agenda-day-number {
+    color: $calendar-event-holiday-color;
     font-weight: 600;
   }
 

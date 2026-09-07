@@ -1,7 +1,7 @@
 import { Button, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
 import {
   selectorOpenCallApplications,
@@ -10,6 +10,7 @@ import {
 import { selectorOpenCalls, useOpenCallsSlice } from '~/common/slices/domain/open-calls/open-calls.redux';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import ApplicationSurveyView from '~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/ApplicationSurveyView';
 import '~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/index.scss';
@@ -21,7 +22,7 @@ import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/A
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
-import { OpenCallApplicationModel } from '~/models/domain/open-call/open-call-application.model';
+import { OpenCallApplicationModel, OpenCallModelV1 } from '~/models/domain/open-call/v1';
 
 const STATUS_COLORS: Record<string, string> = {
   pending: '#FFA726',
@@ -115,8 +116,8 @@ const ApplicationCard = ({ application, canModerate, isUpdating, onAccept, onRej
 };
 
 const OpenCallDetailsPage = () => {
-  const { translateText } = useI18n();
-  const navigate = useNavigate();
+  const { translateText, translateGlobalDict } = useI18n();
+  const { navigateToEntity, navigateToInnerPath } = useNavigation();
   const dispatch = useDispatch();
   const urlParameters = useParams();
   const openCallId = urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID];
@@ -156,6 +157,7 @@ const OpenCallDetailsPage = () => {
 
   useEffect(() => {
     if (openCallId) {
+      window.scrollTo(0, 0);
       dispatch(openCallActions.getItemById({ id: openCallId }));
       // La ruta /open-call-applications no filtra por query params server-side hoy; el filtro real ocurre abajo.
       dispatch(applicationActions.loadItems({ queryParams: { open_call_id: openCallId } }));
@@ -163,6 +165,7 @@ const OpenCallDetailsPage = () => {
   }, [openCallId]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (!!loggedUser) {
       // Determinar el tipo de perfil actual
       const currentProfileEntity = loggedUser?.currentProfileInfo?.entity;
@@ -218,7 +221,8 @@ const OpenCallDetailsPage = () => {
       setIsMissingDocsDialogOpen(true);
     } else {
       // Si no hay documentos faltantes, navegar a la página de aplicación
-      navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.APPLY}/${openCallId}`);
+      // navigateToInnerPath({ path: ${PATHS.OPEN_CALLS}/${SUB_PATHS.APPLY}/${openCallId}` });
+      navigateToEntity({ entityType: OpenCallModelV1.name, id: openCallId, action: SUB_PATHS.APPLY });
     }
   };
 
@@ -244,6 +248,7 @@ const OpenCallDetailsPage = () => {
           <OpenCallPresentation
             openCall={currentOpenCall}
             onApply={canApplyToOpenCall ? handleApplyClick : undefined}
+            isOwner={isPlaceOwner}
           />
         )}
 
@@ -302,7 +307,11 @@ const OpenCallDetailsPage = () => {
         </div>
 
         <div className="step-navigation">
-          <button type="button" className="nav-btn btn-prev" onClick={() => navigate(`/${PATHS.OPEN_CALLS}`)}>
+          <button
+            type="button"
+            className="nav-btn btn-prev"
+            onClick={() => navigateToInnerPath({ path: PATHS.OPEN_CALLS })}
+          >
             {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.back_button`)}
           </button>
         </div>
@@ -317,14 +326,22 @@ const OpenCallDetailsPage = () => {
               <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.missing_documents_message`)}</p>
               <ol>
                 {currentArtist.openCallDocumentCheckList.map((doc, index) => (
-                  <li key={index}>
-                    {doc.field}
-                    {doc.translationPath && ` - ${translateText(doc.translationPath)}`}
-                  </li>
+                  <li key={index}>{doc.translationPath && `${translateGlobalDict(doc.translationPath)}`}</li>
                 ))}
               </ol>
             </div>
           }
+          actions={[
+            {
+              label: translateText('app.pages.OpenCallDetailsPage.actions.complete_profile'),
+              handler: () =>
+                navigateToEntity({
+                  entityType: ArtistModel.name,
+                  id: currentArtist.identifier,
+                  action: SUB_PATHS.EDIT,
+                }),
+            },
+          ]}
         />
       )}
     </>

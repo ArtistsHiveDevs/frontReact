@@ -1,6 +1,6 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
 import { getUrl } from '~/common/utils/amplify/storage/storage.client';
-import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
+import { getEnvironment, isProdEnvironment } from '~/common/utils/app-utils/app-utils';
 import { encryptEnvToken } from '~/common/utils/request';
 import { toCamelCase } from '~/common/utils/string-utils';
 import { VerificationStatus } from '~/constants';
@@ -20,6 +20,13 @@ const DEFAULT_MAX_CACHE_TIME_TO_LIVE = 3 * 60 * 1000;
 const s3UrlCache = new Map<string, { url: StorageGetUrlOutput; expiresAt: number }>();
 // Map para trackear requests en progreso y evitar llamadas duplicadas simultáneas
 const pendingRequests = new Map<string, Promise<StorageGetUrlOutput>>();
+
+// En dev usamos el server local en vez del dominio de share, que no resuelve localmente.
+function resolveShareDomain(): string {
+  return getEnvironment() === 'dev'
+    ? import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL
+    : 'https://share.artist-hive.com';
+}
 
 /**
  *
@@ -223,10 +230,10 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
   }
 
   get sharedUrlSocialNetworks() {
-    const shareDomain = 'https://share.artist-hive.com';
+    const shareDomain = resolveShareDomain();
     const env = isProdEnvironment() ? '' : `?a=${encryptEnvToken()}`;
     //TODO Revisar qué pasa cuando no tenga
-    return this.entityShareAcronym ? `${shareDomain}/r/${this.identifier}${env}` : 'https://artist-hive.com';
+    return this.entityShareAcronym ? `${shareDomain}/r/${this.entityShareAcronym}/${this.identifier}${env}` : 'https://artist-hive.com';
   }
 }
 
@@ -307,28 +314,19 @@ export abstract class ProfileModel<T extends ProfileTemplate>
   }
 
   get sharedUrlSocialNetworks() {
-    const shareDomain = 'https://share.artist-hive.com';
+    const shareDomain = resolveShareDomain();
 
     const env = isProdEnvironment() ? '' : `?a=${encryptEnvToken()}`;
 
     return `${shareDomain}/@${this.identifier}${env}`;
   }
 
-  private async setAWSURL() {
-    const url = await this.getS3UrlWithCache(this.profile_pic);
-    if (url && url !== this.profile_pic) {
-      // Mantener compatibilidad con código existente que usa _profile_pic_aws
-      this._profile_pic_aws = { url: new URL(url) } as StorageGetUrlOutput;
-    } else {
-      this._profile_pic_aws = undefined;
-    }
-  }
 
   get profileInfo(): CurrentProfileInfoModel {
     return new CurrentProfileInfoModel({ ...this });
   }
 
-  isFollowedBy(identifier: string) {
+  isFollowedBy() {
     return true; //this.followed_by.includes(identifier);
   }
 }

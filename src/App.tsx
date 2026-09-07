@@ -31,13 +31,13 @@ import { RoutesApp } from '~/routes';
 import { useApiKeySlice } from './common/slices/app-base/APIKey';
 import { selectApiKey } from './common/slices/app-base/APIKey/selectors';
 import { initGA } from './common/utils/analytics/analytics';
-import { isProdEnvironment } from './common/utils/app-utils/app-utils';
+import { isActualProdEnvironment } from './common/utils/app-utils/app-utils';
 import { AppLoader } from './components/shared/organisms/app/loader/loader';
 
 // import { secret } from '@aws-amplify/backend';
 
 const App = () => {
-  let { lang, messages, setLocale: setLang } = useContext(HvAppContext);
+  let { lang, messages } = useContext(HvAppContext);
 
   const [appLang, setAppLang] = useState<{ lang: string; messages: any }>({
     lang,
@@ -46,7 +46,7 @@ const App = () => {
 
   const [userAWSAttributes, setUserAWSAttributes] = useState<FetchUserAttributesOutput>();
 
-  const onError = (error: any) => {}; //console.log(`Error Messages: ${error}`);
+  const onError = () => {}; //console.log(`Error Messages: ${error}`);
 
   const guii18nData = geti18nGUILanguage(appLang.lang);
   const darkTheme = createTheme({
@@ -55,7 +55,7 @@ const App = () => {
     },
   });
 
-  if (isProdEnvironment()) {
+  if (isActualProdEnvironment()) {
     const trackingID = import.meta.env.VITE_GA_CODE; // Reemplaza con tu ID de seguimiento de Google Analytics
     initGA(trackingID);
   }
@@ -63,15 +63,13 @@ const App = () => {
   const dispatch = useDispatch();
   const { actions: apiKeyActions } = useApiKeySlice();
 
-  const apiKeyInfo = useSelector(selectApiKey);
-
   useEffect(() => {
     verifyUserSession();
   }, []);
 
   const verifyUserSession = async () => {
     try {
-      const { username, userId, signInDetails } = await getCurrentUser();
+      const { username, userId } = await getCurrentUser();
       if (username && userId) {
         // Obtener los atributos del usuario para conseguir el preferred_username
         const { fetchUserAttributes } = await import('aws-amplify/auth');

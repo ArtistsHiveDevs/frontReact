@@ -3,7 +3,6 @@ import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { PathConfigMap } from '.';
 
 const detailsPagePath = `${SUB_PATHS.ELEMENT_DETAILS}/:${URL_PARAMETER_NAMES.ELEMENT_ID}`;
-const usernamePagePath = `:${URL_PARAMETER_NAMES.ELEMENT_ID}`;
 
 export const ROUTES_CONFIG: PathConfigMap = {
   app: {
@@ -73,6 +72,7 @@ export const ROUTES_CONFIG: PathConfigMap = {
       Calendar: {
         component: lazy(() => import('~/components/Pages/domain/CalendarPage/CalendarPage')),
         path: PATHS.CALENDAR,
+        redirectToIfNotLoggedUser: PATHS.LOGIN,
       },
       CulturalAgendaPage: {
         component: lazy(() => import('~/components/Pages/domain/CulturalAgenda/home/cultural-agenda-page')),

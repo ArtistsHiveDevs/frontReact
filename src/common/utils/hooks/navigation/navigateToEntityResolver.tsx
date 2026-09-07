@@ -3,6 +3,7 @@ import { AppUserModel } from '~/models/app/user/user.model';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import { TourOutlineModel } from '~/models/domain/favourites/tourOutline';
+import { OpenCallModelV1 } from '~/models/domain/open-call/v1';
 import { PlaceModel } from '~/models/domain/place/place.model';
 
 export const resolveNavigateToEntityPath = (entityType: string) => {
@@ -25,6 +26,9 @@ export const resolveNavigateToEntityPath = (entityType: string) => {
       break;
     case 'StagePlot':
       entity = PATHS.STAGE_PLOT;
+      break;
+    case OpenCallModelV1.name:
+      entity = PATHS.OPEN_CALLS;
       break;
 
     default:

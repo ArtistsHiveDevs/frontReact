@@ -15,7 +15,7 @@ export interface BackButtonParams {
 export const BackButton = (params: BackButtonParams) => {
   const { onClick, formRef, submitDelay = 1500, skipEmptySubmit = true } = params;
   const { goBack } = useNavigation();
-  const { translateText, translateGlobalDict } = useI18n();
+  const { translateGlobalDict } = useI18n();
 
   const handleClick = async () => {
     // Si se proporciona una ref del formulario, ejecutar submit
@@ -27,6 +27,7 @@ export const BackButton = (params: BackButtonParams) => {
           const hasChanges = modifiedFields && Object.keys(modifiedFields).length > 0;
 
           if (!hasChanges) {
+            window.scrollTo(0, 0);
             goBack();
             return;
           }
@@ -42,9 +43,10 @@ export const BackButton = (params: BackButtonParams) => {
     }
     // Si hay un onClick personalizado, ejecutarlo (mantiene retrocompatibilidad)
     else if (!!onClick && onClick instanceof Function) {
+      window.scrollTo(0, 0);
       await onClick();
     }
-
+    window.scrollTo(0, 0);
     goBack();
   };
 

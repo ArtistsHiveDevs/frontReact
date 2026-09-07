@@ -111,137 +111,137 @@ export const OPEN_CALL_STEP_META: Record<string, OpenCallStepMeta> = {
 
 export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
   // ─── Step 1: General ───
-  {
-    name: 'general',
-    title: OPEN_CALL_STEP_META.general.title,
-    sections: [
-      // {
-      //   name: 'artist_info',
-      //   components: [
-      //     {
-      //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
-      //       data: {
-      //         attributes: [
-      //           // {
-      //           //   name: 'artist_name',
-      //           //   title: 'Nombre del proyecto / Artista',
-      //           //   formMetaData: {
-      //           //     inputType: 'text',
-      //           //     config: {
-      //           //       required: true,
-      //           //       minLength: { value: 2, message: 'Mínimo 2 caracteres' },
-      //           //     },
-      //           //     componentParams: { placeholder: 'Ej: Los Amplificadores' },
-      //           //   },
-      //           // },
-      //           // {
-      //           //   name: 'manager_name',
-      //           //   title: 'Nombre del representante / Manager',
-      //           //   formMetaData: {
-      //           //     inputType: 'text',
-      //           //     componentParams: { placeholder: 'Nombre completo del contacto' },
-      //           //   },
-      //           // },
-      //           // {
-      //           //   name: 'country',
-      //           //   title: 'País de origen',
-      //           //   formMetaData: {
-      //           //     inputType: 'text',
-      //           //     config: { required: 'Este campo es obligatorio' },
-      //           //     componentParams: { placeholder: 'Ej: Colombia' },
-      //           //   },
-      //           // },
-      //           // {
-      //           //   name: 'city',
-      //           //   title: 'Ciudad de origen',
-      //           //   formMetaData: {
-      //           //     inputType: 'text',
-      //           //     config: { required: 'Este campo es obligatorio' },
-      //           //     componentParams: { placeholder: 'Ej: Bogotá' },
-      //           //   },
-      //           // },
-      //         ],
-      //       },
-      //     },
-      //   ],
-      // },
-      {
-        name: 'contact',
-        components: [
-          {
-            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
-            data: {
-              attributes: [
-                {
-                  name: 'email',
-                  title: 'Correo electrónico',
-                  formMetaData: {
-                    inputType: 'text',
-                    config: {
-                      required: 'Este campo es obligatorio',
-                      pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Correo no válido' },
-                    },
-                    componentParams: { placeholder: 'correo@ejemplo.com' },
-                  },
-                },
-                {
-                  name: 'phone',
-                  title: 'Teléfono / WhatsApp',
-                  formMetaData: {
-                    inputType: 'tel',
-                    config: { required: 'Este campo es obligatorio' },
-                    componentParams: { placeholder: '+57 300 123 4567' },
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      // {
-      //   name: 'project',
-      //   components: [
-      //     {
-      //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
-      //       data: {
-      //         attributes: [
-      //           {
-      //             name: 'genre',
-      //             title: 'Género musical principal',
-      //             formMetaData: {
-      //               inputType: 'select',
-      //               config: { required: 'Este campo es obligatorio' },
-      //               componentParams: { placeholder: 'Selecciona un género', options: MUSIC_GENRE_OPTIONS },
-      //             },
-      //           },
-      //           {
-      //             name: 'project_type',
-      //             title: 'Tipo de proyecto',
-      //             formMetaData: {
-      //               inputType: 'select',
-      //               config: { required: 'Este campo es obligatorio' },
-      //               componentParams: { placeholder: 'Selecciona el tipo', options: PROJECT_TYPE_OPTIONS },
-      //             },
-      //           },
-      //           {
-      //             name: 'synopsis',
-      //             title: 'Sinopsis del espectáculo',
-      //             formMetaData: {
-      //               inputType: 'textarea',
-      //               componentParams: {
-      //                 placeholder: 'Describe brevemente tu propuesta artística...',
-      //                 maxLength: 150,
-      //                 rows: 3,
-      //               },
-      //             },
-      //           },
-      //         ],
-      //       },
-      //     },
-      //   ],
-      // },
-    ],
-  },
+  // {
+  //   name: 'general',
+  //   title: OPEN_CALL_STEP_META.general.title,
+  //   sections: [
+  //     // {
+  //     //   name: 'artist_info',
+  //     //   components: [
+  //     //     {
+  //     //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+  //     //       data: {
+  //     //         attributes: [
+  //     //           // {
+  //     //           //   name: 'artist_name',
+  //     //           //   title: 'Nombre del proyecto / Artista',
+  //     //           //   formMetaData: {
+  //     //           //     inputType: 'text',
+  //     //           //     config: {
+  //     //           //       required: true,
+  //     //           //       minLength: { value: 2, message: 'Mínimo 2 caracteres' },
+  //     //           //     },
+  //     //           //     componentParams: { placeholder: 'Ej: Los Amplificadores' },
+  //     //           //   },
+  //     //           // },
+  //     //           // {
+  //     //           //   name: 'manager_name',
+  //     //           //   title: 'Nombre del representante / Manager',
+  //     //           //   formMetaData: {
+  //     //           //     inputType: 'text',
+  //     //           //     componentParams: { placeholder: 'Nombre completo del contacto' },
+  //     //           //   },
+  //     //           // },
+  //     //           // {
+  //     //           //   name: 'country',
+  //     //           //   title: 'País de origen',
+  //     //           //   formMetaData: {
+  //     //           //     inputType: 'text',
+  //     //           //     config: { required: 'Este campo es obligatorio' },
+  //     //           //     componentParams: { placeholder: 'Ej: Colombia' },
+  //     //           //   },
+  //     //           // },
+  //     //           // {
+  //     //           //   name: 'city',
+  //     //           //   title: 'Ciudad de origen',
+  //     //           //   formMetaData: {
+  //     //           //     inputType: 'text',
+  //     //           //     config: { required: 'Este campo es obligatorio' },
+  //     //           //     componentParams: { placeholder: 'Ej: Bogotá' },
+  //     //           //   },
+  //     //           // },
+  //     //         ],
+  //     //       },
+  //     //     },
+  //     //   ],
+  //     // },
+  //     // {
+  //     //   name: 'contact',
+  //     //   components: [
+  //     //     {
+  //     //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+  //     //       data: {
+  //     //         attributes: [
+  //     //           {
+  //     //             name: 'email',
+  //     //             title: 'Correo electrónico',
+  //     //             formMetaData: {
+  //     //               inputType: 'text',
+  //     //               config: {
+  //     //                 required: 'Este campo es obligatorio',
+  //     //                 pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Correo no válido' },
+  //     //               },
+  //     //               componentParams: { placeholder: 'correo@ejemplo.com' },
+  //     //             },
+  //     //           },
+  //     //           {
+  //     //             name: 'phone',
+  //     //             title: 'Teléfono / WhatsApp',
+  //     //             formMetaData: {
+  //     //               inputType: 'tel',
+  //     //               config: { required: 'Este campo es obligatorio' },
+  //     //               componentParams: { placeholder: '+57 300 123 4567' },
+  //     //             },
+  //     //           },
+  //     //         ],
+  //     //       },
+  //     //     },
+  //     //   ],
+  //     // },
+  //     // {
+  //     //   name: 'project',
+  //     //   components: [
+  //     //     {
+  //     //       componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+  //     //       data: {
+  //     //         attributes: [
+  //     //           {
+  //     //             name: 'genre',
+  //     //             title: 'Género musical principal',
+  //     //             formMetaData: {
+  //     //               inputType: 'select',
+  //     //               config: { required: 'Este campo es obligatorio' },
+  //     //               componentParams: { placeholder: 'Selecciona un género', options: MUSIC_GENRE_OPTIONS },
+  //     //             },
+  //     //           },
+  //     //           {
+  //     //             name: 'project_type',
+  //     //             title: 'Tipo de proyecto',
+  //     //             formMetaData: {
+  //     //               inputType: 'select',
+  //     //               config: { required: 'Este campo es obligatorio' },
+  //     //               componentParams: { placeholder: 'Selecciona el tipo', options: PROJECT_TYPE_OPTIONS },
+  //     //             },
+  //     //           },
+  //     //           {
+  //     //             name: 'synopsis',
+  //     //             title: 'Sinopsis del espectáculo',
+  //     //             formMetaData: {
+  //     //               inputType: 'textarea',
+  //     //               componentParams: {
+  //     //                 placeholder: 'Describe brevemente tu propuesta artística...',
+  //     //                 maxLength: 150,
+  //     //                 rows: 3,
+  //     //               },
+  //     //             },
+  //     //           },
+  //     //         ],
+  //     //       },
+  //     //     },
+  //     //   ],
+  //     // },
+  //   ],
+  // },
 
   // ─── Step 2: Multimedia ───
   // {
@@ -358,7 +358,11 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
                   title: 'Duración del show (minutos)',
                   formMetaData: {
                     inputType: 'number',
-                    config: { required: 'Este campo es obligatorio', min: { value: 15, message: 'Mínimo 15 minutos' } },
+                    config: {
+                      required: 'Este campo es obligatorio',
+                      min: { value: 15, message: 'Mínimo 15 minutos' },
+                      max: { value: 240, message: 'Máximo 240 minutos' },
+                    },
                     componentParams: { placeholder: 'Ej: 60' },
                   },
                 },

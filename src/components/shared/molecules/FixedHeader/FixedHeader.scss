@@ -5,7 +5,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 90;
+  z-index: 2000;
   background-color: $main-background-color;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transform: translateY(-100%);
@@ -15,11 +15,39 @@
     transform: translateY(0);
   }
 
+  &--no-border {
+    box-shadow: none;
+  }
+
   .fixed-header-content {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
+    gap: 0.5rem;
     min-height: 4rem;
-    padding: 0.75rem 1rem;
+    padding: 0.6rem;
+  }
+
+  .fixed-header-avatar {
+    flex-shrink: 0;
+
+    .MuiAvatar-root {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+
+  .fixed-header-main {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .fixed-header-actions {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 }

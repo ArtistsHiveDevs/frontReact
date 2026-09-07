@@ -20,7 +20,7 @@ import {
 } from '~/components/shared/organisms/gui/builders/page-section-form.utils';
 import { DynamicControl } from '~/components/shared/organisms/gui/dynamicForms/DynamicControl';
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
-import { OpenCallApplicationModel } from '~/models/domain/open-call/open-call-application.model';
+import { OpenCallApplicationModel } from '~/models/domain/open-call/v1';
 import { OPEN_CALL_PAGE_CONFIG, OPEN_CALL_STEP_META, TRANSLATION_BASE_OPEN_CALL_PAGE } from './config-open-call';
 import './index.scss';
 

@@ -128,7 +128,7 @@ const ArtistsCreatePage = () => {
   };
 
   const handlers = {
-    onSubmit: async (data: any, error?: any) => {
+    onSubmit: async (data: any) => {
       const submitData = buildSubmitData(data);
       if (!currentArtist) {
         await uploadFileToServer({ file: submitData.profile_pic });
@@ -196,6 +196,7 @@ const ArtistsCreatePage = () => {
               elementData={currentArtist}
               fieldOptions={{
                 genres: availableGenres,
+                genres_2: availableGenres,
                 arts_languages: availableLanguages,
                 spoken_languages: availableLanguages,
                 stage_languages: availableLanguages,

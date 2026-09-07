@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import { fetchUserAttributes } from 'aws-amplify/auth';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectorAllergies, useAllergiesSlice } from '~/common/slices/parametrics/demographics/allergies.redux';
@@ -7,7 +6,6 @@ import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametric
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
-import { uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
 import {
   getBloodGroupOptions,
   getDietaryRestrictionOptions,
@@ -110,8 +108,6 @@ const UserCreatePage = () => {
   }, [loggedUser, updateRequestWasSended]);
 
   const getUserInfo = async () => {
-    const user = await fetchUserAttributes();
-
     // console.log('username', user.username);
     // console.log('user id', user.userId);
     // console.log('sign-in details', user.signInDetails);
@@ -120,14 +116,11 @@ const UserCreatePage = () => {
   };
 
   const handlers = {
-    onSubmit: async (data: any, error?: any) => {
+    onSubmit: async (data: any) => {
       // console.log('#####----------->>>>  !!! ', data);
       if (!!data.profile_pic) {
-        const prefferedFilename = `${loggedUser.sub}.${data.profile_pic.name.split('.').pop()}`;
-        const response = await uploadFileToServer({
-          file: data.profile_pic,
-          prefferedFilename,
-        });
+        const prefferedFilename = `${loggedUser.identifier}.${data.profile_pic.name.split('.').pop()}`;
+        console.log('FILE USUARIO ', loggedUser, prefferedFilename);
         // console.log('DESPUÉS de SUBIR FOTO, ', response);
         dispatch(
           userActions.updateUser({
@@ -192,14 +185,14 @@ const UserCreatePage = () => {
               component="img"
               sx={{
                 height: 'auto',
-                width: '90%',
-                maxWidth: { xs: '90%', md: '600px' },
+                width: '100%',
+                maxWidth: { xs: '100%', md: '600px' },
                 display: 'block', // Necesario para que el margen funcione
                 mx: 'auto', // Centra horizontalmente
                 padding: '1rem',
               }}
               alt="Description"
-              src="/img/InfoPerfiles.png"
+              src="/img/InfoPerfiles.jpeg"
             />
           </>
         }

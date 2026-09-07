@@ -147,7 +147,6 @@ const miInfo: SideMenuItem[] = [
     updated: new Date('1/18/16'),
     randomId: false,
     requireSession: true,
-    forbiddenEnvironments: ['prod'],
     hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
       return !params?.user?.hasIndustryProfiles;
     },
@@ -204,7 +203,7 @@ const miInfo: SideMenuItem[] = [
     rightIcon: 'FaPlus',
     rightPath: `${PATHS.OPEN_CALLS}/${SUB_PATHS.CREATE}`,
     rightAllowedRoles: [{ entityName: 'Place', requireActiveProfileType: true }],
-    forbiddenEnvironments: ['prod'],
+    // forbiddenEnvironments: ['prod'],
     // hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
     //   return params?.user?.hasIndustryProfiles && params?.user?.isInPersonalProfile;
     // },
@@ -306,6 +305,13 @@ const config: SideMenuItem[] = [
   {
     name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'send_comments'),
     path: `${PATHS.PLANS}`,
+    icon: 'MdAttachMoney',
+    updated: new Date('2/20/16'),
+    forbiddenEnvironments: ['prod'],
+  },
+  {
+    name: generateTranslationPath(SIDENAV_SECTIONS.SETTINGS, 'send_comments'),
+    path: `${PATHS.PREBOOKING_REQUESTS_LIST}/details/lasucursalvenue`,
     icon: 'MdAttachMoney',
     updated: new Date('2/20/16'),
     forbiddenEnvironments: ['prod'],

@@ -132,7 +132,7 @@ const HomePage = () => {
 
   return (
     <>
-      {!isProdEnvironment() && <HomeHighlightBanner items={exampleBanners} />}
+      {<HomeHighlightBanner items={exampleBanners} />}
       {/* <WelcomeSection /> */}
       <div className="home-section-title">
         <h1 className="welcome-title">{translateText(`${TRANSLATION_BASE_HOME_PAGE}.news`)}</h1>

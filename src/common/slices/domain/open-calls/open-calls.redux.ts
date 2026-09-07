@@ -1,4 +1,4 @@
-import { OpenCallModel, OpenCallTemplate } from '~/models/domain/open-call/v1';
+import { OpenCallModelV1, OpenCallTemplate } from '~/models/domain/open-call/v1';
 
 import { createEntitySelectors } from '~/common/slices/base/generic-selector';
 import { createEntitySlice } from '~/common/slices/base/generic-slice';
@@ -7,11 +7,11 @@ import { useInjectReducer, useInjectSaga } from '~/common/utils/redux-injectors'
 const sliceName = 'openCalls';
 const resourceEndpoint = '/open-calls';
 
-export const selectorOpenCalls = createEntitySelectors<typeof sliceName, OpenCallModel, OpenCallTemplate>({ sliceName });
+export const selectorOpenCalls = createEntitySelectors<typeof sliceName, OpenCallModelV1, OpenCallTemplate>({ sliceName });
 
 const { slice: openCallSlice, saga: sagaOpenCalls } = createEntitySlice({
   name: sliceName,
-  Model: OpenCallModel,
+  Model: OpenCallModelV1,
   initialState: {
     items: [],
     loading: false,

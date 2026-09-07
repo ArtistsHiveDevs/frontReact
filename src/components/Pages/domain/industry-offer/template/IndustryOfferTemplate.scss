@@ -15,12 +15,12 @@
     margin-right: auto;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  .offer-container & h1,
+  .offer-container & h2,
+  .offer-container & h3,
+  .offer-container & h4,
+  .offer-container & h5,
+  .offer-container & h6 {
     text-align: center;
     padding-top: 1.7rem;
   }

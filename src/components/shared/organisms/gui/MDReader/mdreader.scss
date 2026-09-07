@@ -1,11 +1,23 @@
 @import '~/variables.module.scss';
 
+$breakpoint-sm: map-get($grid-breakpoints, sm);
+
 .md-render {
   img {
     max-width: 80%;
     display: block;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  // Nombre específico para no colisionar con otras reglas `img` del sitio. Se anida
+  // aquí (y se combina con el selector de elemento) para tener más especificidad
+  // que la regla `.md-render img` de arriba y así poder acotar el ancho una vez se
+  // supera el tamaño mobile, en cualquier pantalla que use MDReader.
+  img.mdreader-bounded-image {
+    @media (min-width: $breakpoint-sm) {
+      max-width: 30rem;
+    }
   }
 
   h1,

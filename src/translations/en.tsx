@@ -125,6 +125,13 @@ export const EnMessages = {
           plural: 'Artists',
           singular: 'Artist',
           attributes: {
+            image_members: 'Members photo',
+            image_live_gallery: 'Live photo',
+            members: 'Members',
+            spotify: 'Spotify',
+            technical_epk: 'EPK',
+            technical_rider: 'Rider',
+            stage_plot: 'Stage Plot',
             project_format: {
               label: 'Project Format',
               values: {
@@ -1444,9 +1451,12 @@ export const EnMessages = {
         not_applied_yet: "You haven't applied to this Open Call yet.",
         loading_applications: 'Loading applications...',
         loading_your_application: 'Loading your application...',
-        unauthorized_message: "Log in with an Artist or Place profile to see this Open Call's applications.",
+        missing_documents_title: 'Incomplete profile',
+        missing_documents_message:
+          'To apply to the Open Call you need to complete your artist profile with the following information',
+        unauthorized_message: 'Log in to apply to this Open Call.',
         back_button: 'Back to My Open Calls',
-        apply_button: 'Apply to this Open Call',
+        apply_button: 'Apply',
         open_call_status: {
           DRAFT: 'Draft',
           OPEN: 'Open',
@@ -1454,16 +1464,19 @@ export const EnMessages = {
           CANCELLED: 'Cancelled',
         },
         presentation: {
-          open_badge: 'Applications open',
-          expired_badge: 'Applications closed',
+          open_badge: 'Open',
+          expired_badge: 'Closed',
           apply_deadline_title: 'Application period',
           event_date_label: 'Event date',
           minutes_suffix: 'min',
+          no_documents: 'No documents attached',
           sections: {
+            venue: 'Venue',
             about: 'About this Open Call',
             conditions: 'Conditions and requirements',
             technical: 'Technical details',
             compensation: 'Compensation and logistics',
+            documents: 'Documents',
           },
           fields: {
             description: 'Description',
@@ -1495,6 +1508,7 @@ export const EnMessages = {
         actions: {
           accept: 'Accept',
           reject: 'Reject',
+          complete_profile: 'Complete profile',
         },
       },
     },

@@ -77,10 +77,25 @@ export const buildAgendaWeeks = (
   visibleMonth: Dayjs
 ): AgendaWeekGroup[] => {
   const monthKey = visibleMonth.format('YYYY-MM');
+  const todayKey = dayKeyOf(dayjs());
+
   const dayGroups: AgendaDayGroup[] = Array.from(activitiesByDay.entries())
     .filter(([dayKey, activities]) => dayKey.startsWith(monthKey) && activities.length > 0)
     .map(([dayKey, activities]) => ({ dayKey, date: dayjs(dayKey), activities }))
     .sort((first, second) => (first.dayKey < second.dayKey ? -1 : 1));
+
+  // Hoy debe existir siempre en la agenda del mes visible, aunque no tenga actividades,
+  // para poder mostrar la línea de "ahora".
+  if (todayKey.startsWith(monthKey) && !dayGroups.some((group) => group.dayKey === todayKey)) {
+    const todayGroup: AgendaDayGroup = { dayKey: todayKey, date: dayjs(todayKey), activities: [] };
+    const insertIndex = dayGroups.findIndex((group) => group.dayKey > todayKey);
+
+    if (insertIndex === -1) {
+      dayGroups.push(todayGroup);
+    } else {
+      dayGroups.splice(insertIndex, 0, todayGroup);
+    }
+  }
 
   return dayGroups.reduce((weeks, dayGroup) => {
     const weekStart = startOfSundayWeek(dayGroup.date);

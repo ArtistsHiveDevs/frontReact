@@ -105,7 +105,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   formMetaData: {
                     inputType: 'citySelector',
                     config: { required: false },
-                    defaultValue: { country: '66d61979a546e02c6ce65a39' },
+                    defaultValue: { country: 'RqwIbVusuX' },
                     componentParams: {
                       maxLevel: 2,
                     },
@@ -122,7 +122,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   formMetaData: {
                     inputType: 'citySelector',
                     config: { required: true },
-                    defaultValue: { country: '66d61979a546e02c6ce65a39' },
+                    defaultValue: { country: 'RqwIbVusuX' },
                     componentParams: {
                       maxLevel: 2,
                     },
@@ -272,7 +272,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
     name: 'members',
     requireSession: true,
     allowedRoles: [{ entityName: 'Artist', requireActiveProfileType: true }],
-    fullyHidden: fullyHiddenSectionsByEnvironment(['prod']),
+    // fullyHidden: fullyHiddenSectionsByEnvironment(['prod']),
     sections: [
       {
         name: 'music_performance',
@@ -322,6 +322,20 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                       return <>{content}</>;
                     },
                   },
+                  // {
+                  //   inputType: 'select',
+                  //   fieldName: 'gender_2',
+                  //   label: 'gender',
+                  //   // config: { required: true },
+                  //   value: (user: any) => {
+                  //     const { translateText } = useI18n();
+
+                  //     let content = user?.genderEnum?.value
+                  //       ? translateText(`app.global_dictionary.genders.${user?.genderEnum?.value}`)
+                  //       : undefined;
+                  //     return <>{content}</>;
+                  //   },
+                  // },
                   { inputType: 'text', fieldName: 'member_role', label: 'member_role', config: { required: true } },
                   {
                     inputType: '',

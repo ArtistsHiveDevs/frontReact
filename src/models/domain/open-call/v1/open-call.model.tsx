@@ -1,8 +1,9 @@
 import dayjs, { Dayjs } from 'dayjs';
+import { ControlType } from '~/components/shared/organisms/gui/dynamicForms';
+import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import { PopulatedEntityRef, resolvePopulatedRefId } from '~/models/base/modelHelpers';
 import { PlaceModel } from '../../place/place.model';
-import { ControlType } from '~/components/shared/organisms/gui/dynamicForms';
 
 export enum OpenCallStatus {
   DRAFT = 'DRAFT',
@@ -68,6 +69,7 @@ export interface OpenCallTemplate extends EntityTemplate {
   event_date: string | Dayjs;
   start_date: string | Dayjs; // Inicio de la convocatoria
   end_date: string | Dayjs; // Cierre de la convocatoria
+  poster?: string;
 
   // === UBICACIÓN ===
   place_id: string | PopulatedEntityRef;
@@ -120,14 +122,24 @@ export interface OpenCallTemplate extends EntityTemplate {
   is_recurring?: boolean;
   external_link?: string;
   additional_notes?: string;
+
+  // === DOCUMENTOS ====
+  documents?: [
+    {
+      title: string;
+      content: string;
+      docType: string;
+    }
+  ];
 }
 
-export class OpenCallModel extends EntityModel<OpenCallTemplate> implements OpenCallTemplate {
+export class OpenCallModelV1 extends EntityModel<OpenCallTemplate> implements OpenCallTemplate {
   declare event_name: string;
   declare event_type?: string;
   declare event_date: Dayjs;
   declare start_date: Dayjs;
   declare end_date: Dayjs;
+  declare poster?: string;
   declare place_id: string | PopulatedEntityRef;
   declare place?: PlaceModel;
   declare city: string;
@@ -162,6 +174,7 @@ export class OpenCallModel extends EntityModel<OpenCallTemplate> implements Open
   declare is_recurring?: boolean;
   declare external_link?: string;
   declare additional_notes?: string;
+  declare documents?: [{ title: string; content: string; docType: string }];
 
   constructor(template: OpenCallTemplate) {
     super(template);
@@ -171,6 +184,7 @@ export class OpenCallModel extends EntityModel<OpenCallTemplate> implements Open
     this.place = template.place ? new PlaceModel(template.place) : undefined;
     this.status = template.status || OpenCallStatus.DRAFT;
     this.applications_count = template.applications_count || 0;
+    this.entityShareAcronym = 'oc';
   }
 
   get hasFetchAllData(): boolean {
@@ -192,6 +206,10 @@ export class OpenCallModel extends EntityModel<OpenCallTemplate> implements Open
 
   get placeId(): string | undefined {
     return resolvePopulatedRefId(this.place_id);
+  }
+
+  get placeProfileInfo(): CurrentProfileInfoModel | undefined {
+    return this.place?.profileInfo;
   }
 
   /**

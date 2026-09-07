@@ -125,6 +125,13 @@ export const EsMessages = {
           plural: 'Artistas',
           singular: 'Artista',
           attributes: {
+            image_members: 'Foto de integrantes',
+            image_live_gallery: 'Foto en Vivo',
+            members: 'Integrantes',
+            spotify: 'Spotify',
+            technical_epk: 'EPK',
+            technical_rider: 'Rider',
+            stage_plot: 'Stage Plot',
             project_format: {
               label: 'Formato de proyecto',
               values: {
@@ -1459,10 +1466,12 @@ export const EsMessages = {
         not_applied_yet: 'Todavía no has aplicado a esta convocatoria.',
         loading_applications: 'Cargando aplicaciones...',
         loading_your_application: 'Cargando tu aplicación...',
-        unauthorized_message:
-          'Inicia sesión con un perfil de Artist o de Place para ver las aplicaciones de esta convocatoria.',
+        missing_documents_title: 'Perfil incompleto',
+        missing_documents_message:
+          'Para aplicar a la convocatoria es necesario que completes tu perfil artístico con la siguiente información',
+        unauthorized_message: 'Inicia sesión para aplicar a esta convocatoria.',
         back_button: 'Volver a Mis Convocatorias',
-        apply_button: 'Aplicar a esta convocatoria',
+        apply_button: 'Aplicar',
         open_call_status: {
           DRAFT: 'Borrador',
           OPEN: 'Abierta',
@@ -1470,16 +1479,19 @@ export const EsMessages = {
           CANCELLED: 'Cancelada',
         },
         presentation: {
-          open_badge: 'Convocatoria abierta',
-          expired_badge: 'Convocatoria cerrada',
+          open_badge: 'Abierta',
+          expired_badge: 'Cerrada',
           apply_deadline_title: 'Plazo para aplicar',
           event_date_label: 'Fecha del evento',
           minutes_suffix: 'min',
+          no_documents: 'Sin documentos adjuntos',
           sections: {
+            venue: 'Escenario',
             about: 'De qué se trata',
             conditions: 'Condiciones y requisitos',
             technical: 'Detalles técnicos',
             compensation: 'Compensación y logística',
+            documents: 'Documentos',
           },
           fields: {
             description: 'Descripción',
@@ -1511,6 +1523,7 @@ export const EsMessages = {
         actions: {
           accept: 'Aceptar',
           reject: 'Rechazar',
+          complete_profile: 'Completar el perfil',
         },
       },
     },

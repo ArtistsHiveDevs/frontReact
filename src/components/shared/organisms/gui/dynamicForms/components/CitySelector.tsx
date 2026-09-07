@@ -132,8 +132,10 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
     const cityData = elementData[dataFieldName];
 
     if (Array.isArray(cityData) && cityData.length > 0) {
-      // Convert array format to defaultValue object
-      const defaultValueObj: any = {};
+      // Convert array format to defaultValue object. Se parte de initialDefaultValue (ej.
+      // { country: 'RqwIbVusuX' }) para que un nivel persistido parcial (state/city sin country)
+      // no pise el default entero, sino que sólo sobreescriba lo que sí trae cityData.
+      const defaultValueObj: any = { ...initialDefaultValue };
 
       cityData.forEach((item: any) => {
         if (item.level === 'country') {

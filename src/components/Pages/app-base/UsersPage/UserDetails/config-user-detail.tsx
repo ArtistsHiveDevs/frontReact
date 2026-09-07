@@ -103,7 +103,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   formMetaData: {
                     inputType: 'citySelector',
                     config: { required: true },
-                    defaultValue: { country: '66d61979a546e02c6ce65a39' },
+                    defaultValue: { country: 'RqwIbVusuX' },
                     componentParams: {
                       maxLevel: 2,
                     },
@@ -117,7 +117,7 @@ export const USER_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   formMetaData: {
                     inputType: 'citySelector',
                     config: { required: true },
-                    defaultValue: { country: '66d61979a546e02c6ce65a39' },
+                    defaultValue: { country: 'RqwIbVusuX' },
                     componentParams: {
                       maxLevel: 2,
                     },

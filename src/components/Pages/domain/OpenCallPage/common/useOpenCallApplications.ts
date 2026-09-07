@@ -4,7 +4,7 @@ import {
   selectorOpenCallApplications,
   useOpenCallApplicationsSlice,
 } from '~/common/slices/domain/open-calls/open-call-applications.redux';
-import { OpenCallApplicationModel } from '~/models/domain/open-call/open-call-application.model';
+import { OpenCallApplicationModel } from '~/models/domain/open-call/v1';
 
 interface UseOpenCallApplicationsOptions {
   openCallId?: string;

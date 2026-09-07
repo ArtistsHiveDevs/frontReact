@@ -1,6 +1,6 @@
 import { StorageGetUrlOutput } from '@aws-amplify/storage/dist/esm/types';
 import { getUrl } from '~/common/utils/amplify/storage/storage.client';
-import { getEnvironment, isProdEnvironment } from '~/common/utils/app-utils/app-utils';
+import { getEnvironment, isActualProdEnvironment } from '~/common/utils/app-utils/app-utils';
 import { encryptEnvToken } from '~/common/utils/request';
 import { toCamelCase } from '~/common/utils/string-utils';
 import { VerificationStatus } from '~/constants';
@@ -231,7 +231,7 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
 
   get sharedUrlSocialNetworks() {
     const shareDomain = resolveShareDomain();
-    const env = isProdEnvironment() ? '' : `?a=${encryptEnvToken()}`;
+    const env = isActualProdEnvironment() ? '' : `?a=${encryptEnvToken()}`;
     //TODO Revisar qué pasa cuando no tenga
     return this.entityShareAcronym ? `${shareDomain}/r/${this.entityShareAcronym}/${this.identifier}${env}` : 'https://artist-hive.com';
   }
@@ -316,7 +316,7 @@ export abstract class ProfileModel<T extends ProfileTemplate>
   get sharedUrlSocialNetworks() {
     const shareDomain = resolveShareDomain();
 
-    const env = isProdEnvironment() ? '' : `?a=${encryptEnvToken()}`;
+    const env = isActualProdEnvironment() ? '' : `?a=${encryptEnvToken()}`;
 
     return `${shareDomain}/@${this.identifier}${env}`;
   }

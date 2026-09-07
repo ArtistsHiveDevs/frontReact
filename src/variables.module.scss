@@ -81,6 +81,19 @@ $entity-4: #b1240e;
 $probably-active-profile-bg: #db9a02;
 $non-active-profile-bg: #a00000;
 
+$calendar-event-activity-color: #034d5b;
+$calendar-event-opencall-color: #b1240e;
+$calendar-event-event-color: #228963;
+$calendar-event-holiday-color: #f58f1a;
+$calendar-event-expired-color: #6b6b6b;
+
+$calendar-event-colors: (
+  activity: $calendar-event-activity-color,
+  opencall: $calendar-event-opencall-color,
+  event: $calendar-event-event-color,
+  holiday: $calendar-event-holiday-color,
+);
+
 // Dispay sizes
 $grid-breakpoints: (
   xs: 0,

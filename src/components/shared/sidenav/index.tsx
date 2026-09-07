@@ -523,6 +523,7 @@ const SideNav = () => {
           )}
         </Container>
       </Navbar>
+      <div className="toolbar-header-spacer" aria-hidden="true" />
     </>
   );
 };

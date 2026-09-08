@@ -3,6 +3,9 @@ export const DeMessages = {
     name: 'App DE',
     loading: 'Wird geladen',
     general: {
+      profile_preview: {
+        view_full_profile: 'Vollständiges Profil ansehen',
+      },
       not_found_page: {
         title: 'Hoppla! Wir konnten nicht finden, wonach Sie suchen',
       },

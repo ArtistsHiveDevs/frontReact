@@ -75,3 +75,50 @@
 .ppl-result-box {
   margin-top: 1.5rem;
 }
+
+.ppl-participant-avatar-name--clickable {
+  cursor: pointer;
+}
+
+.ppl-participant-avatar-name--actionable {
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  background: $app-background-50;
+  transition: background 0.15s ease;
+
+  &:hover,
+  &:active {
+    background: $app-background-75;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.ppl-participant-name-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  max-width: 100%;
+
+  .ppl-participant-avatar-name--horizontal & {
+    align-items: flex-start;
+  }
+}
+
+.ppl-participant-subtitle {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  text-align: center;
+  line-height: 1.2;
+  word-break: break-word;
+
+  .ppl-participant-avatar-name--horizontal & {
+    padding-left: 0.5rem;
+    text-align: left;
+  }
+}

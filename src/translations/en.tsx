@@ -3,6 +3,9 @@ export const EnMessages = {
     name: 'App EN',
     loading: 'Loading',
     general: {
+      profile_preview: {
+        view_full_profile: 'View full profile',
+      },
       not_found_page: {
         title: "Oops! We couldn't find what you're looking for",
       },

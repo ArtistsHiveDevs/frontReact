@@ -3,6 +3,9 @@ export const PtMessages = {
     name: 'App PT',
     loading: 'A carregar',
     general: {
+      profile_preview: {
+        view_full_profile: 'Ver perfil completo',
+      },
       not_found_page: {
         title: 'Oops! Não conseguimos encontrar o que está a procurar',
       },

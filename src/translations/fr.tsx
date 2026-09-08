@@ -3,6 +3,9 @@ export const FrMessages = {
     name: 'App FR',
     loading: 'Chargement en cours',
     general: {
+      profile_preview: {
+        view_full_profile: 'Voir le profil complet',
+      },
       not_found_page: {
         title: "Oups ! Nous n'avons pas trouvé ce que vous cherchez",
       },

@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
+import { ProfileSummaryDialog } from '~/components/Pages/domain/ProfilePreview/ProfileSummaryDialog';
 import { CustomPDFViewer } from '~/components/shared/atoms/CustomPDFViewer/CustomPDFViewer';
 import {
   ProfilePictureWithName,
@@ -16,6 +17,7 @@ import { ResourceMoreMenu } from '~/components/shared/molecules/general/Resource
 import MDReader from '~/components/shared/organisms/gui/MDReader/mdreader';
 import { MDDocumentModel } from '~/models/app/md-model/md-model';
 import { OpenCallModelV1, OpenCallStatus } from '~/models/domain/open-call/v1';
+import { PlaceModel } from '~/models/domain/place/place.model';
 import { TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE } from './config-open-call-details';
 import './OpenCallPresentation.scss';
 
@@ -56,6 +58,7 @@ const OpenCallPresentation = ({ openCall, onApply, isOwner = false }: OpenCallPr
 
   const mainHeaderRef = useRef<HTMLDivElement>(null);
   const [isPosterZoomOpen, setIsPosterZoomOpen] = useState(false);
+  const [isVenuePreviewOpen, setIsVenuePreviewOpen] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<OpenCallDocument | null>(null);
 
   const minutesSuffix = translate('presentation.minutes_suffix');
@@ -237,6 +240,9 @@ const OpenCallPresentation = ({ openCall, onApply, isOwner = false }: OpenCallPr
                 element={openCall.placeProfileInfo}
                 direction={ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL}
                 styles={{ avatarSize: 3 }}
+                showSubtitle
+                onProfileClick={() => setIsVenuePreviewOpen(true)}
+                actionable
               />
             )}
             {/* {section.fields.map((field) => (
@@ -304,6 +310,14 @@ const OpenCallPresentation = ({ openCall, onApply, isOwner = false }: OpenCallPr
           </div>
         )}
       </section>
+      {!!openCall.placeProfileInfo && (
+        <ProfileSummaryDialog
+          isOpen={isVenuePreviewOpen}
+          onClose={() => setIsVenuePreviewOpen(false)}
+          entityType={PlaceModel.name}
+          entityId={openCall.placeProfileInfo.identifier}
+        />
+      )}
       {!!openCall.poster && (
         <AppDialog
           title={openCall.event_name}

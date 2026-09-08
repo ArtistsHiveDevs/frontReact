@@ -3,6 +3,9 @@ export const ElMessages = {
     name: 'App EL',
     loading: 'Φόρτωση...',
     general: {
+      profile_preview: {
+        view_full_profile: 'Προβολή πλήρους προφίλ',
+      },
       not_found_page: {
         title: 'Ούπς! Δεν μπορέσαμε να βρούμε αυτό που ψάχνετε',
       },

@@ -3,6 +3,9 @@ export const ItMessages = {
     name: 'App IT',
     loading: 'Caricamento in corso',
     general: {
+      profile_preview: {
+        view_full_profile: 'Vedi il profilo completo',
+      },
       not_found_page: {
         title: 'Oops! Non siamo riusciti a trovare quello che stai cercando',
       },

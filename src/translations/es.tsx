@@ -3,6 +3,9 @@ export const EsMessages = {
     name: 'App ES',
     loading: 'Cargando...',
     general: {
+      profile_preview: {
+        view_full_profile: 'Ver perfil completo',
+      },
       not_found_page: {
         title: 'Ups! No encontramos lo que buscas',
       },

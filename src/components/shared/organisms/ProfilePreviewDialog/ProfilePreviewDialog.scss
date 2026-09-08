@@ -1,0 +1,45 @@
+@import '~/variables.module.scss';
+
+.profile-preview-dialog {
+  .MuiDialog-paper {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .zoom-dialog {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .dialog-content {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 1rem;
+  }
+
+  .dialog-actions {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    background-color: $app-background-75;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+}
+
+.profile-preview-dialog-content {
+  .fab-hidden,
+  .MuiFab-root {
+    display: none;
+  }
+}

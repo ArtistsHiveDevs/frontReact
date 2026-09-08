@@ -10,6 +10,7 @@ export const AppDialog = (params: {
   icon?: string;
   actions?: { label: string; handler: Function }[];
   fullScreen?: boolean;
+  className?: string;
 }) => {
   // Solo renderizar el Dialog cuando está abierto para optimizar memoria
   if (!params?.isOpenDialog) {
@@ -18,7 +19,7 @@ export const AppDialog = (params: {
 
   return (
     <Dialog
-      className="dialog-styles"
+      className={`dialog-styles ${params.className || ''}`}
       id="zoomAlbumImg"
       open={params.isOpenDialog}
       onClose={() => params.onClose()}

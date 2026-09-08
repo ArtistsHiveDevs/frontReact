@@ -10,6 +10,7 @@ import {
   useOpenCallApplications,
   useProfileInfo,
 } from '~/components/Pages/domain/OpenCallPage/common';
+import { ProfileSummaryDialog } from '~/components/Pages/domain/ProfilePreview/ProfileSummaryDialog';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
 import {
   ProfilePictureWithName,
@@ -57,6 +58,7 @@ const OpenCallApplyPage = () => {
   // ========== ESTADOS LOCALES ==========
   const [currentStep, setCurrentStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [isProfilePreviewOpen, setIsProfilePreviewOpen] = useState(false);
 
   const formMethods = useForm({ mode: 'onTouched' });
   const {
@@ -206,10 +208,21 @@ const OpenCallApplyPage = () => {
               element={loggedUser.currentProfileInfo}
               direction={ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL}
               styles={{ avatarSize: 3.5 }}
+              onProfileClick={() => setIsProfilePreviewOpen(true)}
+              actionable
             />
           </div>
         )
       }
+
+      {loggedUser && (
+        <ProfileSummaryDialog
+          isOpen={isProfilePreviewOpen}
+          onClose={() => setIsProfilePreviewOpen(false)}
+          entityType={loggedUser.currentProfileInfo?.entity}
+          entityId={loggedUser.currentProfileInfo?.identifier}
+        />
+      )}
 
       {/* Stepper progress */}
       <div className="stepper-progress">

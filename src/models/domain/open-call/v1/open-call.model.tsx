@@ -209,7 +209,12 @@ export class OpenCallModelV1 extends EntityModel<OpenCallTemplate> implements Op
   }
 
   get placeProfileInfo(): CurrentProfileInfoModel | undefined {
-    return this.place?.profileInfo;
+    if (this.place) {
+      return this.place.profileInfo;
+    }
+    return typeof this.place_id === 'object' && !!this.place_id
+      ? new PlaceModel(this.place_id as any).profileInfo
+      : undefined;
   }
 
   /**

@@ -142,7 +142,6 @@ export const EnMessages = {
                 duo: 'Duo',
                 band: 'Band',
                 dj: 'DJ',
-                group: 'Group',
                 collective: 'Collective',
                 orchestra: 'Orchestra',
                 choir: 'Choir',

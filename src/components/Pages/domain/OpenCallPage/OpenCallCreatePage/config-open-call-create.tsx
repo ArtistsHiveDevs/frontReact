@@ -1,12 +1,6 @@
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
-import {
-  ACCOMMODATION_OPTIONS,
-  CURRENCY_OPTIONS,
-  MUSIC_GENRE_OPTIONS,
-  PROJECT_TYPE_OPTIONS,
-  TRAVEL_OPTIONS,
-} from '../OpenCallApplicationPage/config-open-call';
+import { CURRENCY_OPTIONS } from '../OpenCallApplicationPage/config-open-call';
 
 export const TRANSLATION_BASE_OPEN_CALL_CREATE_PAGE = 'app.pages.OpenCallCreatePage';
 
@@ -53,11 +47,13 @@ export const CREATE_OPEN_CALL_STEP_META: Record<string, CreateOpenCallStepMeta> 
 
 export interface OpenCallCreateConfigParams {
   eventTypeOptions: SelectOption[];
+  musicArtistProjectFormatTypeOptions: SelectOption[];
+  musicGenresTypeOptions: SelectOption[];
   stageTypeOptions: SelectOption[];
 }
 
 export const getOpenCallCreateConfig = (params: OpenCallCreateConfigParams): PageSection[] => {
-  const { eventTypeOptions, stageTypeOptions } = params;
+  const { eventTypeOptions, stageTypeOptions, musicGenresTypeOptions, musicArtistProjectFormatTypeOptions } = params;
 
   return [
     // ─── Step 1: Información del Evento ───
@@ -98,7 +94,7 @@ export const getOpenCallCreateConfig = (params: OpenCallCreateConfigParams): Pag
                     formMetaData: {
                       inputType: 'date',
                       config: { required: 'Este campo es obligatorio' },
-                      componentParams: { placeholder: 'Fecha del evento' },
+                      componentParams: { disablePast: true, placeholder: 'Fecha del evento' },
                     },
                   },
                   // {
@@ -180,7 +176,7 @@ export const getOpenCallCreateConfig = (params: OpenCallCreateConfigParams): Pag
                       inputType: 'autocompletePicker',
                       componentParams: {
                         placeholder: 'Selecciona los géneros musicales',
-                        options: MUSIC_GENRE_OPTIONS,
+                        options: musicGenresTypeOptions,
                       },
                     },
                   },
@@ -191,7 +187,7 @@ export const getOpenCallCreateConfig = (params: OpenCallCreateConfigParams): Pag
                       inputType: 'autocompletePicker',
                       componentParams: {
                         placeholder: 'Selecciona los tipos de proyecto',
-                        options: PROJECT_TYPE_OPTIONS,
+                        options: musicArtistProjectFormatTypeOptions,
                       },
                     },
                   },
@@ -201,7 +197,7 @@ export const getOpenCallCreateConfig = (params: OpenCallCreateConfigParams): Pag
                     formMetaData: {
                       inputType: 'date',
                       config: { required: 'Este campo es obligatorio' },
-                      componentParams: { placeholder: 'Fecha de apertura de la convocatoria' },
+                      componentParams: { disablePast: true, placeholder: 'Fecha de apertura de la convocatoria' },
                     },
                   },
                   {
@@ -210,7 +206,7 @@ export const getOpenCallCreateConfig = (params: OpenCallCreateConfigParams): Pag
                     formMetaData: {
                       inputType: 'date',
                       config: { required: 'Este campo es obligatorio' },
-                      componentParams: { placeholder: 'Fecha de cierre de la convocatoria' },
+                      componentParams: { disablePast: true, placeholder: 'Fecha de cierre de la convocatoria' },
                     },
                   },
                   {
@@ -385,19 +381,19 @@ export const getOpenCallCreateConfig = (params: OpenCallCreateConfigParams): Pag
               data: {
                 attributes: [
                   {
-                    name: 'fee_currency',
-                    title: 'Moneda',
-                    formMetaData: {
-                      inputType: 'select',
-                      componentParams: { placeholder: 'Selecciona la moneda', options: CURRENCY_OPTIONS },
-                    },
-                  },
-                  {
                     name: 'fee_amount',
                     title: 'Tarifa ofrecida por artista',
                     formMetaData: {
                       inputType: 'number',
                       componentParams: { placeholder: 'Ej: 2500' },
+                    },
+                  },
+                  {
+                    name: 'fee_currency',
+                    title: 'Moneda',
+                    formMetaData: {
+                      inputType: 'select',
+                      componentParams: { placeholder: 'Selecciona la moneda', options: CURRENCY_OPTIONS },
                     },
                   },
                   {
@@ -420,30 +416,30 @@ export const getOpenCallCreateConfig = (params: OpenCallCreateConfigParams): Pag
               componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
               data: {
                 attributes: [
-                  {
-                    name: 'travel_support',
-                    title: 'Apoyo de transporte',
-                    formMetaData: {
-                      inputType: 'select',
-                      componentParams: { placeholder: 'Selecciona una opción', options: TRAVEL_OPTIONS },
-                    },
-                  },
-                  {
-                    name: 'accommodation_provided',
-                    title: 'Hospedaje',
-                    formMetaData: {
-                      inputType: 'select',
-                      componentParams: { placeholder: 'Selecciona una opción', options: ACCOMMODATION_OPTIONS },
-                    },
-                  },
-                  {
-                    name: 'meals_provided',
-                    title: 'Alimentación',
-                    formMetaData: {
-                      inputType: 'select',
-                      componentParams: { placeholder: 'Selecciona una opción', options: MEALS_OPTIONS },
-                    },
-                  },
+                  // {
+                  //   name: 'travel_support',
+                  //   title: 'Apoyo de transporte',
+                  //   formMetaData: {
+                  //     inputType: 'select',
+                  //     componentParams: { placeholder: 'Selecciona una opción', options: TRAVEL_OPTIONS },
+                  //   },
+                  // },
+                  // {
+                  //   name: 'accommodation_provided',
+                  //   title: 'Hospedaje',
+                  //   formMetaData: {
+                  //     inputType: 'select',
+                  //     componentParams: { placeholder: 'Selecciona una opción', options: ACCOMMODATION_OPTIONS },
+                  //   },
+                  // },
+                  // {
+                  //   name: 'meals_provided',
+                  //   title: 'Alimentación',
+                  //   formMetaData: {
+                  //     inputType: 'select',
+                  //     componentParams: { placeholder: 'Selecciona una opción', options: MEALS_OPTIONS },
+                  //   },
+                  // },
                   {
                     name: 'additional_notes',
                     title: 'Notas adicionales',
@@ -476,14 +472,14 @@ export const getOpenCallCreateConfig = (params: OpenCallCreateConfigParams): Pag
                       },
                     },
                   },
-                  {
-                    name: 'is_recurring',
-                    title: 'Convocatoria recurrente',
-                    formMetaData: {
-                      inputType: 'switch',
-                      componentParams: { label: 'Esta convocatoria se repite periódicamente' },
-                    },
-                  },
+                  // {
+                  //   name: 'is_recurring',
+                  //   title: 'Convocatoria recurrente',
+                  //   formMetaData: {
+                  //     inputType: 'switch',
+                  //     componentParams: { label: 'Esta convocatoria se repite periódicamente' },
+                  //   },
+                  // },
                 ],
               },
             },

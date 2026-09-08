@@ -5,15 +5,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { selectorOpenCalls, useOpenCallsSlice } from '~/common/slices/domain/open-calls/open-calls.redux';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
-import { useI18n } from '~/common/utils';
-import { getEventTypeOptions, getStageTypeOptions } from '~/common/utils/form-options';
+import { useI18n, useParametricSelectOptions } from '~/common/utils';
+import {
+  getEventTypeOptions,
+  getMusicArtistProjectFormatTypeOptions,
+  getMusicGenreTypeOptions,
+  getStageTypeOptions,
+} from '~/common/utils/form-options';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
 import { registerAllBuilders } from '~/components/shared/organisms/gui/builders/componentBuilders';
 import {
   getFieldNamesFromPageSection,
   pageSectionToDynamicFields,
 } from '~/components/shared/organisms/gui/builders/page-section-form.utils';
-import { DynamicForm, SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
+import { DynamicForm } from '~/components/shared/organisms/gui/dynamicForms';
 import { PATHS } from '~/constants';
 import '../OpenCallApplicationPage/index.scss';
 import {
@@ -29,9 +34,7 @@ const OpenCallCreatePage = () => {
   const [placeId, setPlaceId] = useState(undefined);
   const [currentStep, setCurrentStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
-  const [canCreateOpenCall, setCanCreateOpenCall] = useState(true);
-  const [eventTypeOptions, setEventTypeOptions] = useState<SelectOption[]>([]);
-  const [stageTypeOptions, setStageTypeOptions] = useState<SelectOption[]>([]);
+  const [canCreateOpenCall] = useState(true);
   const isNavigatingRef = useRef(false);
 
   // Registrar builders de componentes
@@ -50,23 +53,26 @@ const OpenCallCreatePage = () => {
   // a un usuario que de todas formas no podrá enviarlo.
 
   useEffect(() => {
-    
     setPlaceId(loggedUser?.currentProfileInfo?.identifier);
     console.log('Actualizando el effect', loggedUser, placeId, loggedUser?.currentProfileInfo?.identifier);
     // setCanCreateOpenCall(!!loggedUser && !!placeId && loggedUser.checkPermissions(placeId).canEdit);
   }, [loggedUser, placeId]);
 
-  // Generar opciones traducidas
-  useEffect(() => {
-    setEventTypeOptions(getEventTypeOptions({ translateFn: translateGlobalDict }));
-    setStageTypeOptions(getStageTypeOptions({ translateFn: translateGlobalDict }));
-  }, [translateGlobalDict]);
+  const { eventTypeOptions, musicArtistProjectFormatTypeOptions, musicGenresTypeOptions, stageTypeOptions } =
+    useParametricSelectOptions(
+      () => ({
+        eventTypeOptions: getEventTypeOptions({ translateFn: translateGlobalDict }),
+        musicArtistProjectFormatTypeOptions: getMusicArtistProjectFormatTypeOptions({
+          translateFn: translateGlobalDict,
+        }),
+        musicGenresTypeOptions: getMusicGenreTypeOptions({ translateFn: translateGlobalDict }),
+        stageTypeOptions: getStageTypeOptions({ translateFn: translateGlobalDict }),
+      }),
+      [translateGlobalDict]
+    );
 
   const formMethods = useForm({ mode: 'onTouched' });
-  const {
-    handleSubmit,
-    trigger,
-  } = formMethods;
+  const { handleSubmit, trigger } = formMethods;
 
   useEffect(() => {
     if (submitted && createdItem) {
@@ -83,7 +89,12 @@ const OpenCallCreatePage = () => {
     : null;
 
   // Generar configuración con opciones traducidas
-  const steps = getOpenCallCreateConfig({ eventTypeOptions, stageTypeOptions });
+  const steps = getOpenCallCreateConfig({
+    eventTypeOptions,
+    stageTypeOptions,
+    musicGenresTypeOptions,
+    musicArtistProjectFormatTypeOptions,
+  });
   const totalSteps = steps.length;
   const step = steps[currentStep];
   const stepMeta = step ? CREATE_OPEN_CALL_STEP_META[step.name] : null;

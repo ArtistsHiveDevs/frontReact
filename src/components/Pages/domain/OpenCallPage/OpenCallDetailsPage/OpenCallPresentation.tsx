@@ -3,8 +3,10 @@ import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
+import { getMusicArtistProjectFormatTypeOptions, getMusicGenreTypeOptions } from '~/common/utils/form-options';
 import { ProfileSummaryDialog } from '~/components/Pages/domain/ProfilePreview/ProfileSummaryDialog';
 import { CustomPDFViewer } from '~/components/shared/atoms/CustomPDFViewer/CustomPDFViewer';
+import ExpandableText from '~/components/shared/atoms/gui/ExpandableText/ExpandableText';
 import {
   ProfilePictureWithName,
   ProfilePictureWithNameConstants,
@@ -14,6 +16,7 @@ import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import { FixedHeader } from '~/components/shared/molecules/FixedHeader/FixedHeader';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { ResourceMoreMenu } from '~/components/shared/molecules/general/ResourceMoreMenu/ResourceMoreMenu';
+import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import MDReader from '~/components/shared/organisms/gui/MDReader/mdreader';
 import { MDDocumentModel } from '~/models/app/md-model/md-model';
 import { OpenCallModelV1, OpenCallStatus } from '~/models/domain/open-call/v1';
@@ -28,6 +31,7 @@ const DATE_FORMAT = 'ddd DD/MM/YYYY';
 interface PresentationField {
   name: string;
   value: string;
+  translations?: SelectOption[];
   longText?: boolean;
 }
 
@@ -46,12 +50,25 @@ interface OpenCallPresentationProps {
 const joinDefinedValues = (values: (string | undefined)[], separator = ' · ') =>
   values.filter((value) => !!value && value.trim().length > 0).join(separator);
 
-const formatList = (values?: string[]) => (values?.length ? values.join(', ') : '');
+const formatList = (params: { values?: string[]; translations?: SelectOption[] }) => {
+  const { values, translations } = params;
+  return values?.length
+    ? values
+        .map((value) => (translations || []).find((translation) => value === translation.value)?.label || value)
+        .sort((a, b) => {
+          const labelA = a.toLowerCase();
+          const labelB = b.toLowerCase();
+
+          return labelA.localeCompare(labelB);
+        })
+        .join(', ')
+    : '';
+};
 
 const formatNumber = (value?: number) => (typeof value === 'number' ? String(value) : '');
 
 const OpenCallPresentation = ({ openCall, onApply, isOwner = false }: OpenCallPresentationProps) => {
-  const { translateText } = useI18n();
+  const { translateText, translateGlobalDict } = useI18n();
   const translate = (key: string) => translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.${key}`);
 
   const loggedUser = useSelector(selectCurrentUser);
@@ -85,8 +102,20 @@ const OpenCallPresentation = ({ openCall, onApply, isOwner = false }: OpenCallPr
       name: 'about',
       fields: [
         { name: 'description', value: openCall.description || '', longText: true },
-        { name: 'genres', value: formatList(openCall.genres) },
-        { name: 'accepted_project_types', value: formatList(openCall.accepted_project_types) },
+        {
+          name: 'genres',
+          value: formatList({
+            values: openCall.genres,
+            translations: getMusicGenreTypeOptions({ translateFn: translateGlobalDict }),
+          }),
+        },
+        {
+          name: 'accepted_project_types',
+          value: formatList({
+            values: openCall.accepted_project_types,
+            translations: getMusicArtistProjectFormatTypeOptions({ translateFn: translateGlobalDict }),
+          }),
+        },
       ],
     },
     {
@@ -213,48 +242,41 @@ const OpenCallPresentation = ({ openCall, onApply, isOwner = false }: OpenCallPr
           </div>
         </header>
 
-        <div className="presentation-deadline">
-          <div className="presentation-deadline-header">
-            <DynamicIcons iconName="bs BsFillAlarmFill" color={'white'} size={18} />
-            <div className="presentation-deadline-header-text">
-              <h2 className="presentation-deadline-title">{translate('presentation.apply_deadline_title')}</h2>
-              <p className="presentation-deadline-range">
-                {openCall.start_date.format(DATE_FORMAT)} &ndash; {openCall.end_date.format(DATE_FORMAT)}
-              </p>
-            </div>
-          </div>
-          <div className="presentation-deadline-header presentation-deadline-event">
-            <DynamicIcons iconName="io IoMdCalendar" color={'white'} size={20} />{' '}
-            <div className="presentation-deadline-header-text">
-              <h2 className="presentation-deadline-title">{translate('presentation.event_date_label')}</h2>
-              <p className="presentation-deadline-range">{openCall.event_date.format(DATE_FORMAT)}</p>
-            </div>
-          </div>
-        </div>
-
-        <div key={'section_venue'} className="presentation-section">
-          <h2 className="presentation-section-title">{translate(`presentation.sections.venue`)}</h2>
-          <dl className="presentation-fields">
-            {openCall.placeProfileInfo && (
-              <ProfilePictureWithName
-                element={openCall.placeProfileInfo}
-                direction={ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL}
-                styles={{ avatarSize: 3 }}
-                showSubtitle
-                onProfileClick={() => setIsVenuePreviewOpen(true)}
-                actionable
-              />
-            )}
-            {/* {section.fields.map((field) => (
-              <div
-                key={field.name}
-                className={`presentation-field ${field.longText ? 'presentation-field--long' : ''}`}
-              >
-                <dt className="presentation-field-label">{translate(`presentation.fields.${field.name}`)}</dt>
-                <dd className="presentation-field-value">{field.value}</dd>
+        <div className="mobile-key">
+          <div className="presentation-deadline">
+            <div className="presentation-deadline-header">
+              <DynamicIcons iconName="bs BsFillAlarmFill" color={'white'} size={18} />
+              <div className="presentation-deadline-header-text">
+                <h2 className="presentation-deadline-title">{translate('presentation.apply_deadline_title')}</h2>
+                <p className="presentation-deadline-range">
+                  {openCall.start_date.format(DATE_FORMAT)} &ndash; {openCall.end_date.format(DATE_FORMAT)}
+                </p>
               </div>
-            ))} */}
-          </dl>
+            </div>
+            <div className="presentation-deadline-header presentation-deadline-event">
+              <DynamicIcons iconName="io IoMdCalendar" color={'white'} size={20} />{' '}
+              <div className="presentation-deadline-header-text">
+                <h2 className="presentation-deadline-title">{translate('presentation.event_date_label')}</h2>
+                <p className="presentation-deadline-range">{openCall.event_date.format(DATE_FORMAT)}</p>
+              </div>
+            </div>
+          </div>
+
+          <div key={'section_venue'} className="presentation-section">
+            <h2 className="presentation-section-title">{translate(`presentation.sections.venue`)}</h2>
+            <div>
+              {openCall.placeProfileInfo && (
+                <ProfilePictureWithName
+                  element={openCall.placeProfileInfo}
+                  direction={ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL}
+                  styles={{ avatarSize: 3 }}
+                  showSubtitle
+                  onProfileClick={() => setIsVenuePreviewOpen(true)}
+                  actionable
+                />
+              )}
+            </div>
+          </div>
         </div>
         {filledSections.map((section) => (
           <SectionsPanel
@@ -269,7 +291,8 @@ const OpenCallPresentation = ({ openCall, onApply, isOwner = false }: OpenCallPr
                     className={`presentation-field ${field.longText ? 'presentation-field--long' : ''}`}
                   >
                     <dt className="presentation-field-label">{translate(`presentation.fields.${field.name}`)}</dt>
-                    <dd className="presentation-field-value">{field.value}</dd>
+                    {field.longText && <ExpandableText text={field.value} />}
+                    {!field.longText && <dd className="presentation-field-value">{field.value}</dd>}
                   </div>
                 ))}
               </dl>

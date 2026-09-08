@@ -8,8 +8,8 @@ import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { getImageURL, uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
-import { getGenderOptions } from '~/common/utils/form-options/dynamic-form-parametric-options.helper';
-import { getMusicGenreOptions } from '~/common/utils/form-options/genre-options.helper';
+import { getMusicGenreTypeOptions } from '~/common/utils/form-options/music-genre-options.helper';
+import { getGenderOptions } from '~/common/utils/form-options/user-options.helper';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
@@ -33,7 +33,7 @@ const ArtistsCreatePage = () => {
   const { actions: userActions } = useUsersSlice();
   const { actions: languageActions } = useLanguagesSlice();
   const urlParameters = useParams();
-  const { translateGlobalDict, translateText, locale } = useI18n();
+  const { translateGlobalDict, locale } = useI18n();
   const formRef = useRef<DynamicTabbedFormRef>(null);
 
   const [artistId, setCurrentArtistId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
@@ -116,8 +116,8 @@ const ArtistsCreatePage = () => {
 
   const availableGenres = useMemo(
     () =>
-      getMusicGenreOptions({
-        translateFn: translateText,
+      getMusicGenreTypeOptions({
+        translateFn: translateGlobalDict,
         selectedValues: currentArtist?.genres?.music,
       }),
     [currentArtist?.genres?.music, locale]

@@ -142,7 +142,6 @@ export const ElMessages = {
                 duo: 'Ντουέτο',
                 band: 'Συγκρότημα',
                 dj: 'DJ',
-                group: 'Ομάδα',
                 collective: 'Συλλογικότητα',
                 orchestra: 'Ορχήστρα',
                 choir: 'Χορωδία',

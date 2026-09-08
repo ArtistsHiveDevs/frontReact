@@ -142,7 +142,6 @@ export const PtMessages = {
                 duo: 'Duo',
                 band: 'Banda',
                 dj: 'DJ',
-                group: 'Grupo',
                 collective: 'Coletivo',
                 orchestra: 'Orquestra',
                 choir: 'Coro',

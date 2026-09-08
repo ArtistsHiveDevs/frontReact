@@ -142,7 +142,6 @@ export const ItMessages = {
                 duo: 'Duo',
                 band: 'Band',
                 dj: 'DJ',
-                group: 'Gruppo',
                 collective: 'Collettivo',
                 orchestra: 'Orchestra',
                 choir: 'Coro',

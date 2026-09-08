@@ -2,6 +2,7 @@
 
 $breakpoint-sm: map-get($grid-breakpoints, sm);
 $breakpoint-md: map-get($grid-breakpoints, md);
+$breakpoint-lg: map-get($grid-breakpoints, lg);
 
 .open-call-presentation {
   display: flex;
@@ -99,8 +100,8 @@ $breakpoint-md: map-get($grid-breakpoints, md);
   }
 
   .presentation-deadline {
-    background: $app-background-75;
-    border: 1px solid $form-fields-separator;
+    background: $app-background-emphasis;
+    border: 1px solid white;
     border-radius: 8px;
     padding: 1rem;
 
@@ -134,6 +135,12 @@ $breakpoint-md: map-get($grid-breakpoints, md);
     .presentation-deadline-event {
       margin-top: 1.5rem;
     }
+  }
+
+  .mobile-key {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 
   .presentation-section-title {
@@ -268,6 +275,34 @@ $breakpoint-md: map-get($grid-breakpoints, md);
         width: auto;
         min-width: 260px;
       }
+    }
+
+    .mobile-key {
+      flex-direction: row;
+      align-items: stretch;
+      width: 100%;
+      gap: 2rem;
+
+      // Escenario primero y plazos después, sin depender de row-reverse (que invierte
+      // también el punto de partida de justify-content y termina pegando todo a la derecha).
+      .presentation-deadline {
+        order: 1;
+        flex: 1 1 70%;
+        min-width: 0;
+      }
+
+      .presentation-section {
+        flex: 1 1 30%;
+        min-width: 0;
+      }
+    }
+  }
+}
+
+@media (min-width: $breakpoint-lg) {
+  .open-call-presentation {
+    .mobile-key {
+      gap: 3rem;
     }
   }
 }

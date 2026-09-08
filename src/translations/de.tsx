@@ -142,7 +142,6 @@ export const DeMessages = {
                 duo: 'Duo',
                 band: 'Band',
                 dj: 'DJ',
-                group: 'Gruppe',
                 collective: 'Kollektiv',
                 orchestra: 'Orchester',
                 choir: 'Chor',

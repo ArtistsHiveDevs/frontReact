@@ -38,7 +38,7 @@ const OpenCallsListPage = () => {
   const translate = (key: string) => translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.${key}`);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isArtistProfile, isPlaceProfile, currentProfileId } = useProfileInfo();
+  const { loggedUser, isArtistProfile, isPlaceProfile, currentProfileId } = useProfileInfo();
 
   const { actions: openCallActions } = useOpenCallsSlice();
   const openCalls = useSelector(selectorOpenCalls.selectItems);
@@ -300,16 +300,18 @@ const OpenCallsListPage = () => {
 
   // ========== RENDER HELPERS ==========
   const renderTabNavigation = () => {
-    const tabs = isPlaceProfile
-      ? [
-          { key: 'available' as const, label: 'Disponibles' },
-          { key: 'active' as const, label: 'Activas' },
-          { key: 'past' as const, label: 'Pasadas' },
-        ]
-      : [
-          { key: 'available' as const, label: 'Disponibles' },
-          { key: 'applications' as const, label: 'Mis Aplicaciones' },
-        ];
+    let tabs: { key: 'active' | 'past' | 'available' | 'applications'; label: string }[] = [
+      { key: 'available', label: 'Disponibles' },
+    ];
+    if (!!loggedUser) {
+      const otherTabs = isPlaceProfile
+        ? [
+            { key: 'active' as const, label: 'Activas' },
+            { key: 'past' as const, label: 'Pasadas' },
+          ]
+        : [{ key: 'applications' as const, label: 'Mis Aplicaciones' }];
+      tabs = [...tabs, ...otherTabs];
+    }
 
     return (
       <div className="oc-tabs">

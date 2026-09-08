@@ -1,5 +1,5 @@
 import { useI18n } from '~/common/utils';
-import { translateMusicGenre } from '~/common/utils/form-options/genre-options.helper';
+import { translateMusicGenre } from '~/common/utils/form-options/music-genre-options.helper';
 import { Badge } from '~/components/shared/atoms/gui/badge/Badge';
 import './GenresListView.scss';
 

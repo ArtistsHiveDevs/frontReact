@@ -142,7 +142,6 @@ export const EsMessages = {
                 duo: 'Dúo',
                 band: 'Banda',
                 dj: 'DJ',
-                group: 'Grupo',
                 collective: 'Colectivo',
                 orchestra: 'Orquesta',
                 choir: 'Coro',

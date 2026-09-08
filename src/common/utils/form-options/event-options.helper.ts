@@ -1,5 +1,4 @@
-import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
-import { ParametricOptionsParams, sortOptionsByLabel } from './dynamic-form-parametric-options.helper';
+import { createParametricOptionsGetter } from './dynamic-form-parametric-options.helper';
 
 /**
  * Ruta base para las traducciones de atributos de eventos
@@ -32,25 +31,7 @@ export type EventTypeOption = typeof EVENT_TYPE_OPTIONS[number];
  * @param params.sortByLabel - Orden de las opciones por label: 'asc' o 'desc' (opcional)
  * @returns Array de SelectOption con los tipos de evento traducidos
  */
-export const getEventTypeOptions = (params?: ParametricOptionsParams): SelectOption[] => {
-  const {
-    translateFn,
-    defaultValue,
-    translationPath = `${ATTRIBUTES_PATH}.event_type`,
-    sortByLabel = 'asc',
-  } = params || {};
-
-  const options = EVENT_TYPE_OPTIONS.map((eventType) => {
-    const translationKey = translationPath ? `${translationPath}.values.${eventType}` : eventType;
-    const option: SelectOption = {
-      label: translateFn ? translateFn(translationKey) : eventType,
-      value: eventType,
-    };
-    if (eventType === defaultValue) {
-      option.selected = true;
-    }
-    return option;
-  });
-
-  return sortOptionsByLabel(options, sortByLabel);
-};
+export const getEventTypeOptions = createParametricOptionsGetter({
+  values: EVENT_TYPE_OPTIONS,
+  defaultTranslationPath: `${ATTRIBUTES_PATH}.event_type`,
+});

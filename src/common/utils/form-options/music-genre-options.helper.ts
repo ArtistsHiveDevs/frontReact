@@ -5,7 +5,7 @@ import { ParametricOptionsParams, sortOptionsByLabel } from './dynamic-form-para
 /**
  * Ruta base para las traducciones de géneros musicales
  */
-const TRANSLATION_BASE_MUSIC_GENRES = 'app.global_dictionary.music_genres';
+const TRANSLATION_BASE_MUSIC_GENRES = 'music_genres';
 
 /**
  * Géneros musicales disponibles para los formularios de perfiles
@@ -41,7 +41,7 @@ export const translateMusicGenre = (genre: string, translateFn?: (key: string) =
  * @param params.sortByLabel - Orden de las opciones por label: 'asc' o 'desc' (opcional)
  * @returns Array de SelectOption con los géneros musicales traducidos
  */
-export const getMusicGenreOptions = (params?: MusicGenreOptionsParams): SelectOption[] => {
+export const getMusicGenreTypeOptions = (params?: MusicGenreOptionsParams): SelectOption[] => {
   const {
     translateFn,
     selectedValues = [],

@@ -1,7 +1,8 @@
 @import '~/variables.module.scss';
 
 .open-call-page {
-  max-width: 720px;
+  max-width: 80%;
+  width: 80%;
   margin: 0 auto;
   padding: 1rem;
   color: $main-font-color;
@@ -280,6 +281,7 @@
 @media (max-width: 480px) {
   .open-call-page {
     padding: 0.5rem;
+    max-width: 100%;
 
     .open-call-header {
       padding: 1.5rem 0.5rem;

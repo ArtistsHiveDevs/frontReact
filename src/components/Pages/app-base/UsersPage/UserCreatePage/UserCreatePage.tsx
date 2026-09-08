@@ -10,7 +10,7 @@ import {
   getBloodGroupOptions,
   getDietaryRestrictionOptions,
   getGenderOptions,
-} from '~/common/utils/form-options/dynamic-form-parametric-options.helper';
+} from '~/common/utils/form-options/user-options.helper';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
 import { IndustrySignUpBanner } from '~/components/shared/atoms/IndustrySignUpBanner/IndustrySignUpBanner';

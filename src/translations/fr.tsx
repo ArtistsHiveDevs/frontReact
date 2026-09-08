@@ -140,9 +140,8 @@ export const FrMessages = {
               values: {
                 solo_artist: 'Artiste Solo',
                 duo: 'Duo',
-                band: 'Groupe (Band)',
+                band: 'Groupe',
                 dj: 'DJ',
-                group: 'Groupe (Group)',
                 collective: 'Collectif',
                 orchestra: 'Orchestre',
                 choir: 'Chorale',

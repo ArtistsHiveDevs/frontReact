@@ -14,6 +14,7 @@ export interface EntityTemplate extends Template {
 
 export interface ProfileTemplate extends EntityTemplate {
   username?: string;
+  run?: string;
   profile_pic?: string;
 
   isClaimedProfile?: boolean;

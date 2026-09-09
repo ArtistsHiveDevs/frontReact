@@ -64,7 +64,7 @@ export function ProfilePictureWithName<T extends ProfilePictureWithNameElement>(
   // `profile_pic` puede venir como ruta de S3, que sólo se resuelve a URL firmada de forma asíncrona.
   const [imageURL, setImageURL] = useState<string>(undefined);
 
-  const displayName = element?.nameKnownAs || element?.name;
+  const displayName = element?.nameKnownAs || element?.name || `@${element.identifier}`;
 
   useEffect(() => {
     let cancelled = false;
@@ -146,9 +146,7 @@ export function ProfilePictureWithName<T extends ProfilePictureWithNameElement>(
         <span className="ppl-participant-name">{displayName}</span>
         {showSubtitle && !!element?.subtitle && <span className="ppl-participant-subtitle">{element.subtitle}</span>}
       </div>
-      {isActionableRow && (
-        <DynamicIcons iconName="io5 IoChevronForward" color="white" size={18} />
-      )}
+      {isActionableRow && <DynamicIcons iconName="io5 IoChevronForward" color="white" size={18} />}
     </div>
   );
 }

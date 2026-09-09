@@ -10,3 +10,51 @@
   font-size: x-large;
   font-weight: 700;
 }
+
+.artist-claim-search-input {
+  display: block;
+  margin: 2rem auto;
+  width: 100%;
+  max-width: 24rem;
+}
+
+.claimed-artist-preview {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.artist-claim-search-results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.artist-claim-result--owned {
+  opacity: 0.6;
+
+  .ppl-participant-avatar-name {
+    cursor: default;
+  }
+}
+
+.artist-claim-result__owned-message {
+  margin: 0.25rem 0 0;
+  font-size: small;
+  font-style: italic;
+}
+
+.artist-claim-search-empty {
+  margin: 1rem;
+  text-align: center;
+  opacity: 0.8;
+}

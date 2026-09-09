@@ -226,7 +226,7 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
   }
 
   get identifier(): string {
-    return this.shortId || this.id;
+    return this.run || this.shortId || this.id;
   }
 
   get sharedUrlSocialNetworks() {
@@ -256,6 +256,7 @@ export abstract class ProfileModel<T extends ProfileTemplate>
   declare id: string;
   declare name: string;
   declare username?: string;
+  declare run?: string;
   declare profile_pic?: string;
   declare shortId?: string;
   protected _profile_pic_aws?: StorageGetUrlOutput;

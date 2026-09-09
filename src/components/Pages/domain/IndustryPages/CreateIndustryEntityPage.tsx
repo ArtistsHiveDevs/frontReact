@@ -4,15 +4,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
 import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
 import { useSearchSlice } from '~/common/slices/search';
-import { selectSearch, selectSearchLoading } from '~/common/slices/search/selectors';
+import { selectEntitySearch, selectEntitySearchLoading, selectSearch } from '~/common/slices/search/selectors';
 import { useUsersSlice } from '~/common/slices/users';
-import { selectCurrentUser } from '~/common/slices/users/selectors';
+import {
+  selectClaimFeedback,
+  selectCurrentUser,
+  selectLoading as selectUsersLoading,
+} from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { resolveNavigateToEntityPath } from '~/common/utils/hooks/navigation/navigateToEntityResolver';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { useDebouncedSearchTerm } from '~/common/utils/hooks/search/useDebouncedSearchTerm';
 import MainSection from '~/components/Pages/HomePage/MainSection/MainSection';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
-import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
+import {
+  ProfilePictureWithName,
+  ProfilePictureWithNameConstants,
+} from '~/components/shared/atoms/gui/ProfilePictureList/ProfilePictureWithName';
+import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { SUB_PATHS } from '~/constants';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
@@ -33,6 +42,15 @@ const CreateIndustryEntityPage = () => {
   const availableArtistsComplete: ArtistModel[] = useSelector(selectorArtists.selectItems);
   const availablePlacesComplete: PlaceModel[] = useSelector(selectorPlaces.selectItems);
 
+  const [claimSearchText, setClaimSearchText] = useState('');
+  const [hasSentClaimRequest, setHasSentClaimRequest] = useState(false);
+  const [claimedArtist, setClaimedArtist] = useState<ArtistModel>(undefined);
+  const [showClaimConfirmation, setShowClaimConfirmation] = useState(false);
+  const artistClaimSearchResults: SearchModel = useSelector(selectEntitySearch);
+  const artistClaimSearchLoading: boolean = useSelector(selectEntitySearchLoading);
+  const usersLoading: boolean = useSelector(selectUsersLoading);
+  const claimFeedback = useSelector(selectClaimFeedback);
+
   const { actions: artistsActions } = useArtistsSlice();
   const { actions: placesActions } = usePlacesSlice();
   const { actions: usersActions } = useUsersSlice();
@@ -41,7 +59,6 @@ const CreateIndustryEntityPage = () => {
   const { navigateToInnerPath } = useNavigation();
 
   const queriedSearchList: SearchModel = useSelector(selectSearch);
-  const querySearchLoading: boolean = useSelector(selectSearchLoading);
   const { actions: searchActions } = useSearchSlice();
 
   const roles = [
@@ -51,29 +68,6 @@ const CreateIndustryEntityPage = () => {
     'places',
     // 'promoters'
   ];
-
-  const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = roles.map((role) => {
-    return {
-      name: role,
-      title: translateGlobalDict(`entities.${role}.plural`),
-      sections: [
-        {
-          name: 'main_artists',
-          title: '"',
-          components: [
-            {
-              componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
-              data: {
-                data_source: 'main_artists',
-              },
-              clickHandlerName: 'onNavigateToEntity',
-              formMetaData: { fieldName: 'main_artists' },
-            },
-          ],
-        },
-      ],
-    };
-  });
 
   // [
   //   {
@@ -113,29 +107,6 @@ const CreateIndustryEntityPage = () => {
   //   },
   // ];
 
-  const handlers = {
-    onSubmit: (data: any, error?: any) => {
-      console.log('#####----------->>>>  !!! ', data);
-    },
-    place_onChange: async (data: any) => {
-      const searchedText = data?.target?.value?.trim().toLowerCase() || '';
-
-      const filteredPlaces = availablePlacesComplete.filter((place) => place.name.toLowerCase().includes(searchedText));
-
-      console.log(searchedText, searchedText.length, filteredPlaces);
-      updateAvailablePlaces(filteredPlaces);
-    },
-    main_artists_onChange: async (data: any) => {
-      const searchedText = data?.target?.value?.trim().toLowerCase() || '';
-
-      const filteredArtists = availableArtistsComplete.filter((artist) =>
-        artist.name.toLowerCase().includes(searchedText)
-      );
-
-      updateAvailableArtists(filteredArtists);
-    },
-  };
-
   useEffect(() => {
     if (availableArtistsComplete.length === 0) {
       dispatch(artistsActions.loadItems({}));
@@ -163,6 +134,32 @@ const CreateIndustryEntityPage = () => {
       );
     }
   }, [loggedUser, isIndustryMemberActivated]);
+
+  useDebouncedSearchTerm(claimSearchText, (term) => {
+    dispatch(searchActions.entityQuerySearch({ term, entity: 'Artist' }));
+  });
+
+  useEffect(() => {
+    if (!usersLoading && hasSentClaimRequest) {
+      setHasSentClaimRequest(false);
+      setShowClaimConfirmation(true);
+    }
+  }, [usersLoading]);
+
+  const isArtistAlreadyOwned = (artist: ArtistModel) => {
+    const candidateIds = [artist.id, artist.identifier, artist.username].filter(Boolean);
+    return candidateIds.some((candidateId) => loggedUser?.checkPermissions(candidateId)?.canEdit);
+  };
+
+  const claimArtistProfile = (artist: ArtistModel) => {
+    if (isArtistAlreadyOwned(artist)) {
+      return;
+    }
+    dispatch(usersActions.claimProfileUser({ profile: artist }));
+    setClaimedArtist(artist);
+    setHasSentClaimRequest(true);
+    setClaimSearchText('');
+  };
 
   const clickOnEntityHandler = (entityNamePlural: string) => {
     if (!!loggedUser) {
@@ -278,6 +275,75 @@ const CreateIndustryEntityPage = () => {
           Nuestro equipo estará analizando tu perfil y se contactará contigo para poder asociar los perfiles a tu
           cuenta.
         </p>
+        <div style={{ marginTop: '2rem' }}>
+          <h3>Reclamar tu perfil</h3>
+          <p>
+            Busca tu proyecto artístico y reclama tu perfil para que puedas completarlo y aplicar a las convocatorias
+            disponibles.
+          </p>
+          <input
+            type="text"
+            className="artist-claim-search-input"
+            placeholder="Buscar tu perfil de artista..."
+            value={claimSearchText}
+            onChange={(e) => setClaimSearchText(e.target.value)}
+          />
+          {!!artistClaimSearchResults?.artists?.length && (
+            <div className="artist-claim-search-results">
+              {artistClaimSearchResults.artists.map((artist: ArtistModel) => {
+                const alreadyOwned = isArtistAlreadyOwned(artist);
+                return (
+                  <div
+                    key={artist.identifier || artist.id}
+                    className={`artist-claim-result${alreadyOwned ? ' artist-claim-result--owned' : ''}`}
+                  >
+                    <ProfilePictureWithName
+                      element={artist}
+                      direction={ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL}
+                      showSubtitle
+                      actionable={!alreadyOwned}
+                      onProfileClick={alreadyOwned ? undefined : () => claimArtistProfile(artist)}
+                    />
+                    {alreadyOwned && (
+                      <p className="artist-claim-result__owned-message">
+                        Ya tienes a "{artist.name}" asociado a tu cuenta.
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {!!claimSearchText && !artistClaimSearchLoading && !artistClaimSearchResults?.artists?.length && (
+            <p className="artist-claim-search-empty">No encontramos artistas que coincidan con tu búsqueda.</p>
+          )}
+        </div>
+
+        <AppDialog
+          isOpenDialog={showClaimConfirmation}
+          onClose={() => setShowClaimConfirmation(false)}
+          title={claimFeedback?.alreadyRequested ? 'Solicitud ya existente' : 'Solicitud enviada'}
+          content={
+            <>
+              {!!claimedArtist && (
+                <div className="claimed-artist-preview">
+                  <ProfilePictureWithName
+                    element={claimedArtist}
+                    direction={ProfilePictureWithNameConstants.DISPLAY_VERTICAL}
+                    styles={{ avatarSize: 6 }}
+                  />
+                </div>
+              )}
+              <p>
+                {claimFeedback?.alreadyRequested
+                  ? claimFeedback?.message ||
+                    `Ya habías solicitado el perfil de "${claimedArtist?.name}" anteriormente.`
+                  : `Recibimos tu solicitud. Pronto nos contactaremos contigo para validar y asociar el perfil de "${claimedArtist?.name}" a tu cuenta.`}
+              </p>
+            </>
+          }
+          actions={[{ label: 'OK', handler: () => setShowClaimConfirmation(false) }]}
+        />
       </div>
       {showReset && (
         <div className="content">

@@ -5,6 +5,11 @@ export enum UserErrorType {
   RESPONSE_ERROR = 1,
 }
 
+export interface ClaimFeedback {
+  alreadyRequested: boolean;
+  message?: string;
+}
+
 export interface UserState {
   users: AppUserModel[] | [];
   currentUser: AppUserModel;
@@ -13,4 +18,5 @@ export interface UserState {
   usernameAvailabilityResult: UsernameAvailabilityStatus;
   loading: boolean;
   error: UserErrorType | null;
+  claimFeedback: ClaimFeedback | null;
 }

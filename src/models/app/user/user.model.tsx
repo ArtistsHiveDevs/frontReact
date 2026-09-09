@@ -21,6 +21,7 @@ export interface EntityInstanceRoleMapTemplate {
   name?: string;
   stage_name?: string;
   username?: string;
+  run?: string;
   shortId?: string;
   subtitle?: string;
   //TODO verificar si se puede quitar
@@ -341,6 +342,7 @@ export class CurrentProfileInfoModel
   declare surnames?: string;
   declare stage_name?: string;
   declare username?: string;
+  declare run?: string;
   declare shortId?: string;
   declare profile_pic?: string;
   declare subtitle?: string;
@@ -355,7 +357,7 @@ export class CurrentProfileInfoModel
   }
 
   get identifier() {
-    return this.username || this.shortId || this.id;
+    return this.username || this.run || this.shortId || this.id;
   }
 
   async avatarURL(): Promise<string> {

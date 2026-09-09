@@ -7,7 +7,7 @@ import { AppUserModel, AppUserTemplate, UNLOGGED_USER } from '~/models/app/user/
 import { UsernameAvailabilityStatus } from '~/constants/app.constants';
 import { ProfileTemplate } from '~/models/base';
 import { userSaga } from './saga';
-import { UserErrorType, UserState } from './types';
+import { ClaimFeedback, UserErrorType, UserState } from './types';
 
 export const usersInitialState: UserState = {
   users: [],
@@ -17,6 +17,7 @@ export const usersInitialState: UserState = {
   usernameAvailabilityResult: undefined,
   loading: false,
   error: null,
+  claimFeedback: null,
 };
 
 const slice = createSlice({
@@ -63,6 +64,11 @@ const slice = createSlice({
     },
     claimProfileUser(state, action: PayloadAction<{ profile: ProfileTemplate }>) {
       state.loading = true;
+      state.claimFeedback = null;
+    },
+    claimFeedbackReceived(state, action: PayloadAction<ClaimFeedback>) {
+      state.claimFeedback = action.payload;
+      state.loading = false;
     },
     followProfileUser(state, action: PayloadAction<{ action: 'follow' | 'unfollow'; profile: ProfileTemplate }>) {
       state.loading = true;

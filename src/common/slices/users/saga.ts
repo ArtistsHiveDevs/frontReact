@@ -1,6 +1,13 @@
 import { call, delay, put, select, takeLatest } from 'redux-saga/effects';
 
-import { APIResponse, generatePreAuthHeaders, postRequest, putRequest, request } from '~/common/utils/request';
+import {
+  APIResponse,
+  generatePreAuthHeaders,
+  postRequest,
+  putRequest,
+  request,
+  ResponseError,
+} from '~/common/utils/request';
 import { AppUserModel, AppUserTemplate } from '~/models/app/user/user.model';
 
 import { PayloadAction } from '@reduxjs/toolkit';
@@ -282,17 +289,41 @@ export function* updateUser(actionParams?: PayloadAction<{ id: string; newItem: 
 }
 
 export function* claimProfileUser(actionParams?: PayloadAction<{ profile: ProfileTemplate }>) {
-  const { identifier } = actionParams.payload.profile as ProfileModel<any>;
+  const { id, identifier, username } = actionParams.payload.profile as ProfileModel<any>;
 
-  const response: APIResponse = yield callActionInUser({
+  yield delay(500);
+
+  const authInfo: { apiKey: string; userId: string; username: string; sub: string } = yield select(selectApiKey);
+  const userId = authInfo.userId || authInfo.username || authInfo.sub;
+  const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/${userId}/action`;
+
+  const body = {
     action: 'claim',
-    profile: actionParams.payload.profile,
-  });
+    id,
+    identifier,
+    username,
+    entity: getModelInfoFromInstance(actionParams.payload.profile).entityName,
+  };
 
-  if (response) {
-    yield put(usersActions.voidRQ(response));
+  try {
+    const response: APIResponse = yield call(putRequest, requestURL, {
+      body: JSON.stringify(body),
+      headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
+    });
+
+    yield put(usersActions.claimFeedbackReceived({ alreadyRequested: !!response?.data?.alreadyRequested }));
     yield put(actionsArtists.getItemById({ id: identifier }));
     yield put(actionsPlaces.getItemById({ id: identifier }));
+  } catch (err) {
+    const responseError = err as ResponseError;
+    const errorContent: any = responseError.content;
+
+    yield put(
+      usersActions.claimFeedbackReceived({
+        alreadyRequested: responseError.response?.status === 409,
+        message: errorContent?.message,
+      })
+    );
   }
 }
 

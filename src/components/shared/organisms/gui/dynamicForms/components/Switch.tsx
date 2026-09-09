@@ -36,7 +36,7 @@ export const createSwitch = (
         control={control}
         defaultValue={false}
         rules={{
-          required: required === true || required === 'true' ? 'Este campo es requerido' : false,
+          required: required ? (typeof required === 'string' ? required : 'Este campo es requerido') : false,
         }}
         render={({ field }) => (
           <FormControlLabel

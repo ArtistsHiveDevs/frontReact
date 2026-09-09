@@ -1493,6 +1493,7 @@ export const FrMessages = {
             genres: 'Genres',
             accepted_project_types: 'Types de projets acceptés',
             requirements_description: 'Exigences',
+            selection_criteria: 'Critères de sélection',
             set_duration: 'Durée du set',
             max_applications: 'Candidatures maximum',
             available_slots: 'Places disponibles',

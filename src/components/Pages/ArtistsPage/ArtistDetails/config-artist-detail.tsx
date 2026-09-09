@@ -336,7 +336,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   //     return <>{content}</>;
                   //   },
                   // },
-                  { inputType: 'text', fieldName: 'member_role', label: 'member_role', config: { required: true } },
+                  // { inputType: 'text', fieldName: 'member_role', label: 'member_role', config: { required: true } },
                   {
                     inputType: '',
                     fieldName: 'member_instrument',

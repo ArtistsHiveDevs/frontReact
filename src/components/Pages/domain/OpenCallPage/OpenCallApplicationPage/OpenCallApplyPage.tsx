@@ -163,7 +163,7 @@ const OpenCallApplyPage = () => {
         title={translate('success.title')}
         message={translate('success.message')}
         buttonText={translate('success.back_button')}
-        onButtonClick={() => navigate(`/${PATHS.HOME}`)}
+        onButtonClick={goToOpenCallDetails}
       />
     );
   }

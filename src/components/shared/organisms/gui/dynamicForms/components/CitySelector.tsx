@@ -161,7 +161,7 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
   }, [initialDefaultValue, externalData?.elementData, fieldData?.fieldName]);
 
   const { maxLevel = 3, minLevel = 1, showCountrySelector = true, allowEmptyLevels = true } = componentParams;
-  const isFieldRequired = fieldConfig?.required === true || fieldConfig?.required === 'true';
+  const isFieldRequired = !!fieldConfig?.required;
 
   const hookContext = useFormContext();
   const finalContext = externalContext || hookContext;

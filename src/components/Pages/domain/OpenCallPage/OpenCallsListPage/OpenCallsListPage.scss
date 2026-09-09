@@ -21,23 +21,24 @@
       font-weight: 700;
       color: $main-title-color;
     }
+  }
 
-    .oc-create-btn {
-      padding: 10px 20px;
-      border: 1px solid $links-color;
-      border-radius: 4px;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-      color: $links-color;
-      background: transparent;
+  // También se usa dentro de FixedHeader (fuera de .oc-header), por eso no va anidado ahí.
+  .oc-create-btn {
+    padding: 10px 20px;
+    border: 1px solid $links-color;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: $links-color;
+    background: transparent;
 
-      &:hover {
-        background: rgba($links-color, 0.1);
-        border-color: $icons-color;
-        color: $icons-color;
-      }
+    &:hover {
+      background: rgba($links-color, 0.1);
+      border-color: $icons-color;
+      color: $icons-color;
     }
   }
 

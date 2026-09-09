@@ -103,48 +103,13 @@ const OpenCallsListPage = () => {
   // Update data when openCalls or applications change
   useEffect(() => {
     if (!openCallsLoading) {
-      console.log('[DEBUG] currentProfileId', currentProfileId, 'isPlaceProfile', isPlaceProfile);
-
-      if (openCalls.length > 0) {
-        console.log(
-          '[DEBUG] openCalls placeIds',
-          openCalls.map((oc) => oc.placeId)
-        );
-        console.log(
-          '[DEBUG] matches vs currentProfileId',
-          openCalls.map((oc) => `${oc.placeId} === ${currentProfileId} -> ${oc.placeId === currentProfileId}`)
-        );
-      }
-
       const myOpenCalls =
         currentProfileId && isPlaceProfile
-          ? [
-              ...openCalls,
-              ...openCalls,
-              ...openCalls,
-              ...openCalls,
-              ...openCalls,
-              ...openCalls,
-              ...openCalls,
-              ...openCalls,
-              ...openCalls,
-              ...openCalls,
-              ...openCalls,
-              ...openCalls,
-              ...openCalls,
-              ...openCalls,
-              ...openCalls,
-              ...openCalls,
-              ...openCalls,
-              ...openCalls,
-            ].filter((oc) => oc.placeId === currentProfileId)
+          ? openCalls.filter((oc) => oc.place?.id === currentProfileId)
           : [...openCalls];
 
-      console.log('myOpenCalls', myOpenCalls);
-      const active = myOpenCalls.filter((oc) => oc.status === 'OPEN');
-      const past = myOpenCalls.filter((oc) => oc.status !== 'OPEN');
-      console.log('activeCalls', active);
-      console.log('pastCalls', past);
+      const active = myOpenCalls.filter((oc) => oc.status !== OpenCallStatus.CLOSED);
+      const past = myOpenCalls.filter((oc) => oc.status === OpenCallStatus.CLOSED);
       setActiveCalls(active);
       setPastCalls(past);
     }
@@ -153,7 +118,6 @@ const OpenCallsListPage = () => {
   useEffect(() => {
     if (!applicationsLoading && currentProfileId) {
       const myApps = applications.filter((app) => app.artistId === currentProfileId);
-      console.log('myApplications', myApps);
       setMyApplications(myApps);
     }
   }, [applications, applicationsLoading, currentProfileId]);
@@ -301,7 +265,7 @@ const OpenCallsListPage = () => {
   // ========== RENDER HELPERS ==========
   const renderTabNavigation = () => {
     let tabs: { key: 'active' | 'past' | 'available' | 'applications'; label: string }[] = [
-      { key: 'available', label: 'Disponibles' },
+      { key: 'available', label: 'Todas' },
     ];
     if (!!loggedUser) {
       const otherTabs = isPlaceProfile
@@ -722,11 +686,7 @@ const OpenCallsListPage = () => {
             </div>
             <div className="oc-card-content" onClick={() => handleItemClick(item)}>
               <div className="oc-card-header">
-                <h3 className="oc-card-title">
-                  {item.event_name || item.openCallSummary?.event_name}{' '}
-                  {item.event_name || item.openCallSummary?.event_name}{' '}
-                  {item.event_name || item.openCallSummary?.event_name}
-                </h3>
+                <h3 className="oc-card-title">{item.event_name || item.openCallSummary?.event_name}</h3>
                 {item.status && (
                   <span className={`oc-card-status oc-card-status--${badge.modifier}`}>{badge.label}</span>
                 )}
@@ -887,12 +847,8 @@ const OpenCallsListPage = () => {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
           <h2 style={{ margin: 0, fontSize: '1.1rem' }}>{isPlaceProfile ? 'Mis Convocatorias' : 'Convocatorias'}</h2>
           {isPlaceProfile && (
-            <button
-              className="oc-create-btn"
-              onClick={() => navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.CREATE}`)}
-              style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}
-            >
-              + Crear
+            <button className="oc-create-btn" onClick={() => navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.CREATE}`)}>
+              Crear Convocatoria
             </button>
           )}
         </div>
@@ -903,7 +859,7 @@ const OpenCallsListPage = () => {
         <h2>{isPlaceProfile ? 'Mis Convocatorias' : 'Convocatorias'}</h2>
         {isPlaceProfile && (
           <button className="oc-create-btn" onClick={() => navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.CREATE}`)}>
-            + Crear Convocatoria
+            Crear Convocatoria
           </button>
         )}
       </div>

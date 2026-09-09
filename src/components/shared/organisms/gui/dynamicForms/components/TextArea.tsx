@@ -78,7 +78,7 @@ export const createTextArea = (params: ComponentGeneratorParams) => {
         maxRows={10}
         label={
           <FormLabel
-            required={required === true || required === 'true'}
+            required={!!required}
             error={!!(errors && Object.keys(errors).find((key) => key === fieldName))}
           >
             {label}

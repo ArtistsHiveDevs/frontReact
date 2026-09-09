@@ -1487,6 +1487,7 @@ export const PtMessages = {
             genres: 'Géneros',
             accepted_project_types: 'Tipos de projeto aceites',
             requirements_description: 'Requisitos',
+            selection_criteria: 'Critérios de seleção',
             set_duration: 'Duração do set',
             max_applications: 'Máximo de candidaturas',
             available_slots: 'Vagas disponíveis',

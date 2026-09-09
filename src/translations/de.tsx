@@ -1490,6 +1490,7 @@ export const DeMessages = {
             genres: 'Genres',
             accepted_project_types: 'Akzeptierte Projektarten',
             requirements_description: 'Anforderungen',
+            selection_criteria: 'Auswahlkriterien',
             set_duration: 'Set-Dauer',
             max_applications: 'Maximale Bewerbungen',
             available_slots: 'Verfügbare Plätze',

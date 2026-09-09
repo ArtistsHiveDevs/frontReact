@@ -1500,6 +1500,7 @@ export const EsMessages = {
             genres: 'Géneros',
             accepted_project_types: 'Tipos de proyecto aceptados',
             requirements_description: 'Requisitos',
+            selection_criteria: 'Criterios de selección',
             set_duration: 'Duración del set',
             max_applications: 'Máximo de aplicaciones',
             available_slots: 'Plazas disponibles',

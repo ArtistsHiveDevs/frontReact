@@ -10,14 +10,14 @@ export const exampleBanners: BannerItem[] = [
     inner_url: '/circuito-hive-2026', // Navegación interna
     alt: 'Descubre nuevos artistas',
   },
-  {
-    img_src: '/img/bannerCH2.png', // Reemplaza con tu imagen real
-    external_url: 'https://example.com/evento', // Link externo
-    alt: 'Evento especial',
-  },
-  {
-    img_src: '/img/bannerCH1.png', // Reemplaza con tu imagen real
-    inner_url: '/artists', // Navegación interna
-    alt: 'Descubre nuevos artistas',
-  },
+  // {
+  //   img_src: '/img/bannerCH2.png', // Reemplaza con tu imagen real
+  //   external_url: 'https://example.com/evento', // Link externo
+  //   alt: 'Evento especial',
+  // },
+  // {
+  //   img_src: '/img/bannerCH1.png', // Reemplaza con tu imagen real
+  //   inner_url: '/artists', // Navegación interna
+  //   alt: 'Descubre nuevos artistas',
+  // },
 ];

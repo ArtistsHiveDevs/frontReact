@@ -1490,6 +1490,7 @@ export const ElMessages = {
             genres: 'Είδη',
             accepted_project_types: 'Αποδεκτοί τύποι έργων',
             requirements_description: 'Απαιτήσεις',
+            selection_criteria: 'Κριτήρια επιλογής',
             set_duration: 'Διάρκεια σετ',
             max_applications: 'Μέγιστες αιτήσεις',
             available_slots: 'Διαθέσιμες θέσεις',

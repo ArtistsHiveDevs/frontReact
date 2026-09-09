@@ -395,13 +395,16 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
 
   get openCallDocumentCheckList() {
     const required_fields = [
+      'name',
+      'username',
+      'description',
       'image_members',
       'image_live_gallery',
       // 'members',
       'spotify',
       'technical_epk',
       'technical_rider',
-      // 'stage_plot',
+      'stage_plot',
     ];
 
     console.log(this);

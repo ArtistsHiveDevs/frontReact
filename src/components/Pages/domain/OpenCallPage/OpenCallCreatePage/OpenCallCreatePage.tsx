@@ -2,7 +2,7 @@ import { Alert } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { selectorOpenCalls, useOpenCallsSlice } from '~/common/slices/domain/open-calls/open-calls.redux';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n, useParametricSelectOptions } from '~/common/utils';
@@ -12,6 +12,8 @@ import {
   getMusicGenreTypeOptions,
   getStageTypeOptions,
 } from '~/common/utils/form-options';
+import { RootState } from '~/common/utils/redux-injectors/types';
+import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
 import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
 import { registerAllBuilders } from '~/components/shared/organisms/gui/builders/componentBuilders';
 import {
@@ -19,7 +21,7 @@ import {
   pageSectionToDynamicFields,
 } from '~/components/shared/organisms/gui/builders/page-section-form.utils';
 import { DynamicForm } from '~/components/shared/organisms/gui/dynamicForms';
-import { PATHS } from '~/constants';
+import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import '../OpenCallApplicationPage/index.scss';
 import {
   CREATE_OPEN_CALL_STEP_META,
@@ -30,6 +32,7 @@ import {
 const OpenCallCreatePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const urlParameters = useParams();
   const { translateGlobalDict } = useI18n();
   const [placeId, setPlaceId] = useState(undefined);
   const [currentStep, setCurrentStep] = useState(0);
@@ -42,11 +45,25 @@ const OpenCallCreatePage = () => {
     registerAllBuilders();
   }, []);
 
+  const [existingOpenCallId, setExistingOpenCallId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
+  const isEditMode = !!existingOpenCallId;
   const loggedUser = useSelector(selectCurrentUser);
   const { actions: openCallActions } = useOpenCallsSlice();
   const createdItem = useSelector(selectorOpenCalls.selectCreatedItem);
   const loading = useSelector(selectorOpenCalls.selectLoading);
   const submitError = useSelector(selectorOpenCalls.selectError);
+
+  const selectOpenCallById = selectorOpenCalls.makeSelectItemById();
+  const existingOpenCall = useSelector((state: RootState) =>
+    existingOpenCallId ? selectOpenCallById(state, existingOpenCallId) : undefined
+  );
+
+  // En modo edición, trae la convocatoria existente una sola vez por id.
+  useEffect(() => {
+    if (existingOpenCallId) {
+      dispatch(openCallActions.getItemById({ id: existingOpenCallId }));
+    }
+  }, [existingOpenCallId]);
 
   // Solo el dueño o un administrador del Place indicado en `placeId` puede crear la convocatoria.
   // El backend ya rechaza esto server-side; esta validación evita mostrar el formulario completo
@@ -71,14 +88,63 @@ const OpenCallCreatePage = () => {
       [translateGlobalDict]
     );
 
+  useEffect(() => {
+    if (existingOpenCallId !== urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]) {
+      setExistingOpenCallId(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
+    }
+  }, [urlParameters]);
+
+  // Se calcula acá (no solo más abajo con `steps`) porque hace falta antes, para poder
+  // filtrar el reset() y el onSubmit a solo los campos reales del form.
+  const allFieldNames = getOpenCallCreateConfig({
+    eventTypeOptions,
+    stageTypeOptions,
+    musicGenresTypeOptions,
+    musicArtistProjectFormatTypeOptions,
+  }).flatMap(getFieldNamesFromPageSection);
+
   const formMethods = useForm({ mode: 'onTouched' });
-  const { handleSubmit, trigger } = formMethods;
+  const { handleSubmit, trigger, reset } = formMethods;
+
+  // true en cuanto reset() ya corrió (o de una vez si no es edición). Los campos del step
+  // actual (ej. event_name en el step 0) capturan su valor inicial en su propio useState al
+  // MONTAR; si el <DynamicForm> ya estaba montado antes de que reset() corriera, ese valor
+  // inicial queda vacío y algunos inputs no reaccionan bien después al cambio. Por eso no se
+  // renderiza el form hasta que el reset ya se aplicó, para que el primer montaje ya traiga el valor correcto.
+  const [hasAppliedInitialValues, setHasAppliedInitialValues] = useState(false);
+
+  // Prellenar el form apenas llega la convocatoria existente (getItemById es async).
+  // Se filtra a solo los campos reales del form (allFieldNames): existingOpenCall trae MUCHO
+  // más (place/placeProfileInfo populado, entityRoleMap, events, etc.) que si se manda tal cual
+  // termina viajando de vuelta en el submit y rompe el update en el backend (Cast to ObjectId).
+  useEffect(() => {
+    if (!isEditMode) {
+      setHasAppliedInitialValues(true);
+      return;
+    }
+    if (existingOpenCall) {
+      const formShapedValues = Object.fromEntries(
+        allFieldNames.map((fieldName) => [fieldName, (existingOpenCall as any)[fieldName]])
+      );
+      reset(formShapedValues);
+      setHasAppliedInitialValues(true);
+    }
+  }, [existingOpenCall, isEditMode]);
 
   useEffect(() => {
-    if (submitted && createdItem) {
+    if (!submitted || loading) {
+      return;
+    }
+    // Update no llena `createdItem` (eso es solo del flujo de create): se detecta éxito
+    // por "terminó de cargar sin error", y se vuelve a la página de detalle en vez de al listado.
+    if (isEditMode) {
+      if (!submitError) {
+        navigate(`/${PATHS.OPEN_CALLS}/${SUB_PATHS.ELEMENT_DETAILS}/${existingOpenCallId}`);
+      }
+    } else if (createdItem) {
       navigate(`/${PATHS.OPEN_CALLS}`);
     }
-  }, [submitted, createdItem]);
+  }, [submitted, loading, createdItem, submitError, isEditMode]);
 
   // Derivado (no state propio): solo se muestra tras un intento de submit que terminó en error real.
   const showSubmitError = submitted && !loading && !createdItem && !!submitError;
@@ -177,14 +243,19 @@ const OpenCallCreatePage = () => {
   };
 
   const onSubmit = (data: any) => {
-    console.log('🚀 onSubmit called', { currentStep, totalSteps, data });
-    console.trace('Submit stack trace');
-    const openCallData = {
-      ...data,
-      place_id: placeId,
-      status: 'OPEN',
-    };
-    dispatch(openCallActions.createItem({ data: openCallData }));
+    if (isEditMode) {
+      // Solo los campos reales del form: `data` puede traer de arrastre valores no-form que
+      // dejó el reset() de prellenado (ver comentario en ese useEffect), y no deben viajar en el PUT.
+      const newItem = Object.fromEntries(allFieldNames.map((fieldName) => [fieldName, data[fieldName]]));
+      dispatch(openCallActions.updateItem({ id: existingOpenCallId, newItem }));
+    } else {
+      const openCallData = {
+        ...data,
+        place_id: placeId,
+        status: 'DRAFT',
+      };
+      dispatch(openCallActions.createItem({ data: openCallData }));
+    }
     setSubmitted(true);
   };
 
@@ -221,6 +292,7 @@ const OpenCallCreatePage = () => {
 
   return (
     <RequireAuthComponent resourceEntity={createdItem} requiredSession={true}>
+      {isEditMode && <BackButton />}
       <div className="open-call-page">
         {!canCreateOpenCall ? (
           <div className="open-call-header">
@@ -234,7 +306,7 @@ const OpenCallCreatePage = () => {
           <>
             {/* Header */}
             <div className="open-call-header">
-              <h1 className="open-call-title">Crear Convocatoria</h1>
+              <h1 className="open-call-title">{isEditMode ? 'Editar Convocatoria' : 'Crear Convocatoria'}</h1>
               <p className="open-call-subtitle">
                 Completa la información del evento y las fechas de la convocatoria. Los artistas podrán aplicar durante
                 el periodo que definas.
@@ -270,7 +342,7 @@ const OpenCallCreatePage = () => {
             </div>
 
             {/* Form */}
-            {eventTypeOptions.length === 0 || stageTypeOptions.length === 0 ? (
+            {eventTypeOptions.length === 0 || stageTypeOptions.length === 0 || !hasAppliedInitialValues ? (
               <p>Cargando opciones...</p>
             ) : (
               <FormProvider {...formMethods}>
@@ -323,7 +395,7 @@ const OpenCallCreatePage = () => {
                       </button>
                     ) : (
                       <button type="submit" className="nav-btn btn-submit" disabled={loading}>
-                        Crear Convocatoria
+                        {isEditMode ? 'Guardar Cambios' : 'Crear Convocatoria'}
                       </button>
                     )}
                   </div>

@@ -1490,6 +1490,7 @@ export const ItMessages = {
             genres: 'Generi',
             accepted_project_types: 'Tipi di progetto accettati',
             requirements_description: 'Requisiti',
+            selection_criteria: 'Criteri di selezione',
             set_duration: 'Durata del set',
             max_applications: 'Candidature massime',
             available_slots: 'Posti disponibili',

@@ -12,8 +12,13 @@ export const createAutocompletePicker = (params: ComponentGeneratorParams) => {
 
   const hookContext = useFormContext();
   const finalContext = params.formContext || hookContext;
-  const { register, setValue, formState } = finalContext;
+  const { register, setValue, formState, watch } = finalContext;
   const { errors } = formState || {};
+
+  // Valor actual del form para este campo (lo que puso reset() al prellenar un form de
+  // edición, o lo que el propio usuario ya seleccionó). Sin esto, este componente nunca
+  // reacciona a reset() — solo lee options[].selected/fieldData.defaultValue (estáticos).
+  const formValue = watch ? watch(fieldName) : undefined;
 
   const [selectedOptions, updateSelectedOptions] = useState<SelectOption[]>([]);
 
@@ -26,20 +31,22 @@ export const createAutocompletePicker = (params: ComponentGeneratorParams) => {
 
     // Algunas entidades (ej. spoken_languages de User) traen el valor actual como códigos/ids crudos
     // en vez de opciones pre-marcadas con `.selected` — hay que resolverlos contra el catálogo cargado.
-    const defaultValue = fieldData.defaultValue;
-    if (Array.isArray(defaultValue) && defaultValue.length && options?.length) {
-      const defaultKeys = new Set(
-        defaultValue.map((item: any) =>
+    // Prioriza el valor real del form (reset()/selección del usuario) sobre el defaultValue estático.
+    const currentValue =
+      Array.isArray(formValue) && formValue.length ? formValue : fieldData.defaultValue;
+    if (Array.isArray(currentValue) && currentValue.length && options?.length) {
+      const currentKeys = new Set(
+        currentValue.map((item: any) =>
           item && typeof item === 'object' ? item.value ?? item.id ?? item._id ?? item.key : item
         )
       );
-      updateSelectedOptions(options.filter((option) => defaultKeys.has(option.value)));
+      updateSelectedOptions(options.filter((option) => currentKeys.has(option.value)));
       return;
     }
 
     updateSelectedOptions([]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options, fieldData.defaultValue]);
+  }, [options, fieldData.defaultValue, formValue]);
 
   const hideLabel = componentParams?.hideLabel;
 

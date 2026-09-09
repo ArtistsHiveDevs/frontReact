@@ -134,7 +134,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
   // console.log("¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿   ¿¿¿¿     ", fieldName, defaultValue);
   return (
     <TextField
-      required={required === true || required === 'true'}
+      required={!!required}
       label={label}
       type={inputType}
       {...(register ? register(fieldName, config) : {})}

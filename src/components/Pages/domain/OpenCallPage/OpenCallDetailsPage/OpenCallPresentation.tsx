@@ -1,9 +1,15 @@
 import { Avatar } from '@mui/material';
 import { useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useOpenCallsSlice } from '~/common/slices/domain/open-calls/open-calls.redux';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
-import { getMusicArtistProjectFormatTypeOptions, getMusicGenreTypeOptions } from '~/common/utils/form-options';
+import {
+  getMusicArtistProjectFormatTypeOptions,
+  getMusicGenreTypeOptions,
+  getStageTypeOptions,
+} from '~/common/utils/form-options';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { ProfileSummaryDialog } from '~/components/Pages/domain/ProfilePreview/ProfileSummaryDialog';
 import { CustomPDFViewer } from '~/components/shared/atoms/CustomPDFViewer/CustomPDFViewer';
 import ExpandableText from '~/components/shared/atoms/gui/ExpandableText/ExpandableText';
@@ -18,6 +24,7 @@ import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/A
 import { ResourceMoreMenu } from '~/components/shared/molecules/general/ResourceMoreMenu/ResourceMoreMenu';
 import { SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 import MDReader from '~/components/shared/organisms/gui/MDReader/mdreader';
+import { SUB_PATHS } from '~/constants';
 import { MDDocumentModel } from '~/models/app/md-model/md-model';
 import { OpenCallModelV1, OpenCallStatus } from '~/models/domain/open-call/v1';
 import { PlaceModel } from '~/models/domain/place/place.model';
@@ -43,6 +50,8 @@ interface PresentationSection {
 interface OpenCallPresentationProps {
   openCall: OpenCallModelV1;
   onApply?: () => void;
+  /** El artista logueado ya tiene una aplicación para este open call: muestra el botón deshabilitado con el mensaje de duplicado en vez de ocultarlo. */
+  alreadyApplied?: boolean;
   /** El usuario actual es dueño (Place) de este open call: habilita Editar en el menú de acciones. */
   isOwner?: boolean;
 }
@@ -67,11 +76,44 @@ const formatList = (params: { values?: string[]; translations?: SelectOption[] }
 
 const formatNumber = (value?: number) => (typeof value === 'number' ? String(value) : '');
 
-const OpenCallPresentation = ({ openCall, onApply, isOwner = false }: OpenCallPresentationProps) => {
+const OpenCallPresentation = ({
+  openCall,
+  onApply,
+  alreadyApplied = false,
+  isOwner = false,
+}: OpenCallPresentationProps) => {
   const { translateText, translateGlobalDict } = useI18n();
   const translate = (key: string) => translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.${key}`);
 
+  const showApplyButton = !!onApply || alreadyApplied;
+  const applyButtonLabel = onApply
+    ? translate('apply_button')
+    : translateText('app.pages.OpenCallPage.submit_errors.duplicate');
+
   const loggedUser = useSelector(selectCurrentUser);
+
+  const { navigateToEntity } = useNavigation();
+  const goToEditOpenCall = () => {
+    const entityType = openCall.constructor.name !== 'Object' ? openCall.constructor.name : (openCall as any).entity;
+    navigateToEntity({ entityType, id: openCall.identifier, action: SUB_PATHS.EDIT });
+  };
+
+  const dispatch = useDispatch();
+  const { actions: openCallActions } = useOpenCallsSlice();
+
+  // Solo alterna OPEN<->DRAFT: CLOSED/CANCELLED no se tocan desde acá (no hay
+  // un tercer estado al que "volver"). Solo el dueño puede cambiarlo.
+  const changeOpenCallStatus = () => {
+    if (!isOwner) {
+      return;
+    }
+    if (openCall.status !== OpenCallStatus.OPEN && openCall.status !== OpenCallStatus.DRAFT) {
+      return;
+    }
+
+    const newStatus = openCall.status === OpenCallStatus.OPEN ? OpenCallStatus.DRAFT : OpenCallStatus.OPEN;
+    dispatch(openCallActions.updateItem({ id: openCall.id, newItem: { status: newStatus } }));
+  };
 
   const mainHeaderRef = useRef<HTMLDivElement>(null);
   const [isPosterZoomOpen, setIsPosterZoomOpen] = useState(false);
@@ -122,6 +164,7 @@ const OpenCallPresentation = ({ openCall, onApply, isOwner = false }: OpenCallPr
       name: 'conditions',
       fields: [
         { name: 'requirements_description', value: openCall.requirements_description || '', longText: true },
+        { name: 'selection_criteria', value: openCall.selection_criteria || '', longText: true },
         { name: 'set_duration', value: formatSetDuration() },
         { name: 'max_applications', value: formatNumber(openCall.max_applications) },
         { name: 'available_slots', value: formatNumber(openCall.available_slots) },
@@ -131,7 +174,14 @@ const OpenCallPresentation = ({ openCall, onApply, isOwner = false }: OpenCallPr
     {
       name: 'technical',
       fields: [
-        { name: 'stage_type', value: openCall.stage_type || '' },
+        {
+          name: 'stage_type',
+          value:
+            formatList({
+              values: [openCall.stage_type],
+              translations: getStageTypeOptions({ translateFn: translateGlobalDict }),
+            }) || '',
+        },
         { name: 'stage_dimensions', value: openCall.stage_dimensions || '' },
         { name: 'provided_sound', value: openCall.provided_sound || '' },
         { name: 'provided_backline', value: openCall.provided_backline || '' },
@@ -177,7 +227,6 @@ const OpenCallPresentation = ({ openCall, onApply, isOwner = false }: OpenCallPr
 
   const location = joinDefinedValues([openCall.city, openCall.event_location, openCall.country]);
 
-  console.log(openCall);
   return (
     <>
       <section className="open-call-presentation">
@@ -204,9 +253,14 @@ const OpenCallPresentation = ({ openCall, onApply, isOwner = false }: OpenCallPr
             <div className="presentation-fixed-header-info">
               <h2 style={{ margin: 0, fontSize: '1.1rem' }}>{openCall.event_name}</h2>
               {location && <p style={{ margin: 0, fontSize: '0.85rem', opacity: 0.7 }}>{location}</p>}
-              <span className={`presentation-badge presentation-badge--${badge.modifier}`}>{badge.label}</span>
+              <span
+                className={`presentation-badge presentation-badge--${badge.modifier}`}
+                onClick={changeOpenCallStatus}
+              >
+                {badge.label}
+              </span>
             </div>
-            {onApply && (
+            {!!onApply && openCall.status === 'OPEN' && (
               <div className="presentation-actions">
                 <button type="button" className="presentation-apply-btn" onClick={onApply}>
                   {translate('apply_button')}
@@ -231,13 +285,21 @@ const OpenCallPresentation = ({ openCall, onApply, isOwner = false }: OpenCallPr
           <div className="presentation-header-info">
             <h1 className="presentation-title">{openCall.event_name}</h1>
             {location && <p className="presentation-location">{location}</p>}
-            <div className="presentation-badges">
-              <span className={`presentation-badge presentation-badge--${badge.modifier}`}>{badge.label}</span>
+            <div className="presentation-badges" onClick={changeOpenCallStatus}>
+              <span className={`presentation-badge presentation-badge--${badge.modifier}`}>
+                {badge.label}
+                {isOwner ? ' - SI' : ''}
+              </span>
             </div>
           </div>
           <div className="presentation-header-menu">
             {openCall.sharedUrlSocialNetworks && (
-              <ResourceMoreMenu loggedUser={loggedUser} isOwner={isOwner} shareUrl={openCall.sharedUrlSocialNetworks} />
+              <ResourceMoreMenu
+                loggedUser={loggedUser}
+                isOwner={isOwner}
+                shareUrl={openCall.sharedUrlSocialNetworks}
+                onEdit={goToEditOpenCall}
+              />
             )}
           </div>
         </header>
@@ -325,10 +387,10 @@ const OpenCallPresentation = ({ openCall, onApply, isOwner = false }: OpenCallPr
           }
         />
 
-        {onApply && (
+        {showApplyButton && openCall.status === 'OPEN' && (
           <div className="presentation-actions">
-            <button type="button" className="presentation-apply-btn" onClick={onApply}>
-              {translate('apply_button')}
+            <button type="button" className="presentation-apply-btn" onClick={onApply} disabled={!onApply}>
+              {applyButtonLabel}
             </button>
           </div>
         )}

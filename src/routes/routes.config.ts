@@ -226,6 +226,13 @@ export const ROUTES_CONFIG: PathConfigMap = {
             path: `${SUB_PATHS.CREATE}`,
             redirectToIfNotLoggedUser: PATHS.LOGIN,
           },
+          OpenCallEditPage: {
+            component: lazy(
+              () => import('~/components/Pages/domain/OpenCallPage/OpenCallCreatePage/OpenCallCreatePage')
+            ),
+            path: `${SUB_PATHS.EDIT}/:${URL_PARAMETER_NAMES.ELEMENT_ID}`,
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
+          },
           OpenCallApplicationPage: {
             component: lazy(
               () => import('~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/OpenCallApplyPage')

@@ -1485,6 +1485,7 @@ export const EnMessages = {
             genres: 'Genres',
             accepted_project_types: 'Accepted project types',
             requirements_description: 'Requirements',
+            selection_criteria: 'Selection criteria',
             set_duration: 'Set duration',
             max_applications: 'Maximum applications',
             available_slots: 'Available slots',

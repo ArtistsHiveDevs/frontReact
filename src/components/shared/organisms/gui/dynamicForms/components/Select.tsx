@@ -88,17 +88,22 @@ export const createSelect = (params: ComponentGeneratorParams) => {
     dispatchHandler(data);
   };
 
+  // Solo se pasa `defaultValue` a useController cuando hay uno real (del config estático). Pasar
+  // explícitamente `null` cuando NO hay uno pisa el valor que reset() ya puso en el form state
+  // central (ej. al prellenar un form de edición): useController prioriza este prop local por
+  // encima de defaultValues/reset() del form, así que si siempre se manda (aunque sea `null`),
+  // el select nunca refleja el valor previo.
+  const hasStaticDefaultValue =
+    defaultValue !== null &&
+    defaultValue !== undefined &&
+    !(typeof defaultValue === 'object' && Object.keys(defaultValue).length === 0);
+
   let {
     field: { value: selectedValue = null, onChange: setSelectedValue, ref, ...restSelectField },
   } = useController({
     name: fieldName,
     control,
-    defaultValue:
-      defaultValue !== null &&
-      defaultValue !== undefined &&
-      !(typeof defaultValue === 'object' && Object.keys(defaultValue).length === 0)
-        ? defaultValue
-        : null,
+    ...(hasStaticDefaultValue ? { defaultValue } : {}),
     rules: {
       ...config,
       validate: config?.required
@@ -115,7 +120,7 @@ export const createSelect = (params: ComponentGeneratorParams) => {
   return (
     <div className={className}>
       <FormLabel
-        required={required === true || required === 'true'}
+        required={!!required}
         error={hasError}
         sx={hasError ? { color: darkTheme.palette.error.main } : {}}
       >

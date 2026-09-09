@@ -179,7 +179,7 @@ const OpenCallDetailsPage = () => {
       setCurrentArtistId(isArtist ? loggedUser?.currentProfileInfo?.id : undefined);
 
       // Actualizar isPlaceOwner cuando cambian loggedUser o currentOpenCall
-      const currentOpenCallPlaceId = currentOpenCall?.placeId;
+      const currentOpenCallPlaceId = currentOpenCall?.place?.identifier;
       const placeOwner =
         !!loggedUser && !!currentOpenCallPlaceId && loggedUser.checkPermissions(currentOpenCallPlaceId).canEdit;
       setIsPlaceOwner(placeOwner);
@@ -248,6 +248,7 @@ const OpenCallDetailsPage = () => {
           <OpenCallPresentation
             openCall={currentOpenCall}
             onApply={canApplyToOpenCall ? handleApplyClick : undefined}
+            alreadyApplied={isArtistProfile && !applicationsLoading && !!myApplication}
             isOwner={isPlaceOwner}
           />
         )}

@@ -306,7 +306,7 @@ export function* claimProfileUser(actionParams?: PayloadAction<{ profile: Profil
   };
 
   try {
-    const response: APIResponse = yield call(putRequest, requestURL, {
+    const response: { data?: { alreadyRequested?: boolean } } = yield call(putRequest, requestURL, {
       body: JSON.stringify(body),
       headers: { 'x-api-key': authInfo?.apiKey, lang: defaultLang(false) },
     });

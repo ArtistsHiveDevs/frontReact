@@ -12,7 +12,7 @@ export const createRadio = (params: ComponentGeneratorParams) => {
     <>
       <FormControl>
         <FormLabel
-          required={required === true || required === 'true'}
+          required={!!required}
           error={!!Object.keys(errors || {}).find((key) => key === fieldName)}
         >
           {label}

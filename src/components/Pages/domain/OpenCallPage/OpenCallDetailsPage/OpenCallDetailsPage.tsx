@@ -23,6 +23,7 @@ import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { OpenCallApplicationModel, OpenCallModelV1 } from '~/models/domain/open-call/v1';
+import { useProfileInfo } from '../common';
 
 const STATUS_COLORS: Record<string, string> = {
   pending: '#FFA726',
@@ -123,6 +124,7 @@ const OpenCallDetailsPage = () => {
   const openCallId = urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID];
 
   const loggedUser = useSelector(selectCurrentUser);
+  const { isPlaceProfile } = useProfileInfo();
 
   const { actions: openCallActions } = useOpenCallsSlice();
   const selectOpenCallById = selectorOpenCalls.makeSelectItemById();
@@ -254,7 +256,7 @@ const OpenCallDetailsPage = () => {
         )}
 
         <div className="step-content">
-          {isPlaceOwner && (
+          {isPlaceOwner && isPlaceProfile && (
             <>
               <h3 className="step-title">
                 {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.applications_received_title`)} (

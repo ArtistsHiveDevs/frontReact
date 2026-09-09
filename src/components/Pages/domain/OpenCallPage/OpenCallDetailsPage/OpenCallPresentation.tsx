@@ -5,6 +5,7 @@ import { useOpenCallsSlice } from '~/common/slices/domain/open-calls/open-calls.
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import {
+  getEventTypeOptions,
   getMusicArtistProjectFormatTypeOptions,
   getMusicGenreTypeOptions,
   getStageTypeOptions,
@@ -28,6 +29,7 @@ import { SUB_PATHS } from '~/constants';
 import { MDDocumentModel } from '~/models/app/md-model/md-model';
 import { OpenCallModelV1, OpenCallStatus } from '~/models/domain/open-call/v1';
 import { PlaceModel } from '~/models/domain/place/place.model';
+import { useProfileInfo } from '../common';
 import { TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE } from './config-open-call-details';
 import './OpenCallPresentation.scss';
 
@@ -91,6 +93,7 @@ const OpenCallPresentation = ({
     : translateText('app.pages.OpenCallPage.submit_errors.duplicate');
 
   const loggedUser = useSelector(selectCurrentUser);
+  const { isPlaceProfile } = useProfileInfo();
 
   const { navigateToEntity } = useNavigation();
   const goToEditOpenCall = () => {
@@ -104,7 +107,7 @@ const OpenCallPresentation = ({
   // Solo alterna OPEN<->DRAFT: CLOSED/CANCELLED no se tocan desde acá (no hay
   // un tercer estado al que "volver"). Solo el dueño puede cambiarlo.
   const changeOpenCallStatus = () => {
-    if (!isOwner) {
+    if (!isOwner || !isPlaceProfile) {
       return;
     }
     if (openCall.status !== OpenCallStatus.OPEN && openCall.status !== OpenCallStatus.DRAFT) {
@@ -136,13 +139,21 @@ const OpenCallPresentation = ({
     if (typeof openCall.fee_amount !== 'number') {
       return '';
     }
-    return joinDefinedValues([String(openCall.fee_amount), openCall.fee_currency], ' ');
+    const formattedAmount = `$${openCall.fee_amount.toLocaleString('en-US')}`;
+    return joinDefinedValues([formattedAmount, openCall.fee_currency], ' ');
   };
 
   const sections: PresentationSection[] = [
     {
       name: 'about',
       fields: [
+        {
+          name: 'event_type',
+          value: formatList({
+            values: [openCall.event_type],
+            translations: getEventTypeOptions({ translateFn: translateGlobalDict }),
+          }),
+        },
         { name: 'description', value: openCall.description || '', longText: true },
         {
           name: 'genres',
@@ -288,7 +299,7 @@ const OpenCallPresentation = ({
             <div className="presentation-badges" onClick={changeOpenCallStatus}>
               <span className={`presentation-badge presentation-badge--${badge.modifier}`}>
                 {badge.label}
-                {isOwner ? ' - SI' : ''}
+                {isOwner && isPlaceProfile ? ' - SI' : ''}
               </span>
             </div>
           </div>
@@ -296,7 +307,7 @@ const OpenCallPresentation = ({
             {openCall.sharedUrlSocialNetworks && (
               <ResourceMoreMenu
                 loggedUser={loggedUser}
-                isOwner={isOwner}
+                isOwner={isOwner && isPlaceProfile}
                 shareUrl={openCall.sharedUrlSocialNetworks}
                 onEdit={goToEditOpenCall}
               />
@@ -414,7 +425,8 @@ const OpenCallPresentation = ({
       {!!selectedDocument && (
         <AppDialog
           title={selectedDocument.title}
-          fullScreen
+          // fullScreen
+
           isOpenDialog={!!selectedDocument}
           onClose={() => setSelectedDocument(null)}
           content={

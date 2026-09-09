@@ -616,17 +616,17 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
             componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
               attributes: [
-                {
-                  name: 'hospitality_requirements',
-                  title: 'Requerimientos de hospitalidad',
-                  formMetaData: {
-                    inputType: 'textarea',
-                    componentParams: {
-                      placeholder: 'Ej: Agua, comida para 6 personas, restricciones alimentarias...',
-                      rows: 3,
-                    },
-                  },
-                },
+                // {
+                //   name: 'hospitality_requirements',
+                //   title: 'Requerimientos de hospitalidad',
+                //   formMetaData: {
+                //     inputType: 'textarea',
+                //     componentParams: {
+                //       placeholder: 'Ej: Agua, comida para 6 personas, restricciones alimentarias...',
+                //       rows: 3,
+                //     },
+                //   },
+                // },
                 {
                   name: 'additional_notes',
                   title: 'Notas adicionales',

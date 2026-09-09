@@ -6,7 +6,7 @@
  */
 
 import { Avatar, FormControl, MenuItem, Pagination, Select, Stack } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -24,6 +24,7 @@ import { DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms
 import { OpenCallApplicationModel, OpenCallModelV1, OpenCallStatus } from '~/models/domain/open-call/v1';
 // import { DefaultTransformerContext, TabbedPanel } from '~/components/shared/layout/TabbedPanel';
 import { isProdEnvironment } from '~/common/utils/app-utils/app-utils';
+import { getMusicGenreTypeOptions } from '~/common/utils/form-options';
 import {
   ProfilePictureWithName,
   ProfilePictureWithNameConstants,
@@ -34,8 +35,12 @@ import { useProfileInfo } from '../common/useProfileInfo';
 import './OpenCallsListPage.scss';
 
 const OpenCallsListPage = () => {
-  const { translateText } = useI18n();
+  const { translateText, translateGlobalDict } = useI18n();
   const translate = (key: string) => translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.${key}`);
+  const musicGenreTypeOptions = useMemo(
+    () => getMusicGenreTypeOptions({ translateFn: translateGlobalDict }),
+    [translateGlobalDict]
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loggedUser, isArtistProfile, isPlaceProfile, currentProfileId } = useProfileInfo();
@@ -273,22 +278,26 @@ const OpenCallsListPage = () => {
             { key: 'active' as const, label: 'Activas' },
             { key: 'past' as const, label: 'Pasadas' },
           ]
-        : [{ key: 'applications' as const, label: 'Mis Aplicaciones' }];
+        : [
+            // { key: 'applications' as const, label: 'Mis Aplicaciones' }
+          ];
       tabs = [...tabs, ...otherTabs];
     }
 
     return (
-      <div className="oc-tabs">
-        {tabs.map((tab) => (
-          <button
-            key={tab.key}
-            className={`oc-tab ${activeTab === tab.key ? 'oc-tab--active' : ''}`}
-            onClick={() => setActiveTab(tab.key)}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+      tabs.length && (
+        <div className="oc-tabs">
+          {tabs.map((tab) => (
+            <button
+              key={tab.key}
+              className={`oc-tab ${activeTab === tab.key ? 'oc-tab--active' : ''}`}
+              onClick={() => setActiveTab(tab.key)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      )
     );
   };
 
@@ -705,7 +714,14 @@ const OpenCallsListPage = () => {
 
                 {item.genres && (
                   <div className="oc-card-field">
-                    <strong>Géneros:</strong> {Array.isArray(item.genres) ? item.genres.join(', ') : item.genres}
+                    <strong>Géneros:</strong>{' '}
+                    {(Array.isArray(item.genres) ? item.genres : [item.genres])
+                      .map(
+                        (value) =>
+                          (musicGenreTypeOptions || []).find((translation) => value === translation.value)?.label ||
+                          value
+                      )
+                      .join(', ')}
                   </div>
                 )}
                 {isPlaceProfile && item.applications_count !== undefined && (
@@ -724,9 +740,9 @@ const OpenCallsListPage = () => {
                       element={item.placeProfileInfo}
                       direction={ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL}
                     />
-                    <div className="oc-card-field">
+                    {/* <div className="oc-card-field">
                       <strong>Ciudad:</strong> {item.placeProfileInfo.cityWithCountry}
-                    </div>
+                    </div> */}
                   </>
                 )}
               </div>

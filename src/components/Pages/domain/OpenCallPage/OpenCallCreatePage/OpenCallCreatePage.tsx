@@ -71,7 +71,6 @@ const OpenCallCreatePage = () => {
 
   useEffect(() => {
     setPlaceId(loggedUser?.currentProfileInfo?.identifier);
-    console.log('Actualizando el effect', loggedUser, placeId, loggedUser?.currentProfileInfo?.identifier);
     // setCanCreateOpenCall(!!loggedUser && !!placeId && loggedUser.checkPermissions(placeId).canEdit);
   }, [loggedUser, placeId]);
 

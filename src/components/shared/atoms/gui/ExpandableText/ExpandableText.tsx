@@ -29,10 +29,10 @@ const ExpandableText: React.FC<ExpandableTextProps> = ({ text, wordLimit = 50 })
 
   return (
     <>
-      {!textRequiresToBeTruncated && <>{text}</>}
+      {!textRequiresToBeTruncated && <span style={{ whiteSpace: 'pre-line' }}>{text}</span>}
       {textRequiresToBeTruncated && (
         <div>
-          <p>{displayedText}</p>
+          <p style={{ whiteSpace: 'pre-line' }}>{displayedText}</p>
           {textRequiresToBeTruncated && (
             <div className="btn-see-more" onClick={() => setIsExpanded(!isExpanded)} style={{ textAlign: 'center' }}>
               {textSeeMore}

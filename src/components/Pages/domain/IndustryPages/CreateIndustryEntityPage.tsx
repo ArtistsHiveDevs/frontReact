@@ -1,11 +1,13 @@
 import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectApiKey } from '~/common/slices/app-base/APIKey/selectors';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
 import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
 import { useSearchSlice } from '~/common/slices/search';
 import { selectEntitySearch, selectEntitySearchLoading, selectSearch } from '~/common/slices/search/selectors';
 import { useUsersSlice } from '~/common/slices/users';
+import { getUserByIdentifier } from '~/common/slices/users/saga';
 import {
   selectClaimFeedback,
   selectCurrentUser,
@@ -23,6 +25,7 @@ import {
 } from '~/components/shared/atoms/gui/ProfilePictureList/ProfilePictureWithName';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { SUB_PATHS } from '~/constants';
+import { AppUserModel } from '~/models/app/user/user.model';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
@@ -36,6 +39,11 @@ const CreateIndustryEntityPage = () => {
   const [showReset, setShowReset] = useState(false);
   const [isIndustryMemberActivated, setIndustryMemberActivated] = useState(false);
   const [selectedEntity, setSelectedEntity] = useState(undefined);
+  const [queryUsername, setQueryUsername] = useState('');
+  const [otherUser, setOtherUser] = useState<AppUserModel | undefined>(undefined);
+  const [pendingAssociation, setPendingAssociation] = useState<{ entityType: string; id: string } | undefined>(
+    undefined
+  );
   const [queryText, setQueryText] = useState('');
   const [availableArtists, updateAvailableArtists] = useState([]);
   const [availablePlaces, updateAvailablePlaces] = useState([]);
@@ -60,6 +68,8 @@ const CreateIndustryEntityPage = () => {
 
   const queriedSearchList: SearchModel = useSelector(selectSearch);
   const { actions: searchActions } = useSearchSlice();
+
+  const apiKey = useSelector(selectApiKey)?.apiKey;
 
   const roles = [
     // 'academies',
@@ -139,6 +149,24 @@ const CreateIndustryEntityPage = () => {
     dispatch(searchActions.entityQuerySearch({ term, entity: 'Artist' }));
   });
 
+  useDebouncedSearchTerm(queryText, (term) => {
+    dispatch(searchActions.querySearch(term));
+  });
+
+  useDebouncedSearchTerm(queryUsername, async (term) => {
+    if (!apiKey) {
+      return;
+    }
+    const fetchedUser = await getUserByIdentifier(term, apiKey);
+    setOtherUser(fetchedUser ? new AppUserModel(fetchedUser) : undefined);
+  });
+
+  useEffect(() => {
+    if (!queryUsername) {
+      setOtherUser(undefined);
+    }
+  }, [queryUsername]);
+
   useEffect(() => {
     if (!usersLoading && hasSentClaimRequest) {
       setHasSentClaimRequest(false);
@@ -177,11 +205,26 @@ const CreateIndustryEntityPage = () => {
     }
   };
 
-  const clickOnButton = () => {
-    dispatch(searchActions.querySearch(queryText));
+  const asociar = (params: { entityType: string; id: string }) => {
+    // Si hay un queryUsername activo, el destino es otherUser en vez del usuario logueado:
+    // pedimos confirmación explícita antes de tocar los roles de otra cuenta.
+    if (queryUsername.trim() && !otherUser) {
+      return;
+    }
+    if (queryUsername.trim() && otherUser && otherUser.identifier !== loggedUser.identifier) {
+      setPendingAssociation(params);
+      return;
+    }
+    performAssociation(params);
   };
 
-  const asociar = (params: { entityType: string; id: string }) => {
+  const cancelPendingAssociation = () => {
+    setPendingAssociation(undefined);
+    setOtherUser(undefined);
+    setQueryUsername('');
+  };
+
+  const resolveAssociationTarget = (params: { entityType: string; id: string }) => {
     const { entityType, id } = params;
     let entityName = undefined;
     let plural = '';
@@ -197,7 +240,18 @@ const CreateIndustryEntityPage = () => {
     }
 
     const instance = queriedSearchList[plural]?.find((e: any) => e.identifier == id);
+    return { entityName, plural, instance };
+  };
+
+  const pendingAssociationInstance = pendingAssociation
+    ? resolveAssociationTarget(pendingAssociation).instance
+    : undefined;
+
+  const performAssociation = (params: { entityType: string; id: string }) => {
+    const { entityName, instance } = resolveAssociationTarget(params);
     const attributesToExtract = ['id', 'sID', 'profile_pic', 'name', 'username', 'subtitle', 'verified_status'];
+
+    const targetUser = queryUsername.trim() ? otherUser : loggedUser;
 
     if (instance) {
       const extractedObject = attributesToExtract.reduce((acc: any, key) => {
@@ -207,7 +261,7 @@ const CreateIndustryEntityPage = () => {
         return acc;
       }, {});
 
-      let entityConfig = loggedUser.roles.find((entityRole) => entityRole.entityName === entityName) || {
+      let entityConfig = targetUser.roles.find((entityRole) => entityRole.entityName === entityName) || {
         entityName,
         entityRoleMap: [],
       };
@@ -223,16 +277,16 @@ const CreateIndustryEntityPage = () => {
         entityConfig.entityRoleMap.push({ ...extractedObject, roles: ['OWNER'] });
       }
 
-      // Si `entityConfig` no estaba ya en `loggedUser.roles`, lo añadimos
-      if (!loggedUser.roles.find((role) => role.entityName === entityName)) {
-        loggedUser.roles.push(entityConfig);
+      // Si `entityConfig` no estaba ya en `targetUser.roles`, lo añadimos
+      if (!targetUser.roles.find((role) => role.entityName === entityName)) {
+        targetUser.roles.push(entityConfig);
       }
 
       dispatch(
         usersActions.updateUser({
-          id: loggedUser.identifier,
+          id: targetUser.identifier,
           newItem: {
-            roles: [...loggedUser.roles],
+            roles: [...targetUser.roles],
           },
         })
       );
@@ -344,6 +398,43 @@ const CreateIndustryEntityPage = () => {
           }
           actions={[{ label: 'OK', handler: () => setShowClaimConfirmation(false) }]}
         />
+
+        <AppDialog
+          isOpenDialog={!!pendingAssociation}
+          onClose={cancelPendingAssociation}
+          title="Confirmar asociación"
+          content={
+            <p>
+              Vas a asociar el perfil <br />
+              <br />
+              <strong>{pendingAssociationInstance?.name || pendingAssociationInstance?.username}</strong>
+              <br />
+              <br /> a la cuenta de <br />
+              <br />
+              <strong>{otherUser?.nameKnownAs || otherUser?.username}</strong> (usuario:{' '}
+              <strong>{otherUser?.username}</strong>
+              {otherUser?.email ? (
+                <>
+                  , email: <strong>{otherUser.email}</strong>
+                </>
+              ) : null}
+              )<br />
+              <br />
+              <br />
+              ¿Deseas continuar?
+            </p>
+          }
+          actions={[
+            { label: 'Cancelar', handler: cancelPendingAssociation },
+            {
+              label: 'Confirmar',
+              handler: () => {
+                performAssociation(pendingAssociation);
+                setPendingAssociation(undefined);
+              },
+            },
+          ]}
+        />
       </div>
       {showReset && (
         <div className="content">
@@ -360,8 +451,21 @@ const CreateIndustryEntityPage = () => {
             place: { options: availablePlaces },
           }}
         /> */}
-            <input onChange={(e) => setQueryText(e.target.value)} />{' '}
-            <Button onClick={() => clickOnButton()}>Buscar</Button>
+            <div>
+              Username:
+              <br />
+              <input value={queryUsername} onChange={(e) => setQueryUsername(e.target.value)} />{' '}
+              {queryUsername.trim() && (
+                <span style={{ marginLeft: '0.5rem' }}>
+                  {otherUser ? `Asociando a: ${otherUser.username || otherUser.identifier}` : 'Buscando usuario...'}
+                </span>
+              )}
+            </div>
+            <div>
+              Search:
+              <br />
+              <input onChange={(e) => setQueryText(e.target.value)} />{' '}
+            </div>
           </div>
           {queriedSearchList?.artists?.length && (
             <MainSection

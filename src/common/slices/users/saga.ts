@@ -66,6 +66,24 @@ export async function getEmailByUsername(usernameOrEmail: string): Promise<CidUs
     return null;
   }
 }
+export async function getUserByIdentifier(identifier: string, apiKey: string): Promise<AppUserTemplate | null> {
+  try {
+    const requestURL = `${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/users/${identifier}`;
+
+    const response = await request(requestURL, {
+      headers: { 'x-api-key': apiKey, lang: defaultLang(false) },
+    });
+
+    if ('err' in response) {
+      return null;
+    }
+
+    return response as AppUserTemplate;
+  } catch (error) {
+    console.error('Error fetching user by identifier:', error);
+    return null;
+  }
+}
 
 export function* getUsers() {
   yield delay(500);

@@ -102,23 +102,23 @@ export const SocialNetworks: {
     user_prefix: '',
     emptyTitle: true,
     title: 'Sound Cloud',
-    widget: (params: any) => {
-      let { user, entity, width, height } = params;
-      if (!entity) {
-        entity = 'playlists';
-      }
-      return (
-        user && (
-          <ParametrizedIFrame
-            key={`scloud-frame-${user}-${entity || ''}`}
-            srcUrl={`https://w.soundcloud.com/player/?url=https://api.soundcloud.com/${entity}/${user}&`}
-            customWidth={width}
-            customHeight={height}
-            customStyles={{ borderRadius: '10px' }}
-          />
-        )
-      );
-    },
+    // widget: (params: any) => {
+    //   let { user, entity, width, height } = params;
+    //   if (!entity) {
+    //     entity = 'playlists';
+    //   }
+    //   return (
+    //     user && (
+    //       <ParametrizedIFrame
+    //         key={`scloud-frame-${user}-${entity || ''}`}
+    //         srcUrl={`https://w.soundcloud.com/player/?url=https://api.soundcloud.com/${entity}/${user}&`}
+    //         customWidth={width}
+    //         customHeight={height}
+    //         customStyles={{ borderRadius: '10px' }}
+    //       />
+    //     )
+    //   );
+    // },
   },
   spotify: {
     url: 'https://open.spotify.com/artist',
@@ -230,7 +230,7 @@ export const SocialNetworks: {
   },
 };
 
-export function buildSocialNetworkLinkData(socialNetworkName: string, mainValue: string, extraParams: any = {}) {
+export function buildSocialNetworkLinkData(socialNetworkName: string, mainValue: string, _extraParams: any = {}) {
   const socialNetwork = SocialNetworks[socialNetworkName];
   let url = undefined;
   let target = '_blank';

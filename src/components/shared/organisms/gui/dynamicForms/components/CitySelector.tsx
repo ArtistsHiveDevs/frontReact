@@ -99,6 +99,12 @@ export interface CitySelectorParams extends ComponentGeneratorParams {
   showCountrySelector?: boolean; // Whether to show country selection
   allowEmptyLevels?: boolean; // Allow skipping optional levels
   element?: any; // The full element being edited
+  /**
+   * Nombre del campo legacy (ej. 'country') que trae el país como referencia suelta
+   * ({identifier, name, alpha2, ...}) para perfiles que todavía no tienen los niveles de
+   * ubicación persistidos en `<fieldName>Data`. Sin esto, esos perfiles no preseleccionan país.
+   */
+  legacyCountryField?: string;
 }
 
 const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams) => {
@@ -117,6 +123,8 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
     config: fieldConfig,
     externalData,
   } = fieldData || {};
+
+  const { legacyCountryField } = componentParams;
 
   // Construir defaultValue desde elementData si está disponible (memoizado para evitar loops infinitos)
   const defaultValue = useMemo(() => {
@@ -141,6 +149,10 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
         if (item.level === 'country') {
           // El campo suelto es el fallback para respuestas que todavía no traen el id dentro del array.
           defaultValueObj.country = item.id || elementData[`${fieldData.fieldName}_country`];
+          // `value` en el nivel country es el código alpha2 (ver enrichLocationData/formatLocationLevels).
+          // El `id` que persiste este nivel puede no coincidir con el sID real de la colección Country
+          // (ver countryAlpha2 fallback en el matching de availableCountries), así que se guarda aparte.
+          defaultValueObj.countryAlpha2 = item.value;
         } else if (item.level === 'state') {
           defaultValueObj.level1 = item.id;
         } else if (item.level === 'city') {
@@ -157,8 +169,14 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
       }
     }
 
+    // Fallback legacy: perfiles que todavía no tienen `<fieldName>Data` persistido, pero sí
+    // el país guardado como referencia suelta (ej. artist.country para home_city).
+    if (legacyCountryField && elementData[legacyCountryField]?.identifier) {
+      return { ...initialDefaultValue, country: elementData[legacyCountryField].identifier };
+    }
+
     return initialDefaultValue;
-  }, [initialDefaultValue, externalData?.elementData, fieldData?.fieldName]);
+  }, [initialDefaultValue, externalData?.elementData, fieldData?.fieldName, legacyCountryField]);
 
   const { maxLevel = 3, minLevel = 1, showCountrySelector = true, allowEmptyLevels = true } = componentParams;
   const isFieldRequired = !!fieldConfig?.required;
@@ -214,6 +232,17 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
     dispatch(countryActions.loadItems({}));
   }, [dispatch, countryActions]);
 
+  // Busca el país por identifier y, si no matchea, por alpha2. El `id` persistido en
+  // `<fieldName>Data` puede no coincidir con el sID real de la colección Country (datos legacy
+  // o seeds desincronizados); el alpha2 es un código estable que sí se puede cruzar entre ambas fuentes.
+  const findMatchingCountry = (countries: CountryModel[], value: { country?: string; countryAlpha2?: string }) => {
+    if (!value?.country && !value?.countryAlpha2) return undefined;
+    return (
+      countries.find((c) => value.country && c.identifier === value.country) ||
+      countries.find((c) => value.countryAlpha2 && c.alpha2 === value.countryAlpha2)
+    );
+  };
+
   // Compute country structure from selected or default country
   const countryStructure = useMemo(() => {
     if (selectedCountry) {
@@ -221,15 +250,15 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
     }
 
     // If we have a default country but haven't selected it yet, try to find it and get its structure
-    if (defaultValue?.country && availableCountries.length > 0) {
-      const defaultCountry = availableCountries.find((c) => c.identifier === defaultValue.country);
+    if ((defaultValue?.country || defaultValue?.countryAlpha2) && availableCountries.length > 0) {
+      const defaultCountry = findMatchingCountry(availableCountries, defaultValue);
       if (defaultCountry) {
         return getCountryStructure(defaultCountry);
       }
     }
 
     return null;
-  }, [selectedCountry, defaultValue?.country, availableCountries]);
+  }, [selectedCountry, defaultValue?.country, defaultValue?.countryAlpha2, availableCountries]);
 
   const relevantLevels = useMemo(() => {
     if (!countryStructure) return [];
@@ -308,9 +337,9 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
   const initializedCountryRef = useRef<string>();
   useEffect(() => {
     if (initializedCountryRef.current === defaultValueSignature) return;
-    if (!defaultValue?.country || !availableCountries.length) return;
+    if ((!defaultValue?.country && !defaultValue?.countryAlpha2) || !availableCountries.length) return;
 
-    const defaultCountry = availableCountries.find((country) => country.identifier === defaultValue.country);
+    const defaultCountry = findMatchingCountry(availableCountries, defaultValue);
 
     if (defaultCountry) {
       initializedCountryRef.current = defaultValueSignature;

@@ -27,9 +27,35 @@ export const getGenderOptions = createParametricOptionsGetter({
 });
 
 /**
+ * Opciones de identidad de género: autodeclaración opcional de pertenencia a la comunidad
+ * LGBTIQ+. Campo separado de `gender` (que registra el género de la persona).
+ */
+export const GENDER_IDENTITY_OPTIONS = ['yes', 'no', 'prefer_not_to_say'] as const;
+
+export type GenderIdentityOption = typeof GENDER_IDENTITY_OPTIONS[number];
+
+/**
+ * Genera las opciones de identidad de género traducidas para usar en selects
+ * @param params - Parámetros de configuración (opcionales)
+ * @param params.translateFn - Función de traducción del diccionario global (opcional)
+ * @param params.defaultValue - Valor por defecto seleccionado (opcional)
+ * @param params.translationPath - Ruta base para las traducciones (por defecto: 'entities.users.attributes.gender_identity')
+ * @param params.sortByLabel - Orden de las opciones por label: 'asc' o 'desc' (opcional)
+ * @returns Array de SelectOption con las opciones de identidad de género traducidas
+ */
+export const getGenderIdentityOptions = createParametricOptionsGetter({
+  values: GENDER_IDENTITY_OPTIONS,
+  defaultTranslationPath: `${ATTRIBUTES_PATH}.gender_identity`,
+  defaultSortByLabel: false,
+});
+
+/**
  * Grupos sanguíneos disponibles
  */
-export const BLOOD_GROUP_OPTIONS = ['A', 'B', 'AB', 'O'].flatMap((group) => [`${group}+`, `${group}-`]) as readonly string[];
+export const BLOOD_GROUP_OPTIONS = ['A', 'B', 'AB', 'O'].flatMap((group) => [
+  `${group}+`,
+  `${group}-`,
+]) as readonly string[];
 
 /**
  * Genera las opciones de grupos sanguíneos

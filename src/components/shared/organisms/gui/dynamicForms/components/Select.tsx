@@ -17,7 +17,15 @@ export const createSelect = (params: ComponentGeneratorParams) => {
   const { errors: formErrors } = formState;
 
   const { fieldData, handlers } = params;
-  const { label, fieldName, defaultValue, placeholder = '', options = [], config = {}, componentParams = {} } = fieldData;
+  const {
+    label,
+    fieldName,
+    defaultValue,
+    placeholder = '',
+    options = [],
+    config = {},
+    componentParams = {},
+  } = fieldData;
   const { className = '' } = componentParams as any;
 
   const { required } = config || {};
@@ -119,11 +127,7 @@ export const createSelect = (params: ComponentGeneratorParams) => {
 
   return (
     <div className={className}>
-      <FormLabel
-        required={!!required}
-        error={hasError}
-        sx={hasError ? { color: darkTheme.palette.error.main } : {}}
-      >
+      <FormLabel required={!!required} error={hasError} sx={hasError ? { color: darkTheme.palette.error.main } : {}}>
         {label}
       </FormLabel>
       <Select
@@ -142,7 +146,7 @@ export const createSelect = (params: ComponentGeneratorParams) => {
         menuPortalTarget={document.body}
         styles={{
           ...customStyles,
-          menuPortal: (base) => ({ ...base, zIndex: 3500 }),
+          menuPortal: (base) => ({ ...base, zIndex: 13500 }),
         }}
       />
     </div>

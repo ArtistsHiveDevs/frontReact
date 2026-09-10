@@ -76,6 +76,7 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
   const [relationshipsValues, setRelationshipsValues] = useState<{ [relationship: string]: any[] }>({});
   const [timeValues, setTimeValues] = useState<{ [relationship: string]: any }>({});
   const [hasValidationErrors, setHasValidationErrors] = useState(false);
+  const [formErrors, setFormErrors] = useState<Record<string, any>>({});
   const [filesWrapperData, setFilesWrapperData] = useState<{ [fieldName: string]: any }>({});
 
   const { translateText } = useI18n();
@@ -94,12 +95,6 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
   };
   const translateSection = (subpage: string, section: string) => {
     return section ? translateText(`${translationBasePath}.subpages.${subpage}.sections.${section}.name`) : undefined;
-  };
-  const translateAttribute = (subpage: string, section: string, attribute: string, suffix: string) => {
-    return translateText(
-      `${translationBasePath}.subpages.${subpage}.sections.${section}.attributes.${attribute}`,
-      suffix
-    );
   };
   // const getAttributeTitle = (subpageName: string, sectionName: string, attribute: AttributeConfiguration) => {
   //   let title: string = '';
@@ -145,6 +140,68 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
     return '';
   };
 
+  interface FieldPathInfo {
+    subpageLabel: string;
+    sectionLabel?: string;
+    fieldLabel: string;
+  }
+
+  const resolveFieldPath = (name: string): FieldPathInfo | undefined => {
+    for (const subpage of tabsInfo || []) {
+      const subpageLabel = subpage.title || translateSubpage(subpage.name);
+      for (const section of subpage.sections || []) {
+        const sectionLabel = !section?.emptyTitle ? translateSection(subpage.name, section?.name) : undefined;
+        for (const component of section.components || []) {
+          for (const attribute of component.data?.attributes || []) {
+            if (attribute.name === name) {
+              return {
+                subpageLabel,
+                sectionLabel,
+                fieldLabel: getAttributeTitle(subpage.name, section.name, attribute) || name,
+              };
+            }
+          }
+          if (component.formMetaData?.fieldName === name) {
+            return { subpageLabel, sectionLabel, fieldLabel: sectionLabel || name };
+          }
+        }
+      }
+    }
+    return undefined;
+  };
+
+  const getFieldPath = (fieldName: string): FieldPathInfo => {
+    const rootFieldName = fieldName.split('.')[0];
+
+    const directPath = resolveFieldPath(rootFieldName);
+    if (directPath) {
+      return directPath;
+    }
+
+    const compositeFieldMatch = rootFieldName.match(/^(.+)_(country|level\d+)$/);
+    if (compositeFieldMatch) {
+      const basePath = resolveFieldPath(compositeFieldMatch[1]);
+      if (basePath) {
+        return basePath;
+      }
+    }
+
+    return { subpageLabel: undefined, sectionLabel: undefined, fieldLabel: rootFieldName };
+  };
+
+  const groupFieldErrorsByPath = (errors: Record<string, any>): Record<string, Record<string, string[]>> => {
+    const groups: Record<string, Record<string, string[]>> = {};
+    Object.keys(errors).forEach((fieldName) => {
+      const { subpageLabel, sectionLabel, fieldLabel } = getFieldPath(fieldName);
+      const subpageKey = subpageLabel || fieldName;
+      const sectionKey = sectionLabel || '';
+      groups[subpageKey] ??= {};
+      groups[subpageKey][sectionKey] ??= [];
+      groups[subpageKey][sectionKey].push(fieldLabel);
+    });
+    return groups;
+  };
+
   const generateSectionFormFields = (
     subpage: PageSection,
     section: ContentSection,
@@ -158,7 +215,6 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
 
     const fields: JSX.Element[] = [];
     const {
-      handleSubmit,
       formState: { errors },
     } = formMethods;
 
@@ -392,7 +448,7 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
 
   const {
     handleSubmit,
-    formState: { errors, dirtyFields },
+    formState: { dirtyFields },
     getValues,
   } = formMethods;
 
@@ -471,7 +527,7 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
     updateUploadedFiles(fieldName, extractFilesDataPaths);
   };
 
-  const findRemovalFilesPath = (files: any[], fieldName: string) => {
+  const findRemovalFilesPath = (files: any[]) => {
     const filePaths: string[] = [];
     files.forEach((file) => {
       filePaths.push(file.path);
@@ -502,7 +558,7 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
         updateFileUploadAddElements(responses, fieldName);
       }
     } else if (optionType === FileUploaderOptions.removeItem) {
-      const findPaths = findRemovalFilesPath(files, fieldName);
+      const findPaths = findRemovalFilesPath(files);
       const responses = await removeFilesFromServer({ paths: findPaths });
       if (responses?.length > 0) {
         updateFileUploadRemoveElements(findPaths, fieldName);
@@ -529,6 +585,7 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
             }
           },
           (errors) => {
+            console.warn(errors);
             handleFormErrors(errors);
             reject(new Error('Form validation failed'));
           }
@@ -557,8 +614,9 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
     return await onSubmit(dataToSubmit);
   };
 
-  const handleFormErrors = (errors: any) => {
+  const handleFormErrors = (errors?: Record<string, any>) => {
     setHasValidationErrors(true);
+    setFormErrors(errors || {});
     window.scrollTo(0, 0);
   };
 
@@ -620,6 +678,33 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
       {hasValidationErrors && (
         <Alert severity="error" sx={{ mb: 2 }}>
           {translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY}.forms.errors.validation_error`)}
+          <ul>
+            {Object.entries(groupFieldErrorsByPath(formErrors)).map(([subpageLabel, sections]) => (
+              <li key={subpageLabel}>
+                {subpageLabel}
+                <ul>
+                  {Object.entries(sections).map(([sectionLabel, fieldLabels]) =>
+                    sectionLabel ? (
+                      <li key={sectionLabel}>
+                        {sectionLabel}
+                        <ul>
+                          {fieldLabels.map((fieldLabel, index) => (
+                            <li key={`${sectionLabel}-${fieldLabel}-${index}`}>
+                              <strong>{fieldLabel}</strong>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ) : (
+                      fieldLabels.map((fieldLabel, index) => (
+                        <li key={`${subpageLabel}-${fieldLabel}-${index}`}>{fieldLabel}</li>
+                      ))
+                    )
+                  )}
+                </ul>
+              </li>
+            ))}
+          </ul>
         </Alert>
       )}
       {submitErrorMessage && (

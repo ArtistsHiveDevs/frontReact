@@ -4,6 +4,7 @@ import { FieldErrors, FieldValues, RegisterOptions } from 'react-hook-form';
 export type ControlType =
   | 'address'
   | 'text'
+  | 'email'
   | 'select'
   | 'number'
   | 'password'

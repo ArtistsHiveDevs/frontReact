@@ -3,7 +3,9 @@ import { IconButton, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import { I18nPaths, useI18n } from '~/common/utils';
 import { GMapsSvgMaker } from '~/common/utils/object-utils/object-utils-index';
+import { EMAIL_FORMAT_PATTERN } from '~/common/utils/validation/email-validation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import MapContainer from '~/components/shared/mapPrinter/mapContainer';
 import { DEBOUNCE_MS } from '~/constants/app.constants';
@@ -12,6 +14,7 @@ import { ComponentGeneratorParams } from '../DynamicControl';
 
 export const createTextField = (params: ComponentGeneratorParams) => {
   const { fieldData, handlers, formContext: externalContext } = params || {};
+  const { translateText } = useI18n();
 
   const hookContext = useFormContext();
   const finalContext = externalContext || hookContext;
@@ -30,6 +33,13 @@ export const createTextField = (params: ComponentGeneratorParams) => {
     componentParams = {},
     focused = false,
   } = fieldData;
+
+  if (inputType === 'email' && !config.pattern) {
+    config.pattern = {
+      value: EMAIL_FORMAT_PATTERN,
+      message: translateText(`${I18nPaths.TRANSLATION_GLOBAL_DICTIONARY_ERROR_CODES}.VALIDATION_EMAIL_INVALID`),
+    };
+  }
 
   // Usar el valor del formulario en lugar de estado local
   const formValue = watch ? watch(fieldName) : undefined;

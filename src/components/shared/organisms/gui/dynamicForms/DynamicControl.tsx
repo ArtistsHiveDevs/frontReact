@@ -71,6 +71,7 @@ export const DynamicControl = (params: {
 
     // Campos de texto
     case 'text':
+    case 'email':
     case 'password':
     case 'tel':
     case 'number':

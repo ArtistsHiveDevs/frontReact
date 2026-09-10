@@ -1,4 +1,3 @@
-import { useI18n } from '~/common/utils';
 import { fullyHiddenSectionsByEnvironment } from '~/common/utils/app-utils/app-utils';
 import { formatLegacyLocation, formatLocationLevels } from '~/common/utils/location-display.utils';
 import { RatingStarsView } from '~/components/shared/atoms/gui/rating-stars-view/RatingStarsView';
@@ -125,6 +124,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                     defaultValue: { country: 'RqwIbVusuX' },
                     componentParams: {
                       maxLevel: 2,
+                      legacyCountryField: 'country',
                     },
                   },
                 },
@@ -313,32 +313,15 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                     fieldName: 'gender',
                     label: 'gender',
                     config: { required: true },
-                    value: (user: any) => {
-                      const { translateText } = useI18n();
-
-                      let content = user?.genderEnum?.value
-                        ? translateText(`app.global_dictionary.genders.${user?.genderEnum?.value}`)
-                        : undefined;
-                      return <>{content}</>;
-                    },
                   },
-                  // {
-                  //   inputType: 'select',
-                  //   fieldName: 'gender_2',
-                  //   label: 'gender',
-                  //   // config: { required: true },
-                  //   value: (user: any) => {
-                  //     const { translateText } = useI18n();
-
-                  //     let content = user?.genderEnum?.value
-                  //       ? translateText(`app.global_dictionary.genders.${user?.genderEnum?.value}`)
-                  //       : undefined;
-                  //     return <>{content}</>;
-                  //   },
-                  // },
+                  {
+                    inputType: 'select',
+                    fieldName: 'gender_identity',
+                    label: 'gender_identity',
+                  },
                   // { inputType: 'text', fieldName: 'member_role', label: 'member_role', config: { required: true } },
                   {
-                    inputType: '',
+                    inputType: 'text',
                     fieldName: 'member_instrument',
                     label: 'member_instrument',
                     config: { required: true },
@@ -568,6 +551,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
     name: 'social',
     requireSession: false,
     formMetaData: { hidden: true },
+    fullyHidden: fullyHiddenSectionsByEnvironment(['prod']),
     sections: [
       {
         name: 'social_network_presence',

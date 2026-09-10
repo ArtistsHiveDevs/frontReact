@@ -34,6 +34,13 @@ export const createCustomObjectList = (params: ComponentGeneratorParams) => {
     return { ...field, label: translateText(`${translationPath}.${field.label}`) };
   });
 
+  // Adjunta las opciones (ej. gender/gender_identity) a cada field para que CustomObjectListViewer
+  // pueda traducir el valor crudo guardado (ej. 'male') a su label (ej. 'Hombre') al mostrarlo.
+  const fieldsWithOptions = fields?.map((field: CustomObjectListElementFieldTemplate) => {
+    const fieldOptions = nestedOptions?.[field.fieldName];
+    return Array.isArray(fieldOptions) ? { ...field, options: fieldOptions } : field;
+  });
+
   config.value = customObjectList;
 
   useEffect(() => {
@@ -63,6 +70,7 @@ export const createCustomObjectList = (params: ComponentGeneratorParams) => {
       setCustomObjectList(totalValues);
       setShowAddCustomObjectElement(false);
       setValue?.(fieldName, totalValues, { shouldDirty: true });
+      formMethods.reset();
     },
   };
 
@@ -89,7 +97,7 @@ export const createCustomObjectList = (params: ComponentGeneratorParams) => {
     <>
       <CustomObjectListViewer
         {...(register ? register(fieldName, config) : {})}
-        fields={fields}
+        fields={fieldsWithOptions}
         objectList={customObjectList}
         enableAddButton={true}
         enableRemoveButton={true}

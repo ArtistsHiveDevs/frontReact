@@ -9,7 +9,7 @@ import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { getImageURL, uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
 import { getMusicGenreTypeOptions } from '~/common/utils/form-options/music-genre-options.helper';
-import { getGenderOptions } from '~/common/utils/form-options/user-options.helper';
+import { getGenderIdentityOptions, getGenderOptions } from '~/common/utils/form-options/user-options.helper';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
@@ -39,6 +39,7 @@ const ArtistsCreatePage = () => {
   const [artistId, setCurrentArtistId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
   // const [availableLanguages, updateAvailableLanguages] = useState([]);
   const [availableGenders, updateAvailableGenders] = useState([]);
+  const [availableGenderIdentities, updateAvailableGenderIdentities] = useState([]);
   const [currentUserCanEdit, setCurrentUserCanEdit] = useState(false);
   const [requestHasBeenSended, setRequestHasBeenSended] = useState(false);
   const [hasSwitchedProfile, setHasSwitchedProfile] = useState(false);
@@ -112,6 +113,7 @@ const ArtistsCreatePage = () => {
 
     // updateAvailableLanguages(langs);
     updateAvailableGenders(getGenderOptions({ translateFn: translateGlobalDict }));
+    updateAvailableGenderIdentities(getGenderIdentityOptions({ translateFn: translateGlobalDict }));
   }, []);
 
   const availableGenres = useMemo(
@@ -202,6 +204,7 @@ const ArtistsCreatePage = () => {
                 stage_languages: availableLanguages,
                 music_performance: {
                   gender: availableGenders,
+                  gender_identity: availableGenderIdentities,
                 },
               }}
               submitLabel={!currentArtist ? 'create' : 'save'}

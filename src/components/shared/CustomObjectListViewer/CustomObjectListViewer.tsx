@@ -27,6 +27,8 @@ export interface CustomObjectListElementFieldTemplate {
   fieldName: string;
   label: string;
   config?: object;
+  /** Opciones del select (ej. gender/gender_identity), usadas para traducir el valor crudo guardado al mostrarlo */
+  options?: { label: string; value: string }[];
 }
 
 export interface CustomObjectElementHandleClickTemplate {
@@ -53,6 +55,14 @@ export const CustomObjectListViewer = (props: CustomObjectListViewerInputType) =
     return fields?.find((field: CustomObjectListElementFieldTemplate) => field?.fieldName == externalFieldName)?.label;
   };
 
+  // Para fields tipo select (ej. gender, gender_identity) el valor guardado es el value crudo
+  // ('male', 'yes'); acá se traduce al label correspondiente usando las opciones del field.
+  const formatFieldValue = (externalFieldName: string, rawValue: any) => {
+    const field = fields?.find((fieldToFind: CustomObjectListElementFieldTemplate) => fieldToFind?.fieldName == externalFieldName);
+    const matchingOption = field?.options?.find((option) => option.value === rawValue);
+    return matchingOption?.label ?? rawValue;
+  };
+
   return (
     <Box className={`lm-box-container-${!enableVerticalView ? 'hor' : 'ver'}`} style={boxContainerCustomStyles}>
       {enableAddButton && (
@@ -71,53 +81,55 @@ export const CustomObjectListViewer = (props: CustomObjectListViewerInputType) =
           </Button>
         </Paper>
       )}
-      {objectList?.map((objectElement: any, index: number) =>
-        !!customCardComponent ? (
-          customCardComponent(objectElement)
-        ) : (
-          <>
-            <Paper
-              className="lm-card-item lm-card-item"
-              key={`container_items_${index}`}
-              variant="outlined"
-              style={cardCustomObjectExternalStyles}
-            >
-              <Stack key={`item_data_${index}`} spacing={2}>
-                {/* {member?.customObjectElementAttributes?.map((field: KeyValueTemplate, index: number) => ( */}
-                {Object.keys(objectElement)
-                  ?.filter(
-                    (objectElementToFilter) =>
-                      findLabel(objectElementToFilter) && objectElement?.[`${objectElementToFilter}`]?.length > 0
-                  )
-                  ?.map((fieldName: any, index: number) => (
-                    <div key={`${fieldName?.key}_${index}`}>
-                      <strong>{translateText(`${translationPath || ''}.${findLabel(fieldName)}`)}:</strong>{' '}
-                      {objectElement?.[`${fieldName}`]}
-                    </div>
-                  ))}
-              </Stack>
+      {objectList?.map((objectElement: any, index: number) => (
+        <div key={`custom_${objectElement.identifier || objectElement.id}_${index}`}>
+          {!!customCardComponent ? (
+            customCardComponent(objectElement)
+          ) : (
+            <>
+              <Paper
+                className="lm-card-item lm-card-item"
+                key={`container_items_${index}`}
+                variant="outlined"
+                style={cardCustomObjectExternalStyles}
+              >
+                <Stack key={`item_data_${index}`} spacing={2}>
+                  {/* {member?.customObjectElementAttributes?.map((field: KeyValueTemplate, index: number) => ( */}
+                  {Object.keys(objectElement)
+                    ?.filter(
+                      (objectElementToFilter) =>
+                        findLabel(objectElementToFilter) && objectElement?.[`${objectElementToFilter}`]?.length > 0
+                    )
+                    ?.map((fieldName: any, index: number) => (
+                      <div key={`${fieldName?.key}_${index}`}>
+                        <strong>{translateText(`${translationPath || ''}.${findLabel(fieldName)}`)}:</strong>{' '}
+                        {formatFieldValue(fieldName, objectElement?.[`${fieldName}`])}
+                      </div>
+                    ))}
+                </Stack>
 
-              {enableRemoveButton && (
-                <IconButton
-                  size="small"
-                  aria-label="delete image"
-                  className="lm-button-remove-item"
-                  onClick={() => {
-                    if (handleClickEvent && typeof handleClickEvent === 'function') {
-                      handleClickEvent({
-                        selectedOption: FileUploaderOptions.removeItem,
-                        objectElementToRemove: objectElement?.internal_id,
-                      });
-                    }
-                  }}
-                >
-                  <DynamicIcons iconName="FaTimesCircle" size={25} customStyle={{ cursor: 'pointer' }} />
-                </IconButton>
-              )}
-            </Paper>
-          </>
-        )
-      )}
+                {enableRemoveButton && (
+                  <IconButton
+                    size="small"
+                    aria-label="delete image"
+                    className="lm-button-remove-item"
+                    onClick={() => {
+                      if (handleClickEvent && typeof handleClickEvent === 'function') {
+                        handleClickEvent({
+                          selectedOption: FileUploaderOptions.removeItem,
+                          objectElementToRemove: objectElement?.internal_id,
+                        });
+                      }
+                    }}
+                  >
+                    <DynamicIcons iconName="FaTimesCircle" size={25} customStyle={{ cursor: 'pointer' }} />
+                  </IconButton>
+                )}
+              </Paper>
+            </>
+          )}
+        </div>
+      ))}
     </Box>
   );
 };

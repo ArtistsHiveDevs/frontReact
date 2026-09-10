@@ -401,6 +401,7 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
       'image_members',
       'image_live_gallery',
       // 'members',
+      'music_performance',
       'spotify',
       'technical_epk',
       'technical_rider',

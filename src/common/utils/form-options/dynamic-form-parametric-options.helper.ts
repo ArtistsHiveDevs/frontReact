@@ -7,16 +7,17 @@ export interface ParametricOptionsParams {
   defaultValue?: string;
   translateFn?: (key: string) => string;
   translationPath?: string;
-  sortByLabel?: 'asc' | 'desc';
+  /** 'asc' | 'desc' ordena por label; `false` conserva el orden de declaración de `values` */
+  sortByLabel?: 'asc' | 'desc' | false;
 }
 
 /**
  * Ordena un array de SelectOption por su label
  * @param options - Array de opciones a ordenar
- * @param sortOrder - Orden de ordenamiento: 'asc' (ascendente) o 'desc' (descendente)
+ * @param sortOrder - Orden de ordenamiento: 'asc' (ascendente), 'desc' (descendente) o false (no ordenar)
  * @returns Array de SelectOption ordenado
  */
-export const sortOptionsByLabel = (options: SelectOption[], sortOrder?: 'asc' | 'desc'): SelectOption[] => {
+export const sortOptionsByLabel = (options: SelectOption[], sortOrder?: 'asc' | 'desc' | false): SelectOption[] => {
   if (!sortOrder) {
     return options;
   }
@@ -49,6 +50,11 @@ export interface ParametricOptionsGetterConfig<V extends string = string> {
   translationKeySuffix?: string | null;
   /** Si es false, el label siempre es el valor crudo (sin traducir), ej. grupos sanguíneos */
   translatable?: boolean;
+  /**
+   * Orden por defecto cuando el caller no pasa `sortByLabel` explícito al invocar el getter.
+   * Por defecto 'asc'. Pasar `false` para conservar el orden de declaración de `values`.
+   */
+  defaultSortByLabel?: 'asc' | 'desc' | false;
 }
 
 /**
@@ -58,14 +64,20 @@ export interface ParametricOptionsGetterConfig<V extends string = string> {
  * @returns Función que genera SelectOption[] a partir de ParametricOptionsParams
  */
 export const createParametricOptionsGetter = <V extends string>(config: ParametricOptionsGetterConfig<V>) => {
-  const { values, defaultTranslationPath, translationKeySuffix = 'values', translatable = true } = config;
+  const {
+    values,
+    defaultTranslationPath,
+    translationKeySuffix = 'values',
+    translatable = true,
+    defaultSortByLabel = 'asc',
+  } = config;
 
   return (params?: ParametricOptionsParams): SelectOption[] => {
     const {
       translateFn,
       defaultValue,
       translationPath = defaultTranslationPath,
-      sortByLabel = 'asc',
+      sortByLabel = defaultSortByLabel,
     } = params || {};
 
     const options = values.map((value) => {

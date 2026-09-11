@@ -1,6 +1,7 @@
 import { Avatar } from '@mui/material';
-import { KeyboardEventHandler, useEffect, useState } from 'react';
+import { KeyboardEventHandler, MouseEvent, useEffect, useState } from 'react';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
+import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import './ProfilePictureWithName.scss';
 
 export interface ProfilePictureWithNameElement {
@@ -31,6 +32,11 @@ export interface ProfilePictureWithNameParams<T extends ProfilePictureWithNameEl
    * el click abre un detalle/diálogo y quieras insinuárselo al usuario más allá del hover.
    */
   actionable?: boolean;
+  /**
+   * Si es true, un click en la foto (no en la fila entera) la amplía en un diálogo,
+   * sin disparar onProfileClick/onToggleSelect ni el click del contenedor padre.
+   */
+  zoomable?: boolean;
 }
 
 export enum ProfilePictureWithNameConstants {
@@ -53,9 +59,11 @@ export function ProfilePictureWithName<T extends ProfilePictureWithNameElement>(
     onToggleSelect,
     onProfileClick,
     actionable,
+    zoomable,
   } = params;
 
   const isActionableRow = actionable && !!onProfileClick && !isSelectable;
+  const [isZoomOpen, setIsZoomOpen] = useState(false);
 
   const avatarSizeREM = `${
     styles?.avatarSize || (direction === ProfilePictureWithNameConstants.DISPLAY_VERTICAL ? 4 : 2)
@@ -131,6 +139,14 @@ export function ProfilePictureWithName<T extends ProfilePictureWithNameElement>(
       <Avatar
         src={imageURL}
         alt={displayName}
+        onClick={
+          zoomable && imageURL
+            ? (event: MouseEvent) => {
+                event.stopPropagation();
+                setIsZoomOpen(true);
+              }
+            : undefined
+        }
         sx={{
           width: avatarSizeREM,
           height: avatarSizeREM,
@@ -139,6 +155,7 @@ export function ProfilePictureWithName<T extends ProfilePictureWithNameElement>(
           outline: !isSelectable || !isSelected ? 'none' : '3px solid white',
           boxShadow: !isSelectable || isSelected ? 'none' : '0 0 0 4px rgba(255,255,255,0.15)',
           outlineOffset: '3px',
+          cursor: zoomable && imageURL ? 'zoom-in' : undefined,
         }}
         variant={'circular'}
       />
@@ -147,6 +164,14 @@ export function ProfilePictureWithName<T extends ProfilePictureWithNameElement>(
         {showSubtitle && !!element?.subtitle && <span className="ppl-participant-subtitle">{element.subtitle}</span>}
       </div>
       {isActionableRow && <DynamicIcons iconName="io5 IoChevronForward" color="white" size={18} />}
+      {zoomable && (
+        <AppDialog
+          isOpenDialog={isZoomOpen}
+          onClose={() => setIsZoomOpen(false)}
+          title={displayName}
+          content={<img src={imageURL} alt={displayName} style={{ maxWidth: '100%' }} />}
+        />
+      )}
     </div>
   );
 }

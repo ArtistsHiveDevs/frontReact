@@ -58,3 +58,46 @@
   text-align: center;
   opacity: 0.8;
 }
+
+.profile-claims-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1rem;
+}
+
+.profile-claim-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  border: 1px solid $form-fields-separator;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+
+  &:hover {
+    background-color: rgba($links-color, 0.08);
+  }
+}
+
+.profile-claim-detail {
+  margin: 0.25rem 0 0;
+  font-size: small;
+
+  a {
+    color: $links-color;
+  }
+}
+
+.profile-claim-id {
+  cursor: pointer;
+  font-family: monospace;
+  opacity: 0.7;
+
+  &:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+}

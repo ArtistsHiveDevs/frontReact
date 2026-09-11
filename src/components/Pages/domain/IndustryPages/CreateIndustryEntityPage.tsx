@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectApiKey } from '~/common/slices/app-base/APIKey/selectors';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
 import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
+import { selectorProfileClaims, useProfileClaimsSlice } from '~/common/slices/domain/profileClaim/profileClaim.redux';
 import { useSearchSlice } from '~/common/slices/search';
 import { selectEntitySearch, selectEntitySearchLoading, selectSearch } from '~/common/slices/search/selectors';
 import { useUsersSlice } from '~/common/slices/users';
@@ -29,6 +30,7 @@ import { AppUserModel } from '~/models/app/user/user.model';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
+import { ProfileClaimModel } from '~/models/domain/profileClaim/profileClaim.model';
 import { SearchModel } from '~/models/domain/search/search.model';
 import './CreateIndustryEntityPage.scss';
 
@@ -58,10 +60,19 @@ const CreateIndustryEntityPage = () => {
   const artistClaimSearchLoading: boolean = useSelector(selectEntitySearchLoading);
   const usersLoading: boolean = useSelector(selectUsersLoading);
   const claimFeedback = useSelector(selectClaimFeedback);
+  const profileClaims: ProfileClaimModel[] = useSelector(selectorProfileClaims.selectItems);
+  const profileClaimsLoading: boolean = useSelector(selectorProfileClaims.selectLoading);
+  const [claimStatusFilter, setClaimStatusFilter] = useState<'all' | 'resolved' | 'pending'>('all');
+  const filteredProfileClaims = profileClaims.filter((claim) => {
+    if (claimStatusFilter === 'resolved') return claim.isResolved;
+    if (claimStatusFilter === 'pending') return !claim.isResolved;
+    return true;
+  });
 
   const { actions: artistsActions } = useArtistsSlice();
   const { actions: placesActions } = usePlacesSlice();
   const { actions: usersActions } = useUsersSlice();
+  const { actions: profileClaimsActions } = useProfileClaimsSlice();
   const dispatch = useDispatch();
   const { translateGlobalDict } = useI18n();
   const { navigateToInnerPath } = useNavigation();
@@ -173,6 +184,31 @@ const CreateIndustryEntityPage = () => {
       setShowClaimConfirmation(true);
     }
   }, [usersLoading]);
+
+  useEffect(() => {
+    if (showReset) {
+      dispatch(profileClaimsActions.loadItems({}));
+    }
+  }, [showReset]);
+
+  const prefillSearchFromClaim = (claim: ProfileClaimModel) => {
+    setQueryUsername(claim.user?.username || claim.user?.identifier || claim.user?.id || '');
+    setQueryText(claim.entityProfile?.name || claim.entityProfile?.username || claim.identifier || '');
+  };
+
+  const [copiedClaimId, setCopiedClaimId] = useState<string | undefined>(undefined);
+
+  const copyClaimIdToClipboard = (event: React.MouseEvent, claimId: string) => {
+    event.stopPropagation();
+    if (!claimId) {
+      return;
+    }
+    navigator.clipboard?.writeText(claimId);
+    setCopiedClaimId(claimId);
+    setTimeout(() => {
+      setCopiedClaimId((current) => (current === claimId ? undefined : current));
+    }, 1500);
+  };
 
   const isArtistAlreadyOwned = (artist: ArtistModel) => {
     const candidateIds = [artist.id, artist.identifier, artist.username].filter(Boolean);
@@ -464,7 +500,7 @@ const CreateIndustryEntityPage = () => {
             <div>
               Search:
               <br />
-              <input onChange={(e) => setQueryText(e.target.value)} />{' '}
+              <input value={queryText} onChange={(e) => setQueryText(e.target.value)} />{' '}
             </div>
           </div>
           {queriedSearchList?.artists?.length && (
@@ -520,6 +556,109 @@ const CreateIndustryEntityPage = () => {
           </div>
           <div style={{ margin: '5rem' }}></div>
 
+          <h2>
+            Profile Claims{' '}
+            <DynamicIcons
+              iconName="io5 IoReload"
+              color={'white'}
+              onClick={() => dispatch(profileClaimsActions.loadItems({}))}
+            />
+          </h2>
+          <div>
+            <select
+              value={claimStatusFilter}
+              onChange={(e) => setClaimStatusFilter(e.target.value as 'all' | 'resolved' | 'pending')}
+            >
+              <option value="all">Todos</option>
+              <option value="resolved">Resueltos</option>
+              <option value="pending">Pendientes</option>
+            </select>
+          </div>
+          <div className="profile-claims-list">
+            {profileClaimsLoading && <p>Cargando...</p>}
+            {!profileClaimsLoading && !filteredProfileClaims.length && <p>No hay solicitudes de reclamo.</p>}
+            {filteredProfileClaims.map((claim) => (
+              <div
+                key={claim.id}
+                className="profile-claim-item"
+                onClick={() => prefillSearchFromClaim(claim)}
+                title="Click para prellenar la búsqueda de asociación"
+              >
+                <div>
+                  <p
+                    className="profile-claim-detail profile-claim-id"
+                    onClick={(e) => copyClaimIdToClipboard(e, claim.entityProfile?.id)}
+                    title="Click para copiar el ID"
+                  >
+                    ID: {claim.entityProfile?.id} {copiedClaimId === claim.entityProfile?.id && '(copiado)'}
+                  </p>
+                  <strong>Solicitante:</strong>
+                  <ProfilePictureWithName
+                    element={{
+                      id: claim.user?.id,
+                      identifier: claim.user?.identifier || claim.user?.username,
+                      name: claim.requestingUserName,
+                      subtitle: claim.user?.email,
+                      profile_pic: claim.user?.profile_pic,
+                    }}
+                    direction={ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL}
+                    showSubtitle
+                    zoomable
+                  />
+                  <p className="profile-claim-detail">Username: {claim.user?.username || '-'}</p>
+                </div>
+                <div>
+                  <strong>Perfil solicitado ({claim.entityType}):</strong>
+                  <ProfilePictureWithName
+                    element={
+                      claim.claimedProfileModel || {
+                        id: claim.entityProfile?.id,
+                        identifier: claim.entityId,
+                        name: claim.claimedProfileName,
+                      }
+                    }
+                    direction={ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL}
+                    showSubtitle
+                    zoomable
+                  />
+                  <p className="profile-claim-detail">Username: {claim.entityProfile?.username || '-'}</p>
+                  <p className="profile-claim-detail">RUN: {claim.entityProfile?.run || '-'}</p>
+                  {claim.entityProfile?.spotify && (
+                    <p className="profile-claim-detail">
+                      <a
+                        href={`https://open.spotify.com/intl-es/artist/${claim.entityProfile.spotify}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Spotify
+                      </a>
+                    </p>
+                  )}
+                  {claim.entityProfile?.instagram && (
+                    <p className="profile-claim-detail">
+                      <a
+                        href={`https://instagram.com/${claim.entityProfile.instagram}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Instagram
+                      </a>
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <p className="profile-claim-detail">
+                    Solicitado el {claim.createdAt ? new Date(claim.createdAt).toLocaleDateString() : '-'}
+                  </p>
+                  <p className="profile-claim-detail">
+                    {claim.isResolved ? `Resuelto el ${new Date(claim.issuedDate).toLocaleDateString()}` : 'Pendiente'}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
           <Button onClick={() => resetOwnerships('Artist')}>Reiniciar Artists</Button>
           <Button onClick={() => resetOwnerships('Place')}>Reiniciar Places</Button>
         </div>

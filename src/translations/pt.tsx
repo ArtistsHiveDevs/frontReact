@@ -1469,6 +1469,14 @@ export const PtMessages = {
         missing_documents_message:
           'Para te candidatares à convocatória, é necessário completares o teu perfil artístico com as seguintes informações',
         unauthorized_message: 'Entra para te candidatares a esta convocatória.',
+        owner_switch_message:
+          'És dono de {placeName}, mas estás a navegar com outro perfil. Muda de perfil para ver as candidaturas recebidas nesta convocatória.',
+        switch_to_place_button: 'Mudar para o perfil do local',
+        or_switch_to_artist_message: 'Ou muda para um dos teus perfis de artista:',
+        not_artist_profile_message:
+          'Para te candidatares a esta convocatória precisas de estar num perfil de artista. Escolhe um:',
+        no_artist_memberships_message: 'Não tens nenhum perfil de artista associado à tua conta.',
+        go_to_industry_button: 'Reivindicar ou criar perfil de artista',
         back_button: 'Voltar às Minhas Convocatórias',
         apply_button: 'Candidatar',
         open_call_status: {

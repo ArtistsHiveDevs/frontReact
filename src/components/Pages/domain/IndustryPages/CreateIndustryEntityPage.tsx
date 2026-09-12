@@ -210,6 +210,10 @@ const CreateIndustryEntityPage = () => {
     }, 1500);
   };
 
+  const navigateToCreateArtist = () => {
+    navigateToInnerPath({ path: `${resolveNavigateToEntityPath(ArtistModel.name)}/${SUB_PATHS.CREATE}` });
+  };
+
   const isArtistAlreadyOwned = (artist: ArtistModel) => {
     const candidateIds = [artist.id, artist.identifier, artist.username].filter(Boolean);
     return candidateIds.some((candidateId) => loggedUser?.checkPermissions(candidateId)?.canEdit);
@@ -405,7 +409,12 @@ const CreateIndustryEntityPage = () => {
             </div>
           )}
           {!!claimSearchText && !artistClaimSearchLoading && !artistClaimSearchResults?.artists?.length && (
-            <p className="artist-claim-search-empty">No encontramos artistas que coincidan con tu búsqueda.</p>
+            <div className="artist-claim-search-empty">
+              <p>No encontramos artistas que coincidan con tu búsqueda.</p>
+              <Button variant="outlined" onClick={navigateToCreateArtist}>
+                Crear artista
+              </Button>
+            </div>
           )}
         </div>
 

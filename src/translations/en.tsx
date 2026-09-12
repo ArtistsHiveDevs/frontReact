@@ -1467,6 +1467,13 @@ export const EnMessages = {
         missing_documents_message:
           'To apply to the Open Call you need to complete your artist profile with the following information',
         unauthorized_message: 'Log in to apply to this Open Call.',
+        owner_switch_message:
+          "You own {placeName}, but you're browsing under a different profile. Switch profiles to see the applications received for this Open Call.",
+        switch_to_place_button: 'Switch to venue profile',
+        or_switch_to_artist_message: 'Or switch to one of your artist profiles:',
+        not_artist_profile_message: 'To apply to this Open Call you need to be on an artist profile. Choose one:',
+        no_artist_memberships_message: "You don't have any artist profile linked to your account.",
+        go_to_industry_button: 'Claim or create an artist profile',
         back_button: 'Back to My Open Calls',
         apply_button: 'Apply',
         open_call_status: {

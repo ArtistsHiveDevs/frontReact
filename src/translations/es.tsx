@@ -1482,6 +1482,14 @@ export const EsMessages = {
         missing_documents_message:
           'Para aplicar a la convocatoria es necesario que completes tu perfil artístico con la siguiente información',
         unauthorized_message: 'Inicia sesión para aplicar a esta convocatoria.',
+        owner_switch_message:
+          'Eres dueño de {placeName}, pero estás navegando con otro perfil. Cambia de perfil para ver las aplicaciones recibidas de esta convocatoria.',
+        switch_to_place_button: 'Cambiar al perfil del lugar',
+        or_switch_to_artist_message: 'O cambia a uno de tus perfiles de artista:',
+        not_artist_profile_message:
+          'Para aplicar a esta convocatoria necesitas estar en un perfil de artista. Elige uno de tus perfiles:',
+        no_artist_memberships_message: 'No tienes ningún perfil de artista asociado a tu cuenta.',
+        go_to_industry_button: 'Reclamar o crear perfil de artista',
         back_button: 'Volver a Mis Convocatorias',
         apply_button: 'Aplicar',
         open_call_status: {

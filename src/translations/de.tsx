@@ -1472,6 +1472,14 @@ export const DeMessages = {
         missing_documents_message:
           'Um dich für die Ausschreibung zu bewerben, musst du dein Künstlerprofil mit folgenden Informationen vervollständigen',
         unauthorized_message: 'Melde dich an, um dich für diese Ausschreibung zu bewerben.',
+        owner_switch_message:
+          'Du bist Besitzer von {placeName}, navigierst aber mit einem anderen Profil. Wechsle das Profil, um die für diese Ausschreibung eingegangenen Bewerbungen zu sehen.',
+        switch_to_place_button: 'Zum Veranstaltungsort-Profil wechseln',
+        or_switch_to_artist_message: 'Oder wechsle zu einem deiner Künstlerprofile:',
+        not_artist_profile_message:
+          'Um dich für diese Ausschreibung zu bewerben, musst du in einem Künstlerprofil sein. Wähle eines aus:',
+        no_artist_memberships_message: 'Du hast kein Künstlerprofil mit deinem Konto verknüpft.',
+        go_to_industry_button: 'Künstlerprofil beanspruchen oder erstellen',
         back_button: 'Zurück zu meinen Ausschreibungen',
         apply_button: 'Bewerben',
         open_call_status: {

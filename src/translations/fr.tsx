@@ -1475,6 +1475,14 @@ export const FrMessages = {
         missing_documents_message:
           "Pour postuler à l'appel à candidatures, tu dois compléter ton profil d'artiste avec les informations suivantes",
         unauthorized_message: 'Connecte-toi pour postuler à cet appel à candidatures.',
+        owner_switch_message:
+          "Tu es propriétaire de {placeName}, mais tu navigues avec un autre profil. Change de profil pour voir les candidatures reçues pour cet appel à candidatures.",
+        switch_to_place_button: 'Passer au profil du lieu',
+        or_switch_to_artist_message: "Ou passe à l'un de tes profils d'artiste :",
+        not_artist_profile_message:
+          "Pour postuler à cet appel à candidatures, tu dois être sur un profil d'artiste. Choisis-en un :",
+        no_artist_memberships_message: "Tu n'as aucun profil d'artiste associé à ton compte.",
+        go_to_industry_button: "Revendiquer ou créer un profil d'artiste",
         back_button: 'Retour à mes appels à candidatures',
         apply_button: 'Postuler',
         open_call_status: {

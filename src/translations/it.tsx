@@ -1472,6 +1472,13 @@ export const ItMessages = {
         missing_documents_message:
           'Per candidarti al bando devi completare il tuo profilo artista con le seguenti informazioni',
         unauthorized_message: 'Accedi per candidarti a questo bando.',
+        owner_switch_message:
+          'Sei il proprietario di {placeName}, ma stai navigando con un altro profilo. Cambia profilo per vedere le candidature ricevute per questo bando.',
+        switch_to_place_button: 'Passa al profilo del locale',
+        or_switch_to_artist_message: 'Oppure passa a uno dei tuoi profili artista:',
+        not_artist_profile_message: 'Per candidarti a questo bando devi essere su un profilo artista. Scegline uno:',
+        no_artist_memberships_message: 'Non hai nessun profilo artista collegato al tuo account.',
+        go_to_industry_button: 'Rivendica o crea un profilo artista',
         back_button: 'Torna ai miei bandi',
         apply_button: 'Candidati',
         open_call_status: {

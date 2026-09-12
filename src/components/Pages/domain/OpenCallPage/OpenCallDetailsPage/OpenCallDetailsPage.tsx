@@ -8,6 +8,7 @@ import {
   useOpenCallApplicationsSlice,
 } from '~/common/slices/domain/open-calls/open-call-applications.redux';
 import { selectorOpenCalls, useOpenCallsSlice } from '~/common/slices/domain/open-calls/open-calls.redux';
+import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
@@ -18,9 +19,14 @@ import { TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE } from '~/components/Pages/doma
 import OpenCallPresentation from '~/components/Pages/domain/OpenCallPage/OpenCallDetailsPage/OpenCallPresentation';
 import NotFoundPage from '~/components/Pages/NotFoundPage';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
+import {
+  ProfilePictureWithName,
+  ProfilePictureWithNameConstants,
+} from '~/components/shared/atoms/gui/ProfilePictureList/ProfilePictureWithName';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
+import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { OpenCallApplicationModel, OpenCallModelV1 } from '~/models/domain/open-call/v1';
 import { useProfileInfo } from '../common';
@@ -117,7 +123,7 @@ const ApplicationCard = ({ application, canModerate, isUpdating, onAccept, onRej
 };
 
 const OpenCallDetailsPage = () => {
-  const { translateText, translateGlobalDict } = useI18n();
+  const { translateText, translateGlobalDict, getFormattedMessage } = useI18n();
   const { navigateToEntity, navigateToInnerPath } = useNavigation();
   const dispatch = useDispatch();
   const urlParameters = useParams();
@@ -125,6 +131,7 @@ const OpenCallDetailsPage = () => {
 
   const loggedUser = useSelector(selectCurrentUser);
   const { isPlaceProfile } = useProfileInfo();
+  const { actions: usersActions } = useUsersSlice();
 
   const { actions: openCallActions } = useOpenCallsSlice();
   const selectOpenCallById = selectorOpenCalls.makeSelectItemById();
@@ -216,6 +223,24 @@ const OpenCallDetailsPage = () => {
     }
   }, [isArtistProfile, applicationsLoading, myApplication, currentOpenCall]);
 
+  const currentOpenCallPlaceId = currentOpenCall?.place?.identifier;
+  const artistMemberships: CurrentProfileInfoModel[] = loggedUser?.getMembershipsByEntity('artists') || [];
+
+  const renderArtistMembershipsSwitcher = () => (
+    <Stack spacing={1}>
+      {artistMemberships.map((membership) => (
+        <ProfilePictureWithName
+          key={membership.identifier}
+          element={membership}
+          direction={ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL}
+          showSubtitle
+          actionable
+          onProfileClick={() => dispatch(usersActions.switchProfile({ id: membership.identifier }))}
+        />
+      ))}
+    </Stack>
+  );
+
   const handleApplyClick = () => {
     // Validar si el artista tiene documentos faltantes
     if (isArtistProfile && currentArtist && currentArtist.openCallDocumentCheckList.length > 0) {
@@ -281,7 +306,7 @@ const OpenCallDetailsPage = () => {
             </>
           )}
 
-          {isArtistProfile && (
+          {isArtistProfile && !!myApplication && (
             <>
               <h3 className="step-title">
                 {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.your_application_title`)}
@@ -304,8 +329,61 @@ const OpenCallDetailsPage = () => {
             </>
           )}
 
-          {!isPlaceOwner && !isArtistProfile && (
-            <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.unauthorized_message`)}</p>
+          {/* Caso 1: dueño de la convocatoria, pero navegando con otro perfil */}
+          {isPlaceOwner && !isPlaceProfile && (
+            <div className="unauthorized-section">
+              <p>
+                {getFormattedMessage(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.owner_switch_message`, {
+                  placeName: currentOpenCall?.placeProfileInfo?.name,
+                })}
+              </p>
+              {currentOpenCall?.placeProfileInfo && (
+                <ProfilePictureWithName
+                  element={currentOpenCall.placeProfileInfo}
+                  direction={ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL}
+                  showSubtitle
+                  actionable
+                  zoomable
+                  onProfileClick={() =>
+                    currentOpenCallPlaceId && dispatch(usersActions.switchProfile({ id: currentOpenCallPlaceId }))
+                  }
+                />
+              )}
+              {/* Ser dueño del lugar no excluye tener también perfiles de artista asociados. */}
+              {artistMemberships.length > 0 && !isArtistProfile && (
+                <>
+                  <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.or_switch_to_artist_message`)}</p>
+                  {renderArtistMembershipsSwitcher()}
+                </>
+              )}
+            </div>
+          )}
+
+          {/* Caso 2: logueado, pero sin perfil de artista activo (ni dueño del lugar) */}
+          {!!loggedUser && !isPlaceOwner && !isArtistProfile && (
+            <div className="unauthorized-section">
+              <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.not_artist_profile_message`)}</p>
+              {artistMemberships.length > 0 ? (
+                renderArtistMembershipsSwitcher()
+              ) : (
+                <>
+                  <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.no_artist_memberships_message`)}</p>
+                  <Button variant="outlined" onClick={() => navigateToInnerPath({ path: PATHS.INDUSTRY })}>
+                    {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.go_to_industry_button`)}
+                  </Button>
+                </>
+              )}
+            </div>
+          )}
+
+          {/* Caso 3: usuario no logueado */}
+          {!loggedUser && (
+            <div className="unauthorized-section">
+              <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.unauthorized_message`)}</p>
+              <Button variant="outlined" onClick={() => navigateToInnerPath({ path: PATHS.LOGIN })}>
+                {translateGlobalDict('actions.accounts.login')}
+              </Button>
+            </div>
           )}
         </div>
 

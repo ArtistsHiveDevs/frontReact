@@ -97,6 +97,41 @@ async function parseJSON(response: Response) {
   throw error;
 }
 
+/**
+ * Recorre un valor ya parseado (objeto/array/primitivo) y hace `.trim()` de todos los strings,
+ * en cualquier nivel de anidamiento.
+ */
+function deepTrimStrings(value: any): any {
+  if (typeof value === 'string') {
+    return value.trim();
+  }
+  if (Array.isArray(value)) {
+    return value.map(deepTrimStrings);
+  }
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([key, val]) => [key, deepTrimStrings(val)]));
+  }
+  return value;
+}
+
+/**
+ * Los callers arman `options.body` como un string ya serializado (`JSON.stringify(payload)`), así
+ * que hay que parsearlo, limpiar los strings, y volver a serializarlo. Si `body` no es JSON válido
+ * (ej. FormData/Blob) se deja intacto: no hay forma segura de "trimear" eso genéricamente.
+ */
+function trimRequestBody(body: BodyInit | null | undefined): BodyInit | null | undefined {
+  if (typeof body !== 'string') {
+    return body;
+  }
+
+  try {
+    const parsedBody = JSON.parse(body);
+    return JSON.stringify(deepTrimStrings(parsedBody));
+  } catch {
+    return body;
+  }
+}
+
 export const buildQueryString = (queryParams: QueryParams | undefined): string => {
   if (!queryParams) {
     return '';
@@ -135,6 +170,7 @@ function checkStatus(response: Response) {
  */
 export async function request(url: string, options?: RequestInit): Promise<{} | { err: ResponseError }> {
   options.headers = { ...options.headers, ...generateEnvironmentHeader() };
+  options.body = trimRequestBody(options.body);
 
   const fetchResponse = await fetch(url, options);
 
@@ -152,6 +188,7 @@ export async function request(url: string, options?: RequestInit): Promise<{} | 
 export async function postRequest(url: string, options?: RequestInit): Promise<Response | { err: ResponseError }> {
   options.method = 'POST';
   options.headers = { ...options.headers, ...generateEnvironmentHeader(), 'Content-Type': 'application/json' };
+  options.body = trimRequestBody(options.body);
 
   const fetchResponse = await fetch(url, options);
 
@@ -169,6 +206,7 @@ export async function postRequest(url: string, options?: RequestInit): Promise<R
 export async function putRequest(url: string, options?: RequestInit): Promise<{} | { err: ResponseError }> {
   options.method = 'PUT';
   options.headers = { ...options.headers, ...generateEnvironmentHeader(), 'Content-Type': 'application/json' };
+  options.body = trimRequestBody(options.body);
 
   const fetchResponse = await fetch(url, options);
 
@@ -186,6 +224,7 @@ export async function putRequest(url: string, options?: RequestInit): Promise<{}
 export async function patchRequest(url: string, options?: RequestInit): Promise<{} | { err: ResponseError }> {
   options.method = 'PATCH';
   options.headers = { ...options.headers, ...generateEnvironmentHeader(), 'Content-Type': 'application/json' };
+  options.body = trimRequestBody(options.body);
 
   const fetchResponse = await fetch(url, options);
 
@@ -204,6 +243,7 @@ export async function deleteRequest(url: string, options?: RequestInit): Promise
   options.method = 'DELETE';
 
   options.headers = { ...options.headers, ...generateEnvironmentHeader(), 'Content-Type': 'application/json' };
+  options.body = trimRequestBody(options.body);
 
   const fetchResponse = await fetch(url, options);
 

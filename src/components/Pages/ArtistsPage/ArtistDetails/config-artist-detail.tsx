@@ -128,10 +128,10 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                     },
                   },
                 },
-                {
-                  name: 'categories',
-                  icon: 'BsInfoCircleFill',
-                },
+                // {
+                //   name: 'categories',
+                //   icon: 'BsInfoCircleFill',
+                // },
                 {
                   name: 'spoken_languages',
                   icon: 'TbWorld',
@@ -504,6 +504,9 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
         hidden: fullyHiddenSectionsByEnvironment(['prod']),
       },
     ],
+    formMetaData: {
+      hidden: true,
+    },
   },
   // {
   //   name: 'requirements',

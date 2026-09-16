@@ -1061,6 +1061,10 @@ export const FrMessages = {
                   attributes: {
                     members: 'Membres',
                     live: 'En direct',
+                    members_description:
+                      'Ajoute une photo montrant les visages de tous les membres. Cela aide les programmateurs à savoir qui se cache derrière le projet.',
+                    live_description:
+                      'Ajoute une photo du groupe en live, montrant à quoi ressemble le spectacle sur scène. Cela donne aux programmateurs une vraie idée du show.',
                   },
                 },
                 live_gallery: {
@@ -1150,6 +1154,10 @@ export const FrMessages = {
                 },
                 media_channels: {
                   name: 'Canaux médias',
+                  attributes: {
+                    youtube_widget_id_description:
+                      'Ajoute le lien YouTube de ta meilleure vidéo promotionnelle ou teaser',
+                  },
                 },
                 gallery: {
                   name: 'Galerie',

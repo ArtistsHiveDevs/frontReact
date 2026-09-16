@@ -9,7 +9,7 @@ import { EMAIL_FORMAT_PATTERN } from '~/common/utils/validation/email-validation
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import MapContainer from '~/components/shared/mapPrinter/mapContainer';
 import { DEBOUNCE_MS } from '~/constants/app.constants';
-import { SocialNetworks } from '~/constants/social-networks.const';
+import { SocialNetworks, defaultCleanLink } from '~/constants/social-networks.const';
 import { ComponentGeneratorParams } from '../DynamicControl';
 
 export const createTextField = (params: ComponentGeneratorParams) => {
@@ -32,6 +32,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
     config = {},
     componentParams = {},
     focused = false,
+    description,
   } = fieldData;
 
   if (inputType === 'email' && !config.pattern) {
@@ -143,7 +144,9 @@ export const createTextField = (params: ComponentGeneratorParams) => {
   }
   // console.log("¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿   ¿¿¿¿     ", fieldName, defaultValue);
   return (
-    <TextField
+    <div>
+      {description && <p className="dynamic-field-description">{description}</p>}
+      <TextField
       required={!!required}
       label={label}
       type={inputType}
@@ -158,7 +161,9 @@ export const createTextField = (params: ComponentGeneratorParams) => {
       }}
       onChange={(data) => {
         const rawValue = data.target.value;
-        const newValue = componentParams?.numericOnly ? rawValue.replace(/\D/g, '') : rawValue;
+        // transformValue corre antes de numericOnly (ej. limpiar un link pegado y dejar sólo el username).
+        const transformedValue = componentParams?.transformValue ? componentParams.transformValue(rawValue) : rawValue;
+        const newValue = componentParams?.numericOnly ? transformedValue.replace(/\D/g, '') : transformedValue;
         setCurrentValue(newValue);
 
         // Limpiar error cuando el usuario empieza a escribir
@@ -199,7 +204,8 @@ export const createTextField = (params: ComponentGeneratorParams) => {
       focused={focused}
       variant={variant}
       fullWidth
-    />
+      />
+    </div>
   );
 };
 
@@ -220,6 +226,14 @@ export const createSocialNetworkTextField = (params: ComponentGeneratorParams) =
       <DynamicIcons iconName={socialNetwork.icon} size={20} /> {socialNetwork.user_prefix}
     </InputAdornment>
   );
+
+  // ------------ CLEAN LINK -----------------
+  // Si el usuario pega el link completo (con tracking, ej. ?si=...), extraemos sólo el username.
+  // Cada red puede definir su propio `clean_link` cuando el patrón genérico plataforma.com/username no aplica.
+  const isUrlBasedNetwork = !!socialNetwork.url && /^https?:\/\//i.test(socialNetwork.url);
+  if (socialNetwork.clean_link || isUrlBasedNetwork) {
+    fieldData.componentParams.transformValue = socialNetwork.clean_link || defaultCleanLink;
+  }
 
   // -------------- VALIDATION -------------
   let wrongPatternErrorMessage = `${socialNetwork.title} user pattern is wrong`;

@@ -1058,6 +1058,10 @@ export const ElMessages = {
                   attributes: {
                     members: 'Μέλη',
                     live: 'Ζωντανά',
+                    members_description:
+                      'Ανέβασε μια φωτογραφία όπου φαίνονται τα πρόσωπα όλων των μελών. Βοηθά όσους σας προσλαμβάνουν να ξέρουν ποιοι κρύβονται πίσω από το project.',
+                    live_description:
+                      'Ανέβασε μια φωτογραφία του συγκροτήματος live, δείχνοντας πώς φαίνεται η εμφάνιση επί σκηνής. Δίνει σε όσους προσλαμβάνουν μια πραγματική εικόνα της παράστασης.',
                   },
                 },
                 live_gallery: {
@@ -1147,6 +1151,10 @@ export const ElMessages = {
                 },
                 media_channels: {
                   name: 'Κανάλια πολυμέσων',
+                  attributes: {
+                    youtube_widget_id_description:
+                      'Πρόσθεσε τον σύνδεσμο YouTube του καλύτερου promo video ή teaser σου',
+                  },
                 },
                 gallery: {
                   name: 'Γκαλερί',

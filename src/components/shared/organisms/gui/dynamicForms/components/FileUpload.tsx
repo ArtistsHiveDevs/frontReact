@@ -50,7 +50,7 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
   const { register, formState } = finalContext;
   const { errors } = formState || {};
 
-  const { label, fieldName, options = [], config, componentParams, externalData } = fieldData || {};
+  const { label, fieldName, options = [], config, componentParams, externalData, description } = fieldData || {};
 
   const {
     multipleFiles,
@@ -183,6 +183,7 @@ export const createFileUpload = (params: ComponentGeneratorParams) => {
       {translationPath && fieldName && (
         <h3>{translateText(`${translationPath}.${fieldTranslationName || fieldName}`)}</h3>
       )}
+      {description && <p className="dynamic-field-description">{description}</p>}
 
       <Box
         sx={{

@@ -1058,6 +1058,10 @@ export const DeMessages = {
                   attributes: {
                     members: 'Mitglieder',
                     live: 'Live',
+                    members_description:
+                      'Lade ein Foto hoch, auf dem die Gesichter aller Mitglieder zu sehen sind. So wissen Buchende, wer hinter dem Projekt steckt.',
+                    live_description:
+                      'Lade ein Foto der Band live auf der Bühne hoch. So bekommen Buchende einen echten Eindruck von der Show.',
                   },
                 },
                 live_gallery: {
@@ -1147,6 +1151,10 @@ export const DeMessages = {
                 },
                 media_channels: {
                   name: 'Medienkanäle',
+                  attributes: {
+                    youtube_widget_id_description:
+                      'Füge den YouTube-Link zu deinem besten Promo-Video oder Teaser hinzu',
+                  },
                 },
                 gallery: {
                   name: 'Galerie',

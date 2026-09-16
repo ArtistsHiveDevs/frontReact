@@ -149,6 +149,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   value: (place: PlaceModel) => {
                     return place.has_open_mic ? 'Sí' : 'No';
                   },
+                  hidden: true,
                   formMetaData: {
                     inputType: 'switch',
                     componentParams: {},
@@ -161,6 +162,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'bookingRatesPolicy',
                   icon: 'tb TbContract',
+                  hidden: true,
                   value: (place: PlaceModel) => {
                     return (
                       <ul>
@@ -175,6 +177,7 @@ export const PLACE_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'regulatory_closing_time',
                   icon: 'tb TbContract',
+                  hidden: true,
                   value: (place: PlaceModel) =>
                     place?.regulatory_closing_time ? dayjs(place.regulatory_closing_time).format('hh:mm A') : '',
                   formMetaData: { inputType: 'time', componentParams: { ampm: true } },

@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
 import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
 import { RootState } from '~/common/utils/redux-injectors/types';
-import { ARTIST_ENTITY_NAME, getProfilePreviewEntityConfig, PLACE_ENTITY_NAME } from './profile-preview.registry';
 import { ProfilePreviewDialog } from '~/components/shared/organisms/ProfilePreviewDialog/ProfilePreviewDialog';
 import { ProfilePreviewConfig } from '~/components/shared/organisms/ProfileTabsPage/profile-preview.utils';
 import { EntityModel, EntityTemplate } from '~/models/base';
+import { ARTIST_ENTITY_NAME, getProfilePreviewEntityConfig, PLACE_ENTITY_NAME } from './profile-preview.registry';
 
 export interface ProfileSummaryDialogParams {
   isOpen: boolean;

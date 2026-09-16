@@ -1,7 +1,9 @@
 import { Avatar } from '@mui/material';
 import { KeyboardEventHandler, MouseEvent, useEffect, useState } from 'react';
+import { ProfileSummaryDialog } from '~/components/Pages/domain/ProfilePreview/ProfileSummaryDialog';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
+import { EntityModel, EntityTemplate } from '~/models/base';
 import './ProfilePictureWithName.scss';
 
 export interface ProfilePictureWithNameElement {
@@ -37,6 +39,20 @@ export interface ProfilePictureWithNameParams<T extends ProfilePictureWithNameEl
    * sin disparar onProfileClick/onToggleSelect ni el click del contenedor padre.
    */
   zoomable?: boolean;
+  /**
+   * Si es true, un click en la fila abre un ProfileSummaryDialog con el resumen del perfil
+   * (usa `element.entity` y `element.identifier`/`id`), sin que el caller tenga que manejar el
+   * estado ni renderizar el diálogo por su cuenta.
+   */
+  showProfileSummary?: boolean;
+  /**
+   * Datos completos de la entidad para el ProfileSummaryDialog. Pásalo cuando ya tengas el objeto
+   * completo a mano (ej. un artista poblado dentro de otra entidad): evita un fetch extra y, sobre
+   * todo, evita depender de que `element.identifier` matchee el id bajo el que Redux guardó la
+   * entidad (puede no coincidir si el sub-documento poblado no pasó por el mismo masking sID/_id).
+   * Si no se pasa, el diálogo la busca por `element.entity` + `element.identifier`/`id`.
+   */
+  profileSummaryData?: EntityModel<EntityTemplate>;
 }
 
 export enum ProfilePictureWithNameConstants {
@@ -60,10 +76,13 @@ export function ProfilePictureWithName<T extends ProfilePictureWithNameElement>(
     onProfileClick,
     actionable,
     zoomable,
+    showProfileSummary,
+    profileSummaryData,
   } = params;
 
-  const isActionableRow = actionable && !!onProfileClick && !isSelectable;
+  const isActionableRow = actionable && (!!onProfileClick || showProfileSummary) && !isSelectable;
   const [isZoomOpen, setIsZoomOpen] = useState(false);
+  const [isSummaryOpen, setIsSummaryOpen] = useState(false);
 
   const avatarSizeREM = `${
     styles?.avatarSize || (direction === ProfilePictureWithNameConstants.DISPLAY_VERTICAL ? 4 : 2)
@@ -72,7 +91,7 @@ export function ProfilePictureWithName<T extends ProfilePictureWithNameElement>(
   // `profile_pic` puede venir como ruta de S3, que sólo se resuelve a URL firmada de forma asíncrona.
   const [imageURL, setImageURL] = useState<string>(undefined);
 
-  const displayName = element?.nameKnownAs || element?.name || `@${element.identifier}`;
+  const displayName = element?.nameKnownAs || element?.name || `@${element?.identifier}`;
 
   useEffect(() => {
     let cancelled = false;
@@ -99,6 +118,9 @@ export function ProfilePictureWithName<T extends ProfilePictureWithNameElement>(
       onToggleSelect?.(element);
       return;
     }
+    if (showProfileSummary) {
+      setIsSummaryOpen(true);
+    }
     onProfileClick?.(element);
   };
 
@@ -116,7 +138,7 @@ export function ProfilePictureWithName<T extends ProfilePictureWithNameElement>(
         direction === ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL
           ? 'ppl-participant-avatar-name--horizontal'
           : ''
-      } ${!!onProfileClick && !isSelectable ? 'ppl-participant-avatar-name--clickable' : ''} ${
+      } ${(!!onProfileClick || showProfileSummary) && !isSelectable ? 'ppl-participant-avatar-name--clickable' : ''} ${
         isActionableRow ? 'ppl-participant-avatar-name--actionable' : ''
       }`}
       onClick={onClickProfile}
@@ -164,13 +186,27 @@ export function ProfilePictureWithName<T extends ProfilePictureWithNameElement>(
         {showSubtitle && !!element?.subtitle && <span className="ppl-participant-subtitle">{element.subtitle}</span>}
       </div>
       {isActionableRow && <DynamicIcons iconName="io5 IoChevronForward" color="white" size={18} />}
-      {zoomable && (
-        <AppDialog
-          isOpenDialog={isZoomOpen}
-          onClose={() => setIsZoomOpen(false)}
-          title={displayName}
-          content={<img src={imageURL} alt={displayName} style={{ maxWidth: '100%' }} />}
-        />
+
+      {(zoomable || showProfileSummary) && (
+        <div onClick={(event: MouseEvent) => event.stopPropagation()}>
+          {zoomable && (
+            <AppDialog
+              isOpenDialog={isZoomOpen}
+              onClose={() => setIsZoomOpen(false)}
+              title={displayName}
+              content={<img src={imageURL} alt={displayName} style={{ maxWidth: '100%' }} />}
+            />
+          )}
+          {showProfileSummary && (
+            <ProfileSummaryDialog
+              isOpen={isSummaryOpen}
+              onClose={() => setIsSummaryOpen(false)}
+              entityType={element?.entity}
+              entityId={element?.identifier || element?.id}
+              entityData={profileSummaryData}
+            />
+          )}
+        </div>
       )}
     </div>
   );

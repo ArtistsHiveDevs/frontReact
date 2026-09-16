@@ -24,6 +24,9 @@ export const ARTIST_PROFILE_PREVIEW_CONFIG: ProfilePreviewConfig = {
   arts: {
     media_channels: true,
   },
+  documents: {
+    technical_docs: true,
+  },
 };
 
 export const PLACE_PROFILE_PREVIEW_CONFIG: ProfilePreviewConfig = {

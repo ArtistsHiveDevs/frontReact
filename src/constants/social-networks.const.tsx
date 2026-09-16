@@ -12,6 +12,51 @@ export interface SocialNetworkTemplate {
   widget?: any;
   usernamePattern?: RegExp;
   loginWidget?: any;
+  // Recibe el valor pegado por el usuario (puede ser un link completo con tracking, ej. ?si=...)
+  // y devuelve sólo el username/handle que se debe almacenar. Si no se define, se usa defaultCleanLink.
+  clean_link?: (rawValue: string) => string;
+}
+
+/**
+ * Extractor genérico de username a partir de un link tipo `plataforma.com/username`.
+ * - Si el valor no parece una URL (el usuario ya escribió sólo el username), lo deja igual.
+ * - Descarta protocolo, dominio, query string (?si=...) y hash.
+ * - Devuelve el último segmento del path, sin '@' inicial (ej. tiktok.com/@user -> user).
+ */
+export function defaultCleanLink(rawValue: string): string {
+  if (!rawValue) {
+    return rawValue;
+  }
+  const value = rawValue.trim();
+  const looksLikeUrl = /^https?:\/\//i.test(value) || /^[\w-]+(\.[\w-]+)+\//i.test(value);
+  if (!looksLikeUrl) {
+    return value;
+  }
+  try {
+    const withProtocol = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+    const url = new URL(withProtocol);
+    const segments = url.pathname.split('/').filter(Boolean);
+    if (segments.length === 0) {
+      return value;
+    }
+    const username = segments[segments.length - 1];
+    return decodeURIComponent(username).replace(/^@/, '');
+  } catch {
+    return value;
+  }
+}
+
+/**
+ * Extrae el id de video de un link de YouTube pegado por el usuario (watch, youtu.be, embed, shorts).
+ * Si no matchea ninguno de esos formatos, se asume que ya es sólo el id y se deja igual.
+ */
+export function extractYoutubeVideoId(rawValue: string): string {
+  if (!rawValue) {
+    return rawValue;
+  }
+  const value = rawValue.trim();
+  const match = value.match(/(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtube\.com\/shorts\/|youtu\.be\/)([\w-]{11})/i);
+  return match ? match[1] : value;
 }
 
 export const SocialNetworks: {
@@ -59,6 +104,27 @@ export const SocialNetworks: {
     title: 'Facebook',
     usernamePattern: /^(?<=^|[^\/])([A-Za-z0-9_.]{2,24})$/,
     loginWidget: true,
+    // Los perfiles sin username personalizado usan facebook.com/profile.php?id=<id>, donde el
+    // patrón genérico plataforma.com/username no aplica (el "username" real va en el query string).
+    clean_link: (rawValue: string) => {
+      if (!rawValue) {
+        return rawValue;
+      }
+      const value = rawValue.trim();
+      if (/^https?:\/\//i.test(value) || /^[\w-]+(\.[\w-]+)+\//i.test(value)) {
+        try {
+          const withProtocol = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+          const url = new URL(withProtocol);
+          const idParam = url.searchParams.get('id');
+          if (idParam) {
+            return idParam;
+          }
+        } catch {
+          // sigue con la extracción genérica
+        }
+      }
+      return defaultCleanLink(value);
+    },
   },
   google: {
     icon: 'BsGoogle',
@@ -98,7 +164,7 @@ export const SocialNetworks: {
   },
   sound_cloud: {
     url: 'https://soundcloud.com/',
-    icon: 'GrSoundcloud',
+    icon: 'fa FaSoundcloud',
     user_prefix: '',
     emptyTitle: true,
     title: 'Sound Cloud',
@@ -155,6 +221,12 @@ export const SocialNetworks: {
     icon: 'TbSocial',
     emptyTitle: false,
     title: 'Threads',
+  },
+  tidal: {
+    url: 'https://www.tidal.com',
+    icon: 'si SiTidal',
+    emptyTitle: true,
+    title: 'Tidal',
   },
   tiktok: {
     url: 'https://www.tiktok.com',

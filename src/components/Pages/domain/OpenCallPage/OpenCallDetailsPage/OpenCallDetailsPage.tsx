@@ -50,6 +50,13 @@ const ApplicationCard = ({ application, canModerate, isUpdating, onAccept, onRej
   const [expanded, setExpanded] = useState(false);
   const statusColor = STATUS_COLORS[application.status] || STATUS_COLORS.pending;
 
+  const applicationArtist = application?.artist
+    ? new ArtistModel({
+        ...application.artist,
+        id: application.artist.id || application.artist._id || application?.artistId,
+      } as any)
+    : undefined;
+
   return (
     <div
       style={{
@@ -67,14 +74,33 @@ const ApplicationCard = ({ application, canModerate, isUpdating, onAccept, onRej
           alignItems: 'center',
           padding: '16px 20px',
           cursor: 'pointer',
+          flexDirection: 'column',
         }}
         onClick={() => setExpanded((prev) => !prev)}
       >
-        <div>
-          <h4 style={{ margin: 0 }}>{application.artist_name}</h4>
-          <p style={{ margin: '4px 0', opacity: 0.7, fontSize: '0.9em' }}>{application.artist_city}</p>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingBottom: '1rem',
+            cursor: 'pointer',
+            flexDirection: 'row',
+            gap: '0.7rem',
+          }}
+        >
+          <div onClick={(event: any) => event.stopPropagation()}>
+            <ProfilePictureWithName
+              element={{
+                ...application?.artist,
+                entity: ArtistModel.name,
+                identifier: applicationArtist?.identifier,
+              }}
+              zoomable
+              showProfileSummary
+              profileSummaryData={applicationArtist}
+            />
+          </div>
           <span
             style={{
               padding: '4px 12px',
@@ -87,7 +113,9 @@ const ApplicationCard = ({ application, canModerate, isUpdating, onAccept, onRej
           >
             {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.status.${application.status}`)}
           </span>
-          {canModerate && (
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {canModerate && false && (
             <Stack direction="row" spacing={1} onClick={(event: any) => event.stopPropagation()}>
               <Button
                 size="small"
@@ -168,7 +196,8 @@ const OpenCallDetailsPage = () => {
     if (openCallId) {
       window.scrollTo(0, 0);
       dispatch(openCallActions.getItemById({ id: openCallId }));
-      // La ruta /open-call-applications no filtra por query params server-side hoy; el filtro real ocurre abajo.
+      // El backend ya filtra por open_call_id (ver buildOpenCallApplicationsVisibilityFilter en
+      // ah-mock-api/routes/routes.js); el .filter() de abajo queda como resguardo, no como filtro real.
       dispatch(applicationActions.loadItems({ queryParams: { open_call_id: openCallId } }));
     }
   }, [openCallId]);

@@ -1056,6 +1056,10 @@ export const EsMessages = {
                   attributes: {
                     members: 'Miembros',
                     live: 'En vivo',
+                    members_description:
+                      'Sube una foto donde se vean los rostros de todos los integrantes. A quienes contratan les ayuda saber quién está detrás del proyecto.',
+                    live_description:
+                      'Sube una foto de la banda en vivo, mostrando cómo se ve arriba del escenario. Le da a quien contrata una idea real del show.',
                   },
                 },
                 live_gallery: {
@@ -1148,6 +1152,9 @@ export const EsMessages = {
                 },
                 media_channels: {
                   name: 'Canales multimedia',
+                  attributes: {
+                    youtube_widget_id_description: 'Agrega el link a YouTube de tu mejor video promocional o Teaser',
+                  },
                 },
                 gallery: {
                   name: 'Galería',

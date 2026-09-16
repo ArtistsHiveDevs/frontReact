@@ -1055,6 +1055,10 @@ export const PtMessages = {
                   attributes: {
                     members: 'Membros',
                     live: 'Ao vivo',
+                    members_description:
+                      'Envie uma foto mostrando os rostos de todos os integrantes. Isso ajuda quem contrata a saber quem está por trás do projeto.',
+                    live_description:
+                      'Envie uma foto da banda ao vivo, mostrando como é o show no palco. Isso dá a quem contrata uma ideia real da apresentação.',
                   },
                 },
                 live_gallery: {
@@ -1144,6 +1148,10 @@ export const PtMessages = {
                 },
                 media_channels: {
                   name: 'Canais de mídia',
+                  attributes: {
+                    youtube_widget_id_description:
+                      'Adicione o link do YouTube do seu melhor vídeo promocional ou teaser',
+                  },
                 },
                 gallery: {
                   name: 'Galeria',

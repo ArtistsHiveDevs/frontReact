@@ -1044,6 +1044,10 @@ export const EnMessages = {
                   attributes: {
                     members: 'Members',
                     live: 'Live',
+                    members_description:
+                      'Upload a photo showing the faces of all the members. It helps bookers know who is behind the project.',
+                    live_description:
+                      'Upload a photo of the band performing live, showing what the show looks like on stage. It gives bookers a real sense of the show.',
                   },
                 },
                 live_gallery: {
@@ -1133,6 +1137,9 @@ export const EnMessages = {
                 },
                 media_channels: {
                   name: 'Media channels',
+                  attributes: {
+                    youtube_widget_id_description: 'Add the YouTube link to your best promo video or teaser',
+                  },
                 },
                 gallery: {
                   name: 'Gallery',

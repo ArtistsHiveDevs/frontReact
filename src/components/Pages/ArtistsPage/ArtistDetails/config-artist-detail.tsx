@@ -2,6 +2,7 @@ import { fullyHiddenSectionsByEnvironment } from '~/common/utils/app-utils/app-u
 import { formatLegacyLocation, formatLocationLevels } from '~/common/utils/location-display.utils';
 import { RatingStarsView } from '~/components/shared/atoms/gui/rating-stars-view/RatingStarsView';
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
+import { extractYoutubeVideoId } from '~/constants/social-networks.const';
 import { ArtistModel, ArtistRatingTemplate } from '~/models/domain/artist/artist.model';
 import { LanguageModel } from '~/models/parametrics/geo/language.model';
 
@@ -34,6 +35,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             formMetaData: {
               inputType: 'file',
               fieldName: 'image_members',
+              description: 'members_description',
               componentParams: {
                 multipleFiles: false,
                 accept: 'image/*',
@@ -53,6 +55,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             formMetaData: {
               inputType: 'file',
               fieldName: 'image_live_gallery',
+              description: 'live_description',
               componentParams: {
                 multipleFiles: false,
                 accept: 'image/*',
@@ -243,7 +246,13 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                   name: 'instagram',
                 },
                 {
+                  name: 'sound_cloud',
+                },
+                {
                   name: 'spotify',
+                },
+                {
+                  name: 'tidal',
                 },
                 {
                   name: 'youtube',
@@ -396,6 +405,9 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             },
           },
         ],
+        formMetaData: {
+          hidden: true,
+        },
       },
 
       {
@@ -408,7 +420,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                 {
                   name: 'youtube',
                   // emptyTitle: true,
-                  // Ya se edita en social_networks: acá sólo se muestra el widget.
+                  // Ya se edita en social_networks: acá sólo se muestra el widget de sólo lectura.
                   formMetaData: { hidden: true },
                   components: [
                     {
@@ -418,6 +430,15 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                       data: {
                         params: {
                           videoURL: 'youtube_widget_id',
+                        },
+                      },
+                      formMetaData: {
+                        fields: {
+                          youtube_widget_id: {
+                            inputType: 'text',
+                            description: 'youtube_widget_id_description',
+                            componentParams: { transformValue: extractYoutubeVideoId },
+                          },
                         },
                       },
                     },
@@ -442,6 +463,9 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
                       data: {},
                     },
                   ],
+                  formMetaData: {
+                    hidden: true,
+                  },
                 },
               ],
               iconDirection: 'vertical',
@@ -451,7 +475,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
       },
       {
         name: 'gallery',
-        hidden: fullyHiddenSectionsByEnvironment(['prod']),
+        hidden: fullyHiddenSectionsByEnvironment(['prod', 'dev']),
         components: [
           {
             componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
@@ -498,15 +522,18 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             },
           },
         ],
+        formMetaData: {
+          hidden: true,
+        },
       },
       {
         name: 'awards',
-        hidden: fullyHiddenSectionsByEnvironment(['prod']),
+        hidden: fullyHiddenSectionsByEnvironment(['prod', 'dev']),
+        formMetaData: {
+          hidden: true,
+        },
       },
     ],
-    formMetaData: {
-      hidden: true,
-    },
   },
   // {
   //   name: 'requirements',

@@ -1057,6 +1057,10 @@ export const ItMessages = {
                   attributes: {
                     members: 'Membri',
                     live: 'Dal vivo',
+                    members_description:
+                      "Carica una foto in cui si vedano i volti di tutti i membri. Aiuta chi organizza a sapere chi c'è dietro il progetto.",
+                    live_description:
+                      "Carica una foto della band dal vivo, che mostri come appare lo spettacolo sul palco. Dà a chi organizza un'idea reale dello show.",
                   },
                 },
                 live_gallery: {
@@ -1147,6 +1151,10 @@ export const ItMessages = {
                 },
                 media_channels: {
                   name: 'Canali Multimediali',
+                  attributes: {
+                    youtube_widget_id_description:
+                      'Aggiungi il link YouTube del tuo miglior video promozionale o teaser',
+                  },
                 },
                 gallery: {
                   name: 'Galleria',

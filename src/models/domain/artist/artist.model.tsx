@@ -142,6 +142,7 @@ export interface ArtistTemplate extends ProfileTemplate {
   whatsapp: string;
   facebook: string;
   instagram: string;
+  tidal: string;
   spotify: string;
   youtube: string;
   youtube_widget_id: string;
@@ -208,6 +209,7 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
   declare facebook: string;
   declare instagram: string;
   declare spotify: string;
+  declare tidal: string;
   declare youtube: string;
   declare youtube_widget_id: string;
 

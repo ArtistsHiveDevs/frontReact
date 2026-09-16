@@ -59,4 +59,5 @@ export interface DynamicFieldData {
   error?: FieldErrors<FieldValues>;
   focused?: boolean;
   externalData?: any;
+  description?: string;
 }

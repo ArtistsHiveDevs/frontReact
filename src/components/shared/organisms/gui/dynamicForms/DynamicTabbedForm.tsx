@@ -140,6 +140,28 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
     return '';
   };
 
+  /**
+   * Traduce el texto de ayuda (`description`) de un campo. El valor declarado en la config no es
+   * el texto en sí, sino el nombre de la key de traducción (mismo criterio que `getAttributeTitle`):
+   * usa `translationPath` si el atributo lo trae, o si no cae al patrón por defecto de `attributes.*`.
+   */
+  const getAttributeDescription = (
+    subpageName: string,
+    sectionName: string,
+    descriptionKey?: string,
+    translationPath?: string
+  ): string | undefined => {
+    if (!descriptionKey) {
+      return undefined;
+    }
+    if (translationPath) {
+      return translateText(`${translationPath}.${descriptionKey}`);
+    }
+    return translateText(
+      `${translationBasePath}.subpages.${subpageName}.sections.${sectionName}.attributes.${descriptionKey}`
+    );
+  };
+
   interface FieldPathInfo {
     subpageLabel: string;
     sectionLabel?: string;
@@ -239,16 +261,21 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
       options: componentOptions,
       nestedOptions: componentNestedOptions,
       externalData: fieldExternalData[componentDescriptor?.formMetaData?.fieldName] || {},
+      description: getAttributeDescription(
+        subpage.name,
+        section.name,
+        componentDescriptor?.formMetaData?.description,
+        componentParamsComponent?.translationPath
+      ),
     };
 
     let addComponentField = false;
 
     if (componentDescriptor.componentName === ComponentTypes.ATTRIBUTES_ICON_FIELDS) {
-      (componentDescriptor.data?.attributes || [])
-        .filter((attributeInfo: AttributeConfiguration) => isVisible(attributeInfo.formMetaData, entityData))
-        .forEach((attributeInfo: AttributeConfiguration, index: number) => {
-          const { formMetaData } = attributeInfo;
+      (componentDescriptor.data?.attributes || []).forEach((attributeInfo: AttributeConfiguration, index: number) => {
+        const { formMetaData } = attributeInfo;
 
+        if (isVisible(formMetaData, entityData)) {
           let inputType: ControlType = formMetaData?.inputType || 'text';
 
           const socialNetwork = SocialNetworks[attributeInfo.name];
@@ -309,6 +336,12 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
             nestedOptions: attributeNestedOptions,
             defaultValue: currentValue,
             externalData: { ...fieldExternalData, elementData: entityData },
+            description: getAttributeDescription(
+              subpage.name,
+              section.name,
+              formMetaData?.description,
+              attributeInfo.translationPath
+            ),
           };
 
           const field = (
@@ -321,7 +354,48 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
           );
 
           fields.push(field);
+        }
+
+        (attributeInfo.components || []).forEach((comp: ComponentDescriptor, compIdx: number) => {
+          const widgetFields = comp.formMetaData?.fields || {};
+          Object.entries(widgetFields).forEach(([widgetFieldName, widgetFieldMeta], fieldIdx: number) => {
+            if (!isVisible(widgetFieldMeta, entityData)) {
+              return;
+            }
+
+            const widgetInputType: ControlType = widgetFieldMeta.inputType || 'text';
+            const widgetCurrentValue = elementData
+              ? (elementData[widgetFieldName as keyof typeof elementData] ?? widgetFieldMeta.defaultValue)
+              : widgetFieldMeta.defaultValue;
+
+            let widgetComponentParams = widgetFieldMeta.componentParams || {};
+            const widgetFieldExternalData = externalData || {};
+            if (widgetFieldExternalData && widgetFieldExternalData[widgetFieldName]) {
+              widgetComponentParams = { ...widgetComponentParams, ...widgetFieldExternalData[widgetFieldName] };
+            }
+
+            const widgetFieldData: DynamicFieldData = {
+              inputType: widgetInputType,
+              fieldName: widgetFieldName,
+              fieldNamePrefix: widgetFieldMeta.namePrefix,
+              componentParams: widgetComponentParams,
+              config: widgetFieldMeta.config || {},
+              defaultValue: widgetCurrentValue,
+              externalData: { ...widgetFieldExternalData, elementData: entityData },
+              description: getAttributeDescription(subpage.name, section.name, widgetFieldMeta.description),
+            };
+
+            fields.push(
+              <DynamicControl
+                fieldData={widgetFieldData}
+                errors={errors}
+                handlers={handlers}
+                key={`${attributeInfo.name}-widget-field-${widgetFieldName}-${index}-${compIdx}-${fieldIdx}`}
+              />
+            );
+          });
         });
+      });
     } else if (componentDescriptor?.formMetaData?.inputType === 'address') {
       componentFieldData.inputType = 'address';
       addComponentField = true;
@@ -667,6 +741,7 @@ export const DynamicTabbedForm = forwardRef<DynamicTabbedFormRef, DynamicTabbedF
               formMethods={formMethods}
               customHeaderConfig={customHeaderConfig}
               enableUsernameValidation={enableUsernameValidation}
+              resourceConfig={resourceConfig}
             />
           )}
           <TabbedPanel

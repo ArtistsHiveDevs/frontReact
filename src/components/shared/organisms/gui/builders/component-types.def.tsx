@@ -115,4 +115,6 @@ export interface FormMetadata {
   editForm?: FormMetadata;
   hidden?: boolean;
   externalData?: any;
+  description?: string;
+  fields?: { [fieldName: string]: FormMetadata };
 }

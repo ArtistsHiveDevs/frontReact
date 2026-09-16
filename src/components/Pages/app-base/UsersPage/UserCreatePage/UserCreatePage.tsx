@@ -117,30 +117,14 @@ const UserCreatePage = () => {
 
   const handlers = {
     onSubmit: async (data: any) => {
-      // console.log('#####----------->>>>  !!! ', data);
-      if (!!data.profile_pic) {
-        const prefferedFilename = `${loggedUser.identifier}.${data.profile_pic.name.split('.').pop()}`;
-        console.log('FILE USUARIO ', loggedUser, prefferedFilename);
-        // console.log('DESPUÉS de SUBIR FOTO, ', response);
-        dispatch(
-          userActions.updateUser({
-            id: loggedUser.identifier,
-            newItem: {
-              ...data,
-              profile_pic: `${import.meta.env.VITE_REPO}${prefferedFilename}`,
-            },
-          })
-        );
-      } else {
-        dispatch(
-          userActions.updateUser({
-            id: loggedUser.identifier,
-            newItem: {
-              ...data,
-            },
-          })
-        );
-      }
+      dispatch(
+        userActions.updateUser({
+          id: loggedUser.identifier,
+          newItem: {
+            ...data,
+          },
+        })
+      );
       setUpdateRequestSended(true);
     },
   };
@@ -166,6 +150,9 @@ const UserCreatePage = () => {
           stage_languages: availableLanguages,
         }}
         onlyModifiedFields={true}
+        resourceConfig={
+          loggedUser?.identifier ? { resourceType: 'profiles', identifier: loggedUser.identifier } : undefined
+        }
       />
       <IndustrySignUpBanner />
       <AppDialog

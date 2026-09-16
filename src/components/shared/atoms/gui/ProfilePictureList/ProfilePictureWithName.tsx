@@ -1,5 +1,6 @@
 import { Avatar } from '@mui/material';
 import { KeyboardEventHandler, MouseEvent, useEffect, useState } from 'react';
+import { useS3Url } from '~/common/hooks/useS3Url';
 import { ProfileSummaryDialog } from '~/components/Pages/domain/ProfilePreview/ProfileSummaryDialog';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
@@ -47,10 +48,9 @@ export interface ProfilePictureWithNameParams<T extends ProfilePictureWithNameEl
   showProfileSummary?: boolean;
   /**
    * Datos completos de la entidad para el ProfileSummaryDialog. Pásalo cuando ya tengas el objeto
-   * completo a mano (ej. un artista poblado dentro de otra entidad): evita un fetch extra y, sobre
-   * todo, evita depender de que `element.identifier` matchee el id bajo el que Redux guardó la
-   * entidad (puede no coincidir si el sub-documento poblado no pasó por el mismo masking sID/_id).
-   * Si no se pasa, el diálogo la busca por `element.entity` + `element.identifier`/`id`.
+   * completo a mano (ej. un artista poblado dentro de otra entidad): evita un fetch extra y es más
+   * confiable que depender del id. Si no se pasa, el diálogo la busca por `element.entity` +
+   * `element.identifier`/`id`.
    */
   profileSummaryData?: EntityModel<EntityTemplate>;
 }
@@ -88,29 +88,36 @@ export function ProfilePictureWithName<T extends ProfilePictureWithNameElement>(
     styles?.avatarSize || (direction === ProfilePictureWithNameConstants.DISPLAY_VERTICAL ? 4 : 2)
   }rem`;
 
-  // `profile_pic` puede venir como ruta de S3, que sólo se resuelve a URL firmada de forma asíncrona.
-  const [imageURL, setImageURL] = useState<string>(undefined);
+  // `profile_pic` puede venir como ruta "r://" o "s3://": useS3Url la resuelve a URL usable
+  // (sync para "r://", async con caché para "s3://"). Cuando el elemento trae su propio
+  // `avatarURL()` (instancia de modelo) se usa ese, que internamente ya resuelve lo mismo.
+  const resolvedProfilePicURL = useS3Url(element?.profile_pic);
+  const [avatarCallbackURL, setAvatarCallbackURL] = useState<string>(undefined);
 
   const displayName = element?.nameKnownAs || element?.name || `@${element?.identifier}`;
 
   useEffect(() => {
     let cancelled = false;
 
-    const resolveProfilePicURL = async () => {
-      const photoURL = !!element?.avatarURL ? await element.avatarURL() : element?.profile_pic;
+    const resolveAvatarCallbackURL = async () => {
+      const photoURL = await element.avatarURL();
       if (!cancelled) {
-        setImageURL(photoURL);
+        setAvatarCallbackURL(photoURL);
       }
     };
 
-    if (!!element) {
-      resolveProfilePicURL();
+    if (element?.avatarURL) {
+      resolveAvatarCallbackURL();
+    } else {
+      setAvatarCallbackURL(undefined);
     }
 
     return () => {
       cancelled = true;
     };
   }, [element]);
+
+  const imageURL = element?.avatarURL ? avatarCallbackURL : resolvedProfilePicURL;
 
   // Cuando la lista permite selección el click resalta el perfil; si no, navega hacia él.
   const onClickProfile = () => {

@@ -150,8 +150,7 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
           // El campo suelto es el fallback para respuestas que todavía no traen el id dentro del array.
           defaultValueObj.country = item.id || elementData[`${fieldData.fieldName}_country`];
           // `value` en el nivel country es el código alpha2 (ver enrichLocationData/formatLocationLevels).
-          // El `id` que persiste este nivel puede no coincidir con el sID real de la colección Country
-          // (ver countryAlpha2 fallback en el matching de availableCountries), así que se guarda aparte.
+          // Se guarda aparte como respaldo para el matching de availableCountries (ver countryAlpha2 abajo).
           defaultValueObj.countryAlpha2 = item.value;
         } else if (item.level === 'state') {
           defaultValueObj.level1 = item.id;
@@ -232,9 +231,8 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
     dispatch(countryActions.loadItems({}));
   }, [dispatch, countryActions]);
 
-  // Busca el país por identifier y, si no matchea, por alpha2. El `id` persistido en
-  // `<fieldName>Data` puede no coincidir con el sID real de la colección Country (datos legacy
-  // o seeds desincronizados); el alpha2 es un código estable que sí se puede cruzar entre ambas fuentes.
+  // Busca el país por identifier y, si no matchea, por alpha2 como respaldo (código estable
+  // que siempre se puede cruzar contra availableCountries).
   const findMatchingCountry = (countries: CountryModel[], value: { country?: string; countryAlpha2?: string }) => {
     if (!value?.country && !value?.countryAlpha2) return undefined;
     return (

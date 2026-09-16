@@ -6,6 +6,7 @@ import { getStoredUserIdToken } from '~/common/slices/app-base/APIKey/saga';
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
+import { uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
 import { USERNAME_FORMAT_PATTERN, debouncedUsernameValidation } from '~/common/utils/validation/username-validation';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import VerifiedArtist from '~/components/shared/VerifiedArtist';
@@ -48,12 +49,13 @@ export const ProfileHeader = (props: any) => {
     customHeaderConfig,
     showFollowerCounter = true,
     enableUsernameValidation = true,
+    resourceConfig,
   } = props;
 
   const elementAsProfileModel = element as ProfileModel<PlaceModel>;
 
   const isEditable = !!formMethods;
-  const { register, formState } = formMethods || {};
+  const { register, formState, setValue } = formMethods || {};
   const { errors } = formState || {};
 
   const avatarSize = 120;
@@ -102,9 +104,7 @@ export const ProfileHeader = (props: any) => {
 
   const { setFocus } = formMethods || {};
 
-  const [profilePictureConfig, setProfilePictureConfig] = useState({
-    value: undefined,
-  });
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
 
   const loggedUser = useSelector(selectCurrentUser);
 
@@ -253,13 +253,35 @@ export const ProfileHeader = (props: any) => {
     _setImage(newImage);
   };
 
-  const handleOnChange = (event: any) => {
+  const handleOnChange = async (event: any) => {
     const newImage = event.target?.files?.[0];
 
-    if (newImage) {
-      setImage(URL.createObjectURL(newImage));
+    if (!newImage) {
+      return;
+    }
 
-      setProfilePictureConfig({ ...profilePictureConfig, value: newImage });
+    // Preview inmediata mientras se sube el archivo.
+    setImage(URL.createObjectURL(newImage));
+    setIsUploadingPhoto(true);
+
+    try {
+      const uploadPath = resourceConfig
+        ? `${resourceConfig.resourceType}/${resourceConfig.identifier}/profile_pic`
+        : 'profile_pic';
+
+      const response = await uploadFileToServer({ file: newImage, path: uploadPath });
+
+      if (!response) {
+        console.error('No se pudo subir la foto de perfil.');
+        return;
+      }
+
+      // Mismo formato que usa el resto del formulario para archivos subidos (ver
+      // updateFileUploadAddElements en DynamicTabbedForm): "r://" + la ruta relativa
+      // en el bucket, que luego getS3UrlWithCache resuelve a una URL firmada.
+      setValue?.('profile_pic', `r://${response.customPath}`, { shouldDirty: true, shouldValidate: true });
+    } finally {
+      setIsUploadingPhoto(false);
     }
   };
 
@@ -275,7 +297,8 @@ export const ProfileHeader = (props: any) => {
   };
 
   if (isEditable) {
-    register('profile_pic', profilePictureConfig);
+    // El valor real se escribe con setValue() en handleOnChange, una vez subido el archivo.
+    register('profile_pic');
   }
 
   const handleCloseZoomDialog = () => {
@@ -341,13 +364,20 @@ export const ProfileHeader = (props: any) => {
       <div ref={headerRef} className={['profile-header', `profile-entity-${borderProfileColor}-item`].join(' ')}>
         {isEditable && (
           <div className="profile-avatar-border">
-            <input accept="image/*" id="profile-pic-button-file" type="file" hidden onChange={handleOnChange} />
+            <input
+              accept="image/*"
+              id="profile-pic-button-file"
+              type="file"
+              hidden
+              disabled={isUploadingPhoto}
+              onChange={handleOnChange}
+            />
             <label htmlFor="profile-pic-button-file">
-              <IconButton color="primary" component="span">
+              <IconButton color="primary" component="span" disabled={isUploadingPhoto}>
                 <Avatar
                   src={image}
                   alt={element?.name}
-                  sx={{ width: avatarSize, height: avatarSize, border: '2px solid white' }}
+                  sx={{ width: avatarSize, height: avatarSize, border: '2px solid white', opacity: isUploadingPhoto ? 0.5 : 1 }}
                   className={errors && errors['profile_pic'] && 'error-profile-pic'}
                 />
               </IconButton>

@@ -7,7 +7,7 @@ import { selectorLanguages, useLanguagesSlice } from '~/common/slices/parametric
 import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
-import { getImageURL, uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
+import { getImageURL } from '~/common/utils/amplify/storage/storage.helpers';
 import { getMusicGenreTypeOptions } from '~/common/utils/form-options/music-genre-options.helper';
 import { getGenderIdentityOptions, getGenderOptions } from '~/common/utils/form-options/user-options.helper';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
@@ -133,7 +133,6 @@ const ArtistsCreatePage = () => {
     onSubmit: async (data: any) => {
       const submitData = buildSubmitData(data);
       if (!currentArtist) {
-        await uploadFileToServer({ file: submitData.profile_pic });
         dispatch(artistsActions.createItem({ data: submitData }));
       } else {
         const updatePayload = {

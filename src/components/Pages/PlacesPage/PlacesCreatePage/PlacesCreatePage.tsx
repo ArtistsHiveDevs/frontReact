@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
 import { useI18n } from '~/common/utils';
-import { uploadFileToServer } from '~/common/utils/amplify/storage/storage.helpers';
 import { getPlaceTypeOptions } from '~/common/utils/form-options';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { GenericCrudErrorCode, RootState } from '~/common/utils/redux-injectors/types';
@@ -99,7 +98,7 @@ const PlacesCreatePage = () => {
 
     Array(20)
       .fill('x')
-      .forEach((valu, number) =>
+      .forEach((_valu, number) =>
         langsOR.forEach((lng) =>
           langs.push({
             label: `${lng.label}${number}`,
@@ -119,12 +118,10 @@ const PlacesCreatePage = () => {
   }, []);
 
   const handlers = {
-    onSubmit: async (data: any, error?: any) => {
+    onSubmit: async (data: any, _error?: any) => {
       if (!requestHasBeenSended) {
         setHasAttemptedSubmit(true);
         if (!currentPlace) {
-          const response = await uploadFileToServer({ file: data.profile_pic });
-
           dispatch(placesActions.createItem({ data }));
         } else {
           dispatch(

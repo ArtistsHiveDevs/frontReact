@@ -80,6 +80,22 @@
   &:hover {
     background-color: rgba($links-color, 0.08);
   }
+
+  &--resolved {
+    background-color: rgba(#4caf50, 0.08);
+
+    &:hover {
+      background-color: rgba(#4caf50, 0.14);
+    }
+  }
+
+  &--pending {
+    background-color: rgba(#ff9800, 0.08);
+
+    &:hover {
+      background-color: rgba(#ff9800, 0.14);
+    }
+  }
 }
 
 .profile-claim-detail {

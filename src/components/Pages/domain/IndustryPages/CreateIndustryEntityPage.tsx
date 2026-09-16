@@ -62,7 +62,7 @@ const CreateIndustryEntityPage = () => {
   const claimFeedback = useSelector(selectClaimFeedback);
   const profileClaims: ProfileClaimModel[] = useSelector(selectorProfileClaims.selectItems);
   const profileClaimsLoading: boolean = useSelector(selectorProfileClaims.selectLoading);
-  const [claimStatusFilter, setClaimStatusFilter] = useState<'all' | 'resolved' | 'pending'>('all');
+  const [claimStatusFilter, setClaimStatusFilter] = useState<'all' | 'resolved' | 'pending'>('pending');
   const filteredProfileClaims = profileClaims.filter((claim) => {
     if (claimStatusFilter === 'resolved') return claim.isResolved;
     if (claimStatusFilter === 'pending') return !claim.isResolved;
@@ -589,8 +589,14 @@ const CreateIndustryEntityPage = () => {
             {filteredProfileClaims.map((claim) => (
               <div
                 key={claim.id}
-                className="profile-claim-item"
-                onClick={() => prefillSearchFromClaim(claim)}
+                className={`profile-claim-item ${
+                  claim.isResolved ? 'profile-claim-item--resolved' : 'profile-claim-item--pending'
+                }`}
+                onClick={() => {
+                  if (!claim.isResolved) {
+                    prefillSearchFromClaim(claim);
+                  }
+                }}
                 title="Click para prellenar la búsqueda de asociación"
               >
                 <div>

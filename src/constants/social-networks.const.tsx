@@ -55,7 +55,9 @@ export function extractYoutubeVideoId(rawValue: string): string {
     return rawValue;
   }
   const value = rawValue.trim();
-  const match = value.match(/(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtube\.com\/shorts\/|youtu\.be\/)([\w-]{11})/i);
+  const match = value.match(
+    /(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtube\.com\/shorts\/|youtu\.be\/)([\w-]{11})/i
+  );
   return match ? match[1] : value;
 }
 
@@ -323,12 +325,12 @@ export function buildSocialNetworkLinkData(socialNetworkName: string, mainValue:
 }
 
 export const ARTISTS_HIVE_SOCIAL_NETWORKS = {
-  facebook: 'artistshive',
+  // facebook: 'artistshive',
   instagram: 'artist_hive_',
-  tiktok: 'artist.hive',
-  twitch: 'artistshive',
-  twitter: 'artistshivecom',
-  youtube: 'ArtistsHive',
+  // tiktok: 'artist.hive',
+  // twitch: 'artistshive',
+  // twitter: 'artistshivecom',
+  // youtube: 'ArtistsHive',
 };
 
 export interface SocialNetworkStatsTemplate {

@@ -1,10 +1,6 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { Box, Typography } from '@mui/material';
 
 const ContactUsPage = () => {
-
-
   //   //   const markdown = `A paragraph with *emphasis* and **strong importance**.
 
   //   // > A block quote with ~strikethrough~ and a URL: https://reactjs.org.
@@ -61,105 +57,106 @@ const ContactUsPage = () => {
 
   // ## Sede central de Spotify
 
-  // **Spotify AB**  
-  // Regeringsgatan 19  
-  // SE-111 53 Stockholm  
-  // Sweden  
-  // Reg no: 556703-7485  
+  // **Spotify AB**
+  // Regeringsgatan 19
+  // SE-111 53 Stockholm
+  // Sweden
+  // Reg no: 556703-7485
   // office@spotify.com
 
   // ## Spotify en todo el mundo
 
-  // **Spotify Belgium**  
-  // Square de Meeus 37  
-  // 4th floor  
-  // 1000 Brussels  
-  // Belgium  
+  // **Spotify Belgium**
+  // Square de Meeus 37
+  // 4th floor
+  // 1000 Brussels
+  // Belgium
   // office@spotify.com
 
-  // **Spotify GmbH**  
-  // Unter den Linden 10  
-  // 10117 Berlin  
-  // Germany  
+  // **Spotify GmbH**
+  // Unter den Linden 10
+  // 10117 Berlin
+  // Germany
   // office@spotify.com
 
-  // **Spotify Canada Inc.**  
-  // 220 Adelaide Street West  
-  // M5H 1W7 Toronto Ontario  
-  // Canada  
+  // **Spotify Canada Inc.**
+  // 220 Adelaide Street West
+  // M5H 1W7 Toronto Ontario
+  // Canada
   // office@spotify.com
 
-  // **Spotify Denmark ApS**  
-  // Vestergade 27, 1 th  
-  // 1456 København K  
-  // Denmark  
+  // **Spotify Denmark ApS**
+  // Vestergade 27, 1 th
+  // 1456 København K
+  // Denmark
   // office@spotify.com
 
-  // **SPOTIFY SPAIN SL**  
-  // Paseo de Recoletos, 7-9  
-  // 28004 Madrid  
-  // Spain  
+  // **SPOTIFY SPAIN SL**
+  // Paseo de Recoletos, 7-9
+  // 28004 Madrid
+  // Spain
   // office@spotify.com
 
-  // **Spotify Finland Oy**  
-  // Merimiehenkatu 36 D  
-  // FI-00150 Helsinki  
-  // Finland  
+  // **Spotify Finland Oy**
+  // Merimiehenkatu 36 D
+  // FI-00150 Helsinki
+  // Finland
   // office@spotify.com
 
-  // **Spotify France SAS**  
-  // 48 Rue la Bruyère  
-  // 75009  
-  // Paris  
-  // France  
+  // **Spotify France SAS**
+  // 48 Rue la Bruyère
+  // 75009
+  // Paris
+  // France
   // office@spotify.com
 
-  // **Spotify India LLP**  
-  // Regus, North F/A-4,  
-  // Floor 1st,A Block,  
-  // Shivsagar Estate, Dr Annie Besant Road,  
-  // Worli, Mumbai Mumbai City,  
-  // MH 400018 INDIA  
+  // **Spotify India LLP**
+  // Regus, North F/A-4,
+  // Floor 1st,A Block,
+  // Shivsagar Estate, Dr Annie Besant Road,
+  // Worli, Mumbai Mumbai City,
+  // MH 400018 INDIA
   // office@spotify.com
 
-  // **Spotify Italy S.r.l.**  
-  // Via Joe Colombo 4  
-  // 20124 Milano  
-  // Italy  
+  // **Spotify Italy S.r.l.**
+  // Via Joe Colombo 4
+  // 20124 Milano
+  // Italy
   // office@spotify.com
 
-  // **Spotify Netherlands**  
-  // Singel 540 3h  
-  // 1017AZ, Amsterdam  
-  // Netherlands  
+  // **Spotify Netherlands**
+  // Singel 540 3h
+  // 1017AZ, Amsterdam
+  // Netherlands
   // office@spotify.com
 
-  // **Spotify Ltd**  
-  // Adelphi Building  
-  // 4 Savoy Place  
-  // London WC2N 6AT  
-  // United Kingdom  
+  // **Spotify Ltd**
+  // Adelphi Building
+  // 4 Savoy Place
+  // London WC2N 6AT
+  // United Kingdom
   // office@spotify.com
 
-  // **Spotify USA Inc**  
-  // 4 World Trade Center  
-  // 150 Greenwich Street, 62nd Floor  
-  // New York, NY 10007  
-  // USA  
+  // **Spotify USA Inc**
+  // 4 World Trade Center
+  // 150 Greenwich Street, 62nd Floor
+  // New York, NY 10007
+  // USA
   // office@spotify.com
 
-  // **Spotify Mexico**  
-  // Pedregal 24 Torre Virreyes Piso 8  
-  // Col. Molino del Rey  
-  // DF 11040  
-  // Mexico  
+  // **Spotify Mexico**
+  // Pedregal 24 Torre Virreyes Piso 8
+  // Col. Molino del Rey
+  // DF 11040
+  // Mexico
   // office@spotify.com
 
-  // **Spotify Israel**  
+  // **Spotify Israel**
   // office@spotify.com`;
   //   return <ReactMarkdown children={markdown} remarkPlugins={[remarkGfm]} />;
 
-  return <Box
+  return (
+    <Box
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -172,23 +169,31 @@ const ContactUsPage = () => {
       <Typography variant="h4" sx={{ marginBottom: '20px', fontWeight: 'bold' }}>
         Contáctenos
       </Typography>
-      
+
       <Typography variant="body1" sx={{ marginBottom: '10px' }}>
         Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos. Estamos aquí para ayudarte.
       </Typography>
 
       <Box sx={{ marginBottom: '20px', textAlign: 'center' }}>
         <Typography variant="h6">Soporte Técnico</Typography>
-        <Typography variant="body1">Correo electrónico: <a href="mailto:support.it@artist-hive.com">support.it@artist-hive.com</a></Typography>
-        <Typography variant="body1">Número de contacto (Llamadas): <a href="tel:+573104941440">+57 310 494 1440</a></Typography>
-        <Typography variant="body1">WhatsApp: <a href="https://wa.me/573104941440?text=Hola!">+57 310 494 1440</a></Typography>
+        <Typography variant="body1">
+          Correo electrónico: <a href="mailto:soporte@artist-hive.com">soporte@artist-hive.com</a>
+        </Typography>
+        <Typography variant="body1">
+          Número de contacto (Llamadas): <a href="tel:+573104941440">+57 310 494 1440</a>
+        </Typography>
+        <Typography variant="body1">
+          WhatsApp: <a href="https://wa.me/573104941440?text=Hola!">+57 310 494 1440</a>
+        </Typography>
       </Box>
 
       <Box sx={{ marginBottom: '20px', textAlign: 'center' }}>
         <Typography variant="h6">Consultas Generales</Typography>
-        <Typography variant="body1">Correo electrónico: <a href="mailto:info@artist-hive.com">info@artist-hive.com</a></Typography>
+        <Typography variant="body1">
+          Correo electrónico: <a href="mailto:info@artist-hive.com">info@artist-hive.com</a>
+        </Typography>
       </Box>
-{/* 
+      {/* 
       <Typography variant="h5" sx={{ marginBottom: '10px', fontWeight: 'bold' }}>
         Envíanos un mensaje
       </Typography>
@@ -233,6 +238,7 @@ const ContactUsPage = () => {
         </Button>
       </Box> */}
     </Box>
-  };
+  );
+};
 
-  export default ContactUsPage;
+export default ContactUsPage;

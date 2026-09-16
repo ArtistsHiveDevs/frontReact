@@ -175,6 +175,19 @@
       gap: 1rem;
       padding: 1rem 0;
     }
+
+    // ─── Grid de solicitudes recibidas ───
+    .applications-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 270px));
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .application-card {
+      margin-bottom: 1rem;
+      min-width: 0; // evita que el contenido interno agrande la columna del grid
+    }
   }
 
   // ─── Navigation buttons ───

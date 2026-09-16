@@ -59,10 +59,10 @@ const ApplicationCard = ({ application, canModerate, isUpdating, onAccept, onRej
 
   return (
     <div
+      className="application-card"
       style={{
         border: '1px solid rgba(255,255,255,0.15)',
         borderRadius: '8px',
-        marginBottom: '16px',
         backgroundColor: 'rgba(255,255,255,0.03)',
         overflow: 'hidden',
       }}
@@ -322,16 +322,18 @@ const OpenCallDetailsPage = () => {
               {!applicationsLoading && applicationsForThisOpenCall.length === 0 && (
                 <p>{translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.no_applications_yet`)}</p>
               )}
-              {applicationsForThisOpenCall.map((application) => (
-                <ApplicationCard
-                  key={application.id}
-                  application={application}
-                  canModerate
-                  isUpdating={applicationsLoading && updatingApplicationId === application.id}
-                  onAccept={() => handleSetStatus(application, 'accepted')}
-                  onReject={() => handleSetStatus(application, 'rejected')}
-                />
-              ))}
+              <div className="applications-grid">
+                {applicationsForThisOpenCall.map((application) => (
+                  <ApplicationCard
+                    key={application.id}
+                    application={application}
+                    canModerate
+                    isUpdating={applicationsLoading && updatingApplicationId === application.id}
+                    onAccept={() => handleSetStatus(application, 'accepted')}
+                    onReject={() => handleSetStatus(application, 'rejected')}
+                  />
+                ))}
+              </div>
             </>
           )}
 

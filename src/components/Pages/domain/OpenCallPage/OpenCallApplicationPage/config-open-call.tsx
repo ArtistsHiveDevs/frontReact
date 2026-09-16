@@ -598,7 +598,7 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
                 // },
                 {
                   name: 'crew_count',
-                  title: 'Personas en el crew',
+                  title: 'Personas en el crew (Especificar músicos en tarima y equipo técnico y apoyo)',
                   formMetaData: {
                     inputType: 'number',
                     componentParams: { placeholder: 'Ej: 2' },

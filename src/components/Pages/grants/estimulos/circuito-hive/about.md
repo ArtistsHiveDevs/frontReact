@@ -4,7 +4,7 @@
 
 **Circulación musical justa para el ecosistema independiente.**
 
-Conectamos artistas nacionales con escenarios independientes de [Bogotá](/circuito-hive-2026/bogota), Medellín y Cali a través de convocatorias abiertas, con pago fijo garantizado para ambos promoviendo la equidad de género.
+Conectamos artistas nacionales con escenarios independientes de [Bogotá](/circuito-hive-2026/bogota), [Medellín](/circuito-hive-2026/medellin) y Cali a través de convocatorias abiertas, con pago fijo garantizado para ambos promoviendo la equidad de género.
 
 ![Circuito Hive 2026](../img/CH2026_pg.jpg)
 
@@ -20,7 +20,7 @@ Adicionalmente, la brecha de género es enorme: solo 1 de cada 5 presentaciones 
 
 - **6 eventos** donde se reunirán entre 3 y 4 proyectos musicales.
 - **18 a 24 artistas** seleccionados por convocatoria abierta a través de Artist Hive.
-- **6 escenarios** aliados en 3 ciudades ([Bogotá](/circuito-hive-2026/bogota), Medellín y Cali)
+- **6 escenarios** aliados en 3 ciudades ([Bogotá](/circuito-hive-2026/bogota), [Medellín](/circuito-hive-2026/medellin) y Cali)
 - **Pago fijo** para artistas (hasta $700.000 por proyecto musical) y escenario -venues- ($500.000 c/u), aparte de los ingresos por boletería.
 - **Apoyo a transporte** para artistas seleccionados que residan fuera de las ciudades sede. (Hasta $400.000)
 - **Boletería** distribuida entre todos los beneficiarios (artistas y escenario)
@@ -47,27 +47,27 @@ Del miércoles 09 de septiembre al **martes 15 de septiembre 11:59pm (GMT-5)**
 - **Evento 1:** Viernes 25 de Septiembre 8pm
 - **Evento 2:** Sábado 26 de Septiembre 8pm
 
+### Medellín
+
+**Convocatoria para artistas:**
+
+Del miércoles 16 de septiembre al **domingo 27 de septiembre 11:59pm (GMT-5)**
+
+**Eventos:**
+
+- **Evento 1:** Miércoles 07 de Octubre (7pm)
+- **Evento 2:** Jueves 08 de Octubre (7pm)
+
 ### Cali
 
 **Convocatoria para artistas:**
 
-Del lunes 14 de septiembre al **domingo 20 de septiembre 11:59pm (GMT-5)**
+Por confirmar
 
 **Eventos:**
 
 - **Evento 1:** Fecha por confirmar (8pm)
 - **Evento 2:** Fecha por confirmar (6pm)
-
-### Medellín
-
-**Convocatoria para artistas:**
-
-Del lunes 21 de septiembre al **domingo 27 de septiembre 11:59pm (GMT-5)**
-
-**Eventos:**
-
-- **Evento 1:** Fecha por confirmar (8pm)
-- **Evento 2:** Jueves 08 de Octubre (7pm)
 
 ## ¿Cómo aplicar?
 

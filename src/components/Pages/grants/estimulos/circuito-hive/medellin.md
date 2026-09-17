@@ -18,7 +18,7 @@
 
 📅 Miércoles 07 de Octubre (7pm)
 
-👉 [Ver convocatoria y aplicar]
+👉 [Ver convocatoria y aplicar](https://artist-hive.com/open-calls/details/YWbVbkAUCR)
 
 ---
 
@@ -32,7 +32,7 @@
 
 📅 Jueves 08 de Octubre de 2026 - (7pm)
 
-👉 [Ver convocatoria y aplicar]
+👉 [Ver convocatoria y aplicar](https://artist-hive.com/open-calls/details/481gDMPlQ1)
 
 ---
 

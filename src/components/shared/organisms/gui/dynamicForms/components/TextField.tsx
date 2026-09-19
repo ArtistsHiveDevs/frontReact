@@ -33,6 +33,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
     componentParams = {},
     focused = false,
     description,
+    readOnly = false,
   } = fieldData;
 
   if (inputType === 'email' && !config.pattern) {
@@ -102,10 +103,12 @@ export const createTextField = (params: ComponentGeneratorParams) => {
     inputProps: { max?: number; min?: number };
     startAdornment?: any;
     endAdornment?: any;
+    readOnly?: boolean;
   } = {
     inputProps: {},
     startAdornment,
     endAdornment: componentParams?.endAdornment,
+    readOnly,
   };
 
   if (inputType === 'number') {
@@ -204,6 +207,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
       focused={focused}
       variant={variant}
       fullWidth
+      sx={readOnly ? { pointerEvents: 'auto' } : undefined}
       />
     </div>
   );

@@ -43,7 +43,7 @@ const ApplicationSurveyView = ({ surveyResponses }: ApplicationSurveyViewProps) 
                       return (
                         <div key={`${section.name}-${attr.name}-${attrIdx}`}>
                           <DynamicControl
-                            fieldData={attributeToDynamicField(attr)}
+                            fieldData={{ ...attributeToDynamicField(attr), readOnly: true }}
                             errors={errors}
                             handlers={{}}
                           />

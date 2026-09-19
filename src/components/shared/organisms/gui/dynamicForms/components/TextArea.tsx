@@ -11,7 +11,8 @@ export const createTextArea = (params: ComponentGeneratorParams) => {
   const finalContext = externalContext || hookContext;
   const { trigger, clearErrors, watch, setValue } = finalContext || {};
 
-  const { label, fieldName, options = [], config, componentParams = {}, placeholder = '' } = fieldData;
+  const { label, fieldName, options = [], config, componentParams = {}, placeholder = '', readOnly = false } =
+    fieldData;
 
   const { required } = config || {};
 
@@ -88,6 +89,8 @@ export const createTextArea = (params: ComponentGeneratorParams) => {
         onChange={handleChange}
         error={!!(errors && errors[fieldName])}
         helperText={errors && errors[fieldName]?.message?.toString()}
+        InputProps={{ readOnly }}
+        sx={readOnly ? { pointerEvents: 'auto' } : undefined}
       />
     </>
   );

@@ -231,7 +231,8 @@ const OpenCallDetailsPage = () => {
   // Actualizar myApplication cuando cambian applicationsForThisOpenCall o currentArtistId
   useEffect(() => {
     if (currentArtistId && applicationsForThisOpenCall.length > 0) {
-      const foundApplication = applicationsForThisOpenCall.find((app) => app.artistId === currentArtistId);
+      const foundApplication = applicationsForThisOpenCall.find((app) => app.artist?.id === currentArtistId);
+
       setMyApplication(foundApplication);
     } else {
       setMyApplication(undefined);

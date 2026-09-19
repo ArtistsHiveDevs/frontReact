@@ -128,6 +128,7 @@ export const EnMessages = {
           plural: 'Artists',
           singular: 'Artist',
           attributes: {
+            description: 'Description',
             image_members: 'Members photo',
             image_live_gallery: 'Live photo',
             members: 'Members',
@@ -1505,6 +1506,7 @@ export const EnMessages = {
             documents: 'Documents',
           },
           fields: {
+            event_type: 'Event type',
             description: 'Description',
             genres: 'Genres',
             accepted_project_types: 'Accepted project types',

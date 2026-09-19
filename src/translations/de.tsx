@@ -128,6 +128,7 @@ export const DeMessages = {
           plural: 'Künstler',
           singular: 'Künstler',
           attributes: {
+            description: 'Beschreibung',
             image_members: 'Mitgliederfoto',
             image_live_gallery: 'Live-Foto',
             members: 'Mitglieder',
@@ -1512,6 +1513,7 @@ export const DeMessages = {
             documents: 'Dokumente',
           },
           fields: {
+            event_type: 'Veranstaltungsart',
             description: 'Beschreibung',
             genres: 'Genres',
             accepted_project_types: 'Akzeptierte Projektarten',

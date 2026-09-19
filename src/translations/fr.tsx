@@ -128,6 +128,7 @@ export const FrMessages = {
           plural: 'Artistes',
           singular: 'Artiste',
           attributes: {
+            description: 'Description',
             image_members: 'Photo des membres',
             image_live_gallery: 'Photo en direct',
             members: 'Membres',
@@ -1515,6 +1516,7 @@ export const FrMessages = {
             documents: 'Documents',
           },
           fields: {
+            event_type: "Type d'événement",
             description: 'Description',
             genres: 'Genres',
             accepted_project_types: 'Types de projets acceptés',

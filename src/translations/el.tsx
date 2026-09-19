@@ -128,6 +128,7 @@ export const ElMessages = {
           plural: 'Καλλιτέχνες',
           singular: 'Καλλιτέχνης',
           attributes: {
+            description: 'Περιγραφή',
             image_members: 'Φωτογραφία μελών',
             image_live_gallery: 'Φωτογραφία ζωντανής εμφάνισης',
             members: 'Μέλη',
@@ -1512,6 +1513,7 @@ export const ElMessages = {
             documents: 'Έγγραφα',
           },
           fields: {
+            event_type: 'Τύπος εκδήλωσης',
             description: 'Περιγραφή',
             genres: 'Είδη',
             accepted_project_types: 'Αποδεκτοί τύποι έργων',

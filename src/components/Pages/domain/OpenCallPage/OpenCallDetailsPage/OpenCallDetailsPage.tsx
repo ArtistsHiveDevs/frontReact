@@ -29,7 +29,6 @@ import { PATHS, SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { OpenCallApplicationModel, OpenCallModelV1 } from '~/models/domain/open-call/v1';
-import { useProfileInfo } from '../common';
 
 const STATUS_COLORS: Record<string, string> = {
   pending: '#FFA726',
@@ -158,7 +157,6 @@ const OpenCallDetailsPage = () => {
   const openCallId = urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID];
 
   const loggedUser = useSelector(selectCurrentUser);
-  const { isPlaceProfile } = useProfileInfo();
   const { actions: usersActions } = useUsersSlice();
 
   const { actions: openCallActions } = useOpenCallsSlice();
@@ -188,6 +186,7 @@ const OpenCallDetailsPage = () => {
 
   // Estados derivados que dependen de datos asíncronos
   const [isPlaceOwner, setIsPlaceOwner] = useState(false);
+  const [isActingAsOwningPlace, setIsActingAsOwningPlace] = useState(false);
   const [applicationsForThisOpenCall, setApplicationsForThisOpenCall] = useState<OpenCallApplicationModel[]>([]);
   const [myApplication, setMyApplication] = useState<OpenCallApplicationModel | undefined>(undefined);
   const [canApplyToOpenCall, setCanApplyToOpenCall] = useState(false);
@@ -196,8 +195,6 @@ const OpenCallDetailsPage = () => {
     if (openCallId) {
       window.scrollTo(0, 0);
       dispatch(openCallActions.getItemById({ id: openCallId }));
-      // El backend ya filtra por open_call_id (ver buildOpenCallApplicationsVisibilityFilter en
-      // ah-mock-api/routes/routes.js); el .filter() de abajo queda como resguardo, no como filtro real.
       dispatch(applicationActions.loadItems({ queryParams: { open_call_id: openCallId } }));
     }
   }, [openCallId]);
@@ -216,11 +213,10 @@ const OpenCallDetailsPage = () => {
       setIsArtistProfile(isArtist);
       setCurrentArtistId(isArtist ? loggedUser?.currentProfileInfo?.id : undefined);
 
-      // Actualizar isPlaceOwner cuando cambian loggedUser o currentOpenCall
       const currentOpenCallPlaceId = currentOpenCall?.place?.identifier;
-      const placeOwner =
-        !!loggedUser && !!currentOpenCallPlaceId && loggedUser.checkPermissions(currentOpenCallPlaceId).canEdit;
-      setIsPlaceOwner(placeOwner);
+      const permissions = currentOpenCallPlaceId ? loggedUser.checkPermissions(currentOpenCallPlaceId) : undefined;
+      setIsPlaceOwner(!!currentOpenCallPlaceId && !!permissions?.canEdit);
+      setIsActingAsOwningPlace(!!currentOpenCallPlaceId && !!permissions?.isInProfile);
     }
   }, [loggedUser, currentOpenCall]);
 
@@ -305,12 +301,12 @@ const OpenCallDetailsPage = () => {
             openCall={currentOpenCall}
             onApply={canApplyToOpenCall ? handleApplyClick : undefined}
             alreadyApplied={isArtistProfile && !applicationsLoading && !!myApplication}
-            isOwner={isPlaceOwner}
+            isOwner={isActingAsOwningPlace}
           />
         )}
 
         <div className="step-content">
-          {isPlaceOwner && isPlaceProfile && (
+          {isActingAsOwningPlace && (
             <>
               <h3 className="step-title">
                 {translateText(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.applications_received_title`)} (
@@ -361,7 +357,7 @@ const OpenCallDetailsPage = () => {
           )}
 
           {/* Caso 1: dueño de la convocatoria, pero navegando con otro perfil */}
-          {isPlaceOwner && !isPlaceProfile && (
+          {isPlaceOwner && !isActingAsOwningPlace && (
             <div className="unauthorized-section">
               <p>
                 {getFormattedMessage(`${TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE}.owner_switch_message`, {

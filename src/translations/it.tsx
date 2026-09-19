@@ -128,6 +128,7 @@ export const ItMessages = {
           plural: 'Artisti',
           singular: 'Artista',
           attributes: {
+            description: 'Descrizione',
             image_members: 'Foto dei membri',
             image_live_gallery: 'Foto dal vivo',
             members: 'Membri',
@@ -1511,6 +1512,7 @@ export const ItMessages = {
             documents: 'Documenti',
           },
           fields: {
+            event_type: 'Tipo di evento',
             description: 'Descrizione',
             genres: 'Generi',
             accepted_project_types: 'Tipi di progetto accettati',

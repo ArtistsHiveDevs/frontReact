@@ -128,6 +128,7 @@ export const EsMessages = {
           plural: 'Artistas',
           singular: 'Artista',
           attributes: {
+            description: 'Descripción',
             image_members: 'Foto de integrantes',
             image_live_gallery: 'Foto en Vivo',
             members: 'Integrantes',
@@ -1521,6 +1522,7 @@ export const EsMessages = {
             documents: 'Documentos',
           },
           fields: {
+            event_type: 'Tipo de evento',
             description: 'Descripción',
             genres: 'Géneros',
             accepted_project_types: 'Tipos de proyecto aceptados',

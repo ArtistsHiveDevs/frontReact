@@ -128,6 +128,7 @@ export const PtMessages = {
           plural: 'Artistas',
           singular: 'Artista',
           attributes: {
+            description: 'Descrição',
             image_members: 'Foto dos integrantes',
             image_live_gallery: 'Foto ao vivo',
             members: 'Integrantes',
@@ -1509,6 +1510,7 @@ export const PtMessages = {
             documents: 'Documentos',
           },
           fields: {
+            event_type: 'Tipo de evento',
             description: 'Descrição',
             genres: 'Géneros',
             accepted_project_types: 'Tipos de projeto aceites',

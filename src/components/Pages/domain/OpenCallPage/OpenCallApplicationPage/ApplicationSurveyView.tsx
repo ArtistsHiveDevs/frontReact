@@ -4,6 +4,7 @@ import { useI18n } from '~/common/utils';
 import { AttributeConfiguration, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 import { attributeToDynamicField } from '~/components/shared/organisms/gui/builders/page-section-form.utils';
 import { DynamicControl } from '~/components/shared/organisms/gui/dynamicForms/DynamicControl';
+import { SectionsPanel } from '~/components/shared/layout/SectionPanel';
 import { OPEN_CALL_PAGE_CONFIG, OPEN_CALL_SPECIAL_INFO, OPEN_CALL_STEP_META } from './config-open-call';
 
 interface ApplicationSurveyViewProps {
@@ -72,52 +73,58 @@ const ApplicationSurveyView = ({ surveyResponses }: ApplicationSurveyViewProps) 
       const stepMeta = OPEN_CALL_STEP_META[step.name];
 
       return (
-        <div key={step.name} style={{ marginBottom: '24px' }}>
-          <h3 style={{ margin: '3rem 1rem 1rem 0rem' }}>{stepMeta?.title || step.title || step.name}</h3>
+        <SectionsPanel
+          key={step.name}
+          id={`survey_step_${step.name}`}
+          sectionName={stepMeta?.title || step.title || step.name}
+          titleTag="h3"
+          sectionContent={() => (
+            <div style={{ pointerEvents: 'none' }}>
+              {(step.sections || []).map((section) => (
+                <Stack key={section.name} spacing={2} sx={{ mb: 2 }}>
+                  {(section.components || []).map((component) =>
+                    (component.data?.attributes || []).map((attr: AttributeConfiguration, attrIdx: number) => {
+                      const fieldValue = surveyResponses[attr.name];
+                      if (fieldValue === undefined || fieldValue === null) return null;
+                      if (Array.isArray(fieldValue) && fieldValue.length === 0) return null;
 
-          {(step.sections || []).map((section) => (
-            <Stack key={section.name} spacing={2} sx={{ mb: 2 }}>
-              {(section.components || []).map((component) =>
-                (component.data?.attributes || []).map((attr: AttributeConfiguration, attrIdx: number) => {
-                  const fieldValue = surveyResponses[attr.name];
-                  if (fieldValue === undefined || fieldValue === null) return null;
-                  if (Array.isArray(fieldValue) && fieldValue.length === 0) return null;
-
-                  return (
-                    <div key={`${section.name}-${attr.name}-${attrIdx}`}>
-                      {isPercentageBreakdown(fieldValue) ? (
-                        <>
-                          <div style={{ marginBottom: '4px', fontWeight: 'bold' }}>{attr.title}</div>
-                          <PercentageBreakdown
-                            items={fieldValue}
-                            resolveLabel={(value) => resolveAttrLabel(attr, value)}
-                          />
-                        </>
-                      ) : attr.displayAsPlainText ? (
-                        <div>
-                          <strong>{attr.title}:</strong> {fieldValue}
+                      return (
+                        <div key={`${section.name}-${attr.name}-${attrIdx}`}>
+                          {isPercentageBreakdown(fieldValue) ? (
+                            <>
+                              <div style={{ marginBottom: '4px', fontWeight: 'bold' }}>{attr.title}</div>
+                              <PercentageBreakdown
+                                items={fieldValue}
+                                resolveLabel={(value) => resolveAttrLabel(attr, value)}
+                              />
+                            </>
+                          ) : attr.displayAsPlainText ? (
+                            <div>
+                              <strong>{attr.title}:</strong> {fieldValue}
+                            </div>
+                          ) : (
+                            <DynamicControl
+                              fieldData={{ ...attributeToDynamicField(attr), readOnly: true }}
+                              errors={errors}
+                              handlers={{}}
+                            />
+                          )}
                         </div>
-                      ) : (
-                        <DynamicControl
-                          fieldData={{ ...attributeToDynamicField(attr), readOnly: true }}
-                          errors={errors}
-                          handlers={{}}
-                        />
-                      )}
-                    </div>
-                  );
-                })
-              )}
-            </Stack>
-          ))}
-        </div>
+                      );
+                    })
+                  )}
+                </Stack>
+              ))}
+            </div>
+          )}
+        />
       );
     });
   };
 
   return (
     <FormProvider {...formMethods}>
-      <div style={{ pointerEvents: 'none', opacity: 0.9 }}>
+      <div style={{ opacity: 0.9 }}>
         {renderConfig(OPEN_CALL_PAGE_CONFIG)}
         {renderConfig(OPEN_CALL_SPECIAL_INFO)}
       </div>

@@ -1,6 +1,6 @@
 import { RegisterOptions } from 'react-hook-form';
 import { AllowedEntityRole } from '~/components/shared/atoms/app/auth/RequiredAuth';
-import { ControlType } from '~/components/shared/organisms/gui/dynamicForms';
+import { ControlType, SelectOption } from '~/components/shared/organisms/gui/dynamicForms';
 
 export enum ComponentTypes {
   ATTRIBUTES_ICON_FIELDS,
@@ -102,6 +102,18 @@ export interface AttributeConfiguration {
   components?: ComponentDescriptor[];
 
   formMetaData?: FormMetadata;
+
+  /**
+   * Si es true, en vistas de solo lectura (ej. ApplicationSurveyView) el valor se muestra como
+   * texto plano en vez de pasar por DynamicControl (que lo renderiza como un input deshabilitado).
+   */
+  displayAsPlainText?: boolean;
+
+  /**
+   * Getter de opciones (ej. getGenderOptions de user-options.helper.ts) usado en vistas de solo
+   * lectura para traducir un valor crudo guardado (ej. 'male') a su label (ej. 'Hombre').
+   */
+  optionsGetter?: (params?: { translateFn?: (key: string) => string }) => SelectOption[];
 }
 
 export interface FormMetadata {

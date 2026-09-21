@@ -142,7 +142,17 @@ const ApplicationCard = ({ application, canModerate, isUpdating, onAccept, onRej
 
       {expanded && (
         <div style={{ padding: '0 20px 20px 20px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-          <ApplicationSurveyView surveyResponses={application.survey_responses || {}} />
+          <ApplicationSurveyView
+            surveyResponses={{
+              ...(application.survey_responses || {}),
+              ...{
+                total: applicationArtist.music_performance.length,
+                gender: applicationArtist.getMembersPercentagePerAttribute('gender'),
+                gender_identity: applicationArtist.getMembersPercentagePerAttribute('gender_identity'),
+                member_instrument: applicationArtist.getMembersPercentagePerAttribute('member_instrument'),
+              },
+            }}
+          />
         </div>
       )}
     </div>

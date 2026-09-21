@@ -4,7 +4,7 @@ import { VerificationStatus } from '~/constants';
 import { ExperienceRange } from '~/constants/domain/domain.constants';
 import { SocialNetworkStatsTemplate } from '~/constants/social-networks.const';
 import { AppUserTemplate } from '~/models/app/user/user.model';
-import { EntityModel, EntityTemplate, ProfileModel, ProfileTemplate } from '~/models/base';
+import { EntityModel, EntityTemplate, Model, ObjectValueTemplate, ProfileModel, ProfileTemplate } from '~/models/base';
 import { CountryModel, CountryTemplate } from '~/models/parametrics/geo/country.model';
 import { LanguageModel, LanguageTemplate } from '~/models/parametrics/geo/language.model';
 import { EventModel, EventTemplate } from '../event/event.model';
@@ -108,6 +108,17 @@ export interface ArtistPricingTemplate {
   since?: Date;
 }
 
+export interface ArtistMemberTemplate extends ObjectValueTemplate {
+  internal_id: string;
+  names: string;
+  surnames: string;
+  stage_name: string;
+  email: string;
+  gender: string;
+  gender_identity: string;
+  member_instrument: string;
+}
+
 export interface ArtistTemplate extends ProfileTemplate {
   artistType: string;
   name: string;
@@ -148,6 +159,8 @@ export interface ArtistTemplate extends ProfileTemplate {
   youtube_widget_id: string;
 
   arts?: { music: { albums: AlbumTemplate[]; top_tracks: any[]; related_artists: ArtistTemplate[] } };
+
+  music_performance: ArtistMemberTemplate[];
 
   // Solista, Trío, Banda, etc
   showFormats: ArtistShowFormatTemplate[];
@@ -214,6 +227,8 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
   declare youtube_widget_id: string;
 
   declare arts?: { music: { albums: AlbumModel[]; top_tracks: any[]; related_artists: ArtistModel[] } };
+
+  declare music_performance: ArtistMemberModel[];
 
   declare showFormats: ArtistShowFormatTemplate[];
 
@@ -289,15 +304,17 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
       }
     }
 
-    if (!!template.arts?.music?.albums?.length) {
+    if (!!template?.arts?.music?.albums?.length) {
       this.arts.music.albums = template?.arts?.music?.albums?.map((album) => new AlbumModel(album)) || [];
     }
-    if (!!template.arts?.music?.related_artists?.length) {
+    if (!!template?.arts?.music?.related_artists?.length) {
       this.arts.music.related_artists =
         template?.arts?.music?.related_artists?.map((artist) => new ArtistModel(artist)) || [];
     }
 
     this.since = template.since ? dayjs(template.since) : null;
+
+    this.music_performance = (template.music_performance || []).map((m) => new ArtistMemberModel(m));
   }
 
   get hasFetchAllData(): boolean {
@@ -416,5 +433,52 @@ export class ArtistModel extends ProfileModel<ArtistTemplate> implements ArtistT
       .map((field) => ({ field, translationPath: `entities.artists.attributes.${field}` }));
 
     return missingDocs;
+  }
+
+  getMembersPercentagePerAttribute(
+    field: keyof ArtistMemberTemplate
+  ): { value: string; count: number; percentage: number }[] {
+    const total = this.music_performance.length;
+    if (total === 0) return [];
+
+    const counts = this.music_performance.reduce<Record<string, number>>((acc, member) => {
+      const value = String((member as unknown as Record<string, unknown>)[field] ?? '');
+      acc[value] = (acc[value] || 0) + 1;
+      return acc;
+    }, {});
+
+    return Object.entries(counts)
+      .map(([value, count]) => ({
+        value,
+        count,
+        percentage: Number(((count / total) * 100).toFixed(1)),
+      }))
+      .sort((a, b) => b.count - a.count);
+  }
+}
+
+export class ArtistMemberModel extends Model<ArtistMemberTemplate> implements ArtistMemberTemplate {
+  declare internal_id: string;
+  declare names: string;
+  declare surnames: string;
+  declare stage_name: string;
+  declare email: string;
+  declare gender: string;
+  declare gender_identity: string;
+  declare member_instrument: string;
+
+  constructor(template: ArtistMemberTemplate) {
+    super(template);
+  }
+
+  get hasFetchAllData(): boolean {
+    return (
+      !!this.names &&
+      !!this.surnames &&
+      !!this.email &&
+      !!this.gender &&
+      !!this.gender_identity &&
+      !!this.member_instrument
+    );
   }
 }

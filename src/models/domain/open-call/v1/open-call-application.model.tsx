@@ -1,6 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import { PopulatedEntityRef, resolvePopulatedRefId } from '~/models/base/modelHelpers';
+import { ArtistModel, ArtistTemplate } from '~/models/domain/artist/artist.model';
 
 export type OpenCallApplicationStatus = 'pending' | 'accepted' | 'rejected';
 
@@ -8,6 +9,7 @@ export interface OpenCallApplicationTemplate extends EntityTemplate {
   // El backend los populate (Mongoose), por lo que llegan como sub-documento y no como id plano.
   open_call_id: string | PopulatedEntityRef;
   artist_id?: string | PopulatedEntityRef;
+  artist?: ArtistTemplate;
   artist_name?: string;
   artist_profile_pic?: string;
   artist_city?: string;
@@ -21,6 +23,7 @@ export class OpenCallApplicationModel
   implements OpenCallApplicationTemplate
 {
   declare open_call_id: string | PopulatedEntityRef;
+  declare artist?: ArtistModel;
   declare artist_id?: string | PopulatedEntityRef;
   declare artist_name?: string;
   declare artist_profile_pic?: string;
@@ -32,6 +35,7 @@ export class OpenCallApplicationModel
   constructor(template: OpenCallApplicationTemplate) {
     super(template);
     this.status = template.status || 'pending';
+    this.artist = template.artist ? new ArtistModel(template.artist) : undefined;
   }
 
   get hasFetchAllData(): boolean {

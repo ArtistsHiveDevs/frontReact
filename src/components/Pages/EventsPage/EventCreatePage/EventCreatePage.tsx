@@ -214,6 +214,11 @@ const EventCreatePage = () => {
         }}
         customHeaderConfig={[
           {
+            name: 'profilePic',
+            shape: 'rounded',
+            icon: 'FaRegCalendarAlt'
+          },
+          {
             name: 'name',
             label: 'Nombre',
             config: { required: false, minLength: 3 },

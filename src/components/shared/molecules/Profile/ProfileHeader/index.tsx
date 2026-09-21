@@ -23,6 +23,7 @@ import { ProfileModel } from '~/models/base';
 import { defaultTypesColors, getModelInfoFromInstance } from '~/models/base/modelHelpers';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import './index.scss';
+import { MdCalendarToday } from 'react-icons/md';
 
 export interface ProfileHeaderElement {
   name: string;
@@ -114,6 +115,18 @@ export const ProfileHeader = (props: any) => {
 
     setImage(photoURL);
   };
+
+  const profilePicParentCustomConfigurations = customHeaderConfig?.find((config: any) => config?.name === 'profilePic');
+
+  const profilePicCustomConfigurations = !!profilePicParentCustomConfigurations
+    ? {
+        ...profilePicParentCustomConfigurations,
+        ...(['square', 'rounded'].find((picShape) => picShape === profilePicParentCustomConfigurations?.shape) && {
+          useRadius: true,
+        }),
+        ...{ borderRadius: profilePicParentCustomConfigurations?.shape === 'rounded' ? '1rem' : '0rem' },
+      }
+    : undefined;
 
   useEffect(() => {
     if (element) {
@@ -375,11 +388,24 @@ export const ProfileHeader = (props: any) => {
             <label htmlFor="profile-pic-button-file">
               <IconButton color="primary" component="span" disabled={isUploadingPhoto}>
                 <Avatar
+                  variant={profilePicCustomConfigurations?.shape}
                   src={image}
                   alt={element?.name}
-                  sx={{ width: avatarSize, height: avatarSize, border: '2px solid white', opacity: isUploadingPhoto ? 0.5 : 1 }}
+                  sx={{
+                    width: avatarSize,
+                    height: avatarSize,
+                    border: '2px solid white',
+                    opacity: isUploadingPhoto ? 0.5 : 1,
+                    ...(!!profilePicCustomConfigurations?.useRadius && {
+                      borderRadius: profilePicCustomConfigurations?.borderRadius,
+                    }),
+                  }}
                   className={errors && errors['profile_pic'] && 'error-profile-pic'}
-                />
+                >
+                  {profilePicCustomConfigurations?.icon && (
+                    <DynamicIcons iconName={'FaRegCalendarAlt'} size={50} color="white" />
+                  )}
+                </Avatar>
               </IconButton>
             </label>
           </div>

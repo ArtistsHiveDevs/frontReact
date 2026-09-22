@@ -1,8 +1,5 @@
 import Flag from 'react-world-flags';
-import {
-  ComponentTypes,
-  PageSection,
-} from '~/components/shared/organisms/gui/builders/component-types.def';
+import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
 
@@ -16,11 +13,21 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
         name: 'description',
         components: [
           {
-            componentName: ComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
-              attribute_content: 'description',
+              attributes: [
+                {
+                  name: 'description',
+                  emptyTitle: false,
+                  formMetaData: {
+                    inputType: 'textarea',
+                    config: {
+                      required: false,
+                    },
+                  },
+                },
+              ],
             },
-            formMetaData: { fieldName: 'description' },
           },
         ],
       },
@@ -126,10 +133,10 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
           {
             componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
             data: {
-              data_source: 'main_artists',
+              data_source: 'artists',
             },
             clickHandlerName: 'onNavigateToEntity',
-            formMetaData: { fieldName: 'main_artists', config: { required: true } },
+            formMetaData: { fieldName: 'artists', config: { required: true } },
           },
         ],
       },
@@ -330,11 +337,21 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
         name: 'additional_info',
         components: [
           {
-            componentName: ComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
-              attribute_content: 'additional_info',
+              attributes: [
+                {
+                  name: 'additional_info',
+                  emptyTitle: false,
+                  formMetaData: {
+                    inputType: 'textarea',
+                    config: {
+                      required: false,
+                    },
+                  },
+                },
+              ],
             },
-            formMetaData: { fieldName: 'additional_info' },
           },
         ],
       },
@@ -342,11 +359,21 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
         name: 'dress_code',
         components: [
           {
-            componentName: ComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
-              attribute_content: 'dress_code',
+              attributes: [
+                {
+                  name: 'dress_code',
+                  emptyTitle: false,
+                  formMetaData: {
+                    inputType: 'textarea',
+                    config: {
+                      required: false,
+                    },
+                  },
+                },
+              ],
             },
-            formMetaData: { fieldName: 'dress_code' },
           },
         ],
       },
@@ -354,11 +381,21 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
         name: 'discounts',
         components: [
           {
-            componentName: ComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
-              attribute_content: 'discounts',
+              attributes: [
+                {
+                  name: 'discounts',
+                  emptyTitle: false,
+                  formMetaData: {
+                    inputType: 'textarea',
+                    config: {
+                      required: false,
+                    },
+                  },
+                },
+              ],
             },
-            formMetaData: { fieldName: 'discounts' },
           },
         ],
       },

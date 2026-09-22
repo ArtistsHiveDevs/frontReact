@@ -158,12 +158,17 @@ export const ProfileHeader = (props: any) => {
       console.log({
         EntityModel: element instanceof EntityModel,
         ProfileModel: element instanceof ProfileModel,
-      })
-      const userPermissions = element instanceof ProfileModel ? loggedUser.checkPermissions(element.identifier) : element.checkEntityPermissions({
-        userId: loggedUser.id, roles: loggedUser.currentProfileInfo?.roles, currentProfileIdentifier: loggedUser.currentProfileIdentifier});
+      });
+      const userPermissions =
+        element instanceof ProfileModel
+          ? loggedUser.checkPermissions(element.identifier)
+          : element.checkEntityPermissions({
+              userId: loggedUser.id,
+              roles: loggedUser.currentProfileInfo?.roles,
+              currentProfileIdentifier: loggedUser.currentProfileIdentifier,
+            });
       permissions = userPermissions;
     }
-    console.log({permissions})
     setCurrentUserCanEdit(permissions.canEdit);
     setCurrentUserIsInProfile(permissions.isInProfile);
     const entityColorIndex =

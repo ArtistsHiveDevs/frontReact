@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { selectorEvents, useEventsSlice } from '~/common/slices/domain/events/events.redux';
 import { useSearchSlice } from '~/common/slices/search';
 import { selectEntitySearch, selectEntitySearchLoading } from '~/common/slices/search/selectors';
@@ -18,6 +18,9 @@ import {
   EVENT_DETAIL_SUB_PAGE_CONFIG,
   TRANSLATION_BASE_EVENT_DETAILS_PAGE,
 } from '../EventDetailsPage/config-event-detail';
+import { URL_PARAMETER_NAMES } from '~/constants';
+import { RootState } from '@react-three/fiber';
+import { RequireAuthComponent } from '~/components/shared/atoms/app/auth/RequiredAuth';
 
 function sleep(duration: number): Promise<void> {
   return new Promise<void>((resolve) => {
@@ -53,8 +56,22 @@ const EventCreatePage = () => {
   const { actions: eventsActions } = useEventsSlice();
   const createdEvent = useSelector(selectorEvents.selectCreatedItem);
 
+  const urlParameters = useParams();
+  const [eventId, setCurrentEventId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
+
   const dispatch = useDispatch();
   const location = useLocation();
+
+  const selectArtistById = selectorEvents.makeSelectItemById();
+    const currentEvent: ArtistModel = useSelector((state: RootState) => {
+      if (eventId) {
+        return selectArtistById(state, eventId);
+      } else {
+        return undefined;
+      }
+    });
+
+    console.log({ce: currentEvent})
 
   useEffect(() => {
     const langsOR = [
@@ -136,6 +153,11 @@ const EventCreatePage = () => {
         setDefaultPlaces([profile]);
       }
     }
+
+    if(!!eventId) {
+      console.log('entra');
+      dispatch(eventsActions.getItemById({id: eventId}));
+    }
   }, []);
 
   const handlers = {
@@ -185,11 +207,13 @@ const EventCreatePage = () => {
 
   return (
     <>
+    <RequireAuthComponent resourceEntity={currentEvent} requiredSession={true}>
       <DynamicTabbedForm
         tabsInfo={EVENT_DETAIL_SUB_PAGE_CONFIG}
         handlers={handlers}
         translationBasePath={TRANSLATION_BASE_EVENT_DETAILS_PAGE}
         entityType={EventModel.name}
+        elementData={currentEvent}
         fieldOptions={{
           allergies: availableAllergies,
           blood_group: availableBloodGroups,
@@ -216,7 +240,7 @@ const EventCreatePage = () => {
           {
             name: 'profilePic',
             shape: 'rounded',
-            icon: 'FaRegCalendarAlt'
+            icon: 'FaRegCalendarAlt',
           },
           {
             name: 'name',
@@ -233,6 +257,7 @@ const EventCreatePage = () => {
           // },
         ]}
       />
+    </RequireAuthComponent>
     </>
   );
 };

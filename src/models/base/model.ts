@@ -219,6 +219,11 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
   declare id: string;
   declare shortId?: string;
   declare entityShareAcronym?: any;
+  declare owner?: {
+    userId: string;
+    role: string;
+    currentProfileIdentifier: string;
+  };
 
   constructor(template: T | any = {}) {
     super(template);
@@ -234,6 +239,12 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
     const env = isActualProdEnvironment() ? '' : `?a=${encryptEnvToken()}`;
     //TODO Revisar qué pasa cuando no tenga
     return this.entityShareAcronym ? `${shareDomain}/r/${this.entityShareAcronym}/${this.identifier}${env}` : 'https://artist-hive.com';
+  }
+
+  checkEntityPermissions (params:{userId?: string, roles: string[], currentProfileIdentifier: string}) {
+    const {userId, roles, currentProfileIdentifier} = params;
+    const canEdit = roles?.includes(this.owner?.role) && currentProfileIdentifier === this.owner?.currentProfileIdentifier;
+    return {canEdit, isCreator: this.owner?.userId === userId, isInProfile: canEdit}
   }
 }
 

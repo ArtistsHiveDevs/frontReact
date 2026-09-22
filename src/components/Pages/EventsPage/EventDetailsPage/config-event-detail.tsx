@@ -146,7 +146,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
           },
         ],
         hidden: (event: EventModel) => {
-          console.log(event, event?.other_artists.length === 0);
+          // console.log(event, event?.other_artists.length === 0);
           return event?.other_artists.length === 0;
         },
       },

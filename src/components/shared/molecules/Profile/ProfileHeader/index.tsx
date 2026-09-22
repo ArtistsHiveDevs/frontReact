@@ -19,7 +19,7 @@ import {
 } from '~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe';
 import { ResourceMoreMenu } from '~/components/shared/molecules/general/ResourceMoreMenu/ResourceMoreMenu';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
-import { ProfileModel } from '~/models/base';
+import { EntityModel, ProfileModel } from '~/models/base';
 import { defaultTypesColors, getModelInfoFromInstance } from '~/models/base/modelHelpers';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import './index.scss';
@@ -155,9 +155,15 @@ export const ProfileHeader = (props: any) => {
 
     let permissions = { canEdit: false, isInProfile: false };
     if (userID && loggedUser && element && parentHandlers && parentHandlers['onEditProfile']) {
-      const userPermissions = loggedUser.checkPermissions(element.identifier);
+      console.log({
+        EntityModel: element instanceof EntityModel,
+        ProfileModel: element instanceof ProfileModel,
+      })
+      const userPermissions = element instanceof ProfileModel ? loggedUser.checkPermissions(element.identifier) : element.checkEntityPermissions({
+        userId: loggedUser.id, roles: loggedUser.currentProfileInfo?.roles, currentProfileIdentifier: loggedUser.currentProfileIdentifier});
       permissions = userPermissions;
     }
+    console.log({permissions})
     setCurrentUserCanEdit(permissions.canEdit);
     setCurrentUserIsInProfile(permissions.isInProfile);
     const entityColorIndex =

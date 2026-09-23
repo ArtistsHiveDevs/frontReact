@@ -1295,6 +1295,25 @@ export const EnMessages = {
             },
           },
         },
+        EventGuestPage: {
+          title: 'Guest registration',
+          addSale: 'Add sale',
+          submitLabel: 'Register guest',
+          successMessage: 'Guest registered successfully.',
+          fields: {
+            first_name: 'First name',
+            last_name: 'Last name',
+            cc: 'Document number',
+            email: 'Email',
+            ticket_type_id: 'Ticket type',
+          },
+          errors: {
+            duplicatedCc: 'A guest with this document number is already registered for this event.',
+            invalidEmail: 'Please enter a valid email address.',
+            noTicketTypes: 'This event has no ticket types configured yet.',
+            genericError: 'The guest could not be registered. Please try again.',
+          },
+        },
       },
       PlacesPages: {
         PlacesDetailsPage: {

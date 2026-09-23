@@ -1310,6 +1310,25 @@ export const ItMessages = {
             },
           },
         },
+        EventGuestPage: {
+          title: 'Registrazione ospiti',
+          addSale: 'Aggiungi vendita',
+          submitLabel: 'Registra ospite',
+          successMessage: 'Ospite registrato con successo.',
+          fields: {
+            first_name: 'Nome',
+            last_name: 'Cognome',
+            cc: 'Numero di documento',
+            email: 'Email',
+            ticket_type_id: 'Tipo di biglietto',
+          },
+          errors: {
+            duplicatedCc: 'Un ospite con questo numero di documento è già registrato per questo evento.',
+            invalidEmail: 'Inserisci un indirizzo email valido.',
+            noTicketTypes: 'Questo evento non ha ancora tipi di biglietto configurati.',
+            genericError: "Non è stato possibile registrare l'ospite. Riprova.",
+          },
+        },
       },
       PlacesPages: {
         PlacesDetailsPage: {

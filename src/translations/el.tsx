@@ -1310,6 +1310,25 @@ export const ElMessages = {
             },
           },
         },
+        EventGuestPage: {
+          title: 'Εγγραφή καλεσμένων',
+          addSale: 'Προσθήκη πώλησης',
+          submitLabel: 'Καταχώριση καλεσμένου',
+          successMessage: 'Ο καλεσμένος καταχωρήθηκε με επιτυχία.',
+          fields: {
+            first_name: 'Όνομα',
+            last_name: 'Επώνυμο',
+            cc: 'Αριθμός ταυτότητας',
+            email: 'Email',
+            ticket_type_id: 'Τύπος εισιτηρίου',
+          },
+          errors: {
+            duplicatedCc: 'Υπάρχει ήδη καλεσμένος με αυτόν τον αριθμό ταυτότητας σε αυτή την εκδήλωση.',
+            invalidEmail: 'Εισάγετε μια έγκυρη διεύθυνση email.',
+            noTicketTypes: 'Αυτή η εκδήλωση δεν έχει ακόμη ρυθμισμένους τύπους εισιτηρίων.',
+            genericError: 'Δεν ήταν δυνατή η καταχώριση του καλεσμένου. Δοκιμάστε ξανά.',
+          },
+        },
       },
       PlacesPages: {
         PlacesDetailsPage: {

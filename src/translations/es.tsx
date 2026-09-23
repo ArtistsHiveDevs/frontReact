@@ -1310,6 +1310,25 @@ export const EsMessages = {
             },
           },
         },
+        EventGuestPage: {
+          title: 'Registro de invitados',
+          addSale: 'Agregar venta',
+          submitLabel: 'Registrar invitado',
+          successMessage: 'Invitado registrado correctamente.',
+          fields: {
+            first_name: 'Nombre',
+            last_name: 'Apellido',
+            cc: 'Número de documento',
+            email: 'Correo electrónico',
+            ticket_type_id: 'Tipo de boleta',
+          },
+          errors: {
+            duplicatedCc: 'Ya hay un invitado registrado con este número de documento para este evento.',
+            invalidEmail: 'Ingresa un correo electrónico válido.',
+            noTicketTypes: 'Este evento todavía no tiene tipos de boleta configurados.',
+            genericError: 'No se pudo registrar el invitado. Inténtalo de nuevo.',
+          },
+        },
       },
       PlacesPages: {
         PlacesDetailsPage: {

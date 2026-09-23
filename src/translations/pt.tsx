@@ -1307,6 +1307,25 @@ export const PtMessages = {
             },
           },
         },
+        EventGuestPage: {
+          title: 'Registro de convidados',
+          addSale: 'Adicionar venda',
+          submitLabel: 'Registrar convidado',
+          successMessage: 'Convidado registrado com sucesso.',
+          fields: {
+            first_name: 'Nome',
+            last_name: 'Sobrenome',
+            cc: 'Número do documento',
+            email: 'E-mail',
+            ticket_type_id: 'Tipo de ingresso',
+          },
+          errors: {
+            duplicatedCc: 'Já existe um convidado com este número de documento registrado neste evento.',
+            invalidEmail: 'Informe um endereço de e-mail válido.',
+            noTicketTypes: 'Este evento ainda não tem tipos de ingresso configurados.',
+            genericError: 'Não foi possível registrar o convidado. Tente novamente.',
+          },
+        },
       },
       PlacesPages: {
         PlacesDetailsPage: {

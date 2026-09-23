@@ -1310,6 +1310,25 @@ export const DeMessages = {
             },
           },
         },
+        EventGuestPage: {
+          title: 'Gästeregistrierung',
+          addSale: 'Verkauf hinzufügen',
+          submitLabel: 'Gast registrieren',
+          successMessage: 'Gast erfolgreich registriert.',
+          fields: {
+            first_name: 'Vorname',
+            last_name: 'Nachname',
+            cc: 'Ausweisnummer',
+            email: 'E-Mail',
+            ticket_type_id: 'Ticketart',
+          },
+          errors: {
+            duplicatedCc: 'Für diese Veranstaltung ist bereits ein Gast mit dieser Ausweisnummer registriert.',
+            invalidEmail: 'Bitte gib eine gültige E-Mail-Adresse ein.',
+            noTicketTypes: 'Für diese Veranstaltung wurden noch keine Ticketarten eingerichtet.',
+            genericError: 'Der Gast konnte nicht registriert werden. Bitte versuche es erneut.',
+          },
+        },
       },
       PlacesPages: {
         PlacesDetailsPage: {

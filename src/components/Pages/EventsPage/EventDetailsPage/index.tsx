@@ -64,7 +64,7 @@ const EventDetailsPage = () => {
 
   useEffect(() => {
     dispatch(eventActions.getItemById({ id: eventId }));
-    console.log('RQ EVENTO');
+    // console.log('RQ EVENTO');
     setRequestesAreReady(true);
   }, [eventId]);
 
@@ -78,9 +78,9 @@ const EventDetailsPage = () => {
       navigateToEntity({ entityType, id: value.identifier });
     },
     onEditProfile: (value: any) => {
-          const entityType = value.constructor.name !== 'Object' ? value.constructor.name : value.entity;
-          navigateToEntity({ entityType, id: value.identifier, action: SUB_PATHS.EDIT });
-        },
+      const entityType = value.constructor.name !== 'Object' ? value.constructor.name : value.entity;
+      navigateToEntity({ entityType, id: value.identifier, action: SUB_PATHS.EDIT });
+    },
   };
 
   const getProfilePicURL = async () => {
@@ -106,6 +106,23 @@ const EventDetailsPage = () => {
             translation_base_path={TRANSLATION_BASE_EVENT_DETAILS_PAGE}
             subpagesConfig={subPagesInfo}
             handlers={handlers}
+            customHeaderConfig={[
+              {
+                name: 'profilePic',
+                shape: 'rounded',
+                icon: 'FaRegCalendarAlt',
+              },
+              {
+                name: 'name',
+                label: 'Nombre',
+                config: { required: true, minLength: 3 },
+                renderField: 'nameKnownAs',
+              },
+              {
+                name: 'hiddeFollowerCounter',
+                value: true,
+              },
+            ]}
             // profileHeaderComponent={
             //   <>
             //     <h1 className="event-title">

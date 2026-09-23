@@ -63,15 +63,13 @@ const EventCreatePage = () => {
   const location = useLocation();
 
   const selectArtistById = selectorEvents.makeSelectItemById();
-    const currentEvent: ArtistModel = useSelector((state: RootState) => {
-      if (eventId) {
-        return selectArtistById(state, eventId);
-      } else {
-        return undefined;
-      }
-    });
-
-    console.log({ce: currentEvent})
+  const currentEvent: ArtistModel = useSelector((state: RootState) => {
+    if (eventId) {
+      return selectArtistById(state, eventId);
+    } else {
+      return undefined;
+    }
+  });
 
   useEffect(() => {
     const langsOR = [
@@ -154,15 +152,15 @@ const EventCreatePage = () => {
       }
     }
 
-    if(!!eventId) {
+    if (!!eventId) {
       console.log('entra');
-      dispatch(eventsActions.getItemById({id: eventId}));
+      dispatch(eventsActions.getItemById({ id: eventId }));
     }
   }, []);
 
   const handlers = {
     onSubmit: async (data: any, error?: any) => {
-      data.artists = [...(data.main_artists || [])];
+      // data.artists = [...(data.main_artists || [])];
       data.timetable__initial_date = dayjs(data.timetable__initial_date).format('YYYY-MM-DD');
       data.timetable__openning_doors = Number(dayjs(data.timetable__openning_doors).format('HHmm')); //Number(data.timetable__openning_doors?.replace(':', '') || '0');
       data.timetable__main_artist_time = Number(dayjs(data.initial_time).format('HHmm')); //Number(data.initial_time?.replace(':', '') || '0');
@@ -207,57 +205,65 @@ const EventCreatePage = () => {
 
   return (
     <>
-    <RequireAuthComponent resourceEntity={currentEvent} requiredSession={true}>
-      <DynamicTabbedForm
-        tabsInfo={EVENT_DETAIL_SUB_PAGE_CONFIG}
-        handlers={handlers}
-        translationBasePath={TRANSLATION_BASE_EVENT_DETAILS_PAGE}
-        entityType={EventModel.name}
-        elementData={currentEvent}
-        fieldOptions={{
-          allergies: availableAllergies,
-          blood_group: availableBloodGroups,
-          dietary_restrictions: availableDietaryRestritions,
-          gender: availableGenders,
-          genres: availableGenres,
-          user_language: availableLanguages,
-          spoken_languages: availableLanguages,
-          stage_languages: availableLanguages,
-        }}
-        externalData={{
-          main_artists: {
-            options: availableArtists,
-            isLoading: queriedEntity === 'Artist' && querySearchLoading,
-            defaultSelection: defaultArtists,
-          },
-          place: {
-            options: availablePlaces,
-            isLoading: queriedEntity === 'Place' && querySearchLoading,
-            defaultSelection: defaultPlaces,
-          },
-        }}
-        customHeaderConfig={[
-          {
-            name: 'profilePic',
-            shape: 'rounded',
-            icon: 'FaRegCalendarAlt',
-          },
-          {
-            name: 'name',
-            label: 'Nombre',
-            config: { required: false, minLength: 3 },
-            showEditableField: false,
-            // renderField: 'nameKnownAs',
-          },
-          { name: 'subtitle', label: 'Subtitle' },
-          // {
-          //   name: 'username',
-          //   label: 'username',
-          //   config: { required: true, minLength: 3 },
-          // },
-        ]}
-      />
-    </RequireAuthComponent>
+      <RequireAuthComponent resourceEntity={currentEvent} requiredSession={true}>
+        <DynamicTabbedForm
+          tabsInfo={EVENT_DETAIL_SUB_PAGE_CONFIG}
+          handlers={handlers}
+          translationBasePath={TRANSLATION_BASE_EVENT_DETAILS_PAGE}
+          entityType={EventModel.name}
+          elementData={currentEvent}
+          fieldOptions={{
+            allergies: availableAllergies,
+            blood_group: availableBloodGroups,
+            dietary_restrictions: availableDietaryRestritions,
+            gender: availableGenders,
+            genres: availableGenres,
+            user_language: availableLanguages,
+            spoken_languages: availableLanguages,
+            stage_languages: availableLanguages,
+          }}
+          externalData={{
+            main_artists: {
+              options: availableArtists,
+              isLoading: queriedEntity === 'Artist' && querySearchLoading,
+              defaultSelection: defaultArtists,
+            },
+            place: {
+              options: availablePlaces,
+              isLoading: queriedEntity === 'Place' && querySearchLoading,
+              defaultSelection: defaultPlaces,
+            },
+          }}
+          customHeaderConfig={[
+            {
+              name: 'profilePic',
+              shape: 'rounded',
+              icon: 'FaRegCalendarAlt',
+            },
+            {
+              name: 'hiddeFavoriteSubs',
+              value: true,
+            },
+            {
+              name: 'hiddeFollowerCounter',
+              value: true,
+            },
+            {
+              name: 'name',
+              label: 'Nombre',
+              config: { required: false, minLength: 3 },
+              showEditableField: false,
+              // renderField: 'nameKnownAs',
+            },
+            { name: 'subtitle', label: 'Subtitle' },
+            // {
+            //   name: 'username',
+            //   label: 'username',
+            //   config: { required: true, minLength: 3 },
+            // },
+          ]}
+        />
+      </RequireAuthComponent>
     </>
   );
 };

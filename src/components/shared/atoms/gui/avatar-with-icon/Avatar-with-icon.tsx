@@ -18,7 +18,8 @@ interface Props {
 }
 
 export const AvatarWithIcon = forwardRef<HTMLDivElement, Props>((params, ref) => {
-  const { id, image, name, avatarSize, bottomBadgeSize, buttonIcon, onClick, onBadgeClick, variant } = params || {};
+  const { id, image, name, avatarSize, bottomBadgeSize, buttonIcon, onClick, onBadgeClick, variant, avatarCustomIcon } =
+    params || {};
 
   const resolvedImage = useS3Url(image);
 
@@ -55,7 +56,9 @@ export const AvatarWithIcon = forwardRef<HTMLDivElement, Props>((params, ref) =>
           variant={variant || 'circular'}
           onClick={() => onClick && onClick()}
           id={id}
-        />
+        >
+          {avatarCustomIcon && <DynamicIcons iconName={avatarCustomIcon} size={50} color="white" />}
+        </Avatar>
       </Badge>
     </div>
   );

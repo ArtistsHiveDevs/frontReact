@@ -140,23 +140,23 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
           },
         ],
       },
-      {
-        name: 'other_artists',
-        components: [
-          {
-            componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
-            data: {
-              data_source: 'other_artists',
-            },
-            clickHandlerName: 'onNavigateToEntity',
-            formMetaData: { fieldName: 'other_artists' },
-          },
-        ],
-        hidden: (event: EventModel) => {
-          // console.log(event, event?.other_artists.length === 0);
-          return event?.other_artists.length === 0;
-        },
-      },
+      // {
+      //   name: 'other_artists',
+      //   components: [
+      //     {
+      //       componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
+      //       data: {
+      //         data_source: 'other_artists',
+      //       },
+      //       clickHandlerName: 'onNavigateToEntity',
+      //       formMetaData: { fieldName: 'other_artists' },
+      //     },
+      //   ],
+      //   hidden: (event: EventModel) => {
+      //     // console.log(event, event?.other_artists.length === 0);
+      //     return event?.other_artists.length === 0;
+      //   },
+      // },
     ],
   },
   {

@@ -2,6 +2,7 @@ import { Button, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { selectApiKey } from '~/common/slices/app-base/APIKey/selectors';
 import { selectorArtists, useArtistsSlice } from '~/common/slices/domain/artists/artist.redux';
 import {
   selectorOpenCallApplications,
@@ -12,6 +13,7 @@ import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { buildQueryString, request } from '~/common/utils/request';
 import { RootState } from '~/common/utils/redux-injectors/types';
 import ApplicationSurveyView from '~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/ApplicationSurveyView';
 import '~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/index.scss';
@@ -200,6 +202,33 @@ const OpenCallDetailsPage = () => {
   const [applicationsForThisOpenCall, setApplicationsForThisOpenCall] = useState<OpenCallApplicationModel[]>([]);
   const [myApplication, setMyApplication] = useState<OpenCallApplicationModel | undefined>(undefined);
   const [canApplyToOpenCall, setCanApplyToOpenCall] = useState(false);
+  const [hasAppliedByStatus, setHasAppliedByStatus] = useState(false);
+  const apiKey = useSelector(selectApiKey)?.apiKey;
+  const currentArtistIdentifier = loggedUser?.currentProfileInfo?.identifier;
+
+  // Estado directo (open call + artista), independiente de la lista filtrada por ownership.
+  useEffect(() => {
+    setHasAppliedByStatus(false);
+    if (!openCallId || !currentArtistIdentifier || !isArtistProfile || !apiKey) {
+      return;
+    }
+
+    let cancelled = false;
+    const query = buildQueryString({ open_call_id: openCallId, artist_id: currentArtistIdentifier });
+    request(`${import.meta.env.VITE_ARTISTS_HIVE_SERVER_URL}/open-call-applications/status${query}`, {
+      headers: { 'x-api-key': apiKey },
+    })
+      .then((response) => {
+        if (!cancelled) {
+          setHasAppliedByStatus(!!(response as { applied?: boolean })?.applied);
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      cancelled = true;
+    };
+  }, [openCallId, currentArtistIdentifier, isArtistProfile, apiKey]);
 
   useEffect(() => {
     if (openCallId) {
@@ -252,12 +281,12 @@ const OpenCallDetailsPage = () => {
   // Actualizar canApplyToOpenCall cuando cambian las condiciones necesarias
   useEffect(() => {
     if (currentOpenCall && isArtistProfile && !applicationsLoading) {
-      const canApply = !myApplication && !currentOpenCall.isExpired;
+      const canApply = !myApplication && !hasAppliedByStatus && !currentOpenCall.isExpired;
       setCanApplyToOpenCall(canApply);
     } else {
       setCanApplyToOpenCall(false);
     }
-  }, [isArtistProfile, applicationsLoading, myApplication, currentOpenCall]);
+  }, [isArtistProfile, applicationsLoading, myApplication, hasAppliedByStatus, currentOpenCall]);
 
   const currentOpenCallPlaceId = currentOpenCall?.place?.identifier;
   const artistMemberships: CurrentProfileInfoModel[] = loggedUser?.getMembershipsByEntity('artists') || [];
@@ -311,7 +340,7 @@ const OpenCallDetailsPage = () => {
           <OpenCallPresentation
             openCall={currentOpenCall}
             onApply={canApplyToOpenCall ? handleApplyClick : undefined}
-            alreadyApplied={isArtistProfile && !applicationsLoading && !!myApplication}
+            alreadyApplied={isArtistProfile && !applicationsLoading && (!!myApplication || hasAppliedByStatus)}
             isOwner={isActingAsOwningPlace}
           />
         )}

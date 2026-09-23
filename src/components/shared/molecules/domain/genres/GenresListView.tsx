@@ -46,7 +46,7 @@ const extractGenresList = (genresValue: GenresValue): string[] => {
 export const GenresListView = (props: GenresListViewParams) => {
   const { genres } = props;
 
-  const { translateText } = useI18n();
+  const { translateText, translateGlobalDict } = useI18n();
 
   return (
     <>
@@ -58,7 +58,7 @@ export const GenresListView = (props: GenresListViewParams) => {
             <h4 className="art-title">{translateText(`${TRANSLATION_BASE_ART_TYPES}.${artType}`)}</h4>
             <div className="genre-container">
               {(genresList || []).map((genre: string) => (
-                <Badge key={`art_${artType}_${genre}`} text={translateMusicGenre(genre, translateText)}></Badge>
+                <Badge key={`art_${artType}_${genre}`} text={translateMusicGenre(genre, translateGlobalDict)}></Badge>
               ))}
             </div>
           </div>

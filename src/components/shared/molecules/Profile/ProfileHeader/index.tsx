@@ -129,10 +129,10 @@ export const ProfileHeader = (props: any) => {
     : undefined;
 
   const [hiddeFavoriteSubs, setHiddeFavoriteSubs] = useState(
-    customHeaderConfig?.find((config: any) => config?.name === 'hiddeFavoriteSubs')?.value
+    customHeaderConfig?.find((config: any) => config?.name === 'hiddeFavoriteSubs')?.hidden
   );
   const [hiddeFollowerCounter, setHiddeFollowerCounter] = useState(
-    customHeaderConfig?.find((config: any) => config?.name === 'hiddeFollowerCounter')?.value
+    customHeaderConfig?.find((config: any) => config?.name === 'hiddeFollowerCounter')?.hidden
   );
 
   useEffect(() => {

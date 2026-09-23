@@ -120,7 +120,7 @@ const EventDetailsPage = () => {
               },
               {
                 name: 'hiddeFollowerCounter',
-                value: true,
+                hidden: true,
               },
             ]}
             // profileHeaderComponent={

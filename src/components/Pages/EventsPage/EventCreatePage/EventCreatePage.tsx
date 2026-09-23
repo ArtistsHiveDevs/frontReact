@@ -242,11 +242,11 @@ const EventCreatePage = () => {
             },
             {
               name: 'hiddeFavoriteSubs',
-              value: true,
+              hidden: true,
             },
             {
               name: 'hiddeFollowerCounter',
-              value: true,
+              hidden: true,
             },
             {
               name: 'name',

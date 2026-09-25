@@ -195,6 +195,7 @@ export const EsMessages = {
             place_types: {
               label: 'Tipos de lugar',
               values: {
+                arena: 'Arena',
                 bar: 'Bar',
                 club: 'Club',
                 theater: 'Teatro',

@@ -195,6 +195,7 @@ export const PtMessages = {
             place_types: {
               label: 'Tipos de Local',
               values: {
+                arena: 'Arena',
                 bar: 'Bar',
                 club: 'Clube',
                 theater: 'Teatro',

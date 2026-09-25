@@ -195,6 +195,7 @@ export const EnMessages = {
             place_types: {
               label: 'Place Types',
               values: {
+                arena: 'Arena',
                 bar: 'Bar',
                 club: 'Club',
                 theater: 'Theater',

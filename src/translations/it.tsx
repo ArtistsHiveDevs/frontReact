@@ -195,6 +195,7 @@ export const ItMessages = {
             place_types: {
               label: 'Tipi di Luogo',
               values: {
+                arena: 'Arena',
                 bar: 'Bar',
                 club: 'Club',
                 theater: 'Teatro',

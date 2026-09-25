@@ -195,6 +195,7 @@ export const ElMessages = {
             place_types: {
               label: 'Τύποι Χώρου',
               values: {
+                arena: 'Αρένα',
                 bar: 'Μπαρ',
                 club: 'Κλαμπ',
                 theater: 'Θέατρο',

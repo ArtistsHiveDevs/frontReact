@@ -175,7 +175,7 @@
 
 // Media queries zone
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(md) {
   .toolbar-header {
     .nav-menu-opt {
       order: 1;

@@ -13,8 +13,8 @@ import { useUsersSlice } from '~/common/slices/users';
 import { selectCurrentUser } from '~/common/slices/users/selectors';
 import { useI18n } from '~/common/utils';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
-import { buildQueryString, request } from '~/common/utils/request';
 import { RootState } from '~/common/utils/redux-injectors/types';
+import { buildQueryString, request } from '~/common/utils/request';
 import ApplicationSurveyView from '~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/ApplicationSurveyView';
 import '~/components/Pages/domain/OpenCallPage/OpenCallApplicationPage/index.scss';
 import { TRANSLATION_BASE_OPEN_CALL_DETAILS_PAGE } from '~/components/Pages/domain/OpenCallPage/OpenCallDetailsPage/config-open-call-details';
@@ -97,7 +97,6 @@ const ApplicationCard = ({ application, canModerate, isUpdating, onAccept, onRej
                 entity: ArtistModel.name,
                 identifier: applicationArtist?.identifier,
               }}
-              zoomable
               showProfileSummary
               profileSummaryData={applicationArtist}
             />
@@ -410,7 +409,6 @@ const OpenCallDetailsPage = () => {
                   direction={ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL}
                   showSubtitle
                   actionable
-                  zoomable
                   onProfileClick={() =>
                     currentOpenCallPlaceId && dispatch(usersActions.switchProfile({ id: currentOpenCallPlaceId }))
                   }

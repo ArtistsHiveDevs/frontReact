@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectorPlaces, usePlacesSlice } from '~/common/slices/domain/places/places.redux';
 import { useI18n } from '~/common/utils';
 import { getPlaceTypeOptions } from '~/common/utils/form-options';
+import { getMusicGenreTypeOptions } from '~/common/utils/form-options/music-genre-options.helper';
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { GenericCrudErrorCode, RootState } from '~/common/utils/redux-injectors/types';
 import { BackButton } from '~/components/shared/app/atoms/navigation-buttons/back-buttons';
@@ -20,14 +21,13 @@ import {
 
 const PlacesCreatePage = () => {
   const { navigateToEntity } = useNavigation();
-  const { translateGlobalDict } = useI18n();
+  const { translateGlobalDict, locale } = useI18n();
   const urlParameters = useParams();
   const dispatch = useDispatch();
   const formRef = useRef<DynamicTabbedFormRef>(null);
 
   const [placeId, setCurrentPlaceId] = useState(urlParameters[URL_PARAMETER_NAMES.ELEMENT_ID]);
   const [availableLanguages, updateAvailableLanguages] = useState([]);
-  const [availableGenres, updateAvailableGenres] = useState([]);
   const [requestHasBeenSended, setRequestHasBeenSended] = useState(false);
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
 
@@ -109,28 +109,34 @@ const PlacesCreatePage = () => {
       );
 
     updateAvailableLanguages(langs);
-    updateAvailableGenres([
-      { label: 'Cumbia', value: 'genre1' },
-      { label: 'Reggaetón', value: 'genre2' },
-      { label: 'Rock', value: 'genre3', selected: true },
-      { label: 'Jazz', value: 'genr4' },
-    ]);
   }, []);
+
+  const availableGenres = useMemo(
+    () =>
+      getMusicGenreTypeOptions({
+        translateFn: translateGlobalDict,
+        selectedValues: currentPlace?.genres?.music,
+      }),
+    [currentPlace?.genres?.music, locale]
+  );
+
+  const buildSubmitData = (data: any) =>
+    Array.isArray(data?.genres) ? { ...data, genres: { music: data.genres } } : data;
 
   const handlers = {
     onSubmit: async (data: any, _error?: any) => {
       if (!requestHasBeenSended) {
         setHasAttemptedSubmit(true);
+        const submitData = buildSubmitData(data);
         if (!currentPlace) {
-          dispatch(placesActions.createItem({ data }));
+          dispatch(placesActions.createItem({ data: submitData }));
         } else {
           dispatch(
             placesActions.updateItem({
               id: currentPlace.identifier,
               newItem: {
-                ...data,
+                ...submitData,
               },
-              // newItem: { spotify: 'InstagramActualizado' },
             })
           );
         }

@@ -141,7 +141,7 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
 
     if (Array.isArray(cityData) && cityData.length > 0) {
       // Convert array format to defaultValue object. Se parte de initialDefaultValue (ej.
-      // { country: 'RqwIbVusuX' }) para que un nivel persistido parcial (state/city sin country)
+      // { country: 'CO' }) para que un nivel persistido parcial (state/city sin country)
       // no pise el default entero, sino que sólo sobreescriba lo que sí trae cityData.
       const defaultValueObj: any = { ...initialDefaultValue };
 
@@ -232,12 +232,15 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
   }, [dispatch, countryActions]);
 
   // Busca el país por identifier y, si no matchea, por alpha2 como respaldo (código estable
-  // que siempre se puede cruzar contra availableCountries).
+  // que siempre se puede cruzar contra availableCountries; el sID se regenera en cada reseed).
   const findMatchingCountry = (countries: CountryModel[], value: { country?: string; countryAlpha2?: string }) => {
     if (!value?.country && !value?.countryAlpha2) return undefined;
+    const alpha2Candidates = [value.countryAlpha2, value.country]
+      .filter(Boolean)
+      .map((candidate) => (candidate as string).toUpperCase());
     return (
       countries.find((c) => value.country && c.identifier === value.country) ||
-      countries.find((c) => value.countryAlpha2 && c.alpha2 === value.countryAlpha2)
+      countries.find((c) => c.alpha2 && alpha2Candidates.includes(c.alpha2.toUpperCase()))
     );
   };
 
@@ -281,6 +284,7 @@ const CitySelectorComponent: React.FC<CitySelectorParams> = (citySelectorParams)
 
       const queryParams: any = {
         countryId: country.identifier,
+        ...(country.alpha2 ? { countryAlpha2: country.alpha2 } : {}),
         level,
         parentId: actualParentId,
       };

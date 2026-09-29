@@ -723,7 +723,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   },
   {
     name: 'documents',
-    allowedRoles: [{ entityName: 'Artist', requireActiveProfileType: true, requireResourceOwnership: true }],
+    // allowedRoles: [{ entityName: 'Artist', requireActiveProfileType: true, requireResourceOwnership: true }],
     sections: [
       {
         name: 'technical_docs',

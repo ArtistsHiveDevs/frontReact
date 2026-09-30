@@ -1,10 +1,10 @@
 import './index.scss';
 
 import { Alert, Button } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { selectorEventGuests } from '~/common/slices/domain/event-guests/event-guests.redux';
+import { selectorEventGuests, useEventGuestsSlice } from '~/common/slices/domain/event-guests/event-guests.redux';
 import {
   selectorEventTicketTypes,
   useEventTicketTypesSlice,
@@ -15,8 +15,10 @@ import { RootState } from '~/common/utils/redux-injectors/types';
 import { useProfileInfo } from '~/components/Pages/domain/OpenCallPage/common';
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { URL_PARAMETER_NAMES } from '~/constants';
+import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import { AddEventGuestDialog } from './AddEventGuestDialog';
+import { EventGuestsTable } from './EventGuestsTable';
 import { TRANSLATION_BASE_EVENT_GUEST_PAGE } from './config-event-guest';
 
 const EventGuestPage = () => {
@@ -28,22 +30,45 @@ const EventGuestPage = () => {
 
   const { actions: eventActions } = useEventsSlice();
   const { actions: eventTicketTypeActions } = useEventTicketTypesSlice();
-  const { isArtistProfile, currentProfileId } = useProfileInfo();
+  const { actions: eventGuestActions } = useEventGuestsSlice();
+  const { loggedUser } = useProfileInfo();
+
+  const currentProfileInfo = loggedUser?.currentProfileInfo;
+  const isArtistProfile = currentProfileInfo?.entity === ArtistModel.name;
+  const currentProfileId = currentProfileInfo?.id;
 
   const [isAddGuestDialogOpen, setIsAddGuestDialogOpen] = useState(false);
 
-  const selectEventById = selectorEvents.makeSelectItemById();
-  const currentEvent: EventModel = useSelector((state: RootState) =>
-    eventId ? selectEventById(state, eventId) : undefined
+  const selectEventById = useMemo(() => selectorEvents.makeSelectItemById(), []);
+  const selectCurrentEvent = useCallback(
+    (state: RootState) => (eventId ? selectEventById(state, eventId) : undefined),
+    [selectEventById, eventId]
   );
+  const currentEvent: EventModel = useSelector(selectCurrentEvent);
   const isLoadingEvent = useSelector(selectorEvents.selectLoading);
   const ticketTypes = useSelector(selectorEventTicketTypes.selectItems);
   const createdGuest = useSelector(selectorEventGuests.selectCreatedItem);
+  const registeredGuests = useSelector(selectorEventGuests.selectItems);
+
+  const canListGuests = !!eventId && isArtistProfile && !!currentProfileId;
 
   useEffect(() => {
     dispatch(eventActions.getItemById({ id: eventId }));
     dispatch(eventTicketTypeActions.loadItems({ queryParams: { event_id: eventId } }));
   }, [eventId]);
+
+  const reloadRegisteredGuests = useCallback(() => {
+    if (canListGuests) {
+      dispatch(eventGuestActions.loadItems({ queryParams: { event_id: eventId, artist_id: currentProfileId } }));
+    }
+  }, [canListGuests, eventId, currentProfileId, dispatch, eventGuestActions]);
+
+  useEffect(() => {
+    reloadRegisteredGuests();
+  }, [reloadRegisteredGuests]);
+
+  const openAddGuestDialog = useCallback(() => setIsAddGuestDialogOpen(true), []);
+  const closeAddGuestDialog = useCallback(() => setIsAddGuestDialogOpen(false), []);
 
   if (isLoadingEvent || !currentEvent) {
     return <AppLoader height="100vh" />;
@@ -69,7 +94,7 @@ const EventGuestPage = () => {
         </section>
 
         <div className="event-guest-page__actions">
-          <Button variant="contained" onClick={() => setIsAddGuestDialogOpen(true)}>
+          <Button variant="contained" onClick={openAddGuestDialog}>
             {translateText(`${TRANSLATION_BASE_EVENT_GUEST_PAGE}.addSale`)}
           </Button>
         </div>
@@ -81,9 +106,12 @@ const EventGuestPage = () => {
         </Alert>
       )}
 
+      {canListGuests && <EventGuestsTable guests={registeredGuests} />}
+
       <AddEventGuestDialog
         isOpen={isAddGuestDialogOpen}
-        onClose={() => setIsAddGuestDialogOpen(false)}
+        onClose={closeAddGuestDialog}
+        onGuestCreated={reloadRegisteredGuests}
         eventId={eventId}
         ticketTypes={ticketTypes}
         artistId={isArtistProfile ? currentProfileId : undefined}

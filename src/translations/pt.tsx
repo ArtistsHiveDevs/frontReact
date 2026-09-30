@@ -1320,6 +1320,25 @@ export const PtMessages = {
             email: 'E-mail',
             ticket_type_id: 'Tipo de ingresso',
           },
+          guestsTable: {
+            title: 'Convidados que você registrou',
+            emptyMessage: 'Você ainda não registrou convidados para este evento.',
+            searchPlaceholder: 'Buscar convidados',
+            noResultsMessage: 'Nenhum convidado corresponde à sua busca.',
+            totals: {
+              title: 'Detalhamento',
+              grandTotal: 'Total geral',
+            },
+            columns: {
+              first_name: 'Nome',
+              last_name: 'Sobrenome',
+              cc: 'Número do documento',
+              email: 'E-mail',
+              ticket_type_name: 'Tipo de ingresso',
+              ticket_price: 'Preço',
+              registrationDate: 'Data de registro',
+            },
+          },
           errors: {
             duplicatedCc: 'Já existe um convidado com este número de documento registrado neste evento.',
             invalidEmail: 'Informe um endereço de e-mail válido.',

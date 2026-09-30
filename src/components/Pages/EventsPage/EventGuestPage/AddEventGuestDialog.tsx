@@ -1,5 +1,5 @@
 import { Alert, Button } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FormProvider, RegisterOptions, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectorEventGuests, useEventGuestsSlice } from '~/common/slices/domain/event-guests/event-guests.redux';
@@ -15,13 +15,14 @@ const DUPLICATED_CC_BACKEND_MESSAGE = 'A guest with this document number is alre
 interface AddEventGuestDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  onGuestCreated: () => void;
   eventId: string;
   ticketTypes: EventTicketTypeModel[];
   artistId?: string;
 }
 
 export const AddEventGuestDialog = (props: AddEventGuestDialogProps) => {
-  const { isOpen, onClose, eventId, ticketTypes, artistId } = props;
+  const { isOpen, onClose, onGuestCreated, eventId, ticketTypes, artistId } = props;
 
   const dispatch = useDispatch();
   const { translateText } = useI18n();
@@ -56,40 +57,51 @@ export const AddEventGuestDialog = (props: AddEventGuestDialogProps) => {
     return translatedField;
   };
 
-  const ticketTypeOptions = (ticketTypes || []).map((ticketType) => ({
-    value: ticketType.identifier,
-    label: ticketType.selectLabel,
-  }));
+  const ticketTypeOptions = useMemo(
+    () =>
+      (ticketTypes || []).map((ticketType) => ({
+        value: ticketType.identifier,
+        label: ticketType.selectLabel,
+      })),
+    [ticketTypes]
+  );
+
+  const translatedFields = useMemo(() => EVENT_GUEST_FORM_FIELDS.map(translateField), [translateText]);
+
+  const fieldOptions = useMemo(() => ({ ticket_type_id: ticketTypeOptions }), [ticketTypeOptions]);
 
   useEffect(() => {
     if (isAwaitingResponse && createdGuest) {
       setIsAwaitingResponse(false);
       formMethods.reset();
       onClose();
+      onGuestCreated();
     }
   }, [createdGuest, isAwaitingResponse]);
 
-  const errorMessageKey =
-    responseError?.message === DUPLICATED_CC_BACKEND_MESSAGE ? 'duplicatedCc' : 'genericError';
+  const errorMessageKey = responseError?.message === DUPLICATED_CC_BACKEND_MESSAGE ? 'duplicatedCc' : 'genericError';
 
-  const handlers = {
-    onSubmit: (formData: any) => {
-      setIsAwaitingResponse(true);
-      dispatch(
-        eventGuestActions.createItem({
-          data: {
-            event_id: eventId,
-            ticket_type_id: formData.ticket_type_id,
-            first_name: formData.first_name,
-            last_name: formData.last_name,
-            cc: formData.cc,
-            ...(formData.email ? { email: formData.email } : {}),
-            ...(artistId ? { artist_id: artistId } : {}),
-          },
-        })
-      );
-    },
-  };
+  const handlers = useMemo(
+    () => ({
+      onSubmit: (formData: any) => {
+        setIsAwaitingResponse(true);
+        dispatch(
+          eventGuestActions.createItem({
+            data: {
+              event_id: eventId,
+              ticket_type_id: formData.ticket_type_id,
+              first_name: formData.first_name,
+              last_name: formData.last_name,
+              cc: formData.cc,
+              ...(formData.email ? { email: formData.email } : {}),
+              ...(artistId ? { artist_id: artistId } : {}),
+            },
+          })
+        );
+      },
+    }),
+    [dispatch, eventGuestActions, eventId, artistId]
+  );
 
   return (
     <AppDialog
@@ -114,10 +126,10 @@ export const AddEventGuestDialog = (props: AddEventGuestDialogProps) => {
             )}
 
             <DynamicForm
-              fields={EVENT_GUEST_FORM_FIELDS.map(translateField)}
+              fields={translatedFields}
               handlers={handlers}
               formMethods={formMethods}
-              fieldOptions={{ ticket_type_id: ticketTypeOptions }}
+              fieldOptions={fieldOptions}
               translationBasePath={TRANSLATION_BASE_EVENT_GUEST_PAGE}
               hideSubmitButton={true}
               useExternalForm={true}

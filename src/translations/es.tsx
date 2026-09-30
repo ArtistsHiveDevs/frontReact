@@ -1323,6 +1323,25 @@ export const EsMessages = {
             email: 'Correo electrónico',
             ticket_type_id: 'Tipo de boleta',
           },
+          guestsTable: {
+            title: 'Invitados que registraste',
+            emptyMessage: 'Todavía no registraste invitados para este evento.',
+            searchPlaceholder: 'Buscar invitados',
+            noResultsMessage: 'Ningún invitado coincide con tu búsqueda.',
+            totals: {
+              title: 'Desglose',
+              grandTotal: 'Total general',
+            },
+            columns: {
+              first_name: 'Nombre',
+              last_name: 'Apellido',
+              cc: 'Número de documento',
+              email: 'Correo electrónico',
+              ticket_type_name: 'Tipo de boleta',
+              ticket_price: 'Precio',
+              registrationDate: 'Fecha de registro',
+            },
+          },
           errors: {
             duplicatedCc: 'Ya hay un invitado registrado con este número de documento para este evento.',
             invalidEmail: 'Ingresa un correo electrónico válido.',

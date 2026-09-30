@@ -1,4 +1,5 @@
 import { EntityModel, EntityTemplate } from '~/models/base';
+import { formatTicketPrice } from './ticket-price.utils';
 
 export interface EventTicketTypeTemplate extends EntityTemplate {
   _id?: string;
@@ -31,21 +32,7 @@ export class EventTicketTypeModel extends EntityModel<EventTicketTypeTemplate> i
   }
 
   get formattedPrice(): string {
-    if (this.price === undefined || this.price === null) {
-      return '';
-    }
-    if (!this.currency) {
-      return `${this.price}`;
-    }
-    try {
-      return new Intl.NumberFormat(undefined, {
-        style: 'currency',
-        currency: this.currency,
-        maximumFractionDigits: 0,
-      }).format(this.price);
-    } catch {
-      return `${this.currency} ${this.price}`;
-    }
+    return formatTicketPrice(this.price, this.currency);
   }
 
   get selectLabel(): string {

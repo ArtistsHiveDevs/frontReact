@@ -1322,6 +1322,25 @@ export const ElMessages = {
             email: 'Email',
             ticket_type_id: 'Τύπος εισιτηρίου',
           },
+          guestsTable: {
+            title: 'Καλεσμένοι που καταχωρήσατε',
+            emptyMessage: 'Δεν έχετε καταχωρήσει ακόμη καλεσμένους για αυτή την εκδήλωση.',
+            searchPlaceholder: 'Αναζήτηση καλεσμένων',
+            noResultsMessage: 'Κανένας καλεσμένος δεν ταιριάζει με την αναζήτησή σας.',
+            totals: {
+              title: 'Ανάλυση',
+              grandTotal: 'Γενικό σύνολο',
+            },
+            columns: {
+              first_name: 'Όνομα',
+              last_name: 'Επώνυμο',
+              cc: 'Αριθμός ταυτότητας',
+              email: 'Email',
+              ticket_type_name: 'Τύπος εισιτηρίου',
+              ticket_price: 'Τιμή',
+              registrationDate: 'Ημερομηνία καταχώρισης',
+            },
+          },
           errors: {
             duplicatedCc: 'Υπάρχει ήδη καλεσμένος με αυτόν τον αριθμό ταυτότητας σε αυτή την εκδήλωση.',
             invalidEmail: 'Εισάγετε μια έγκυρη διεύθυνση email.',

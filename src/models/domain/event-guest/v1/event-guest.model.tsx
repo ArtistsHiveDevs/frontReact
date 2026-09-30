@@ -1,5 +1,8 @@
+import { Dayjs } from 'dayjs';
+import { ensureDayjs } from '~/common/utils/dates';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import { PopulatedEntityRef, resolvePopulatedRefId } from '~/models/base/modelHelpers';
+import { DEFAULT_TICKET_CURRENCY, formatTicketPrice } from './ticket-price.utils';
 
 export interface EventGuestTemplate extends EntityTemplate {
   _id?: string;
@@ -41,6 +44,14 @@ export class EventGuestModel extends EntityModel<EventGuestTemplate> implements 
 
   get fullName(): string {
     return [this.first_name, this.last_name].filter(Boolean).join(' ');
+  }
+
+  get formattedTicketPrice(): string {
+    return formatTicketPrice(this.ticket_price, DEFAULT_TICKET_CURRENCY);
+  }
+
+  get registrationDate(): Dayjs | undefined {
+    return ensureDayjs(this.createdAt);
   }
 
   get eventId(): string | undefined {

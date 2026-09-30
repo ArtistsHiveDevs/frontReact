@@ -19,6 +19,7 @@ import { resolveNavigateToEntityPath } from '~/common/utils/hooks/navigation/nav
 import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
 import { useDebouncedSearchTerm } from '~/common/utils/hooks/search/useDebouncedSearchTerm';
 import MainSection from '~/components/Pages/HomePage/MainSection/MainSection';
+import { ProfileSummaryDialog } from '~/components/Pages/domain/ProfilePreview/ProfileSummaryDialog';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import {
   ProfilePictureWithName,
@@ -219,6 +220,20 @@ const CreateIndustryEntityPage = () => {
     return candidateIds.some((candidateId) => loggedUser?.checkPermissions(candidateId)?.canEdit);
   };
 
+  const [pendingClaimArtist, setPendingClaimArtist] = useState<ArtistModel | undefined>(undefined);
+  const [isPendingClaimProfilePreviewOpen, setIsPendingClaimProfilePreviewOpen] = useState(false);
+
+  const requestClaimArtistProfile = (artist: ArtistModel) => {
+    if (isArtistAlreadyOwned(artist)) {
+      return;
+    }
+    setPendingClaimArtist(artist);
+  };
+
+  const cancelPendingClaim = () => {
+    setPendingClaimArtist(undefined);
+  };
+
   const claimArtistProfile = (artist: ArtistModel) => {
     if (isArtistAlreadyOwned(artist)) {
       return;
@@ -396,7 +411,7 @@ const CreateIndustryEntityPage = () => {
                       direction={ProfilePictureWithNameConstants.DISPLAY_HORIZONTAL}
                       showSubtitle
                       actionable={!alreadyOwned}
-                      onProfileClick={alreadyOwned ? undefined : () => claimArtistProfile(artist)}
+                      onProfileClick={alreadyOwned ? undefined : () => requestClaimArtistProfile(artist)}
                     />
                     {alreadyOwned && (
                       <p className="artist-claim-result__owned-message">
@@ -417,6 +432,53 @@ const CreateIndustryEntityPage = () => {
             </div>
           )}
         </div>
+
+        <AppDialog
+          isOpenDialog={!!pendingClaimArtist}
+          onClose={cancelPendingClaim}
+          title="Confirmar reclamo de perfil"
+          content={
+            <>
+              {!!pendingClaimArtist && (
+                <div className="claimed-artist-preview">
+                  <ProfilePictureWithName
+                    element={pendingClaimArtist}
+                    direction={ProfilePictureWithNameConstants.DISPLAY_VERTICAL}
+                    styles={{ avatarSize: 6 }}
+                    onProfileClick={() => setIsPendingClaimProfilePreviewOpen(true)}
+                  />
+                </div>
+              )}
+              <p>
+                Estás a punto de asociar el perfil de <strong>"{pendingClaimArtist?.name}"</strong> a tu cuenta. Al
+                confirmar, nos estás diciendo que eres tú quien está a cargo de este proyecto artístico (su dueño, líder
+                o manager), y damos inicio a un proceso de validación de identidad que puede tardar hasta 5 días
+                hábiles.
+                <br />
+                <br />
+                ¿Quieres continuar?
+              </p>
+            </>
+          }
+          actions={[
+            { label: 'Cancelar', handler: cancelPendingClaim },
+            { label: 'Ver perfil', handler: () => setIsPendingClaimProfilePreviewOpen(true) },
+            {
+              label: 'Confirmar',
+              handler: () => {
+                claimArtistProfile(pendingClaimArtist);
+                setPendingClaimArtist(undefined);
+              },
+            },
+          ]}
+        />
+
+        <ProfileSummaryDialog
+          isOpen={isPendingClaimProfilePreviewOpen}
+          onClose={() => setIsPendingClaimProfilePreviewOpen(false)}
+          entityType={ArtistModel.name}
+          entityData={pendingClaimArtist}
+        />
 
         <AppDialog
           isOpenDialog={showClaimConfirmation}

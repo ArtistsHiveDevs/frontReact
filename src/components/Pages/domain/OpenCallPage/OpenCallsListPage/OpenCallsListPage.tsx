@@ -144,6 +144,13 @@ const OpenCallsListPage = () => {
     }
   }, [isPlaceProfile, isArtistProfile]);
 
+  useEffect(() => {
+    dispatch(openCallActions.loadItems({}));
+    if (currentProfileId) {
+      dispatch(openCallApplicationActions.loadItems({ queryParams: { artist_id: currentProfileId } }));
+    }
+  }, [loggedUser]);
+
   // Get data based on active tab
   const getDataForCurrentTab = () => {
     switch (activeTab) {

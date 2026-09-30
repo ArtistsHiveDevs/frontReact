@@ -255,6 +255,8 @@ const OpenCallDetailsPage = () => {
       const permissions = currentOpenCallPlaceId ? loggedUser.checkPermissions(currentOpenCallPlaceId) : undefined;
       setIsPlaceOwner(!!currentOpenCallPlaceId && !!permissions?.canEdit);
       setIsActingAsOwningPlace(!!currentOpenCallPlaceId && !!permissions?.isInProfile);
+
+      dispatch(applicationActions.loadItems({ queryParams: { open_call_id: openCallId } }));
     }
   }, [loggedUser, currentOpenCall]);
 

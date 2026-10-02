@@ -27,6 +27,23 @@ export interface CustomOperations<S> {
   };
 }
 
+function registerItemAliases<M extends { identifier: string; id?: string }>(
+  state: { aliasIndex?: { [alias: string]: string } },
+  item: M,
+  extraAliases: (string | undefined)[] = []
+): void {
+  const canonicalKey = item?.identifier;
+  if (!canonicalKey) {
+    return;
+  }
+  state.aliasIndex ??= {};
+  [item.id, (item as any).sID, (item as any).username, ...extraAliases].forEach((alias) => {
+    if (alias && alias !== canonicalKey) {
+      state.aliasIndex![alias] = canonicalKey;
+    }
+  });
+}
+
 function buildErrorPayloadFromAPIError(apiError?: APIError): RepoErrorPayload {
   return {
     status: apiError?.errorNumber,
@@ -95,6 +112,7 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
           dict[item.identifier] = item;
           return dict;
         }, {} as { [id: string]: M });
+        response.forEach((item) => registerItemAliases(state, item));
         state.loading = false;
         state.queryParams = undefined;
       },
@@ -106,10 +124,7 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
         state.error = null;
         state.queryParams = action?.payload?.queryParams;
       },
-      itemsAccumulated(
-        state: EntityStateTemplate<T, M>,
-        action: PayloadAction<{ items: T[]; metadata?: any } | T[]>
-      ) {
+      itemsAccumulated(state: EntityStateTemplate<T, M>, action: PayloadAction<{ items: T[]; metadata?: any } | T[]>) {
         // Support both old format (T[]) and new format ({ items: T[], metadata: any })
         const isNewFormat = action.payload && !Array.isArray(action.payload) && 'items' in action.payload;
         const items = isNewFormat ? (action.payload as { items: T[] }).items : (action.payload as T[]);
@@ -139,6 +154,7 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
           dict[item.identifier] = item;
           return dict;
         }, {} as { [id: string]: M });
+        allItems.forEach((item) => registerItemAliases(state, item));
 
         state.loading = false;
         state.queryParams = undefined;
@@ -158,9 +174,10 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
           foundItem = new Model(action.payload.item);
 
           state.detailedItems[foundItem.identifier] = foundItem;
+          registerItemAliases(state, foundItem, [action.payload.id]);
 
           // Actualizar en la lista de items si ya existe
-          const itemIndex = state.items.findIndex((id) => id === foundItem.identifier);
+          const itemIndex = state.items.findIndex((id) => id === foundItem.identifier || id === action.payload.id);
 
           if (itemIndex >= 0) {
             state.items[itemIndex] = foundItem.identifier;
@@ -172,7 +189,8 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
       itemUpdatePartial(state: EntityStateTemplate<T, M>, action: PayloadAction<{ id: string; item: any }>) {
         const { id, item } = action.payload;
         if (!!id && !!item) {
-          const oldData = state.detailedItems[id];
+          const canonicalKey = state.aliasIndex?.[id] || id;
+          const oldData = state.detailedItems[canonicalKey];
 
           // Verificamos si el objeto es un ProfileModel<T>
           if (oldData instanceof ProfileModel) {
@@ -182,7 +200,9 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
           }
 
           // Crear la nueva instancia del modelo
-          state.detailedItems[id] = new Model({ ...oldData } as unknown as T);
+          const updatedItem = new Model({ ...oldData } as unknown as T);
+          state.detailedItems[canonicalKey] = updatedItem;
+          registerItemAliases(state, updatedItem, [id]);
         }
         state.loading = false;
         state.queryParams = undefined;
@@ -202,8 +222,10 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
             },
             itemCreated(state: EntityStateTemplate<T, M>, action: PayloadAction<T>) {
               const newItem = new Model(action.payload);
-              state.detailedItems[newItem.id] = newItem;
-              state.items.push(newItem.id);
+              const canonicalKey = newItem.identifier || newItem.id;
+              state.detailedItems[canonicalKey] = newItem;
+              state.items.push(canonicalKey);
+              registerItemAliases(state, newItem);
               state.createdItem = newItem;
               state.newItemRQ = undefined;
               state.loading = false;
@@ -212,7 +234,7 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
       ...(options?.disableOperations?.update
         ? {}
         : {
-            updateItem(state: EntityStateTemplate<T, M>, action: PayloadAction<{ id: string; newItem: Partial<T> }>) {
+            updateItem(state: EntityStateTemplate<T, M>, _action: PayloadAction<{ id: string; newItem: Partial<T> }>) {
               state.loading = true;
               state.error = null;
             },
@@ -222,7 +244,7 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
         : {
             postActionItem(
               state: EntityStateTemplate<T, M>,
-              action: PayloadAction<{
+              _action: PayloadAction<{
                 id: string;
                 action: string;
                 newItem: Partial<T>;
@@ -235,19 +257,30 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
       ...(options?.disableOperations?.delete
         ? {}
         : {
-            deleteItem(state: EntityStateTemplate<T, M>, action: PayloadAction<{ id: string }>) {
+            deleteItem(state: EntityStateTemplate<T, M>, _action: PayloadAction<{ id: string }>) {
               state.loading = true;
             },
             deletedItem(state: EntityStateTemplate<T, M>, action: PayloadAction<{ id: string; item: T }>) {
               state.loading = false;
               console.log('Item eliminado....', action.payload.id, action.payload.item);
 
+              const canonicalKey = state.aliasIndex?.[action.payload.id] || action.payload.id;
+
               // Remover el item del array de IDs (filter ya crea una nueva referencia)
-              state.items = state.items.filter((item) => item !== action.payload.id);
+              state.items = state.items.filter((item) => item !== canonicalKey);
 
               // Crear una nueva referencia del diccionario sin el item eliminado
-              const { [action.payload.id]: deletedItem, ...restItems } = state.detailedItems;
+              const { [canonicalKey]: deletedItem, ...restItems } = state.detailedItems;
               state.detailedItems = restItems as { [id: string]: M };
+
+              // Limpiar los alias que apuntaban a la key eliminada
+              if (state.aliasIndex) {
+                Object.keys(state.aliasIndex).forEach((alias) => {
+                  if (state.aliasIndex![alias] === canonicalKey) {
+                    delete state.aliasIndex![alias];
+                  }
+                });
+              }
 
               // Guardar referencia al item eliminado
               // state.deletedItem = new Model(action.payload.item);
@@ -357,8 +390,7 @@ export function createEntitySlice<T extends EntityTemplate, M extends EntityMode
         }${resourceEndpoint}/${requestedItemID}${queryString}`;
 
         try {
-          const cacheItems: M[] = yield select(selectors.selectItems);
-          const cacheItem = cacheItems.find((item) => item.id === requestedItemID);
+          const cacheItem: M = yield select(selectors.makeSelectItemById(), requestedItemID);
 
           let itemById: T = undefined;
           if (cacheItem && cacheItem.hasFetchAllData) {

@@ -15,7 +15,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 
 export const CustomPDFViewer = (props: { fileSources: DBFileDataItem[] }) => {
   const { translateError } = useI18n();
-  const { fileSources } = props;
+  const fileSources = Array.isArray(props.fileSources) ? props.fileSources : [];
   const [showPDF, setShowPDF] = useState(false);
   const [pdfUrl, setPDFUrl] = useState('');
   const [filesUrls, setFilesUrls] = useState<{ [profileIdentifier: string]: string }>({});
@@ -30,14 +30,14 @@ export const CustomPDFViewer = (props: { fileSources: DBFileDataItem[] }) => {
   const subtitleCardLimits = 25;
 
   useEffect(() => {
-    if (fileSources && Array.isArray(fileSources)) {
+    if (fileSources.length) {
       getProfilePicURLs();
     }
   }, [fileSources]);
 
   const getProfilePicURLs = async () => {
     let handleServerUrls = await getFilesUrls(fileSources);
-    if (fileSources && handleServerUrls) {
+    if (handleServerUrls) {
       setFilesUrls(handleServerUrls);
     }
   };
@@ -108,7 +108,7 @@ export const CustomPDFViewer = (props: { fileSources: DBFileDataItem[] }) => {
     if (!pdfUrl) return;
 
     // Obtener el nombre del archivo desde fileSources
-    const currentFile = fileSources?.find((file: DBFileDataItem) => filesUrls[file?.src] === pdfUrl);
+    const currentFile = fileSources.find((file: DBFileDataItem) => filesUrls[file?.src] === pdfUrl);
     const fileName = currentFile?.fileName || 'documento.pdf';
 
     // Crear un enlace temporal para descargar
@@ -154,7 +154,7 @@ export const CustomPDFViewer = (props: { fileSources: DBFileDataItem[] }) => {
 
   return (
     <>
-      {!fileSources?.length && (
+      {!fileSources.length && (
         <Box className="box-document-avatar">
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div>
@@ -166,26 +166,24 @@ export const CustomPDFViewer = (props: { fileSources: DBFileDataItem[] }) => {
       )}
       {!!filesUrls && !showPDF && (
         <Box className="box-document-avatar">
-          {fileSources &&
-            Array.isArray(fileSources) &&
-            fileSources.map((file: DBFileDataItem, index: number) => (
-              <div key={`pdf_${file}_${index}`} style={{ display: 'flex', flexDirection: 'column' }}>
-                <Paper key={`${file?.fileName}-${index}`} variant="outlined" className="card-document-avatar">
-                  <Button
-                    className="button-document-avatar"
-                    component="label"
-                    startIcon={<DynamicIcons iconName="BiSolidFilePdf" size={iconSize} customStyle={{ padding: 0 }} />}
-                    onClick={() => handleClickPDFShow(file?.src)}
-                  ></Button>
-                </Paper>
-                <span>{substringTextFormat(file?.fileName, subtitleCardLimits)}</span>
-              </div>
-            ))}
+          {fileSources.map((file: DBFileDataItem, index: number) => (
+            <div key={`pdf_${file}_${index}`} style={{ display: 'flex', flexDirection: 'column' }}>
+              <Paper key={`${file?.fileName}-${index}`} variant="outlined" className="card-document-avatar">
+                <Button
+                  className="button-document-avatar"
+                  component="label"
+                  startIcon={<DynamicIcons iconName="BiSolidFilePdf" size={iconSize} customStyle={{ padding: 0 }} />}
+                  onClick={() => handleClickPDFShow(file?.src)}
+                ></Button>
+              </Paper>
+              <span>{substringTextFormat(file?.fileName, subtitleCardLimits)}</span>
+            </div>
+          ))}
         </Box>
       )}
 
       <AppDialog
-        title={fileSources?.find((file: DBFileDataItem) => filesUrls[file?.src] === pdfUrl)?.fileName || 'PDF'}
+        title={fileSources.find((file: DBFileDataItem) => filesUrls[file?.src] === pdfUrl)?.fileName || 'PDF'}
         fullScreen
         isOpenDialog={showPDF}
         onClose={handleClickPDFHide}
@@ -267,7 +265,6 @@ export const CustomPDFViewer = (props: { fileSources: DBFileDataItem[] }) => {
                   const page = index + 1;
                   return (
                     <div
-                      key={`page_${page}`}
                       ref={(el) => (pageRefs.current[page] = el)}
                       data-page-number={page}
                       style={{ marginBottom: '20px' }}

@@ -17,6 +17,7 @@ export const PLACE_ENTITY_NAME = getModelInfoFromClassName(PlaceModel.name).enti
 
 export const ARTIST_PROFILE_PREVIEW_CONFIG: ProfilePreviewConfig = {
   general: {
+    artist_gallery: true,
     general: ['description', 'origin_city', 'home_city'],
     contact: true,
     social_networks: true,

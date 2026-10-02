@@ -54,6 +54,7 @@ export interface EntityStateTemplate<T extends EntityTemplate, M extends EntityM
   error: RepoErrorPayload | null;
   items: string[];
   detailedItems: { [identifier: string]: M };
+  aliasIndex?: { [alias: string]: string };
   queriedId?: string;
   queryParams?: { [param: string]: any };
   newItemRQ?: T;
@@ -68,6 +69,7 @@ export function createInitialState<T extends EntityTemplate, M extends EntityMod
     error: null,
     items: [],
     detailedItems: {},
+    aliasIndex: {},
     queriedId: undefined,
     queryParams: undefined,
     newItemRQ: undefined,

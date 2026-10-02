@@ -3,7 +3,7 @@ import { ControlType } from '~/components/shared/organisms/gui/dynamicForms';
 import { CurrentProfileInfoModel } from '~/models/app/user/user.model';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import { PopulatedEntityRef, resolvePopulatedRefId } from '~/models/base/modelHelpers';
-import { PlaceModel } from '../../place/place.model';
+import { PlaceModel } from '~/models/domain/place/place.model';
 
 export enum OpenCallStatus {
   DRAFT = 'DRAFT',

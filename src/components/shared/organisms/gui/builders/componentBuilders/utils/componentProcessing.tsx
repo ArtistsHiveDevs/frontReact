@@ -1,8 +1,8 @@
 import { isDayjs } from 'dayjs';
+import { IconDetailedAttribute } from '~/components/shared/molecules/general/AttributesIconField';
 import { EntityModel, EntityTemplate } from '~/models/base';
 import { AttributeConfiguration } from '../../component-types.def';
-import { getData, getAttributeTitle } from './dataExtraction';
-import { IconDetailedAttribute } from '~/components/shared/molecules/general/AttributesIconField';
+import { getAttributeTitle, getData } from './dataExtraction';
 
 /**
  * Procesa un atributo individual para ATTRIBUTES_ICON_FIELDS
@@ -34,9 +34,7 @@ export const processAttribute = (
             }
             comp.data.socialNetwork = attribute.name;
 
-            return (
-              <div key={`nested-${componentIndex}-${idx}`}>{buildComponent(comp)}</div>
-            );
+            return <div key={`nested-${componentIndex}-${idx}`}>{buildComponent(comp)}</div>;
           })}
         </>
       );
@@ -56,5 +54,6 @@ export const processAttribute = (
     icon: attribute?.icon,
     value,
     requireSession: attribute.requireSession,
+    fieldPath: `${subpageName}.sections.${sectionName}.attributes.${attribute.name}`,
   };
 };

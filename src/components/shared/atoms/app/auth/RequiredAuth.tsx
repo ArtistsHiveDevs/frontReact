@@ -48,6 +48,14 @@ export function validateUserAuthorization(
     authorizationResult = AuthorizationStates.ALLOWED;
   } else {
     if (user && !!user?.id) {
+      const viewerIdentifier = user.currentProfileInfo?.identifier || user.currentProfileInfo?.id;
+      if (
+        resourceEntity?.hasTemporaryAccessTo?.(viewerIdentifier, name) ||
+        resourceEntity?.hasTrustedAccessTo?.(viewerIdentifier, name)
+      ) {
+        return AuthorizationStates.ALLOWED;
+      }
+
       let isAllowed =
         !allowedRoles ||
         !allowedRoles.length ||

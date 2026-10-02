@@ -195,6 +195,7 @@ export const FrMessages = {
             place_types: {
               label: 'Types de Lieu',
               values: {
+                arena: 'Aréna',
                 bar: 'Bar',
                 club: 'Club',
                 theater: 'Théâtre',

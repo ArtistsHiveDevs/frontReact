@@ -1,8 +1,9 @@
-import { Box, Dialog, DialogContent, Grid, IconButton } from '@mui/material';
+import { Box, Grid, IconButton } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import { useI18n } from '~/common/utils';
 import { getUrlS3 } from '~/common/utils/amplify/storage/storage.helpers';
+import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { DynamicIcons } from '../../DynamicIcons';
 import { GalleryImageParams } from './ImageGallery';
 import './ImageGallery.scss';
@@ -122,39 +123,40 @@ export const HorizontalImageGallery: React.FC<HorizontalImageGalleryProps> = (pa
               );
             })}
           </Grid>
-          <Dialog open={selectedIndex !== null} onClose={handleClose} fullWidth onKeyUp={handleKeyboard}>
-            <DialogContent style={{ textAlign: 'center', position: 'relative' }} {...swipeHandlers}>
-              <IconButton onClick={handleClose} style={{ position: 'absolute', top: 10, right: 10 }}>
-                <DynamicIcons iconName="MdClose" />
-              </IconButton>
-              {selectedIndex !== null && (
-                <img
-                  src={profilePicturesURLs[imagesInfo[selectedIndex].src]}
-                  alt={`Image ${selectedIndex}`}
-                  style={{ maxWidth: '100%', maxHeight: '80vh' }}
-                />
-              )}
-              <IconButton
-                onClick={handlePrev}
-                style={{ position: 'absolute', top: '50%', left: 10, transform: 'translateY(-50%)' }}
-              >
-                <DynamicIcons iconName="MdArrowBackIosNew" />
-              </IconButton>
-              <IconButton
-                onClick={handleNext}
-                style={{ position: 'absolute', top: '50%', right: 10, transform: 'translateY(-50%)' }}
-              >
-                <DynamicIcons iconName="MdArrowForwardIos" />
-              </IconButton>
-              {selectedIndex !== null && (
-                <p>
-                  {!!imagesInfo[selectedIndex].translationKey && ' - ' && translateText(imagesInfo[selectedIndex].translationKey)}
-                  {!!imagesInfo[selectedIndex].description && !imagesInfo[selectedIndex].translationKey && ' - ' && imagesInfo[selectedIndex].description}
-                  <br />({selectedIndex + 1} / {imagesInfo.length})
-                </p>
-              )}
-            </DialogContent>
-          </Dialog>
+          <AppDialog
+            isOpenDialog={selectedIndex !== null}
+            onClose={handleClose}
+            onKeyUp={handleKeyboard}
+            contentProps={swipeHandlers}
+            content={
+              selectedIndex !== null && (
+                <div style={{ textAlign: 'center', position: 'relative' }}>
+                  <img
+                    src={profilePicturesURLs[imagesInfo[selectedIndex].src]}
+                    alt={`Image ${selectedIndex}`}
+                    style={{ maxWidth: '100%', maxHeight: '80vh' }}
+                  />
+                  <IconButton
+                    onClick={handlePrev}
+                    style={{ position: 'absolute', top: '50%', left: 10, transform: 'translateY(-50%)' }}
+                  >
+                    <DynamicIcons iconName="MdArrowBackIosNew" />
+                  </IconButton>
+                  <IconButton
+                    onClick={handleNext}
+                    style={{ position: 'absolute', top: '50%', right: 10, transform: 'translateY(-50%)' }}
+                  >
+                    <DynamicIcons iconName="MdArrowForwardIos" />
+                  </IconButton>
+                  <p>
+                    {!!imagesInfo[selectedIndex].translationKey && ' - ' && translateText(imagesInfo[selectedIndex].translationKey)}
+                    {!!imagesInfo[selectedIndex].description && !imagesInfo[selectedIndex].translationKey && ' - ' && imagesInfo[selectedIndex].description}
+                    <br />({selectedIndex + 1} / {imagesInfo.length})
+                  </p>
+                </div>
+              )
+            }
+          />
         </Box>
       )}
 

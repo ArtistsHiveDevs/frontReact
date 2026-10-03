@@ -1,10 +1,11 @@
-import { InputAdornment, TextField } from '@mui/material';
+import { Button, InputAdornment, TextField } from '@mui/material';
 import { isDayjs } from 'dayjs';
 import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { useI18n } from '~/common/utils';
 import { removeSpecialChars } from '~/common/utils/string-utils';
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import { TableView } from '~/components/shared/atoms/Table/TableView';
+import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { DEFAULT_TICKET_CURRENCY, EventGuestModel, formatTicketPrice } from '~/models/domain/event-guest/v1';
 import {
   EVENT_GUEST_CARD_FIELDS,
@@ -17,14 +18,18 @@ import {
 
 interface EventGuestsTableProps {
   guests: EventGuestModel[];
+  onRegisterEntry?: (guestId: string) => void;
 }
 
 export const EventGuestsTable = (props: EventGuestsTableProps) => {
-  const { guests } = props;
+  const { guests, onRegisterEntry } = props;
 
   const { translateText } = useI18n();
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [pendingEntryRow, setPendingEntryRow] = useState<Record<string, any>>();
+
+  const cancelPendingEntry = useCallback(() => setPendingEntryRow(undefined), []);
 
   const rows: Record<string, any>[] = useMemo(
     () =>
@@ -121,6 +126,10 @@ export const EventGuestsTable = (props: EventGuestsTableProps) => {
                   </div>
                 ))}
               </dl>
+
+              <Button variant="contained" size="small" onClick={() => setPendingEntryRow(row)}>
+                Registrar ingreso
+              </Button>
             </li>
           ))}
         </ul>
@@ -171,12 +180,49 @@ export const EventGuestsTable = (props: EventGuestsTableProps) => {
               ),
             }}
           />
-
           {renderResults()}
         </>
       ) : (
         <p className="event-guest-page__guests-empty">{translate('emptyMessage')}</p>
       )}
+
+      <AppDialog
+        isOpenDialog={!!pendingEntryRow}
+        onClose={cancelPendingEntry}
+        title="Confirmar ingreso"
+        content={
+          <p>
+            Vas a registrar el ingreso de <br />
+            <br />
+            <strong>{[pendingEntryRow?.first_name, pendingEntryRow?.last_name].join(' ')}</strong>
+            {pendingEntryRow?.cc ? (
+              <>
+                {' '}
+                (documento: <strong>{pendingEntryRow.cc}</strong>)
+              </>
+            ) : null}
+            {pendingEntryRow?.ticket_type_name ? (
+              <>
+                <br />
+                Entrada: <strong>{pendingEntryRow.ticket_type_name}</strong>
+              </>
+            ) : null}
+            <br />
+            <br />
+            ¿Deseas continuar?
+          </p>
+        }
+        actions={[
+          { label: 'Cancelar', handler: cancelPendingEntry },
+          {
+            label: 'Confirmar',
+            handler: () => {
+              onRegisterEntry?.(pendingEntryRow!.id);
+              setPendingEntryRow(undefined);
+            },
+          },
+        ]}
+      />
     </section>
   );
 };

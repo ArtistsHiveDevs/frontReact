@@ -4,6 +4,7 @@ import { FormProvider, RegisterOptions, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectorEventGuests, useEventGuestsSlice } from '~/common/slices/domain/event-guests/event-guests.redux';
 import { useI18n } from '~/common/utils';
+import { getGenderOptions } from '~/common/utils/form-options';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms/dynamic-control-types';
 import { DynamicForm } from '~/components/shared/organisms/gui/dynamicForms/dynamic-form';
@@ -25,12 +26,14 @@ export const AddEventGuestDialog = (props: AddEventGuestDialogProps) => {
   const { isOpen, onClose, onGuestCreated, eventId, ticketTypes, artistId } = props;
 
   const dispatch = useDispatch();
-  const { translateText } = useI18n();
+  const { translateText, translateGlobalDict } = useI18n();
   const { actions: eventGuestActions } = useEventGuestsSlice();
 
   const createdGuest = useSelector(selectorEventGuests.selectCreatedItem);
   const responseError = useSelector(selectorEventGuests.selectError);
   const isSaving = useSelector(selectorEventGuests.selectLoading);
+
+  const [availableGenders, updateAvailableGenders] = useState([]);
 
   const [isAwaitingResponse, setIsAwaitingResponse] = useState(false);
 
@@ -68,7 +71,14 @@ export const AddEventGuestDialog = (props: AddEventGuestDialogProps) => {
 
   const translatedFields = useMemo(() => EVENT_GUEST_FORM_FIELDS.map(translateField), [translateText]);
 
-  const fieldOptions = useMemo(() => ({ ticket_type_id: ticketTypeOptions }), [ticketTypeOptions]);
+  const fieldOptions = useMemo(
+    () => ({ ticket_type_id: ticketTypeOptions, gender: availableGenders }),
+    [ticketTypeOptions]
+  );
+
+  useEffect(() => {
+    updateAvailableGenders(getGenderOptions({ translateFn: translateGlobalDict }));
+  }, []);
 
   useEffect(() => {
     if (isAwaitingResponse && createdGuest) {

@@ -6,10 +6,14 @@ export const createHtmlContentComponent = (params: ComponentBuilderParams): JSX.
 
   const dataSourceElement = getDataSource(componentDescriptor, entityData, parentDataSource);
 
-  const content =
+  let content =
     getData(componentDescriptor.data?.attribute_content, dataSourceElement) ||
     componentDescriptor.data?.content ||
     (componentDescriptor.data?.render && componentDescriptor.data?.render(dataSourceElement));
+
+  if (typeof content === 'function') {
+    content = content(entityData);
+  }
 
   return <>{content}</>;
 };

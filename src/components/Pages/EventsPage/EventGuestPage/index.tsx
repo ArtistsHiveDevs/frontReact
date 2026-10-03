@@ -50,7 +50,8 @@ const EventGuestPage = () => {
   const createdGuest = useSelector(selectorEventGuests.selectCreatedItem);
   const registeredGuests = useSelector(selectorEventGuests.selectItems);
 
-  const canListGuests = !!eventId && isArtistProfile && !!currentProfileId;
+  // const canListGuests = true || (!!eventId && isArtistProfile && !!currentProfileId);
+  const canListGuests = true;
 
   useEffect(() => {
     dispatch(eventActions.getItemById({ id: eventId }));

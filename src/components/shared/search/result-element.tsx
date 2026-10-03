@@ -63,7 +63,7 @@ export const ResultElement: React.FC<QueryTemplate> = (props: QueryTemplate) => 
         />
         <div className="search-item-box">
           <h4 className="search-item__title">
-            {element.name} <VerifiedArtist verifiedStatus={element?.verified_status} />
+            {element.name || `@${element.username}`} <VerifiedArtist verifiedStatus={element?.verified_status} />
           </h4>
           <span className="search-item__subtitle">
             {element?.subtitle || (

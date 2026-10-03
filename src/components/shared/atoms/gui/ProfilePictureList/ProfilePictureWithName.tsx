@@ -75,7 +75,7 @@ export function ProfilePictureWithName<T extends ProfilePictureWithNameElement>(
     onToggleSelect,
     onProfileClick,
     actionable,
-    zoomable,
+    zoomable = false,
     showProfileSummary,
     profileSummaryData,
   } = params;

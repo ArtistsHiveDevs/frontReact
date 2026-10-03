@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useForm, useFormContext } from 'react-hook-form';
 import { useI18n } from '~/common/utils';
 import {
-  CustomObjectListViewer,
   CustomObjectElementHandleClickTemplate,
   CustomObjectListElementFieldTemplate,
+  CustomObjectListViewer,
 } from '~/components/shared/CustomObjectListViewer/CustomObjectListViewer';
 import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
 import { ComponentGeneratorParams } from '../DynamicControl';
@@ -15,7 +15,7 @@ export const createCustomObjectList = (params: ComponentGeneratorParams) => {
   const { translateText } = useI18n();
   const { fieldData, handlers } = params;
   const { componentParams, config, fieldName, externalData, nestedOptions } = fieldData;
-  const { fields, dialogTitle = '', translationPath, dialogLabelAddCustomObjectElement, enableVerticalView } = componentParams;
+  const { fields, translationPath, dialogLabelAddCustomObjectElement, enableVerticalView } = componentParams;
 
   const formMethods = useForm({
     mode: 'onChange', // Validar en cada cambio
@@ -45,8 +45,9 @@ export const createCustomObjectList = (params: ComponentGeneratorParams) => {
 
   useEffect(() => {
     if (externalData?.length > 0 && externalData && Array.isArray(externalData) && !prechargedExternalInfo) {
-      setCustomObjectList(externalData);
-      setValue?.(fieldName, externalData);
+      const plainList = externalData.map(toPlainObject);
+      setCustomObjectList(plainList);
+      setValue?.(fieldName, plainList);
       setPrechargedExternalInfo(true);
     }
   }, [externalData]);
@@ -55,9 +56,17 @@ export const createCustomObjectList = (params: ComponentGeneratorParams) => {
     return Math.random().toString(36).slice(2, 11);
   };
 
+  const toPlainObject = (item: any) => {
+    const plain: Record<string, any> = { internal_id: item?.internal_id };
+    fields?.forEach((field: CustomObjectListElementFieldTemplate) => {
+      plain[field.fieldName] = item?.[field.fieldName];
+    });
+    return plain;
+  };
+
   const mapDynamicFormDataToModel = (customObjectElement: any) => {
     return {
-      ...{internal_id: generateRandomInternalIdentifier()},
+      ...{ internal_id: generateRandomInternalIdentifier() },
       ...customObjectElement,
     };
   };
@@ -75,7 +84,9 @@ export const createCustomObjectList = (params: ComponentGeneratorParams) => {
   };
 
   const handleRemoveItem = (externalIdentifier: string) => {
-    const data = customObjectList?.filter((customObjectElementToFilter) => customObjectElementToFilter?.internal_id !== externalIdentifier);
+    const data = customObjectList?.filter(
+      (customObjectElementToFilter) => customObjectElementToFilter?.internal_id !== externalIdentifier
+    );
     setCustomObjectList(data);
     setValue?.(fieldName, data, { shouldDirty: true });
   };

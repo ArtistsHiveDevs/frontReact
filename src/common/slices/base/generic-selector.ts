@@ -19,10 +19,13 @@ export function createEntitySelectors<K extends keyof RootState, M extends Entit
       (state: EntityStateTemplate<T, M>) => state?.items.map((id: string) => state.detailedItems[id]) || []
     ),
     makeSelectItemById: () =>
-      createSelector(
-        [selectDomain, (_: RootState, itemId: string) => itemId],
-        (state, itemId) => state?.detailedItems && state?.detailedItems[itemId]
-      ),
+      createSelector([selectDomain, (_: RootState, itemId: string) => itemId], (state, itemId) => {
+        if (!state?.detailedItems || !itemId) {
+          return undefined;
+        }
+
+        return state.detailedItems[itemId] ?? state.detailedItems[state.aliasIndex?.[itemId]];
+      }),
     selectCreatedItem: createSelector([selectDomain], (state: EntityStateTemplate<T, M>) => state?.createdItem),
   };
 }

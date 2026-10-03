@@ -313,6 +313,8 @@ export function buildSocialNetworkLinkData(socialNetworkName: string, mainValue:
     if (socialNetworkName === 'email' || socialNetworkName === 'phone' || socialNetworkName === 'mobile_phone') {
       url = `${socialNetwork.url}:${mainValue}`;
       target = '_self';
+    } else if (socialNetworkName === 'tidal') {
+      url = `${socialNetwork.url}/artist/${mainValue}`;
     } else if (socialNetworkName === 'tiktok') {
       url = `${socialNetwork.url}/@${mainValue}`;
     } else if (socialNetworkName === 'youtube') {

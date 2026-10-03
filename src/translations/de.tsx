@@ -195,6 +195,7 @@ export const DeMessages = {
             place_types: {
               label: 'Ortstypen',
               values: {
+                arena: 'Arena',
                 bar: 'Bar',
                 club: 'Club',
                 theater: 'Theater',

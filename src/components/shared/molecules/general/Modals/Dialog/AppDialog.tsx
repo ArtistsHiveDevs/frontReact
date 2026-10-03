@@ -11,6 +11,8 @@ export const AppDialog = (params: {
   actions?: { label: string; handler: Function }[];
   fullScreen?: boolean;
   className?: string;
+  onKeyUp?: (event: React.KeyboardEvent) => void;
+  contentProps?: React.HTMLAttributes<HTMLDivElement>;
 }) => {
   // Solo renderizar el Dialog cuando está abierto para optimizar memoria
   if (!params?.isOpenDialog) {
@@ -23,6 +25,7 @@ export const AppDialog = (params: {
       id="zoomAlbumImg"
       open={params.isOpenDialog}
       onClose={() => params.onClose()}
+      onKeyUp={params.onKeyUp}
       fullWidth
       fullScreen={params.fullScreen}
     >
@@ -32,7 +35,7 @@ export const AppDialog = (params: {
           <DynamicIcons iconName="MdClose" />
         </IconButton>
       </DialogTitle>
-      <DialogContent className="zoom-dialog">
+      <DialogContent className="zoom-dialog" {...params.contentProps}>
         <div className="dialog-content">{params.content}</div>
         {!!params.icon && (
           <div className="dialog-icon">

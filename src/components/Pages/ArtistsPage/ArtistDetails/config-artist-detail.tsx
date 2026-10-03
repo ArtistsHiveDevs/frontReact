@@ -280,7 +280,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   {
     name: 'members',
     requireSession: true,
-    allowedRoles: [{ entityName: 'Artist', requireActiveProfileType: true }],
+    allowedRoles: [{ entityName: 'Artist', requireActiveProfileType: true, requireResourceOwnership: true }],
     // fullyHidden: fullyHiddenSectionsByEnvironment(['prod']),
     sections: [
       {
@@ -723,7 +723,7 @@ export const ARTIST_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
   },
   {
     name: 'documents',
-    allowedRoles: [{ entityName: 'Artist', requireActiveProfileType: true }],
+    allowedRoles: [{ entityName: 'Artist', requireActiveProfileType: true, requireResourceOwnership: true }],
     sections: [
       {
         name: 'technical_docs',

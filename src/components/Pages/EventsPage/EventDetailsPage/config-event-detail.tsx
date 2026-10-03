@@ -20,6 +20,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             data: {
               attribute_content: 'description',
             },
+            formMetaData: { fieldName: 'description' },
           },
         ],
       },
@@ -333,6 +334,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             data: {
               attribute_content: 'additional_info',
             },
+            formMetaData: { fieldName: 'additional_info' },
           },
         ],
       },
@@ -344,6 +346,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             data: {
               attribute_content: 'dress_code',
             },
+            formMetaData: { fieldName: 'dress_code' },
           },
         ],
       },
@@ -355,6 +358,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
             data: {
               attribute_content: 'discounts',
             },
+            formMetaData: { fieldName: 'discounts' },
           },
         ],
       },

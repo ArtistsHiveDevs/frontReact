@@ -60,4 +60,5 @@ export interface DynamicFieldData {
   focused?: boolean;
   externalData?: any;
   description?: string;
+  readOnly?: boolean;
 }

@@ -1,3 +1,4 @@
+import { getGenderIdentityOptions, getGenderOptions } from '~/common/utils/form-options/user-options.helper';
 import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
 
 export const TRANSLATION_BASE_OPEN_CALL_PAGE = 'app.pages.OpenCallPage';
@@ -104,6 +105,10 @@ export const OPEN_CALL_STEP_META: Record<string, OpenCallStepMeta> = {
   logistics: {
     title: 'Logística',
     description: 'Información sobre costos, transporte y hospedaje.',
+  },
+  genre: {
+    title: 'Equidad de género y LGBTIQ+',
+    description: 'Criterio de equidad de género y minorías',
   },
 };
 
@@ -638,6 +643,31 @@ export const OPEN_CALL_PAGE_CONFIG: PageSection[] = [
                     },
                   },
                 },
+              ],
+            },
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const OPEN_CALL_SPECIAL_INFO: PageSection[] = [
+  {
+    name: 'genre',
+    title: OPEN_CALL_STEP_META.genre.title,
+    sections: [
+      {
+        name: 'lineup',
+        components: [
+          {
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
+            data: {
+              attributes: [
+                { name: 'total', title: 'N° integrantes', displayAsPlainText: true },
+                { name: 'gender', title: 'Género', optionsGetter: getGenderOptions },
+                { name: 'gender_identity', title: 'Identidad de género', optionsGetter: getGenderIdentityOptions },
+                { name: 'member_instrument', title: 'Instrumentos' },
               ],
             },
           },

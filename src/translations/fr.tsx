@@ -1314,6 +1314,44 @@ export const FrMessages = {
             },
           },
         },
+        EventGuestPage: {
+          title: 'Enregistrement des invités',
+          addSale: 'Ajouter une vente',
+          submitLabel: "Enregistrer l'invité",
+          successMessage: 'Invité enregistré avec succès.',
+          fields: {
+            first_name: 'Prénom',
+            last_name: 'Nom',
+            cc: 'Numéro de document',
+            email: 'E-mail',
+            ticket_type_id: 'Type de billet',
+          },
+          guestsTable: {
+            title: 'Invités que vous avez enregistrés',
+            emptyMessage: "Vous n'avez encore enregistré aucun invité pour cet événement.",
+            searchPlaceholder: 'Rechercher des invités',
+            noResultsMessage: 'Aucun invité ne correspond à votre recherche.',
+            totals: {
+              title: 'Répartition',
+              grandTotal: 'Total général',
+            },
+            columns: {
+              first_name: 'Prénom',
+              last_name: 'Nom',
+              cc: 'Numéro de document',
+              email: 'E-mail',
+              ticket_type_name: 'Type de billet',
+              ticket_price: 'Prix',
+              registrationDate: "Date d'enregistrement",
+            },
+          },
+          errors: {
+            duplicatedCc: 'Un invité avec ce numéro de document est déjà enregistré pour cet événement.',
+            invalidEmail: 'Veuillez saisir une adresse e-mail valide.',
+            noTicketTypes: "Cet événement n'a pas encore de types de billets configurés.",
+            genericError: "L'invité n'a pas pu être enregistré. Veuillez réessayer.",
+          },
+        },
       },
       PlacesPages: {
         PlacesDetailsPage: {

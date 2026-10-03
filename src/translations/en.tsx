@@ -1296,6 +1296,44 @@ export const EnMessages = {
             },
           },
         },
+        EventGuestPage: {
+          title: 'Guest registration',
+          addSale: 'Add sale',
+          submitLabel: 'Register guest',
+          successMessage: 'Guest registered successfully.',
+          fields: {
+            first_name: 'First name',
+            last_name: 'Last name',
+            cc: 'Document number',
+            email: 'Email',
+            ticket_type_id: 'Ticket type',
+          },
+          guestsTable: {
+            title: 'Guests you registered',
+            emptyMessage: 'You have not registered any guests for this event yet.',
+            searchPlaceholder: 'Search guests',
+            noResultsMessage: 'No guests match your search.',
+            totals: {
+              title: 'Breakdown',
+              grandTotal: 'Grand total',
+            },
+            columns: {
+              first_name: 'First name',
+              last_name: 'Last name',
+              cc: 'Document number',
+              email: 'Email',
+              ticket_type_name: 'Ticket type',
+              ticket_price: 'Price',
+              registrationDate: 'Registration date',
+            },
+          },
+          errors: {
+            duplicatedCc: 'A guest with this document number is already registered for this event.',
+            invalidEmail: 'Please enter a valid email address.',
+            noTicketTypes: 'This event has no ticket types configured yet.',
+            genericError: 'The guest could not be registered. Please try again.',
+          },
+        },
       },
       PlacesPages: {
         PlacesDetailsPage: {

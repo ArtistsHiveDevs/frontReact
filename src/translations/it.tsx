@@ -1311,6 +1311,44 @@ export const ItMessages = {
             },
           },
         },
+        EventGuestPage: {
+          title: 'Registrazione ospiti',
+          addSale: 'Aggiungi vendita',
+          submitLabel: 'Registra ospite',
+          successMessage: 'Ospite registrato con successo.',
+          fields: {
+            first_name: 'Nome',
+            last_name: 'Cognome',
+            cc: 'Numero di documento',
+            email: 'Email',
+            ticket_type_id: 'Tipo di biglietto',
+          },
+          guestsTable: {
+            title: 'Ospiti che hai registrato',
+            emptyMessage: 'Non hai ancora registrato ospiti per questo evento.',
+            searchPlaceholder: 'Cerca ospiti',
+            noResultsMessage: 'Nessun ospite corrisponde alla tua ricerca.',
+            totals: {
+              title: 'Riepilogo',
+              grandTotal: 'Totale generale',
+            },
+            columns: {
+              first_name: 'Nome',
+              last_name: 'Cognome',
+              cc: 'Numero di documento',
+              email: 'Email',
+              ticket_type_name: 'Tipo di biglietto',
+              ticket_price: 'Prezzo',
+              registrationDate: 'Data di registrazione',
+            },
+          },
+          errors: {
+            duplicatedCc: 'Un ospite con questo numero di documento è già registrato per questo evento.',
+            invalidEmail: 'Inserisci un indirizzo email valido.',
+            noTicketTypes: 'Questo evento non ha ancora tipi di biglietto configurati.',
+            genericError: "Non è stato possibile registrare l'ospite. Riprova.",
+          },
+        },
       },
       PlacesPages: {
         PlacesDetailsPage: {

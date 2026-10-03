@@ -1311,6 +1311,44 @@ export const DeMessages = {
             },
           },
         },
+        EventGuestPage: {
+          title: 'Gästeregistrierung',
+          addSale: 'Verkauf hinzufügen',
+          submitLabel: 'Gast registrieren',
+          successMessage: 'Gast erfolgreich registriert.',
+          fields: {
+            first_name: 'Vorname',
+            last_name: 'Nachname',
+            cc: 'Ausweisnummer',
+            email: 'E-Mail',
+            ticket_type_id: 'Ticketart',
+          },
+          guestsTable: {
+            title: 'Von dir registrierte Gäste',
+            emptyMessage: 'Du hast für diese Veranstaltung noch keine Gäste registriert.',
+            searchPlaceholder: 'Gäste suchen',
+            noResultsMessage: 'Keine Gäste entsprechen deiner Suche.',
+            totals: {
+              title: 'Aufschlüsselung',
+              grandTotal: 'Gesamtsumme',
+            },
+            columns: {
+              first_name: 'Vorname',
+              last_name: 'Nachname',
+              cc: 'Ausweisnummer',
+              email: 'E-Mail',
+              ticket_type_name: 'Ticketart',
+              ticket_price: 'Preis',
+              registrationDate: 'Registrierungsdatum',
+            },
+          },
+          errors: {
+            duplicatedCc: 'Für diese Veranstaltung ist bereits ein Gast mit dieser Ausweisnummer registriert.',
+            invalidEmail: 'Bitte gib eine gültige E-Mail-Adresse ein.',
+            noTicketTypes: 'Für diese Veranstaltung wurden noch keine Ticketarten eingerichtet.',
+            genericError: 'Der Gast konnte nicht registriert werden. Bitte versuche es erneut.',
+          },
+        },
       },
       PlacesPages: {
         PlacesDetailsPage: {

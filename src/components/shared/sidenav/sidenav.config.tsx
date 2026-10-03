@@ -172,10 +172,14 @@ const miInfo: SideMenuItem[] = [
     icon: 'FaRegCalendarAlt',
     updated: new Date('1/18/16'),
     randomId: false,
-    allowedRoles: [{ entityName: 'Artist' }, { entityName: 'Place' }],
-    rightIcon: 'FaPlus',
-    rightPath: `${PATHS.EVENTS}/${SUB_PATHS.CREATE}`,
-    forbiddenEnvironments: ['prod'],
+    allowedRoles: [
+      { entityName: 'Artist', allowedEntityInstances: [{ entityInstanceId: 'luciofeuillet' }] },
+      { entityName: 'Place' },
+    ],
+    // rightIcon: 'FaPlus',
+    // rightPath: `${PATHS.EVENTS}/${SUB_PATHS.CREATE}`,
+    // rightHidden: true,
+    // forbiddenEnvironments: ['prod'],
     hidden: (params: { user: AppUserModel; section: SideMenuSection }) => {
       return params?.user?.hasIndustryProfiles && params?.user?.isInPersonalProfile;
     },

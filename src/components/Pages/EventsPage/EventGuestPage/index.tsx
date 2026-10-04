@@ -1,7 +1,7 @@
 import './index.scss';
 
 import { Alert, Button } from '@mui/material';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectorEventGuests, useEventGuestsSlice } from '~/common/slices/domain/event-guests/event-guests.redux';
@@ -15,11 +15,17 @@ import { RootState } from '~/common/utils/redux-injectors/types';
 import { useProfileInfo } from '~/components/Pages/domain/OpenCallPage/common';
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
 import { URL_PARAMETER_NAMES } from '~/constants';
-import { ArtistModel } from '~/models/domain/artist/artist.model';
 import { EventModel } from '~/models/domain/event/event.model';
 import { AddEventGuestDialog } from './AddEventGuestDialog';
 import { EventGuestsTable } from './EventGuestsTable';
 import { TRANSLATION_BASE_EVENT_GUEST_PAGE } from './config-event-guest';
+
+const ALREADY_CHECKED_IN_BACKEND_MESSAGE =
+  'This guest has already entered the event and can no longer be modified.';
+const NOT_ALLOWED_BACKEND_MESSAGES = [
+  'Permission denied',
+  'Unauthorized operation. To execute this operation you require a valid session',
+];
 
 const EventGuestPage = () => {
   const urlParameters = useParams();
@@ -31,11 +37,7 @@ const EventGuestPage = () => {
   const { actions: eventActions } = useEventsSlice();
   const { actions: eventTicketTypeActions } = useEventTicketTypesSlice();
   const { actions: eventGuestActions } = useEventGuestsSlice();
-  const { loggedUser } = useProfileInfo();
-
-  const currentProfileInfo = loggedUser?.currentProfileInfo;
-  const isArtistProfile = currentProfileInfo?.entity === ArtistModel.name;
-  const currentProfileId = currentProfileInfo?.id;
+  const { isArtistProfile, isPlaceProfile, currentProfileId, currentProfileEntity } = useProfileInfo();
 
   const [isAddGuestDialogOpen, setIsAddGuestDialogOpen] = useState(false);
 
@@ -49,8 +51,13 @@ const EventGuestPage = () => {
   const ticketTypes = useSelector(selectorEventTicketTypes.selectItems);
   const createdGuest = useSelector(selectorEventGuests.selectCreatedItem);
   const registeredGuests = useSelector(selectorEventGuests.selectItems);
+  const guestsResponseError = useSelector(selectorEventGuests.selectError);
+  const isGuestsSliceBusy = useSelector(selectorEventGuests.selectLoading);
 
-  // const canListGuests = true || (!!eventId && isArtistProfile && !!currentProfileId);
+  const [checkInGuestId, setCheckInGuestId] = useState<string>();
+  const [checkInErrorMessage, setCheckInErrorMessage] = useState<string>();
+  const lastSeenErrorRef = useRef(guestsResponseError);
+
   const canListGuests = true;
 
   useEffect(() => {
@@ -59,10 +66,67 @@ const EventGuestPage = () => {
   }, [eventId]);
 
   const reloadRegisteredGuests = useCallback(() => {
-    if (canListGuests) {
-      dispatch(eventGuestActions.loadItems({ queryParams: { event_id: eventId, artist_id: currentProfileId } }));
+    if (canListGuests && !!currentProfileEntity) {
+      dispatch(
+        eventGuestActions.loadItems({
+          queryParams: {
+            event_id: eventId,
+            ...(isArtistProfile && !!currentProfileId ? { artist_id: currentProfileId } : {}),
+          },
+        })
+      );
     }
-  }, [canListGuests, eventId, currentProfileId, dispatch, eventGuestActions]);
+  }, [canListGuests, eventId, currentProfileEntity, isArtistProfile, currentProfileId, dispatch, eventGuestActions]);
+
+  const registerGuestEntry = useCallback(
+    (guestId: string) => {
+      lastSeenErrorRef.current = guestsResponseError;
+      setCheckInErrorMessage(undefined);
+      setCheckInGuestId(guestId);
+      dispatch(
+        eventGuestActions.postActionItem({
+          id: guestId,
+          action: 'checkIn',
+          newItem: { checked_in: true },
+          params: {},
+        })
+      );
+    },
+    [dispatch, eventGuestActions, guestsResponseError]
+  );
+
+  const dismissCheckInError = useCallback(() => setCheckInErrorMessage(undefined), []);
+
+  const isCheckInTargetRegistered = useMemo(
+    () =>
+      !!checkInGuestId &&
+      registeredGuests.some(
+        (guest) => [guest.identifier, guest.id, guest.sID].includes(checkInGuestId) && guest.isCheckedIn
+      ),
+    [checkInGuestId, registeredGuests]
+  );
+
+  useEffect(() => {
+    if (!checkInGuestId || (isGuestsSliceBusy && !isCheckInTargetRegistered)) {
+      return;
+    }
+
+    if (guestsResponseError !== lastSeenErrorRef.current) {
+      lastSeenErrorRef.current = guestsResponseError;
+
+      const backendMessage = guestsResponseError?.message || '';
+      const errorKey =
+        backendMessage === ALREADY_CHECKED_IN_BACKEND_MESSAGE
+          ? 'alreadyCheckedIn'
+          : NOT_ALLOWED_BACKEND_MESSAGES.includes(backendMessage)
+            ? 'checkInNotAllowed'
+            : 'checkInError';
+
+      setCheckInErrorMessage(translateText(`${TRANSLATION_BASE_EVENT_GUEST_PAGE}.errors.${errorKey}`));
+    }
+
+    setCheckInGuestId(undefined);
+  }, [checkInGuestId, isGuestsSliceBusy, isCheckInTargetRegistered, guestsResponseError, translateText]);
 
   useEffect(() => {
     reloadRegisteredGuests();
@@ -107,7 +171,16 @@ const EventGuestPage = () => {
         </Alert>
       )}
 
-      {canListGuests && <EventGuestsTable guests={registeredGuests} />}
+      {canListGuests && (
+        <EventGuestsTable
+          guests={registeredGuests}
+          showsAllGuests={isPlaceProfile}
+          onRegisterEntry={isPlaceProfile ? registerGuestEntry : undefined}
+          isRegisteringEntry={!!checkInGuestId}
+          registerEntryError={checkInErrorMessage}
+          onDismissRegisterEntryError={dismissCheckInError}
+        />
+      )}
 
       <AddEventGuestDialog
         isOpen={isAddGuestDialogOpen}

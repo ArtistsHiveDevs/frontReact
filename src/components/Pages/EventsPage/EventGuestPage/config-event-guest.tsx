@@ -7,6 +7,10 @@ export const SEARCH_INDEX_FIELD = 'searchIndex';
 
 export const TICKET_PRICE_VALUE_FIELD = 'ticketPriceValue';
 
+export const CHECK_IN_STATUS_FIELD = 'checkInStatus';
+
+export const CHECK_IN_ACTION_FIELD = 'checkInAction';
+
 export const TRANSLATION_BASE_EVENT_GUEST_TABLE = `${TRANSLATION_BASE_EVENT_GUEST_PAGE}.guestsTable`;
 
 export const EVENT_GUEST_TABLE_COLUMNS = [
@@ -14,12 +18,22 @@ export const EVENT_GUEST_TABLE_COLUMNS = [
   'last_name',
   'cc',
   'email',
+  'gender',
   'ticket_type_name',
   'ticket_price',
   'registrationDate',
+  CHECK_IN_STATUS_FIELD,
 ];
 
-export const EVENT_GUEST_CARD_FIELDS = ['cc', 'email', 'ticket_type_name', 'ticket_price', 'registrationDate'];
+export const EVENT_GUEST_CARD_FIELDS = [
+  'cc',
+  'email',
+  'gender',
+  'ticket_type_name',
+  'ticket_price',
+  'registrationDate',
+  CHECK_IN_STATUS_FIELD,
+];
 
 export const EVENT_GUEST_SEARCHABLE_FIELDS = ['first_name', 'last_name', 'cc', 'email', 'ticket_type_name'];
 

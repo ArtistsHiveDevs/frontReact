@@ -1297,6 +1297,12 @@ export const PtMessages = {
                 },
               },
             },
+            registration: {
+              name: 'Registo',
+              sections: {
+                guest_list: { name: 'Lista de convidados', link: 'Ver lista de convidados' },
+              },
+            },
             extra_info: {
               name: 'Extras',
               sections: {

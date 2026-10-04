@@ -1300,6 +1300,12 @@ export const DeMessages = {
                 },
               },
             },
+            registration: {
+              name: 'Registrierung',
+              sections: {
+                guest_list: { name: 'Gästeliste', link: 'Gästeliste ansehen' },
+              },
+            },
             extra_info: {
               name: 'Extras',
               sections: {

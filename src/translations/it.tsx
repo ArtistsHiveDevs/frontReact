@@ -1300,6 +1300,12 @@ export const ItMessages = {
                 },
               },
             },
+            registration: {
+              name: 'Registrazione',
+              sections: {
+                guest_list: { name: 'Lista degli ospiti', link: 'Vedi la lista degli ospiti' },
+              },
+            },
             extra_info: {
               name: 'Extras',
               sections: {

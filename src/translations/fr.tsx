@@ -1303,6 +1303,12 @@ export const FrMessages = {
                 },
               },
             },
+            registration: {
+              name: 'Enregistrement',
+              sections: {
+                guest_list: { name: 'Liste des invités', link: 'Voir la liste des invités' },
+              },
+            },
             extra_info: {
               name: 'Extras',
               sections: {

@@ -1285,6 +1285,12 @@ export const EnMessages = {
                 },
               },
             },
+            registration: {
+              name: 'Registration',
+              sections: {
+                guest_list: { name: 'Guest list', link: 'View guest list' },
+              },
+            },
             extra_info: {
               name: 'Extras',
               sections: {

@@ -1300,6 +1300,12 @@ export const EsMessages = {
                 },
               },
             },
+            registration: {
+              name: 'Registro',
+              sections: {
+                guest_list: { name: 'Lista de invitados', link: 'Ver lista de invitados' },
+              },
+            },
             extra_info: {
               name: 'Extras',
               sections: {

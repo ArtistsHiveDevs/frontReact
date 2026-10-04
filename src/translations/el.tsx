@@ -1300,6 +1300,12 @@ export const ElMessages = {
                 },
               },
             },
+            registration: {
+              name: 'Εγγραφή',
+              sections: {
+                guest_list: { name: 'Λίστα καλεσμένων', link: 'Προβολή λίστας καλεσμένων' },
+              },
+            },
             extra_info: {
               name: 'Επιπλέον',
               sections: {

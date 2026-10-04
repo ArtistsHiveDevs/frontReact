@@ -1,8 +1,7 @@
 import Flag from 'react-world-flags';
-import {
-  ComponentTypes,
-  PageSection,
-} from '~/components/shared/organisms/gui/builders/component-types.def';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
+import { PATHS, SUB_PATHS } from '~/constants';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
 
@@ -146,7 +145,7 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
           },
         ],
         hidden: (event: EventModel) => {
-          console.log(event, event?.other_artists.length === 0);
+          // console.log(event, event?.other_artists.length === 0);
           return event?.other_artists.length === 0;
         },
       },
@@ -373,6 +372,48 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
           },
         ],
         formMetaData: { hidden: true },
+      },
+    ],
+  },
+  {
+    name: 'extra_info',
+    allowedRoles: [
+      { entityName: 'Place', requireActiveProfileType: true, requireResourceOwnership: false },
+      {
+        entityName: 'Artist',
+        requireActiveProfileType: true,
+        requireResourceOwnership: true,
+        allowedEntityInstances: () => [{ entityInstanceId: 'luciofeuillet' }],
+      },
+    ],
+    sections: [
+      {
+        name: 'additional_info',
+        components: [
+          {
+            componentName: ComponentTypes.HTML_CONTENT,
+            data: {
+              content: (data: EventModel) => {
+                const { navigateToInnerPath } = useNavigation();
+                // const {translateText} = useI18n();
+
+                return (
+                  <a
+                    onClick={() =>
+                      navigateToInnerPath({
+                        path: `${PATHS.EVENTS}/${SUB_PATHS.ELEMENT_DETAILS}/${data.id}/${SUB_PATHS.EVENT_GUEST}`,
+                      })
+                    }
+                  >
+                    Ver lista de invitados ${data.id}
+                  </a>
+                );
+              },
+              renderAsHTML: true,
+            },
+            formMetaData: { fieldName: 'additional_info' },
+          },
+        ],
       },
     ],
   },

@@ -59,6 +59,12 @@ export const EVENT_GUEST_FORM_FIELDS: DynamicFieldData[] = [
     },
   },
   {
+    inputType: 'select',
+    fieldName: 'gender',
+    label: 'gender',
+    config: { required: true },
+  },
+  {
     fieldName: 'ticket_type_id',
     inputType: 'select',
     label: 'ticket_type_id',

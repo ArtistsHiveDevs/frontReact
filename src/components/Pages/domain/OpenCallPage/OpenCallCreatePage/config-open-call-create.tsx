@@ -197,7 +197,10 @@ export const getOpenCallCreateConfig = (params: OpenCallCreateConfigParams): Pag
                     formMetaData: {
                       inputType: 'date',
                       config: { required: 'Este campo es obligatorio' },
-                      componentParams: { disablePast: true, placeholder: 'Fecha de apertura de la convocatoria' },
+                      componentParams: {
+                        //  disablePast: true,
+                        placeholder: 'Fecha de apertura de la convocatoria',
+                      },
                     },
                   },
                   {

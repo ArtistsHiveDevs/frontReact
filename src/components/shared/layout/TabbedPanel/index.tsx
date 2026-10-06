@@ -154,7 +154,7 @@ const defaultConfigTransformer = (subpagesConfig: PageSection[], context?: Defau
                       key={`section-${section.name}-${sectionIndex}`}
                       resourceEntity={entityData}
                       allowedRoles={section.allowedRoles}
-                      name={section.name}
+                      name={`${subpage.name}.sections.${section.name}`}
                       requiredSession={section.requireSession}
                     >
                       <SectionsPanel
@@ -258,7 +258,13 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
     // Recorre hacia atrás hasta que se encuentre una sección permitida o se llegue al principio
     while (nextSection >= 0) {
       const subpage = tabs[nextSection];
-      authState = validateUserAuthorization(entityData, currentUser, subpage.allowedRoles, subpage.requireSession);
+      authState = validateUserAuthorization(
+        entityData,
+        currentUser,
+        subpage.allowedRoles,
+        subpage.requireSession,
+        subpage._name
+      );
 
       if (AuthorizationStates.ALLOWED === authState) {
         break; // Sal del loop si se encuentra una sección permitida
@@ -280,7 +286,13 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
     // Recorre hacia adelante hasta que se encuentre una sección permitida o se llegue al final
     while (nextSection < tabs?.length) {
       const subpage = tabs[nextSection];
-      authState = validateUserAuthorization(entityData, currentUser, subpage.allowedRoles, subpage.requireSession);
+      authState = validateUserAuthorization(
+        entityData,
+        currentUser,
+        subpage.allowedRoles,
+        subpage.requireSession,
+        subpage._name
+      );
 
       if (AuthorizationStates.ALLOWED === authState) {
         break; // Sal del loop si se encuentra una sección permitida
@@ -308,8 +320,13 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
       .map((subpage: TabbedPage, originalIndex: number) => ({ subpage, originalIndex }))
       .filter(
         ({ subpage }: { subpage: TabbedPage; originalIndex: number }) =>
-          validateUserAuthorization(entityData, currentUser, subpage.allowedRoles, subpage.requireSession) ===
-            AuthorizationStates.ALLOWED && !subpage.hideMainMenu
+          validateUserAuthorization(
+            entityData,
+            currentUser,
+            subpage.allowedRoles,
+            subpage.requireSession,
+            subpage._name
+          ) === AuthorizationStates.ALLOWED && !subpage.hideMainMenu
       );
   }, [tabs, entityData, currentUser]);
 
@@ -326,6 +343,7 @@ export const TabbedPanel = <TConfig = any,>(props: TabbedPanelProps<TConfig>) =>
             resourceEntity={entityData}
             allowedRoles={subpage.allowedRoles}
             requiredSession={subpage.requireSession}
+            name={subpage._name}
           >
             <div
               className={classNames.join(' ')}

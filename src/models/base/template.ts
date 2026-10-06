@@ -8,8 +8,42 @@ export interface Template {
   shortId?: string;
 }
 
+/**
+ * Campos comunes a los grants de acceso otorgados directamente por el recurso a un perfil
+ * puntual (por `identifier`), independiente del rol normal del viewer.
+ *
+ * `fieldPaths` sigue la misma convención jerárquica que las keys de traducción
+ * (`<subpage>.sections.<section>.attributes.<attribute>`, ver `getAttributeTitle`): un grant
+ * aplica a ese path exacto y a cualquier path que cuelgue de él (prefijo + '.'), así que un path
+ * corto como 'documents' habilita todo lo que esté debajo de esa subpage/sección. Si se omite,
+ * el grant aplica a todo el recurso.
+ */
+interface AccessGrantBase {
+  identifier: string;
+  expiresAt: string;
+  fieldPaths?: string[];
+  reason?: string;
+}
+
+/**
+ * Acceso temporal (ej. un Place viendo los documentos de un Artist mientras dura una
+ * postulación a un Open Call). Vence con el evento/convocatoria que lo originó.
+ */
+export interface TemporaryAccessGrant extends AccessGrantBase {}
+
+/**
+ * Acceso de confianza más duradero (ej. 1 año), asociado a uno o más roles del recurso
+ * (`OWNER`, `MANAGER`, `MUSICIAN`, `BOOKER`, ...). Igual que `TemporaryAccessGrant`, puede
+ * acotarse por `fieldPaths`; si se omite, aplica a todo el recurso.
+ */
+export interface TrustedInstanceGrant extends AccessGrantBase {
+  roles: string[];
+}
+
 export interface EntityTemplate extends Template {
   id?: string;
+  temporaryAccessInstances?: TemporaryAccessGrant[];
+  trustedInstances?: TrustedInstanceGrant[];
 }
 
 export interface ProfileTemplate extends EntityTemplate {

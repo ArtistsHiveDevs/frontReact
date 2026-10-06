@@ -12,6 +12,8 @@ import {
   ObjectValueTemplate,
   ProfileTemplate,
   SearchableProfileTemplate,
+  TemporaryAccessGrant,
+  TrustedInstanceGrant,
 } from './template';
 
 const DEFAULT_MAX_CACHE_TIME_TO_LIVE = 3 * 60 * 1000;
@@ -224,6 +226,8 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
     role: string;
     currentProfileIdentifier: string;
   };
+  declare temporaryAccessInstances?: TemporaryAccessGrant[];
+  declare trustedInstances?: TrustedInstanceGrant[];
 
   constructor(template: T | any = {}) {
     super(template);
@@ -232,6 +236,60 @@ export abstract class EntityModel<T extends EntityTemplate> extends Model<T> {
 
   get identifier(): string {
     return this.run || this.shortId || this.id;
+  }
+
+  private matchesAccessGrant(
+    grant: { identifier: string; expiresAt: string; fieldPaths?: string[] },
+    viewerIdentifier: string,
+    fieldPath?: string
+  ): boolean {
+    if (grant.identifier !== viewerIdentifier) {
+      return false;
+    }
+    if (new Date(grant.expiresAt).getTime() <= Date.now()) {
+      return false;
+    }
+    if (!grant.fieldPaths?.length) {
+      return true;
+    }
+    if (!fieldPath) {
+      return false;
+    }
+    return grant.fieldPaths.some(
+      (grantedPath) => fieldPath === grantedPath || fieldPath.startsWith(`${grantedPath}.`)
+    );
+  }
+
+  /**
+   * ¿`viewerIdentifier` tiene un acceso temporal vigente (`temporaryAccessInstances`) a `fieldPath`?
+   * Un grant sin `fieldPaths` cubre todo el recurso; uno con `fieldPaths` cubre esos paths y
+   * cualquier path que cuelgue de ellos (mismo criterio jerárquico que las keys de traducción).
+   */
+  hasTemporaryAccessTo(viewerIdentifier: string | undefined, fieldPath?: string): boolean {
+    if (!viewerIdentifier) {
+      return false;
+    }
+    return (this.temporaryAccessInstances || []).some((grant) =>
+      this.matchesAccessGrant(grant, viewerIdentifier, fieldPath)
+    );
+  }
+
+  /**
+   * ¿`viewerIdentifier` tiene un acceso de confianza vigente (`trustedInstances`) a `fieldPath`?
+   * Misma lógica que `hasTemporaryAccessTo`, pero de mayor duración y asociado a uno o más roles
+   * del recurso (`OWNER`, `MANAGER`, `MUSICIAN`, `BOOKER`, ...). Si se pasa `role`, solo cuenta
+   * un grant que lo incluya en `roles`.
+   */
+  hasTrustedAccessTo(viewerIdentifier: string | undefined, fieldPath?: string, role?: string): boolean {
+    if (!viewerIdentifier) {
+      return false;
+    }
+    return (this.trustedInstances || []).some((grant) => {
+      if (role && !grant.roles.includes(role)) {
+        return false;
+      }
+      return this.matchesAccessGrant(grant, viewerIdentifier, fieldPath);
+    });
   }
 
   get sharedUrlSocialNetworks() {

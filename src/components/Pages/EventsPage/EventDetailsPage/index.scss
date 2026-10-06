@@ -30,3 +30,14 @@ h2 {
   text-align: left;
   width: 100%;
 }
+
+.event-details-page__guest-list-link {
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: none;
+  }
+}

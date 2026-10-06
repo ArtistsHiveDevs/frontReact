@@ -31,7 +31,6 @@ const PlaceDetailPage = () => {
   const [currentGalleryImage, setGalleryImage] = useState(undefined);
   const [openDialogBookDate, setOpenDialogBookDate] = useState(undefined);
 
-  const placeList: PlaceModel[] = useSelector(selectorPlaces.selectItems);
   const requestIsLoading = useSelector(selectorPlaces.selectLoading);
   const { actions: placesActions } = usePlacesSlice();
   const { actions: usersActions } = useUsersSlice();
@@ -48,6 +47,12 @@ const PlaceDetailPage = () => {
   });
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setStartedRequest(true);
+    setFinishedRequest(false);
+    dispatch(placesActions.getItemById({ id: placeId }));
+  }, [loggedUser]);
 
   useEffect(() => {
     setStartedRequest(false);
@@ -83,7 +88,7 @@ const PlaceDetailPage = () => {
       const image = <ImageGallery images={images} imageSize="fs" />;
       setGalleryImage(image);
     },
-    onCloseGalleryImage: (value: any) => {
+    onCloseGalleryImage: () => {
       setGalleryImage(undefined);
     },
     onClickNextEvent: (value: any) => {

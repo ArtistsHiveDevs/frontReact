@@ -9,6 +9,7 @@ export interface IconDetailedAttribute {
   icon?: string;
   value: string;
   requireSession?: boolean;
+  fieldPath?: string;
 }
 
 export interface AttributesIconFieldReadOnlyProps {
@@ -33,6 +34,7 @@ export const AttributesIconFieldReadOnly = (props: AttributesIconFieldReadOnlyPr
             resourceEntity={resourceEntity}
             key={`attr-icon-field-${idx}`}
             requiredSession={attribute.requireSession}
+            name={attribute.fieldPath}
           >
             <IconFieldReadOnly
               fieldName={attribute.name}

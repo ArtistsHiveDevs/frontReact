@@ -9,7 +9,7 @@ import { EMAIL_FORMAT_PATTERN } from '~/common/utils/validation/email-validation
 import { DynamicIcons } from '~/components/shared/DynamicIcons';
 import MapContainer from '~/components/shared/mapPrinter/mapContainer';
 import { DEBOUNCE_MS } from '~/constants/app.constants';
-import { SocialNetworks, defaultCleanLink } from '~/constants/social-networks.const';
+import { SocialNetworks, buildSocialNetworkLinkData, defaultCleanLink } from '~/constants/social-networks.const';
 import { ComponentGeneratorParams } from '../DynamicControl';
 
 export const createTextField = (params: ComponentGeneratorParams) => {
@@ -28,7 +28,6 @@ export const createTextField = (params: ComponentGeneratorParams) => {
     fieldName,
     defaultValue,
     placeholder = '',
-    options = [],
     config = {},
     componentParams = {},
     focused = false,
@@ -132,7 +131,7 @@ export const createTextField = (params: ComponentGeneratorParams) => {
     }
   }
 
-  const emptyFunction = (data: any) => {
+  const emptyFunction = () => {
     // console.log("BLUR ", fieldName, data);
   };
   const onBlurHandler = (handlers && handlers['onBlur']) || emptyFunction;
@@ -150,72 +149,74 @@ export const createTextField = (params: ComponentGeneratorParams) => {
     <div>
       {description && <p className="dynamic-field-description">{description}</p>}
       <TextField
-      required={!!required}
-      label={label}
-      type={inputType}
-      {...(register ? register(fieldName, config) : {})}
-      value={currentValue ?? ''}
-      placeholder={placeholder}
-      error={!!(errors && errors[fieldName])}
-      helperText={errors && errors[fieldName]?.message?.toString()}
-      InputProps={inputProps}
-      onBlur={(data) => {
-        onBlurHandler(data);
-      }}
-      onChange={(data) => {
-        const rawValue = data.target.value;
-        // transformValue corre antes de numericOnly (ej. limpiar un link pegado y dejar sólo el username).
-        const transformedValue = componentParams?.transformValue ? componentParams.transformValue(rawValue) : rawValue;
-        const newValue = componentParams?.numericOnly ? transformedValue.replace(/\D/g, '') : transformedValue;
-        setCurrentValue(newValue);
+        required={!!required}
+        label={label}
+        type={inputType}
+        {...(register ? register(fieldName, config) : {})}
+        value={currentValue ?? ''}
+        placeholder={placeholder}
+        error={!!(errors && errors[fieldName])}
+        helperText={errors && errors[fieldName]?.message?.toString()}
+        InputProps={inputProps}
+        onBlur={(data) => {
+          onBlurHandler(data);
+        }}
+        onChange={(data) => {
+          const rawValue = data.target.value;
+          // transformValue corre antes de numericOnly (ej. limpiar un link pegado y dejar sólo el username).
+          const transformedValue = componentParams?.transformValue
+            ? componentParams.transformValue(rawValue)
+            : rawValue;
+          const newValue = componentParams?.numericOnly ? transformedValue.replace(/\D/g, '') : transformedValue;
+          setCurrentValue(newValue);
 
-        // Limpiar error cuando el usuario empieza a escribir
-        if (clearErrors && errors && errors[fieldName]) {
-          clearErrors(fieldName);
-        }
-
-        const applyChange = () => {
-          // Actualizar react-hook-form
-          if (setValue) {
-            setValue(fieldName, newValue, {
-              shouldDirty: true,
-              shouldValidate: true, // Disparar validación en cada cambio
-            });
+          // Limpiar error cuando el usuario empieza a escribir
+          if (clearErrors && errors && errors[fieldName]) {
+            clearErrors(fieldName);
           }
 
-          // Validación después de un pequeño delay para evitar validar cada tecla
-          if (trigger && errors && errors[fieldName]) {
-            setTimeout(() => {
-              trigger(fieldName);
-            }, 300);
-          }
+          const applyChange = () => {
+            // Actualizar react-hook-form
+            if (setValue) {
+              setValue(fieldName, newValue, {
+                shouldDirty: true,
+                shouldValidate: true, // Disparar validación en cada cambio
+              });
+            }
 
-          if (handlers && handlers[`on${fieldName}Change`]) {
-            handlers[`on${fieldName}Change`](newValue);
-          }
-        };
+            // Validación después de un pequeño delay para evitar validar cada tecla
+            if (trigger && errors && errors[fieldName]) {
+              setTimeout(() => {
+                trigger(fieldName);
+              }, 300);
+            }
 
-        if (debounce) {
-          if (debounceTimeoutRef.current) {
-            clearTimeout(debounceTimeoutRef.current);
+            if (handlers && handlers[`on${fieldName}Change`]) {
+              handlers[`on${fieldName}Change`](newValue);
+            }
+          };
+
+          if (debounce) {
+            if (debounceTimeoutRef.current) {
+              clearTimeout(debounceTimeoutRef.current);
+            }
+            debounceTimeoutRef.current = setTimeout(applyChange, DEBOUNCE_MS);
+          } else {
+            applyChange();
           }
-          debounceTimeoutRef.current = setTimeout(applyChange, DEBOUNCE_MS);
-        } else {
-          applyChange();
-        }
-      }}
-      focused={focused}
-      variant={variant}
-      fullWidth
-      sx={readOnly ? { pointerEvents: 'auto' } : undefined}
+        }}
+        focused={focused}
+        variant={variant}
+        fullWidth
+        sx={readOnly ? { pointerEvents: 'auto' } : undefined}
       />
     </div>
   );
 };
 
 export const createSocialNetworkTextField = (params: ComponentGeneratorParams) => {
-  const { errors, fieldData, register, formContext } = params || {};
-  fieldData.inputType = 'text';
+  const { errors, fieldData, register, formContext, watch } = params || {};
+  // fieldData.inputType = 'text';
   const socialNetwork = SocialNetworks[fieldData.fieldName];
 
   fieldData.label = socialNetwork.title;
@@ -261,7 +262,52 @@ export const createSocialNetworkTextField = (params: ComponentGeneratorParams) =
     minLength: fieldData?.config?.minLength,
   };
 
-  return createTextField({ register, fieldData, errors, formContext });
+  // -------------- LINK PREVIEW -------------
+
+  const currentValue = watch?.(fieldData.fieldName);
+  const hasUrlTemplate = typeof socialNetwork.url === 'string';
+  const linkData =
+    currentValue && hasUrlTemplate ? buildSocialNetworkLinkData(fieldData.fieldName, currentValue) : undefined;
+
+  let linkText = linkData?.url;
+  if (!!linkText && ['email'].includes(fieldData.fieldName)) {
+    linkText = `${socialNetwork.user_prefix || ''}${currentValue}`;
+  }
+  return (
+    <>
+      {createTextField({ register, fieldData, errors, formContext })}
+
+      {!!linkData?.url && (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            marginTop: '0rem',
+            marginLeft: '1.2rem',
+            marginBottom: '1.2rem',
+            minWidth: 0,
+          }}
+        >
+          <DynamicIcons iconName="fa6 FaSquareArrowUpRight" />
+          <a
+            href={linkData.url}
+            target={linkData.target}
+            rel="noopener noreferrer"
+            style={{
+              fontSize: '0.8rem',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              minWidth: 0,
+            }}
+          >
+            {linkText}
+          </a>
+        </div>
+      )}
+    </>
+  );
 };
 
 export const createAddressTextField = (params: ComponentGeneratorParams) => {

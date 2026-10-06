@@ -1,4 +1,4 @@
-import { Avatar, Dialog, DialogContent, IconButton } from '@mui/material';
+import { Avatar, IconButton } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { RegisterOptions } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,11 +13,12 @@ import VerifiedArtist from '~/components/shared/VerifiedArtist';
 import { AvatarWithIcon } from '~/components/shared/atoms/gui/avatar-with-icon/Avatar-with-icon';
 import { FixedHeader } from '~/components/shared/molecules/FixedHeader';
 import { FollowerCounter } from '~/components/shared/molecules/Profile/FollowerCounter/FollowerCounter';
+import { AppDialog } from '~/components/shared/molecules/general/Modals/Dialog/AppDialog';
+import { ResourceMoreMenu } from '~/components/shared/molecules/general/ResourceMoreMenu/ResourceMoreMenu';
 import {
   FavoriteSubscription,
   FavoriteSubscritionIconDefaultTypes,
 } from '~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe';
-import { ResourceMoreMenu } from '~/components/shared/molecules/general/ResourceMoreMenu/ResourceMoreMenu';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
 import { EntityModel, ProfileModel } from '~/models/base';
 import { defaultTypesColors, getModelInfoFromInstance } from '~/models/base/modelHelpers';
@@ -52,8 +53,6 @@ export const ProfileHeader = (props: any) => {
     enableUsernameValidation = true,
     resourceConfig,
   } = props;
-
-  const elementAsProfileModel = element as ProfileModel<PlaceModel>;
 
   const isEditable = !!formMethods;
   const { register, formState, setValue } = formMethods || {};
@@ -228,8 +227,6 @@ export const ProfileHeader = (props: any) => {
         ? element[newField?.renderField]
         : newField?.config?.value);
 
-    const renderValue = value || ((!!element && newField?.showPlaceHolderWhenEmpty) ?? true ? placeholder : '');
-
     return (
       <>
         {!showEditableField && (
@@ -309,13 +306,6 @@ export const ProfileHeader = (props: any) => {
       setValue?.('profile_pic', `r://${response.customPath}`, { shouldDirty: true, shouldValidate: true });
     } finally {
       setIsUploadingPhoto(false);
-    }
-  };
-
-  const handleClick = (event: any) => {
-    if (image) {
-      event.preventDefault();
-      setImage(null);
     }
   };
 
@@ -488,14 +478,11 @@ export const ProfileHeader = (props: any) => {
           </div>
         )}
       </div>
-      <Dialog open={zoomProfilePic} onClose={handleCloseZoomDialog} fullWidth>
-        <DialogContent style={{ textAlign: 'center', position: 'relative', padding: 0 }}>
-          <IconButton onClick={handleCloseZoomDialog} style={{ position: 'absolute', top: '0.5%', right: '0.5%' }}>
-            <DynamicIcons iconName="MdClose" />
-          </IconButton>
-          {zoomProfilePic && <img src={image} alt={element?.name} style={{ maxWidth: '100%' }} />}
-        </DialogContent>
-      </Dialog>
+      <AppDialog
+        isOpenDialog={zoomProfilePic}
+        onClose={handleCloseZoomDialog}
+        content={zoomProfilePic && <img src={image} alt={element?.name} style={{ maxWidth: '100%' }} />}
+      />
     </>
   );
 };

@@ -61,6 +61,12 @@ const ArtistDetailPage = () => {
     setStartedRequest(true);
     setFinishedRequest(false);
     dispatch(artistsActions.getItemById({ id: artistId }));
+  }, [loggedUser]);
+
+  useEffect(() => {
+    setStartedRequest(true);
+    setFinishedRequest(false);
+    dispatch(artistsActions.getItemById({ id: artistId }));
   }, [artistId]);
 
   useEffect(() => {

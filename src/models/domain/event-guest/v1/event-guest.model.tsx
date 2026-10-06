@@ -13,10 +13,12 @@ export interface EventGuestTemplate extends EntityTemplate {
   last_name?: string;
   cc?: string;
   email?: string;
+  gender?: string;
   ticket_type_id?: string;
   ticket_type_name?: string;
   ticket_price?: number;
   checked_in?: boolean;
+  checked_in_at?: string;
   createdAt?: string;
 }
 
@@ -28,10 +30,12 @@ export class EventGuestModel extends EntityModel<EventGuestTemplate> implements 
   declare last_name?: string;
   declare cc?: string;
   declare email?: string;
+  declare gender?: string;
   declare ticket_type_id?: string;
   declare ticket_type_name?: string;
   declare ticket_price?: number;
   declare checked_in?: boolean;
+  declare checked_in_at?: string;
   declare createdAt?: string;
 
   get hasFetchAllData(): boolean {
@@ -52,6 +56,14 @@ export class EventGuestModel extends EntityModel<EventGuestTemplate> implements 
 
   get registrationDate(): Dayjs | undefined {
     return ensureDayjs(this.createdAt);
+  }
+
+  get isCheckedIn(): boolean {
+    return !!this.checked_in;
+  }
+
+  get checkInDate(): Dayjs | undefined {
+    return ensureDayjs(this.checked_in_at);
   }
 
   get eventId(): string | undefined {

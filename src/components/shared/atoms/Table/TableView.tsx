@@ -8,8 +8,11 @@ export interface TableViewConfig {
 
   dense?: boolean;
   selectable?: boolean;
+  stickyLastColumn?: boolean;
   onRowClick?: (row: any) => void;
 }
+
+export const STICKY_LAST_COLUMN_CLASS = 'table-view__sticky-last-column';
 
 // export const TableView = (props: TableViewParams) => {
 //   console.log(props.config);
@@ -187,6 +190,15 @@ interface HeadCell {
 //   },
 // ];
 
+const stickyLastColumnSx = {
+  position: 'sticky',
+  right: 0,
+  zIndex: 2,
+  backgroundColor: 'background.paper',
+  borderLeft: '0.0625rem solid',
+  borderLeftColor: 'divider',
+};
+
 interface EnhancedTableProps {
   selectable: boolean;
   numSelected: number;
@@ -196,6 +208,7 @@ interface EnhancedTableProps {
   orderBy?: string;
   rowCount: number;
   columns: any[];
+  stickyLastColumn?: boolean;
   translationBasePath?: string;
 }
 
@@ -209,6 +222,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     onRequestSort,
     selectable,
     columns,
+    stickyLastColumn,
     translationBasePath,
   } = props;
   const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
@@ -239,6 +253,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
+            sx={stickyLastColumn && index === columns.length - 1 ? { ...stickyLastColumnSx, zIndex: 3 } : undefined}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -302,7 +317,7 @@ const VISIBLE_ROWS_PER_PAGE = 100;
 
 export const TableView = (props: { config: TableViewConfig }) => {
   const { config } = props || {};
-  const { dense, selectable, columns, rows, translationBasePath, onRowClick } = config || {};
+  const { dense, selectable, stickyLastColumn, columns, rows, translationBasePath, onRowClick } = config || {};
 
   const [order, setOrder] = React.useState<Order>('asc');
   // const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
@@ -381,6 +396,7 @@ export const TableView = (props: { config: TableViewConfig }) => {
               // onRequestSort={handleRequestSort}
               rowCount={rows.length}
               columns={columns}
+              stickyLastColumn={stickyLastColumn}
               translationBasePath={translationBasePath}
             />
             <TableBody>
@@ -397,7 +413,13 @@ export const TableView = (props: { config: TableViewConfig }) => {
                     tabIndex={-1}
                     key={row.id}
                     selected={isItemSelected}
-                    sx={{ cursor: onRowClick ? 'pointer' : 'default' }}
+                    sx={{
+                      cursor: onRowClick ? 'pointer' : 'default',
+                      [`&:hover .${STICKY_LAST_COLUMN_CLASS}`]: {
+                        backgroundImage: (theme: any) =>
+                          `linear-gradient(${theme.palette.action.hover}, ${theme.palette.action.hover})`,
+                      },
+                    }}
                   >
                     {selectable && (
                       <TableCell padding="checkbox">
@@ -413,10 +435,17 @@ export const TableView = (props: { config: TableViewConfig }) => {
                     {/* <TableCell component="th" id={labelId} scope="row" padding="none">
                       {row.name}
                     </TableCell> */}
-                    {columns.map((column: any) => {
+                    {columns.map((column: any, columnIndex: number) => {
                       const columnKey = typeof column === 'string' ? column : column.id;
+                      const isStickyCell = stickyLastColumn && columnIndex === columns.length - 1;
+
                       return (
-                        <TableCell key={columnKey} align="center">
+                        <TableCell
+                          key={columnKey}
+                          align="center"
+                          className={isStickyCell ? STICKY_LAST_COLUMN_CLASS : undefined}
+                          sx={isStickyCell ? stickyLastColumnSx : undefined}
+                        >
                           {formatCellValue(row[columnKey])}
                         </TableCell>
                       );

@@ -157,6 +157,80 @@
         font-weight: 600;
       }
     }
+
+    &--check-in {
+      dt,
+      dd {
+        opacity: 1;
+        font-weight: 600;
+        color: $entity-3;
+      }
+    }
+  }
+
+  &__check-in-registered {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  &__check-in-registered-label {
+    font-size: 0.7rem;
+    opacity: 0.7;
+  }
+
+  &__check-in-registered-value {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: $entity-3;
+  }
+
+  &__check-in-confirmation {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__check-in-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0.85rem 1rem;
+    border-radius: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  &__check-in-detail {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+
+    dt {
+      opacity: 0.7;
+      font-weight: 400;
+    }
+
+    dd {
+      margin: 0;
+      text-align: right;
+      font-weight: 600;
+      word-break: break-word;
+    }
+  }
+
+  &__check-in-warning {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  &__check-in-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   &__guest-card-field {
@@ -183,10 +257,6 @@
       max-width: none;
     }
 
-    &__totals {
-      order: -1;
-    }
-
     &__guests-table {
       display: none;
     }
@@ -194,6 +264,38 @@
     &__guests-cards {
       display: flex;
       flex-direction: column;
+    }
+  }
+}
+
+.event-guest-page__totals-fixed {
+  .fixed-header-content {
+    max-width: rem-calc(960);
+    margin: 0 auto;
+    min-height: 0;
+  }
+
+  .event-guest-page__totals {
+    width: 100%;
+    padding: 0;
+    background-color: transparent;
+    border-radius: 0;
+  }
+
+  .event-guest-page__totals-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 1rem;
+  }
+
+  .event-guest-page__totals-row {
+    gap: 0.35rem;
+    font-size: 0.85rem;
+
+    &--grand {
+      padding-top: 0;
+      border-top: none;
     }
   }
 }

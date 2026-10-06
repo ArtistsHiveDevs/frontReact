@@ -73,7 +73,7 @@ export const AddEventGuestDialog = (props: AddEventGuestDialogProps) => {
 
   const fieldOptions = useMemo(
     () => ({ ticket_type_id: ticketTypeOptions, gender: availableGenders }),
-    [ticketTypeOptions]
+    [ticketTypeOptions, availableGenders]
   );
 
   useEffect(() => {
@@ -103,6 +103,7 @@ export const AddEventGuestDialog = (props: AddEventGuestDialogProps) => {
               first_name: formData.first_name,
               last_name: formData.last_name,
               cc: formData.cc,
+              gender: formData.gender,
               ...(formData.email ? { email: formData.email } : {}),
               ...(artistId ? { artist_id: artistId } : {}),
             },

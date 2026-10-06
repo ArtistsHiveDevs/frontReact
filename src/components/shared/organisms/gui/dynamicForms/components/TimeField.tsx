@@ -32,7 +32,7 @@ export const createTimeField = (params: ComponentGeneratorParams) => {
           <MobileTimePicker
             {...field}
             label={label}
-            value={field.value}
+            value={field.value ?? null}
             onChange={(value: Dayjs | null) => {
               setValue(fieldName, value);
               field.onChange(value);

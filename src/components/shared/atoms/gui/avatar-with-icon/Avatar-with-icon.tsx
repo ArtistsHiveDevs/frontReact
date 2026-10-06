@@ -14,10 +14,12 @@ interface Props {
   onBadgeClick?: Function;
   variant?: 'circular' | 'rounded' | 'square';
   id?: string;
+  avatarCustomIcon?: string;
 }
 
 export const AvatarWithIcon = forwardRef<HTMLDivElement, Props>((params, ref) => {
-  const { id, image, name, avatarSize, bottomBadgeSize, buttonIcon, onClick, onBadgeClick, variant } = params || {};
+  const { id, image, name, avatarSize, bottomBadgeSize, buttonIcon, onClick, onBadgeClick, variant, avatarCustomIcon } =
+    params || {};
 
   const resolvedImage = useS3Url(image);
 
@@ -46,11 +48,17 @@ export const AvatarWithIcon = forwardRef<HTMLDivElement, Props>((params, ref) =>
             width: avatarSize,
             height: avatarSize,
             border: variant === 'rounded' ? '1px solid #999' : '2px solid white',
+            ...(!!variant &&
+              (variant === 'rounded' || variant === 'square') && {
+                borderRadius: variant === 'rounded' ? '1rem' : '0rem',
+              }),
           }}
           variant={variant || 'circular'}
           onClick={() => onClick && onClick()}
           id={id}
-        />
+        >
+          {avatarCustomIcon && <DynamicIcons iconName={avatarCustomIcon} size={50} color="white" />}
+        </Avatar>
       </Badge>
     </div>
   );

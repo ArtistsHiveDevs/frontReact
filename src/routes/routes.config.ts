@@ -144,6 +144,16 @@ export const ROUTES_CONFIG: PathConfigMap = {
             path: `${SUB_PATHS.CREATE}`,
             redirectToIfNotLoggedUser: PATHS.LOGIN,
           },
+          EventEditPage: {
+            component: lazy(() => import('~/components/Pages/EventsPage/EventCreatePage/EventCreatePage')),
+            path: `${SUB_PATHS.EDIT}/:${URL_PARAMETER_NAMES.ELEMENT_ID}`,
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
+          },
+          EventGuestPage: {
+            component: lazy(() => import('~/components/Pages/EventsPage/EventGuestPage')),
+            path: `${detailsPagePath}/${SUB_PATHS.EVENT_GUEST}`,
+            redirectToIfNotLoggedUser: PATHS.LOGIN,
+          },
         },
       },
       prebooking: {

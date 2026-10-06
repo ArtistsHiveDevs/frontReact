@@ -20,10 +20,11 @@ import {
   FavoriteSubscritionIconDefaultTypes,
 } from '~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe';
 import { DynamicControl, DynamicFieldData } from '~/components/shared/organisms/gui/dynamicForms';
-import { ProfileModel } from '~/models/base';
+import { EntityModel, ProfileModel } from '~/models/base';
 import { defaultTypesColors, getModelInfoFromInstance } from '~/models/base/modelHelpers';
 import { PlaceModel } from '~/models/domain/place/place.model';
 import './index.scss';
+import { MdCalendarToday } from 'react-icons/md';
 
 export interface ProfileHeaderElement {
   name: string;
@@ -114,6 +115,25 @@ export const ProfileHeader = (props: any) => {
     setImage(photoURL);
   };
 
+  const profilePicParentCustomConfigurations = customHeaderConfig?.find((config: any) => config?.name === 'profilePic');
+
+  const profilePicCustomConfigurations = !!profilePicParentCustomConfigurations
+    ? {
+        ...profilePicParentCustomConfigurations,
+        ...(['square', 'rounded'].find((picShape) => picShape === profilePicParentCustomConfigurations?.shape) && {
+          useRadius: true,
+        }),
+        ...{ borderRadius: profilePicParentCustomConfigurations?.shape === 'rounded' ? '1rem' : '0rem' },
+      }
+    : undefined;
+
+  const [hiddeFavoriteSubs, setHiddeFavoriteSubs] = useState(
+    customHeaderConfig?.find((config: any) => config?.name === 'hiddeFavoriteSubs')?.hidden
+  );
+  const [hiddeFollowerCounter, setHiddeFollowerCounter] = useState(
+    customHeaderConfig?.find((config: any) => config?.name === 'hiddeFollowerCounter')?.hidden
+  );
+
   useEffect(() => {
     if (element) {
       getProfilePicURL();
@@ -141,7 +161,14 @@ export const ProfileHeader = (props: any) => {
 
     let permissions = { canEdit: false, isInProfile: false };
     if (userID && loggedUser && element && parentHandlers && parentHandlers['onEditProfile']) {
-      const userPermissions = loggedUser.checkPermissions(element.identifier);
+      const userPermissions =
+        element instanceof ProfileModel
+          ? loggedUser.checkPermissions(element.identifier)
+          : element.checkEntityPermissions({
+              userId: loggedUser.id,
+              roles: loggedUser.currentProfileInfo?.roles,
+              currentProfileIdentifier: loggedUser.currentProfileIdentifier,
+            });
       permissions = userPermissions;
     }
     setCurrentUserCanEdit(permissions.canEdit);
@@ -338,7 +365,7 @@ export const ProfileHeader = (props: any) => {
             </div>
             <div className="fixed-name">{element?.nameKnownAs || element?.name}</div>
           </div>
-          {element && !currentUserIsInProfile && (
+          {element && !currentUserIsInProfile && !hiddeFavoriteSubs && (
             <div className="fixed-like-button">
               <FavoriteSubscription
                 size={24}
@@ -365,6 +392,7 @@ export const ProfileHeader = (props: any) => {
             <label htmlFor="profile-pic-button-file">
               <IconButton color="primary" component="span" disabled={isUploadingPhoto}>
                 <Avatar
+                  variant={profilePicCustomConfigurations?.shape}
                   src={image}
                   alt={element?.name}
                   sx={{
@@ -372,9 +400,16 @@ export const ProfileHeader = (props: any) => {
                     height: avatarSize,
                     border: '2px solid white',
                     opacity: isUploadingPhoto ? 0.5 : 1,
+                    ...(!!profilePicCustomConfigurations?.useRadius && {
+                      borderRadius: profilePicCustomConfigurations?.borderRadius,
+                    }),
                   }}
                   className={errors && errors['profile_pic'] && 'error-profile-pic'}
-                />
+                >
+                  {profilePicCustomConfigurations?.icon && (
+                    <DynamicIcons iconName={profilePicCustomConfigurations?.icon} size={50} color="white" />
+                  )}
+                </Avatar>
               </IconButton>
             </label>
           </div>
@@ -389,6 +424,10 @@ export const ProfileHeader = (props: any) => {
               buttonIcon={currentUserCanEdit && !currentUserIsInProfile && 'PiUserSwitch'}
               onClick={() => !!image && setZoomProfilePic(true)}
               onBadgeClick={() => switchProfile()}
+              variant={!!profilePicParentCustomConfigurations ? profilePicParentCustomConfigurations?.shape : undefined}
+              avatarCustomIcon={
+                !!profilePicParentCustomConfigurations ? profilePicParentCustomConfigurations?.icon : undefined
+              }
             ></AvatarWithIcon>
           </div>
         )}
@@ -406,7 +445,7 @@ export const ProfileHeader = (props: any) => {
               <h2>
                 {generateEditableField('name', element, isEditable)}
 
-                {element && !currentUserIsInProfile && (
+                {element && !currentUserIsInProfile && !hiddeFavoriteSubs && (
                   <>
                     <FavoriteSubscription
                       size={24}
@@ -422,7 +461,9 @@ export const ProfileHeader = (props: any) => {
 
           {/* <div className="profile-name">{generateEditableField('subtitle', element, isEditable)}</div> */}
           {/* {element?.followed_by_count !== undefined && ( */}
-          {showFollowerCounter && !isEditable && <FollowerCounter element={element} handlers={parentHandlers} />}
+          {showFollowerCounter && !isEditable && !hiddeFollowerCounter && (
+            <FollowerCounter element={element} handlers={parentHandlers} />
+          )}
         </div>
         {!isEditable && (
           <div className="profile-menu-container ml-auto">

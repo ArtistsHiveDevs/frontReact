@@ -31,6 +31,7 @@ export interface ProfilePageParams {
   profileHeaderComponent?: any;
   footer?: any;
   fab?: FabParams;
+  customHeaderConfig?: any;
 }
 
 export const ProfileTabsPage = (props: ProfilePageParams) => {
@@ -44,6 +45,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
     profileHeaderComponent,
     footer: profileFooter,
     fab,
+    customHeaderConfig,
   } = props;
   const seoData = entityData
     ? {
@@ -184,6 +186,7 @@ export const ProfileTabsPage = (props: ProfilePageParams) => {
                   },
                 }}
                 showFollowerCounter={headerShouldShowFollowerCounter}
+                customHeaderConfig={customHeaderConfig}
               />
             )}
 

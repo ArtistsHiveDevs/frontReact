@@ -16,7 +16,7 @@ import {
 } from '~/components/shared/molecules/general/favoriteSubscribe/favoriteSubscribe';
 import { ProfileTabsPage } from '~/components/shared/organisms/ProfileTabsPage/ProfileTabsPage';
 import { AppLoader } from '~/components/shared/organisms/app/loader/loader';
-import { URL_PARAMETER_NAMES } from '~/constants';
+import { SUB_PATHS, URL_PARAMETER_NAMES } from '~/constants';
 import { EventModel } from '~/models/domain/event/event.model';
 import { EVENT_DETAIL_SUB_PAGE_CONFIG, TRANSLATION_BASE_EVENT_DETAILS_PAGE } from './config-event-detail';
 
@@ -64,7 +64,7 @@ const EventDetailsPage = () => {
 
   useEffect(() => {
     dispatch(eventActions.getItemById({ id: eventId }));
-    console.log('RQ EVENTO');
+    // console.log('RQ EVENTO');
     setRequestesAreReady(true);
   }, [eventId]);
 
@@ -76,6 +76,10 @@ const EventDetailsPage = () => {
     onNavigateToEntity: (value: any) => {
       const entityType = value.constructor.name;
       navigateToEntity({ entityType, id: value.identifier });
+    },
+    onEditProfile: (value: any) => {
+      const entityType = value.constructor.name !== 'Object' ? value.constructor.name : value.entity;
+      navigateToEntity({ entityType, id: value.identifier, action: SUB_PATHS.EDIT });
     },
   };
 
@@ -102,19 +106,36 @@ const EventDetailsPage = () => {
             translation_base_path={TRANSLATION_BASE_EVENT_DETAILS_PAGE}
             subpagesConfig={subPagesInfo}
             handlers={handlers}
-            profileHeaderComponent={
-              <>
-                <h1 className="event-title">
-                  {currentEvent.name} <VerifiedArtist verifiedStatus={currentEvent?.verified_status} />
-                  <FavoriteSubscription
-                    color={'#7a260a'}
-                    size={22}
-                    iconType={FavoriteSubscritionIconDefaultTypes.BELL}
-                  />
-                </h1>
-                <Image alt={currentEvent.name} src={imageURL} fluid={true} />
-              </>
-            }
+            customHeaderConfig={[
+              {
+                name: 'profilePic',
+                shape: 'rounded',
+                icon: 'FaRegCalendarAlt',
+              },
+              {
+                name: 'name',
+                label: 'Nombre',
+                config: { required: true, minLength: 3 },
+                renderField: 'nameKnownAs',
+              },
+              {
+                name: 'hiddeFollowerCounter',
+                hidden: true,
+              },
+            ]}
+            // profileHeaderComponent={
+            //   <>
+            //     <h1 className="event-title">
+            //       {currentEvent.name} <VerifiedArtist verifiedStatus={currentEvent?.verified_status} />
+            //       <FavoriteSubscription
+            //         color={'#7a260a'}
+            //         size={22}
+            //         iconType={FavoriteSubscritionIconDefaultTypes.BELL}
+            //       />
+            //     </h1>
+            //     <Image alt={currentEvent.name} src={imageURL} fluid={true} />
+            //   </>
+            // }
           />
         </>
       )}

@@ -47,6 +47,7 @@ export enum SUB_PATHS {
   ELEMENT_DETAILS = 'details',
   AGENDA = 'agenda',
   APPLY = 'apply',
+  EVENT_GUEST = 'guests',
 }
 
 export enum URL_PARAMETER_NAMES {

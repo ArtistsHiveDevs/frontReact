@@ -1,8 +1,8 @@
 import Flag from 'react-world-flags';
-import {
-  ComponentTypes,
-  PageSection,
-} from '~/components/shared/organisms/gui/builders/component-types.def';
+import { useI18n } from '~/common/utils';
+import { useNavigation } from '~/common/utils/hooks/navigation/navigation';
+import { ComponentTypes, PageSection } from '~/components/shared/organisms/gui/builders/component-types.def';
+import { PATHS, SUB_PATHS } from '~/constants';
 import { EventModel } from '~/models/domain/event/event.model';
 import { PlaceModel } from '~/models/domain/place/place.model';
 
@@ -16,11 +16,21 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
         name: 'description',
         components: [
           {
-            componentName: ComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
-              attribute_content: 'description',
+              attributes: [
+                {
+                  name: 'description',
+                  emptyTitle: false,
+                  formMetaData: {
+                    inputType: 'textarea',
+                    config: {
+                      required: false,
+                    },
+                  },
+                },
+              ],
             },
-            formMetaData: { fieldName: 'description' },
           },
         ],
       },
@@ -133,23 +143,23 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
           },
         ],
       },
-      {
-        name: 'other_artists',
-        components: [
-          {
-            componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
-            data: {
-              data_source: 'other_artists',
-            },
-            clickHandlerName: 'onNavigateToEntity',
-            formMetaData: { fieldName: 'other_artists' },
-          },
-        ],
-        hidden: (event: EventModel) => {
-          console.log(event, event?.other_artists.length === 0);
-          return event?.other_artists.length === 0;
-        },
-      },
+      // {
+      //   name: 'other_artists',
+      //   components: [
+      //     {
+      //       componentName: ComponentTypes.PROFILE_THUMBNAIL_CARD,
+      //       data: {
+      //         data_source: 'other_artists',
+      //       },
+      //       clickHandlerName: 'onNavigateToEntity',
+      //       formMetaData: { fieldName: 'other_artists' },
+      //     },
+      //   ],
+      //   hidden: (event: EventModel) => {
+      //     // console.log(event, event?.other_artists.length === 0);
+      //     return event?.other_artists.length === 0;
+      //   },
+      // },
     ],
   },
   {
@@ -330,11 +340,21 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
         name: 'additional_info',
         components: [
           {
-            componentName: ComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
-              attribute_content: 'additional_info',
+              attributes: [
+                {
+                  name: 'additional_info',
+                  emptyTitle: false,
+                  formMetaData: {
+                    inputType: 'textarea',
+                    config: {
+                      required: false,
+                    },
+                  },
+                },
+              ],
             },
-            formMetaData: { fieldName: 'additional_info' },
           },
         ],
       },
@@ -342,11 +362,21 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
         name: 'dress_code',
         components: [
           {
-            componentName: ComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
-              attribute_content: 'dress_code',
+              attributes: [
+                {
+                  name: 'dress_code',
+                  emptyTitle: false,
+                  formMetaData: {
+                    inputType: 'textarea',
+                    config: {
+                      required: false,
+                    },
+                  },
+                },
+              ],
             },
-            formMetaData: { fieldName: 'dress_code' },
           },
         ],
       },
@@ -354,11 +384,21 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
         name: 'discounts',
         components: [
           {
-            componentName: ComponentTypes.HTML_CONTENT,
+            componentName: ComponentTypes.ATTRIBUTES_ICON_FIELDS,
             data: {
-              attribute_content: 'discounts',
+              attributes: [
+                {
+                  name: 'discounts',
+                  emptyTitle: false,
+                  formMetaData: {
+                    inputType: 'textarea',
+                    config: {
+                      required: false,
+                    },
+                  },
+                },
+              ],
             },
-            formMetaData: { fieldName: 'discounts' },
           },
         ],
       },
@@ -373,6 +413,51 @@ export const EVENT_DETAIL_SUB_PAGE_CONFIG: PageSection[] = [
           },
         ],
         formMetaData: { hidden: true },
+      },
+    ],
+  },
+  {
+    name: 'registration',
+    allowedRoles: [
+      { entityName: 'Place', requireActiveProfileType: true, requireResourceOwnership: false },
+      {
+        entityName: 'Artist',
+        requireActiveProfileType: true,
+        requireResourceOwnership: true,
+        allowedEntityInstances: [{ entityInstanceId: 'luciofeuillet' }],
+      },
+    ],
+    sections: [
+      {
+        name: 'guest_list',
+        components: [
+          {
+            componentName: ComponentTypes.HTML_CONTENT,
+            data: {
+              content: (data: EventModel) => {
+                const { navigateToInnerPath } = useNavigation();
+                const { translateText } = useI18n();
+
+                return (
+                  <a
+                    className="event-details-page__guest-list-link"
+                    onClick={() =>
+                      navigateToInnerPath({
+                        path: `${PATHS.EVENTS}/${SUB_PATHS.ELEMENT_DETAILS}/${data.id}/${SUB_PATHS.EVENT_GUEST}`,
+                      })
+                    }
+                  >
+                    {translateText(
+                      `${TRANSLATION_BASE_EVENT_DETAILS_PAGE}.subpages.registration.sections.guest_list.link`
+                    )}
+                  </a>
+                );
+              },
+              renderAsHTML: true,
+            },
+            formMetaData: { fieldName: 'additional_info' },
+          },
+        ],
       },
     ],
   },

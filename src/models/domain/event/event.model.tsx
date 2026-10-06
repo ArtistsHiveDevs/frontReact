@@ -105,6 +105,8 @@ export class EventModel
     const minutes = this.timetable__main_artist_time % 100 || 0;
 
     this.timetable__initial_date = dayjs(template.timetable__initial_date).hour(hours).minute(minutes); //.add(4, 'month');
+
+    this.entityShareAcronym = 'ev';
   }
 
   get hasFetchAllData(): boolean {

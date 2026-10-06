@@ -14,7 +14,7 @@ import './ClaimProfileBanner.scss';
 const I18N_PATH = 'app.appbase.claimProfileBanner';
 
 export const ClaimProfileBanner = (props: any) => {
-  const { entityName, entityData } = props;
+  const { entityData } = props;
 
   const { translateText, translateGlobalDict } = useI18n();
   const { navigateToInnerPath } = useNavigation();
@@ -53,7 +53,7 @@ export const ClaimProfileBanner = (props: any) => {
 
   return (
     <>
-      {!entityData?.isClaimedProfile && (
+      {(!entityData?.isClaimedProfile || !!entityData?.entityRoleMap?.length) && (
         <>
           <div className="claim-box">
             {translateText(`${I18N_PATH}.PROFILE_AUTO_GENERATED_CAPTION`)}

@@ -16,7 +16,7 @@
 
 📍 Calle 59 # 13 - 40
 
-📅 Viernes 25 de Septiembre de 2026 - (9pm)
+📅 Jueves 15 de Octubre de 2026 - (8pm)
 
 👉 [Ver convocatoria y aplicar](http://artist-hive.com/open-calls/details/OylpRDUQ32)
 
@@ -30,9 +30,23 @@
 
 📍 Av Calle 32 # 6b - 43
 
-📅 Sábado 26 de Septiembre de 2026 - (8pm)
+📅 Miércoles 28 de Octubre de 2026 - (8pm)
 
 👉 [Ver convocatoria y aplicar](https://artist-hive.com/open-calls/details/3Pp4ZXsXgk)
+
+---
+
+## Ritmo Moderno
+
+![Meeting House](https://docsfr.artist-hive.com/ritmomoderno.jpg)
+
+[Ver perfil](../../places/details/ritmomoderno)
+
+📍 Cra. 4 # 17-37
+
+📅 Jueves 29 de Octubre de 2026 - (8pm)
+
+👉 [Ver convocatoria y aplicar](https://artist-hive.com/open-calls/details/6FJk3QwfXN)
 
 ---
 

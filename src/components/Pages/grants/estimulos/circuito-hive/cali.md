@@ -4,43 +4,35 @@
 
 **Selección de artistas:** [fecha]
 
-![Cali](../../img/CH2026_cal.jpg)
+![Cali](../../img/CH2026_cal_ck.jpg)
 
 ---
 
-## Casa biche
+## Cervezas Kalima
 
-![Casa Biche](https://docsfr.artist-hive.com/bichemusical.jpg)
+![Cervezas Kalima](https://docsfr.artist-hive.com/cervezaskalima.jpg)
 
-[Descripción corta del escenario — 1 o 2 líneas: qué lo caracteriza, tipo de propuesta artística]
+[Ver perfil](../../places/details/cervezaskalima)
 
-[Ver perfil](../../places/details/estacioncentral_3c)
+📍 Cra 3 oeste # 1-42
 
-📍 Av. 4 Nte. # 17 - 35
+📅 Sábado 24 de Octubre de 2026 - (7pm)
 
-📅 Sábado 03 de Octubre de 2026 - (6pm)
-
-🎟️ [Precio de boletería / "Boletería en puerta"]
-
-👉 [Ver convocatoria y aplicar](#)
+👉 [Ver convocatoria y aplicar](https://artist-hive.com/open-calls/details/FFEl3mTJqv)
 
 ---
 
-## Por confirmar
+## El Guayabo
 
-![La Planta Cervecería](https://docsfr.artist-hive.com/laplantamedellin.jpg)
+![El Guayabo](https://docsfr.artist-hive.com/profile_pic/1790353985470-guayabo.jpg)
 
-[Descripción corta del escenario — 1 o 2 líneas: qué lo caracteriza, tipo de propuesta artística]
+[Ver perfil](../../places/details/elguayabocali)
 
-[Ver perfil](../../places/details/laplantamedellin)
+📍 Calle 21 Norte # 9-17
 
-📍 Cra. 45 # 32-19
+📅 Viernes 30 de Octubre de 2026
 
-📅 Sábado 26 de Septiembre de 2026
-
-🎟️ [Precio de boletería / "Boletería en puerta"]
-
-👉 [Ver convocatoria y aplicar](#)
+👉 [Ver convocatoria y aplicar](https://artist-hive.com/open-calls/details/w8I9HDwZiX)
 
 ---
 
